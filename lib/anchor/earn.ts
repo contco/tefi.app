@@ -1,21 +1,5 @@
-import { LCDClient, MnemonicKey, StdFee, Wallet } from '@terra-money/terra.js'
-import { Anchor, tequila0004, AddressProviderFromJson, MARKET_DENOMS, OperationGasParameters, EarnDepositStableOption } from '@anchor-protocol/anchor.js'
-
-const addressProvider = new AddressProviderFromJson(tequila0004)
-const lcd = new LCDClient({ URL: 'https://tequila-lcd.terra.dev', chainID: 'tequila-0004' })
-const key = new MnemonicKey({
-    mnemonic:
-        'immense pear text path unique have educate forum maple need carbon side hello remove strike drive legal december protect industry alley truly december brick',
-});
-const wallet = new Wallet(lcd, key)
-const anchor = new Anchor(lcd, addressProvider)
-
-const gasParameters: OperationGasParameters = {
-    gasAdjustment: 1.4,
-    gasPrices: "0.15uusd",
-    fee: new StdFee(3_000_000, { uusd: 3_000_000 })
-}
-
+import { MARKET_DENOMS } from '@anchor-protocol/anchor.js'
+import { anchor, gasParameters, wallet } from './test-defaults';
 
 export const desposit = async () => {
     const result = await anchor.earn.depositStable({ market: MARKET_DENOMS.UUSD, amount: "100.5000" }).execute(wallet, gasParameters);
@@ -32,4 +16,10 @@ export const getTotalDesposit = async () => {
     const address = wallet.key.accAddress;
     const total = await anchor.earn.getTotalDeposit({ market: MARKET_DENOMS.UUSD, address });
     console.log('total', total);
+}
+
+export const getAPY = async () => {
+    const address = wallet.key.accAddress;
+    const apy = await anchor.earn.getAPY({ market: MARKET_DENOMS.UUSD });
+    console.log('apy', apy);
 }
