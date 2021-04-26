@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import styled from 'styled-components';
-import VERCEL from "../public/vercel.svg";
+import { desposit, getTotalDesposit, withdraw } from '../lib/anchor/earn';
 
 const Container = styled.div`
   background-color: #fafafa;
@@ -24,8 +24,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Container>
-        <Title>Next JS BoilerPlate</Title>
-        <VERCEL />
+        <button onClick={() => desposit()}>deposit</button>
+        <button onClick={() => withdraw()}>withdraw</button>
+        <button onClick={() => getTotalDesposit()}>getTotalDesposit</button>
       </Container>
     </div>
   );
