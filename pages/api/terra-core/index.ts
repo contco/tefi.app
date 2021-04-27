@@ -1,5 +1,6 @@
 import { ApolloServer, gql } from 'apollo-server-micro';
-import { getBalance } from './core';
+import { buildFederatedSchema } from '@apollo/federation';
+import { getBankBalance } from './core';
 
 const typeDefs = gql`
     type Coin {
@@ -8,17 +9,17 @@ const typeDefs = gql`
     }
 
     type Query {
-        getBalance(address: String!): [Coin]
+        getBankBalance(address: String!): [Coin]
     }
 `;
 
 const resolvers = {
     Query: {
-        getBalance(parent, args, context) { return getBalance({ args }) },
+        getBankBalance(parent, args, context) { return getBankBalance({ args }) },
     },
 };
 
-const apolloServer = new ApolloServer({ typeDefs, resolvers });
+const apolloServer = new ApolloServer({ schema: buildFederatedSchema([{ typeDefs, resolvers }]) });
 
 export const config = {
     api: {

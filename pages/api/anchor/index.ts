@@ -1,4 +1,5 @@
 import { ApolloServer, gql } from 'apollo-server-micro';
+import { buildFederatedSchema } from '@apollo/federation';
 import getBorrowData from './lib/borrow';
 import getEarnData from './lib/earn';
 
@@ -32,7 +33,7 @@ const resolvers = {
   },
 };
 
-const apolloServer = new ApolloServer({ typeDefs, resolvers });
+const apolloServer = new ApolloServer({ schema: buildFederatedSchema([{ typeDefs, resolvers }]) });
 
 export const config = {
   api: {
