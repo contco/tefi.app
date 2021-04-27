@@ -6,7 +6,8 @@ let apolloClient: any;
 const authToken = '';
 
 const httpLink = createHttpLink({
-  uri: '',
+  uri: process.env.SERVER_END_POINT,
+  fetch,
 });
 
 const authLink = setContext((_: any, { headers }: any) => {
