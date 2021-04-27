@@ -32,13 +32,7 @@ const resolvers = {
   },
 };
 
-const apolloServer = new ApolloServer({
-  typeDefs, resolvers, playground: {
-    settings: {
-      'editor.theme': 'light',
-    },
-  },
-});
+const apolloServer = new ApolloServer({ typeDefs, resolvers });
 
 export const config = {
   api: {
