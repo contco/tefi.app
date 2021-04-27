@@ -1,8 +1,8 @@
 import Head from 'next/head';
 import styled from 'styled-components';
-import { getBalance } from '../lib/anchor/anc';
-import { getBorrowedValue, getBorrowLimit, getCollaterals } from '../lib/anchor/borrow';
-import { desposit, getAPY, getTotalDesposit, withdraw } from '../lib/anchor/earn';
+import { getBalance } from './api/anchor/lib/anc';
+import { getBorrowedValue, getBorrowLimit, getCollaterals } from './api/anchor/lib/borrow';
+import { desposit, getAPY, getTotalDesposit, withdraw } from './api/anchor/lib/earn';
 
 const Container = styled.div`
   background-color: #fafafa;
@@ -18,6 +18,8 @@ const Title = styled.h1`
   font-size: 80px;
 `;
 
+const address = 'terra1amhhduzslqngw40fp2f28zse0mnghrmwf3apnm';
+
 export default function Home() {
   return (
     <Container>
@@ -29,18 +31,18 @@ export default function Home() {
         <h1>Earn</h1>
         <button onClick={() => desposit()}>deposit</button>
         <button onClick={() => withdraw()}>withdraw</button>
-        <button onClick={() => getTotalDesposit()}>getTotalDesposit</button>
+        <button onClick={() => getTotalDesposit({ address })}>getTotalDesposit</button>
         <button onClick={() => getAPY()}>getAPY</button>
       </div>
       <div>
         <h1>Borrow</h1>
-        <button onClick={() => getBorrowLimit()}>getBorrowLimit</button>
-        <button onClick={() => getBorrowedValue()}>getBorrowedValue</button>
-        <button onClick={() => getCollaterals()}>getCollaterals</button>
+        <button onClick={() => getBorrowLimit({ address })}>getBorrowLimit</button>
+        <button onClick={() => getBorrowedValue({ address })}>getBorrowedValue</button>
+        <button onClick={() => getCollaterals({ address })}>getCollaterals</button>
       </div>
       <div>
         <h1>ANC</h1>
-        <button onClick={() => getBalance()}>getBalance</button>
+        <button onClick={() => getBalance({ address })}>getBalance</button>
       </div>
     </Container>
   );
