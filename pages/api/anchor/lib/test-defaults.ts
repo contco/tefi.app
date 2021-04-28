@@ -1,8 +1,11 @@
 import { LCDClient, MnemonicKey, StdFee, Wallet } from '@terra-money/terra.js'
 import { Anchor, tequila0004, AddressProviderFromJson, OperationGasParameters } from '@anchor-protocol/anchor.js'
+import { IS_TEST, TERRA_TEST_NET, TERRA_MAIN_NET } from '../../../../constants';
 
 const addressProvider = new AddressProviderFromJson(tequila0004)
-const lcd = new LCDClient({ URL: 'https://tequila-lcd.terra.dev', chainID: 'tequila-0004' })
+
+
+const lcd = new LCDClient(IS_TEST ? TERRA_TEST_NET : TERRA_MAIN_NET);
 const key = new MnemonicKey({
     mnemonic:
         'immense pear text path unique have educate forum maple need carbon side hello remove strike drive legal december protect industry alley truly december brick',
