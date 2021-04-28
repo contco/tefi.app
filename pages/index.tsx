@@ -1,14 +1,18 @@
-import Head from 'next/head';
 import styled from 'styled-components';
-import VERCEL from "../public/vercel.svg";
+import intro from '../public/intro.gif';
 
 const Container = styled.div`
-  background-color: #fafafa;
+  background-color: rgb(17, 41, 144);
   display: flex;
   flex-grow: 1;
   height: 100vh;
   justify-content: center;
   align-items: center;
+`;
+
+const Gif = styled.img`
+  width: 100%;
+  height: auto;
 `;
 
 const Title = styled.h1`
@@ -18,15 +22,8 @@ const Title = styled.h1`
 
 export default function Home() {
   return (
-    <div>
-      <Head>
-        <title>NextJs BoilerPlate</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <Container>
-        <Title>Next JS BoilerPlate</Title>
-        <VERCEL />
-      </Container>
-    </div>
+    <Container>
+      <Gif src={intro} alt="loading..." />
+    </Container>
   );
 }
