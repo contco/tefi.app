@@ -3,3 +3,5 @@ export const TERRA_MAIN_NET = { URL: 'https://tequila-lcd.terra.dev', chainID: '
 
 //temp
 export const IS_TEST = true;
+export const DARK_THEME = 'dark'
+export const LIGHT_THEME = 'light';
