@@ -1,8 +1,9 @@
 import Head from 'next/head';
 import styled from 'styled-components';
 import { getBalance } from './api/anchor/lib/anc';
-import { getBorrowedValue, getBorrowLimit, getCollaterals } from './api/anchor/lib/borrow';
+import { getBorrowedValue, getBorrowLimit, getCollaterals, getBorrowRewards } from './api/anchor/lib/borrow';
 import { desposit, getAPY, getTotalDesposit, withdraw } from './api/anchor/lib/earn';
+import { stakedLP, getLPBalance } from './api/anchor/lib/lp';
 
 const Container = styled.div`
   background-color: #fafafa;
@@ -42,7 +43,7 @@ export default function Home() {
       </div>
       <div>
         <h1>ANC</h1>
-        <button onClick={() => getBalance({ address })}>getBalance</button>
+        <button onClick={() => getLPBalance({ address })}>getBalance</button>
       </div>
     </Container>
   );
