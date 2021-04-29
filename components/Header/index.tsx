@@ -1,6 +1,6 @@
 import React from 'react';
 import { LIGHT_THEME } from '../../constants';
-import { Container, LeftSection, HeaderTitle, StyledLogoIcon, RightSection, SwitchContainer, LightSwitchIcon, DarkSwitchIcon } from "./style";
+import { Container, LeftSection, StyledLogoIcon, RightSection, SwitchContainer, LightSwitchIcon, DarkSwitchIcon } from "./style";
 
 type Props = {
   theme: string;
@@ -12,7 +12,6 @@ const Header: React.FC<Props> = ({ theme, changeTheme }: any) => {
     <Container>
       <LeftSection>
         <StyledLogoIcon />
-        <HeaderTitle>{'Tefi icon'}</HeaderTitle>
       </LeftSection>
       <RightSection>
         <SwitchContainer>

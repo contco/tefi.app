@@ -17,6 +17,9 @@ export const lightTheme = {
     modalBackground: '#ffffff',
     subHeading: '#aeaeae',
   },
+  opacity: {
+    logo: `0.25`
+  }
 };
 
 export const darkTheme = {
@@ -33,4 +36,7 @@ export const darkTheme = {
     modalBackground: '#1a1a1a',
     subHeading: '#aeaeae',
   },
+  opacity: {
+    logo: `0.40`
+  }
 };
