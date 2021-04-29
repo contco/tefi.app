@@ -11,11 +11,12 @@ export const lightTheme = {
   colors: {
     primary: '#ffffff',
     secondary: '#0221ba',
-    detailsText: '#a2a0a0',
+    Heading: '#000000',
+    subHeading: '#cacaca',
+    detailsText: '#000000',
     inputBorder: '#ececec',
     copyrightText: '#b4b1b1',
     modalBackground: '#ffffff',
-    subHeading: '#aeaeae',
   },
   opacity: {
     logo: `0.25`
@@ -30,11 +31,12 @@ export const darkTheme = {
   colors: {
     primary: '#0221ba',
     secondary: '#ffffff',
+    Heading: '#ffffff',
+    subHeading: '#cacaca',
     detailsText: '#ffffff',
     inputBorder: '#ffffff',
     copyrightText: '#ffffff',
     modalBackground: '#1a1a1a',
-    subHeading: '#aeaeae',
   },
   opacity: {
     logo: `0.40`
