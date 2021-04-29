@@ -12,14 +12,20 @@ export const withdraw = async () => {
 }
 
 
-export const getTotalDesposit = async () => {
-    const address = wallet.key.accAddress;
-    const total = await anchor.earn.getTotalDeposit({ market: MARKET_DENOMS.UUSD, address });
-    console.log('total', total);
+export const getTotalDesposit = async ({ address }: any) => {
+    const totalDesposit = await anchor.earn.getTotalDeposit({ market: MARKET_DENOMS.UUSD, address });
+    console.log('total', totalDesposit);
+    return totalDesposit;
 }
 
 export const getAPY = async () => {
-    const address = wallet.key.accAddress;
     const apy = await anchor.earn.getAPY({ market: MARKET_DENOMS.UUSD });
     console.log('apy', apy);
+    return apy;
+}
+
+export default async ({ args: { address } }: any) => {
+    const totalDesposit = await getTotalDesposit({ address });
+    const apy = await getAPY();
+    return { totalDesposit, apy }
 }
