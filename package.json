@@ -25,6 +25,8 @@
   "dependencies": {
     "@anchor-protocol/anchor.js": "^1.0.1",
     "@apollo/client": "^3.3.12",
+    "@contco/core-ui": "^1.1.6",
+    "@styled-system/css": "^5.1.5",
     "@apollo/federation": "^0.23.2",
     "@apollo/gateway": "^0.26.3",
     "@terra-money/terra.js": "^1.7.0",
@@ -33,7 +35,8 @@
     "next": "10.0.9",
     "react": "17.0.1",
     "react-dom": "17.0.1",
-    "styled-components": "^5.2.1"
+    "styled-components": "^5.2.1",
+    "styled-system": "^5.1.5"
   },
   "devDependencies": {
     "@svgr/webpack": "^5.5.0",
