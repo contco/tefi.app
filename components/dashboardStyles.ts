@@ -31,7 +31,7 @@ ${props => css({
     letterSpacing: 1,
     fontSize: 18,
     width: 200,
-    textAlign: 'left'
+    textAlign: 'justify',
 })}
 `;
 
@@ -41,7 +41,7 @@ ${props => css({
     letterSpacing: 1,
     fontSize: 16,
     width: 200,
-    textAlign: 'left'
+    textAlign: 'justify'
 
 })}
 `;

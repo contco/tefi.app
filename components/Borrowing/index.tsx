@@ -2,8 +2,18 @@ import css from '@styled-system/css'
 import { BorrowingTitle } from "../../constants";
 import { BorrowedList } from "./dummy";
 import { Wrapper, Row, Heading, Title, StyledText } from "../dashboardStyles";
+import { Box, Flex, Text } from "@contco/core-ui";
+import Styled from "styled-components";
+import PercentageBar from "../PercentageBar";
 const HEADING_TEXT = `Borrowing`;
 
+const StyledPercentage = Styled(Flex)`
+ ${css({
+    justifyContent: 'center',
+    p: 80,
+    pb: 20
+})}
+`;
 
 export interface BorrowingProps { }
 
@@ -29,6 +39,9 @@ const Borrowing: React.SFC<BorrowingProps> = () => {
                     </StyledText>
                 </Row>
             )}
+            <StyledPercentage>
+                <PercentageBar percentageValue={50} />
+            </StyledPercentage>
         </Wrapper>
     );
 }

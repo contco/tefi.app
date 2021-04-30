@@ -15,8 +15,8 @@ export const lightTheme = {
     subHeading: '#cacaca',
     detailsText: '#000000',
     inputBorder: '#ececec',
-    copyrightText: '#b4b1b1',
-    modalBackground: '#ffffff',
+    percentageIndicator: '#0221ba',
+    percentageBar: '#d4d4d4'
   },
   opacity: {
     logo: `0.25`
@@ -35,8 +35,8 @@ export const darkTheme = {
     subHeading: '#cacaca',
     detailsText: '#ffffff',
     inputBorder: '#ffffff',
-    copyrightText: '#ffffff',
-    modalBackground: '#1a1a1a',
+    percentageIndicator: '#ffffff',
+    percentageBar: '#d4d4d4'
   },
   opacity: {
     logo: `0.40`
