@@ -4,10 +4,6 @@ import { RewardList } from "./dummy";
 import { Wrapper, Row, Heading, Title, StyledText } from "../dashboardStyles";
 
 const HEADING_TEXT = `Rewards`
-const CSS_APR = `${props => css({
-    fontWeight: 500,
-    color: props.theme.colors.secondary
-})}`
 
 export interface RewardsProps { }
 
@@ -26,7 +22,10 @@ const Rewards: React.SFC<RewardsProps> = () => {
                 <Row key={index}>
                     <StyledText fontWeight='500'> {a.name}</StyledText>
                     <StyledText > {a.stacked}</StyledText>
-                    <StyledText css={CSS_APR}> {a.APR}</StyledText>
+                    <StyledText css={`${props => css({
+                        fontWeight: 500,
+                        color: props.theme.colors.secondary
+                    })}`}> {a.APR}</StyledText>
                     <StyledText>{a.reward}</StyledText>
                 </Row>
             )}

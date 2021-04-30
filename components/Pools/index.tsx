@@ -20,7 +20,7 @@ const Pools: React.SFC<PoolsProps> = () => {
             </Row>
             {PoolList.map((a, index) =>
                 <Row key={index}>
-                    <StyledText fontWeight='500'> {a.name}</StyledText>
+                    <StyledText fontWeight={500}> {a.name}</StyledText>
                     <StyledText > {a.balance}</StyledText>
                     <StyledText > {a.value}</StyledText>
                 </Row>

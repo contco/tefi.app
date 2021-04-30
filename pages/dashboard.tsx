@@ -12,7 +12,7 @@ import Rewards from '../components/Rewards';
 const Body = Styled(Box)`
 ${css({
     m: 'auto',
-    width: '75vw',
+    width: '80%',
     mt: 20
 })}
 `;
@@ -20,7 +20,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     return (
         <div>
             <Head>
-                <title>Tefi | Dashboard</title>
+                <title>Tefi App | Dashboard</title>
             </Head>
             <div>
                 <Header theme={theme} changeTheme={changeTheme} />

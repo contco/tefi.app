@@ -4,10 +4,6 @@ import { BorrowedList } from "./dummy";
 import { Wrapper, Row, Heading, Title, StyledText } from "../dashboardStyles";
 const HEADING_TEXT = `Borrowing`;
 
-const CSS_NET_APR = `${props => css({
-    fontWeight: 500,
-    color: props.theme.colors.secondary
-})}`
 
 export interface BorrowingProps { }
 
@@ -26,7 +22,10 @@ const Borrowing: React.SFC<BorrowingProps> = () => {
                 <Row key={index}>
                     <StyledText> {a.collateralValue}</StyledText>
                     <StyledText > {a.borrowedValue}</StyledText>
-                    <StyledText css={CSS_NET_APR}> {a.netAPR}
+                    <StyledText css={`${props => css({
+                        fontWeight: 500,
+                        color: props.theme.colors.secondary
+                    })}`}> {a.netAPR}
                     </StyledText>
                 </Row>
             )}
