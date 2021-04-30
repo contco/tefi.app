@@ -15,7 +15,7 @@ export const Title = styled(Text)`
   align-items: flex-end;
   ${css({
     color: '#000',
-    fontSize: 50,
+    fontSize: [20, 28, 50],
     letterSpacing: 2.5,
   })}
 `;
@@ -23,7 +23,7 @@ export const Title = styled(Text)`
 export const Tefi = styled(Text)`
   ${css({
     color: 'secondary',
-    fontSize: 66,
+    fontSize: [28, 36, 66],
     letterSpacing: 2.75,
   })}
 `;
@@ -33,19 +33,19 @@ export const ConnectButton = styled(Button)`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  margin-top: 5%;
   ${css({
+    mt: ['10%', null, '5%'],
     border: 'solid 1px #0221ba',
     bg: 'primary',
-    width: 323,
-    height: 69,
+    width: [250, null, 323],
+    height: [45, null, 69],
   })}
 `;
 
 export const ConnectText = styled(Text)`
   font-weight: 500;
   ${css({
-    fontSize: 20,
+    fontSize: [14, null, 20],
     letterSpacing: '0.83px',
     color: 'secondary',
   })}
@@ -53,9 +53,9 @@ export const ConnectText = styled(Text)`
 
 export const OrText = styled(Text)`
   font-weight: 500;
-  margin-top: 3%;
   ${css({
-    fontSize: 20,
+    mt: ['6%', null, '3%'],
+    fontSize: [14, null, 20],
     letterSpacing: '0.83px',
     color: '#000',
   })}
@@ -63,7 +63,10 @@ export const OrText = styled(Text)`
 
 export const AddressContainer = styled(Flex)`
   align-items: center;
-  margin-top: 3%;
+  ${css({
+    mt: ['2%', null, '3%'],
+    flexDirection: ['column', null, 'row'],
+  })}
 `;
 
 export const AddressInput = styled(Input)`
@@ -72,14 +75,14 @@ export const AddressInput = styled(Input)`
   outline: none;
 
   ${css({
-    mr: '50px',
+    mr: [null, null, 50],
     bg: '#f5f5f5',
-    width: 577,
-    height: 72,
-    fontSize: 24,
+    width: [260, 320, 577],
+    height: [40, null, 72],
+    fontSize: ['16px', null, 24],
     pl: '5%',
     '&::-webkit-input-placeholder': {
-      fontSize: 24,
+      fontSize: ['16px', null, 24],
       fontWeight: 500,
       letterSpacing: '1px',
       color: '#c1c1c1',
@@ -93,17 +96,18 @@ export const AddressSubmit = styled(Button)`
   justify-content: center;
   cursor: pointer;
   ${css({
-    ml: '50px',
+    mt: ['10px', null, '0px'],
+    ml: [null, null, 50],
     bg: 'secondary',
     width: 168,
-    height: 69,
+    height: [45, null, 69],
   })}
 `;
 
 export const AddressSubmitText = styled(Text)`
   font-weight: 500;
   ${css({
-    fontSize: 20,
+    fontSize: [14, null, 20],
     color: 'primary',
     letterSpacing: '0.83px',
   })};
