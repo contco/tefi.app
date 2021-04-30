@@ -12,7 +12,7 @@ import Rewards from '../components/Rewards';
 const Body = Styled(Box)`
 ${css({
     m: 'auto',
-    width: '80%',
+    width: '75%',
     mt: 20
 })}
 `;

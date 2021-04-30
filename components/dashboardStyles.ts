@@ -41,7 +41,20 @@ ${props => css({
     letterSpacing: 1,
     fontSize: 16,
     width: 200,
-    textAlign: 'justify'
-
+    textAlign: 'justify',
+    cursor: props.isChildren ? 'pointer' : ''
+})}
+    &:hover > * {
+        display:flex;
+        opacity:1
+    }
+`;
+export const HoverText = Styled(Text)`
+${props => css({
+    color: props.theme.colors.detailsText,
+    fontSize: '10px',
+    width: 200,
+    opacity: '0'
 })}
 `;
+

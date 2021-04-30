@@ -1,6 +1,7 @@
 import { PoolsTitle } from "../../constants";
 import { PoolList } from "./dummy";
-import { Wrapper, Row, Heading, Title, StyledText } from "../dashboardStyles";
+import css from '@styled-system/css'
+import { Wrapper, Row, Heading, Title, StyledText, HoverText } from "../dashboardStyles";
 
 const HEADING_TEXT = `Pools`
 
@@ -21,7 +22,13 @@ const Pools: React.SFC<PoolsProps> = () => {
             {PoolList.map((a, index) =>
                 <Row key={index}>
                     <StyledText fontWeight={500}> {a.name}</StyledText>
-                    <StyledText > {a.balance}</StyledText>
+                    <StyledText isChildren={true}>
+                        {a.balance.LP}
+                        <HoverText>
+                            {a.balance.mUSO} <br />
+                            {a.balance.UST}
+                        </HoverText>
+                    </StyledText>
                     <StyledText > {a.value}</StyledText>
                 </Row>
             )}
