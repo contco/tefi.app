@@ -2,7 +2,7 @@ import css from '@styled-system/css'
 import { BorrowingTitle } from "../../constants";
 import { BorrowedList } from "./dummy";
 import { Wrapper, Row, Heading, Title, StyledText } from "../dashboardStyles";
-import { Box, Flex, Text } from "@contco/core-ui";
+import { Flex } from "@contco/core-ui";
 import Styled from "styled-components";
 import PercentageBar from "../PercentageBar";
 const HEADING_TEXT = `Borrowing`;
