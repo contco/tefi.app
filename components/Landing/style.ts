@@ -6,7 +6,7 @@ export const Container = styled(Flex)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 90vh;
+  height: 88vh;
 `;
 
 export const Title = styled(Text)`
@@ -15,7 +15,7 @@ export const Title = styled(Text)`
   align-items: flex-end;
   ${css({
     color: '#000',
-    fontSize: [20, 28, 50],
+    fontSize: [3, 6, 8, null, '50px'],
     letterSpacing: 2.5,
   })}
 `;
@@ -23,7 +23,7 @@ export const Title = styled(Text)`
 export const Tefi = styled(Text)`
   ${css({
     color: 'secondary',
-    fontSize: [28, 36, 66],
+    fontSize: [6, 8, 10, null, '66px'],
     letterSpacing: 2.75,
   })}
 `;
@@ -64,7 +64,7 @@ export const OrText = styled(Text)`
 export const AddressContainer = styled(Flex)`
   align-items: center;
   ${css({
-    mt: ['2%', null, '3%'],
+    mt: ['2%', null, '1%', null, '3%'],
     flexDirection: ['column', null, 'row'],
   })}
 `;
@@ -75,14 +75,14 @@ export const AddressInput = styled(Input)`
   outline: none;
 
   ${css({
-    mr: [null, null, 50],
+    mr: [null, null, 7],
     bg: '#f5f5f5',
-    width: [260, 320, 577],
-    height: [40, null, 72],
-    fontSize: ['16px', null, 24],
+    width: [260, 320, null, 450, null, null, 577],
+    height: [40, null, 55, null, 72],
+    fontSize: [2, null, 5],
     pl: '5%',
     '&::-webkit-input-placeholder': {
-      fontSize: ['16px', null, 24],
+      fontSize: [2, null, 5],
       fontWeight: 500,
       letterSpacing: '1px',
       color: '#c1c1c1',
@@ -97,17 +97,17 @@ export const AddressSubmit = styled(Button)`
   cursor: pointer;
   ${css({
     mt: ['10px', null, '0px'],
-    ml: [null, null, 50],
+    ml: [null, null, null, null, 15, null, 50],
     bg: 'secondary',
-    width: 168,
-    height: [45, null, 69],
+    width: [168, null, 140, null, 168],
+    height: [45, null, 55, null, 69],
   })}
 `;
 
 export const AddressSubmitText = styled(Text)`
   font-weight: 500;
   ${css({
-    fontSize: [14, null, 20],
+    fontSize: [1, null, 3],
     color: 'primary',
     letterSpacing: '0.83px',
   })};
