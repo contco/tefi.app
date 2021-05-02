@@ -1,7 +1,7 @@
 
 import styled from 'styled-components';
 import css from '@styled-system/css';
-import { Flex, Text } from '@contco/core-ui';
+import { Flex, Box, Text } from '@contco/core-ui';
 import LIGHT_SWITCH_ICON from '../../public/light-switch.svg';
 import DARK_SWITCH_ICON from '../../public/dark-switch.svg';
 import TEFI_LOGO from '../../public/tefi.svg';
@@ -42,6 +42,18 @@ export const StyledLogoIcon = styled(TEFI_LOGO)`
   }
 })}
 `;
+export const StyledTitle = styled(Text)`
+  ${props => css({
+  color: props.theme.colors.secondary,
+  fontSize: 26,
+  fontWeight: 900,
+  letterSpacing: 0.5,
+  lineHeight: 0.88
+})}
+ & > * {
+   font-weight:500;
+ }
+`;
 
 export const RightSection = styled(Flex)`
   ${css({
@@ -50,6 +62,15 @@ export const RightSection = styled(Flex)`
   alignItems: 'center',
   mr: [1, null, null, 3],
   width: [150, null, 280],
+})}
+`;
+
+export const WalletContainer = styled(Box)`
+${props => css({
+  width: 150,
+  height: 35,
+  borderRadius: 50,
+  border: `solid 2px ${props.theme.colors.secondary}`
 })}
 `;
 
