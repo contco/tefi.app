@@ -16,6 +16,10 @@ export const lightTheme = {
     copyrightText: '#b4b1b1',
     modalBackground: '#ffffff',
     subHeading: '#aeaeae',
+    connectborder: 'solid 1px #0221ba',
+  },
+  opacity: {
+    logo: `0.25`,
   },
 };
 
@@ -32,5 +36,9 @@ export const darkTheme = {
     copyrightText: '#ffffff',
     modalBackground: '#1a1a1a',
     subHeading: '#aeaeae',
+    connectborder: '1px solid #fff',
+  },
+  opacity: {
+    logo: `0.40`,
   },
 };

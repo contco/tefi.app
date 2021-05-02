@@ -33,13 +33,14 @@ export const ConnectButton = styled(Button)`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  ${css({
-    mt: ['10%', null, '5%'],
-    border: 'solid 1px #0221ba',
-    bg: 'primary',
-    width: [250, null, 323],
-    height: [45, null, 69],
-  })}
+  ${(props) =>
+    css({
+      mt: ['10%', null, '5%'],
+      border: props.theme.colors.connectborder,
+      bg: 'primary',
+      width: [250, null, 323],
+      height: [45, null, 69],
+    })}
 `;
 
 export const ConnectText = styled(Text)`
