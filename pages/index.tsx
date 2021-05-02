@@ -1,50 +1,20 @@
+import React from 'react';
 import Head from 'next/head';
-import styled from 'styled-components';
-import { getBalance } from './api/anchor/lib/anc';
-import { getBorrowedValue, getBorrowLimit, getCollaterals, getBorrowRewards } from './api/anchor/lib/borrow';
-import { desposit, getAPY, getTotalDesposit, withdraw } from './api/anchor/lib/earn';
-import { stakedLP, getLPBalance } from './api/anchor/lib/lp';
+import Header from '../components/Header';
 
-const Container = styled.div`
-  background-color: #fafafa;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  justify-content: center;
-  align-items: center;
-`;
 
-const Title = styled.h1`
-  color: orange;
-  font-size: 80px;
-`;
-
-const address = 'terra1amhhduzslqngw40fp2f28zse0mnghrmwf3apnm';
-
-export default function Home() {
+const Home: React.FC = ({ theme, changeTheme }: any) => {
   return (
-    <Container>
+    <div>
       <Head>
-        <title>NextJs BoilerPlate</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>Tefi app</title>
       </Head>
       <div>
-        <h1>Earn</h1>
-        <button onClick={() => desposit()}>deposit</button>
-        <button onClick={() => withdraw()}>withdraw</button>
-        <button onClick={() => getTotalDesposit({ address })}>getTotalDesposit</button>
-        <button onClick={() => getAPY()}>getAPY</button>
+        <Header theme={theme} changeTheme={changeTheme} />
       </div>
-      <div>
-        <h1>Borrow</h1>
-        <button onClick={() => getBorrowLimit({ address })}>getBorrowLimit</button>
-        <button onClick={() => getBorrowedValue({ address })}>getBorrowedValue</button>
-        <button onClick={() => getCollaterals({ address })}>getCollaterals</button>
-      </div>
-      <div>
-        <h1>ANC</h1>
-        <button onClick={() => getLPBalance({ address })}>getBalance</button>
-      </div>
-    </Container>
+    </div>
   );
-}
+};
+
+
+export default Home;
