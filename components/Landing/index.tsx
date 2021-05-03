@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Container,
   Title,
@@ -12,7 +11,11 @@ import {
   AddressSubmitText,
 } from './style';
 
+import useConnectWallet from '../../lib/useConnectWallet';
+
 const Landing: React.FC = () => {
+  const { connect, wallet } = useConnectWallet();
+
   return (
     <Container>
       <Title>
@@ -20,8 +23,12 @@ const Landing: React.FC = () => {
         <Tefi>&nbsp;TeFi</Tefi>
       </Title>
 
-      <ConnectButton>
-        <ConnectText>Connect Terra Station</ConnectText>
+      <ConnectButton onClick={wallet ? undefined : connect}>
+        {wallet ? (
+          <ConnectText>{wallet?.address.slice(0, 20) + '...'}</ConnectText>
+        ) : (
+          <ConnectText>Connect Terra Station</ConnectText>
+        )}
       </ConnectButton>
 
       <OrText>or</OrText>
