@@ -6,7 +6,7 @@ import css from '@styled-system/css'
 type PercentageProps = {
     width: number;
 };
-
+const Container = styled(Box)``;
 const Indicator = styled.div.attrs<PercentageProps>((props) => ({
     style: {
         width: `${props.width}%`,
@@ -19,12 +19,24 @@ const Indicator = styled.div.attrs<PercentageProps>((props) => ({
 })}
 `;
 
+const PercentageDisplay = styled.div.attrs<PercentageProps>((props) => ({
+    style: {
+        marginLeft: `${props.width - 5}%`,
+    },
+})) <PercentageProps>`
+  ${props => css({
+    color: props.theme.colors.percentageIndicator,
+    fontWeight: 500,
+    pb: 2
+})}
+`;
+
 const Bar = styled(Box)`
  ${props => css({
     borderRadius: 20,
     backgroundColor: props.theme.colors.percentageBar,
     height: [10, 15, null, 20, null],
-    width: [100, 200, 400, 600, null]
+    width: [100, 200, 300, 400, 600]
 })}
 `;
 interface PercentageBarProps {
@@ -33,9 +45,14 @@ interface PercentageBarProps {
 
 const PercentageBar: React.FC<PercentageBarProps> = ({ percentageValue }) => {
     return (
-        <Bar >
-            <Indicator width={percentageValue} />
-        </Bar>
+        <Container>
+            <PercentageDisplay width={percentageValue}>
+                {percentageValue + '%'}
+            </PercentageDisplay>
+            <Bar >
+                <Indicator width={percentageValue} />
+            </Bar>
+        </Container>
     );
 };
 
