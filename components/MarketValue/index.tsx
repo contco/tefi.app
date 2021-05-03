@@ -3,7 +3,7 @@ import { MarketTitles } from "../../constants";
 import { Wrapper, Row, Title, StyledText, } from "../dashboardStyles";
 import { MarketValueList } from "./dummy";
 
-const CUTOM_TEXT_CSS = css({ fontWeight: 500, fontSize: [18, null, 22, null, 28] });
+const CUTOM_TEXT_CSS = css({ fontWeight: 500, fontSize: [16, null, 18, null, 28] });
 
 export interface AssetsProps { }
 

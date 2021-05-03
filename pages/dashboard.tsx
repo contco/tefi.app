@@ -12,9 +12,11 @@ import Rewards from '../components/Rewards';
 const Body = Styled(Box)`
 ${css({
     m: 'auto',
-    width: '75%',
-    mt: 20
+    width: ['90%', null, '75%'],
+    mt: 20,
+
 })}
+overflow-x: scroll;
 `;
 const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     return (
