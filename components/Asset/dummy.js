@@ -1,3 +1,5 @@
+export const TotalAssets = `$5,869.68`;
+
 export const AssetList = [{
     ticker: 'Luna',
     name: 'Terra',

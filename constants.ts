@@ -8,7 +8,6 @@ export const IS_TEST = true;
 
 //MarketValue
 export const MarketTitles = ['Total Market Value', 'Total Assets', 'Total Borrowing', 'Total Rewards'];
-export const MarketData = ['$5,869.68', '$5,869.68', '$5,869.68', '$5,869.68'];
 
 //Assets
 export const AssetsTitle = ['Ticker', 'Name', 'Balance', 'price', 'value'];

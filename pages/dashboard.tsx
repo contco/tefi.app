@@ -28,8 +28,8 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
                     <MarketValue />
                     <Assets />
                     <Borrowing />
-                    <Pools />
                     <Rewards />
+                    <Pools />
                 </Body>
             </div>
         </div>

@@ -14,7 +14,7 @@ const Indicator = styled.div.attrs<PercentageProps>((props) => ({
 })) <PercentageProps>`
   ${props => css({
     borderRadius: 20,
-    height: 20,
+    height: [10, 15, null, 20, null],
     backgroundColor: props.theme.colors.percentageIndicator,
 })}
 `;
@@ -23,8 +23,8 @@ const Bar = styled(Box)`
  ${props => css({
     borderRadius: 20,
     backgroundColor: props.theme.colors.percentageBar,
-    height: [5, null, null, 20, null],
-    width: [100, null, null, 600, null]
+    height: [10, 15, null, 20, null],
+    width: [100, 200, 400, 600, null]
 })}
 `;
 interface PercentageBarProps {

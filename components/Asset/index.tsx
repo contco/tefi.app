@@ -1,6 +1,6 @@
 import { AssetsTitle } from "../../constants";
-import { AssetList } from "./dummy";
-import { Wrapper, Row, Heading, Title, StyledText } from "../dashboardStyles";
+import { TotalAssets, AssetList } from "./dummy";
+import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText } from "../dashboardStyles";
 const HEADING_TEXT = `Assets`
 
 export interface AssetsProps { }
@@ -8,9 +8,14 @@ export interface AssetsProps { }
 const Assets: React.SFC<AssetsProps> = () => {
     return (
         <Wrapper>
-            <Heading>
-                {HEADING_TEXT}
-            </Heading>
+            <HeadingWrapper>
+                <Heading>
+                    {HEADING_TEXT}
+                </Heading>
+                <StyledText>
+                    {TotalAssets}
+                </StyledText>
+            </HeadingWrapper>
             <Row>
                 {AssetsTitle.map((t, index) =>
                     <Title key={index}>{t}</Title>

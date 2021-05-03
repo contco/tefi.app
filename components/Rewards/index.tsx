@@ -1,18 +1,27 @@
 import css from '@styled-system/css'
 import { RewardsTitle } from "../../constants";
-import { RewardList } from "./dummy";
-import { Wrapper, Row, Heading, Title, StyledText, HoverText } from "../dashboardStyles";
+import { TotalRewards, RewardList } from "./dummy";
+import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, HoverText } from "../dashboardStyles";
 
 const HEADING_TEXT = `Rewards`
 
+const CSS_APR = props => css({
+    fontWeight: 500,
+    color: props.theme.colors.secondary
+});
 export interface RewardsProps { }
 
 const Rewards: React.SFC<RewardsProps> = () => {
     return (
         <Wrapper>
-            <Heading>
-                {HEADING_TEXT}
-            </Heading>
+            <HeadingWrapper>
+                <Heading>
+                    {HEADING_TEXT}
+                </Heading>
+                <StyledText>
+                    {TotalRewards}
+                </StyledText>
+            </HeadingWrapper>
             <Row>
                 {RewardsTitle.map((t, index) =>
                     <Title key={index}>{t}</Title>
@@ -27,10 +36,7 @@ const Rewards: React.SFC<RewardsProps> = () => {
                             {a.stacked?.UST}
                         </HoverText>
                     </StyledText>
-                    <StyledText css={`${props => css({
-                        fontWeight: 500,
-                        color: props.theme.colors.secondary
-                    })}`}> {a.APR}</StyledText>
+                    <StyledText css={CSS_APR}> {a.APR}</StyledText>
                     <StyledText>{a.reward}</StyledText>
                 </Row>
             )}

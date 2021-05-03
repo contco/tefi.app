@@ -1,3 +1,4 @@
+export const TotalRewards = `$5,869.68`;
 export const RewardList = [{
     name: 'MIR Gov',
     stacked: { LP: '0 MIR' },
