@@ -1,13 +1,15 @@
 import React from 'react';
 import { LIGHT_THEME } from '../../constants';
-import { Container, LeftSection, StyledLogoIcon, StyledTitle, RightSection, WalletContainer, SwitchContainer, LightSwitchIcon, DarkSwitchIcon } from "./style";
+import { Container, LeftSection, StyledLogoIcon, StyledTitle, RightSection, WalletContainer, WalletIcon, StyledAddressText, CloseIcon, SwitchContainer, LightSwitchIcon, DarkSwitchIcon } from "./style";
+import Link from 'next/link'
 
 type Props = {
   theme: string;
   changeTheme?: () => void;
+  address?: string;
 };
-const ADDRESS = `terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m1q3`
-const Header: React.FC<Props> = ({ theme, changeTheme }: any) => {
+const Header: React.FC<Props> = ({ theme, changeTheme, address }) => {
+  const slicedAddress = `${address?.slice(0, 6) + '....' + address?.slice(address?.length - 6, address?.length)}`
   return (
     <Container>
       <LeftSection>
@@ -17,9 +19,17 @@ const Header: React.FC<Props> = ({ theme, changeTheme }: any) => {
         </StyledTitle>
       </LeftSection>
       <RightSection>
-        <WalletContainer>
-
-        </WalletContainer>
+        {address ?
+          <WalletContainer>
+            <WalletIcon />
+            <StyledAddressText>
+              {slicedAddress}
+            </StyledAddressText>
+            <Link href="/">
+              <CloseIcon />
+            </Link>
+          </WalletContainer>
+          : ''}
         <SwitchContainer>
           {theme === LIGHT_THEME ? <LightSwitchIcon onClick={changeTheme} /> : <DarkSwitchIcon onClick={changeTheme} />}
         </SwitchContainer>
