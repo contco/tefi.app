@@ -12,9 +12,20 @@ import {
 } from './style';
 
 import useConnectWallet from '../../lib/useConnectWallet';
+import { AccAddress } from '@terra-money/terra.js';
+import { useMemo, useState } from 'react';
 
 const Landing: React.FC = () => {
   const { connect, wallet } = useConnectWallet();
+
+  const [address, setAddress] = useState<string>(null);
+
+  const handleAddress = (e: any) => {
+    e.preventDefault();
+    setAddress(e.target.value);
+  };
+
+  const validWalletAddress = useMemo(() => AccAddress.validate(address), [address]);
 
   return (
     <Container>
@@ -34,8 +45,13 @@ const Landing: React.FC = () => {
       <OrText>or</OrText>
 
       <AddressContainer>
-        <AddressInput placeholder="Terra Address" />
-        <AddressSubmit>
+        <AddressInput value={address} onChange={handleAddress} placeholder="Terra Address" />
+        <AddressSubmit
+          disabled={!validWalletAddress}
+          onClick={() => {
+            console.log(address);
+          }}
+        >
           <AddressSubmitText>Submit</AddressSubmitText>
         </AddressSubmit>
       </AddressContainer>
