@@ -1,6 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import Header from '../components/Header';
+import Landing from '../components/Landing';
 
 const Home: React.FC = ({ theme, changeTheme }: any) => {
   return (
@@ -11,6 +12,7 @@ const Home: React.FC = ({ theme, changeTheme }: any) => {
       <div>
         <Header theme={theme} changeTheme={changeTheme} />
       </div>
+      <Landing />
     </div>
   );
 };
