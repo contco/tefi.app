@@ -4,14 +4,15 @@ import { useRouter } from 'next/router';
 
 export default () => {
   const [wallet, setWallet] = useState<any>();
-  const ext = new Extension();
+  let ext;
+  if (typeof window !== 'undefined') {
+    ext = new Extension();
+  }
   const router = useRouter();
   const connect = () => {
-    if (typeof window !== 'undefined') {
-      ext.connect();
-      ext.on('onConnect', setWallet);
-      router.push('/dashboard');
-    }
+    ext.connect();
+    ext.on('onConnect', setWallet);
+    router.push('/dashboard');
   };
 
   return { connect, wallet };
