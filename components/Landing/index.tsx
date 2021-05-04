@@ -36,7 +36,11 @@ const Landing: React.FC = () => {
 
       <ConnectButton onClick={wallet ? undefined : connect}>
         {wallet ? (
-          <ConnectText>{wallet?.address.slice(0, 20) + '...'}</ConnectText>
+          <ConnectText>
+            {wallet?.address?.slice(0, 11) +
+              '....' +
+              wallet?.address?.slice(wallet?.address?.length - 11, wallet?.address?.length)}
+          </ConnectText>
         ) : (
           <ConnectText>Connect Terra Station</ConnectText>
         )}
