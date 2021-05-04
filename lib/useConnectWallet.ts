@@ -7,9 +7,11 @@ export default () => {
   const ext = new Extension();
   const router = useRouter();
   const connect = () => {
-    ext.connect();
-    ext.on('onConnect', setWallet);
-    router.push('/dashboard');
+    if (typeof window !== 'undefined') {
+      ext.connect();
+      ext.on('onConnect', setWallet);
+      router.push('/dashboard');
+    }
   };
 
   return { connect, wallet };
