@@ -14,6 +14,7 @@ import {
 import useConnectWallet from '../../lib/useConnectWallet';
 import { AccAddress } from '@terra-money/terra.js';
 import { useMemo, useState } from 'react';
+import { useRouter } from 'next/router';
 
 const Landing: React.FC = () => {
   const { connect, wallet } = useConnectWallet();
@@ -26,6 +27,8 @@ const Landing: React.FC = () => {
   };
 
   const validWalletAddress = useMemo(() => AccAddress.validate(address), [address]);
+
+  const router = useRouter();
 
   return (
     <Container>
@@ -53,7 +56,7 @@ const Landing: React.FC = () => {
         <AddressSubmit
           disabled={!validWalletAddress}
           onClick={() => {
-            console.log(address);
+            router.push('/dashboard');
           }}
         >
           <AddressSubmitText>Submit</AddressSubmitText>

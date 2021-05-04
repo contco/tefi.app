@@ -39,7 +39,7 @@ export const ConnectButton = styled(Button)`
       border: props.theme.colors.connectborder,
       bg: 'primary',
       width: [250, null, 323],
-      height: [45, null, 69],
+      height: [45, null, 62],
     })}
 `;
 
@@ -79,7 +79,7 @@ export const AddressInput = styled(Input)`
     mr: [null, null, 7],
     bg: '#f5f5f5',
     width: [260, 320, null, 450, null, null, 577],
-    height: [40, null, 55, null, 72],
+    height: [40, null, 55, null, 62],
     fontSize: [2, null, 5],
     pl: '5%',
     '&::-webkit-input-placeholder': {
@@ -102,7 +102,7 @@ export const AddressSubmit = styled(Button)`
       ml: [null, null, null, null, 15, null, 50],
       bg: 'secondary',
       width: [168, null, 140, null, 168],
-      height: [45, null, 55, null, 69],
+      height: [45, null, 55, null, 62],
       opacity: props.disabled ? 0.7 : 1,
       pointerEvents: props.disabled ? 'none' : null,
     })}
