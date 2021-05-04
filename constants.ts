@@ -10,7 +10,7 @@ export const IS_TEST = true;
 export const MarketTitles = ['Total Market Value', 'Total Assets', 'Total Borrowing', 'Total Rewards'];
 
 //Assets
-export const AssetsTitle = ['Ticker', 'Name', 'Balance', 'price', 'value'];
+export const AssetsTitle = ['Ticker', 'Name', 'Balance', 'Price', 'Value'];
 
 //Borrowing
 export const BorrowingTitle = ['Collateral Value', 'Borrowed Value', 'Net APR']

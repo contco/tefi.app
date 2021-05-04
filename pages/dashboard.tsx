@@ -16,7 +16,6 @@ ${css({
     mt: 20,
 
 })}
-overflow-x: scroll;
 `;
 const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     return (
