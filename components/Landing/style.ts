@@ -96,13 +96,16 @@ export const AddressSubmit = styled(Button)`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  ${css({
-    mt: ['10px', null, '0px'],
-    ml: [null, null, null, null, 15, null, 50],
-    bg: 'secondary',
-    width: [168, null, 140, null, 168],
-    height: [45, null, 55, null, 62],
-  })}
+  ${(props) =>
+    css({
+      mt: ['10px', null, '0px'],
+      ml: [null, null, null, null, 15, null, 50],
+      bg: 'secondary',
+      width: [168, null, 140, null, 168],
+      height: [45, null, 55, null, 62],
+      opacity: props.disabled ? 0.7 : 1,
+      pointerEvents: props.disabled ? 'none' : null,
+    })}
 `;
 
 export const AddressSubmitText = styled(Text)`
