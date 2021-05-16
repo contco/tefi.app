@@ -28,6 +28,7 @@
     "@apollo/federation": "^0.23.2",
     "@apollo/gateway": "^0.26.3",
     "@contco/core-ui": "^1.1.6",
+    "@mirror-protocol/mirror.js": "^1.1.7",
     "@styled-system/css": "^5.1.5",
     "@terra-money/terra.js": "^1.7.0",
     "apollo-server-micro": "^2.23.0",

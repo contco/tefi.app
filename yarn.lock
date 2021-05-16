@@ -1107,6 +1107,11 @@
   resolved "https://registry.yarnpkg.com/@josephg/resolvable/-/resolvable-1.0.0.tgz#cd75b09cfad18cd945de9221d403203aa07e3d0a"
   integrity sha512-OfTtjoqB2doov5aTJxkyAMK8dXoo7CjCUQSYUEtiY34jbWduOGV7+168tmCT8COMsUEd5DMSFg/0iAOPCBTNAQ==
 
+"@mirror-protocol/mirror.js@^1.1.7":
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/@mirror-protocol/mirror.js/-/mirror.js-1.1.7.tgz#0448d79972419b2c2f6ca425adb7c7d00b12e80a"
+  integrity sha512-jMqHrPCKLXqF/ZBVkdYHma4f2B68BpezN4h0s+IRsJWdI9bY5aJ3+fqFJCOUsrLe6e30btQEgzQLoo3uc1Dy5A==
+
 "@next/env@10.0.9":
   version "10.0.9"
   resolved "https://registry.yarnpkg.com/@next/env/-/env-10.0.9.tgz#455fd364c8a5ee012b2cd4406d5294164990706d"

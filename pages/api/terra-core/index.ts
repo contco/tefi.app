@@ -3,14 +3,16 @@ import { buildFederatedSchema } from '@apollo/federation';
 import { getBankBalance } from './core';
 
 const typeDefs = gql`
-    type Token {
-        denom: String
-        amount: String
+    type Coin {
+        denom: String!
+        amount: String!
+        delegations: String
+        undelegations: String
     }
 
     type Assets @key(fields: "address") {
         address: String!
-        tokens: [Token]
+        coins: [Coin]
     }
 
     type Query {
