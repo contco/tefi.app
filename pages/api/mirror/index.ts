@@ -6,6 +6,8 @@ const typeDefs = gql`
     type Token {
         symbol: String!
         amount: String!
+        price: String!
+        staked: String
     }
 
     extend type Assets @key(fields: "address") {
