@@ -1,7 +1,7 @@
 import { anchor } from './test-defaults';
 
-export const getBalance = async ({ address }: any) => {
-    const result = await anchor.anchorToken.getBalance(address);
-    console.log('result', result);
-    return result;
+// template only - need ANC, aUST, Bluna
+export const getBalance = async (address: any) => {
+    const balance = await anchor.anchorToken.getBalance(address);
+    return [{ amount: balance.toString(), symbol: 'ANC' }];
 }

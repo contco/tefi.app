@@ -1,36 +1,27 @@
 import { ApolloServer, gql } from 'apollo-server-micro';
 import { buildFederatedSchema } from '@apollo/federation';
-import getBorrowData from './lib/borrow';
-import getEarnData from './lib/earn';
+import { getBalance } from './lib/anc';
 
 const typeDefs = gql`
-  type UserCollateral {
-    collateral: String!
-    balance: String!
-  }
+    type Token {
+        symbol: String!
+        amount: String!
+        price: String!
+        staked: String
+    }
 
-  type BorrowData {
-    borrowLimit: String!
-    borrowedValue: String!
-    collaterals: [UserCollateral]!
-  }
-
-  type EarnData {
-    totalDesposit: String!
-    apy: String!
-  }
-
-  type Query {
-    getBorrowData(address: String!): BorrowData
-    getEarnData(address: String!): EarnData
-  }
+    extend type Assets @key(fields: "address") {
+        address: String! @external
+        anchor: [Token]
+    }
 `;
 
 const resolvers = {
-  Query: {
-    getBorrowData(parent, args, context) { return getBorrowData({ args }) },
-    getEarnData(parent, args, context) { return getEarnData({ args }) },
-  },
+  Assets: {
+    anchor(assets) {
+      return getBalance(assets.address);
+    }
+  }
 };
 
 const apolloServer = new ApolloServer({ schema: buildFederatedSchema([{ typeDefs, resolvers }]) });

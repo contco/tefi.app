@@ -19,7 +19,6 @@ const client = new ApolloClient({
 });
 
 export const getMirrorAssets = async (address: string) => {
-    console.log(address);
     const stakingBalance = await mirror.gov.getStaker(address);
     const result = await client
         .query({
@@ -44,6 +43,5 @@ export const getMirrorAssets = async (address: string) => {
         }
         return token;
     });
-    console.log(balance);
     return balance
 };
