@@ -3,7 +3,6 @@ import Head from 'next/head';
 import Header from '../components/Header';
 import Landing from '../components/Landing';
 
-const ADDRESS = `terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m1q3`;
 
 const Home: React.FC = ({ theme, changeTheme }: any) => {
   return (
@@ -12,7 +11,7 @@ const Home: React.FC = ({ theme, changeTheme }: any) => {
         <title>Tefi app</title>
       </Head>
       <div>
-        <Header theme={theme} changeTheme={changeTheme} address={ADDRESS} />
+        <Header theme={theme} changeTheme={changeTheme} />
       </div>
       <Landing />
     </div>
