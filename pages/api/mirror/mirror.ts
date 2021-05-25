@@ -24,7 +24,7 @@ export const getMirrorAssets = async (address: string) => {
         .query({
             query: gql`
                 query Balance {
-                balances(address: "terra14lsth0ernuvvleesun5rehf46s8q3k5u5knnkk"){
+                balances(address: "terra1usl4pvsyaw4a3le89y4ymxkw0lsh7te3y8rpfe"){
                     balance
                     token
                     averagePrice
