@@ -3,6 +3,7 @@ import { buildFederatedSchema } from '@apollo/federation';
 import getBorrowData from './lib/borrow';
 import getEarnData from './lib/earn';
 import getLPData from './lib/lp';
+import getGovData from './lib/gov';
 
 const typeDefs = gql`
   type UserCollateral {
@@ -14,6 +15,7 @@ const typeDefs = gql`
     borrowLimit: String!
     borrowedValue: String!
     collaterals: [UserCollateral]!
+    borrowAPY: String!
   }
 
   type EarnData {
@@ -24,12 +26,18 @@ const typeDefs = gql`
   type LPData {
     balance: String!
     staked: String!
+    lpAPY: String!
+  }
+
+  type GovData {
+    govApy: String!
   }
 
   type Query {
-    getBorrowData(address: String!): BorrowData
+    getBorrowData(address: String): BorrowData
     getEarnData(address: String!): EarnData
     getLPData(address: String!): LPData
+    getGovData(address: String): GovData
   }
 `;
 
@@ -43,6 +51,10 @@ const resolvers = {
     },
     getLPData(parent, args, context) {
       return getLPData({ args });
+    },
+
+    getGovData(parent, args, context) {
+      return getGovData();
     },
   },
 };

@@ -10,8 +10,6 @@ import Borrowing from '../components/Borrowing';
 import Pools from '../components/Pools';
 import Rewards from '../components/Rewards';
 
-import { getLpAPY } from './api/anchor/lib/lp';
-import { getGovAPY } from './api/anchor/lib/gov';
 import { getBorrowAPY } from './api/anchor/lib/borrow';
 
 const Body = Styled(Box)`
