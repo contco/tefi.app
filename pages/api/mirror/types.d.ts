@@ -1,5 +1,5 @@
 type ListedItemStatus = "LISTED" | "DELISTED";
-
+type ContractData = { Height: string; Result?: string } | null;
 interface Dictionary<A> {
     [index: string]: A;
 }
@@ -71,4 +71,4 @@ interface ContractVariables {
     contract: string
     msg: object
   }
-  
+

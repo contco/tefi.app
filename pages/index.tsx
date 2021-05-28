@@ -5,13 +5,13 @@ import Landing from '../components/Landing';
 
 const ADDRESS = `terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m1q3`;
 
-import {getContractPoolData} from "./api/mirror/contractPoolData";
+import {getTokenBalance} from "./api/mirror/getTokenBalance";
 
 const Home: React.FC = ({ theme, changeTheme }: any) => {
 
   useEffect(() => {
     async function call () {
-      getContractPoolData();
+      getTokenBalance("terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m0q3");
     }
     call();
   })

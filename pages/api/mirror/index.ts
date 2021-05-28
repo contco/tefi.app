@@ -1,6 +1,6 @@
 import { ApolloServer, gql } from 'apollo-server-micro';
 import { buildFederatedSchema } from '@apollo/federation';
-import { getMirrorAssets } from './mirror';
+import { getTokenBalance } from './getTokenBalance';
 
 const typeDefs = gql`
     type Token {
@@ -19,7 +19,7 @@ const typeDefs = gql`
 const resolvers = {
     Assets: {
         mirror(assets) {
-            return getMirrorAssets(assets.address);
+            return getTokenBalance(assets.address);
         }
     }
 };
