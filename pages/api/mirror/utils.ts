@@ -3,7 +3,8 @@ const WASMQUERY = "WasmContractsContractAddressStore";
 
 
 export const div = (a?: BN.Value, b?: BN.Value): string => new BN(a || 0).div(b || 1).toString();
-export const gt = (a: BN.Value, b: BN.Value): boolean => new BN(a).gt(b)
+export const gt = (a: BN.Value, b: BN.Value): boolean => new BN(a).gt(b);
+export const times = (a?: BN.Value, b?: BN.Value): string => new BN(a || 0).times(b || 0).toString();
   
 const stringify = (msg: object) => JSON.stringify(msg).replace(/"/g, '\\"');
 
