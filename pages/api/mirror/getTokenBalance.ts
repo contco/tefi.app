@@ -2,7 +2,8 @@ import MIRROR_ASSETS from "./mirrorAssets.json";
 import {gql} from "@apollo/client";
 import {request} from "graphql-request";
 import networks from "./networks";
-import {alias, parse} from "./utils";
+import {alias, parse, PriceKey, price} from "./utils";
+import {getPairPool} from "./getPairPool";
 
 const TOKEN_BALANCE = "TokenBalance";
 
@@ -23,12 +24,14 @@ export const getTokenBalance= async (address: string) => {
   
   let result = await request(networks.mainnet.mantle, balanceQuery);
   let parsedData: Dictionary<{ balance: string; }> = parse(result);
+  let pairPool = await getPairPool();
   let tokenBalances = MIRROR_ASSETS.reduce((tokenList, currentAsset, index) => {
+     const priceKey = currentAsset.status === "LISTED" ? PriceKey.PAIR : PriceKey.END;
+     const priceResult = price[priceKey](pairPool)[currentAsset.token];
       if(parsedData[currentAsset.token]?.balance !== "0") {
-          tokenList.push({price: 1.3, symbol: currentAsset.symbol, amount: parsedData[currentAsset.token].balance, staked: null})
+          tokenList.push({price: priceResult ?? 0, symbol: currentAsset.symbol, amount: parsedData[currentAsset.token].balance, staked: null})
       }
       return tokenList;
   }, []);
-
   return tokenBalances;
 }

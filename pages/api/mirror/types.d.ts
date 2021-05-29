@@ -19,6 +19,23 @@ interface DelistItem {
     ratio: string
 }
 
+interface Dict<T = string> {
+    [token: string]: T
+}
+interface Rate {
+    rate: string
+}
+
+interface MintInfo {
+    min_collateral_ratio: string
+    end_price: string
+}
+
+interface PairPool {
+    assets: (AssetToken | NativeToken)[]
+    total_share: string
+}
+
 interface Asset {
     amount: string
     token: string
@@ -72,3 +89,7 @@ interface ContractVariables {
     msg: object
   }
 
+
+interface Query extends Partial<ContractVariables> {
+    token: string
+  }
