@@ -38,15 +38,13 @@ export const getLpAPY = async () => {
   });
 
   const APY = result.data.AnchorLPRewards[0].APY;
-  console.log('LpApy', APY);
-
-  // return distributionAPY;
+  return APY;
 };
 
 export default async (address) => {
-  const balance = getLPBalance({ address });
-  const staked = stakedLP({ address });
-  const lpAPY = getLpAPY();
+  const balance = await getLPBalance({ address });
+  const staked = await stakedLP({ address });
+  const lpAPY = await getLpAPY();
 
   return { balance, staked, lpAPY };
 };

@@ -22,7 +22,6 @@ export const getTotalDesposit = async ({ address }: any) => {
 
 export const getAPY = async () => {
   const apy = await anchor.earn.getAPY({ market: MARKET_DENOMS.UUSD });
-  console.log('EarnAPY', apy);
   return apy;
 };
 

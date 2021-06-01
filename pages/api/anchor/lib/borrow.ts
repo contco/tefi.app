@@ -38,7 +38,6 @@ export const getBorrowAPY = async () => {
   });
 
   const borrowAPY = result.data.AnchorBorrowerDistributionAPYs[0].DistributionAPY;
-  console.log('borrowAPY', borrowAPY);
   return borrowAPY;
 };
 
