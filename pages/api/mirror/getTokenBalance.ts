@@ -36,6 +36,5 @@ export const getTokenBalance= async (address: string) => {
       }
       return tokenList;
   }, []);
-  console.log(tokenBalances);
   return tokenBalances;
 }
