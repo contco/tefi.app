@@ -1,6 +1,6 @@
 import { ApolloServer, gql } from 'apollo-server-micro';
 import { buildFederatedSchema } from '@apollo/federation';
-import { getBalance } from './lib/anc';
+import { getMirrorAssets } from './mirror';
 
 const typeDefs = gql`
     type Token {
@@ -12,26 +12,26 @@ const typeDefs = gql`
 
     extend type Assets @key(fields: "address") {
         address: String! @external
-        anchor: [Token]
+        mirror: [Token]
     }
 `;
 
 const resolvers = {
-  Assets: {
-    anchor(assets) {
-      return getBalance(assets.address);
+    Assets: {
+        mirror(assets) {
+            return getMirrorAssets(assets.address);
+        }
     }
-  }
 };
 
 const apolloServer = new ApolloServer({ schema: buildFederatedSchema([{ typeDefs, resolvers }]) });
 
 export const config = {
-  api: {
-    bodyParser: false,
-  },
+    api: {
+        bodyParser: false,
+    },
 }
 
 export default apolloServer.createHandler({
-  path: '/api/anchor',
+    path: '/api/mirror',
 })
