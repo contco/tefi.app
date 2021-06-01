@@ -29,20 +29,21 @@ export const getLpAPY = async () => {
   const height = await getLatestBlockHeight();
   const result = await client.query({
     query: gql`
-      query AnchorLPReward {
-        AnchorBorrowerDistributionAPYs(Height: ${height}) {
-          DistributionAPY
+      query AnchorLPRewards {
+        AnchorLPRewards(Height: ${height}) {
+          APY
         }
       }
     `,
   });
 
-  const distributionAPY = result.data.AnchorBorrowerDistributionAPYs[0].DistributionAPY;
+  const APY = result.data.AnchorLPRewards[0].APY;
+  console.log('LpApy', APY);
 
-  return distributionAPY;
+  // return distributionAPY;
 };
 
-export default async ({ args: { address } }: any) => {
+export default async (address) => {
   const balance = getLPBalance({ address });
   const staked = stakedLP({ address });
   const lpAPY = getLpAPY();
