@@ -185,4 +185,20 @@ const reduceBondAmount = ({ reward_infos }: StakingReward) =>
       return { ...acc, [asset_token]: bond_amount }
     },
     {}
-)
+);
+
+export const fromLP =  (
+  lp: string,
+  shares: { asset: Asset; uusd: Asset },
+  totalShare: string
+): { asset: Asset; uusd: Asset } =>
+  Object.entries(shares).reduce(
+    (acc, [key, { amount, token }]) => ({
+      ...acc,
+      [key]: {
+        amount: new BN(lp).times(amount).div(totalShare).toString(),
+        token,
+      },
+    }),
+    {} as { asset: Asset; uusd: Asset }
+  );
