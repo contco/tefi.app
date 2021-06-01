@@ -1,12 +1,14 @@
 import BN from "bignumber.js"
-const WASMQUERY = "WasmContractsContractAddressStore";
 import MIRROR_ASSETS from "./mirrorAssets.json";
 
 
 const listedAll: ListedItem[] = MIRROR_ASSETS;
 
+export const WASMQUERY = "WasmContractsContractAddressStore";
+export const STAKING_CONTRACT = "terra17f7zu97865jmknk7p2glqvxzhduk78772ezac5";
 export const UUSD = "uusd";
 export const MIR = "MIR";
+export const UNIT = 1000000;
 export const plus = (a?: BN.Value, b?: BN.Value): string => new BN(a || 0).plus(b || 0).toString()
 export const div = (a?: BN.Value, b?: BN.Value): string => new BN(a || 0).div(b || 1).toString();
 export const gt = (a: BN.Value, b: BN.Value): boolean => new BN(a).gt(b);
@@ -154,7 +156,7 @@ export const balance = {
     stakingReward: StakingReward
   ) =>
     dict(stakingPool, ({ reward_index: globalIndex }, token) => {
-      const { reward_infos } = stakingReward
+      const { reward_infos } = stakingReward[WASMQUERY];
       const info = reward_infos?.find((info) => info.asset_token === token)
       return floor(reward(globalIndex, info))
     }),
