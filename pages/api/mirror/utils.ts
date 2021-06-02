@@ -57,6 +57,10 @@ const parseResults = <Parsed>(object?: Dictionary<ContractData>) =>
   export const parse = <Parsed>(data : Dictionary<ContractData> ) =>
   data && parseResults<Parsed>(data);
 
+  export const parseContractsData = <Parsed>( data: ContractsData | undefined ) =>
+  data && parseResult<Parsed>(data[WASMQUERY])
+
+
   export enum PriceKey {
     PAIR = "pair",
     ORACLE = "oracle",
@@ -156,7 +160,7 @@ export const balance = {
     stakingReward: StakingReward
   ) =>
     dict(stakingPool, ({ reward_index: globalIndex }, token) => {
-      const { reward_infos } = stakingReward[WASMQUERY];
+      const { reward_infos } = stakingReward;
       const info = reward_infos?.find((info) => info.asset_token === token)
       return floor(reward(globalIndex, info))
     }),
@@ -172,7 +176,7 @@ const reduceLP = (
       ...acc,
       [token]: plus(
         lpTokenBalance[token].balance,
-        stakingReward[WASMQUERY].reward_infos.find(
+        stakingReward.reward_infos.find(
           ({ asset_token }) => asset_token === token
         )?.bond_amount
       ),

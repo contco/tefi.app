@@ -1,5 +1,9 @@
 type ListedItemStatus = "LISTED" | "DELISTED";
-type ContractData = { Height: string; Result?: string } | null;
+type ContractData = { Height: string; Result?: string } |  null;
+
+interface ContractsData {
+    WasmContractsContractAddressStore: ContractData
+}
 interface Dictionary<A> {
     [index: string]: A;
 }
@@ -10,7 +14,7 @@ interface ListedItem {
     token: string
     pair: string
     lpToken: string
-    status: ListedItemStatus
+    status: string
 }
   
 interface DelistItem {

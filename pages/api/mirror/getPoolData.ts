@@ -15,7 +15,6 @@ export const getPoolData = async (address: string) => {
  let pairsList = getPairPool();
  let results = await Promise.all([lpTokenBalance, stakingRewards, pairsList, stakingPool]);
  let poolBalance = balance[BalanceKey.LPTOTAL](results[0], results[1]);
-
  let rewardsBalance = balance[BalanceKey.REWARD](results[3], results[1]);
  let result = MIRROR_ASSETS.reduce((poolList, listing: ListedItem) => {
     let pairPool = results[2] && results[2][listing.token] ? parsePairPool(results[2][listing.token]) : { uusd: "0", asset: "0", total: "0" };
