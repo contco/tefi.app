@@ -20,6 +20,7 @@ const typeDefs = gql`
         rewards: String!
         rewardsValue: String!
         poolTotal: String!
+        apr: String!
     }
 
     extend type Assets @key(fields: "address") {

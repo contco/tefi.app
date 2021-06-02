@@ -2,6 +2,7 @@ import {getLpTokenBalance} from "./getLpTokenBalance";
 import {getStakingRewards} from "./getStakingRewards";
 import {getStakingPool} from "./getStakingPool";
 import {getPairPool} from "./getPairPool";
+import {getAssetsStats} from "./getAssetsStats";
 import {balance, BalanceKey, PriceKey,parsePairPool, UUSD, fromLP, price, div, UNIT, times, plus} from "./utils";
 import MIRROR_ASSETS from "./mirrorAssets.json";
  
@@ -14,7 +15,8 @@ export const getMirrorPool = async(address: string) => {
    let stakingRewards = getStakingRewards(address);
    let stakingPool = getStakingPool();
    let pairsList = getPairPool();
-   let results = await Promise.all([lpTokenBalance, stakingRewards, pairsList, stakingPool]);
+   let assetStats = getAssetsStats();
+   let results = await Promise.all([lpTokenBalance, stakingRewards, pairsList, stakingPool, assetStats]);
    let poolBalance = balance[BalanceKey.LPTOTAL](results[0], results[1]);
    let rewardsBalance = balance[BalanceKey.REWARD](results[3], results[1]);
    let result = MIRROR_ASSETS.reduce((poolList, listing: ListedItem) => {
@@ -34,10 +36,10 @@ export const getMirrorPool = async(address: string) => {
         const rewards = div(rewardsBalance[listing.token], UNIT);
         const rewardsValue = times(rewards, priceResult);
         const poolTotal = plus(balanceValue, rewardsValue);
-         
+        const apr = assetStats  ? results[4][listing.token] : '0';
         poolSum = plus(poolSum, balanceValue);
         rewardsSum = plus(rewardsSum, rewardsValue);
-       return {symbol1: listing.symbol, symbol2: 'UST', balance1:item1Balance, balance2: item2Balance, balanceValue, priceResult, rewards, rewardsValue, poolTotal };
+       return {symbol1: listing.symbol, symbol2: 'UST', balance1:item1Balance, balance2: item2Balance, balanceValue, priceResult, rewards, rewardsValue, poolTotal, apr};
        }
        return poolList;
    }, []);
