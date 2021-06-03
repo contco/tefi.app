@@ -21,5 +21,12 @@ export const getGovAPY = async () => {
 
 export default async () => {
   const govApy = await getGovAPY();
-  return { govApy };
+
+  const result = {
+    reward: {
+      name: 'ANC Gov',
+      apy: govApy,
+    },
+  };
+  return result;
 };

@@ -18,35 +18,41 @@ const typeDefs = gql`
     address: String! @external
     anchor: [Token]
   }
+
+  type Reward {
+    name: String
+    staked: String
+    apy: String
+    reward: String
+  }
+
   type UserCollateral {
-    collateral: String!
-    balance: String!
+    collateral: String
+    balance: String
   }
 
   type BorrowData {
-    borrowLimit: String!
-    borrowedValue: String!
-    collaterals: [UserCollateral]!
-    borrowAPY: String
+    reward: Reward
+    limit: String!
+    value: String!
+    collaterals: UserCollateral!
   }
 
   type EarnData {
-    totalDesposit: String!
-    apy: String!
+    reward: Reward
   }
 
   type LPData {
+    reward: Reward!
     balance: String!
-    staked: String!
-    lpAPY: String!
   }
 
   type GovData {
-    govApy: String!
+    reward: Reward!
   }
 
   type Query {
-    getBorrowData(address: String): BorrowData
+    getBorrowData(address: String!): BorrowData
     getEarnData(address: String!): EarnData
     getLPData(address: String!): LPData
     getGovData(address: String): GovData
@@ -59,6 +65,7 @@ const resolvers = {
       return getBalance(assets.address);
     },
   },
+
   Query: {
     getBorrowData(_, args) {
       return getBorrowData(args?.address);

@@ -28,5 +28,13 @@ export const getAPY = async () => {
 export default async (address) => {
   const totalDesposit = await getTotalDesposit({ address });
   const apy = await getAPY();
-  return { totalDesposit, apy };
+
+  const result = {
+    reward: {
+      name: 'ANC Earn',
+      apy: apy,
+      staked: totalDesposit,
+    },
+  };
+  return result;
 };

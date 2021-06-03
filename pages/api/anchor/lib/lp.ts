@@ -46,5 +46,14 @@ export default async (address) => {
   const staked = await stakedLP({ address });
   const lpAPY = await getLpAPY();
 
-  return { balance, staked, lpAPY };
+  const result = {
+    reward: {
+      name: 'ANC-LP',
+      staked: staked,
+      apy: lpAPY,
+    },
+    balance: balance,
+  };
+
+  return result;
 };

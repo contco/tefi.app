@@ -37,7 +37,7 @@ export const getBorrowAPY = async () => {
     `,
   });
 
-  const borrowAPY = result.data.AnchorBorrowerDistributionAPYs[0].DistributionAPY;
+  const borrowAPY = result.data.AnchorBorrowerDistributionAPYs[0]?.DistributionAPY;
   return borrowAPY;
 };
 
@@ -46,5 +46,15 @@ export default async (address) => {
   const borrowedValue = await getBorrowedValue({ address });
   const collaterals = await getCollaterals({ address });
   const borrowApy = await getBorrowAPY();
-  return { borrowLimit, borrowedValue, collaterals, borrowApy };
+
+  const result = {
+    reward: {
+      name: 'UST Borrow',
+      apy: borrowApy,
+    },
+    limit: borrowLimit,
+    value: borrowedValue,
+    collaterals: collaterals,
+  };
+  return result;
 };
