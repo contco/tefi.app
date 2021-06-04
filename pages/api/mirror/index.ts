@@ -1,6 +1,6 @@
 import { ApolloServer, gql } from 'apollo-server-micro';
 import { buildFederatedSchema } from '@apollo/federation';
-import { getTokenBalance } from './getTokenBalance';
+import { getTokenBalance, getAssetsTotal } from './getTokenBalance';
 import { getPoolData } from './getPoolData';
 
 const typeDefs = gql`
@@ -20,6 +20,7 @@ const typeDefs = gql`
         rewards: String!
         rewardsValue: String!
         poolTotal: String!
+        apr: String!
     }
 
     extend type Assets @key(fields: "address") {
@@ -27,14 +28,27 @@ const typeDefs = gql`
         mirror: [Token]
     }
 
+    type WalletTotal @key(fields: "address") {
+        address: String!
+        assetsTotal: String!
+        rewardsTotal: String!
+        poolTotal: String!
+    }
+
     type Query {
         pools(address: String!): Pool
+        getWalletTotal(address:String!): WalletTotal!
     }
 `;
 
 const resolvers = {
     Query: {
-        pools(_, args) { console.log(args); return getPoolData(args?.address) },
+        pools(_, args) { 
+            return getPoolData(args?.address) 
+        },
+        getWalletTotal(_, args) { 
+            return getAssetsTotal(args?.address) 
+        },
     },
     Assets: {
         mirror(assets) {
