@@ -4,13 +4,14 @@ import Header from '../components/Header';
 import Landing from '../components/Landing';
 
 
-import {getTokenBalance} from "./api/mirror/getTokenBalance";
+import {getPoolData} from "./api/mirror/getPoolData";
+
 
 const Home: React.FC = ({ theme, changeTheme }: any) => {
 
   useEffect(() => {
     async function call () {
-      getTokenBalance("terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m0q3");
+      getPoolData("terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m0q3");
     }
     call();
   })
