@@ -1,19 +1,5 @@
 import { MARKET_DENOMS } from '@anchor-protocol/anchor.js';
-import { anchor, gasParameters, wallet } from './test-defaults';
-
-export const desposit = async () => {
-  const result = await anchor.earn
-    .depositStable({ market: MARKET_DENOMS.UUSD, amount: '100.5000' })
-    .execute(wallet, gasParameters);
-  return result;
-};
-
-export const withdraw = async () => {
-  const result = await anchor.earn
-    .withdrawStable({ market: MARKET_DENOMS.UUSD, amount: '100.5000' })
-    .execute(wallet, gasParameters);
-  return result;
-};
+import { anchor } from './test-defaults';
 
 export const getTotalDesposit = async ({ address }: any) => {
   const totalDesposit = await anchor.earn.getTotalDeposit({ market: MARKET_DENOMS.UUSD, address });

@@ -14,7 +14,7 @@ export const getGovAPY = async () => {
     `,
   });
 
-  const govAPY = result.data.AnchorGovRewardRecords[0].CurrentAPY;
+  const govAPY = result.data.AnchorGovRewardRecords[0]?.CurrentAPY;
 
   return govAPY;
 };

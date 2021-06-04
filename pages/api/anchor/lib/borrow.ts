@@ -1,5 +1,5 @@
 import { MARKET_DENOMS } from '@anchor-protocol/anchor.js';
-import { anchor, gasParameters, wallet, client } from './test-defaults';
+import { anchor, client } from './test-defaults';
 import { getLatestBlockHeight } from './utils';
 import { gql } from '@apollo/client';
 
@@ -15,13 +15,6 @@ export const getBorrowedValue = async ({ address }: any) => {
 
 export const getCollaterals = async ({ address }: any) => {
   const result = await anchor.borrow.getCollaterals({ market: MARKET_DENOMS.UUSD, address });
-  return result;
-};
-
-export const getBorrowRewards = async ({ address }) => {
-  const result = await anchor.anchorToken
-    .claimUSTBorrowRewards({ market: MARKET_DENOMS.UUSD, to: address })
-    .execute(wallet, gasParameters);
   return result;
 };
 

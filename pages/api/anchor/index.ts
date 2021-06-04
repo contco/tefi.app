@@ -1,10 +1,6 @@
 import { ApolloServer, gql } from 'apollo-server-micro';
 import { buildFederatedSchema } from '@apollo/federation';
-import { getBalance } from './lib/anc';
-import getBorrowData from './lib/borrow';
-import getEarnData from './lib/earn';
-import getLPData from './lib/lp';
-import getGovData from './lib/gov';
+import { getAccount, getBalance } from './lib/anc';
 
 const typeDefs = gql`
   type Token {
@@ -51,11 +47,16 @@ const typeDefs = gql`
     reward: Reward!
   }
 
+  type Account {
+    asset: Assets
+    debt: BorrowData
+    earn: EarnData
+    pool: LPData
+    gov: GovData
+  }
+
   type Query {
-    getBorrowData(address: String!): BorrowData
-    getEarnData(address: String!): EarnData
-    getLPData(address: String!): LPData
-    getGovData(address: String): GovData
+    getAccount(address: String): Account
   }
 `;
 
@@ -67,18 +68,8 @@ const resolvers = {
   },
 
   Query: {
-    getBorrowData(_, args) {
-      return getBorrowData(args?.address);
-    },
-    getEarnData(_, args) {
-      return getEarnData(args?.address);
-    },
-    getLPData(_, args) {
-      return getLPData(args?.address);
-    },
-
-    getGovData() {
-      return getGovData();
+    getAccount(_, args) {
+      return getAccount(args?.address);
     },
   },
 };

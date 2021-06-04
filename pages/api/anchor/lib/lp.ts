@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { anchor, gasParameters, wallet, client } from './test-defaults';
+import { anchor, client } from './test-defaults';
 import { getLatestBlockHeight } from './utils';
 import { gql } from '@apollo/client';
 
@@ -10,18 +10,6 @@ export const getLPBalance = async ({ address }: any) => {
 
 export const stakedLP = async ({ address }: any) => {
   const result = await anchor.anchorToken.getProvidedLP(address);
-  return result;
-};
-
-export const stakeLP = async () => {
-  const result = await anchor.anchorToken.stakeLP('10').execute(wallet, gasParameters);
-  console.log('Result', result);
-  return result;
-};
-
-export const unstakeLP = async () => {
-  const result = await anchor.anchorToken.unstakeLP('10').execute(wallet, gasParameters);
-  console.log('Result', result);
   return result;
 };
 
