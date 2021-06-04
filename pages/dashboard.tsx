@@ -10,8 +10,6 @@ import Borrowing from '../components/Borrowing';
 import Pools from '../components/Pools';
 import Rewards from '../components/Rewards';
 
-import { getBorrowAPY } from './api/anchor/lib/borrow';
-
 const Body = Styled(Box)`
 ${css({
   m: 'auto',
@@ -22,14 +20,6 @@ ${css({
 const ADDRESS = `terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m1q3`;
 
 const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
-  useEffect(() => {
-    const getRewards = async () => {
-      const result = await getBorrowAPY();
-      console.log(result);
-    };
-    getRewards();
-  }, []);
-
   return (
     <div>
       <Head>
