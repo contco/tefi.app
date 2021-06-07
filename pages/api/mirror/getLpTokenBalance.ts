@@ -6,11 +6,10 @@ import { alias, parse } from './utils';
 
 const PAIR_POOL = 'PairPool';
 
-const generate = ({ token, pair }: ListedItem) => {
-  return { token, contract: pair, msg: { pool: {} } };
-};
-
-export const getPairPool = async () => {
+export const getLpTokenBalance = async (address: string): Promise<Dictionary<Balance>> => {
+  const generate = ({ lpToken }: ListedItem) => {
+    return { contract: lpToken, msg: { balance: { address } } };
+  };
   const contractAssets = MIRROR_ASSETS.map((item: ListedItem) => ({ token: item.token, ...generate(item) }));
   const contractQuery = gql`
     query ${PAIR_POOL} {
@@ -18,6 +17,6 @@ export const getPairPool = async () => {
     }
   `;
   let result = await request(networks.mainnet.mantle, contractQuery);
-  let parsedData: Dictionary<PairPool> & Dictionary<MintInfo> = parse(result);
+  let parsedData: Dictionary<Balance> = parse(result);
   return parsedData;
 };

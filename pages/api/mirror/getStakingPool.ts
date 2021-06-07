@@ -2,22 +2,23 @@ import MIRROR_ASSETS from './mirrorAssets.json';
 import { gql } from '@apollo/client';
 import { request } from 'graphql-request';
 import networks from './networks';
-import { alias, parse } from './utils';
+import { alias, parse, STAKING_CONTRACT } from './utils';
 
-const PAIR_POOL = 'PairPool';
+const STAKING_POOL = 'StakingPool';
 
-const generate = ({ token, pair }: ListedItem) => {
-  return { token, contract: pair, msg: { pool: {} } };
-};
+const generate = ({ token }: ListedItem) => ({
+  contract: STAKING_CONTRACT,
+  msg: { pool_info: { asset_token: token } },
+});
 
-export const getPairPool = async () => {
+export const getStakingPool = async (): Promise<Dictionary<StakingPool>> => {
   const contractAssets = MIRROR_ASSETS.map((item: ListedItem) => ({ token: item.token, ...generate(item) }));
   const contractQuery = gql`
-    query ${PAIR_POOL} {
+    query ${STAKING_POOL} {
       ${contractAssets.map(alias)}
     }
   `;
   let result = await request(networks.mainnet.mantle, contractQuery);
-  let parsedData: Dictionary<PairPool> & Dictionary<MintInfo> = parse(result);
+  let parsedData: Dictionary<StakingPool> = parse(result);
   return parsedData;
 };

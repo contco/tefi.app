@@ -1,5 +1,9 @@
 type ListedItemStatus = "LISTED" | "DELISTED";
-type ContractData = { Height: string; Result?: string } | null;
+type ContractData = { Height: string; Result?: string } |  null;
+
+interface ContractsData {
+    WasmContractsContractAddressStore: ContractData
+}
 interface Dictionary<A> {
     [index: string]: A;
 }
@@ -10,7 +14,7 @@ interface ListedItem {
     token: string
     pair: string
     lpToken: string
-    status: ListedItemStatus
+    status: string
 }
   
 interface DelistItem {
@@ -92,4 +96,31 @@ interface ContractVariables {
 
 interface Query extends Partial<ContractVariables> {
     token: string
+}
+interface Balance {
+    balance: string
+  }
+interface StakingReward {
+    reward_infos: RewardInfo[]
+}
+  
+interface RewardInfo {
+    asset_token: string
+    bond_amount: string
+    index: string
+    pending_reward: string
+}
+
+interface StakingPool {
+    total_bond_amount: string
+    reward_index: string
+}
+
+interface TotalSupply {
+    total_supply: string
+  }
+  
+  interface LPParams {
+    lpTokenBalance: Dictionary<Balance>
+    stakingReward: StakingReward
   }
