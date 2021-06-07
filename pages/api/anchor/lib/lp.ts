@@ -25,7 +25,7 @@ export const getLpAPY = async () => {
     `,
   });
 
-  const APY = result.data.AnchorLPRewards[0].APY;
+  const APY = result.data.AnchorLPRewards[0]?.APY;
   return APY;
 };
 

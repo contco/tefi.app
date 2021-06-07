@@ -1,6 +1,5 @@
 import Head from 'next/head';
 import styled from 'styled-components';
-import { getBalance } from './api/anchor/lib/anc';
 import { getBorrowedValue, getBorrowLimit, getCollaterals } from './api/anchor/lib/borrow';
 import { getAPY, getTotalDesposit } from './api/anchor/lib/earn';
 
@@ -35,7 +34,7 @@ export default function Home() {
       </div>
       <div>
         <h1>ANC</h1>
-        <button onClick={() => getBalance({ address })}>getBalance</button>
+        <button onClick={() => {}}>getBalance</button>
       </div>
     </Container>
   );

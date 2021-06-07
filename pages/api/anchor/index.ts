@@ -1,6 +1,6 @@
 import { ApolloServer, gql } from 'apollo-server-micro';
 import { buildFederatedSchema } from '@apollo/federation';
-import { getAccount, getBalance } from './lib/anc';
+import { getAccount } from './lib/anc';
 
 const typeDefs = gql`
   type Token {
@@ -8,11 +8,6 @@ const typeDefs = gql`
     amount: String!
     price: String!
     staked: String
-  }
-
-  extend type Assets @key(fields: "address") {
-    address: String! @external
-    anchor: [Token]
   }
 
   type Reward {
@@ -48,28 +43,23 @@ const typeDefs = gql`
   }
 
   type Account {
-    asset: Assets
+    asset: [Token]
     debt: BorrowData
     earn: EarnData
     pool: LPData
     gov: GovData
   }
 
-  type Query {
-    getAccount(address: String): Account
+  extend type Assets @key(fields: "address") {
+    address: String! @external
+    anchor: Account
   }
 `;
 
 const resolvers = {
   Assets: {
     anchor(assets) {
-      return getBalance(assets.address);
-    },
-  },
-
-  Query: {
-    getAccount(_, args) {
-      return getAccount(args?.address);
+      return getAccount(assets.address);
     },
   },
 };

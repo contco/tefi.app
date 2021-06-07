@@ -4,18 +4,6 @@ import getEarn from './earn';
 import getPool from './lp';
 import getGov from './gov';
 
-export const getBalance = async (address: any) => {
-  const balance = await anchor.anchorToken.getBalance(address);
-  const result = [
-    {
-      amount: balance.toString(),
-      symbol: 'ANC',
-    },
-  ];
-
-  return result;
-};
-
 export const getAccount = async (address: any) => {
   const balance = await anchor.anchorToken.getBalance(address);
   const debt = await getDebt(address);
@@ -24,14 +12,10 @@ export const getAccount = async (address: any) => {
   const gov = await getGov();
 
   const result = {
-    asset: {
-      anchor: [
-        {
-          amount: balance.toString(),
-          symbol: 'ANC',
-        },
-      ],
-    },
+    asset: [{
+      amount: balance.toString(),
+      symbol: 'ANC',
+    }],
 
     debt: {
       reward: {
