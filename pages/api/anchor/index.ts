@@ -42,7 +42,7 @@ const typeDefs = gql`
     reward: Reward!
   }
 
-  type Account {
+  type AccountANC {
     asset: [Token]
     debt: BorrowData
     earn: EarnData
@@ -52,7 +52,7 @@ const typeDefs = gql`
 
   extend type Assets @key(fields: "address") {
     address: String! @external
-    anchor: Account
+    anchor: AccountANC
   }
 `;
 
