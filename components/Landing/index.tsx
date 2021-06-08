@@ -16,8 +16,10 @@ import { AccAddress } from '@terra-money/terra.js';
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 
+import {ADDRESS_KEY} from "../../constants";
+
 const Landing: React.FC = () => {
-  const { connect, wallet } = useConnectWallet();
+  const { onConnect, wallet } = useConnectWallet();
 
   const [address, setAddress] = useState<string>(null);
 
@@ -26,9 +28,16 @@ const Landing: React.FC = () => {
     setAddress(e.target.value);
   };
 
+  const router = useRouter();
+
   const validWalletAddress = useMemo(() => AccAddress.validate(address), [address]);
 
-  const router = useRouter();
+  const onAddressSubmit = () => {
+    localStorage.setItem(ADDRESS_KEY, address);
+    router.push('/dashboard');
+  };
+
+
 
   return (
     <Container>
@@ -37,7 +46,7 @@ const Landing: React.FC = () => {
         <Tefi>&nbsp;TeFi</Tefi>
       </Title>
 
-      <ConnectButton onClick={wallet ? undefined : connect}>
+      <ConnectButton onClick={wallet ? undefined : onConnect}>
         {wallet ? (
           <ConnectText>
             {wallet?.address?.slice(0, 11) +
@@ -52,12 +61,10 @@ const Landing: React.FC = () => {
       <OrText>or</OrText>
 
       <AddressContainer>
-        <AddressInput value={address} onChange={handleAddress} placeholder="Terra Address" />
+        <AddressInput defaultValue={address} onChange={handleAddress} placeholder="Terra Address" />
         <AddressSubmit
           disabled={!validWalletAddress}
-          onClick={() => {
-            router.push('/dashboard');
-          }}
+          onClick={onAddressSubmit}
         >
           <AddressSubmitText>Submit</AddressSubmitText>
         </AddressSubmit>

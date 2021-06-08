@@ -1,19 +1,18 @@
 import { useState } from 'react';
-import { Extension } from '@terra-money/terra.js';
+import { ConnectType, useWallet } from "@terra-money/wallet-provider"
 import { useRouter } from 'next/router';
 
 export default () => {
-  const [wallet, setWallet] = useState<any>();
-  let ext;
-  if (typeof window !== 'undefined') {
-    ext = new Extension();
-  }
-  const router = useRouter();
-  const connect = () => {
-    ext.connect();
-    ext.on('onConnect', setWallet);
-    router.push('/dashboard');
-  };
+  const { availableConnectTypes, availableInstallTypes, connect, install } = useWallet();
 
-  return { connect, wallet };
+  const onConnect = () => {
+    if(availableInstallTypes.includes(ConnectType.CHROME_EXTENSION)) {
+      install(ConnectType.CHROME_EXTENSION)
+    }
+    else if ( availableConnectTypes.includes(ConnectType.WEBEXTENSION)) {
+      connect(ConnectType.WEBEXTENSION);
+    }
+  }
+
+  return {onConnect };
 };

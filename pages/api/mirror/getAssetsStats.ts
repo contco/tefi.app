@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 import { request } from 'graphql-request';
-import networks from './networks';
+import networks from '../../../utils/networks';
 
 const STATS_NETWORK = 'Terra';
 

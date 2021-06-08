@@ -4,6 +4,7 @@ import GlobalStyles from '../styles/global';
 import { ApolloProvider } from '@apollo/client';
 import { useApollo } from '../lib/apolloClient';
 import { ThemeProvider } from 'styled-components';
+import WalletConnectProvider from "../providers/WalletConnectProvider";
 import { lightTheme, darkTheme } from '../styles/theme'
 import { LIGHT_THEME, DARK_THEME } from '../constants';
 
@@ -33,7 +34,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ApolloProvider client={apolloClient}>
       <ThemeProvider theme={theme === LIGHT_THEME ? lightTheme : darkTheme}>
         <GlobalStyles />
-        <Component {...pageProps} theme={theme} changeTheme={changeTheme} />
+        <WalletConnectProvider>
+         <Component {...pageProps} theme={theme} changeTheme={changeTheme} />
+        </WalletConnectProvider>
       </ThemeProvider>
     </ApolloProvider>
   );

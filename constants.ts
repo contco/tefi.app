@@ -20,3 +20,7 @@ export const PoolsTitle = ['Name', 'Balance', 'Value']
 
 //Rewards
 export const RewardsTitle = ['Name', 'Staked', 'APR', 'Reward'];
+
+//LocalStorage
+
+export const ADDRESS_KEY = "address";
