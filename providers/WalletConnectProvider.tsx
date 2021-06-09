@@ -1,11 +1,9 @@
 import dynamic from 'next/dynamic'
-import {useEffect} from "react";
 import { NetworkInfo } from "@terra-money/wallet-provider"
-import { useWallet, WalletProvider } from "@terra-money/wallet-provider"
 import { FC } from "react"
 import networks from "../utils/networks";
 
-const WalletProviderS = dynamic(() => import('@terra-money/wallet-provider').then((module) => {
+const DynamicWalletProvider = dynamic(() => import('@terra-money/wallet-provider').then((module) => {
   return module.WalletProvider
 }), { ssr: false });
 
@@ -16,15 +14,15 @@ const walletConnectChainIds: Record<number, NetworkInfo> = {
 }
 
 const WalletConnectProvider: FC = ({ children }) => {
- 
+console.log(DynamicWalletProvider); 
 return (
-  <WalletProviderS
+  <DynamicWalletProvider
     defaultNetwork={networks.mainnet}
     walletConnectChainIds={walletConnectChainIds}
     connectorOpts={{ bridge: "https://walletconnect.terra.dev/" }}
   >
     {children}
-  </WalletProviderS>
+  </DynamicWalletProvider>
 )
 }
 

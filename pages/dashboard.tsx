@@ -9,6 +9,7 @@ import MarketValue from "../components/MarketValue";
 import Borrowing from '../components/Borrowing';
 import Pools from '../components/Pools'
 import Rewards from '../components/Rewards';
+
 const Body = Styled(Box)`
 ${css({
     m: 'auto',
@@ -17,16 +18,16 @@ ${css({
 
 })}
 `;
-const ADDRESS = `terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m1q3`;
 
-const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
+
+const Dashboard: React.FC = ({ theme, changeTheme }: any) => {    
     return (
         <div>
             <Head>
                 <title>Tefi App | Dashboard</title>
             </Head>
             <div>
-                <Header theme={theme} changeTheme={changeTheme} address={ADDRESS} />
+                <Header theme={theme} changeTheme={changeTheme} address={""} />
                 <Body>
                     <MarketValue />
                     <Assets />

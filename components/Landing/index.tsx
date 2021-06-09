@@ -11,15 +11,15 @@ import {
   AddressSubmitText,
 } from './style';
 
-import useConnectWallet from '../../lib/useConnectWallet';
+import  useWallet from '../../lib/useWallet';
 import { AccAddress } from '@terra-money/terra.js';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 import {ADDRESS_KEY} from "../../constants";
 
 const Landing: React.FC = () => {
-  const { onConnect, wallet } = useConnectWallet();
+  const { onConnect, connectedWallet } = useWallet();
 
   const [address, setAddress] = useState<string>(null);
 
@@ -29,8 +29,16 @@ const Landing: React.FC = () => {
   };
 
   const router = useRouter();
+  
+  useEffect(() => {
+    if(connectedWallet?.terraAddress) {
+      router.push('/dashboard');
+    }
+  }, [connectedWallet?.terraAddress]);
+
 
   const validWalletAddress = useMemo(() => AccAddress.validate(address), [address]);
+
 
   const onAddressSubmit = () => {
     localStorage.setItem(ADDRESS_KEY, address);
@@ -46,12 +54,10 @@ const Landing: React.FC = () => {
         <Tefi>&nbsp;TeFi</Tefi>
       </Title>
 
-      <ConnectButton onClick={wallet ? undefined : onConnect}>
-        {wallet ? (
+      <ConnectButton onClick={connectedWallet?.terraAddress ? undefined : onConnect}>
+        {connectedWallet?.terraAddress  ? (
           <ConnectText>
-            {wallet?.address?.slice(0, 11) +
-              '....' +
-              wallet?.address?.slice(wallet?.address?.length - 11, wallet?.address?.length)}
+           Connected
           </ConnectText>
         ) : (
           <ConnectText>Connect Terra Station</ConnectText>
