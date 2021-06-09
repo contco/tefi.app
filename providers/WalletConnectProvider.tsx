@@ -3,7 +3,7 @@ import { NetworkInfo } from "@terra-money/wallet-provider"
 import { FC } from "react"
 import networks from "../utils/networks";
 
-const DynamicWalletProvider = dynamic(() => import('@terra-money/wallet-provider').then((module) => {
+const DynamicWalletProvider: any = dynamic(() => import('@terra-money/wallet-provider').then((module) => {
   return module.WalletProvider
 }), { ssr: false });
 
