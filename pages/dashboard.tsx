@@ -9,6 +9,8 @@ import MarketValue from '../components/MarketValue';
 import Borrowing from '../components/Borrowing';
 import Pools from '../components/Pools';
 import Rewards from '../components/Rewards';
+import { useQuery } from '@apollo/client';
+import { GET_ANC_ACCOUNT_DATA } from '../graphql/anc';
 
 const Body = Styled(Box)`
 ${css({
@@ -17,9 +19,15 @@ ${css({
   mt: 20,
 })}
 `;
-const ADDRESS = `terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m1q3`;
+const ADDRESS = `terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m0q3`;
 
 const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
+  const { loading, error, data } = useQuery(GET_ANC_ACCOUNT_DATA, { variables: { address: ADDRESS } });
+
+  if (loading) console.log(loading);
+  if (error) console.log(error);
+  if (data) console.log(data);
+
   return (
     <div>
       <Head>
