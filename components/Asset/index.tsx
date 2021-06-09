@@ -1,11 +1,14 @@
 import { AssetsTitle } from "../../constants";
-import { TotalAssets, AssetList } from "./dummy";
 import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText } from "../dashboardStyles";
 const HEADING_TEXT = `Assets`
 
-export interface AssetsProps { }
+export interface AssetsProps {mirrorAssets: any}
 
-const Assets: React.SFC<AssetsProps> = () => {
+const Assets: React.FC<AssetsProps> = ({mirrorAssets} : AssetsProps) => {
+    const getAssetsTotal = () => {
+        let mirrorTotal = mirrorAssets?.total.unstakedSum;
+        return mirrorTotal ?? 0;
+    }
     return (
         <Wrapper>
             <HeadingWrapper>
@@ -13,7 +16,7 @@ const Assets: React.SFC<AssetsProps> = () => {
                     {HEADING_TEXT}
                 </Heading>
                 <StyledText>
-                    {TotalAssets}
+                    ${parseInt(getAssetsTotal()).toFixed(3)}
                 </StyledText>
             </HeadingWrapper>
             <Row>
@@ -21,13 +24,13 @@ const Assets: React.SFC<AssetsProps> = () => {
                     <Title key={index}>{t}</Title>
                 )}
             </Row>
-            {AssetList.map((a, index) =>
-                <Row key={index}>
-                    <StyledText fontWeight={500}> {a.ticker}</StyledText>
-                    <StyledText fontWeight={500}> {a.name}</StyledText>
-                    <StyledText > {a.balance}</StyledText>
-                    <StyledText > {a.price}</StyledText>
-                    <StyledText > {a.value}</StyledText>
+            {mirrorAssets?.assets.map((asset, index) =>
+                <Row key={asset.symbol}>
+                    <StyledText fontWeight={500}> {asset.symbol}</StyledText>
+                    <StyledText fontWeight={500}> {asset.name}</StyledText>
+                    <StyledText > {asset.unstakedToken}</StyledText>
+                    <StyledText > {parseInt(asset.price).toFixed(3)}</StyledText>
+                    <StyledText > {parseInt(asset.unstakedUstValue).toFixed(3)}</StyledText>
                 </Row>
             )}
         </Wrapper>

@@ -9,6 +9,8 @@ import MarketValue from "../components/MarketValue";
 import Borrowing from '../components/Borrowing';
 import Pools from '../components/Pools'
 import Rewards from '../components/Rewards';
+import {useQuery} from "@apollo/client";
+import {getAssets} from "../graphql/queries/getAssets";
 
 import useWallet from "../lib/useWallet";
 
@@ -25,6 +27,8 @@ ${css({
 const Dashboard: React.FC = ({ theme, changeTheme }: any) => {    
     const {useConnectedWallet} = useWallet();
     const connectedWallet = useConnectedWallet();
+    const {data, loading, error} = useQuery(getAssets, {variables: {address: "terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m0q3"}});
+    console.log(data);
     return (
         <div>
             <Head>
@@ -34,7 +38,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
                 <Header theme={theme} changeTheme={changeTheme} address={connectedWallet?.terraAddress} />
                 <Body>
                     <MarketValue />
-                    <Assets />
+                    <Assets mirrorAssets={data?.assets?.mirror || {}} />
                     <Borrowing />
                     <Rewards />
                     <Pools />

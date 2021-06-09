@@ -85,12 +85,11 @@ export const getAccountData = async (address: string) => {
       rewardsSum = plus(rewardsSum, poolData.rewardsUstValue);
     }
     if (poolData || stakeableTokenData) {
-      poolList.push({ symbol: listing.symbol, ...poolData, ...stakeableTokenData });
+      poolList.push({ symbol: listing.symbol, name: listing.name, price: priceResult,  ...poolData, ...stakeableTokenData });
     }
 
     return poolList;
   }, []);
   let account = { assets: result, total: { rewardsSum, stakedSum, unstakedSum } };
-  console.log(account);
   return account;
 };
