@@ -25,7 +25,7 @@ const typeDefs = gql`
   type BorrowData {
     reward: Reward
     limit: String!
-    value: String!
+    value: String
     collaterals: UserCollateral!
   }
 
