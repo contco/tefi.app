@@ -4,17 +4,16 @@ import Header from '../components/Header';
 import Landing from '../components/Landing';
 
 
-import {getAccountData} from "./api/mirror/getAccountData";
+import { getAccountData } from "./api/mirror/getAccountData";
 
 
 const Home: React.FC = ({ theme, changeTheme }: any) => {
-
   useEffect(() => {
-    async function call () {
+    async function call() {
       getAccountData("terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m0q3");
     }
     call();
-  })
+  });
   return (
     <div>
       <Head>
