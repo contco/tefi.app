@@ -14,7 +14,6 @@ const walletConnectChainIds: Record<number, NetworkInfo> = {
 }
 
 const WalletConnectProvider: FC = ({ children }) => {
-console.log(DynamicWalletProvider); 
 return (
   <DynamicWalletProvider
     defaultNetwork={networks.mainnet}

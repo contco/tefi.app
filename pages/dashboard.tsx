@@ -10,6 +10,8 @@ import Borrowing from '../components/Borrowing';
 import Pools from '../components/Pools'
 import Rewards from '../components/Rewards';
 
+import useWallet from "../lib/useWallet";
+
 const Body = Styled(Box)`
 ${css({
     m: 'auto',
@@ -21,13 +23,15 @@ ${css({
 
 
 const Dashboard: React.FC = ({ theme, changeTheme }: any) => {    
+    const {useConnectedWallet} = useWallet();
+    const connectedWallet = useConnectedWallet();
     return (
         <div>
             <Head>
                 <title>Tefi App | Dashboard</title>
             </Head>
             <div>
-                <Header theme={theme} changeTheme={changeTheme} address={""} />
+                <Header theme={theme} changeTheme={changeTheme} address={connectedWallet?.terraAddress} />
                 <Body>
                     <MarketValue />
                     <Assets />

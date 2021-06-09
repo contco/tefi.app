@@ -1,11 +1,9 @@
 const useWalletConnect = () => {
-
   if(typeof window !== undefined) {
     const {ConnectType, useWallet, useConnectedWallet}= require("@terra-money/wallet-provider");
     
-    const { availableConnectTypes, availableInstallTypes, connect, install } = useWallet();
-    const connectedWallet = useConnectedWallet();
-    
+    const { availableConnectTypes, availableInstallTypes, connect, install, disconnect } = useWallet();
+
     const onConnect = () => {
       if(availableInstallTypes.includes(ConnectType.CHROME_EXTENSION)) {
         install(ConnectType.CHROME_EXTENSION)
@@ -17,10 +15,10 @@ const useWalletConnect = () => {
         connect(ConnectType.WEBEXTENSION);
       }
     }
-    return {onConnect, connectedWallet};
+    return {onConnect, useConnectedWallet, disconnect};
   }
 
-  return {onConnect: null, connectedWallet: null};
+  return {onConnect: null, connectedWallet: null, disconnect: null};
 
 };
 

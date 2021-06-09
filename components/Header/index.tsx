@@ -1,7 +1,7 @@
 import React from 'react';
 import { LIGHT_THEME } from '../../constants';
 import { Container, LeftSection, StyledLogoIcon, StyledTitle, RightSection, WalletContainer, WalletIcon, StyledAddressText, CloseIcon, SwitchContainer, LightSwitchIcon, DarkSwitchIcon } from "./style";
-import Link from 'next/link'
+import useWallet from "../../lib/useWallet";
 
 type Props = {
   theme: string;
@@ -10,6 +10,10 @@ type Props = {
 };
 const Header: React.FC<Props> = ({ theme, changeTheme, address }) => {
   const slicedAddress = `${address?.slice(0, 6) + '....' + address?.slice(address?.length - 6, address?.length)}`
+  const {disconnect} = useWallet();
+  const onDisconnect = () => {
+    disconnect();
+  }
   return (
     <Container>
       <LeftSection>
@@ -25,9 +29,7 @@ const Header: React.FC<Props> = ({ theme, changeTheme, address }) => {
             <StyledAddressText>
               {slicedAddress}
             </StyledAddressText>
-            <Link href="/">
-              <CloseIcon />
-            </Link>
+              <CloseIcon onClick={onDisconnect}/>
           </WalletContainer>
           : ''}
         <SwitchContainer>
