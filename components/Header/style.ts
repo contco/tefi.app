@@ -57,7 +57,29 @@ export const StyledTitle = styled(Text)`
  }
 `;
 
+export const WalletCopyContainer = styled(Flex)`
+  position: relative;
+  justify-content: center;
+  align-items:center;
+`;
 
+export const WalletCopyTooltip = styled(Flex)`
+  position: absolute;
+  width: 44px;
+  height: 20px;
+  background-color: green;
+  top: 20px;
+  left: -10px;
+  font-size: 8px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 25px;
+  opacity: ${props => props.isVisible ? 1 : 0};
+  ${css({
+    bg: '#555',
+    color: '#fff'
+  })}
+`;
 export const WalletIcon = styled(WALLET_ICON)`
 .wallet_svg__iconElement  {
   transition: all 0.3s ease-in;
