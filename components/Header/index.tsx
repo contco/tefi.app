@@ -12,15 +12,10 @@ const Header: React.FC<Props> = ({ theme, changeTheme, address }) => {
   const slicedAddress = `${address?.slice(0, 6) + '....' + address?.slice(address?.length - 6, address?.length)}`
   const [isVisible ,setVisible] = useState<boolean>(false);
   const onCopyClick = () => {
-    navigator.permissions.query({name: "clipboard-write"}).then(result => {
-      if (result.state == "granted" || result.state == "prompt") {
         navigator.clipboard.writeText(address);
         setVisible(true);
         setTimeout(() => setVisible(false), 1000);
-      }
-    });
-  }
-  console.log(isVisible);
+    };
   return (
     <Container>
       <LeftSection>
