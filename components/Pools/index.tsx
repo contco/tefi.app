@@ -5,9 +5,16 @@ import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, HoverText } f
 const HEADING_TEXT = `Pools`
 
 
-export interface PoolsProps { }
+export interface PoolsProps {ancAssets: any  }
 
-const Pools: React.SFC<PoolsProps> = () => {
+const Pools: React.SFC<PoolsProps> = ({ancAssets}) => {
+
+    const name = ancAssets.pool.reward?.name;
+    const balance = ancAssets.pool?.balance;
+    const staked = ancAssets.pool.reward?.staked;
+
+    // console.log(name, balance, staked)
+
     return (
         <Wrapper>
             <HeadingWrapper>

@@ -7,6 +7,7 @@ export const GET_ANC_ACCOUNT_DATA = gql`
         asset {
           amount
           symbol
+          price
         }
         debt {
           reward {

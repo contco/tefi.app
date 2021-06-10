@@ -20,9 +20,16 @@ const StyledPercentage = Styled(Flex)`
 })}
 `;
 
-export interface BorrowingProps { }
+export interface BorrowingProps { ancAssets: any }
 
-const Borrowing: React.SFC<BorrowingProps> = () => {
+const Borrowing: React.SFC<BorrowingProps> = ({ancAssets}) => {
+
+    const collateral = ancAssets.debt.collaterals.balance;
+    const value = ancAssets.debt.value;
+    const apy = ancAssets.debt.reward.apy;
+
+    // console.log(collateral, value, apy);
+
     return (
         <Wrapper css={`${css({ mb: 0 })}`}>
             <HeadingWrapper>

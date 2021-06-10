@@ -3,9 +3,13 @@ import { TotalAssets, AssetList } from "./dummy";
 import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText } from "../dashboardStyles";
 const HEADING_TEXT = `Assets`
 
-export interface AssetsProps { }
+export interface AssetsProps {ancAssets: any }
 
-const Assets: React.SFC<AssetsProps> = () => {
+const Assets: React.SFC<AssetsProps> = ({ancAssets}) => {
+
+
+    console.log(ancAssets.asset);
+
     return (
         <Wrapper>
             <HeadingWrapper>

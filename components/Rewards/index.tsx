@@ -9,9 +9,16 @@ const CSS_APR = props => css({
     fontWeight: 500,
     color: props.theme.colors.secondary
 });
-export interface RewardsProps { }
+export interface RewardsProps { ancAssets: any }
 
-const Rewards: React.SFC<RewardsProps> = () => {
+const Rewards: React.SFC<RewardsProps> = ({ancAssets}) => {
+
+    const poolRewards = ancAssets.pool.reward;
+    const borrowRewards = ancAssets.debt.reward;
+    const govRewards = ancAssets.gov.reward;
+
+    // console.log(poolRewards, borrowRewards, govRewards);
+
     return (
         <Wrapper>
             <HeadingWrapper>
