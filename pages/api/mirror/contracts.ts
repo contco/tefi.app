@@ -1,4 +1,4 @@
-import networks from "./networks";
+import networks from "../../../utils/networks";
 
 const UUSD = "uusd"
 

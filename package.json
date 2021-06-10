@@ -31,6 +31,7 @@
     "@mirror-protocol/mirror.js": "^1.1.7",
     "@styled-system/css": "^5.1.5",
     "@terra-money/terra.js": "^1.7.0",
+    "@terra-money/wallet-provider": "^0.15.0",
     "add": "^2.0.6",
     "apollo-server-micro": "^2.23.0",
     "bignumber.js": "^9.0.1",
@@ -40,6 +41,7 @@
     "next": "10.0.9",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "react-router-dom": "^5.2.0",
     "styled-components": "^5.2.1",
     "styled-system": "^5.1.5"
   },
