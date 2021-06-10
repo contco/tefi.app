@@ -1,7 +1,7 @@
 
 import styled from 'styled-components';
 import css from '@styled-system/css';
-import { Flex, Box, Text } from '@contco/core-ui';
+import { Flex,Text } from '@contco/core-ui';
 import LIGHT_SWITCH_ICON from '../../public/light-switch.svg';
 import DARK_SWITCH_ICON from '../../public/dark-switch.svg';
 import WALLET_ICON from "../../public/wallet.svg";
@@ -57,34 +57,14 @@ export const StyledTitle = styled(Text)`
  }
 `;
 
-export const RightSection = styled(Flex)`
-  ${css({
-  flexDirection: 'row',
-  justifyContent: 'flex-end',
-  alignItems: 'center',
-  mr: [1, null, null, 3],
-  width: [150, null, 480],
-})}
-`;
 
-export const WalletContainer = styled(Flex)`
-${props => css({
-  width: 150,
-  height: 35,
-  borderRadius: 50,
-  border: `solid 2px ${props.theme.colors.secondary}`,
-  mr: [1, null, null, 3],
-  cursor: 'pointer',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  textAlign: 'center',
-  p: 1
-})}
-`;
 export const WalletIcon = styled(WALLET_ICON)`
+.wallet_svg__iconElement  {
+  transition: all 0.3s ease-in;
+}
+
 ${props => css({
   transform: ['scale(0.6)', null, null, null, 'scale(0.5)'],
-  transition: 'opacity 0.3s',
   '.wallet_svg__iconElement': {
     fill: props.theme.colors.secondary,
     width: 40,
@@ -95,6 +75,7 @@ ${props => css({
   }
 `;
 export const StyledAddressText = styled(Text)`
+transition: all 0.3s ease-in;
   ${props => css({
   color: props.theme.colors.secondary,
   fontSize: ['6px', null, '8px'],
@@ -107,17 +88,47 @@ export const StyledAddressText = styled(Text)`
 export const CloseIcon = styled(CLOSE_ICON)`
 ${css({
   transform: ['scale(0.5)', null, null, null, 'scale(0.5)'],
-  transition: 'opacity 0.3s',
-  width: 30
+  width: 30,
+  color: 'secondary'
 })}
-& > * {
-  stroke: ${(props) => props.theme.colors.secondary};
-}
+transition: all 0.3s ease-in;
   &:hover {
     opacity: 0.7;
   }
 `;
 
+export const RightSection = styled(Flex)`
+  ${css({
+  flexDirection: 'row',
+  justifyContent: 'flex-end',
+  alignItems: 'center',
+  mr: [1, null, null, 3],
+  width: [150, null, 480],
+})}
+`;
+
+export const WalletContainer = styled(Flex)`
+&:hover ${WalletIcon} .wallet_svg__iconElement, &:hover ${StyledAddressText}, &:hover ${CloseIcon} {
+  fill: ${props => props.theme.colors.primary};  
+  color: ${props => props.theme.colors.primary}
+};
+transition: all 0.3s ease-in;
+${props => css({
+  width: 150,
+  height: 35,
+  borderRadius: 50,
+  border: `solid 2px ${props.theme.colors.secondary}`,
+  mr: [1, null, null, 3],
+  cursor: 'pointer',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  textAlign: 'center',
+  p: 1,
+  '&:hover': {
+    bg: 'secondary'
+  }
+})}
+`;
 export const SwitchContainer = styled(Flex)`
   ${props => css({
   color: props.theme.colors.secondary,
