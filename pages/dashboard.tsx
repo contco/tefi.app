@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState} from 'react';
 import Head from 'next/head';
 import css from '@styled-system/css'
 import Styled from "styled-components";
@@ -9,6 +9,7 @@ import MarketValue from "../components/MarketValue";
 import Borrowing from '../components/Borrowing';
 import Pools from '../components/Pools'
 import Rewards from '../components/Rewards';
+import {ADDRESS_KEY, LOCAL_ADDRESS_TYPE, WALLET_ADDRESS_TYPE} from "../constants";
 
 import useWallet from "../lib/useWallet";
 
@@ -22,16 +23,32 @@ ${css({
 `;
 
 
-const Dashboard: React.FC = ({ theme, changeTheme }: any) => {    
+const Dashboard: React.FC = ({ theme, changeTheme }: any) => { 
+    
+    const [address, setAddress] = useState<string>('');
+    const [addressType, setAddressType] = useState<string>(WALLET_ADDRESS_TYPE);
     const {useConnectedWallet} = useWallet();
     const connectedWallet = useConnectedWallet();
+
+    useEffect(() => {
+      let localAddress = localStorage.getItem(ADDRESS_KEY);
+      let walletAddress = connectedWallet?.terraAddress;
+      if(localAddress) {
+        setAddress(localAddress);
+        setAddressType(LOCAL_ADDRESS_TYPE);
+      };
+      if (walletAddress) {
+        setAddress(walletAddress);
+        setAddressType(WALLET_ADDRESS_TYPE);
+      }
+    }, [])
     return (
         <div>
             <Head>
                 <title>Tefi App | Dashboard</title>
             </Head>
             <div>
-                <Header theme={theme} changeTheme={changeTheme} address={connectedWallet?.terraAddress} />
+                <Header theme={theme} changeTheme={changeTheme} addressType={addressType} address={address} />
                 <Body>
                     <MarketValue />
                     <Assets />
