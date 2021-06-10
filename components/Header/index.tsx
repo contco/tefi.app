@@ -10,6 +10,14 @@ type Props = {
 };
 const Header: React.FC<Props> = ({ theme, changeTheme, address }) => {
   const slicedAddress = `${address?.slice(0, 6) + '....' + address?.slice(address?.length - 6, address?.length)}`
+  
+  const onCopyClick = () => {
+    navigator.permissions.query({name: "clipboard-write"}).then(result => {
+      if (result.state == "granted" || result.state == "prompt") {
+        navigator.clipboard.writeText(address);
+      }
+    });
+  }
   return (
     <Container>
       <LeftSection>
@@ -21,7 +29,7 @@ const Header: React.FC<Props> = ({ theme, changeTheme, address }) => {
       <RightSection>
         {address ?
           <WalletContainer>
-            <WalletIcon />
+            <WalletIcon onClick={onCopyClick} />
             <StyledAddressText>
               {slicedAddress}
             </StyledAddressText>
