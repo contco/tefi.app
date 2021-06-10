@@ -29,6 +29,10 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     const connectedWallet = useConnectedWallet();
     const {data, loading, error} = useQuery(getAssets, {variables: {address: "terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m0q3"}});
     console.log(data);
+    if (loading) {
+        return <p>Loading</p>
+    };
+    
     return (
         <div>
             <Head>
@@ -40,7 +44,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
                     <MarketValue />
                     <Assets mirrorAssets={data?.assets?.mirror || {}} />
                     <Borrowing />
-                    <Rewards />
+                    <Rewards mirrorAssets={data?.assets?.mirror || {}} />
                     <Pools />
                 </Body>
             </div>

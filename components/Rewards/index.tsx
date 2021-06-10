@@ -1,17 +1,27 @@
 import css from '@styled-system/css'
 import { RewardsTitle } from "../../constants";
-import { TotalRewards, RewardList } from "./dummy";
 import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, HoverText } from "../dashboardStyles";
-
+import {times} from "../../pages/api/mirror/utils";
 const HEADING_TEXT = `Rewards`
 
 const CSS_APR = props => css({
     fontWeight: 500,
     color: props.theme.colors.secondary
 });
-export interface RewardsProps { }
+export interface RewardsProps {mirrorAssets: any}
 
-const Rewards: React.SFC<RewardsProps> = () => {
+const Rewards: React.FC<RewardsProps> = ({mirrorAssets}) => {
+   
+    const getRewardsTotal = () => {
+        const mirrorTotal = mirrorAssets?.total?.rewardsSum;
+        return mirrorTotal ?? 0;
+    };
+    
+    const formatApr = (apr = 0) => {
+      const aprPercentage = times(apr, 100);
+      return parseInt(aprPercentage).toFixed(2);
+    };
+
     return (
         <Wrapper>
             <HeadingWrapper>
@@ -19,7 +29,7 @@ const Rewards: React.SFC<RewardsProps> = () => {
                     {HEADING_TEXT}
                 </Heading>
                 <StyledText>
-                    {TotalRewards}
+                    ${parseInt(getRewardsTotal()).toFixed(3)}
                 </StyledText>
             </HeadingWrapper>
             <Row>
@@ -27,17 +37,18 @@ const Rewards: React.SFC<RewardsProps> = () => {
                     <Title key={index}>{t}</Title>
                 )}
             </Row>
-            {RewardList.map((a, index) =>
+
+            {mirrorAssets?.assets.map((assets, index) =>
                 <Row key={index}>
-                    <StyledText fontWeight='500'> {a.name}</StyledText>
-                    <StyledText isChildren={true}> {a.stacked?.LP}
+                    <StyledText fontWeight='500'> {assets?.name}</StyledText>
+                    <StyledText isChildren={true}> {parseInt(assets?.tokenStaked ?? '0').toFixed(3)} LP
                         <HoverText>
-                            {a.stacked?.mUSO} <br />
-                            {a.stacked?.UST}
+                            {assets?.symbol} <br />
+                            {"UST"}
                         </HoverText>
                     </StyledText>
-                    <StyledText css={CSS_APR}> {a.APR}</StyledText>
-                    <StyledText>{a.reward}</StyledText>
+                    <StyledText css={CSS_APR}> {formatApr(assets?.apr)}%</StyledText>
+                    <StyledText>{parseInt(assets?.rewards).toFixed(3)}</StyledText>
                 </Row>
             )}
         </Wrapper>

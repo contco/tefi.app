@@ -6,7 +6,7 @@ export interface AssetsProps {mirrorAssets: any}
 
 const Assets: React.FC<AssetsProps> = ({mirrorAssets} : AssetsProps) => {
     const getAssetsTotal = () => {
-        let mirrorTotal = mirrorAssets?.total.unstakedSum;
+        let mirrorTotal = mirrorAssets?.total?.unstakedSum;
         return mirrorTotal ?? 0;
     }
     return (
