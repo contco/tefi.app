@@ -1,13 +1,13 @@
 import React, { useEffect, useState} from 'react';
 import Head from 'next/head';
-import css from '@styled-system/css'
-import Styled from "styled-components";
-import { Box } from "@contco/core-ui";
+import css from '@styled-system/css';
+import Styled from 'styled-components';
+import { Box } from '@contco/core-ui';
 import Header from '../components/Header';
-import Assets from "../components/Asset";
-import MarketValue from "../components/MarketValue";
+import Assets from '../components/Asset';
+import MarketValue from '../components/MarketValue';
 import Borrowing from '../components/Borrowing';
-import Pools from '../components/Pools'
+import Pools from '../components/Pools';
 import Rewards from '../components/Rewards';
 import {ADDRESS_KEY, LOCAL_ADDRESS_TYPE, WALLET_ADDRESS_TYPE} from "../constants";
 
@@ -15,13 +15,11 @@ import useWallet from "../lib/useWallet";
 
 const Body = Styled(Box)`
 ${css({
-    m: 'auto',
-    width: ['90%', null, '75%'],
-    mt: 20,
-
+  m: 'auto',
+  width: ['90%', null, '75%'],
+  mt: 20,
 })}
 `;
-
 
 const Dashboard: React.FC = ({ theme, changeTheme }: any) => { 
     
@@ -60,6 +58,5 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
         </div>
     );
 };
-
 
 export default Dashboard;
