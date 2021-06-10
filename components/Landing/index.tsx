@@ -11,14 +11,16 @@ import {
   AddressSubmitText,
 } from './style';
 
-import useConnectWallet from '../../lib/useConnectWallet';
+import  useWallet from '../../lib/useWallet';
 import { AccAddress } from '@terra-money/terra.js';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
-const Landing: React.FC = () => {
-  const { connect, wallet } = useConnectWallet();
+import {ADDRESS_KEY} from "../../constants";
 
+const Landing: React.FC = () => {
+  const { onConnect, useConnectedWallet } = useWallet();
+  const connectedWallet = useConnectedWallet();
   const [address, setAddress] = useState<string>(null);
 
   const handleAddress = (e: any) => {
@@ -26,9 +28,17 @@ const Landing: React.FC = () => {
     setAddress(e.target.value);
   };
 
+  const router = useRouter();
+  
   const validWalletAddress = useMemo(() => AccAddress.validate(address), [address]);
 
-  const router = useRouter();
+
+  const onAddressSubmit = () => {
+    localStorage.setItem(ADDRESS_KEY, address);
+    router.push('/dashboard');
+  };
+
+
 
   return (
     <Container>
@@ -37,12 +47,10 @@ const Landing: React.FC = () => {
         <Tefi>&nbsp;TeFi</Tefi>
       </Title>
 
-      <ConnectButton onClick={wallet ? undefined : connect}>
-        {wallet ? (
+      <ConnectButton onClick={onConnect}>
+        {connectedWallet?.terraAddress  ? (
           <ConnectText>
-            {wallet?.address?.slice(0, 11) +
-              '....' +
-              wallet?.address?.slice(wallet?.address?.length - 11, wallet?.address?.length)}
+           Connected
           </ConnectText>
         ) : (
           <ConnectText>Connect Terra Station</ConnectText>
@@ -52,12 +60,10 @@ const Landing: React.FC = () => {
       <OrText>or</OrText>
 
       <AddressContainer>
-        <AddressInput value={address} onChange={handleAddress} placeholder="Terra Address" />
+        <AddressInput defaultValue={address} onChange={handleAddress} placeholder="Terra Address" />
         <AddressSubmit
           disabled={!validWalletAddress}
-          onClick={() => {
-            router.push('/dashboard');
-          }}
+          onClick={onAddressSubmit}
         >
           <AddressSubmitText>Submit</AddressSubmitText>
         </AddressSubmit>
