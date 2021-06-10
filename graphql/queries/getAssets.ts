@@ -19,6 +19,7 @@ query getAssets($address: String!) {
         name
         rewards
         rewardsUstValue
+        lpBalance
       }
       total {
         stakedSum

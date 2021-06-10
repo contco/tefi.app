@@ -17,6 +17,7 @@ const typeDefs = gql`
     rewardsUstValue: String
     price: String
     name: String
+    lpBalance: String
   }
 
   type AssetsTotal {

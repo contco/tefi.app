@@ -11,6 +11,7 @@ import Pools from '../components/Pools'
 import Rewards from '../components/Rewards';
 import {useQuery} from "@apollo/client";
 import {getAssets} from "../graphql/queries/getAssets";
+import {getAccountData} from "./api/mirror/getAccountData";
 
 import useWallet from "../lib/useWallet";
 
@@ -32,7 +33,8 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     if (loading) {
         return <p>Loading</p>
     };
-    
+    getAccountData("terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m0q3")
+
     return (
         <div>
             <Head>
@@ -45,7 +47,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
                     <Assets mirrorAssets={data?.assets?.mirror || {}} />
                     <Borrowing />
                     <Rewards mirrorAssets={data?.assets?.mirror || {}} />
-                    <Pools />
+                    <Pools  mirrorAssets={data?.assets?.mirror || {}}/>
                 </Body>
             </div>
         </div>
