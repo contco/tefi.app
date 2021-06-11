@@ -17,7 +17,8 @@ const Rewards: React.SFC<RewardsProps> = ({ancAssets}) => {
     const borrowRewards = ancAssets.debt.reward;
     const govRewards = ancAssets.gov.reward;
 
-    // console.log(poolRewards, borrowRewards, govRewards);
+    const rewards = [poolRewards, borrowRewards, govRewards]
+
 
     return (
         <Wrapper>
@@ -34,16 +35,16 @@ const Rewards: React.SFC<RewardsProps> = ({ancAssets}) => {
                     <Title key={index}>{t}</Title>
                 )}
             </Row>
-            {RewardList.map((a, index) =>
+            {rewards.map((a, index) =>
                 <Row key={index}>
                     <StyledText fontWeight='500'> {a.name}</StyledText>
-                    <StyledText isChildren={true}> {a.stacked?.LP}
+                    <StyledText isChildren={true}> {parseFloat(a.staked).toFixed(3)}
                         <HoverText>
                             {a.stacked?.mUSO} <br />
                             {a.stacked?.UST}
                         </HoverText>
                     </StyledText>
-                    <StyledText css={CSS_APR}> {a.APR}</StyledText>
+                    <StyledText css={CSS_APR}> {parseFloat(a.apy).toFixed(3)}</StyledText>
                     <StyledText>{a.reward}</StyledText>
                 </Row>
             )}

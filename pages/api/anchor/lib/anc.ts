@@ -14,7 +14,7 @@ export const getAccount = async (address: any) => {
   const gov = await getGov();
 
   const result = {
-    asset: [
+    assets: [
       {
         amount: balance.toString(),
         price: price.toString(),

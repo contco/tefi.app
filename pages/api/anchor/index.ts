@@ -43,7 +43,7 @@ const typeDefs = gql`
   }
 
   type AccountANC {
-    asset: [Token]
+    assets: [Token]
     debt: BorrowData
     earn: EarnData
     pool: LPData

@@ -24,12 +24,7 @@ export interface BorrowingProps { ancAssets: any }
 
 const Borrowing: React.SFC<BorrowingProps> = ({ancAssets}) => {
 
-    const collateral = ancAssets.debt.collaterals.balance;
-    const value = ancAssets.debt.value;
-    const apy = ancAssets.debt.reward.apy;
-
-    // console.log(collateral, value, apy);
-
+    const borrows = [ancAssets.debt]
     return (
         <Wrapper css={`${css({ mb: 0 })}`}>
             <HeadingWrapper>
@@ -45,11 +40,11 @@ const Borrowing: React.SFC<BorrowingProps> = ({ancAssets}) => {
                     <Title key={index}>{t}</Title>
                 )}
             </Row>
-            {BorrowedList.map((a, index) =>
+            {borrows.map((a, index) =>
                 <Row key={index}>
-                    <StyledText> {a.collateralValue}</StyledText>
-                    <StyledText > {a.borrowedValue}</StyledText>
-                    <StyledText css={CSS_NET_APR}> {a.netAPR}
+                    <StyledText> {parseFloat(a.collaterals.collateral).toFixed(3)}</StyledText>
+                    <StyledText > {parseFloat(a.value).toFixed(3)}</StyledText>
+                    <StyledText css={CSS_NET_APR}> {parseFloat(a.reward.apy).toFixed(3)}
                     </StyledText>
                 </Row>
             )}

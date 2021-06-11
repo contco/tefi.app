@@ -1,5 +1,5 @@
 import { PoolsTitle } from "../../constants";
-import { TotalPool, PoolList } from "./dummy";
+import { TotalPool } from "./dummy";
 import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, HoverText } from "../dashboardStyles";
 
 const HEADING_TEXT = `Pools`
@@ -9,11 +9,7 @@ export interface PoolsProps {ancAssets: any  }
 
 const Pools: React.SFC<PoolsProps> = ({ancAssets}) => {
 
-    const name = ancAssets.pool.reward?.name;
-    const balance = ancAssets.pool?.balance;
-    const staked = ancAssets.pool.reward?.staked;
-
-    // console.log(name, balance, staked)
+    const pools = [ancAssets.pool]
 
     return (
         <Wrapper>
@@ -30,17 +26,17 @@ const Pools: React.SFC<PoolsProps> = ({ancAssets}) => {
                     <Title key={index}>{t}</Title>
                 )}
             </Row>
-            {PoolList.map((a, index) =>
+            {pools.map((a, index) =>
                 <Row key={index}>
-                    <StyledText fontWeight={500}> {a.name}</StyledText>
+                    <StyledText fontWeight={500}> {a.reward.name}</StyledText>
                     <StyledText isChildren={true}>
-                        {a.balance.LP}
+                        {parseFloat(a.staked).toFixed(3)}
                         <HoverText>
                             {a.balance.mUSO} <br />
                             {a.balance.UST}
                         </HoverText>
                     </StyledText>
-                    <StyledText > {a.value}</StyledText>
+                    <StyledText > {parseFloat(a.balance).toFixed(3)}</StyledText>
                 </Row>
             )}
         </Wrapper>

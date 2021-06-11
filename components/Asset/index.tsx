@@ -1,14 +1,11 @@
 import { AssetsTitle } from "../../constants";
-import { TotalAssets, AssetList } from "./dummy";
+import { TotalAssets } from "./dummy";
 import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText } from "../dashboardStyles";
 const HEADING_TEXT = `Assets`
 
 export interface AssetsProps {ancAssets: any }
 
 const Assets: React.SFC<AssetsProps> = ({ancAssets}) => {
-
-
-    console.log(ancAssets.asset);
 
     return (
         <Wrapper>
@@ -25,12 +22,12 @@ const Assets: React.SFC<AssetsProps> = ({ancAssets}) => {
                     <Title key={index}>{t}</Title>
                 )}
             </Row>
-            {AssetList.map((a, index) =>
+            {ancAssets.assets.map((a, index) =>
                 <Row key={index}>
-                    <StyledText fontWeight={500}> {a.ticker}</StyledText>
-                    <StyledText fontWeight={500}> {a.name}</StyledText>
-                    <StyledText > {a.balance}</StyledText>
-                    <StyledText > {a.price}</StyledText>
+                    <StyledText fontWeight={500}> {a.symbol}</StyledText>
+                    <StyledText fontWeight={500}> {a.symbol}</StyledText>
+                    <StyledText > {parseFloat(a.amount).toFixed(3)}</StyledText>
+                    <StyledText > {parseFloat(a.price).toFixed(3)}</StyledText>
                     <StyledText > {a.value}</StyledText>
                 </Row>
             )}

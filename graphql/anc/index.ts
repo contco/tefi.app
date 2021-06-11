@@ -1,10 +1,10 @@
-import { gql } from '@apollo/client';
+import { gql } from 'graphql-tag';
 
 export const GET_ANC_ACCOUNT_DATA = gql`
   query getAncAccount($address: String!) {
     assets(address: $address) {
       anchor {
-        asset {
+        assets {
           amount
           symbol
           price

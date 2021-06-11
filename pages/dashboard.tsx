@@ -22,6 +22,7 @@ ${css({
 const ADDRESS = `terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m0q3`;
 
 const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
+
   const { loading, error, data } = useQuery(GET_ANC_ACCOUNT_DATA, { variables: { address: ADDRESS } });
 
   if (loading) return <p>Loading</p>;
