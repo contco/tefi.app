@@ -124,3 +124,9 @@ interface TotalSupply {
     lpTokenBalance: Dictionary<Balance>
     stakingReward: StakingReward
   }
+
+  type Formatter = (
+  amount?: string,
+  symbol?: string,
+  config?: FormatConfig
+) => string

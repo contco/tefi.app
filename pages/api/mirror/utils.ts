@@ -1,4 +1,5 @@
 import BN from "bignumber.js"
+import numeral from "numeral";
 import MIRROR_ASSETS from "./mirrorAssets.json";
 
 
@@ -9,12 +10,15 @@ export const STAKING_CONTRACT = "terra17f7zu97865jmknk7p2glqvxzhduk78772ezac5";
 export const UUSD = "uusd";
 export const MIR = "MIR";
 export const UNIT = 1000000;
+export const sum = (array: BN.Value[]): string => array.length ? BN.sum.apply(null, array.filter(isFinite)).toString() : "0";
 export const plus = (a?: BN.Value, b?: BN.Value): string => new BN(a || 0).plus(b || 0).toString()
 export const div = (a?: BN.Value, b?: BN.Value): string => new BN(a || 0).div(b || 1).toString();
 export const gt = (a: BN.Value, b: BN.Value): boolean => new BN(a).gt(b);
 export const times = (a?: BN.Value, b?: BN.Value): string => new BN(a || 0).times(b || 0).toString();
 export const floor = (n: BN.Value): string => new BN(n).integerValue(BN.ROUND_FLOOR).toString();
-
+export const dp = (symbol?: string) =>!symbol || lookupSymbol(symbol) === "UST" ? 3 : 6;
+export const SMALLEST = 1e6;
+const rm = BN.ROUND_DOWN;
   
 const stringify = (msg: object) => JSON.stringify(msg).replace(/"/g, '\\"');
 
@@ -208,3 +212,37 @@ export const fromLP =  (
     }),
     {} as { asset: Asset; uusd: Asset }
   );
+
+  export const lookup: Formatter = (amount = "0", symbol, config) => {
+    const value = symbol
+      ? new BN(amount).div(SMALLEST).dp(6, rm)
+      : new BN(amount)
+  
+    return value
+      .dp(
+        config?.dp ??
+          (config?.integer ? 0 : value.gte(SMALLEST) ? 2 : dp(symbol)),
+        rm
+      )
+      .toString()
+  };
+
+  export const lookupSymbol = (symbol?: string) =>
+  symbol === "uluna"
+    ? "Luna"
+    : symbol?.startsWith("u")
+    ? symbol.slice(1, 3).toUpperCase() + "T"
+    : symbol ?? "";
+
+    
+  export const format: Formatter = (amount, symbol, config) => {
+    const value = new BN(lookup(amount, symbol, config))
+    const formatted = value.gte(SMALLEST)
+      ? numeral(value.div(1e4).integerValue(rm).times(1e4)).format("0,0.[00]a")
+      : numeral(value).format(config?.integer ? "0,0" : "0,0.[000000]")
+    return formatted.toUpperCase();
+  }
+  
+  export const formatAsset: Formatter = (amount, symbol, config) =>
+    symbol ? `${format(amount, symbol, config)}` : ""
+  

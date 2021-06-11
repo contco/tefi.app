@@ -4,8 +4,10 @@ import { getStakingPool } from './getStakingPool';
 import { getPairPool } from './getPairPool';
 import { getAssetsStats } from './getAssetsStats';
 import { getTokenBalance } from './getTokenBalance';
+import {getAirdrops} from "./getAirdrops";
 import { balance, BalanceKey, PriceKey, parsePairPool, UUSD, fromLP, price, div, UNIT, times, plus } from './utils';
 import MIRROR_ASSETS from './mirrorAssets.json';
+const MIR_TOKEN = MIRROR_ASSETS[0].token;
 
 export const getPoolValues = (lpDetails, priceResult) => {
   const item1Balance = div(lpDetails.asset.amount, UNIT);
@@ -60,6 +62,8 @@ export const getAccountData = async (address: string) => {
 
   let poolBalance = balance[BalanceKey.LPTOTAL](results[0], results[1]);
   let rewardsBalance = balance[BalanceKey.REWARD](results[3], results[1]);
+  let mirPrice = price["pair"](results[2])[MIR_TOKEN];
+  let mirrorAirdrops = await getAirdrops(address, mirPrice);
   let result = MIRROR_ASSETS.reduce((poolList, listing: ListedItem) => {
     let lpBalance;
     let poolData;
@@ -92,6 +96,6 @@ export const getAccountData = async (address: string) => {
 
     return poolList;
   }, []);
-  let account = { assets: result, total: { rewardsSum, stakedSum, unstakedSum } };
+  let account = { assets: result, airdrops: mirrorAirdrops, total: { rewardsSum, stakedSum, unstakedSum } };
   return account;
 };
