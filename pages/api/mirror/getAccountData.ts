@@ -63,7 +63,7 @@ export const getAccountData = async (address: string) => {
   let poolBalance = balance[BalanceKey.LPTOTAL](results[0], results[1]);
   let rewardsBalance = balance[BalanceKey.REWARD](results[3], results[1]);
   let mirPrice = price["pair"](results[2])[MIR_TOKEN];
-  let mirrorAirdrops = await getAirdrops(address, mirPrice);
+  let {mirrorAirdrops, airdropSum} = await getAirdrops(address, mirPrice);
   let result = MIRROR_ASSETS.reduce((poolList, listing: ListedItem) => {
     let lpBalance;
     let poolData;
@@ -96,6 +96,6 @@ export const getAccountData = async (address: string) => {
 
     return poolList;
   }, []);
-  let account = { assets: result, airdrops: mirrorAirdrops, total: { rewardsSum, stakedSum, unstakedSum } };
+  let account = { assets: result, airdrops: mirrorAirdrops, total: { rewardsSum, stakedSum, unstakedSum, airdropSum} };
   return account;
 };

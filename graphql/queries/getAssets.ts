@@ -31,6 +31,7 @@ query getAssets($address: String!) {
         stakedSum
         rewardsSum
         unstakedSum
+        airdropSum
       }
     }
   }

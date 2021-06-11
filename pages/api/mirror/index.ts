@@ -24,6 +24,7 @@ const typeDefs = gql`
     rewardsSum: String!
     stakedSum: String!
     unstakedSum: String!
+    airdropSum: String!
   }
 
   type Airdrops {

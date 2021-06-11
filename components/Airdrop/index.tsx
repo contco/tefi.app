@@ -9,7 +9,7 @@ export interface AirdropsProps {mirrorAssets: any};
 const Airdrops: React.FC<AirdropsProps> = ({mirrorAssets}) => {
 
     const getAirdropTotal = () => {
-        const mirrorTotal = mirrorAssets?.total?.stakedSum;
+        const mirrorTotal = mirrorAssets?.total?.airdropSum;
         return mirrorTotal ?? 0;
     };
     
