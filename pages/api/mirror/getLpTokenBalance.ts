@@ -1,7 +1,7 @@
 import MIRROR_ASSETS from './mirrorAssets.json';
 import { gql } from '@apollo/client';
 import { request } from 'graphql-request';
-import networks from './networks';
+import networks from '../../../utils/networks';
 import { alias, parse } from './utils';
 
 const PAIR_POOL = 'PairPool';
