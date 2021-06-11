@@ -3,6 +3,7 @@ import Head from 'next/head';
 import css from '@styled-system/css'
 import Styled from "styled-components";
 import { Box } from "@contco/core-ui";
+import Loading from "../components/Loading";
 import Header from '../components/Header';
 import Assets from "../components/Asset";
 import MarketValue from "../components/MarketValue";
@@ -29,13 +30,15 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     const {useConnectedWallet} = useWallet();
     const connectedWallet = useConnectedWallet();
     const {data, loading, error} = useQuery(getAssets, {variables: {address: "terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m0q3"}})
+    
     if (loading) {
-        return <p>Loading</p>
-    };
+        return <Loading />;
+    }
+
     if (error) {
         return <p>Error</p>
-    };
-   console.log(data);
+    }
+
     return (
         <div>
             <Head>
