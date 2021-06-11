@@ -21,6 +21,12 @@ query getAssets($address: String!) {
         rewardsUstValue
         lpBalance
       }
+      airdrops {
+        symbol
+        quantity
+        price 
+        round
+      }
       total {
         stakedSum
         rewardsSum

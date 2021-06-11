@@ -9,9 +9,9 @@ import MarketValue from "../components/MarketValue";
 import Borrowing from '../components/Borrowing';
 import Pools from '../components/Pools'
 import Rewards from '../components/Rewards';
+import Airdrops from "../components/Airdrop";
 import {useQuery} from "@apollo/client";
 import {getAssets} from "../graphql/queries/getAssets";
-import {getAccountData} from "./api/mirror/getAccountData";
 
 import useWallet from "../lib/useWallet";
 
@@ -28,13 +28,14 @@ ${css({
 const Dashboard: React.FC = ({ theme, changeTheme }: any) => {    
     const {useConnectedWallet} = useWallet();
     const connectedWallet = useConnectedWallet();
-    const {data, loading, error} = useQuery(getAssets, {variables: {address: "terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m0q3"}});
-    console.log(data);
+    const {data, loading, error} = useQuery(getAssets, {variables: {address: "terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m0q3"}})
     if (loading) {
         return <p>Loading</p>
     };
-    getAccountData("terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m0q3")
-
+    if (error) {
+        return <p>Error</p>
+    };
+   console.log(data);
     return (
         <div>
             <Head>
@@ -48,6 +49,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
                     <Borrowing />
                     <Rewards mirrorAssets={data?.assets?.mirror || {}} />
                     <Pools  mirrorAssets={data?.assets?.mirror || {}}/>
+                    <Airdrops  mirrorAssets={data?.assets?.mirror || {}}/>
                 </Body>
             </div>
         </div>
