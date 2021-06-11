@@ -22,7 +22,7 @@ query getAssets($address: String!) {
         lpBalance
       }
       airdrops {
-        symbol
+        name
         quantity
         price 
         round

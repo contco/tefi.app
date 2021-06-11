@@ -4,6 +4,7 @@ import networks from '../../../utils/networks';
 import { gt, MIR, plus, formatAsset, times} from './utils';
 
 const STATS_NETWORK = 'Terra';
+const MIRROR_TOKEN = "Mirror";
 
 const AIRDROP = gql`
   query airdrop($address: String!, $network: String = "TERRA") {
@@ -21,7 +22,7 @@ export const getAirdrops = async (address: string, price: string) => {
       let airdropQuantity = formatAsset(airdrop?.amount, MIR);
       let airdropPrice = times(airdropQuantity, price ?? 0);
       airdropSum = plus(airdropSum, airdropPrice);
-      return ({ quantity:airdropQuantity , price: airdropPrice, symbol: MIR, round: airdrop.stage ?? 0  })
+      return ({ quantity:airdropQuantity , price: airdropPrice, name: MIRROR_TOKEN, round: airdrop.stage ?? 0  })
     });
   return {mirrorAirdrops: contents, airdropSum};
 };

@@ -29,7 +29,7 @@ const Rewards: React.FC<RewardsProps> = ({mirrorAssets}) => {
                     {HEADING_TEXT}
                 </Heading>
                 <StyledText>
-                    ${parseInt(getRewardsTotal()).toFixed(3)}
+                    ${parseFloat(getRewardsTotal()).toFixed(3)}
                 </StyledText>
             </HeadingWrapper>
             <Row>
@@ -41,14 +41,14 @@ const Rewards: React.FC<RewardsProps> = ({mirrorAssets}) => {
             {mirrorAssets?.assets.map((assets, index) =>
                 <Row key={index}>
                     <StyledText fontWeight='500'> {assets?.name}</StyledText>
-                    <StyledText isChildren={true}> {parseInt(assets?.lpBalance)} LP
+                    <StyledText isChildren={true}> {parseFloat(assets?.lpBalance).toFixed(3)} LP
                         <HoverText>
-                            {parseInt(assets?.tokenStaked).toFixed(3)}{" "}{assets?.symbol} <br />
-                            {parseInt(assets?.ustStaked).toFixed(3) }{" "}{"UST"}
+                            {parseFloat(assets?.tokenStaked).toFixed(3)}{" "}{assets?.symbol} <br />
+                            {parseFloat(assets?.ustStaked).toFixed(3) }{" "}{"UST"}
                         </HoverText>
                     </StyledText>
                     <StyledText css={CSS_APR}> {formatApr(assets?.apr)}%</StyledText>
-                    <StyledText>${parseInt(assets?.rewardsUstValue).toFixed(3)}</StyledText>
+                    <StyledText>${parseFloat(assets?.rewardsUstValue).toFixed(3)}</StyledText>
                 </Row>
             )}
         </Wrapper>

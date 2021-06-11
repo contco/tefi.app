@@ -21,7 +21,7 @@ const Pools: React.FC<PoolsProps> = ({mirrorAssets}) => {
                     {HEADING_TEXT}
                 </Heading>
                 <StyledText>
-                ${parseInt(getPoolTotal()).toFixed(3)}
+                ${parseFloat(getPoolTotal()).toFixed(3)}
                 </StyledText>
             </HeadingWrapper>
             <Row>
@@ -33,13 +33,13 @@ const Pools: React.FC<PoolsProps> = ({mirrorAssets}) => {
                 <Row key={index}>
                     <StyledText fontWeight={500}> {assets?.name}</StyledText>
                     <StyledText isChildren={true}>
-                    {parseInt(assets?.lpBalance)} LP
+                    {parseFloat(assets?.lpBalance).toFixed(3)} LP
                         <HoverText>
-                        {parseInt(assets?.tokenStaked).toFixed(3)}{" "}{assets?.symbol} <br />
-                            {parseInt(assets?.ustStaked).toFixed(3) }{" "}{"UST"}
+                        {parseFloat(assets?.tokenStaked).toFixed(3)}{" "}{assets?.symbol} <br />
+                            {parseFloat(assets?.ustStaked).toFixed(3) }{" "}{"UST"}
                         </HoverText>
                     </StyledText>
-                    <StyledText > ${parseInt(assets?.stakeTotalUstValue).toFixed(3)}</StyledText>
+                    <StyledText > ${parseFloat(assets?.stakeTotalUstValue).toFixed(3)}</StyledText>
                 </Row>
             )}
         </Wrapper>

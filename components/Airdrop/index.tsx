@@ -25,14 +25,14 @@ const Airdrops: React.FC<AirdropsProps> = ({mirrorAssets}) => {
                 </StyledText>
             </HeadingWrapper>
             <Row>
-              <Title>Token</Title>
+              <Title>Name</Title>
               <Title>Round</Title>
               <Title>Reward</Title>
               <Title>Value</Title>
             </Row>
             {mirrorAssets?.airdrops.map((assets, index) =>
                 <Row key={index}>
-                    <StyledText fontWeight={500}> {assets?.symbol}</StyledText>
+                    <StyledText fontWeight={500}> {assets?.name}</StyledText>
                     <StyledText>{parseInt(assets?.round)} </StyledText>
                     <StyledText > ${parseFloat(assets?.quantity).toFixed(3)}</StyledText>
                     <StyledText > ${parseFloat(assets?.price).toFixed(3)}</StyledText>

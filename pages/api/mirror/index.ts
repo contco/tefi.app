@@ -31,7 +31,7 @@ const typeDefs = gql`
     price: String
     quantity: String
     round: Int
-    symbol: String
+    name: String
   }
 
   type Account {
