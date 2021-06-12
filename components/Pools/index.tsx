@@ -1,13 +1,19 @@
 import { PoolsTitle } from "../../constants";
-import { TotalPool, PoolList } from "./dummy";
 import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, HoverText } from "../dashboardStyles";
 
 const HEADING_TEXT = `Pools`
 
 
-export interface PoolsProps { }
+export interface PoolsProps {mirrorAssets: any};
 
-const Pools: React.SFC<PoolsProps> = () => {
+const Pools: React.FC<PoolsProps> = ({mirrorAssets}) => {
+
+    const getPoolTotal = () => {
+        const mirrorTotal = mirrorAssets?.total?.stakedSum;
+        return mirrorTotal ?? 0;
+    };
+    
+
     return (
         <Wrapper>
             <HeadingWrapper>
@@ -15,7 +21,7 @@ const Pools: React.SFC<PoolsProps> = () => {
                     {HEADING_TEXT}
                 </Heading>
                 <StyledText>
-                    {TotalPool}
+                ${parseInt(getPoolTotal()).toFixed(3)}
                 </StyledText>
             </HeadingWrapper>
             <Row>
@@ -23,17 +29,17 @@ const Pools: React.SFC<PoolsProps> = () => {
                     <Title key={index}>{t}</Title>
                 )}
             </Row>
-            {PoolList.map((a, index) =>
+            {mirrorAssets?.assets.map((assets, index) =>
                 <Row key={index}>
-                    <StyledText fontWeight={500}> {a.name}</StyledText>
+                    <StyledText fontWeight={500}> {assets?.name}</StyledText>
                     <StyledText isChildren={true}>
-                        {a.balance.LP}
+                    {parseInt(assets?.lpBalance)} LP
                         <HoverText>
-                            {a.balance.mUSO} <br />
-                            {a.balance.UST}
+                        {parseInt(assets?.tokenStaked).toFixed(3)}{" "}{assets?.symbol} <br />
+                            {parseInt(assets?.ustStaked).toFixed(3) }{" "}{"UST"}
                         </HoverText>
                     </StyledText>
-                    <StyledText > {a.value}</StyledText>
+                    <StyledText > ${parseInt(assets?.stakeTotalUstValue).toFixed(3)}</StyledText>
                 </Row>
             )}
         </Wrapper>

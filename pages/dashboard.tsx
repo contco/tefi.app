@@ -9,6 +9,8 @@ import MarketValue from '../components/MarketValue';
 import Borrowing from '../components/Borrowing';
 import Pools from '../components/Pools';
 import Rewards from '../components/Rewards';
+import {useQuery} from "@apollo/client";
+import {getAssets} from "../graphql/queries/getAssets";
 import {ADDRESS_KEY, LOCAL_ADDRESS_TYPE, WALLET_ADDRESS_TYPE} from "../constants";
 
 import useWallet from "../lib/useWallet";
@@ -28,6 +30,13 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     const {useConnectedWallet} = useWallet();
     const connectedWallet = useConnectedWallet();
 
+    const {data, loading, error} = useQuery(getAssets, {variables: {address: address}});
+
+    if (loading) {
+        return <p>Loading</p>
+    };
+
+
     useEffect(() => {
       let localAddress = localStorage.getItem(ADDRESS_KEY);
       let walletAddress = connectedWallet?.terraAddress;
@@ -40,6 +49,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
         setAddressType(WALLET_ADDRESS_TYPE);
       }
     }, [])
+    
     return (
         <div>
             <Head>
@@ -49,10 +59,10 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
                 <Header theme={theme} changeTheme={changeTheme} addressType={addressType} address={address} />
                 <Body>
                     <MarketValue />
-                    <Assets />
+                    <Assets mirrorAssets={data?.assets?.mirror || {}} />
                     <Borrowing />
-                    <Rewards />
-                    <Pools />
+                    <Rewards mirrorAssets={data?.assets?.mirror || {}} />
+                    <Pools  mirrorAssets={data?.assets?.mirror || {}}/>
                 </Body>
             </div>
         </div>
