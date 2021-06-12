@@ -22,7 +22,7 @@ ${css({
   mt: 20,
 })}
 `;
-const ADDRESS = `terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m0q3`;
+const ADDRESS = `terra18jg24fpqvjntm2wfc0p47skqccdr9ldtgl5ac9`;
 
 const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   const [address, setAddress] = useState<string>('');
