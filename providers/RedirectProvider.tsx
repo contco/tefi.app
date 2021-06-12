@@ -24,6 +24,7 @@ useEffect(() => {
    
 } ,[connectedWallet, router.pathname]);
 
+
 return (
   <>
   {children}
