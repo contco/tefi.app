@@ -16,9 +16,9 @@ export interface RewardsProps {
 }
 
 const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets }) => {
-  const poolRewards = ancAssets.pool.reward;
-  const borrowRewards = ancAssets.debt.reward;
-  const govRewards = ancAssets.gov.reward;
+  const poolRewards = ancAssets?.pool?.reward;
+  const borrowRewards = ancAssets?.debt?.reward;
+  const govRewards = ancAssets?.gov?.reward;
 
   const rewards = [poolRewards, borrowRewards, govRewards];
   const getRewardsTotal = () => {
@@ -44,10 +44,10 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets }) => {
       </Row>
       {rewards?.map((a, index) => (
         <Row key={index}>
-          <StyledText fontWeight="500"> {a.name}</StyledText>
-          <StyledText isChildren={true}> {parseFloat(a.staked).toFixed(3)}</StyledText>
-          <StyledText css={CSS_APR}> {parseFloat(a.apy).toFixed(3)}</StyledText>
-          <StyledText>{a.reward}</StyledText>
+          <StyledText fontWeight="500"> {a?.name}</StyledText>
+          <StyledText isChildren={true}> {parseFloat(a?.staked).toFixed(3)}</StyledText>
+          <StyledText css={CSS_APR}> {parseFloat(a?.apy).toFixed(3)}</StyledText>
+          <StyledText>{a?.reward}</StyledText>
         </Row>
       ))}
       {mirrorAssets?.assets.map((assets, index) => (

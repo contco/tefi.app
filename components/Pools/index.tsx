@@ -9,7 +9,7 @@ export interface PoolsProps {
 }
 
 const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets }) => {
-  const pools = [ancAssets.pool];
+  const pools = [ancAssets?.pool];
 
   const getPoolTotal = () => {
     const mirrorTotal = mirrorAssets?.total?.stakedSum;
@@ -29,9 +29,9 @@ const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets }) => {
       </Row>
       {pools?.map((a, index) => (
         <Row key={index}>
-          <StyledText fontWeight={500}> {a.reward.name}</StyledText>
-          <StyledText isChildren={true}>{parseFloat(a.staked).toFixed(3)}</StyledText>
-          <StyledText> {parseFloat(a.balance).toFixed(3)}</StyledText>
+          <StyledText fontWeight={500}> {a?.reward?.name}</StyledText>
+          <StyledText isChildren={true}>{parseFloat(a?.staked).toFixed(3)}</StyledText>
+          <StyledText> {parseFloat(a?.balance).toFixed(3)}</StyledText>
         </Row>
       ))}
       {mirrorAssets?.assets.map((assets, index) => (

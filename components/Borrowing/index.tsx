@@ -44,9 +44,9 @@ const Borrowing: React.SFC<BorrowingProps> = ({ ancAssets }) => {
       </Row>
       {borrows?.map((a, index) => (
         <Row key={index}>
-          <StyledText> {parseFloat(a.collaterals.collateral).toFixed(3)}</StyledText>
-          <StyledText> {parseFloat(a.value).toFixed(3)}</StyledText>
-          <StyledText css={CSS_NET_APR}> {parseFloat(a.reward.apy).toFixed(3)}</StyledText>
+          <StyledText> {parseFloat(a?.collaterals[0]?.balance).toFixed(3)}</StyledText>
+          <StyledText> {parseFloat(a?.value).toFixed(3)}</StyledText>
+          <StyledText css={CSS_NET_APR}> {parseFloat(a?.reward?.apy).toFixed(3)}</StyledText>
         </Row>
       ))}
       <StyledPercentage>
