@@ -28,7 +28,7 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets }) => {
 
   const formatApr = (apr = 0) => {
     const aprPercentage = times(apr, 100);
-    return parseInt(aprPercentage).toFixed(2);
+    return parseFloat(aprPercentage).toFixed(2);
   };
 
   return (
