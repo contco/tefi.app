@@ -23,25 +23,14 @@ ${css({
   mt: 20,
 })}
 `;
-const ADDRESS = `terra18jg24fpqvjntm2wfc0p47skqccdr9ldtgl5ac9`;
+const ADDRESS_ANC = `terra18jg24fpqvjntm2wfc0p47skqccdr9ldtgl5ac9`;
+const ADDRESS_MIR = 'terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m0q3';
 
 const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   const [address, setAddress] = useState<string>('');
   const [addressType, setAddressType] = useState<string>(WALLET_ADDRESS_TYPE);
   const { useConnectedWallet } = useWallet();
   const connectedWallet = useConnectedWallet();
-
-  const queryMultiple = () => {
-    const res1 = useQuery(GET_ANC_ACCOUNT_DATA, { variables: { address: ADDRESS } });
-    const res2 = useQuery(getAssets, { variables: { address: ADDRESS } });
-    return [res1, res2];
-  };
-
-  const [{ loading: loading1, data: data1 }, { loading: loading2, data: data2 }] = queryMultiple();
-
-  if (loading1 && loading2) {
-    return <p>Loading</p>;
-  }
 
   useEffect(() => {
     const localAddress = localStorage.getItem(ADDRESS_KEY);
@@ -56,6 +45,16 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     }
   }, []);
 
+  const { loading: load, data: ancdata } = useQuery(GET_ANC_ACCOUNT_DATA, {
+    variables: { address: ADDRESS_ANC },
+  });
+
+  const { data, loading } = useQuery(getAssets, { variables: { address: ADDRESS_MIR } });
+
+  if (loading || load) {
+    return <p>Loading</p>;
+  }
+
   return (
     <div>
       <Head>
@@ -65,10 +64,10 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
         <Header theme={theme} changeTheme={changeTheme} addressType={addressType} address={address} />
         <Body>
           <MarketValue />
-          <Assets mirrorAssets={data2?.assets?.mirror || {}} ancAssets={data1?.assets?.anchor || {}} />
-          <Borrowing ancAssets={data1?.assets?.anchor || {}} />
-          <Rewards mirrorAssets={data2?.assets?.mirror || {}} ancAssets={data1?.assets?.anchor || {}} />
-          <Pools mirrorAssets={data2?.assets?.mirror || {}} ancAssets={data1?.assets?.anchor || {}} />
+          <Assets mirrorAssets={data?.assets?.mirror || {}} ancAssets={ancdata?.assets?.anchor || {}} />
+          <Borrowing ancAssets={ancdata?.assets?.anchor || {}} />
+          <Rewards mirrorAssets={data?.assets?.mirror || {}} ancAssets={ancdata?.assets?.anchor || {}} />
+          <Pools mirrorAssets={data?.assets?.mirror || {}} ancAssets={ancdata?.assets?.anchor || {}} />
         </Body>
       </div>
     </div>

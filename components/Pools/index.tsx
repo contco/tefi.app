@@ -27,7 +27,7 @@ const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets }) => {
           <Title key={index}>{t}</Title>
         ))}
       </Row>
-      {pools.map((a, index) => (
+      {pools?.map((a, index) => (
         <Row key={index}>
           <StyledText fontWeight={500}> {a.reward.name}</StyledText>
           <StyledText isChildren={true}>{parseFloat(a.staked).toFixed(3)}</StyledText>

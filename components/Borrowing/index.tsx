@@ -42,7 +42,7 @@ const Borrowing: React.SFC<BorrowingProps> = ({ ancAssets }) => {
           <Title key={index}>{t}</Title>
         ))}
       </Row>
-      {borrows.map((a, index) => (
+      {borrows?.map((a, index) => (
         <Row key={index}>
           <StyledText> {parseFloat(a.collaterals.collateral).toFixed(3)}</StyledText>
           <StyledText> {parseFloat(a.value).toFixed(3)}</StyledText>
