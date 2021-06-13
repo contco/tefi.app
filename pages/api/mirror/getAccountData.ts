@@ -60,8 +60,8 @@ export const getAccountData = async (address: string) => {
 
   let poolBalance = balance[BalanceKey.LPTOTAL](results[0], results[1]);
   let rewardsBalance = balance[BalanceKey.REWARD](results[3], results[1]);
-
   let result = MIRROR_ASSETS.reduce((poolList, listing: ListedItem) => {
+    let lpBalance;
     let poolData;
     let stakeableTokenData;
     let pairPool =
@@ -72,6 +72,7 @@ export const getAccountData = async (address: string) => {
       asset: { amount: pairPool.asset, token: listing.token },
       uusd: { amount: pairPool.uusd, token: UUSD },
     };
+
     const lpDetails = fromLP(poolBalance[listing.token], shares, pairPool.total);
     const priceKey = listing.status === 'LISTED' ? PriceKey.PAIR : PriceKey.END;
     const priceResult = price[priceKey](results[2])[listing.token];
@@ -80,17 +81,17 @@ export const getAccountData = async (address: string) => {
       unstakedSum = plus(unstakedSum, stakeableTokenData.unstakedUstValue);
     }
     if (lpDetails?.asset?.amount !== '0') {
+      lpBalance = div(poolBalance[listing.token], 1000000);
       poolData = calculatePoolDetails(listing, rewardsBalance, priceResult, lpDetails, results[4]);
       stakedSum = plus(stakedSum, poolData.stakeTotalUstValue);
       rewardsSum = plus(rewardsSum, poolData.rewardsUstValue);
     }
     if (poolData || stakeableTokenData) {
-      poolList.push({ symbol: listing.symbol, ...poolData, ...stakeableTokenData });
+      poolList.push({ symbol: listing.symbol, name: listing.name, price: priceResult, lpBalance: lpBalance ?? 0,  ...poolData, ...stakeableTokenData });
     }
 
     return poolList;
   }, []);
   let account = { assets: result, total: { rewardsSum, stakedSum, unstakedSum } };
-  console.log(account);
   return account;
 };

@@ -15,6 +15,9 @@ const typeDefs = gql`
     poolTotalWithRewards: String
     rewards: String
     rewardsUstValue: String
+    price: String
+    name: String
+    lpBalance: String
   }
 
   type AssetsTotal {
