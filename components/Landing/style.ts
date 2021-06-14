@@ -28,11 +28,25 @@ export const Tefi = styled(Text)`
   })}
 `;
 
+export const ConnectText = styled(Text)`
+  font-weight: 500;
+  transition: all 0.3s ease-in;
+  ${css({
+    fontSize: [14, null, 20],
+    letterSpacing: '0.83px',
+    color: 'secondary'
+  })}
+`;
+
 export const ConnectButton = styled(Button)`
   border-radius: 34.5px;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  transition: all 0.3s ease-in;
+  &:hover ${ConnectText}{
+   color: ${props => props.theme.colors.primary}
+  }
   ${(props) =>
     css({
       mt: ['10%', null, '5%'],
@@ -40,16 +54,11 @@ export const ConnectButton = styled(Button)`
       bg: 'primary',
       width: [250, null, 323],
       height: [45, null, 62],
-    })}
-`;
+      '&:hover': {
+        bg: 'secondary',
+      }
 
-export const ConnectText = styled(Text)`
-  font-weight: 500;
-  ${css({
-    fontSize: [14, null, 20],
-    letterSpacing: '0.83px',
-    color: 'secondary',
-  })}
+    })}
 `;
 
 export const OrText = styled(Text)`

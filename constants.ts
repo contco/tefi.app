@@ -24,3 +24,5 @@ export const RewardsTitle = ['Name', 'Staked', 'APR', 'Reward'];
 //LocalStorage
 
 export const ADDRESS_KEY = "address";
+export const LOCAL_ADDRESS_TYPE = "local";
+export const WALLET_ADDRESS_TYPE = 'wallet';
