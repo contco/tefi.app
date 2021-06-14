@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
-import css from '@styled-system/css';
-import Styled from 'styled-components';
-import { Box } from '@contco/core-ui';
+import css from '@styled-system/css'
+import Styled from "styled-components";
+import { Box } from "@contco/core-ui";
+import Loading from "../components/Loading";
 import Header from '../components/Header';
 import Assets from '../components/Asset';
 import MarketValue from '../components/MarketValue';
@@ -13,6 +14,7 @@ import { GET_ANC_ACCOUNT_DATA } from '../graphql/anc';
 import { useQuery } from '@apollo/client';
 import { getAssets } from '../graphql/queries/getAssets';
 import { ADDRESS_KEY, LOCAL_ADDRESS_TYPE, WALLET_ADDRESS_TYPE } from '../constants';
+import Airdrops from "../components/Airdrop";
 
 import useWallet from '../lib/useWallet';
 
@@ -45,15 +47,20 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     }
   }, []);
 
-  const { loading: load, data: ancdata } = useQuery(GET_ANC_ACCOUNT_DATA, {
+  const { loading: load, error: err, data: ancdata } = useQuery(GET_ANC_ACCOUNT_DATA, {
     variables: { address: ADDRESS_ANC },
   });
 
-  const { data, loading } = useQuery(getAssets, { variables: { address: ADDRESS_MIR } });
+  const { data, loading, error } = useQuery(getAssets, { variables: { address: ADDRESS_MIR } });
 
   if (loading || load) {
-    return <p>Loading</p>;
+    return <Loading/>;
   }
+
+   if (error || err) {
+        return <p>Error</p>
+    };
+
 
   return (
     <div>
@@ -68,6 +75,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
           <Borrowing ancAssets={ancdata?.assets?.anchor || {}} />
           <Rewards mirrorAssets={data?.assets?.mirror || {}} ancAssets={ancdata?.assets?.anchor || {}} />
           <Pools mirrorAssets={data?.assets?.mirror || {}} ancAssets={ancdata?.assets?.anchor || {}} />
+         <Airdrops  mirrorAssets={data?.assets?.mirror || {}}/>
         </Body>
       </div>
     </div>

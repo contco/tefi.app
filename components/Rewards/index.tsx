@@ -55,14 +55,14 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets }) => {
           <StyledText fontWeight="500"> {assets?.name}</StyledText>
           <StyledText isChildren={true}>
             {' '}
-            {parseInt(assets?.lpBalance)} LP
+            {parseFloat(assets?.lpBalance)} LP
             <HoverText>
-              {parseInt(assets?.tokenStaked).toFixed(3)} {assets?.symbol} <br />
-              {parseInt(assets?.ustStaked).toFixed(3)} {'UST'}
+              {parseFloat(assets?.tokenStaked).toFixed(3)}{" "} {assets?.symbol} <br />
+              {parseFloat(assets?.ustStaked).toFixed(3)} {" "} {'UST'}
             </HoverText>
           </StyledText>
           <StyledText css={CSS_APR}> {formatApr(assets?.apr)}%</StyledText>
-          <StyledText>${parseInt(assets?.rewardsUstValue).toFixed(3)}</StyledText>
+          <StyledText>${parseFloat(assets?.rewardsUstValue).toFixed(3)}</StyledText>
         </Row>
       ))}
     </Wrapper>

@@ -38,13 +38,13 @@ const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets }) => {
         <Row key={index}>
           <StyledText fontWeight={500}> {assets?.name}</StyledText>
           <StyledText isChildren={true}>
-            {parseInt(assets?.lpBalance)} LP
+            {parseFloat(assets?.lpBalance)} LP
             <HoverText>
-              {parseInt(assets?.tokenStaked).toFixed(3)} {assets?.symbol} <br />
-              {parseInt(assets?.ustStaked).toFixed(3)} {'UST'}
+              {parseFloat(assets?.tokenStaked).toFixed(3)}{" "}{assets?.symbol} <br />
+              {parseFloat(assets?.ustStaked).toFixed(3)}{" "}{'UST'}
             </HoverText>
           </StyledText>
-          <StyledText> ${parseInt(assets?.stakeTotalUstValue).toFixed(3)}</StyledText>
+          <StyledText> ${parseFloat(assets?.stakeTotalUstValue).toFixed(3)}</StyledText>
         </Row>
       ))}
     </Wrapper>
