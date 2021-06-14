@@ -1,8 +1,9 @@
 import React, { useEffect, useState} from 'react';
 import Head from 'next/head';
-import css from '@styled-system/css';
-import Styled from 'styled-components';
-import { Box } from '@contco/core-ui';
+import css from '@styled-system/css'
+import Styled from "styled-components";
+import { Box } from "@contco/core-ui";
+import Loading from "../components/Loading";
 import Header from '../components/Header';
 import Assets from '../components/Asset';
 import MarketValue from '../components/MarketValue';
@@ -34,8 +35,8 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     const {data, loading, error} = useQuery(getAssets, {variables: {address: address}});
 
     if (loading) {
-        return <p>Loading</p>
-    };
+        return <Loading />;
+    }
 
     if (error) {
         return <p>Error</p>
