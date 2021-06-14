@@ -28,8 +28,8 @@ const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets }: AssetsProps)
           <StyledText fontWeight={500}> {a?.symbol}</StyledText>
           <StyledText fontWeight={500}> {a?.symbol}</StyledText>
           <StyledText> {parseFloat(a?.amount).toFixed(3)}</StyledText>
-          <StyledText> {parseFloat(a?.price).toFixed(3)}</StyledText>
-          <StyledText> {(parseFloat(a?.amount) * parseFloat(a?.price)).toFixed(3)}</StyledText>
+          <StyledText> ${parseFloat(a?.price).toFixed(3)}</StyledText>
+          <StyledText> ${(parseFloat(a?.amount) * parseFloat(a?.price)).toFixed(3)}</StyledText>
         </Row>
       ))}
       {mirrorAssets?.assets.map((asset) => (
