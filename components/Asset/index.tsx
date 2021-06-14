@@ -16,7 +16,7 @@ const Assets: React.FC<AssetsProps> = ({mirrorAssets} : AssetsProps) => {
                     {HEADING_TEXT}
                 </Heading>
                 <StyledText>
-                    ${parseInt(getAssetsTotal()).toFixed(3)}
+                    ${parseFloat(getAssetsTotal()).toFixed(3)}
                 </StyledText>
             </HeadingWrapper>
             <Row>
@@ -24,13 +24,13 @@ const Assets: React.FC<AssetsProps> = ({mirrorAssets} : AssetsProps) => {
                     <Title key={index}>{t}</Title>
                 )}
             </Row>
-            {mirrorAssets?.assets.map((asset, index) =>
+            {mirrorAssets?.assets.map((asset) =>
                 <Row key={asset.symbol}>
                     <StyledText fontWeight={500}> {asset.symbol}</StyledText>
                     <StyledText fontWeight={500}> {asset.name}</StyledText>
                     <StyledText > {asset.unstakedToken}</StyledText>
-                    <StyledText > {parseInt(asset.price).toFixed(3)}</StyledText>
-                    <StyledText > {parseInt(asset.unstakedUstValue).toFixed(3)}</StyledText>
+                    <StyledText > ${parseFloat(asset.price).toFixed(3)}</StyledText>
+                    <StyledText > ${parseFloat(asset.unstakedUstValue).toFixed(3)}</StyledText>
                 </Row>
             )}
         </Wrapper>

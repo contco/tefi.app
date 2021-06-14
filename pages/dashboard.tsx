@@ -9,6 +9,7 @@ import MarketValue from '../components/MarketValue';
 import Borrowing from '../components/Borrowing';
 import Pools from '../components/Pools';
 import Rewards from '../components/Rewards';
+import Airdrops from "../components/Airdrop";
 import {useQuery} from "@apollo/client";
 import {getAssets} from "../graphql/queries/getAssets";
 import {ADDRESS_KEY, LOCAL_ADDRESS_TYPE, WALLET_ADDRESS_TYPE} from "../constants";
@@ -36,6 +37,9 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
         return <p>Loading</p>
     };
 
+    if (error) {
+        return <p>Error</p>
+    };
 
     useEffect(() => {
       let localAddress = localStorage.getItem(ADDRESS_KEY);
@@ -50,6 +54,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
       }
     }, [])
     
+
     return (
         <div>
             <Head>
@@ -63,6 +68,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
                     <Borrowing />
                     <Rewards mirrorAssets={data?.assets?.mirror || {}} />
                     <Pools  mirrorAssets={data?.assets?.mirror || {}}/>
+                    <Airdrops  mirrorAssets={data?.assets?.mirror || {}}/>
                 </Body>
             </div>
         </div>

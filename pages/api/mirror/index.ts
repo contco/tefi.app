@@ -24,11 +24,20 @@ const typeDefs = gql`
     rewardsSum: String!
     stakedSum: String!
     unstakedSum: String!
+    airdropSum: String!
+  }
+
+  type Airdrops {
+    price: String
+    quantity: String
+    round: Int
+    name: String
   }
 
   type Account {
     assets: [AccountAssets!]
     total: AssetsTotal
+    airdrops: [Airdrops!]
   }
   extend type Assets @key(fields: "address") {
     address: String! @external
