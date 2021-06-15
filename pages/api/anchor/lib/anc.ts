@@ -3,11 +3,13 @@ import getDebt from './borrow';
 import getEarn from './earn';
 import getPool from './lp';
 import getGov from './gov';
+import {getAirdrops} from "./airdrop";
 
 export const getAccount = async (address: any) => {
   const balance = await anchor.anchorToken.getBalance(address);
   const price = await anchor.anchorToken.getANCPrice();
 
+  const airdrops = await getAirdrops(address, price);
   const debt = await getDebt(address);
   const earn = await getEarn(address);
   const pool = await getPool(address);
@@ -21,7 +23,7 @@ export const getAccount = async (address: any) => {
         symbol: 'ANC',
       },
     ],
-
+    airdrops,
     debt: {
       reward: {
         name: debt.reward.name,
