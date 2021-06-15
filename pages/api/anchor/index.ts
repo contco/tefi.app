@@ -25,8 +25,8 @@ const typeDefs = gql`
   type BorrowData {
     reward: Reward
     limit: String!
-    value: String!
-    collaterals: UserCollateral!
+    value: String
+    collaterals: [UserCollateral]!
   }
 
   type EarnData {
@@ -43,7 +43,7 @@ const typeDefs = gql`
   }
 
   type AccountANC {
-    asset: [Token]
+    assets: [Token]
     debt: BorrowData
     earn: EarnData
     pool: LPData

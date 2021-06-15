@@ -10,7 +10,7 @@ export const getBorrowLimit = async ({ address }: any) => {
 
 export const getBorrowedValue = async ({ address }: any) => {
   const result = await anchor.borrow.getBorrowedValue({ market: MARKET_DENOMS.UUSD, address });
-  return result;
+  return result.toString();
 };
 
 export const getCollaterals = async ({ address }: any) => {
