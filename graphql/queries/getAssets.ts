@@ -41,6 +41,9 @@ query getAssets($address: String!) {
         price 
         round
       }
+      total {
+        airdropSum
+      }
     }
   }
 }

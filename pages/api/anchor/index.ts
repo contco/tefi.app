@@ -49,6 +49,10 @@ const typeDefs = gql`
     reward: Reward!
   }
 
+  type Total {
+    airdropSum: String!
+  }
+
   type AccountANC {
     assets: [Token]
     debt: BorrowData
@@ -56,6 +60,7 @@ const typeDefs = gql`
     pool: LPData
     gov: GovData
     airdrops: [Airdrops!]
+    total: Total
   }
 
   extend type Assets @key(fields: "address") {
