@@ -6,13 +6,17 @@ import getGov from './gov';
 import {getAirdrops} from "./airdrop";
 
 export const getAccount = async (address: any) => {
-  const balance = await anchor.anchorToken.getBalance(address);
-  const price = await anchor.anchorToken.getANCPrice();
+  const balanceRequest =  anchor.anchorToken.getBalance(address);
+  const priceRequest =  anchor.anchorToken.getANCPrice();
 
-  const debt = await getDebt(address);
-  const earn = await getEarn(address);
-  const pool = await getPool(address);
-  const gov = await getGov();
+  const debtRequest =  getDebt(address);
+  const earnRequest =  getEarn(address);
+  const poolRequest =  getPool(address);
+  const govRequest =  getGov();
+
+  let anchorData = await Promise.all([balanceRequest, priceRequest, debtRequest, earnRequest, poolRequest, govRequest]);
+  
+  const [balance, price, debt, earn, pool, gov] = anchorData;
   const {airdrops, airdropSum} = await getAirdrops(address, price);
 
   const result = {
