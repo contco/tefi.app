@@ -49,6 +49,7 @@ export const GET_ANC_ACCOUNT_DATA = gql`
             apy
           }
         }
+        rewarding
       }
     }
   }

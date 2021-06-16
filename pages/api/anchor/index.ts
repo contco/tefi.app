@@ -48,6 +48,7 @@ const typeDefs = gql`
     earn: EarnData
     pool: LPData
     gov: GovData
+    rewarding: String
   }
 
   extend type Assets @key(fields: "address") {

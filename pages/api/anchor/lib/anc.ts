@@ -56,6 +56,7 @@ export const getAccount = async (address: any) => {
         apy: gov.reward.apy,
       },
     },
+
   };
 
   return result;
