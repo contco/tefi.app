@@ -3,7 +3,7 @@ import getDebt from './borrow';
 import getEarn from './earn';
 import getPool from './lp';
 import getGov from './gov';
-import {getAirdrops} from "./airdrop";
+import {formatAirdrops, getAirdrops} from "./airdrop";
 
 export const getAccount = async (address: any) => {
   const balanceRequest =  anchor.anchorToken.getBalance(address);
@@ -13,11 +13,12 @@ export const getAccount = async (address: any) => {
   const earnRequest =  getEarn(address);
   const poolRequest =  getPool(address);
   const govRequest =  getGov();
+  const airdropRequest = getAirdrops(address);
 
-  let anchorData = await Promise.all([balanceRequest, priceRequest, debtRequest, earnRequest, poolRequest, govRequest]);
+  let anchorData = await Promise.all([balanceRequest, priceRequest, debtRequest, earnRequest, poolRequest, govRequest,airdropRequest]);
   
-  const [balance, price, debt, earn, pool, gov] = anchorData;
-  const {airdrops, airdropSum} = await getAirdrops(address, price);
+  const [balance, price, debt, earn, pool, gov, airdropData] = anchorData;
+  const {airdrops, airdropSum} = formatAirdrops(airdropData, price);
 
   const result = {
     assets: [
