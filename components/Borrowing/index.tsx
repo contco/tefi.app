@@ -24,17 +24,17 @@ const StyledPercentage = Styled(Flex)`
 `;
 
 export interface BorrowingProps {
-  ancAssets: any;
+  ancAssets: AccountAnc;
 }
 
 const Borrowing: React.SFC<BorrowingProps> = ({ ancAssets }) => {
 
-  const formatApr = (apr = 0) => {
+  const formatApr = (apr = '0') => {
     const aprPercentage = times(apr, 100);
     return parseFloat(aprPercentage).toFixed(2);
   };
 
-  const borrows = [ancAssets.debt];
+  const borrows: Array<BorrowData> = [ancAssets.debt];
   return (
     <Wrapper
       css={`
@@ -50,7 +50,7 @@ const Borrowing: React.SFC<BorrowingProps> = ({ ancAssets }) => {
           <Title key={index}>{t}</Title>
         ))}
       </Row>
-      {borrows?.map((a, index) => (
+      {borrows?.map((a: BorrowData, index) => (
         <Row key={index}>
           <StyledText> {parseFloat(a?.collaterals[0]?.balance).toFixed(3)}</StyledText>
           <StyledText> ${parseFloat(a?.value).toFixed(3)}</StyledText>
