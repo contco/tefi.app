@@ -26,37 +26,6 @@
   resolved "https://registry.yarnpkg.com/@anchor-protocol/types/-/types-0.15.0.tgz#379ba3120daa2005e96d9e6eb1a595c84756d5c1"
   integrity sha512-a/SqwMrBSfhOujsoeiKCcD1bNL9Elf64K4SbCoMo1iM79VFSjVv9hcZQOoFdLvpuv4ZkRNPgj4GwDPPQ4Aw78g==
 
-"@anchor-protocol/webapp-fns@^0.15.0":
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/@anchor-protocol/webapp-fns/-/webapp-fns-0.15.0.tgz#862a12dd8467bef6a402d32a7c397309f9d56309"
-  integrity sha512-8ZjaK37d3pauwDpaiuefDPeKtXD7o/otNKMkDk9PYJi8/e4cSKbiXY8YDC+KgFr2TZrQEYfWc8pfNqSISUG37Q==
-  dependencies:
-    "@anchor-protocol/anchor.js" "^1.0.1"
-    "@anchor-protocol/notation" "^0.15.0"
-    "@anchor-protocol/types" "^0.15.0"
-    "@rx-stream/pipe" "^0.7.0"
-    "@terra-dev/big-math" "^0.15.0"
-    "@terra-dev/tx-helpers" "^0.15.0"
-    "@terra-dev/wallet-types" "^0.15.0"
-    "@terra-money/terra.js" "^1.8.0"
-    "@terra-money/webapp-fns" "^0.15.0"
-    big.js "^6.1.1"
-    rxjs "^7.1.0"
-
-"@anchor-protocol/webapp-provider@^0.15.0":
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/@anchor-protocol/webapp-provider/-/webapp-provider-0.15.0.tgz#5df0567677fc09a5f0f5ca5a4be48bb0c4341c97"
-  integrity sha512-dl1hUU1O5SmFYEaqBRuDJ3UdNqlVXQWXg8f8sZXD3l3OeR9friOkZz6PFlBUOM3+ttl4JX1j4VfyjHxFTxjcjw==
-  dependencies:
-    "@anchor-protocol/anchor.js" "^1.0.1"
-    "@anchor-protocol/notation" "^0.15.0"
-    "@anchor-protocol/types" "^0.15.0"
-    "@anchor-protocol/webapp-fns" "^0.15.0"
-    "@rx-stream/react" "^0.7.0"
-    "@terra-dev/use-form" "^0.15.0"
-    "@terra-money/webapp-fns" "^0.15.0"
-    big.js "^6.1.1"
-
 "@apollo/client@^3.3.18":
   version "3.3.18"
   resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.3.18.tgz#dc722576a88fddb5c3ae0bb03d5675e0bb7ec07e"
@@ -1338,21 +1307,6 @@
   resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
   integrity sha1-p3c2C1s5oaLlEG+OhY8v0tBgxXA=
 
-"@rx-stream/pipe@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@rx-stream/pipe/-/pipe-0.7.0.tgz#dc5b71fdc3779005a67b7d51d9182df63ae36a3a"
-  integrity sha512-aamijxNwu+erfzhtCQ9kdi8Vo1GVkMLSppstSmWPDW7nZ6s5sdDOdyHOmQvH/EnnB76M/MYfEQAZRG+CkVX3Mw==
-  dependencies:
-    rxjs "^7.0.0"
-
-"@rx-stream/react@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@rx-stream/react/-/react-0.7.0.tgz#78d8e866c84ae63b74584422880618e0db789134"
-  integrity sha512-duPwfL+44f0yKHHzI8G7o8ILe1YPEKq2CVg3P08FSnVOBg4hnR1ImwzXP9gLwRI8omgdsRJhbh+TqjWeUJJ16w==
-  dependencies:
-    react "^17.0.2"
-    rxjs "^7.0.0"
-
 "@styled-system/background@^5.1.2":
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/@styled-system/background/-/background-5.1.2.tgz#75c63d06b497ab372b70186c0bf608d62847a2ba"
@@ -1554,13 +1508,6 @@
     big.js "^6.1.1"
     d3-ease "^2.0.0"
 
-"@terra-dev/big-math@^0.15.0":
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/@terra-dev/big-math/-/big-math-0.15.0.tgz#48b29fdd94f0aee32b7146348e19579f4e5d3bf5"
-  integrity sha512-1ENOAN9ZskjcrujI8jwWig8xjNRo/K6ESKj68HuuNLXxdTs/Ko7wyEs1ushbI1uVYNWZudAB1VW0epFNqETAWA==
-  dependencies:
-    big.js "^6.1.1"
-
 "@terra-dev/chrome-extension@^0.15.0":
   version "0.15.0"
   resolved "https://registry.yarnpkg.com/@terra-dev/chrome-extension/-/chrome-extension-0.15.0.tgz#2747bc3437e8931367c2f6d06e418f3939226659"
@@ -1618,22 +1565,10 @@
     rxjs "^7.0.0"
     webextension-polyfill-ts "^0.25.0"
 
-"@terra-dev/tx-helpers@^0.15.0":
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/@terra-dev/tx-helpers/-/tx-helpers-0.15.0.tgz#4d2134096deb8dbcfe836581f0d58c7b5f88e049"
-  integrity sha512-Ezb8LlIrDWeVIaq/XIL/4Yrdwc2lK4V9x/041+gsDPXeV+KvE+O10jcQdsFA5kmAvpDUHGq/jITFi6mbBAwk7A==
-  dependencies:
-    "@terra-dev/wallet-types" "^0.15.0"
-
 "@terra-dev/use-browser-inactive@^0.15.0":
   version "0.15.0"
   resolved "https://registry.yarnpkg.com/@terra-dev/use-browser-inactive/-/use-browser-inactive-0.15.0.tgz#8318453e8df2dd0f0a710e87f696888244a01a75"
   integrity sha512-vmoxOx+Eekg/LkknsQn8+fqA6JpBXvU3im/7HG1qToINrWGvNVMrzRcYh+lOiWa2ofjnLDxUsQxxC/L4Q5+WJQ==
-
-"@terra-dev/use-form@^0.15.0":
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/@terra-dev/use-form/-/use-form-0.15.0.tgz#23a860fc6ce342fb635e3a62bc6ecb7b432bf11b"
-  integrity sha512-f91j3wENLaE/PkfN6DLqNlx7tZBn2SUJB1gjOEN6OmfRvDXQZt0uMZNHnXr9r+h3tbKMBg9UNPAxPxS2x7z66w==
 
 "@terra-dev/use-interval@^0.15.0":
   version "0.15.0"

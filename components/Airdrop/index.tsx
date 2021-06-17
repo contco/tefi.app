@@ -1,16 +1,27 @@
-
+import {useState, useEffect} from "react";
 import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, HoverText } from "../dashboardStyles";
 
 const HEADING_TEXT = `Airdrops`
 
 
-export interface AirdropsProps {mirrorAssets: any};
+export interface AirdropsProps {mirrorAssets: any, anchorAssets: any};
 
-const Airdrops: React.FC<AirdropsProps> = ({mirrorAssets}) => {
+const Airdrops: React.FC<AirdropsProps> = ({mirrorAssets, anchorAssets}) => {
+
+    const [airdrops ,setAidrops] = useState([]);
+
+    useEffect(() => {
+
+     let airdropsData = [...mirrorAssets?.airdrops, ... anchorAssets?.airdrops ];
+     setAidrops(airdropsData);
+
+    },[]);
 
     const getAirdropTotal = () => {
-        const mirrorTotal = mirrorAssets?.total?.airdropSum;
-        return mirrorTotal ?? 0;
+        const mirrorTotal = parseFloat(mirrorAssets?.total?.airdropSum ?? 0);
+        const anchorTotal = parseFloat(anchorAssets?.total?.airdropSum ?? 0);
+        const total = (mirrorTotal+anchorTotal).toFixed(3)
+        return total;
     };
     
 
@@ -30,7 +41,7 @@ const Airdrops: React.FC<AirdropsProps> = ({mirrorAssets}) => {
               <Title>Reward</Title>
               <Title>Value</Title>
             </Row>
-            {mirrorAssets?.airdrops.map((assets, index) =>
+            {airdrops.map((assets, index) =>
                 <Row key={index}>
                     <StyledText fontWeight={500}> {assets?.name}</StyledText>
                     <StyledText>{parseInt(assets?.round)} </StyledText>
