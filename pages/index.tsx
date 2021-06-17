@@ -4,6 +4,9 @@ import Head from 'next/head';
 import Header from '../components/Header';
 import Landing from '../components/Landing';
 import styled from 'styled-components';
+import { DEFAULT_MANTLE_ENDPOINTS } from '../utils/ancEndpoints';
+import { rewardsClaimableAncUstLpRewardsQuery } from './api/anchor/lib/lp';
+import { fetchBlockHeight, fetche, getLatestBlockHeight } from './api/anchor/lib/utils';
 
 const EmptyContainer = styled.div`
   height: 100vh;
@@ -18,6 +21,18 @@ const Home: React.FC = ({ theme, changeTheme }: any) => {
     setIsDisplay(false);
     setTimeout(() => setIsDisplay(true), 1000);
   }, [router.pathname]);
+
+  useEffect(() => {
+    const call = async () => {
+      const result = await rewardsClaimableAncUstLpRewardsQuery(
+        DEFAULT_MANTLE_ENDPOINTS['mainnet'],
+        'terra1sskjgw5e9v7qrqvgalhzc7uh38jslhz4xnjh2a',
+      );
+
+      console.log(result);
+    };
+    call();
+  });
 
   return (
     <div>

@@ -53,6 +53,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     };
     call();
   });
+  
 
   const { loading: load, error: err, data: ancdata } = useQuery(GET_ANC_ACCOUNT_DATA, {
     variables: { address: address },

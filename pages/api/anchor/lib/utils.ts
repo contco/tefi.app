@@ -16,7 +16,7 @@ export const mantleFetch = (
     headers: {
       ...requestInit?.headers,
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
+      Accept: 'application/json',
     },
     body: JSON.stringify({
       query,
@@ -26,8 +26,8 @@ export const mantleFetch = (
     .then((res) => res.json())
     .then(({ data, errors }) => {
       if (errors) {
-        return 'Error'
+        return errors[0].message;
       }
       return data;
-    })
+    });
 };
