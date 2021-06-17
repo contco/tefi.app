@@ -17,7 +17,7 @@ import { ADDRESS_KEY, LOCAL_ADDRESS_TYPE, WALLET_ADDRESS_TYPE } from '../constan
 import Airdrops from '../components/Airdrop';
 
 import useWallet from '../lib/useWallet';
-import { useRewardsAncGovernanceRewardsQuery } from './api/anchor/lib/govRewards';
+import { addressContract, useRewardsAncGovernanceRewardsQuery } from './api/anchor/lib/govRewards';
 
 const Body = Styled(Box)`
 ${css({
@@ -26,8 +26,6 @@ ${css({
   mt: 20,
 })}
 `;
-const ADDRESS_ANC = `terra18jg24fpqvjntm2wfc0p47skqccdr9ldtgl5ac9`;
-const ADDRESS_MIR = 'terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m0q3';
 
 const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   const [address, setAddress] = useState<string>('');
@@ -49,15 +47,18 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   }, []);
 
   useEffect(() => {
-    const { data: { userANCBalance, userGovStakingInfo } = {} } = useRewardsAncGovernanceRewardsQuery(ADDRESS_ANC);
-    console.log(userANCBalance, userGovStakingInfo);
+    const call = async () => {
+      const result = await addressContract();
+      console.log(result);
+    };
+    call();
   });
 
   const { loading: load, error: err, data: ancdata } = useQuery(GET_ANC_ACCOUNT_DATA, {
-    variables: { address: ADDRESS_ANC },
+    variables: { address: address },
   });
 
-  const { data, loading, error } = useQuery(getAssets, { variables: { address: ADDRESS_MIR } });
+  const { data, loading, error } = useQuery(getAssets, { variables: { address: address } });
 
   if (loading || load) {
     return <Loading />;

@@ -11,7 +11,7 @@ export const getAccount = async (address: any) => {
   const debt = await getDebt(address);
   const earn = await getEarn(address);
   const pool = await getPool(address);
-  const gov = await getGov();
+  const gov = await getGov(address);
 
   const result = {
     assets: [
@@ -54,6 +54,7 @@ export const getAccount = async (address: any) => {
       reward: {
         name: gov.reward.name,
         apy: gov.reward.apy,
+        staked: gov.reward.staked,
       },
     },
 

@@ -3,3 +3,31 @@ export const getLatestBlockHeight = async () => {
   const block = await response.json();
   return block.block.header.height;
 };
+
+export const mantleFetch = (
+  query: string,
+  variables: any,
+  endpoint: string,
+  requestInit?: Omit<RequestInit, 'method' | 'body'>,
+) => {
+  return fetch(endpoint, {
+    ...requestInit,
+    method: 'POST',
+    headers: {
+      ...requestInit?.headers,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    },
+    body: JSON.stringify({
+      query,
+      variables,
+    }),
+  })
+    .then((res) => res.json())
+    .then(({ data, errors }) => {
+      if (errors) {
+        return 'Error'
+      }
+      return data;
+    })
+};

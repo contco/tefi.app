@@ -30,8 +30,8 @@ const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets }) => {
       {pools?.map((a, index) => (
         <Row key={index}>
           <StyledText fontWeight={500}> {a?.reward?.name}</StyledText>
-          <StyledText isChildren={true}>{parseFloat(a?.balance).toFixed(3)} LP</StyledText>
-          <StyledText> {parseFloat(a?.reward.stake).toFixed(3)}</StyledText>
+          <StyledText> {parseFloat(a?.reward.staked).toFixed(3)} LP</StyledText>
+          <StyledText isChildren={true}>{parseFloat(a?.balance).toFixed(3)}</StyledText>
         </Row>
       ))}
       {mirrorAssets?.assets.map((assets, index) => (
@@ -40,8 +40,8 @@ const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets }) => {
           <StyledText isChildren={true}>
             {parseFloat(assets?.lpBalance)} LP
             <HoverText>
-              {parseFloat(assets?.tokenStaked).toFixed(3)}{" "}{assets?.symbol} <br />
-              {parseFloat(assets?.ustStaked).toFixed(3)}{" "}{'UST'}
+              {parseFloat(assets?.tokenStaked).toFixed(3)} {assets?.symbol} <br />
+              {parseFloat(assets?.ustStaked).toFixed(3)} {'UST'}
             </HoverText>
           </StyledText>
           <StyledText> ${parseFloat(assets?.stakeTotalUstValue).toFixed(3)}</StyledText>

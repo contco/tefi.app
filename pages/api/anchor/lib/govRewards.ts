@@ -1,42 +1,18 @@
-import { RewardsAncGovernanceRewardsData, rewardsAncGovernanceRewardsQuery } from '@anchor-protocol/webapp-fns';
-import { useAnchorWebapp } from '@anchor-protocol/webapp-provider';
-import { useTerraWebapp } from '@terra-money/webapp-provider';
-import { useQuery, UseQueryResult } from 'react-query';
+import { AddressMap, AddressProvider, AddressProviderFromJson } from '@anchor-protocol/anchor.js';
+import {
+  AnchorContants,
+  createAnchorContractAddress,
+  DEFAULT_ADDESS_MAP,
+  DEFAULT_ANCHOR_TX_CONSTANTS,
+} from '@anchor-protocol/webapp-fns';
 
-const queryFn = ({ queryKey: [, mantleEndpoint, mantleFetch, govContract, ancContract, address] }) => {
-  return rewardsAncGovernanceRewardsQuery({
-    mantleEndpoint,
-    mantleFetch,
-    variables: {
-      govContract,
-      ancContract,
-      govStakeInfoQuery: {
-        staker: {
-          address: address,
-        },
-      },
-      userAncBalanceQuery: {
-        balance: {
-          address: address,
-        },
-      },
-    },
-  });
+export const addressContract = () => {
+  const key = 'gov';
+  const addr = 'terra14z56l0fp2lsf86zy3hty2z47ezkhnthtr9yq76';
+  const draftAddressProvider = new AddressProviderFromJson(DEFAULT_ADDESS_MAP['mainnet']);
+  const draftContractAddress = createAnchorContractAddress(draftAddressProvider, DEFAULT_ADDESS_MAP['mainnet']);
+  return {
+    addressProvider: draftAddressProvider,
+    contractAddress: draftContractAddress,
+  };
 };
-
-export function useRewardsAncGovernanceRewardsQuery({
-  address,
-}: any): UseQueryResult<RewardsAncGovernanceRewardsData | undefined> {
-  const { mantleFetch, mantleEndpoint } = useTerraWebapp();
-
-  const {
-    contractAddress: { anchorToken, cw20 },
-  } = useAnchorWebapp();
-
-  const result = useQuery(
-    ['ANCHOR_QUERY_REWARDS_ANC_GOVERNANCE_REWARDS', mantleEndpoint, mantleFetch, anchorToken.gov, cw20.ANC, address],
-    queryFn,
-  );
-
-  return result;
-}
