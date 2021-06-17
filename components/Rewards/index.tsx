@@ -45,7 +45,10 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets }) => {
       {rewards?.map((a, index) => (
         <Row key={index}>
           <StyledText fontWeight="500"> {a?.name}</StyledText>
-          <StyledText isChildren={true}> {parseFloat(a?.staked).toFixed(3)}</StyledText>
+          <StyledText isChildren={true}>
+           { a?.staked ? parseFloat(a?.staked).toFixed(3): null}
+           
+          </StyledText>
           <StyledText css={CSS_APR}> {formatApr(a?.apy)}%</StyledText>
           <StyledText>{a?.reward}</StyledText>
         </Row>
@@ -57,8 +60,8 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets }) => {
             {' '}
             {parseFloat(assets?.lpBalance)} LP
             <HoverText>
-              {parseFloat(assets?.tokenStaked).toFixed(3)}{" "} {assets?.symbol} <br />
-              {parseFloat(assets?.ustStaked).toFixed(3)} {" "} {'UST'}
+              {parseFloat(assets?.tokenStaked).toFixed(3)} {assets?.symbol} <br />
+              {parseFloat(assets?.ustStaked).toFixed(3)} {'UST'}
             </HoverText>
           </StyledText>
           <StyledText css={CSS_APR}> {formatApr(assets?.apr)}%</StyledText>

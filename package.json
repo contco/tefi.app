@@ -25,6 +25,7 @@
   "dependencies": {
     "@anchor-protocol/anchor.js": "^1.0.1",
     "@anchor-protocol/notation": "^0.15.0",
+    "@anchor-protocol/webapp-fns": "^0.15.0",
     "@apollo/client": "^3.3.18",
     "@apollo/federation": "^0.23.2",
     "@apollo/gateway": "^0.26.3",

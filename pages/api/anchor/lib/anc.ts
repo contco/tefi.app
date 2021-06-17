@@ -3,21 +3,28 @@ import getDebt from './borrow';
 import getEarn from './earn';
 import getPool from './lp';
 import getGov from './gov';
-import {getAirdrops} from "./airdrop";
+import { getAirdrops } from './airdrop';
 
 export const getAccount = async (address: any) => {
-  const balanceRequest =  anchor.anchorToken.getBalance(address);
-  const priceRequest =  anchor.anchorToken.getANCPrice();
+  const balanceRequest = anchor.anchorToken.getBalance(address);
+  const priceRequest = anchor.anchorToken.getANCPrice();
 
-  const debtRequest =  getDebt(address);
-  const earnRequest =  getEarn(address);
-  const poolRequest =  getPool(address);
-  const govRequest =  getGov(address);
+  const debtRequest = getDebt(address);
+  const earnRequest = getEarn(address);
+  const poolRequest = getPool(address);
+  const govRequest = getGov(address);
 
-  let anchorData = await Promise.all([balanceRequest, priceRequest, debtRequest, earnRequest, poolRequest, govRequest]);
-  
+  const anchorData = await Promise.all([
+    balanceRequest,
+    priceRequest,
+    debtRequest,
+    earnRequest,
+    poolRequest,
+    govRequest,
+  ]);
+
   const [balance, price, debt, earn, pool, gov] = anchorData;
-  const {airdrops, airdropSum} = await getAirdrops(address, price);
+  const { airdrops, airdropSum } = await getAirdrops(address, price);
 
   const result = {
     assets: [
@@ -31,6 +38,7 @@ export const getAccount = async (address: any) => {
       reward: {
         name: debt.reward.name,
         apy: debt.reward.apy,
+        reward: debt.reward.reward,
       },
 
       limit: debt.limit,
@@ -51,6 +59,7 @@ export const getAccount = async (address: any) => {
         name: pool.reward.name,
         apy: pool.reward.apy,
         staked: pool.reward.staked,
+        reward: pool.reward.reward,
       },
       balance: pool.balance,
     },
@@ -64,8 +73,8 @@ export const getAccount = async (address: any) => {
     },
     airdrops,
     total: {
-      airdropSum
-    }
+      airdropSum,
+    },
   };
 
   return result;

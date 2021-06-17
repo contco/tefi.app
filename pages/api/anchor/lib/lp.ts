@@ -2,6 +2,7 @@
 import { anchor, client, ContractAddresses } from './test-defaults';
 import { getLatestBlockHeight, mantleFetch } from './utils';
 import { gql } from '@apollo/client';
+import { DEFAULT_MANTLE_ENDPOINTS } from '../../../../utils/ancEndpoints';
 
 export const REWARDS_CLAIMABLE_ANC_UST_LP_REWARDS_QUERY = `
   query (
@@ -51,7 +52,7 @@ export const getLpAPY = async () => {
   return APY;
 };
 
-export async function rewardsClaimableAncUstLpRewardsQuery(mantleEndpoint, address) {
+export const rewardsClaimableAncUstLpRewardsQuery = async (mantleEndpoint, address) => {
   const blockHeight = await getLatestBlockHeight();
 
   const rawData = await mantleFetch(
@@ -78,18 +79,20 @@ export async function rewardsClaimableAncUstLpRewardsQuery(mantleEndpoint, addre
     lPBalance: JSON.parse(rawData?.lPBalance?.Result),
     lPStakerInfo: JSON.parse(rawData?.lPStakerInfo?.Result),
   };
-}
+};
 
 export default async (address) => {
   const balance = await getLPBalance({ address });
   const staked = await stakedLP({ address });
   const lpAPY = await getLpAPY();
+  const rewards = await rewardsClaimableAncUstLpRewardsQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet'], address);
 
   const result = {
     reward: {
       name: 'ANC-LP',
       staked: staked,
       apy: lpAPY,
+      reward: rewards?.lPStakerInfo?.pending_reward,
     },
     balance: balance,
   };

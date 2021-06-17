@@ -6,7 +6,6 @@ import Landing from '../components/Landing';
 import styled from 'styled-components';
 import { DEFAULT_MANTLE_ENDPOINTS } from '../utils/ancEndpoints';
 import { rewardsClaimableAncUstLpRewardsQuery } from './api/anchor/lib/lp';
-import { fetchBlockHeight, fetche, getLatestBlockHeight } from './api/anchor/lib/utils';
 
 const EmptyContainer = styled.div`
   height: 100vh;

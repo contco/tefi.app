@@ -17,7 +17,6 @@ import { ADDRESS_KEY, LOCAL_ADDRESS_TYPE, WALLET_ADDRESS_TYPE } from '../constan
 import Airdrops from '../components/Airdrop';
 
 import useWallet from '../lib/useWallet';
-import { addressContract, useRewardsAncGovernanceRewardsQuery } from './api/anchor/lib/govRewards';
 
 const Body = Styled(Box)`
 ${css({
@@ -46,28 +45,18 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     }
   }, []);
 
-  useEffect(() => {
-    const call = async () => {
-      const result = await addressContract();
-      console.log(result);
-    };
-    call();
-  });
-  
-
   const { loading: load, error: err, data: ancdata } = useQuery(GET_ANC_ACCOUNT_DATA, {
     variables: { address: address },
   });
 
   const { data, loading, error } = useQuery(getAssets, { variables: { address: address } });
 
-
   if (loading || load) {
     return <Loading />;
   }
 
   if (error || err) {
-    return <p>{err.message}</p>;
+    return <p>{err?.message}</p>;
   }
 
   return (
@@ -83,7 +72,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
           <Borrowing ancAssets={ancdata?.assets?.anchor || {}} />
           <Rewards mirrorAssets={data?.assets?.mirror || {}} ancAssets={ancdata?.assets?.anchor || {}} />
           <Pools mirrorAssets={data?.assets?.mirror || {}} ancAssets={ancdata?.assets?.anchor || {}} />
-         <Airdrops  mirrorAssets={data?.assets?.mirror || {}} anchorAssets={data?.assets?.anchor}/>
+          <Airdrops mirrorAssets={data?.assets?.mirror || {}} anchorAssets={data?.assets?.anchor} />
         </Body>
       </div>
     </div>
