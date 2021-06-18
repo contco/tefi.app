@@ -3,6 +3,15 @@ import { anchor, client, ContractAddresses } from './test-defaults';
 import { getLatestBlockHeight, mantleFetch } from './utils';
 import { gql } from '@apollo/client';
 import { DEFAULT_MANTLE_ENDPOINTS } from '../../../../utils/ancEndpoints';
+import big from 'big.js';
+import { ancPriceQuery } from './ancPrice';
+import {
+  demicrofy,
+  formatANCWithPostfixUnits,
+  formatLP,
+  formatRate,
+  formatUSTWithPostfixUnits,
+} from '@anchor-protocol/notation';
 
 export const REWARDS_CLAIMABLE_ANC_UST_LP_REWARDS_QUERY = `
   query (
@@ -81,20 +90,52 @@ export const rewardsClaimableAncUstLpRewardsQuery = async (mantleEndpoint, addre
   };
 };
 
+export const getAncUstLp = async (address) => {
+  const balance = await anchor.anchorToken.getLPBalance(address);
+  const pool = await rewardsClaimableAncUstLpRewardsQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet'], address);
+  const ancData = await ancPriceQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']);
+
+  const totalUserLPHolding = big(balance).plus(pool.lPStakerInfo.bond_amount);
+  const LPValue = big(ancData?.ancPrice?.USTPoolSize)
+    .div(ancData?.ancPrice?.LPShare === '0' ? 1 : ancData?.ancPrice?.LPShare)
+    .mul(2);
+
+  const withdrawableAssets = {
+    anc: big(ancData?.ancPrice?.ANCPoolSize)
+      .mul(totalUserLPHolding)
+      .div(ancData?.ancPrice?.LPShare === '0' ? 1 : ancData?.ancPrice?.LPShare),
+    ust: big(ancData?.ancPrice?.USTPoolSize)
+      .mul(totalUserLPHolding)
+      .div(ancData?.ancPrice?.LPShare === '0' ? 1 : ancData?.ancPrice?.LPShare),
+  };
+
+  const staked = pool.lPStakerInfo.bond_amount;
+  const stakedValue = big(staked).mul(LPValue);
+
+  return {
+    withdrawableAssets,
+    stakedValue,
+  };
+};
+
 export default async (address) => {
   const balance = await getLPBalance({ address });
   const staked = await stakedLP({ address });
   const lpAPY = await getLpAPY();
   const rewards = await rewardsClaimableAncUstLpRewardsQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet'], address);
+  const ancUstLPData = await getAncUstLp(address);
 
   const result = {
     reward: {
       name: 'ANC-LP',
       staked: staked,
-      apy: lpAPY,
+      apy: formatRate(lpAPY),
       reward: rewards?.lPStakerInfo?.pending_reward,
     },
     balance: balance,
+    value: formatUSTWithPostfixUnits(demicrofy(ancUstLPData.stakedValue)),
+    anc: formatANCWithPostfixUnits(demicrofy(ancUstLPData.withdrawableAssets.anc)),
+    ust: formatUSTWithPostfixUnits(demicrofy(ancUstLPData.withdrawableAssets.ust)),
   };
 
   return result;

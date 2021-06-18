@@ -24,6 +24,7 @@ export const ContractAddresses = {
   moneyMarket: 'terra1sepfj7s0aeg5967uxnfk4thzlerrsktkpelm5s',
   staking: 'terra1897an2xux840p9lrh6py3ryankc6mspw49xse3',
   ancUstLP: 'terra1gecs98vcuktyfkrve9czrpgtg0m3aq586x6gzm',
+  ancUstPair: 'terra1gm5p3ner9x9xpwugn9sp6gvhd0lwrtkyrecdn3',
 };
 
 export const client = new ApolloClient({

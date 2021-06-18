@@ -17,6 +17,17 @@ import { ADDRESS_KEY, LOCAL_ADDRESS_TYPE, WALLET_ADDRESS_TYPE } from '../constan
 import Airdrops from '../components/Airdrop';
 
 import useWallet from '../lib/useWallet';
+import { getAncUstLp, rewardsClaimableAncUstLpRewardsQuery } from './api/anchor/lib/lp';
+import { DEFAULT_MANTLE_ENDPOINTS } from '../utils/ancEndpoints';
+import { addressContract } from './api/anchor/lib/govRewards';
+import { ancPriceQuery } from './api/anchor/lib/ancPrice';
+import {
+  demicrofy,
+  formatANCWithPostfixUnits,
+  formatLP,
+  formatRate,
+  formatUSTWithPostfixUnits,
+} from '@anchor-protocol/notation';
 
 const Body = Styled(Box)`
 ${css({
@@ -44,6 +55,15 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
       setAddressType(WALLET_ADDRESS_TYPE);
     }
   }, []);
+
+  useEffect(() => {
+    const call = async () => {
+      const result = await getAncUstLp('terra1sskjgw5e9v7qrqvgalhzc7uh38jslhz4xnjh2a');
+      console.log(formatANCWithPostfixUnits(demicrofy(result.withdrawableAssets.anc)));
+    };
+
+    call();
+  });
 
   const { loading: load, error: err, data: ancdata } = useQuery(GET_ANC_ACCOUNT_DATA, {
     variables: { address: address },
