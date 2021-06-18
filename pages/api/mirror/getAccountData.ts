@@ -4,7 +4,7 @@ import { getStakingPool } from './getStakingPool';
 import { getPairPool } from './getPairPool';
 import { getAssetsStats } from './getAssetsStats';
 import { getTokenBalance } from './getTokenBalance';
-import {getAirdrops} from "./getAirdrops";
+import {formatAirdrops, getAirdrops} from "./getAirdrops";
 import { balance, BalanceKey, PriceKey, parsePairPool, UUSD, fromLP, price, div, UNIT, times, plus } from './utils';
 import MIRROR_ASSETS from './mirrorAssets.json';
 const MIR_TOKEN = MIRROR_ASSETS[0].token;
@@ -54,7 +54,8 @@ export const fetchData = (address: string) => {
   const pairsListPromise  = getPairPool();
   const assetStatsPromise  = getAssetsStats();
   const tokenBalancePromise  = getTokenBalance(address);
-  return Promise.all([lpTokenBalancePromise , stakingRewardsPromise , pairsListPromise , stakingPoolPromise , assetStatsPromise , tokenBalancePromise ]);
+  const airdrops = getAirdrops(address);
+  return Promise.all([lpTokenBalancePromise , stakingRewardsPromise , pairsListPromise , stakingPoolPromise , assetStatsPromise , tokenBalancePromise, airdrops ]);
 }
 
 export const getAccountData = async (address: string) => {
@@ -62,12 +63,12 @@ export const getAccountData = async (address: string) => {
   let stakedSum = '0';
   let unstakedSum = '0';
   
-  const [lpTokenBalance, stakingRewards, stakingPool, pairsList, assetStats, tokenBalance ] = await fetchData(address);
+  const [lpTokenBalance, stakingRewards, stakingPool, pairsList, assetStats, tokenBalance, airdropsData ] = await fetchData(address);
 
   const poolBalance = balance[BalanceKey.LPTOTAL](lpTokenBalance, stakingRewards);
   const rewardsBalance = balance[BalanceKey.REWARD](pairsList, stakingRewards);
   const mirPrice = price["pair"](stakingPool)[MIR_TOKEN];
-  const {mirrorAirdrops, airdropSum} = await getAirdrops(address, mirPrice);
+  const {mirrorAirdrops, airdropSum} = formatAirdrops(airdropsData, mirPrice);
   
   const result = MIRROR_ASSETS.reduce((poolList, listing: ListedItem) => {
     let lpBalance;
