@@ -47,30 +47,35 @@ export const calculatePoolDetails = (listing, rewardsBalance, priceResult, lpDet
   return { ...poolValues, ...rewards, apr, poolTotalWithRewards };
 };
 
+export const fetchData = (address: string) => {
+  const lpTokenBalancePromise = getLpTokenBalance(address);
+  const stakingRewardsPromise  = getStakingRewards(address);
+  const stakingPoolPromise  = getStakingPool();
+  const pairsListPromise  = getPairPool();
+  const assetStatsPromise  = getAssetsStats();
+  const tokenBalancePromise  = getTokenBalance(address);
+  return Promise.all([lpTokenBalancePromise , stakingRewardsPromise , pairsListPromise , stakingPoolPromise , assetStatsPromise , tokenBalancePromise ]);
+}
+
 export const getAccountData = async (address: string) => {
   let rewardsSum = '0';
   let stakedSum = '0';
   let unstakedSum = '0';
-  let lpTokenBalance = getLpTokenBalance(address);
-  let stakingRewards = getStakingRewards(address);
-  let stakingPool = getStakingPool();
-  let pairsList = getPairPool();
-  let assetStats = getAssetsStats();
-  let tokenBalance = getTokenBalance(address);
+  
+  const [lpTokenBalance, stakingRewards, stakingPool, pairsList, assetStats, tokenBalance ] = await fetchData(address);
 
-  let results = await Promise.all([lpTokenBalance, stakingRewards, pairsList, stakingPool, assetStats, tokenBalance]);
-
-  let poolBalance = balance[BalanceKey.LPTOTAL](results[0], results[1]);
-  let rewardsBalance = balance[BalanceKey.REWARD](results[3], results[1]);
-  let mirPrice = price["pair"](results[2])[MIR_TOKEN];
-  let {mirrorAirdrops, airdropSum} = await getAirdrops(address, mirPrice);
-  let result = MIRROR_ASSETS.reduce((poolList, listing: ListedItem) => {
+  const poolBalance = balance[BalanceKey.LPTOTAL](lpTokenBalance, stakingRewards);
+  const rewardsBalance = balance[BalanceKey.REWARD](pairsList, stakingRewards);
+  const mirPrice = price["pair"](stakingPool)[MIR_TOKEN];
+  const {mirrorAirdrops, airdropSum} = await getAirdrops(address, mirPrice);
+  
+  const result = MIRROR_ASSETS.reduce((poolList, listing: ListedItem) => {
     let lpBalance;
     let poolData;
     let stakeableTokenData;
-    let pairPool =
-      results[2] && results[2][listing.token]
-        ? parsePairPool(results[2][listing.token])
+    const pairPool =
+    stakingPool && stakingPool[listing.token]
+        ? parsePairPool(stakingPool[listing.token])
         : { uusd: '0', asset: '0', total: '0' };
     const shares = {
       asset: { amount: pairPool.asset, token: listing.token },
@@ -79,14 +84,14 @@ export const getAccountData = async (address: string) => {
 
     const lpDetails = fromLP(poolBalance[listing.token], shares, pairPool.total);
     const priceKey = listing.status === 'LISTED' ? PriceKey.PAIR : PriceKey.END;
-    const priceResult = price[priceKey](results[2])[listing.token];
-    if (results[5][listing.token]?.balance !== '0') {
-      stakeableTokenData = getStakeableToken(results[5], priceResult, listing.token);
+    const priceResult = price[priceKey](stakingPool)[listing.token];
+    if (tokenBalance[listing.token]?.balance !== '0') {
+      stakeableTokenData = getStakeableToken(tokenBalance, priceResult, listing.token);
       unstakedSum = plus(unstakedSum, stakeableTokenData.unstakedUstValue);
     }
     if (lpDetails?.asset?.amount !== '0') {
       lpBalance = div(poolBalance[listing.token], 1000000);
-      poolData = calculatePoolDetails(listing, rewardsBalance, priceResult, lpDetails, results[4]);
+      poolData = calculatePoolDetails(listing, rewardsBalance, priceResult, lpDetails, assetStats);
       stakedSum = plus(stakedSum, poolData.stakeTotalUstValue);
       rewardsSum = plus(rewardsSum, poolData.rewardsUstValue);
     }
@@ -96,6 +101,6 @@ export const getAccountData = async (address: string) => {
 
     return poolList;
   }, []);
-  let account = { assets: result, airdrops: mirrorAirdrops, total: { rewardsSum, stakedSum, unstakedSum, airdropSum} };
+  const account = { assets: result, airdrops: mirrorAirdrops, total: { rewardsSum, stakedSum, unstakedSum, airdropSum} };
   return account;
 };
