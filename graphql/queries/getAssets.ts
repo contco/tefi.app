@@ -4,13 +4,20 @@ export const getAssets = gql`
 query getAssets($address: String!) {
   assets(address: $address) {
     address
+    coins {
+      balance
+      amount
+      price
+      symbol
+      name
+    }
     mirror {
       assets {
         apr
         ustStaked
         symbol
-        unstakedToken
-        unstakedUstValue
+        amount
+        balance
         tokenStaked
         tokenStakedUstValue
         stakeTotalUstValue

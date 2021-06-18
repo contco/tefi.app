@@ -6,8 +6,8 @@ const typeDefs = gql`
   type AccountAssets {
     symbol: String!
     apr: String!
-    unstakedToken: String
-    unstakedUstValue: String
+    amount: String
+    balance: String
     ustStaked: String
     tokenStaked: String
     tokenStakedUstValue: String

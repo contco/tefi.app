@@ -28,9 +28,9 @@ export const getPoolTotalWithRewards = (balanceValue, rewardsValue) => {
 };
 
 export const getStakeableToken = (tokenBalance, priceResult, token) => {
-  const balance = div(tokenBalance[token].balance, UNIT);
-  const value = times(balance, priceResult ?? 0);
-  return { unstakedToken: balance, unstakedUstValue: value };
+  const amount = div(tokenBalance[token].balance, UNIT);
+  const balance = times(amount, priceResult ?? 0);
+  return { amount, balance };
 };
 
 export const getRewards = (rewardsBalance, listing, priceResult) => {

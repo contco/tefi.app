@@ -6,6 +6,14 @@ interface Token {
   staked?: string
 };
 
+interface Coin {
+  symbol: string
+  amount: string
+  price: string
+  balance: string
+  name: string;
+}
+
 interface Reward  {
   __typename?: 'Reward'
   name?: string
@@ -73,8 +81,8 @@ interface MirrorAccountAssets {
     __typename?: 'AccountAssets'
     symbol: string,
     apr: string,
-    unstakedToken?: string
-    unstakedUstValue?: string
+    amount?: string
+    balance?: string
     ustStaked?: string
     tokenStaked?: string
     tokenStakedUstValue?: string
