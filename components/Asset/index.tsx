@@ -3,14 +3,14 @@ import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText } from '../das
 const HEADING_TEXT = `Assets`;
 
 export interface AssetsProps {
-  mirrorAssets: any;
-  ancAssets: any;
+  mirrorAssets: MirrorAccount;
+  ancAssets: AccountAnc;
 }
 
 const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets }: AssetsProps) => {
   const getAssetsTotal = () => {
     const mirrorTotal = mirrorAssets?.total?.unstakedSum;
-    return mirrorTotal ?? 0;
+    return mirrorTotal ?? '0';
   };
   return (
     <Wrapper>
@@ -32,7 +32,7 @@ const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets }: AssetsProps)
           <StyledText> ${(parseFloat(a?.amount) * parseFloat(a?.price)).toFixed(3)}</StyledText>
         </Row>
       ))}
-      {mirrorAssets?.assets.map((asset) => (
+      {mirrorAssets?.assets.map((asset: MirrorAccountAssets) => (
         <Row key={asset.symbol}>
           <StyledText fontWeight={500}> {asset.symbol}</StyledText>
           <StyledText fontWeight={500}> {asset.name}</StyledText>
