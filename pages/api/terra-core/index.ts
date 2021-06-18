@@ -4,10 +4,11 @@ import { getBankBalance } from './core';
 
 const typeDefs = gql`
     type Coin {
-        denom: String!
-        amount: String!
-        delegations: String
-        undelegations: String
+        name: String!
+        symbol: String!
+        amount: String
+        balance: String
+        price: String
     }
 
     type Assets @key(fields: "address") {

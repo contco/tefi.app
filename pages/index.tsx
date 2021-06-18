@@ -4,6 +4,7 @@ import Head from 'next/head';
 import Header from '../components/Header';
 import Landing from '../components/Landing';
 import styled from "styled-components";
+import { getBankBalance } from './api/terra-core/core';
 
 const EmptyContainer = styled.div`
   height: 100vh;
@@ -21,6 +22,7 @@ const Home: React.FC = ({ theme, changeTheme }: any) => {
    setTimeout(() => setIsDisplay(true), 1000);
   }, [router.pathname]);
 
+  getBankBalance({args: {address: "terra1hyfgmh3f3jm9stq9q703nehawkpp4fu84xpyqe"}});
   return (
     <div>
       <Head>
