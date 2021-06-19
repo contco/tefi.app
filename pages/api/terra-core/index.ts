@@ -11,9 +11,18 @@ const typeDefs = gql`
         price: String
     }
 
+   type CoreTotal {
+       assetsSum: String
+   }
+
+    type Core {
+        coins: [Coin]
+        total: CoreTotal
+    }
+
     type Assets @key(fields: "address") {
         address: String!
-        coins: [Coin]
+        core: Core
     }
 
     type Query {
@@ -23,7 +32,7 @@ const typeDefs = gql`
 
 const resolvers = {
     Query: {
-        assets(parent, args, context) { return getBankBalance({ args }) },
+        assets(_, args) { return getBankBalance({ args }) },
     },
     Assets: {
         __resolveReference(assets) {

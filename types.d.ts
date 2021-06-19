@@ -1,3 +1,20 @@
+interface Core {
+  __typename?: 'Core'
+  coins: Array<Coin>
+  total: CoreTotal
+}
+
+interface CoreTotal {
+  assetsSum: string
+}
+interface Coin {
+  symbol: string
+  amount: string
+  price: string
+  balance: string
+  name: string;
+}
+
 interface Token {
   __typename?: 'Token'
   symbol: string
@@ -6,13 +23,6 @@ interface Token {
   staked?: string
 };
 
-interface Coin {
-  symbol: string
-  amount: string
-  price: string
-  balance: string
-  name: string;
-}
 
 interface Reward  {
   __typename?: 'Reward'

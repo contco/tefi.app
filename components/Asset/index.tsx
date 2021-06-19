@@ -1,17 +1,20 @@
 import { AssetsTitle } from '../../constants';
 import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText } from '../dashboardStyles';
+import {plus} from "../../pages/api/mirror/utils";
 const HEADING_TEXT = `Assets`;
 
 export interface AssetsProps {
   mirrorAssets: MirrorAccount;
   ancAssets: AccountAnc;
-  coins: Array<Coin>
+  core: Core
 }
 
-const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, coins}: AssetsProps) => {
+const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core}: AssetsProps) => {
   const getAssetsTotal = () => {
     const mirrorTotal = mirrorAssets?.total?.unstakedSum;
-    return mirrorTotal ?? '0';
+    const coreTotal = core?.total?.assetsSum;
+    const total = plus(mirrorTotal, coreTotal);
+    return total ?? '0';
   };
 
   return (
@@ -25,7 +28,7 @@ const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, coins}: Assets
           <Title key={index}>{t}</Title>
         ))}
       </Row>
-      {[...coins, ...mirrorAssets?.assets].map((asset: Coin) => (
+      {[...core?.coins, ...mirrorAssets?.assets].map((asset: Coin) => (
         <Row key={asset.symbol}>
           <StyledText fontWeight={500}> {asset.symbol}</StyledText>
           <StyledText fontWeight={500}> {asset.name}</StyledText>

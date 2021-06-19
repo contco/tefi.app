@@ -88,7 +88,7 @@ export const getAccountData = async (address: string) => {
     const priceResult = price[priceKey](stakingPool)[listing.token];
     if (tokenBalance[listing.token]?.balance !== '0') {
       stakeableTokenData = getStakeableToken(tokenBalance, priceResult, listing.token);
-      unstakedSum = plus(unstakedSum, stakeableTokenData.unstakedUstValue);
+      unstakedSum = plus(unstakedSum, stakeableTokenData.balance);
     }
     if (lpDetails?.asset?.amount !== '0') {
       lpBalance = div(poolBalance[listing.token], 1000000);
