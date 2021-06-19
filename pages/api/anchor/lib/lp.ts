@@ -8,7 +8,6 @@ import { ancPriceQuery } from './ancPrice';
 import {
   demicrofy,
   formatANCWithPostfixUnits,
-  formatLP,
   formatRate,
   formatUSTWithPostfixUnits,
 } from '@anchor-protocol/notation';
@@ -130,7 +129,7 @@ export default async (address) => {
       name: 'ANC-LP',
       staked: staked,
       apy: formatRate(lpAPY),
-      reward: rewards?.lPStakerInfo?.pending_reward,
+      reward: formatUSTWithPostfixUnits(demicrofy(rewards?.lPStakerInfo?.pending_reward)),
     },
     balance: balance,
     value: formatUSTWithPostfixUnits(demicrofy(ancUstLPData.stakedValue)),

@@ -4,8 +4,6 @@ import getEarn from './earn';
 import getPool from './lp';
 import getGov from './gov';
 import { formatAirdrops, getAirdrops } from './airdrop';
-import { ancPriceQuery } from './ancPrice';
-import { DEFAULT_MANTLE_ENDPOINTS } from '../../../../utils/ancEndpoints';
 
 export const getAccount = async (address: any) => {
   const balanceRequest = anchor.anchorToken.getBalance(address);

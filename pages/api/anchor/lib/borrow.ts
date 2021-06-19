@@ -3,6 +3,7 @@ import { anchor, client, ContractAddresses } from './test-defaults';
 import { getLatestBlockHeight, mantleFetch } from './utils';
 import { gql } from '@apollo/client';
 import { DEFAULT_MANTLE_ENDPOINTS } from '../../../../utils/ancEndpoints';
+import { demicrofy, formatRate, formatUSTWithPostfixUnits } from '@anchor-protocol/notation';
 
 export const REWARDS_CLAIMABLE_UST_BORROW_REWARDS_QUERY = `
   query (
@@ -107,8 +108,8 @@ export default async (address) => {
   const result = {
     reward: {
       name: 'UST Borrow',
-      apy: borrowApy,
-      reward: rewards?.borrowerInfo?.pending_rewards,
+      apy: formatRate(borrowApy),
+      reward: formatUSTWithPostfixUnits(demicrofy(rewards?.borrowerInfo?.pending_rewards)),
     },
     limit: borrowLimit,
     value: borrowedValue,

@@ -30,8 +30,14 @@ const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets }) => {
       {pools?.map((a, index) => (
         <Row key={index}>
           <StyledText fontWeight={500}> {a?.reward?.name}</StyledText>
-          <StyledText> {parseFloat(a?.reward.staked).toFixed(3)} LP</StyledText>
-          <StyledText isChildren={true}>{parseFloat(a?.balance).toFixed(3)}</StyledText>
+          <StyledText isChildren={true}>
+            {parseFloat(a?.reward.staked).toFixed(3)} LP
+            <HoverText>
+              {parseFloat(a?.anc).toFixed(3)} {'ANC'} <br />
+              {parseFloat(a?.ust).toFixed(3)} {'UST'}
+            </HoverText>
+          </StyledText>
+          <StyledText>${parseFloat(a?.value).toFixed(3)}</StyledText>
         </Row>
       ))}
       {mirrorAssets?.assets.map((assets, index) => (

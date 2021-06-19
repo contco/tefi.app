@@ -49,7 +49,7 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets }) => {
            { a?.staked ? parseFloat(a?.staked).toFixed(3): null}
            
           </StyledText>
-          <StyledText css={CSS_APR}> {formatApr(a?.apy)}%</StyledText>
+          <StyledText css={CSS_APR}> {a?.apy}%</StyledText>
           <StyledText>{a?.reward}</StyledText>
         </Row>
       ))}
