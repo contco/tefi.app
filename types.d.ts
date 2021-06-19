@@ -1,15 +1,26 @@
 interface Core {
   __typename?: 'Core'
-  coins: Array<Coin>
+  coins: Coin[]
+  staking: LunaStaking[],
   total: CoreTotal
+}
+
+interface LunaStaking {
+  balance: string
+  rewards: string
+  stakedValue: string
+  rewardsValue: string
+  totalValue: string
+  validator: string
 }
 
 interface CoreTotal {
   assetsSum: string
+  stakedSum: string
 }
 interface Coin {
   symbol: string
-  amount: string
+  value: string
   price: string
   balance: string
   name: string;
@@ -91,7 +102,7 @@ interface MirrorAccountAssets {
     __typename?: 'AccountAssets'
     symbol: string,
     apr: string,
-    amount?: string
+    value?: string
     balance?: string
     ustStaked?: string
     tokenStaked?: string
