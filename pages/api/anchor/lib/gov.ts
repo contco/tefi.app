@@ -4,7 +4,7 @@ import { gql } from '@apollo/client';
 import { ContractAddresses } from './test-defaults';
 import { mantleFetch } from './utils';
 import { DEFAULT_MANTLE_ENDPOINTS } from '../../../../utils/ancEndpoints';
-import { demicrofy, formatANCWithPostfixUnits, formatRate, formatUSTWithPostfixUnits } from '@anchor-protocol/notation';
+import { demicrofy, formatANCWithPostfixUnits, formatRate } from '@anchor-protocol/notation';
 
 export const REWARDS_ANC_GOVERNANCE_REWARDS_QUERY = `
   query (

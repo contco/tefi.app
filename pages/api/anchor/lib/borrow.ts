@@ -92,9 +92,9 @@ export const rewardsClaimableUstBorrowRewardsQuery = async (mantleEndpoint, addr
   );
 
   return {
-    borrowerInfo: JSON.parse(rawData.borrowerInfo.Result),
-    userANCBalance: JSON.parse(rawData.userANCBalance.Result),
-    marketState: JSON.parse(rawData.marketState.Result),
+    borrowerInfo: JSON.parse(rawData?.borrowerInfo?.Result),
+    userANCBalance: JSON.parse(rawData?.userANCBalance?.Result),
+    marketState: JSON.parse(rawData?.marketState?.Result),
   };
 };
 

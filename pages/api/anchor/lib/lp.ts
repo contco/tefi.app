@@ -5,12 +5,7 @@ import { gql } from '@apollo/client';
 import { DEFAULT_MANTLE_ENDPOINTS } from '../../../../utils/ancEndpoints';
 import big from 'big.js';
 import { ancPriceQuery } from './ancPrice';
-import {
-  demicrofy,
-  formatANCWithPostfixUnits,
-  formatRate,
-  formatUSTWithPostfixUnits,
-} from '@anchor-protocol/notation';
+import { demicrofy, formatANCWithPostfixUnits, formatRate, formatUSTWithPostfixUnits } from '@anchor-protocol/notation';
 
 export const REWARDS_CLAIMABLE_ANC_UST_LP_REWARDS_QUERY = `
   query (
@@ -96,20 +91,20 @@ export const getAncUstLp = async (address) => {
 
   const totalUserLPHolding = big(balance).plus(pool.lPStakerInfo.bond_amount);
   const LPValue = big(ancData?.ancPrice?.USTPoolSize)
-    .div(ancData?.ancPrice?.LPShare === '0' ? 1 : ancData?.ancPrice?.LPShare)
-    .mul(2);
+    ?.div(ancData?.ancPrice?.LPShare === '0' ? 1 : ancData?.ancPrice?.LPShare)
+    ?.mul(2);
 
   const withdrawableAssets = {
     anc: big(ancData?.ancPrice?.ANCPoolSize)
-      .mul(totalUserLPHolding)
+      ?.mul(totalUserLPHolding)
       .div(ancData?.ancPrice?.LPShare === '0' ? 1 : ancData?.ancPrice?.LPShare),
     ust: big(ancData?.ancPrice?.USTPoolSize)
-      .mul(totalUserLPHolding)
+      ?.mul(totalUserLPHolding)
       .div(ancData?.ancPrice?.LPShare === '0' ? 1 : ancData?.ancPrice?.LPShare),
   };
 
   const staked = pool.lPStakerInfo.bond_amount;
-  const stakedValue = big(staked).mul(LPValue);
+  const stakedValue = big(staked)?.mul(LPValue);
 
   return {
     withdrawableAssets,

@@ -25,7 +25,7 @@ export const ancPriceQuery = async ( mantleEndpoint ) => {
     `${mantleEndpoint}?anc--price`,
   );
 
-  const { assets, total_share } = JSON.parse(rawData.ancPrice.Result);
+  const { assets, total_share } = JSON.parse(rawData?.ancPrice?.Result);
 
   const ANCPoolSize = assets[0].amount as unknown;
   const USTPoolSize = assets[1].amount as unknown;
