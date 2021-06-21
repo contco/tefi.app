@@ -11,8 +11,8 @@ const CSS_APR = (props) =>
   });
 
 export interface RewardsProps {
-  ancAssets: any;
-  mirrorAssets: any;
+  ancAssets: AccountAnc;
+  mirrorAssets: MirrorAccount;
 }
 
 const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets }) => {
@@ -22,10 +22,10 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets }) => {
 
   const getRewardsTotal = () => {
     const mirrorTotal = mirrorAssets?.total?.rewardsSum;
-    return mirrorTotal ?? 0;
+    return mirrorTotal ?? '0';
   };
 
-  const formatApr = (apr = 0) => {
+  const formatApr = (apr = '0') => {
     const aprPercentage = times(apr, 100);
     return parseFloat(aprPercentage).toFixed(2);
   };

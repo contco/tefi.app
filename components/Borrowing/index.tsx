@@ -23,7 +23,7 @@ const StyledPercentage = Styled(Flex)`
 `;
 
 export interface BorrowingProps {
-  ancAssets: any;
+  ancAssets: AccountAnc;
 }
 
 const Borrowing: React.SFC<BorrowingProps> = ({ ancAssets }) => {
@@ -44,7 +44,7 @@ const Borrowing: React.SFC<BorrowingProps> = ({ ancAssets }) => {
           <Title key={index}>{t}</Title>
         ))}
       </Row>
-      {borrows?.map((a, index) => (
+      {borrows?.map((a: BorrowData, index) => (
         <Row key={index}>
           <StyledText> {((parseFloat(a?.collaterals[0]?.balance))/1000000).toFixed(3)} LUNA</StyledText>
           <StyledText> ${parseFloat(a?.value).toFixed(3)}</StyledText>

@@ -4,8 +4,8 @@ import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, HoverText } f
 const HEADING_TEXT = `Pools`;
 
 export interface PoolsProps {
-  mirrorAssets: any;
-  ancAssets: any;
+  mirrorAssets: MirrorAccount;
+  ancAssets: AccountAnc;
 }
 
 const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets }) => {
@@ -13,21 +13,21 @@ const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets }) => {
 
   const getPoolTotal = () => {
     const mirrorTotal = mirrorAssets?.total?.stakedSum;
-    return mirrorTotal ?? 0;
+    return mirrorTotal ?? '0';
   };
 
   return (
     <Wrapper>
       <HeadingWrapper>
         <Heading>{HEADING_TEXT}</Heading>
-        <StyledText>${parseInt(getPoolTotal()).toFixed(3)}</StyledText>
+        <StyledText>${parseFloat(getPoolTotal()).toFixed(3)}</StyledText>
       </HeadingWrapper>
       <Row>
         {PoolsTitle.map((t, index) => (
           <Title key={index}>{t}</Title>
         ))}
       </Row>
-      {pools?.map((a, index) => (
+      {pools?.map((a: LpData, index: number) => (
         <Row key={index}>
           <StyledText fontWeight={500}> {a?.reward?.name}</StyledText>
           <StyledText isChildren={true}>
@@ -40,7 +40,7 @@ const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets }) => {
           <StyledText>${parseFloat(a?.value).toFixed(3)}</StyledText>
         </Row>
       ))}
-      {mirrorAssets?.assets.map((assets, index) => (
+      {mirrorAssets?.assets.map((assets: MirrorAccountAssets, index) => (
         <Row key={index}>
           <StyledText fontWeight={500}> {assets?.name}</StyledText>
           <StyledText isChildren={true}>

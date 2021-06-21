@@ -15,7 +15,7 @@ const generateFetchUrl = (address: string, chainID) => {
 
 export const getAirdrops = async (address: string) => {
     const anchorURI = generateFetchUrl(address, networks.mainnet.chainID);
-    let result = await axios.get(anchorURI);
+    const result = await axios.get(anchorURI);
     return result;
 }
 
@@ -23,9 +23,9 @@ export const getAirdrops = async (address: string) => {
 export const formatAirdrops = (result: any , ancPrice: string) => {
   if (result?.data) {
   let airdropSum = '0';
-  let airdrops = result?.data.map((airdrop: any) => {
-    let amount = formatANCWithPostfixUnits(demicrofy(airdrop?.amount));
-    let price = times(ancPrice, amount);
+  const airdrops = result?.data.map((airdrop: any) => {
+    const amount = formatANCWithPostfixUnits(demicrofy(airdrop?.amount));
+    const price = times(ancPrice, amount);
     airdropSum = plus(airdropSum, price);
     return {quantity: amount, name: ANCHOR_TOKEN_NAME, round: airdrop?.stage, price };
   });

@@ -31,7 +31,7 @@ const helpers = ({
         ? { native_token: { denom: token } }
         : { token: { contract_addr: token } }
 
-    const toToken = ({ amount, token }: Asset) => ({
+    const toToken: any = ({ amount, token }: Asset) => ({
       amount,
       info: toAssetInfo(token),
     })
