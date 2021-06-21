@@ -1,3 +1,20 @@
+interface Core {
+  __typename?: 'Core'
+  coins: Array<Coin>
+  total: CoreTotal
+}
+
+interface CoreTotal {
+  assetsSum: string
+}
+interface Coin {
+  symbol: string
+  amount: string
+  price: string
+  balance: string
+  name: string;
+}
+
 interface Token {
   __typename?: 'Token'
   symbol: string
@@ -5,6 +22,7 @@ interface Token {
   price: string
   staked?: string
 };
+
 
 interface Reward  {
   __typename?: 'Reward'
@@ -73,8 +91,8 @@ interface MirrorAccountAssets {
     __typename?: 'AccountAssets'
     symbol: string,
     apr: string,
-    unstakedToken?: string
-    unstakedUstValue?: string
+    amount?: string
+    balance?: string
     ustStaked?: string
     tokenStaked?: string
     tokenStakedUstValue?: string

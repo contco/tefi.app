@@ -17,7 +17,7 @@ export const getPairPool = async () => {
       ${contractAssets.map(alias)}
     }
   `;
-  let result = await request(networks.mainnet.mantle, contractQuery);
-  let parsedData: Dictionary<PairPool> & Dictionary<MintInfo> = parse(result);
+  const result = await request(networks.mainnet.mantle, contractQuery);
+  const parsedData: Dictionary<PairPool> & Dictionary<MintInfo> = parse(result);
   return parsedData;
 };

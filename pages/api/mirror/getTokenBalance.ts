@@ -18,7 +18,7 @@ query ${TOKEN_BALANCE} {
 }
 `;
 
-  let result = await request(networks.mainnet.mantle, balanceQuery);
-  let parsedData: Dictionary<{ balance: string }> = parse(result);
+  const result = await request(networks.mainnet.mantle, balanceQuery);
+  const parsedData: Dictionary<{ balance: string }> = parse(result);
   return parsedData;
 };
