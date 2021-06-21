@@ -108,7 +108,7 @@ export default async (address) => {
   const result = {
     reward: {
       name: 'UST Borrow',
-      apy: formatRate(borrowApy),
+      apy: formatRate(borrowApy || 0),
       reward: formatUSTWithPostfixUnits(demicrofy(rewards?.borrowerInfo?.pending_rewards)),
     },
     limit: borrowLimit,

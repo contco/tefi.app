@@ -73,7 +73,7 @@ export default async (address) => {
     reward: {
       name: 'ANC Gov',
       staked: formatANCWithPostfixUnits(demicrofy(govInfo?.userGovStakingInfo?.balance)),
-      apy: formatRate(govApy),
+      apy: formatRate(govApy || 0),
     },
   };
   return result;

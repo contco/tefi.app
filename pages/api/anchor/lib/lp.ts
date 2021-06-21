@@ -123,7 +123,7 @@ export default async (address) => {
     reward: {
       name: 'ANC-LP',
       staked: staked,
-      apy: formatRate(lpAPY),
+      apy: formatRate(lpAPY || 0),
       reward: formatUSTWithPostfixUnits(demicrofy(rewards?.lPStakerInfo?.pending_reward)),
     },
     balance: balance,
