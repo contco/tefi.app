@@ -11,7 +11,6 @@ import MarketValue from '../components/MarketValue';
 import Borrowing from '../components/Borrowing';
 import Pools from '../components/Pools';
 import Rewards from '../components/Rewards';
-import { GET_ANC_ACCOUNT_DATA } from '../graphql/anc';
 import { useQuery } from '@apollo/client';
 import { getAssets } from '../graphql/queries/getAssets';
 import { ADDRESS_KEY, LOCAL_ADDRESS_TYPE, WALLET_ADDRESS_TYPE } from '../constants';
@@ -48,7 +47,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     }
   }, []);
 
-  const { data, loading, error } = useQuery(getAssets, { variables: { address: ADDRESS_MIR } });
+  const { data, loading, error } = useQuery(getAssets, { variables: { address: address } });
 
   if (loading) {
     return <Loading />;
