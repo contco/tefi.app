@@ -65,8 +65,8 @@ interface LpData {
   reward: Reward;
   balance: string;
   value: !string;
-  anc: !Float;
-  ust: Float;
+  anc: !string;
+  ust: string;
 }
 
 interface GovData {

@@ -44,8 +44,8 @@ const typeDefs = gql`
     reward: Reward!
     balance: String!
     value: String!
-    anc: Float!
-    ust: Float!
+    anc: String!
+    ust: String!
 
   }
 

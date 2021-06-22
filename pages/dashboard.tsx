@@ -32,6 +32,9 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   const { useConnectedWallet } = useWallet();
   const connectedWallet = useConnectedWallet();
 
+  const ADDRESS_ANC = `terra18jg24fpqvjntm2wfc0p47skqccdr9ldtgl5ac9`;
+  const ADDRESS_MIR = 'terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m0q3';
+
   useEffect(() => {
     const localAddress = localStorage.getItem(ADDRESS_KEY);
     const walletAddress = connectedWallet?.terraAddress;
@@ -46,19 +49,17 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   }, []);
 
   const { loading: load, error: err, data: ancdata } = useQuery(GET_ANC_ACCOUNT_DATA, {
-    variables: { address: address },
+    variables: { address: ADDRESS_ANC },
   });
 
-
-  const { data, loading, error } = useQuery(getAssets, { variables: { address: address } });
-
+  const { data, loading, error } = useQuery(getAssets, { variables: { address: ADDRESS_MIR } });
 
   if (loading || load) {
     return <Loading />;
   }
 
   if (error || err) {
-    return <p>{err?.message}</p>;
+    return <p>{err?.message} || {error?.message}</p>;
   }
 
   return (
@@ -70,7 +71,11 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
         <Header theme={theme} changeTheme={changeTheme} addressType={addressType} address={address} />
         <Body>
           <MarketValue />
-          <Assets mirrorAssets={data?.assets?.mirror || {}} core={data?.assets.core} ancAssets={ancdata?.assets?.anchor || {}} />
+          <Assets
+            mirrorAssets={data?.assets?.mirror || {}}
+            core={data?.assets.core}
+            ancAssets={ancdata?.assets?.anchor || {}}
+          />
           <Borrowing ancAssets={ancdata?.assets?.anchor || {}} />
           <Rewards mirrorAssets={data?.assets?.mirror || {}} ancAssets={ancdata?.assets?.anchor || {}} />
           <Pools mirrorAssets={data?.assets?.mirror || {}} ancAssets={ancdata?.assets?.anchor || {}} />
