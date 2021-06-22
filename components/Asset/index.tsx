@@ -17,6 +17,15 @@ const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core}: AssetsP
     return total ?? '0';
   };
 
+   const convertToFloatValue = (value: string) => {
+      const floatValue = parseFloat(value);
+      if(floatValue <= 0.001) {
+        return floatValue.toFixed(8);
+      }
+      else {
+        return floatValue.toFixed(3);
+      }
+   }
   return (
     <Wrapper>
       <HeadingWrapper>
@@ -32,7 +41,7 @@ const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core}: AssetsP
         <Row key={asset.symbol}>
           <StyledText fontWeight={500}> {asset.symbol}</StyledText>
           <StyledText fontWeight={500}> {asset.name}</StyledText>
-          <StyledText> {parseFloat(asset.balance).toFixed(3)}</StyledText>
+          <StyledText> {convertToFloatValue(asset.balance)}</StyledText>
           <StyledText> ${parseFloat(asset.price).toFixed(3)}</StyledText>
           <StyledText> ${parseFloat(asset.value).toFixed(3)}</StyledText>
         </Row>

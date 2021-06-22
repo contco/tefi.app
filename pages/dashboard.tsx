@@ -27,7 +27,6 @@ ${css({
 })}
 `;
 const ADDRESS_ANC = `terra18jg24fpqvjntm2wfc0p47skqccdr9ldtgl5ac9`;
-const ADDRESS_MIR = 'terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m0q3';
 
 const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   const [address, setAddress] = useState<string>('');
@@ -42,7 +41,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
       setAddress(localAddress);
       setAddressType(LOCAL_ADDRESS_TYPE);
     }
-    if (walletAddress) {
+    else if (walletAddress) {
       setAddress(walletAddress);
       setAddressType(WALLET_ADDRESS_TYPE);
     }
@@ -52,7 +51,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     variables: { address: ADDRESS_ANC },
   });
 
-  const { data, loading, error } = useQuery(getAssets, { variables: { address: ADDRESS_MIR } });
+  const { data, loading, error } = useQuery(getAssets, { variables: { address: address } });
 
   if (loading || load) {
     return <Loading/>;
