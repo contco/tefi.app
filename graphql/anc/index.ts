@@ -40,6 +40,9 @@ export const GET_ANC_ACCOUNT_DATA = gql`
             reward
           }
           balance
+          anc
+          ust
+          value
         }
         gov {
           reward {

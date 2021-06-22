@@ -43,6 +43,10 @@ const typeDefs = gql`
   type LPData {
     reward: Reward!
     balance: String!
+    value: String!
+    anc: Float!
+    ust: Float!
+
   }
 
   type GovData {

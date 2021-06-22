@@ -16,11 +16,10 @@ export interface RewardsProps {
 }
 
 const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets }) => {
-  const poolRewards = ancAssets?.pool?.reward;
   const borrowRewards = ancAssets?.debt?.reward;
   const govRewards = ancAssets?.gov?.reward;
+  const poolRewards = ancAssets?.pool?.reward;
 
-  const rewards = [poolRewards, borrowRewards, govRewards];
   const getRewardsTotal = () => {
     const mirrorTotal = mirrorAssets?.total?.rewardsSum;
     return mirrorTotal ?? '0';
@@ -42,23 +41,46 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets }) => {
           <Title key={index}>{t}</Title>
         ))}
       </Row>
-      {rewards?.map((a: Reward, index) => (
-        <Row key={index}>
-          <StyledText fontWeight="500"> {a?.name}</StyledText>
-          <StyledText isChildren={true}> {parseFloat(a?.staked).toFixed(3)}</StyledText>
-          <StyledText css={CSS_APR}> {formatApr(a?.apy)}%</StyledText>
-          <StyledText>{a?.reward}</StyledText>
-        </Row>
-      ))}
-      {mirrorAssets?.assets.map((assets: MirrorAccountAssets, index: number) => (
+
+      <Row>
+        <StyledText fontWeight="500"> {borrowRewards?.name}</StyledText>
+        <StyledText>{borrowRewards?.staked ? parseFloat(borrowRewards?.staked).toFixed(3) : null}</StyledText>
+        <StyledText css={CSS_APR}> {borrowRewards?.apy}%</StyledText>
+        <StyledText>{borrowRewards?.reward} ANC</StyledText>
+      </Row>
+      <Row>
+        <StyledText fontWeight="500"> {govRewards?.name}</StyledText>
+        <StyledText>{govRewards?.staked ? parseFloat(govRewards?.staked).toFixed(3) + ' ANC' : null}</StyledText>
+        <StyledText css={CSS_APR}> {govRewards?.apy}%</StyledText>
+        <StyledText>
+          Automatically <br />
+          re-staked
+        </StyledText>
+      </Row>
+      <Row>
+        <StyledText fontWeight="500"> {poolRewards?.name}</StyledText>
+        <StyledText isChildren={true}>
+          {poolRewards?.staked ? parseFloat(poolRewards?.staked).toFixed(3) + ' LP' : null}
+          <HoverText>
+            {parseFloat(ancAssets?.pool?.anc).toFixed(3)} {'ANC'} <br />
+            {parseFloat(ancAssets?.pool?.ust).toFixed(3)} {'UST'}
+          </HoverText>
+        </StyledText>
+        <StyledText css={CSS_APR}> {poolRewards?.apy}%</StyledText>
+        <StyledText>
+          {poolRewards?.reward} {'ANC'}
+        </StyledText>
+      </Row>
+
+      {mirrorAssets?.assets.map((assets, index) => (
         <Row key={index}>
           <StyledText fontWeight="500"> {assets?.name}</StyledText>
           <StyledText isChildren={true}>
             {' '}
             {parseFloat(assets?.lpBalance)} LP
             <HoverText>
-              {parseFloat(assets?.tokenStaked).toFixed(3)}{" "} {assets?.symbol} <br />
-              {parseFloat(assets?.ustStaked).toFixed(3)} {" "} {'UST'}
+              {parseFloat(assets?.tokenStaked).toFixed(3)} {assets?.symbol} <br />
+              {parseFloat(assets?.ustStaked).toFixed(3)} {'UST'}
             </HoverText>
           </StyledText>
           <StyledText css={CSS_APR}> {formatApr(assets?.apr)}%</StyledText>

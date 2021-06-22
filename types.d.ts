@@ -27,76 +27,79 @@ interface Coin {
 }
 
 interface Token {
-  __typename?: 'Token'
-  symbol: string
-  amount: string
-  price: string
-  staked?: string
-};
+  __typename?: 'Token';
+  symbol: string;
+  amount: string;
+  price: string;
+  staked?: string;
+}
 
 
-interface Reward  {
-  __typename?: 'Reward'
-  name?: string
-  staked?: string
-  apy?: string
-  reward?: string
-};
+interface Reward {
+  __typename?: 'Reward';
+  name?: string;
+  staked?: string;
+  apy?: string;
+  reward?: string;
+}
+
 
 interface Airdrops {
-  __typename?: 'Airdrops'
-  price?: string
-  quantity?: string
-  round?: number
-  name?: string
-};
+  __typename?: 'Airdrops';
+  price?: string;
+  quantity?: string;
+  round?: number;
+  name?: string;
+}
 
 interface UserCollateral {
-  __typename?: 'UserCollateral'
-  collateral?: string
-  balance?: string
-};
+  __typename?: 'UserCollateral';
+  collateral?: string;
+  balance?: string;
+}
 
-interface BorrowData  {
-  __typename?: 'BorrowData'
-  reward?: Reward
-  limit: string
-  value?: string
-  collaterals: Array<UserCollateral>
-};
+interface BorrowData {
+  __typename?: 'BorrowData';
+  reward?: Reward;
+  limit: string;
+  value?: string;
+  collaterals: Array<UserCollateral>;
+}
 
-interface EarnData  {
-  __typename?: 'EarnData'
-  reward?: Reward
-};
+interface EarnData {
+  __typename?: 'EarnData';
+  reward?: Reward;
+}
 
 interface LpData {
-  __typename?: 'LPData'
-  reward: Reward
-  balance: string
-};
+  __typename?: 'LPData';
+  reward: Reward;
+  balance: string;
+  value: !string;
+  anc: !Float;
+  ust: Float;
+}
 
 interface GovData {
-  __typename?: 'GovData'
-  reward: Reward
-};
+  __typename?: 'GovData';
+  reward: Reward;
+}
 
 interface Total {
-  __typename?: 'Total'
-  airdropSum: string
-};
+  __typename?: 'Total';
+  airdropSum: string;
+}
 
-interface AccountAnc  {
-  __typename?: 'AccountANC'
-  assets?: Array<Token>
-  debt?: BorrowData
-  earn?: EarnData
-  pool?: LpData
-  gov?: GovData
-  airdrops?: Array<Airdrops>
-  total?: Total
-};
-
+interface AccountAnc {
+  __typename?: 'AccountANC';
+  assets?: Array<Token>;
+  debt?: BorrowData;
+  earn?: EarnData;
+  pool?: LpData;
+  gov?: GovData;
+  airdrops?: Array<Airdrops>;
+  total?: Total;
+}
 
 interface MirrorAccountAssets {
     __typename?: 'AccountAssets'
@@ -125,15 +128,15 @@ interface MirrorAccountAssets {
   }
 
 interface MirrorAccount {
-    __typename?: 'Account'
-    assets: Array<MirrorAccountAssets>
-    total: AssetsTotal
-    airdrops: Array<Airdrops>
-  }
+  __typename?: 'Account';
+  assets: Array<MirrorAccountAssets>;
+  total: AssetsTotal;
+  airdrops: Array<Airdrops>;
+}
 
 interface Assets {
-  __typename?: 'Assets'
-  address: string
-  anchor?: AccountAnc
-  mirror?: MirrorAccount
-};
+  __typename?: 'Assets';
+  address: string;
+  anchor?: AccountAnc;
+  mirror?: MirrorAccount;
+}
