@@ -27,19 +27,21 @@ const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets }) => {
           <Title key={index}>{t}</Title>
         ))}
       </Row>
-      {pools?.map((a: LpData, index: number) => (
-        <Row key={index}>
-          <StyledText fontWeight={500}> {a?.reward?.name}</StyledText>
-          <StyledText isChildren={true}>
-            {parseFloat(a?.reward.staked).toFixed(3)} LP
-            <HoverText>
-              {parseFloat(a?.anc).toFixed(3)} {'ANC'} <br />
-              {parseFloat(a?.ust).toFixed(3)} {'UST'}
-            </HoverText>
-          </StyledText>
-          <StyledText>${parseFloat(a?.value).toFixed(3)}</StyledText>
-        </Row>
-      ))}
+      {pools?.map((a: LpData, index: number) => {
+        a?.reward?.staked ? (
+          <Row key={index}>
+            <StyledText fontWeight={500}> {a?.reward?.name}</StyledText>
+            <StyledText isChildren={true}>
+              {parseFloat(a?.reward.staked).toFixed(3)} {'LP'}
+              <HoverText>
+                {parseFloat(a?.anc).toFixed(3)} {'ANC'} <br />
+                {parseFloat(a?.ust).toFixed(3)} {'UST'}
+              </HoverText>
+            </StyledText>
+            <StyledText>${parseFloat(a?.value).toFixed(3)}</StyledText>
+          </Row>
+        ) : null;
+      })}
       {mirrorAssets?.assets.map((assets: MirrorAccountAssets, index) => (
         <Row key={index}>
           <StyledText fontWeight={500}> {assets?.name}</StyledText>
