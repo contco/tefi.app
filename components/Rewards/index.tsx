@@ -41,7 +41,7 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets }) => {
           <Title key={index}>{t}</Title>
         ))}
       </Row>
-      {ancAssets.debt.collaterals ? (
+      {ancAssets.debt?.collaterals ? (
         <Row>
           <StyledText fontWeight="500"> {borrowRewards?.name}</StyledText>
           <StyledText>{borrowRewards?.staked ? parseFloat(borrowRewards?.staked).toFixed(3) : null}</StyledText>

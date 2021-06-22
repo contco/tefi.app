@@ -48,18 +48,14 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     }
   }, []);
 
-  const { loading: load, error: err, data: ancdata } = useQuery(GET_ANC_ACCOUNT_DATA, {
-    variables: { address: ADDRESS_ANC },
-  });
-
   const { data, loading, error } = useQuery(getAssets, { variables: { address: ADDRESS_MIR } });
 
-  if (loading || load) {
+  if (loading) {
     return <Loading />;
   }
 
-  if (error || err) {
-    return <p>{err?.message} || {error?.message}</p>;
+  if (error) {
+    return <p> {error?.message}</p>;
   }
 
   return (
@@ -74,11 +70,11 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
           <Assets
             mirrorAssets={data?.assets?.mirror || {}}
             core={data?.assets.core}
-            ancAssets={ancdata?.assets?.anchor || {}}
+            ancAssets={data?.assets?.anchor || {}}
           />
-          <Borrowing ancAssets={ancdata?.assets?.anchor || {}} />
-          <Rewards mirrorAssets={data?.assets?.mirror || {}} ancAssets={ancdata?.assets?.anchor || {}} />
-          <Pools mirrorAssets={data?.assets?.mirror || {}} ancAssets={ancdata?.assets?.anchor || {}} />
+          <Borrowing ancAssets={data?.assets?.anchor || {}} />
+          <Rewards mirrorAssets={data?.assets?.mirror || {}} ancAssets={data?.assets?.anchor || {}} />
+          <Pools mirrorAssets={data?.assets?.mirror || {}} ancAssets={data?.assets?.anchor || {}} />
           <Airdrops mirrorAssets={data?.assets?.mirror || {}} anchorAssets={data?.assets?.anchor} />
         </Body>
       </div>

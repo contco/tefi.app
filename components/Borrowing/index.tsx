@@ -45,7 +45,7 @@ const Borrowing: React.SFC<BorrowingProps> = ({ ancAssets }) => {
         ))}
       </Row>
       {borrows?.map((a: BorrowData, index) => {
-        if (a.collaterals) {
+        if (a?.collaterals) {
           return (
             <Row key={index}>
               <StyledText> {(parseFloat(a?.collaterals[0]?.balance) / 1000000).toFixed(3)} LUNA</StyledText>
