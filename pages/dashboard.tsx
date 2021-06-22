@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
-import css from '@styled-system/css'
-import Styled from "styled-components";
-import { Box } from "@contco/core-ui";
-import Loading from "../components/Loading";
+import css from '@styled-system/css';
+import Styled from 'styled-components';
+import { Box } from '@contco/core-ui';
+import Loading from '../components/Loading';
 import Header from '../components/Header';
 import Assets from '../components/Asset';
 import MarketValue from '../components/MarketValue';
@@ -14,7 +14,7 @@ import { GET_ANC_ACCOUNT_DATA } from '../graphql/anc';
 import { useQuery } from '@apollo/client';
 import { getAssets } from '../graphql/queries/getAssets';
 import { ADDRESS_KEY, LOCAL_ADDRESS_TYPE, WALLET_ADDRESS_TYPE } from '../constants';
-import Airdrops from "../components/Airdrop";
+import Airdrops from '../components/Airdrop';
 
 import useWallet from '../lib/useWallet';
 
@@ -25,8 +25,6 @@ ${css({
   mt: 20,
 })}
 `;
-const ADDRESS_ANC = `terra18jg24fpqvjntm2wfc0p47skqccdr9ldtgl5ac9`;
-const ADDRESS_MIR = 'terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m0q3';
 
 const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   const [address, setAddress] = useState<string>('');
@@ -48,19 +46,20 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   }, []);
 
   const { loading: load, error: err, data: ancdata } = useQuery(GET_ANC_ACCOUNT_DATA, {
-    variables: { address: ADDRESS_ANC },
+    variables: { address: address },
   });
 
-  const { data, loading, error } = useQuery(getAssets, { variables: { address: ADDRESS_MIR } });
+
+  const { data, loading, error } = useQuery(getAssets, { variables: { address: address } });
+
 
   if (loading || load) {
-    return <Loading/>;
+    return <Loading />;
   }
 
-   if (error || err) {
-        return <p>Error</p>
-    };
-
+  if (error || err) {
+    return <p>{err?.message}</p>;
+  }
 
   return (
     <div>
@@ -75,7 +74,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
           <Borrowing ancAssets={ancdata?.assets?.anchor || {}} />
           <Rewards mirrorAssets={data?.assets?.mirror || {}} ancAssets={ancdata?.assets?.anchor || {}} />
           <Pools mirrorAssets={data?.assets?.mirror || {}} ancAssets={ancdata?.assets?.anchor || {}} />
-         <Airdrops  mirrorAssets={data?.assets?.mirror || {}} anchorAssets={data?.assets?.anchor}/>
+          <Airdrops mirrorAssets={data?.assets?.mirror || {}} anchorAssets={data?.assets?.anchor} />
         </Body>
       </div>
     </div>

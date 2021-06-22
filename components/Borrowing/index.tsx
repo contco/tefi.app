@@ -5,7 +5,6 @@ import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText } from '../das
 import { Flex } from '@contco/core-ui';
 import Styled from 'styled-components';
 import PercentageBar from '../PercentageBar';
-import { times } from '../../pages/api/mirror/utils';
 
 const HEADING_TEXT = `Borrowing`;
 
@@ -29,12 +28,7 @@ export interface BorrowingProps {
 
 const Borrowing: React.SFC<BorrowingProps> = ({ ancAssets }) => {
 
-  const formatApr = (apr = '0') => {
-    const aprPercentage = times(apr, 100);
-    return parseFloat(aprPercentage).toFixed(2);
-  };
-
-  const borrows: Array<BorrowData> = [ancAssets.debt];
+  const borrows = [ancAssets.debt];
   return (
     <Wrapper
       css={`
@@ -52,9 +46,9 @@ const Borrowing: React.SFC<BorrowingProps> = ({ ancAssets }) => {
       </Row>
       {borrows?.map((a: BorrowData, index) => (
         <Row key={index}>
-          <StyledText> {parseFloat(a?.collaterals[0]?.balance).toFixed(3)}</StyledText>
+          <StyledText> {((parseFloat(a?.collaterals[0]?.balance))/1000000).toFixed(3)} LUNA</StyledText>
           <StyledText> ${parseFloat(a?.value).toFixed(3)}</StyledText>
-          <StyledText css={CSS_NET_APR}> {formatApr(a?.reward?.apy)}%</StyledText>
+          <StyledText css={CSS_NET_APR}> {a?.reward?.apy}%</StyledText>
         </Row>
       ))}
       <StyledPercentage>

@@ -3,22 +3,30 @@ import getDebt from './borrow';
 import getEarn from './earn';
 import getPool from './lp';
 import getGov from './gov';
-import {formatAirdrops, getAirdrops} from "./airdrop";
+import { formatAirdrops, getAirdrops } from './airdrop';
 
 export const getAccount = async (address: any) => {
-  const balanceRequest =  anchor.anchorToken.getBalance(address);
-  const priceRequest =  anchor.anchorToken.getANCPrice();
+  const balanceRequest = anchor.anchorToken.getBalance(address);
+  const priceRequest = anchor.anchorToken.getANCPrice();
 
-  const debtRequest =  getDebt(address);
-  const earnRequest =  getEarn(address);
-  const poolRequest =  getPool(address);
-  const govRequest =  getGov();
+  const debtRequest = getDebt(address);
+  const earnRequest = getEarn(address);
+  const poolRequest = getPool(address);
+  const govRequest = getGov(address);
   const airdropRequest = getAirdrops(address);
 
-  let anchorData = await Promise.all([balanceRequest, priceRequest, debtRequest, earnRequest, poolRequest, govRequest,airdropRequest]);
-  
+  const anchorData = await Promise.all([
+    balanceRequest,
+    priceRequest,
+    debtRequest,
+    earnRequest,
+    poolRequest,
+    govRequest,
+    airdropRequest,
+  ]);
+
   const [balance, price, debt, earn, pool, gov, airdropData] = anchorData;
-  const {airdrops, airdropSum} = formatAirdrops(airdropData, price);
+  const { airdrops, airdropSum } = formatAirdrops(airdropData, price);
 
   const result = {
     assets: [
@@ -32,6 +40,7 @@ export const getAccount = async (address: any) => {
       reward: {
         name: debt.reward.name,
         apy: debt.reward.apy,
+        reward: debt.reward.reward,
       },
 
       limit: debt.limit,
@@ -52,20 +61,25 @@ export const getAccount = async (address: any) => {
         name: pool.reward.name,
         apy: pool.reward.apy,
         staked: pool.reward.staked,
+        reward: pool.reward.reward,
       },
       balance: pool.balance,
+      anc: pool.anc,
+      ust: pool.ust,
+      value: pool.value,
     },
 
     gov: {
       reward: {
         name: gov.reward.name,
         apy: gov.reward.apy,
+        staked: gov.reward.staked,
       },
     },
     airdrops,
     total: {
-      airdropSum
-    }
+      airdropSum,
+    },
   };
 
   return result;

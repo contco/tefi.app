@@ -40,8 +40,8 @@ const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core}: AssetsP
       {ancAssets?.assets?.map((a, index) => (
         <Row key={index}>
           <StyledText fontWeight={500}> {a?.symbol}</StyledText>
-          <StyledText fontWeight={500}> {a?.symbol}</StyledText>
-          <StyledText> {parseFloat(a?.amount).toFixed(3)}</StyledText>
+          <StyledText fontWeight={500}> {'Anchor'}</StyledText>
+          <StyledText> {parseFloat(a?.amount).toFixed(3)} ANC</StyledText>
           <StyledText> ${parseFloat(a?.price).toFixed(3)}</StyledText>
           <StyledText> ${(parseFloat(a?.amount) * parseFloat(a?.price)).toFixed(3)}</StyledText>
         </Row>

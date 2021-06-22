@@ -1,6 +1,52 @@
 import { client } from './test-defaults';
 import { getLatestBlockHeight } from './utils';
 import { gql } from '@apollo/client';
+import { ContractAddresses } from './test-defaults';
+import { mantleFetch } from './utils';
+import { DEFAULT_MANTLE_ENDPOINTS } from '../../../../utils/ancEndpoints';
+import { demicrofy, formatANCWithPostfixUnits, formatRate } from '@anchor-protocol/notation';
+
+export const REWARDS_ANC_GOVERNANCE_REWARDS_QUERY = `
+  query (
+    $govContract: String!
+    $govStakeInfoQuery: String!
+    $ancContract: String!
+    $userAncBalanceQuery: String!
+  ) {
+    userGovStakingInfo: WasmContractsContractAddressStore(ContractAddress: $govContract, QueryMsg: $govStakeInfoQuery) {
+      Result
+    }
+    userANCBalance: WasmContractsContractAddressStore(ContractAddress: $ancContract, QueryMsg: $userAncBalanceQuery) {
+      Result
+    }
+  }
+`;
+
+export const rewardsAncGovernanceRewardsQuery = async (mantleEndpoint, address) => {
+  const rawData = await mantleFetch(
+    REWARDS_ANC_GOVERNANCE_REWARDS_QUERY,
+    {
+      govContract: ContractAddresses['gov'],
+      ancContract: ContractAddresses['cw20'],
+      govStakeInfoQuery: JSON.stringify({
+        staker: {
+          address: address,
+        },
+      }),
+      userAncBalanceQuery: JSON.stringify({
+        balance: {
+          address: address,
+        },
+      }),
+    },
+    `${mantleEndpoint}?rewards--anc-governance-rewards`,
+  );
+
+  return {
+    userGovStakingInfo: JSON.parse(rawData?.userGovStakingInfo?.Result),
+    userANCBalance: JSON.parse(rawData?.userANCBalance?.Result),
+  };
+};
 
 export const getGovAPY = async () => {
   const height = await getLatestBlockHeight();
@@ -19,13 +65,15 @@ export const getGovAPY = async () => {
   return govAPY;
 };
 
-export default async () => {
+export default async (address) => {
   const govApy = await getGovAPY();
+  const govInfo = await rewardsAncGovernanceRewardsQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet'], address);
 
   const result = {
     reward: {
       name: 'ANC Gov',
-      apy: govApy,
+      staked: formatANCWithPostfixUnits(demicrofy(govInfo?.userGovStakingInfo?.balance)),
+      apy: formatRate(govApy || 0),
     },
   };
   return result;

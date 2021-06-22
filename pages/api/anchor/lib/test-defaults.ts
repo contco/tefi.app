@@ -18,6 +18,15 @@ const key = new MnemonicKey({
     'immense pear text path unique have educate forum maple need carbon side hello remove strike drive legal december protect industry alley truly december brick',
 });
 
+export const ContractAddresses = {
+  cw20: 'terra14z56l0fp2lsf86zy3hty2z47ezkhnthtr9yq76',
+  gov: 'terra1f32xyep306hhcxxxf7mlyh0ucggc00rm2s9da5',
+  moneyMarket: 'terra1sepfj7s0aeg5967uxnfk4thzlerrsktkpelm5s',
+  staking: 'terra1897an2xux840p9lrh6py3ryankc6mspw49xse3',
+  ancUstLP: 'terra1gecs98vcuktyfkrve9czrpgtg0m3aq586x6gzm',
+  ancUstPair: 'terra1gm5p3ner9x9xpwugn9sp6gvhd0lwrtkyrecdn3',
+};
+
 export const client = new ApolloClient({
   uri: MANTLE_ANCHOR_API,
   cache: new InMemoryCache(),
