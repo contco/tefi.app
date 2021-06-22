@@ -2,6 +2,7 @@
 import { Box, Flex, Text } from "@contco/core-ui";
 import css from '@styled-system/css'
 import Styled from "styled-components";
+import { borderLeft } from "styled-system";
 
 export const Wrapper = Styled(Box)`
 ${css({
@@ -40,6 +41,22 @@ ${props => css({
 })}
 `;
 
+export const TextContainer = Styled(Flex)`
+  width: 200;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: blue;
+`;
+
+export const SubText = Styled(Text)`
+${props => css({
+    color: props.theme.colors.detailsText,
+    fontWeight: 'bold',
+    fontSize: 0,
+    pt: 1,
+})}
+`
 export const StyledText = Styled(Text)`
 ${props => css({
     color: props.theme.colors.detailsText,

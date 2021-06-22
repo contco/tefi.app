@@ -4,48 +4,57 @@ export const getAssets = gql`
   query getAssets($address: String!) {
     assets(address: $address) {
       address
-      core {
-        coins {
-          balance
-          amount
-          price
-          symbol
-          name
-        }
-        total {
-          assetsSum
-        }
+     core {
+      coins {
+        balance
+        value
+        price
+        symbol
+        name
       }
-      mirror {
-        assets {
-          apr
-          ustStaked
-          symbol
-          amount
-          balance
-          tokenStaked
-          tokenStakedUstValue
-          stakeTotalUstValue
-          poolTotalWithRewards
-          price
-          name
-          rewards
-          rewardsUstValue
-          lpBalance
-        }
-        airdrops {
-          name
-          quantity
-          price
-          round
-        }
-        total {
-          stakedSum
-          rewardsSum
-          unstakedSum
-          airdropSum
-        }
+      staking {
+        balance
+        rewards
+        stakedValue
+        rewardsValue
+        totalValue
+        validator
       }
+      total {
+        assetsSum
+        stakedSum
+      }
+    }
+    mirror {
+      assets {
+        apr
+        ustStaked
+        symbol
+        balance
+        value
+        tokenStaked
+        tokenStakedUstValue
+        stakeTotalUstValue
+        poolTotalWithRewards
+        price
+        name
+        rewards
+        rewardsUstValue
+        lpBalance
+      }
+      airdrops {
+        name
+        quantity
+        price 
+        round
+      }
+      total {
+        stakedSum
+        rewardsSum
+        unstakedSum
+        airdropSum
+      }
+    }
       anchor {
         assets {
           amount

@@ -10,33 +10,65 @@ const FCD_URL = "https://fcd.terra.dev/v1/";
 
 const terra = new LCDClient(IS_TEST ? TERRA_TEST_NET : TERRA_MAIN_NET);
 
-const getTerraTokens  = (coins, price: string) => {
+
+const getPrice = async (denom: string) => {
+    const priceList =  await axios.get(FCD_URL + `market/swaprate/${denom}`);
+    const ussdPrice = priceList?.data.find(price =>  price.denom === UUSD_DENOM);
+    return ussdPrice.swaprate;
+};
+
+const getTerraTokens  = async (coins, price: string) => {
      let assetsSum = '0';
-     const tokens = coins ? coins.map((coin:any) => {
-     const amount =  div(coin.amount, DIVIDER);
-    if(coin.denom === LUNA_DENOM) {
-        const balance = times(amount, price);
+     const tokens= [];
+     if (coins) {
+     for (const coin of coins) {
+     const balance =  div(coin.amount, DIVIDER);
+     if (coin.denom === UUSD_DENOM) {
         assetsSum = plus(assetsSum, balance);
-        return {...DENOM_SYMBOLS[coin.denom], price, amount, balance };
+       tokens.push({...DENOM_SYMBOLS[coin.denom], price: '1', balance, value: balance});
+
     }
-    else if (coin.denom === UUSD_DENOM) {
-        assetsSum = plus(assetsSum, amount);
-        return {...DENOM_SYMBOLS[coin.denom], price: '1', amount, balance: amount};
+    else if(coin.denom === LUNA_DENOM) {
+        const value = times(balance, price);
+        assetsSum = plus(assetsSum, balance);
+        tokens.push({...DENOM_SYMBOLS[coin.denom], price, balance, value });
     }
-    //case not covered
-    else {
-        return {...DENOM_SYMBOLS[coin.denom], price: '0', amount, balance: '0'}; 
+    else if (DENOM_SYMBOLS[coin.denom]) {
+        const price = await getPrice(coin.denom);
+        const value = times(balance, price);
+        assetsSum = plus(assetsSum, balance);
+         tokens.push({...DENOM_SYMBOLS[coin.denom], price: price, balance, value}); 
     };
-    })  : [];
-    return {tokens, assetsSum};
+    };
+   }
+return {tokens, assetsSum};
+}
+
+const formatStakeData = (stakeData: any, price: string) => {
+    let stakedSum = '0';
+    if(stakeData?.myDelegations) {
+    const staking = stakeData?.myDelegations.map((data: any) => {
+      const balance = div(data?.amountDelegated, DIVIDER);  
+      const rewards = div(data?.totalReward, DIVIDER);
+      const stakedValue = times(balance, price);
+      const rewardsValue = times(rewards, price);
+      const totalValue= plus(stakedValue, rewardsValue);
+      stakedSum = plus(stakedSum, totalValue);
+      return {balance, rewards, stakedValue, rewardsValue, totalValue, validator: data?.validatorName};
+    });
+    return {staking, stakedSum};
+    }
+    else return {staking: [], stakedSum};
 }
 
 export const getBankBalance = async ({ args: { address } }: any) => {
     const balanceRequest= terra.bank.balance(address);
     const pricesRequest = axios.get(FCD_URL + "dashboard");
-    const [balance, prices] = await Promise.all([balanceRequest, pricesRequest]);
+    const stakingRequest = axios.get(FCD_URL+ `staking/${address}`);
+    const [balance, pricesData, stakeData] = await Promise.all([balanceRequest, pricesRequest, stakingRequest]);
     const coins = balance.toData();
-    const lunaPrice = prices?.data?.prices[UUSD_DENOM];
-    const {tokens, assetsSum} = getTerraTokens(coins, lunaPrice);
-    return { address, core: { coins: tokens, total: {assetsSum} }};
+    const lunaPrice =  pricesData?.data?.prices[UUSD_DENOM];
+    const {tokens, assetsSum}: any = await getTerraTokens(coins, lunaPrice);
+    const {staking, stakedSum} = formatStakeData(stakeData?.data, lunaPrice);
+    return { address, core: { coins: tokens, staking, total: {assetsSum, stakedSum} }};
 };

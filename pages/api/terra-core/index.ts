@@ -6,17 +6,28 @@ const typeDefs = gql`
     type Coin {
         name: String!
         symbol: String!
-        amount: String
         balance: String
+        value: String
         price: String
     }
 
    type CoreTotal {
        assetsSum: String
+       stakedSum: String
+   }
+   
+   type LunaStaking {
+       balance: String
+       rewards: String
+       stakedValue: String
+       rewardsValue: String
+       totalValue: String
+       validator: String
    }
 
     type Core {
         coins: [Coin]
+        staking: [LunaStaking]
         total: CoreTotal
     }
 
