@@ -40,7 +40,7 @@ const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets }) => {
           <StyledText>${parseFloat(a?.value).toFixed(3)}</StyledText>
         </Row>
       ))}
-      {mirrorAssets?.assets.map((assets: MirrorAccountAssets, index) => (
+      {mirrorAssets?.mirrorStaking.map((assets: MirrorStaking, index) => (
         <Row key={index}>
           <StyledText fontWeight={500}> {assets?.name}</StyledText>
           <StyledText isChildren={true}>

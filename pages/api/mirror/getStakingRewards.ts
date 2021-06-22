@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 import { request } from 'graphql-request';
 import networks from '../../../utils/networks';
-import { parseContractsData, STAKING_CONTRACT, WASMQUERY } from './utils';
+import { parseContractsData, STAKING_CONTRACT } from './utils';
 
 const STAKING_CONTRACT_NAME = 'StakingReward';
 const GET_CONTRACT = (name: string) => gql`

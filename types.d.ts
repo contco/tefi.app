@@ -101,12 +101,10 @@ interface AccountAnc {
   total?: Total;
 }
 
-interface MirrorAccountAssets {
-    __typename?: 'AccountAssets'
+interface MirrorStaking {
+    __typename?: 'MirrorStaking'
     symbol: string,
     apr: string,
-    value?: string
-    balance?: string
     ustStaked?: string
     tokenStaked?: string
     tokenStakedUstValue?: string
@@ -119,6 +117,14 @@ interface MirrorAccountAssets {
     lpBalance?: string
   }
 
+  interface MirrorHoldings {
+    __typename?: 'MirrorHoldings'
+    symbol: string
+    value: string
+    balance: string
+    price: string
+    name: string
+  }
   interface AssetsTotal {
     __typename?: 'AssetsTotal'
     rewardsSum: string
@@ -129,7 +135,8 @@ interface MirrorAccountAssets {
 
 interface MirrorAccount {
   __typename?: 'Account';
-  assets: Array<MirrorAccountAssets>;
+  mirrorStaking: MirrorStaking[];
+  mirrorHoldings: MirrorHoldings[];
   total: AssetsTotal;
   airdrops: Array<Airdrops>;
 }

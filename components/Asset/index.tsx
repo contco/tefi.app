@@ -29,7 +29,7 @@ const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core}: AssetsP
           <Title key={index}>{t}</Title>
         ))}
       </Row>
-      {[...core?.coins, ...mirrorAssets?.assets].map((asset: Coin) => (
+      {[...core?.coins, ...mirrorAssets?.mirrorHoldings].map((asset: Coin) => (
         <Row key={asset.symbol}>
           <StyledText fontWeight={500}> {asset.symbol}</StyledText>
           <StyledText fontWeight={500}> {asset.name}</StyledText>
