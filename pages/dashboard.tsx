@@ -6,6 +6,7 @@ import { Box } from '@contco/core-ui';
 import Loading from '../components/Loading';
 import Header from '../components/Header';
 import Assets from '../components/Asset';
+import LunaStaking from "../components/LunaStaking";
 import MarketValue from '../components/MarketValue';
 import Borrowing from '../components/Borrowing';
 import Pools from '../components/Pools';
@@ -39,7 +40,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
       setAddress(localAddress);
       setAddressType(LOCAL_ADDRESS_TYPE);
     }
-    if (walletAddress) {
+    else if (walletAddress) {
       setAddress(walletAddress);
       setAddressType(WALLET_ADDRESS_TYPE);
     }
@@ -49,9 +50,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     variables: { address: address },
   });
 
-
   const { data, loading, error } = useQuery(getAssets, { variables: { address: address } });
-
 
   if (loading || load) {
     return <Loading />;
@@ -71,6 +70,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
         <Body>
           <MarketValue />
           <Assets mirrorAssets={data?.assets?.mirror || {}} core={data?.assets.core} ancAssets={ancdata?.assets?.anchor || {}} />
+          <LunaStaking core={data?.assets.core} />
           <Borrowing ancAssets={ancdata?.assets?.anchor || {}} />
           <Rewards mirrorAssets={data?.assets?.mirror || {}} ancAssets={ancdata?.assets?.anchor || {}} />
           <Pools mirrorAssets={data?.assets?.mirror || {}} ancAssets={ancdata?.assets?.anchor || {}} />

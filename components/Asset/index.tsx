@@ -1,5 +1,6 @@
 import { AssetsTitle } from '../../constants';
 import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText } from '../dashboardStyles';
+import { convertToFloatValue  } from '../../utils/convertFloat';
 import {plus} from "../../pages/api/mirror/utils";
 const HEADING_TEXT = `Assets`;
 
@@ -32,9 +33,9 @@ const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core}: AssetsP
         <Row key={asset.symbol}>
           <StyledText fontWeight={500}> {asset.symbol}</StyledText>
           <StyledText fontWeight={500}> {asset.name}</StyledText>
-          <StyledText> {parseFloat(asset.amount).toFixed(3)}</StyledText>
-          <StyledText> ${parseFloat(asset.price).toFixed(3)}</StyledText>
-          <StyledText> ${parseFloat(asset.balance).toFixed(3)}</StyledText>
+          <StyledText> {convertToFloatValue(asset.balance)}</StyledText>
+          <StyledText> ${convertToFloatValue(asset.price)}</StyledText>
+          <StyledText> ${convertToFloatValue(asset.value)}</StyledText>
         </Row>
       ))}
       {ancAssets?.assets?.map((a, index) => (

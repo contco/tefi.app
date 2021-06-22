@@ -7,13 +7,22 @@ query getAssets($address: String!) {
     core {
       coins {
         balance
-        amount
+        value
         price
         symbol
         name
       }
+      staking {
+        balance
+        rewards
+        stakedValue
+        rewardsValue
+        totalValue
+        validator
+      }
       total {
         assetsSum
+        stakedSum
       }
     }
     mirror {
@@ -21,8 +30,8 @@ query getAssets($address: String!) {
         apr
         ustStaked
         symbol
-        amount
         balance
+        value
         tokenStaked
         tokenStakedUstValue
         stakeTotalUstValue

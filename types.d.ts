@@ -1,15 +1,26 @@
 interface Core {
   __typename?: 'Core'
-  coins: Array<Coin>
+  coins: Coin[]
+  staking: LunaStaking[],
   total: CoreTotal
+}
+
+interface LunaStaking {
+  balance: string
+  rewards: string
+  stakedValue: string
+  rewardsValue: string
+  totalValue: string
+  validator: string
 }
 
 interface CoreTotal {
   assetsSum: string
+  stakedSum: string
 }
 interface Coin {
   symbol: string
-  amount: string
+  value: string
   price: string
   balance: string
   name: string;
@@ -91,31 +102,30 @@ interface AccountAnc {
 }
 
 interface MirrorAccountAssets {
-  __typename?: 'AccountAssets';
-  symbol: string;
-  apr: string;
-  unstakedToken?: string;
-  unstakedUstValue?: string;
-  ustStaked?: string;
-  tokenStaked?: string;
-  tokenStakedUstValue?: string;
-  stakeTotalUstValue?: string;
-  poolTotalWithRewards?: string;
-  rewards?: string;
-  rewardsUstValue?: string;
-  price?: string;
-  name?: string;
-  lpBalance?: string;
-}
+    __typename?: 'AccountAssets'
+    symbol: string,
+    apr: string,
+    value?: string
+    balance?: string
+    ustStaked?: string
+    tokenStaked?: string
+    tokenStakedUstValue?: string
+    stakeTotalUstValue?: string
+    poolTotalWithRewards?: string
+    rewards?: string
+    rewardsUstValue?: string
+    price?: string
+    name?: string
+    lpBalance?: string
+  }
 
-
-interface AssetsTotal {
-  __typename?: 'AssetsTotal';
-  rewardsSum: string;
-  stakedSum: string;
-  unstakedSum: string;
-  airdropSum: string;
-}
+  interface AssetsTotal {
+    __typename?: 'AssetsTotal'
+    rewardsSum: string
+    stakedSum: string
+    unstakedSum: string
+    airdropSum: string
+  }
 
 interface MirrorAccount {
   __typename?: 'Account';
