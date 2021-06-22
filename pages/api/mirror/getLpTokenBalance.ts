@@ -16,7 +16,7 @@ export const getLpTokenBalance = async (address: string): Promise<Dictionary<Bal
       ${contractAssets.map(alias)}
     }
   `;
-  let result = await request(networks.mainnet.mantle, contractQuery);
-  let parsedData: Dictionary<Balance> = parse(result);
+  const result = await request(networks.mainnet.mantle, contractQuery);
+  const parsedData: Dictionary<Balance> = parse(result);
   return parsedData;
 };

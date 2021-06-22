@@ -28,9 +28,9 @@ export const getPoolTotalWithRewards = (balanceValue, rewardsValue) => {
 };
 
 export const getStakeableToken = (tokenBalance, priceResult, token) => {
-  const balance = div(tokenBalance[token].balance, UNIT);
-  const value = times(balance, priceResult ?? 0);
-  return { unstakedToken: balance, unstakedUstValue: value };
+  const amount = div(tokenBalance[token].balance, UNIT);
+  const balance = times(amount, priceResult ?? 0);
+  return { amount, balance };
 };
 
 export const getRewards = (rewardsBalance, listing, priceResult) => {
@@ -88,7 +88,7 @@ export const getAccountData = async (address: string) => {
     const priceResult = price[priceKey](stakingPool)[listing.token];
     if (tokenBalance[listing.token]?.balance !== '0') {
       stakeableTokenData = getStakeableToken(tokenBalance, priceResult, listing.token);
-      unstakedSum = plus(unstakedSum, stakeableTokenData.unstakedUstValue);
+      unstakedSum = plus(unstakedSum, stakeableTokenData.balance);
     }
     if (lpDetails?.asset?.amount !== '0') {
       lpBalance = div(poolBalance[listing.token], 1000000);
