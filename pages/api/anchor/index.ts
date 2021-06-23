@@ -65,6 +65,7 @@ const typeDefs = gql`
     gov: GovData
     airdrops: [Airdrops!]
     total: Total
+    totalReward: String
   }
 
   extend type Assets @key(fields: "address") {
