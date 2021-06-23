@@ -72,7 +72,7 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets }) => {
         </StyledText>
       </Row>
 
-      {mirrorAssets?.assets.map((assets, index) => (
+      {mirrorAssets?.mirrorStaking.map((assets: MirrorStaking, index: number) => (
         <Row key={index}>
           <StyledText fontWeight="500"> {assets?.name}</StyledText>
           <StyledText isChildren={true}>

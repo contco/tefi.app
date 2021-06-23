@@ -69,11 +69,10 @@ export const getAccountData = async (address: string) => {
   const rewardsBalance = balance[BalanceKey.REWARD](pairsList, stakingRewards);
   const mirPrice = price["pair"](stakingPool)[MIR_TOKEN];
   const {mirrorAirdrops, airdropSum} = formatAirdrops(airdropsData, mirPrice);
+
+  const mirrorHoldings = [];
   
   const result = MIRROR_ASSETS.reduce((poolList, listing: ListedItem) => {
-    let lpBalance;
-    let poolData;
-    let stakeableTokenData;
     const pairPool =
     stakingPool && stakingPool[listing.token]
         ? parsePairPool(stakingPool[listing.token])
@@ -87,21 +86,19 @@ export const getAccountData = async (address: string) => {
     const priceKey = listing.status === 'LISTED' ? PriceKey.PAIR : PriceKey.END;
     const priceResult = price[priceKey](stakingPool)[listing.token];
     if (tokenBalance[listing.token]?.balance !== '0') {
-      stakeableTokenData = getStakeableToken(tokenBalance, priceResult, listing.token);
+      const stakeableTokenData = getStakeableToken(tokenBalance, priceResult, listing.token);
       unstakedSum = plus(unstakedSum, stakeableTokenData.value);
+      mirrorHoldings.push({ symbol: listing.symbol, name: listing.name, price: priceResult, ...stakeableTokenData});
     }
     if (lpDetails?.asset?.amount !== '0') {
-      lpBalance = div(poolBalance[listing.token], 1000000);
-      poolData = calculatePoolDetails(listing, rewardsBalance, priceResult, lpDetails, assetStats);
+      const lpBalance = div(poolBalance[listing.token], 1000000);
+      const poolData = calculatePoolDetails(listing, rewardsBalance, priceResult, lpDetails, assetStats);
       stakedSum = plus(stakedSum, poolData.stakeTotalUstValue);
       rewardsSum = plus(rewardsSum, poolData.rewardsUstValue);
+      poolList.push({ symbol: listing.symbol, name: listing.name, price: priceResult, lpBalance: lpBalance ?? 0,  ...poolData });
     }
-    if (poolData || stakeableTokenData) {
-      poolList.push({ symbol: listing.symbol, name: listing.name, price: priceResult, lpBalance: lpBalance ?? 0,  ...poolData, ...stakeableTokenData });
-    }
-
     return poolList;
-  }, []);
-  const account = { assets: result, airdrops: mirrorAirdrops, total: { rewardsSum, stakedSum, unstakedSum, airdropSum} };
+  }, []);;
+  const account = { mirrorStaking: result, mirrorHoldings, airdrops: mirrorAirdrops, total: { rewardsSum, stakedSum, unstakedSum, airdropSum} };
   return account;
 };

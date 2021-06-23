@@ -26,12 +26,10 @@ query getAssets($address: String!) {
       }
     }
     mirror {
-      assets {
+      mirrorStaking {
         apr
         ustStaked
         symbol
-        balance
-        value
         tokenStaked
         tokenStakedUstValue
         stakeTotalUstValue
@@ -41,6 +39,13 @@ query getAssets($address: String!) {
         rewards
         rewardsUstValue
         lpBalance
+      }
+      mirrorHoldings {
+        name
+        symbol
+        price
+        balance
+        value
       }
       airdrops {
         name

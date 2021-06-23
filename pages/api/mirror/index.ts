@@ -3,11 +3,9 @@ import { buildFederatedSchema } from '@apollo/federation';
 import { getAccountData } from './getAccountData';
 
 const typeDefs = gql`
-  type AccountAssets {
+  type MirrorStaking {
     symbol: String!
     apr: String!
-    value: String
-    balance: String
     ustStaked: String
     tokenStaked: String
     tokenStakedUstValue: String
@@ -18,6 +16,14 @@ const typeDefs = gql`
     price: String
     name: String
     lpBalance: String
+  }
+
+  type MirrorHoldings {
+    symbol: String!
+    name: String!
+    balance: String!
+    value: String!
+    price: String!
   }
 
   type AssetsTotal {
@@ -35,7 +41,8 @@ const typeDefs = gql`
   }
 
   type Account {
-    assets: [AccountAssets!]
+    mirrorStaking: [MirrorStaking!]
+    mirrorHoldings: [MirrorHoldings!]
     total: AssetsTotal
     airdrops: [Airdrops!]
   }
@@ -49,8 +56,9 @@ const resolvers = {
   Assets: {
     mirror(assets) {
       return getAccountData(assets.address);
-    },
+    }
   },
+
 };
 
 const apolloServer = new ApolloServer({ schema: buildFederatedSchema([{ typeDefs, resolvers }]) });
