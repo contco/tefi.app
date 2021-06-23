@@ -26,12 +26,10 @@ export const getAssets = gql`
       }
     }
     mirror {
-      assets {
+      mirrorStaking {
         apr
         ustStaked
         symbol
-        balance
-        value
         tokenStaked
         tokenStakedUstValue
         stakeTotalUstValue
@@ -41,6 +39,13 @@ export const getAssets = gql`
         rewards
         rewardsUstValue
         lpBalance
+      }
+      mirrorHoldings {
+        name
+        symbol
+        price
+        balance
+        value
       }
       airdrops {
         name
