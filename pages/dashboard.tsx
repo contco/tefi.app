@@ -6,12 +6,11 @@ import { Box } from '@contco/core-ui';
 import Loading from '../components/Loading';
 import Header from '../components/Header';
 import Assets from '../components/Asset';
-import LunaStaking from "../components/LunaStaking";
+import LunaStaking from '../components/LunaStaking';
 import MarketValue from '../components/MarketValue';
 import Borrowing from '../components/Borrowing';
 import Pools from '../components/Pools';
 import Rewards from '../components/Rewards';
-import { GET_ANC_ACCOUNT_DATA } from '../graphql/anc';
 import { useQuery } from '@apollo/client';
 import { getAssets } from '../graphql/queries/getAssets';
 import { ADDRESS_KEY, LOCAL_ADDRESS_TYPE, WALLET_ADDRESS_TYPE } from '../constants';
@@ -33,31 +32,29 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   const { useConnectedWallet } = useWallet();
   const connectedWallet = useConnectedWallet();
 
+  const ADDRESS_ANC = `terra18jg24fpqvjntm2wfc0p47skqccdr9ldtgl5ac9`;
+  const ADDRESS_MIR = 'terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m0q3';
+
   useEffect(() => {
     const localAddress = localStorage.getItem(ADDRESS_KEY);
     const walletAddress = connectedWallet?.terraAddress;
     if (localAddress) {
       setAddress(localAddress);
       setAddressType(LOCAL_ADDRESS_TYPE);
-    }
-    else if (walletAddress) {
+    } else if (walletAddress) {
       setAddress(walletAddress);
       setAddressType(WALLET_ADDRESS_TYPE);
     }
   }, []);
 
-  const { loading: load, error: err, data: ancdata } = useQuery(GET_ANC_ACCOUNT_DATA, {
-    variables: { address: address },
-  });
-
   const { data, loading, error } = useQuery(getAssets, { variables: { address: address } });
 
-  if (loading || load) {
+  if (loading) {
     return <Loading />;
   }
 
-  if (error || err) {
-    return <p>{err?.message}</p>;
+  if (error) {
+    return <p> {error?.message}</p>;
   }
 
   return (
@@ -69,11 +66,15 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
         <Header theme={theme} changeTheme={changeTheme} addressType={addressType} address={address} />
         <Body>
           <MarketValue />
-          <Assets mirrorAssets={data?.assets?.mirror || {}} core={data?.assets.core} ancAssets={ancdata?.assets?.anchor || {}} />
+          <Assets
+            mirrorAssets={data?.assets?.mirror || {}}
+            core={data?.assets.core}
+            ancAssets={data?.assets?.anchor || {}}
+          />
           <LunaStaking core={data?.assets.core} />
-          <Borrowing ancAssets={ancdata?.assets?.anchor || {}} />
-          <Rewards mirrorAssets={data?.assets?.mirror || {}} ancAssets={ancdata?.assets?.anchor || {}} />
-          <Pools mirrorAssets={data?.assets?.mirror || {}} ancAssets={ancdata?.assets?.anchor || {}} />
+          <Borrowing ancAssets={data?.assets?.anchor || {}} />
+          <Rewards mirrorAssets={data?.assets?.mirror || {}} ancAssets={data?.assets?.anchor || {}} />
+          <Pools mirrorAssets={data?.assets?.mirror || {}} ancAssets={data?.assets?.anchor || {}} />
           <Airdrops mirrorAssets={data?.assets?.mirror || {}} anchorAssets={data?.assets?.anchor} />
         </Body>
       </div>

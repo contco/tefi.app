@@ -7,10 +7,10 @@ const HEADING_TEXT = `Assets`;
 export interface AssetsProps {
   mirrorAssets: MirrorAccount;
   ancAssets: AccountAnc;
-  core: Core
+  core: Core;
 }
 
-const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core}: AssetsProps) => {
+const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core }: AssetsProps) => {
   const getAssetsTotal = () => {
     const mirrorTotal = mirrorAssets?.total?.unstakedSum;
     const coreTotal = core?.total?.assetsSum;
@@ -38,15 +38,17 @@ const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core}: AssetsP
           <StyledText> ${convertToFloatValue(asset.value)}</StyledText>
         </Row>
       ))}
-      {ancAssets?.assets?.map((a, index) => (
-        <Row key={index}>
-          <StyledText fontWeight={500}> {a?.symbol}</StyledText>
-          <StyledText fontWeight={500}> {'Anchor'}</StyledText>
-          <StyledText> {parseFloat(a?.amount).toFixed(3)} ANC</StyledText>
-          <StyledText> ${parseFloat(a?.price).toFixed(3)}</StyledText>
-          <StyledText> ${(parseFloat(a?.amount) * parseFloat(a?.price)).toFixed(3)}</StyledText>
-        </Row>
-      ))}
+      {ancAssets?.assets?.map((a, index) =>
+        parseFloat(a.amount) > 0 ? (
+          <Row key={index}>
+            <StyledText fontWeight={500}> {a?.symbol}</StyledText>
+            <StyledText fontWeight={500}> {'Anchor'}</StyledText>
+            <StyledText> {parseFloat(a?.amount).toFixed(3)} ANC</StyledText>
+            <StyledText> ${parseFloat(a?.price).toFixed(3)}</StyledText>
+            <StyledText> ${(parseFloat(a?.amount) * parseFloat(a?.price)).toFixed(3)}</StyledText>
+          </Row>
+        ) : null,
+      )}
     </Wrapper>
   );
 };

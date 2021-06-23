@@ -1,10 +1,10 @@
-import {gql} from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const getAssets = gql`
-query getAssets($address: String!) {
-  assets(address: $address) {
-    address
-    core {
+  query getAssets($address: String!) {
+    assets(address: $address) {
+      address
+     core {
       coins {
         balance
         value
@@ -60,17 +60,65 @@ query getAssets($address: String!) {
         airdropSum
       }
     }
-    anchor {
-      airdrops {
-        name
-        quantity
-        price 
-        round
-      }
-      total {
-        airdropSum
+      anchor {
+        assets {
+          amount
+          symbol
+          price
+        }
+        debt {
+          reward {
+            name
+            apy
+            staked
+            reward
+          }
+          collaterals {
+            balance
+            collateral
+          }
+          value
+        }
+
+        earn {
+          reward {
+            name
+            staked
+            apy
+            reward
+          }
+        }
+
+        pool {
+          reward {
+            name
+            staked
+            apy
+            reward
+          }
+          balance
+          anc
+          ust
+          value
+        }
+        gov {
+          reward {
+            name
+            staked
+            reward
+            apy
+          }
+        }
+        airdrops {
+          name
+          quantity
+          price
+          round
+        }
+        total {
+          airdropSum
+        }
       }
     }
   }
-}
 `;

@@ -33,7 +33,7 @@ const typeDefs = gql`
     reward: Reward
     limit: String!
     value: String
-    collaterals: [UserCollateral]!
+    collaterals: [UserCollateral]
   }
 
   type EarnData {
@@ -44,8 +44,8 @@ const typeDefs = gql`
     reward: Reward!
     balance: String!
     value: String!
-    anc: Float!
-    ust: Float!
+    anc: String!
+    ust: String!
 
   }
 

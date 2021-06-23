@@ -9,7 +9,7 @@ export interface PoolsProps {
 }
 
 const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets }) => {
-  const pools = [ancAssets?.pool];
+  const pool = ancAssets?.pool;
 
   const getPoolTotal = () => {
     const mirrorTotal = mirrorAssets?.total?.stakedSum;
@@ -20,26 +20,28 @@ const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets }) => {
     <Wrapper>
       <HeadingWrapper>
         <Heading>{HEADING_TEXT}</Heading>
-        <StyledText>${parseFloat(getPoolTotal()).toFixed(3)}</StyledText>
+        <StyledText>${(parseFloat(getPoolTotal()) + parseFloat(pool?.value)).toFixed(3)}</StyledText>
       </HeadingWrapper>
       <Row>
         {PoolsTitle.map((t, index) => (
           <Title key={index}>{t}</Title>
         ))}
       </Row>
-      {pools?.map((a: LpData, index: number) => (
-        <Row key={index}>
-          <StyledText fontWeight={500}> {a?.reward?.name}</StyledText>
+
+      {pool?.reward?.staked ? (
+        <Row>
+          <StyledText fontWeight={500}> {pool?.reward?.name}</StyledText>
           <StyledText isChildren={true}>
-            {parseFloat(a?.reward.staked).toFixed(3)} LP
+            {parseFloat(pool?.reward.staked).toFixed(3)} {'LP'}
             <HoverText>
-              {parseFloat(a?.anc).toFixed(3)} {'ANC'} <br />
-              {parseFloat(a?.ust).toFixed(3)} {'UST'}
+              {parseFloat(pool?.anc).toFixed(3)} {'ANC'} <br />
+              {parseFloat(pool?.ust).toFixed(3)} {'UST'}
             </HoverText>
           </StyledText>
-          <StyledText>${parseFloat(a?.value).toFixed(3)}</StyledText>
+          <StyledText>${parseFloat(pool?.value).toFixed(3)}</StyledText>
         </Row>
-      ))}
+      ) : null}
+
       {mirrorAssets?.mirrorStaking.map((assets: MirrorStaking, index) => (
         <Row key={index}>
           <StyledText fontWeight={500}> {assets?.name}</StyledText>

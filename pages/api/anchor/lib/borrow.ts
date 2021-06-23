@@ -113,7 +113,7 @@ export default async (address) => {
     },
     limit: borrowLimit,
     value: borrowedValue,
-    collaterals: collaterals,
+    collaterals: collaterals && collaterals[0] ? collaterals : null,
   };
 
   return result;

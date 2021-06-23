@@ -1,6 +1,5 @@
 import css from '@styled-system/css';
 import { BorrowingTitle } from '../../constants';
-import { TotalBorrowed } from './dummy';
 import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText } from '../dashboardStyles';
 import { Flex } from '@contco/core-ui';
 import Styled from 'styled-components';
@@ -27,8 +26,8 @@ export interface BorrowingProps {
 }
 
 const Borrowing: React.SFC<BorrowingProps> = ({ ancAssets }) => {
+  const borrow: BorrowData = ancAssets.debt;
 
-  const borrows = [ancAssets.debt];
   return (
     <Wrapper
       css={`
@@ -37,20 +36,22 @@ const Borrowing: React.SFC<BorrowingProps> = ({ ancAssets }) => {
     >
       <HeadingWrapper>
         <Heading>{HEADING_TEXT}</Heading>
-        <StyledText>{TotalBorrowed}</StyledText>
+        <StyledText>${parseFloat(borrow?.value).toFixed(3)}</StyledText>
       </HeadingWrapper>
       <Row>
         {BorrowingTitle.map((t, index) => (
           <Title key={index}>{t}</Title>
         ))}
       </Row>
-      {borrows?.map((a: BorrowData, index) => (
-        <Row key={index}>
-          <StyledText> {((parseFloat(a?.collaterals[0]?.balance))/1000000).toFixed(3)} LUNA</StyledText>
-          <StyledText> ${parseFloat(a?.value).toFixed(3)}</StyledText>
-          <StyledText css={CSS_NET_APR}> {a?.reward?.apy}%</StyledText>
+
+      {borrow?.collaterals ? (
+        <Row>
+          <StyledText> {(parseFloat(borrow?.collaterals[0]?.balance) / 1000000).toFixed(3)} LUNA</StyledText>
+          <StyledText> ${parseFloat(borrow?.value).toFixed(3)}</StyledText>
+          <StyledText css={CSS_NET_APR}> {borrow?.reward?.apy}%</StyledText>
         </Row>
-      ))}
+      ) : null}
+
       <StyledPercentage>
         <PercentageBar percentageValue={52.21} />
       </StyledPercentage>
