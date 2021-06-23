@@ -1,11 +1,11 @@
 /* eslint-disable no-console */
-import { anchor, client, ContractAddresses } from './test-defaults';
+import { anchor,  ContractAddresses } from './test-defaults';
 import { getLatestBlockHeight, mantleFetch } from './utils';
-import { gql } from '@apollo/client';
 import { DEFAULT_MANTLE_ENDPOINTS } from '../../../../utils/ancEndpoints';
 import big from 'big.js';
 import { ancPriceQuery } from './ancPrice';
 import { demicrofy, formatANCWithPostfixUnits, formatRate, formatUSTWithPostfixUnits } from '@anchor-protocol/notation';
+import { borrowAPYQuery } from './borrow';
 
 export const REWARDS_CLAIMABLE_ANC_UST_LP_REWARDS_QUERY = `
   query (
@@ -37,22 +37,6 @@ export const getLPBalance = async ({ address }: any) => {
 export const stakedLP = async ({ address }: any) => {
   const result = await anchor.anchorToken.getProvidedLP(address);
   return result;
-};
-
-export const getLpAPY = async () => {
-  const height = await getLatestBlockHeight();
-  const result = await client.query({
-    query: gql`
-      query AnchorLPRewards {
-        AnchorLPRewards(Height: ${height}) {
-          APY
-        }
-      }
-    `,
-  });
-
-  const APY = result.data.AnchorLPRewards[0]?.APY;
-  return APY;
 };
 
 export const rewardsClaimableAncUstLpRewardsQuery = async (mantleEndpoint, address) => {
@@ -115,7 +99,7 @@ export const getAncUstLp = async (address) => {
 export default async (address) => {
   const balance = await getLPBalance({ address });
   const staked = await stakedLP({ address });
-  const lpAPY = await getLpAPY();
+  const allRewards = await borrowAPYQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']);
   const rewards = await rewardsClaimableAncUstLpRewardsQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet'], address);
   const ancUstLPData = await getAncUstLp(address);
 
@@ -123,7 +107,7 @@ export default async (address) => {
     reward: {
       name: 'ANC-LP',
       staked: parseFloat(staked) > 0 ? staked : null,
-      apy: formatRate(lpAPY || 0),
+      apy: formatRate(allRewards?.lpRewards[0]?.APY),
       reward: formatUSTWithPostfixUnits(demicrofy(rewards?.lPStakerInfo?.pending_reward)),
     },
     balance: balance,
