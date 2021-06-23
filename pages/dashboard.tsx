@@ -17,9 +17,6 @@ import { ADDRESS_KEY, LOCAL_ADDRESS_TYPE, WALLET_ADDRESS_TYPE } from '../constan
 import Airdrops from '../components/Airdrop';
 
 import useWallet from '../lib/useWallet';
-import { DEFAULT_MANTLE_ENDPOINTS } from '../utils/ancEndpoints';
-import { rewardsAncGovernanceRewardsQuery } from './api/anchor/lib/gov';
-import { borrowAPYQuery, rewardsClaimableUstBorrowRewardsQuery } from './api/anchor/lib/borrow';
 
 const Body = Styled(Box)`
 ${css({
@@ -49,14 +46,6 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
       setAddressType(WALLET_ADDRESS_TYPE);
     }
   }, []);
-
-  useEffect(() => {
-    const call = async () => {
-      const result = await borrowAPYQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']);
-      console.log(result);
-    };
-    call();
-  });
 
   const { data, loading, error } = useQuery(getAssets, { variables: { address: address } });
 
