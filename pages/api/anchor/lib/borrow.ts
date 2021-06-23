@@ -1,7 +1,6 @@
 import { MARKET_DENOMS } from '@anchor-protocol/anchor.js';
-import { anchor, client, ContractAddresses } from './test-defaults';
+import { anchor, ContractAddresses } from './test-defaults';
 import { getLatestBlockHeight, mantleFetch } from './utils';
-import { gql } from '@apollo/client';
 import { DEFAULT_MANTLE_ENDPOINTS } from '../../../../utils/ancEndpoints';
 import { demicrofy, formatRate, formatUSTWithPostfixUnits } from '@anchor-protocol/notation';
 
@@ -34,6 +33,29 @@ export const REWARDS_CLAIMABLE_UST_BORROW_REWARDS_QUERY = `
   }
 `;
 
+export const BORROW_APY_QUERY = `
+  query {
+    borrowerDistributionAPYs: AnchorBorrowerDistributionAPYs(
+      Order: DESC
+      Limit: 1
+    ) {
+      Height
+      Timestamp
+      DistributionAPY
+    }
+    govRewards: AnchorGovRewardRecords(Order: DESC, Limit: 1) {
+      CurrentAPY
+      Timestamp
+      Height
+    }
+    lpRewards: AnchorLPRewards(Order: DESC, Limit: 1) {
+      Height
+      Timestamp
+      APY
+    }
+  }
+`;
+
 export const getBorrowLimit = async ({ address }: any) => {
   const result = await anchor.borrow.getBorrowLimit({ market: MARKET_DENOMS.UUSD, address });
   return result;
@@ -49,21 +71,6 @@ export const getCollaterals = async ({ address }: any) => {
   return result;
 };
 
-export const getBorrowAPY = async () => {
-  const height = await getLatestBlockHeight();
-  const result = await client.query({
-    query: gql`
-      query AnchorBorrowerAPY {
-        AnchorBorrowerDistributionAPYs(Height: ${height}) {
-          DistributionAPY
-        }
-      }
-    `,
-  });
-
-  const borrowAPY = result.data.AnchorBorrowerDistributionAPYs[0]?.DistributionAPY;
-  return borrowAPY;
-};
 
 export const rewardsClaimableUstBorrowRewardsQuery = async (mantleEndpoint, address) => {
   const blockHeight = await getLatestBlockHeight();
@@ -98,17 +105,21 @@ export const rewardsClaimableUstBorrowRewardsQuery = async (mantleEndpoint, addr
   };
 };
 
+export async function borrowAPYQuery( mantleEndpoint ) {
+  return await mantleFetch(BORROW_APY_QUERY, {}, `${mantleEndpoint}?borrow--apy`);
+}
+
 export default async (address) => {
   const borrowLimit = await getBorrowLimit({ address });
   const borrowedValue = await getBorrowedValue({ address });
   const collaterals = await getCollaterals({ address });
-  const borrowApy = await getBorrowAPY();
+  const allRewards = await borrowAPYQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']);
   const rewards = await rewardsClaimableUstBorrowRewardsQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet'], address);
 
   const result = {
     reward: {
       name: 'UST Borrow',
-      apy: formatRate(borrowApy || 0),
+      apy: formatRate(allRewards?.borrowerDistributionAPYs[0]?.DistributionAPY),
       reward: formatUSTWithPostfixUnits(demicrofy(rewards?.borrowerInfo?.pending_rewards)),
     },
     limit: borrowLimit,

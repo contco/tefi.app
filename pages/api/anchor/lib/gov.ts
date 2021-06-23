@@ -1,10 +1,8 @@
-import { client } from './test-defaults';
-import { getLatestBlockHeight } from './utils';
-import { gql } from '@apollo/client';
 import { ContractAddresses } from './test-defaults';
 import { mantleFetch } from './utils';
 import { DEFAULT_MANTLE_ENDPOINTS } from '../../../../utils/ancEndpoints';
 import { demicrofy, formatANCWithPostfixUnits, formatRate } from '@anchor-protocol/notation';
+import { borrowAPYQuery } from './borrow';
 
 export const REWARDS_ANC_GOVERNANCE_REWARDS_QUERY = `
   query (
@@ -48,26 +46,9 @@ export const rewardsAncGovernanceRewardsQuery = async (mantleEndpoint, address) 
   };
 };
 
-export const getGovAPY = async () => {
-  const height = await getLatestBlockHeight();
-  const result = await client.query({
-    query: gql`
-      query AnchorGovRewards {
-        AnchorGovRewardRecords(Height: ${height}) {
-          CurrentAPY
-        }
-      }
-    `,
-  });
-
-  const govAPY = result.data.AnchorGovRewardRecords[0]?.CurrentAPY;
-
-  return govAPY;
-};
-
 export default async (address) => {
-  const govApy = await getGovAPY();
   const govInfo = await rewardsAncGovernanceRewardsQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet'], address);
+  const allRewards = await borrowAPYQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']);
 
   const result = {
     reward: {
@@ -76,7 +57,7 @@ export default async (address) => {
         parseFloat(govInfo?.userGovStakingInfo?.balance) > 0
           ? formatANCWithPostfixUnits(demicrofy(govInfo?.userGovStakingInfo?.balance))
           : null,
-      apy: formatRate(govApy || 0),
+      apy: formatRate(allRewards?.govRewards[0]?.CurrentAPY),
     },
   };
   return result;

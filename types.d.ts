@@ -1,28 +1,28 @@
 interface Core {
-  __typename?: 'Core'
-  coins: Coin[]
-  staking: LunaStaking[],
-  total: CoreTotal
+  __typename?: 'Core';
+  coins: Coin[];
+  staking: LunaStaking[];
+  total: CoreTotal;
 }
 
 interface LunaStaking {
-  balance: string
-  rewards: string
-  stakedValue: string
-  rewardsValue: string
-  totalValue: string
-  validator: string
+  balance: string;
+  rewards: string;
+  stakedValue: string;
+  rewardsValue: string;
+  totalValue: string;
+  validator: string;
 }
 
 interface CoreTotal {
-  assetsSum: string
-  stakedSum: string
+  assetsSum: string;
+  stakedSum: string;
 }
 interface Coin {
-  symbol: string
-  value: string
-  price: string
-  balance: string
+  symbol: string;
+  value: string;
+  price: string;
+  balance: string;
   name: string;
 }
 
@@ -34,7 +34,6 @@ interface Token {
   staked?: string;
 }
 
-
 interface Reward {
   __typename?: 'Reward';
   name?: string;
@@ -42,7 +41,6 @@ interface Reward {
   apy?: string;
   reward?: string;
 }
-
 
 interface Airdrops {
   __typename?: 'Airdrops';
@@ -99,39 +97,40 @@ interface AccountAnc {
   gov?: GovData;
   airdrops?: Array<Airdrops>;
   total?: Total;
+  totalReward?: string;
 }
 
 interface MirrorStaking {
-    __typename?: 'MirrorStaking'
-    symbol: string,
-    apr: string,
-    ustStaked?: string
-    tokenStaked?: string
-    tokenStakedUstValue?: string
-    stakeTotalUstValue?: string
-    poolTotalWithRewards?: string
-    rewards?: string
-    rewardsUstValue?: string
-    price?: string
-    name?: string
-    lpBalance?: string
-  }
+  __typename?: 'MirrorStaking';
+  symbol: string;
+  apr: string;
+  ustStaked?: string;
+  tokenStaked?: string;
+  tokenStakedUstValue?: string;
+  stakeTotalUstValue?: string;
+  poolTotalWithRewards?: string;
+  rewards?: string;
+  rewardsUstValue?: string;
+  price?: string;
+  name?: string;
+  lpBalance?: string;
+}
 
-  interface MirrorHoldings {
-    __typename?: 'MirrorHoldings'
-    symbol: string
-    value: string
-    balance: string
-    price: string
-    name: string
-  }
-  interface AssetsTotal {
-    __typename?: 'AssetsTotal'
-    rewardsSum: string
-    stakedSum: string
-    unstakedSum: string
-    airdropSum: string
-  }
+interface MirrorHoldings {
+  __typename?: 'MirrorHoldings';
+  symbol: string;
+  value: string;
+  balance: string;
+  price: string;
+  name: string;
+}
+interface AssetsTotal {
+  __typename?: 'AssetsTotal';
+  rewardsSum: string;
+  stakedSum: string;
+  unstakedSum: string;
+  airdropSum: string;
+}
 
 interface MirrorAccount {
   __typename?: 'Account';

@@ -20,9 +20,12 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets }) => {
   const govRewards = ancAssets?.gov?.reward;
   const poolRewards = ancAssets?.pool?.reward;
 
+  const totalReward = ancAssets?.totalReward;
+
   const getRewardsTotal = () => {
     const mirrorTotal = mirrorAssets?.total?.rewardsSum;
-    return mirrorTotal ?? '0';
+    const total = (parseFloat(mirrorTotal) + parseFloat(totalReward)).toFixed(3);
+    return total ?? 0;
   };
 
   const formatApr = (apr = '0') => {
@@ -34,7 +37,7 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets }) => {
     <Wrapper>
       <HeadingWrapper>
         <Heading>{HEADING_TEXT}</Heading>
-        <StyledText>${parseInt(getRewardsTotal()).toFixed(3)}</StyledText>
+        <StyledText>${getRewardsTotal()}</StyledText>
       </HeadingWrapper>
       <Row>
         {RewardsTitle.map((t, index) => (

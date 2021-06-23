@@ -28,6 +28,9 @@ export const getAccount = async (address: any) => {
   const [balance, price, debt, earn, pool, gov, airdropData] = anchorData;
   const { airdrops, airdropSum } = formatAirdrops(airdropData, price);
 
+  const reward = parseFloat(debt.reward.reward) + parseFloat(pool.reward.reward);
+  const rewardValue = reward * parseFloat(price);
+
   const result = {
     assets: [
       {
@@ -80,6 +83,7 @@ export const getAccount = async (address: any) => {
     total: {
       airdropSum,
     },
+    totalReward: rewardValue.toString(),
   };
 
   return result;
