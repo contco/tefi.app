@@ -1,6 +1,6 @@
 import css from '@styled-system/css';
 import { BorrowingTitle } from '../../constants';
-import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText } from '../dashboardStyles';
+import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, Gap } from '../dashboardStyles';
 import { Flex } from '@contco/core-ui';
 import Styled from 'styled-components';
 import PercentageBar from '../PercentageBar';
@@ -59,7 +59,9 @@ const Borrowing: React.SFC<BorrowingProps> = ({ ancAssets }) => {
         <StyledPercentage>
           <PercentageBar percentageValue={parseFloat(parseFloat(borrow?.percentage).toFixed(2))} />
         </StyledPercentage>
-      ) : null}
+      ) : (
+        <Gap />
+      )}
     </Wrapper>
   );
 };
