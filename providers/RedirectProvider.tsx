@@ -1,5 +1,5 @@
 import {useRouter} from "next/router";
-import { useState, useEffect, FC } from "react"
+import { useEffect, FC } from "react"
 import useWallet from "../lib/useWallet";
 import {ADDRESS_KEY} from "../constants";
 
@@ -9,7 +9,7 @@ const connectedWallet = useConnectedWallet();
 const router = useRouter();
  
 useEffect(() => {
-  let localAddress = localStorage.getItem(ADDRESS_KEY);
+  const localAddress = localStorage.getItem(ADDRESS_KEY);
 
   if(router.pathname === "/") {
       if(localAddress || connectedWallet?.terraAddress) {

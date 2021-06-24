@@ -14,6 +14,7 @@ const EmptyContainer = styled.div`
 const Home: React.FC = ({ theme, changeTheme }: any) => {
   const [isDisplay, setIsDisplay] = useState<boolean>(false);
   const router = useRouter();
+  
   useEffect(() => {
     setIsDisplay(false);
     setTimeout(() => setIsDisplay(true), 1000);

@@ -1,4 +1,4 @@
-import { Flex, Text, Button, Input } from '@contco/core-ui';
+import { Flex, Text, Button, Input, Box } from '@contco/core-ui';
 import css from '@styled-system/css';
 import styled from 'styled-components';
 
@@ -124,4 +124,44 @@ export const AddressSubmitText = styled(Text)`
     color: 'primary',
     letterSpacing: '0.83px',
   })};
+`;
+
+export const ModalBox = styled(Box)`
+ height: 280px;
+ width: 600px;
+ ${css({
+   bg: 'primary'
+ })}
+`;
+
+export const ModalTitle = styled(Text)`
+ ${css({
+   color: 'secondary',
+   pt: 5,
+   textAlign:'center',
+   width: '100%',
+   fontWeight: 'bold',
+   fontSize: 3,
+ })}}
+`;
+
+export const ModalSection = styled(Flex)`
+  ${css({
+    height: '60px',
+    px:5,
+    bg: 'secondary',
+    fontWeight: 'bold',
+    opacity: 5,
+    color:'primary',
+    fontSize: 2,
+    alignItems: 'center',
+    my: 5,
+    mx:5,
+    borderRadius: '15px',
+    cursor: 'pointer',
+    transition:'opacity 0.3s',
+    '&:hover': {
+      opacity: 0.7,
+    }
+  })}
 `;
