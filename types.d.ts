@@ -62,6 +62,8 @@ interface BorrowData {
   limit: string;
   value?: string;
   collaterals: Array<UserCollateral>;
+  percentage: string;
+  price: string;
 }
 
 interface EarnData {

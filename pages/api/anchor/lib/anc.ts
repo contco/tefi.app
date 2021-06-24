@@ -49,6 +49,8 @@ export const getAccount = async (address: any) => {
       limit: debt.limit,
       collaterals: debt.collaterals,
       value: debt.value,
+      percentage: debt.percentage,
+      price: debt.price,
     },
 
     earn: {

@@ -27,6 +27,7 @@ export interface BorrowingProps {
 
 const Borrowing: React.SFC<BorrowingProps> = ({ ancAssets }) => {
   const borrow: BorrowData = ancAssets.debt;
+  const collateralValue = (parseFloat(borrow?.collaterals[0]?.balance) / 1000000) * parseFloat(borrow.price);
 
   return (
     <Wrapper
@@ -46,14 +47,14 @@ const Borrowing: React.SFC<BorrowingProps> = ({ ancAssets }) => {
 
       {borrow?.collaterals ? (
         <Row>
-          <StyledText> {(parseFloat(borrow?.collaterals[0]?.balance) / 1000000).toFixed(3)} LUNA</StyledText>
+          <StyledText> ${collateralValue.toFixed(3)}</StyledText>
           <StyledText> ${parseFloat(borrow?.value).toFixed(3)}</StyledText>
           <StyledText css={CSS_NET_APR}> {borrow?.reward?.apy}%</StyledText>
         </Row>
       ) : null}
 
       <StyledPercentage>
-        <PercentageBar percentageValue={52.21} />
+        <PercentageBar percentageValue={parseFloat(parseFloat(borrow?.percentage).toFixed(2))} />
       </StyledPercentage>
     </Wrapper>
   );

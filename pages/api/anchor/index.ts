@@ -34,6 +34,8 @@ const typeDefs = gql`
     limit: String!
     value: String
     collaterals: [UserCollateral]
+    percentage: String
+    price: String
   }
 
   type EarnData {
