@@ -1,6 +1,6 @@
 import css from '@styled-system/css';
 import { RewardsTitle } from '../../constants';
-import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, HoverText } from '../dashboardStyles';
+import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, HoverText, SubText } from '../dashboardStyles';
 import { times } from '../../pages/api/mirror/utils';
 const HEADING_TEXT = `Rewards`;
 
@@ -19,6 +19,7 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets }) => {
   const borrowRewards = ancAssets?.debt?.reward;
   const govRewards = ancAssets?.gov?.reward;
   const poolRewards = ancAssets?.pool?.reward;
+  const ancPrice = ancAssets?.assets[0]?.price;
 
   const totalReward = ancAssets?.totalReward;
 
@@ -49,7 +50,10 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets }) => {
           <StyledText fontWeight="500"> {borrowRewards?.name}</StyledText>
           <StyledText>{borrowRewards?.staked ? parseFloat(borrowRewards?.staked).toFixed(3) : null}</StyledText>
           <StyledText css={CSS_APR}> {borrowRewards?.apy}%</StyledText>
-          <StyledText>{borrowRewards?.reward} ANC</StyledText>
+          <div>
+            <StyledText>{borrowRewards?.reward} ANC</StyledText>
+            <SubText>${(parseFloat(borrowRewards?.reward) * parseFloat(ancPrice)).toFixed(3)}</SubText>
+          </div>
         </Row>
       ) : null}
       {govRewards?.staked ? (
@@ -74,9 +78,13 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets }) => {
             </HoverText>
           </StyledText>
           <StyledText css={CSS_APR}> {poolRewards?.apy}%</StyledText>
-          <StyledText>
-            {poolRewards?.reward} {'ANC'}
-          </StyledText>
+          <div>
+            <StyledText>
+              {poolRewards?.reward} {'ANC'}
+            </StyledText>
+
+            <SubText>${(parseFloat(poolRewards?.reward) * parseFloat(ancPrice)).toFixed(3)}</SubText>
+          </div>
         </Row>
       ) : null}
       {mirrorAssets?.mirrorStaking.map((assets: MirrorStaking, index: number) => (
