@@ -1,5 +1,6 @@
 import { MARKET_DENOMS } from '@anchor-protocol/anchor.js';
 import { anchor } from './test-defaults';
+import { formatRate } from '@anchor-protocol/notation';
 
 export const getTotalDesposit = async ({ address }: any) => {
   const totalDesposit = await anchor.earn.getTotalDeposit({ market: MARKET_DENOMS.UUSD, address });
@@ -18,7 +19,7 @@ export default async (address) => {
   const result = {
     reward: {
       name: 'ANC Earn',
-      apy: apy,
+      apy: formatRate(apy),
       staked: totalDesposit,
     },
   };

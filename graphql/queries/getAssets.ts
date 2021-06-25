@@ -78,6 +78,8 @@ export const getAssets = gql`
             collateral
           }
           value
+          percentage
+          price
         }
 
         earn {

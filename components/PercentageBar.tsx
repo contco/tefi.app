@@ -50,7 +50,7 @@ const PercentageBar: React.FC<PercentageBarProps> = ({ percentageValue }) => {
                 {percentageValue + '%'}
             </PercentageDisplay>
             <Bar >
-                <Indicator width={percentageValue} />
+                <Indicator width={percentageValue * 2} />
             </Bar>
         </Container>
     );

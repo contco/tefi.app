@@ -11,7 +11,7 @@ const FCD_URL = "https://fcd.terra.dev/v1/";
 const terra = new LCDClient(IS_TEST ? TERRA_TEST_NET : TERRA_MAIN_NET);
 
 
-const getPrice = async (denom: string) => {
+export const getPrice = async (denom: string) => {
     const priceList =  await axios.get(FCD_URL + `market/swaprate/${denom}`);
     const ussdPrice = priceList?.data.find(price =>  price.denom === UUSD_DENOM);
     return ussdPrice.swaprate;

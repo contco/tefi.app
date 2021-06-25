@@ -17,6 +17,7 @@ import { ADDRESS_KEY, LOCAL_ADDRESS_TYPE, WALLET_ADDRESS_TYPE } from '../constan
 import Airdrops from '../components/Airdrop';
 
 import useWallet from '../lib/useWallet';
+import Earn from '../components/Earn';
 
 const Body = Styled(Box)`
 ${css({
@@ -47,7 +48,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     }
   }, []);
 
-  const { data, loading, error } = useQuery(getAssets, { variables: { address: address } });
+  const { data, loading, error } = useQuery(getAssets, { variables: { address: address} });
 
   if (loading) {
     return <Loading />;
@@ -72,6 +73,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
             ancAssets={data?.assets?.anchor || {}}
           />
           <LunaStaking core={data?.assets.core} />
+          <Earn ancAssets={data?.assets?.anchor || {}} />
           <Borrowing ancAssets={data?.assets?.anchor || {}} />
           <Rewards mirrorAssets={data?.assets?.mirror || {}} ancAssets={data?.assets?.anchor || {}} />
           <Pools mirrorAssets={data?.assets?.mirror || {}} ancAssets={data?.assets?.anchor || {}} />

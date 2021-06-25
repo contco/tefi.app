@@ -3,6 +3,8 @@ import { anchor, ContractAddresses } from './test-defaults';
 import { getLatestBlockHeight, mantleFetch } from './utils';
 import { DEFAULT_MANTLE_ENDPOINTS } from '../../../../utils/ancEndpoints';
 import { demicrofy, formatRate, formatUSTWithPostfixUnits } from '@anchor-protocol/notation';
+import { getPrice } from '../../terra-core/core';
+import { LUNA_DENOM } from '../../terra-core/symbols';
 
 export const REWARDS_CLAIMABLE_UST_BORROW_REWARDS_QUERY = `
   query (
@@ -71,7 +73,6 @@ export const getCollaterals = async ({ address }: any) => {
   return result;
 };
 
-
 export const rewardsClaimableUstBorrowRewardsQuery = async (mantleEndpoint, address) => {
   const blockHeight = await getLatestBlockHeight();
 
@@ -105,7 +106,7 @@ export const rewardsClaimableUstBorrowRewardsQuery = async (mantleEndpoint, addr
   };
 };
 
-export async function borrowAPYQuery( mantleEndpoint ) {
+export async function borrowAPYQuery(mantleEndpoint) {
   return await mantleFetch(BORROW_APY_QUERY, {}, `${mantleEndpoint}?borrow--apy`);
 }
 
@@ -115,6 +116,8 @@ export default async (address) => {
   const collaterals = await getCollaterals({ address });
   const allRewards = await borrowAPYQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']);
   const rewards = await rewardsClaimableUstBorrowRewardsQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet'], address);
+  const percentage = ((parseFloat(borrowedValue) / parseFloat(borrowLimit)) * 100) / 2;
+  const lunaPrice = await getPrice(LUNA_DENOM);
 
   const result = {
     reward: {
@@ -125,6 +128,8 @@ export default async (address) => {
     limit: borrowLimit,
     value: borrowedValue,
     collaterals: collaterals && collaterals[0] ? collaterals : null,
+    percentage: percentage.toString(),
+    price: lunaPrice,
   };
 
   return result;
