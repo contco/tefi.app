@@ -129,15 +129,10 @@ export const contractInfo = {
     dict(lpTokenInfo, ({ total_supply }) => total_supply),
 }
 
-const reward = (globalIndex?: string, info?: RewardInfo) => {
-  if (globalIndex && info) {
-    const { index, bond_amount, pending_reward } = info
-
-    const reward = new BN(globalIndex)
-      .minus(index)
-      .times(bond_amount)
-      .plus(pending_reward)
-
+const reward = ( info?: RewardInfo) => {
+  if ( info) {
+    const { pending_reward } = info
+    const reward = (parseFloat(pending_reward)/1000000);
     return reward.toString()
   }
 
@@ -163,10 +158,10 @@ export const balance = {
     stakingPool: Dictionary<StakingPool>,
     stakingReward: StakingReward
   ) =>
-    dict(stakingPool, ({ reward_index: globalIndex }, token) => {
+    dict(stakingPool, (_, token) => {
       const { reward_infos } = stakingReward;
       const info = reward_infos?.find((info) => info.asset_token === token)
-      return floor(reward(globalIndex, info))
+      return info?.pending_reward ?? '0';
     }),
 };
 
