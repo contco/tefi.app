@@ -12,8 +12,10 @@ const ASSETSTATS = gql`
       statistic {
         liquidity(network: $network)
         volume(network: $network)
-        apr
-        apy
+        apr {
+          long 
+          short
+        }
       }
     }
   }
@@ -21,9 +23,9 @@ const ASSETSTATS = gql`
 
 export const getAssetsStats = async () => {
   const variables = { network: STATS_NETWORK.toUpperCase() };
-  let result = await request(networks.mainnet.stats, ASSETSTATS, variables);
+  const result = await request(networks.mainnet.stats, ASSETSTATS, variables);
   const apr = result.assets.reduce((acc: any, { token, statistic }) => {
-    return { ...acc, [token]: statistic.apr };
+    return { ...acc, [token]: statistic.apr.long };
   }, {});
   return apr;
 };
