@@ -9,19 +9,26 @@ import {
   AddressInput,
   AddressSubmit,
   AddressSubmitText,
+  ModalBox, 
+  ModalTitle,
+  ModalSection
 } from './style';
 
 import  useWallet from '../../lib/useWallet';
 import { AccAddress } from '@terra-money/terra.js';
-import { useMemo, useState, useEffect } from 'react';
+import {Modal} from "@contco/core-ui";
+import { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 
-import {ADDRESS_KEY} from "../../constants";
+import {ADDRESS_KEY, WalletConnectType} from "../../constants";
 
 const Landing: React.FC = () => {
+  const [address, setAddress] = useState<string>(null);
+  const [ showModel, setModelVisible] = useState<boolean>(false);
+
   const { onConnect, useConnectedWallet } = useWallet();
   const connectedWallet = useConnectedWallet();
-  const [address, setAddress] = useState<string>(null);
+
 
   const handleAddress = (e: any) => {
     e.preventDefault();
@@ -38,16 +45,22 @@ const Landing: React.FC = () => {
     router.push('/dashboard');
   };
 
+  const onTypeSelect = (type: WalletConnectType) => {
+    onConnect(type);
+    setModelVisible(false);
+  }
+
 
 
   return (
+    <>
     <Container>
       <Title>
         Your portal to
         <Tefi>&nbsp;TeFi</Tefi>
       </Title>
 
-      <ConnectButton onClick={onConnect}>
+      <ConnectButton onClick={() => setModelVisible(!showModel)}>
         {connectedWallet?.terraAddress  ? (
           <ConnectText>
            Connected
@@ -69,6 +82,14 @@ const Landing: React.FC = () => {
         </AddressSubmit>
       </AddressContainer>
     </Container>
+    <Modal isOpen={showModel} onClose={() => setModelVisible(false)}>
+      <ModalBox>
+        <ModalTitle>Connect To A Wallet</ModalTitle>
+        <ModalSection onClick={()=> onTypeSelect(WalletConnectType.Extension)}>Terra Wallet (Extension)</ModalSection>
+        <ModalSection onClick={()=> onTypeSelect(WalletConnectType.Mobile)}>Terra Wallet (Mobile)</ModalSection>
+       </ModalBox>
+    </Modal>
+    </>
   );
 };
 
