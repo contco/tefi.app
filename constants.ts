@@ -29,3 +29,10 @@ export const EarnTitle = ['Total Deposit', 'APY'];
 export const ADDRESS_KEY = 'address';
 export const LOCAL_ADDRESS_TYPE = 'local';
 export const WALLET_ADDRESS_TYPE = 'wallet';
+
+
+export enum WalletConnectType {
+    Extension,
+    Mobile
+  }
+  
