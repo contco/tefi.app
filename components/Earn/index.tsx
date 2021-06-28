@@ -18,6 +18,8 @@ export interface EarnProps {
 const Earn: React.FC<EarnProps> = ({ ancAssets }) => {
   const earn: EarnData = ancAssets?.earn;
 
+  if (parseFloat(earn?.reward?.staked) <= 0) return <></>;
+
   return (
     <Wrapper
       css={`
@@ -33,12 +35,11 @@ const Earn: React.FC<EarnProps> = ({ ancAssets }) => {
           <Title key={index}>{t}</Title>
         ))}
       </Row>
-      {parseFloat(earn?.reward?.staked) > 0 ? (
-        <Row>
-          <StyledText>{earn?.reward?.staked} UST</StyledText>
-          <StyledText css={CSS_NET_APR}>{earn?.reward?.apy}%</StyledText>
-        </Row>
-      ) : null}
+
+      <Row>
+        <StyledText>{earn?.reward?.staked} UST</StyledText>
+        <StyledText css={CSS_NET_APR}>{earn?.reward?.apy}%</StyledText>
+      </Row>
     </Wrapper>
   );
 };

@@ -17,7 +17,7 @@ query ${name} ($contract: String, $msg: String) {
 `;
 
 export const getStakingRewards = async (address: string): Promise<StakingReward> => {
-  const variables = { contract: STAKING_CONTRACT, msg: JSON.stringify({ reward_info: { staker: address } }) };
+  const variables = { contract: STAKING_CONTRACT, msg: JSON.stringify({ reward_info: { staker_addr: address } }) };
   const contractQuery = GET_CONTRACT(STAKING_CONTRACT_NAME);
   const result = await request(networks.mainnet.mantle, contractQuery, variables);
   const parsedData: StakingReward = parseContractsData(result);
