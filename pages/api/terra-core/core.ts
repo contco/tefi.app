@@ -30,13 +30,13 @@ const getTerraTokens  = async (coins, price: string) => {
     }
     else if(coin.denom === LUNA_DENOM) {
         const value = times(balance, price);
-        assetsSum = plus(assetsSum, balance);
+        assetsSum = plus(assetsSum, value);
         tokens.push({...DENOM_SYMBOLS[coin.denom], price, balance, value });
     }
     else if (DENOM_SYMBOLS[coin.denom]) {
         const price = await getPrice(coin.denom);
         const value = times(balance, price);
-        assetsSum = plus(assetsSum, balance);
+        assetsSum = plus(assetsSum, value);
          tokens.push({...DENOM_SYMBOLS[coin.denom], price: price, balance, value}); 
     };
     };
