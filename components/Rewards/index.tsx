@@ -52,7 +52,12 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets }) => {
           <StyledText css={CSS_APR}> {borrowRewards?.apy}%</StyledText>
           <div>
             <StyledText>{borrowRewards?.reward} ANC</StyledText>
-            <SubText>${(parseFloat(borrowRewards?.reward) * parseFloat(ancPrice)).toFixed(3)}</SubText>
+             <SubText>
+              $
+              {borrowRewards?.reward === '<0.001'
+                ? 0
+                : (parseFloat(borrowRewards?.reward) * parseFloat(ancPrice)).toFixed(3)}
+            </SubText>
           </div>
         </Row>
       ) : null}
@@ -83,7 +88,12 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets }) => {
               {poolRewards?.reward} {'ANC'}
             </StyledText>
 
-            <SubText>${(parseFloat(poolRewards?.reward) * parseFloat(ancPrice)).toFixed(3)}</SubText>
+            <SubText>
+              $
+              {poolRewards?.reward === '<0.001'
+                ? 0
+                : (parseFloat(poolRewards?.reward) * parseFloat(ancPrice)).toFixed(3)}
+            </SubText>
           </div>
         </Row>
       ) : null}

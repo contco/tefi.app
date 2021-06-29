@@ -28,7 +28,15 @@ export const getAccount = async (address: any) => {
   const [balance, price, debt, earn, pool, gov, airdropData] = anchorData;
   const { airdrops, airdropSum } = formatAirdrops(airdropData, price);
 
-  const reward = parseFloat(debt.reward.reward) + parseFloat(pool.reward.reward);
+  let reward = 0;
+  if (debt.reward.reward === '<0.001') {
+    reward = parseFloat(pool.reward.reward);
+  } else if (pool.reward.reward === '<0.001') {
+    reward = parseFloat(debt.reward.reward);
+  } else {
+    reward = parseFloat(debt.reward.reward) + parseFloat(pool.reward.reward);
+  }
+
   const rewardValue = reward * parseFloat(price);
 
   const result = {

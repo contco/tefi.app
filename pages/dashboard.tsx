@@ -48,7 +48,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     }
   }, []);
 
-  const { data, loading, error } = useQuery(getAssets, { variables: { address: address} });
+  const { data, loading, error } = useQuery(getAssets, { variables: { address: address } });
 
   if (loading) {
     return <Loading />;
@@ -66,13 +66,17 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
       <div>
         <Header theme={theme} changeTheme={changeTheme} addressType={addressType} address={address} />
         <Body>
-          <MarketValue />
+          <MarketValue
+            core={data?.assets.core || {}}
+            mirrorAssets={data?.assets?.mirror || {}}
+            ancAssets={data?.assets?.anchor || {}}
+          />
           <Assets
             mirrorAssets={data?.assets?.mirror || {}}
             core={data?.assets.core}
             ancAssets={data?.assets?.anchor || {}}
           />
-          <LunaStaking core={data?.assets.core} />
+          <LunaStaking core={data?.assets.core || {}} />
           <Earn ancAssets={data?.assets?.anchor || {}} />
           <Borrowing ancAssets={data?.assets?.anchor || {}} />
           <Rewards mirrorAssets={data?.assets?.mirror || {}} ancAssets={data?.assets?.anchor || {}} />

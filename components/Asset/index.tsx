@@ -1,7 +1,7 @@
 import { AssetsTitle } from '../../constants';
 import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText } from '../dashboardStyles';
-import { convertToFloatValue  } from '../../utils/convertFloat';
-import {plus} from "../../pages/api/mirror/utils";
+import { convertToFloatValue } from '../../utils/convertFloat';
+import { plus } from '../../pages/api/mirror/utils';
 const HEADING_TEXT = `Assets`;
 
 export interface AssetsProps {
@@ -11,18 +11,21 @@ export interface AssetsProps {
 }
 
 const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core }: AssetsProps) => {
+  const ancAsset = ancAssets.assets[0];
+  const ancValue = (parseFloat(ancAsset?.amount) * parseFloat(ancAsset?.price)).toFixed(3);
+
   const getAssetsTotal = () => {
     const mirrorTotal = mirrorAssets?.total?.unstakedSum;
     const coreTotal = core?.total?.assetsSum;
-    const total = plus(mirrorTotal, coreTotal);
-    return total ?? '0';
+    const total = parseFloat(plus(mirrorTotal, coreTotal)) + parseFloat(ancValue);
+    return total.toFixed(3) ?? '0';
   };
 
   return (
     <Wrapper>
       <HeadingWrapper>
         <Heading>{HEADING_TEXT}</Heading>
-        <StyledText>${parseInt(getAssetsTotal()).toFixed(3)}</StyledText>
+        <StyledText>${getAssetsTotal()}</StyledText>
       </HeadingWrapper>
       <Row>
         {AssetsTitle.map((t, index) => (
@@ -38,17 +41,15 @@ const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core }: Assets
           <StyledText> ${convertToFloatValue(asset.value)}</StyledText>
         </Row>
       ))}
-      {ancAssets?.assets?.map((a, index) =>
-        parseFloat(a.amount) > 0 ? (
-          <Row key={index}>
-            <StyledText fontWeight={500}> {a?.symbol}</StyledText>
-            <StyledText fontWeight={500}> {'Anchor'}</StyledText>
-            <StyledText> {parseFloat(a?.amount).toFixed(3)} ANC</StyledText>
-            <StyledText> ${parseFloat(a?.price).toFixed(3)}</StyledText>
-            <StyledText> ${(parseFloat(a?.amount) * parseFloat(a?.price)).toFixed(3)}</StyledText>
-          </Row>
-        ) : null,
-      )}
+      {parseFloat(ancAsset.amount) > 0 ? (
+        <Row>
+          <StyledText fontWeight={500}> {ancAsset?.symbol}</StyledText>
+          <StyledText fontWeight={500}> {'Anchor'}</StyledText>
+          <StyledText> {parseFloat(ancAsset?.amount).toFixed(3)} ANC</StyledText>
+          <StyledText> ${parseFloat(ancAsset?.price).toFixed(3)}</StyledText>
+          <StyledText>${ancValue}</StyledText>
+        </Row>
+      ) : null}
     </Wrapper>
   );
 };

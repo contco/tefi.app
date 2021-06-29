@@ -12,15 +12,15 @@ const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets }) => {
   const pool = ancAssets?.pool;
 
   const getPoolTotal = () => {
-    const mirrorTotal = mirrorAssets?.total?.stakedSum;
-    return mirrorTotal ?? '0';
+    const total = (parseFloat(mirrorAssets?.total?.stakedSum) + parseFloat(pool?.value)).toFixed(3);
+    return total ?? '0';
   };
 
   return (
     <Wrapper>
       <HeadingWrapper>
         <Heading>{HEADING_TEXT}</Heading>
-        <StyledText>${(parseFloat(getPoolTotal()) + parseFloat(pool?.value)).toFixed(3)}</StyledText>
+        <StyledText>${getPoolTotal()}</StyledText>
       </HeadingWrapper>
       <Row>
         {PoolsTitle.map((t, index) => (
