@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { anchor, ContractAddresses } from './test-defaults';
+import { anchor,  ContractAddresses } from './test-defaults';
 import { getLatestBlockHeight, mantleFetch } from './utils';
 import { DEFAULT_MANTLE_ENDPOINTS } from '../../../../utils/ancEndpoints';
 import big from 'big.js';
@@ -100,7 +100,7 @@ export const getAncUstLp = async (address) => {
   return {
     withdrawableAssets,
     stakedValue,
-    stakableValue,
+    stakableValue
   };
 };
 
@@ -122,7 +122,7 @@ export default async (address) => {
     stakedValue: formatUSTWithPostfixUnits(demicrofy(ancUstLPData.stakedValue)),
     anc: formatANCWithPostfixUnits(demicrofy(ancUstLPData.withdrawableAssets.anc)),
     ust: formatUSTWithPostfixUnits(demicrofy(ancUstLPData.withdrawableAssets.ust)),
-    stakableValue: formatUSTWithPostfixUnits(demicrofy(ancUstLPData.stakableValue)),
+    stakableValue: formatUSTWithPostfixUnits(demicrofy(ancUstLPData.stakableValue))
   };
 
   return result;

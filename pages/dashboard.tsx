@@ -48,7 +48,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     }
   }, []);
 
-  const { data, loading, error } = useQuery(getAssets, { variables: { address: address } });
+  const { data, loading, error } = useQuery(getAssets, { variables: { address: ADDRESS_ANC } });
 
   if (loading) {
     return <Loading />;
