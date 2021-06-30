@@ -62,10 +62,14 @@ export const rewardsClaimableAncUstLpRewardsQuery = async (mantleEndpoint, addre
     `${mantleEndpoint}?rewards--claimable-anc-ust-lp-rewards`,
   );
 
-  return {
-    lPBalance: JSON.parse(rawData?.lPBalance?.Result),
-    lPStakerInfo: JSON.parse(rawData?.lPStakerInfo?.Result),
-  };
+  if (rawData) {
+    return {
+      lPBalance: JSON.parse(rawData?.lPBalance?.Result),
+      lPStakerInfo: JSON.parse(rawData?.lPStakerInfo?.Result),
+    };
+  }
+
+  return null;
 };
 
 export const getAncUstLp = async (address) => {
@@ -90,9 +94,13 @@ export const getAncUstLp = async (address) => {
   const staked = pool.lPStakerInfo.bond_amount;
   const stakedValue = big(staked)?.mul(LPValue);
 
+  const stakable = pool.lPBalance.balance;
+  const stakableValue = big(stakable)?.mul(LPValue);
+
   return {
     withdrawableAssets,
     stakedValue,
+    stakableValue
   };
 };
 
@@ -111,9 +119,10 @@ export default async (address) => {
       reward: formatUSTWithPostfixUnits(demicrofy(rewards?.lPStakerInfo?.pending_reward)),
     },
     balance: balance,
-    value: formatUSTWithPostfixUnits(demicrofy(ancUstLPData.stakedValue)),
+    stakedValue: formatUSTWithPostfixUnits(demicrofy(ancUstLPData.stakedValue)),
     anc: formatANCWithPostfixUnits(demicrofy(ancUstLPData.withdrawableAssets.anc)),
     ust: formatUSTWithPostfixUnits(demicrofy(ancUstLPData.withdrawableAssets.ust)),
+    stakableValue: formatUSTWithPostfixUnits(demicrofy(ancUstLPData.stakableValue))
   };
 
   return result;

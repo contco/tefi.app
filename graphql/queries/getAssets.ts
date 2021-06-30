@@ -101,7 +101,8 @@ export const getAssets = gql`
           balance
           anc
           ust
-          value
+          stakedValue
+          stakableValue
         }
         gov {
           reward {
