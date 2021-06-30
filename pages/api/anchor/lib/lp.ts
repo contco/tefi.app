@@ -62,10 +62,14 @@ export const rewardsClaimableAncUstLpRewardsQuery = async (mantleEndpoint, addre
     `${mantleEndpoint}?rewards--claimable-anc-ust-lp-rewards`,
   );
 
-  return {
-    lPBalance: JSON.parse(rawData?.lPBalance?.Result),
-    lPStakerInfo: JSON.parse(rawData?.lPStakerInfo?.Result),
-  };
+  if (rawData) {
+    return {
+      lPBalance: JSON.parse(rawData?.lPBalance?.Result),
+      lPStakerInfo: JSON.parse(rawData?.lPStakerInfo?.Result),
+    };
+  }
+
+  return null;
 };
 
 export const getAncUstLp = async (address) => {
