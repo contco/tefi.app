@@ -79,7 +79,8 @@ export const getAccount = async (address: any) => {
       balance: pool.balance,
       anc: pool.anc,
       ust: pool.ust,
-      value: pool.value,
+      stakedValue: pool.stakedValue,
+      stakableValue: pool.stakableValue,
     },
 
     gov: {

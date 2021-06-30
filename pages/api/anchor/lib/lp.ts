@@ -90,9 +90,13 @@ export const getAncUstLp = async (address) => {
   const staked = pool.lPStakerInfo.bond_amount;
   const stakedValue = big(staked)?.mul(LPValue);
 
+  const stakable = pool.lPBalance.balance;
+  const stakableValue = big(stakable)?.mul(LPValue);
+
   return {
     withdrawableAssets,
     stakedValue,
+    stakableValue
   };
 };
 
@@ -111,9 +115,10 @@ export default async (address) => {
       reward: formatUSTWithPostfixUnits(demicrofy(rewards?.lPStakerInfo?.pending_reward)),
     },
     balance: balance,
-    value: formatUSTWithPostfixUnits(demicrofy(ancUstLPData.stakedValue)),
+    stakedValue: formatUSTWithPostfixUnits(demicrofy(ancUstLPData.stakedValue)),
     anc: formatANCWithPostfixUnits(demicrofy(ancUstLPData.withdrawableAssets.anc)),
     ust: formatUSTWithPostfixUnits(demicrofy(ancUstLPData.withdrawableAssets.ust)),
+    stakableValue: formatUSTWithPostfixUnits(demicrofy(ancUstLPData.stakableValue))
   };
 
   return result;

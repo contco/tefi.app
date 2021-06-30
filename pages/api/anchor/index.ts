@@ -45,7 +45,8 @@ const typeDefs = gql`
   type LPData {
     reward: Reward!
     balance: String!
-    value: String!
+    stakedValue: String!
+    stakableValue: String!
     anc: String!
     ust: String!
 

@@ -12,7 +12,7 @@ const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets }) => {
   const pool = ancAssets?.pool;
 
   const getPoolTotal = () => {
-    const total = (parseFloat(mirrorAssets?.total?.stakedSum) + parseFloat(pool?.value)).toFixed(3);
+    const total = (parseFloat(mirrorAssets?.total?.stakedSum) + parseFloat(pool?.stakedValue) + parseFloat(pool?.stakableValue)).toFixed(3);
     return total ?? '0';
   };
 
@@ -28,17 +28,13 @@ const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets }) => {
         ))}
       </Row>
 
-      {pool?.reward?.staked ? (
+      {pool?.balance ? (
         <Row>
           <StyledText fontWeight={500}> {pool?.reward?.name}</StyledText>
-          <StyledText isChildren={true}>
-            {parseFloat(pool?.reward.staked).toFixed(3)} {'LP'}
-            <HoverText>
-              {parseFloat(pool?.anc).toFixed(3)} {'ANC'} <br />
-              {parseFloat(pool?.ust).toFixed(3)} {'UST'}
-            </HoverText>
+          <StyledText >
+            {(parseFloat(pool?.balance) + parseFloat(pool?.reward?.staked || '0')).toFixed(3)} {'LP'}
           </StyledText>
-          <StyledText>${parseFloat(pool?.value).toFixed(3)}</StyledText>
+          <StyledText>${(parseFloat(pool?.stakableValue) + parseFloat(pool?.stakedValue)).toFixed(3)}</StyledText>
         </Row>
       ) : null}
 
