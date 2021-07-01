@@ -40,10 +40,10 @@ export const stakedLP = async ({ address }: any) => {
 };
 
 export const rewardsClaimableAncUstLpRewardsQuery = async (mantleEndpoint, address) => {
-  const blockHeight = await getLatestBlockHeight();
-
-  const rawData = await mantleFetch(
-    REWARDS_CLAIMABLE_ANC_UST_LP_REWARDS_QUERY,
+   try { 
+    const blockHeight = await getLatestBlockHeight();
+     const rawData = await mantleFetch(
+      REWARDS_CLAIMABLE_ANC_UST_LP_REWARDS_QUERY,
     {
       ancUstLpContract: ContractAddresses['ancUstLP'],
       ancUstLpStakingContract: ContractAddresses['staking'],
@@ -61,28 +61,28 @@ export const rewardsClaimableAncUstLpRewardsQuery = async (mantleEndpoint, addre
     },
     `${mantleEndpoint}?rewards--claimable-anc-ust-lp-rewards`,
   );
-
   if (rawData && rawData?.lPBalance && rawData?.lPStakerInfo) {
     return {
       lPBalance: JSON.parse(rawData?.lPBalance?.Result),
       lPStakerInfo: JSON.parse(rawData?.lPStakerInfo?.Result),
     };
   }
-
   return null;
+}
+catch (err) {
+  rewardsClaimableAncUstLpRewardsQuery(mantleEndpoint, address );
+}
 };
 
 export const getAncUstLp = async (address) => {
   const balance = await anchor.anchorToken.getLPBalance(address);
   const pool = await rewardsClaimableAncUstLpRewardsQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet'], address);
   const ancData = await ancPriceQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']);
-
   if (pool) {
     const totalUserLPHolding = big(balance).plus(pool.lPStakerInfo.bond_amount);
     const LPValue = big(ancData?.ancPrice?.USTPoolSize)
       ?.div(ancData?.ancPrice?.LPShare === '0' ? 1 : ancData?.ancPrice?.LPShare)
       ?.mul(2);
-
     const withdrawableAssets = {
       anc:
         !totalUserLPHolding || !ancData
@@ -98,14 +98,11 @@ export const getAncUstLp = async (address) => {
               ?.div(ancData?.ancPrice?.LPShare === '0' ? 1 : ancData?.ancPrice?.LPShare),
     };
 
-    console.log(withdrawableAssets);
-
     const staked = pool.lPStakerInfo.bond_amount;
     const stakedValue = big(staked)?.mul(LPValue);
-
+     
     const stakable = pool.lPBalance.balance;
     const stakableValue = big(stakable)?.mul(LPValue);
-
     return {
       withdrawableAssets,
       stakedValue,
