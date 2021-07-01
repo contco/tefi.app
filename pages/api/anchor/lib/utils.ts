@@ -26,6 +26,7 @@ export const mantleFetch = (
     .then((res) => res.json())
     .then(({ data, errors }) => {
       if (errors) {
+        console.log(errors[0]);
         return errors[0].message;
       }
       return data;

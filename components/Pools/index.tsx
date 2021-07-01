@@ -12,7 +12,7 @@ const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets }) => {
   const pool = ancAssets?.pool;
 
   const getPoolTotal = () => {
-    const total = (parseFloat(mirrorAssets?.total?.stakedSum) + parseFloat(pool?.stakedValue) + parseFloat(pool?.stakableValue)).toFixed(3);
+    const total = (parseFloat(mirrorAssets?.total?.stakedSum) + parseFloat(pool?.stakedValue || '0') + parseFloat(pool?.stakableValue || '0')).toFixed(3);
     return total ?? '0';
   };
 
@@ -34,7 +34,7 @@ const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets }) => {
           <StyledText >
             {(parseFloat(pool?.balance) + parseFloat(pool?.reward?.staked || '0')).toFixed(3)} {'LP'}
           </StyledText>
-          <StyledText>${(parseFloat(pool?.stakableValue) + parseFloat(pool?.stakedValue)).toFixed(3)}</StyledText>
+          <StyledText>${(parseFloat(pool?.stakableValue || '0') + parseFloat(pool?.stakedValue || '0')).toFixed(3)}</StyledText>
         </Row>
       ) : null}
 
