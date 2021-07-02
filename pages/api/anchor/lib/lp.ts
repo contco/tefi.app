@@ -81,18 +81,12 @@ export const getAncUstLp = async (address) => {
     ?.div(ancData?.ancPrice?.LPShare === '0' ? 1 : ancData?.ancPrice?.LPShare)
     ?.mul(2);
   const withdrawableAssets = {
-    anc:
-      !totalUserLPHolding || !ancData
-        ? '0'
-        : big(ancData?.ancPrice?.ANCPoolSize)
-            ?.mul(totalUserLPHolding)
-            ?.div(ancData?.ancPrice?.LPShare === '0' ? 1 : ancData?.ancPrice?.LPShare),
-    ust:
-      !totalUserLPHolding || !ancData
-        ? '0'
-        : big(ancData?.ancPrice?.USTPoolSize)
-            ?.mul(totalUserLPHolding)
-            ?.div(ancData?.ancPrice?.LPShare === '0' ? 1 : ancData?.ancPrice?.LPShare),
+    anc: big(ancData?.ancPrice?.ANCPoolSize)
+      ?.mul(totalUserLPHolding)
+      ?.div(ancData?.ancPrice?.LPShare === '0' ? 1 : ancData?.ancPrice?.LPShare),
+    ust: big(ancData?.ancPrice?.USTPoolSize)
+      ?.mul(totalUserLPHolding)
+      ?.div(ancData?.ancPrice?.LPShare === '0' ? 1 : ancData?.ancPrice?.LPShare),
   };
 
   const staked = pool.lPStakerInfo.bond_amount;
@@ -122,10 +116,10 @@ export default async (address) => {
       reward: formatUSTWithPostfixUnits(demicrofy(rewards?.lPStakerInfo?.pending_reward)),
     },
     balance: balance,
-    stakedValue: formatUSTWithPostfixUnits(demicrofy(ancUstLPData?.stakedValue || 0)),
-    anc: formatANCWithPostfixUnits(demicrofy(ancUstLPData?.withdrawableAssets.anc || 0)),
-    ust: formatUSTWithPostfixUnits(demicrofy(ancUstLPData?.withdrawableAssets.ust || 0)),
-    stakableValue: formatUSTWithPostfixUnits(demicrofy(ancUstLPData?.stakableValue || 0)),
+    stakedValue: formatUSTWithPostfixUnits(demicrofy(ancUstLPData?.stakedValue)),
+    anc: formatANCWithPostfixUnits(demicrofy(ancUstLPData?.withdrawableAssets.anc)),
+    ust: formatUSTWithPostfixUnits(demicrofy(ancUstLPData?.withdrawableAssets.ust)),
+    stakableValue: formatUSTWithPostfixUnits(demicrofy(ancUstLPData?.stakableValue)),
   };
 
   return result;

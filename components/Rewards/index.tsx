@@ -102,7 +102,7 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets }) => {
           <StyledText fontWeight="500"> {assets?.name}</StyledText>
           <StyledText isChildren={true}>
             {' '}
-            {parseFloat(assets?.lpBalance)} LP
+            {parseFloat(assets?.lpBalance).toFixed(3)} LP
             <HoverText>
               {parseFloat(assets?.tokenStaked).toFixed(3)} {assets?.symbol} <br />
               {parseFloat(assets?.ustStaked).toFixed(3)} {'UST'}
