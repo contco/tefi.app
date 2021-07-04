@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { anchor,  ContractAddresses } from './test-defaults';
+import { anchor, ContractAddresses } from './test-defaults';
 import { getLatestBlockHeight, mantleFetch } from './utils';
 import { DEFAULT_MANTLE_ENDPOINTS } from '../../../../utils/ancEndpoints';
 import big from 'big.js';
@@ -40,36 +40,35 @@ export const stakedLP = async ({ address }: any) => {
 };
 
 export const rewardsClaimableAncUstLpRewardsQuery = async (mantleEndpoint, address) => {
-  const blockHeight = await getLatestBlockHeight();
+  try {
+    const blockHeight = await getLatestBlockHeight();
+    const rawData = await mantleFetch(
+      REWARDS_CLAIMABLE_ANC_UST_LP_REWARDS_QUERY,
+      {
+        ancUstLpContract: ContractAddresses['ancUstLP'],
+        ancUstLpStakingContract: ContractAddresses['staking'],
+        ancUstLpBalanceQuery: JSON.stringify({
+          balance: {
+            address: address,
+          },
+        }),
+        lPStakerInfoQuery: JSON.stringify({
+          staker_info: {
+            staker: address,
+            block_height: blockHeight - 1,
+          },
+        }),
+      },
+      `${mantleEndpoint}?rewards--claimable-anc-ust-lp-rewards`,
+    );
 
-  const rawData = await mantleFetch(
-    REWARDS_CLAIMABLE_ANC_UST_LP_REWARDS_QUERY,
-    {
-      ancUstLpContract: ContractAddresses['ancUstLP'],
-      ancUstLpStakingContract: ContractAddresses['staking'],
-      ancUstLpBalanceQuery: JSON.stringify({
-        balance: {
-          address: address,
-        },
-      }),
-      lPStakerInfoQuery: JSON.stringify({
-        staker_info: {
-          staker: address,
-          block_height: blockHeight - 1,
-        },
-      }),
-    },
-    `${mantleEndpoint}?rewards--claimable-anc-ust-lp-rewards`,
-  );
-
-  if (rawData) {
     return {
       lPBalance: JSON.parse(rawData?.lPBalance?.Result),
       lPStakerInfo: JSON.parse(rawData?.lPStakerInfo?.Result),
     };
+  } catch (err) {
+    rewardsClaimableAncUstLpRewardsQuery(mantleEndpoint, address);
   }
-
-  return null;
 };
 
 export const getAncUstLp = async (address) => {
@@ -81,14 +80,13 @@ export const getAncUstLp = async (address) => {
   const LPValue = big(ancData?.ancPrice?.USTPoolSize)
     ?.div(ancData?.ancPrice?.LPShare === '0' ? 1 : ancData?.ancPrice?.LPShare)
     ?.mul(2);
-
   const withdrawableAssets = {
     anc: big(ancData?.ancPrice?.ANCPoolSize)
       ?.mul(totalUserLPHolding)
-      .div(ancData?.ancPrice?.LPShare === '0' ? 1 : ancData?.ancPrice?.LPShare),
+      ?.div(ancData?.ancPrice?.LPShare === '0' ? 1 : ancData?.ancPrice?.LPShare),
     ust: big(ancData?.ancPrice?.USTPoolSize)
       ?.mul(totalUserLPHolding)
-      .div(ancData?.ancPrice?.LPShare === '0' ? 1 : ancData?.ancPrice?.LPShare),
+      ?.div(ancData?.ancPrice?.LPShare === '0' ? 1 : ancData?.ancPrice?.LPShare),
   };
 
   const staked = pool.lPStakerInfo.bond_amount;
@@ -96,11 +94,10 @@ export const getAncUstLp = async (address) => {
 
   const stakable = pool.lPBalance.balance;
   const stakableValue = big(stakable)?.mul(LPValue);
-
   return {
     withdrawableAssets,
     stakedValue,
-    stakableValue
+    stakableValue,
   };
 };
 
@@ -119,10 +116,10 @@ export default async (address) => {
       reward: formatUSTWithPostfixUnits(demicrofy(rewards?.lPStakerInfo?.pending_reward)),
     },
     balance: balance,
-    stakedValue: formatUSTWithPostfixUnits(demicrofy(ancUstLPData.stakedValue)),
-    anc: formatANCWithPostfixUnits(demicrofy(ancUstLPData.withdrawableAssets.anc)),
-    ust: formatUSTWithPostfixUnits(demicrofy(ancUstLPData.withdrawableAssets.ust)),
-    stakableValue: formatUSTWithPostfixUnits(demicrofy(ancUstLPData.stakableValue))
+    stakedValue: formatUSTWithPostfixUnits(demicrofy(ancUstLPData?.stakedValue)),
+    anc: formatANCWithPostfixUnits(demicrofy(ancUstLPData?.withdrawableAssets.anc)),
+    ust: formatUSTWithPostfixUnits(demicrofy(ancUstLPData?.withdrawableAssets.ust)),
+    stakableValue: formatUSTWithPostfixUnits(demicrofy(ancUstLPData?.stakableValue)),
   };
 
   return result;

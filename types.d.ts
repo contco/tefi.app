@@ -75,9 +75,9 @@ interface LpData {
   __typename?: 'LPData';
   reward: Reward;
   balance: string;
-  stakedValue: !string;
-  stakableValue: !string;
-  anc: !string;
+  stakedValue: string;
+  stakableValue: string;
+  anc: string;
   ust: string;
 }
 
