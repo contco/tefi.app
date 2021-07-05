@@ -11,6 +11,7 @@ const CSS_NET_APR = (props) =>
   css({
     fontWeight: 500,
     color: props.theme.colors.secondary,
+    fontSize: ['12px', null,null, 14, null, 16],
   });
 
 const StyledPercentage = Styled(Flex)`

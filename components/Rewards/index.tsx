@@ -2,12 +2,14 @@ import css from '@styled-system/css';
 import { RewardsTitle } from '../../constants';
 import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, HoverText, SubText } from '../dashboardStyles';
 import { times } from '../../pages/api/mirror/utils';
+import { Box } from '@contco/core-ui';
 const HEADING_TEXT = `Rewards`;
 
 const CSS_APR = (props) =>
   css({
     fontWeight: 500,
     color: props.theme.colors.secondary,
+    fontSize: ['12px', null, null, 14, null, 16],
   });
 
 export interface RewardsProps {
@@ -48,9 +50,9 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets }) => {
       {parseFloat(ancAssets.debt?.value) > 0 ? (
         <Row>
           <StyledText fontWeight="500"> {borrowRewards?.name}</StyledText>
-          <StyledText>{borrowRewards?.staked ? parseFloat(borrowRewards?.staked).toFixed(3) : null}</StyledText>
+          <StyledText>-</StyledText>
           <StyledText css={CSS_APR}> {borrowRewards?.apy}%</StyledText>
-          <div>
+          <Box>
             <StyledText>{borrowRewards?.reward} ANC</StyledText>
             <SubText>
               $
@@ -58,7 +60,7 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets }) => {
                 ? 0
                 : (parseFloat(borrowRewards?.reward) * parseFloat(ancPrice)).toFixed(3)}
             </SubText>
-          </div>
+          </Box>
         </Row>
       ) : null}
       {govRewards?.staked ? (
@@ -83,7 +85,7 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets }) => {
             </HoverText>
           </StyledText>
           <StyledText css={CSS_APR}> {poolRewards?.apy}%</StyledText>
-          <div>
+          <Box>
             <StyledText>
               {poolRewards?.reward} {'ANC'}
             </StyledText>
@@ -94,7 +96,7 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets }) => {
                 ? 0
                 : (parseFloat(poolRewards?.reward) * parseFloat(ancPrice)).toFixed(3)}
             </SubText>
-          </div>
+          </Box>
         </Row>
       ) : null}
       {mirrorAssets?.mirrorStaking.map((assets: MirrorStaking, index: number) => (
