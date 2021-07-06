@@ -2,6 +2,7 @@ import axios from "axios";
 const PYLON_API_ENDPOINT = "https://api.pylon.money/api/";
 const PYLON_TOKEN_SYMBOL = "MINE";
 const PYLON_TOKEN_NAME = "Pylon MINE Token";
+const PYLON_UST_LP = "MINE-UST LP";
 
 
 const fetchPylonData = async (address: string) => {
@@ -45,7 +46,7 @@ const getMinePoolInfo = (price: number, minePoolData, apy: number) => {
        const {balance, earned, stakedBalance} = minePoolData.data;
       if(stakedBalance || balance) {
         const rewardsValue = (price * earned).toString();
-        const pylonPool = [{symbol: PYLON_TOKEN_SYMBOL, availableLP: balance.toString(), stakedLP: stakedBalance.toString(), rewards: earned.toString(), rewardsValue, apy: apy?.toString() ?? '0'}];
+        const pylonPool = [{symbol: PYLON_TOKEN_SYMBOL , lpName: PYLON_UST_LP, availableLP: balance.toString(), stakedLP: stakedBalance.toString(), rewards: earned.toString(), rewardsValue, apy: apy?.toString() ?? '0'}];
         const pylonPoolSum = rewardsValue;
         return {pylonPoolSum, pylonPool}
       }

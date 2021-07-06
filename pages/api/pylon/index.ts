@@ -25,6 +25,7 @@ const typeDefs = gql`
 
   type PylonPool {
     symbol: String!
+    lpName: String!
     availableLP: String!
     stakedLP: String!
     rewards: String!

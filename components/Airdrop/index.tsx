@@ -1,18 +1,26 @@
 import {useState, useEffect} from "react";
+import pylon from "../../pages/api/pylon";
 import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText } from "../dashboardStyles";
 
 const HEADING_TEXT = `Airdrops`
 
 
-export interface AirdropsProps {mirrorAssets: MirrorAccount, anchorAssets: AccountAnc};
+export interface AirdropsProps {
+    mirrorAssets: MirrorAccount,
+    anchorAssets: AccountAnc,
+    pylonAssets: PylonAccount,
+};
 
-const Airdrops: React.FC<AirdropsProps> = ({mirrorAssets, anchorAssets}) => {
+const Airdrops: React.FC<AirdropsProps> = ({mirrorAssets, anchorAssets, pylonAssets}) => {
 
     const [airdrops ,setAidrops] = useState([]);
 
     useEffect(() => {
 
-     const airdropsData = [...mirrorAssets?.airdrops, ... anchorAssets?.airdrops ];
+     let airdropsData = [...mirrorAssets?.airdrops, ... anchorAssets?.airdrops ];
+     if(pylonAssets?.pylonAirdrops) {
+         airdropsData = [pylonAssets.pylonAirdrops, ...airdropsData];
+     }
      setAidrops(airdropsData);
 
     },[]);
@@ -44,7 +52,7 @@ const Airdrops: React.FC<AirdropsProps> = ({mirrorAssets, anchorAssets}) => {
             {airdrops.map((assets:Airdrops, index: number) =>
                 <Row key={index}>
                     <StyledText fontWeight={500}> {assets?.name}</StyledText>
-                    <StyledText>{assets?.round} </StyledText>
+                    <StyledText>{assets?.round ?? "---"} </StyledText>
                     <StyledText > ${parseFloat(assets?.quantity).toFixed(3)}</StyledText>
                     <StyledText > ${parseFloat(assets?.price).toFixed(3)}</StyledText>
                 </Row>
