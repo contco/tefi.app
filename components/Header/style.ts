@@ -1,7 +1,7 @@
 
 import styled from 'styled-components';
 import css from '@styled-system/css';
-import { Flex,Text } from '@contco/core-ui';
+import { Flex, Text } from '@contco/core-ui';
 import LIGHT_SWITCH_ICON from '../../public/light-switch.svg';
 import DARK_SWITCH_ICON from '../../public/dark-switch.svg';
 import WALLET_ICON from "../../public/wallet.svg";
@@ -68,17 +68,17 @@ export const WalletCopyTooltip = styled(Flex)`
   width: 44px;
   height: 20px;
   background-color: green;
-  top: 20px;
-  left: -10px;
+  top: 30px;
+  left: 0px;
   font-size: 8px;
   justify-content: center;
   align-items: center;
   border-radius: 25px;
   opacity: ${props => props.isVisible ? 1 : 0};
   ${css({
-    bg: '#555',
-    color: '#fff'
-  })}
+  bg: '#555',
+  color: '#fff'
+})}
 `;
 export const WalletIcon = styled(WALLET_ICON)`
 .wallet_svg__iconElement  {
