@@ -26,7 +26,8 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets 
 
   const getRewardsTotal = () => {
     const mirrorTotal = mirrorAssets?.total?.rewardsSum;
-    const total = (parseFloat(mirrorTotal) + parseFloat(totalReward)).toFixed(3);
+    const pylonStakingTotal = pylonAssets.pylonPoolSum.pylonStakingSum;
+    const total = (parseFloat(mirrorTotal) + parseFloat(totalReward) + parseFloat(pylonStakingTotal)).toFixed(3);
     return total ?? 0;
   };
 
@@ -35,7 +36,7 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets 
     return parseFloat(aprPercentage).toFixed(2);
   };
 
-  const getPylonRewards = () => {
+  const getPylonPoolRewards = () => {
     if(pylonAssets?.pylonPool) {
     return pylonAssets?.pylonPool.map((assets: any, index: number) => (
       <Row key={index}>
@@ -59,6 +60,31 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets 
     return null;
   }
 
+  const getPylonStakingRewards = () => {
+    if(pylonAssets?.pylonStakings) {
+    return pylonAssets?.pylonStakings.map((assets: PylonStakings, index: number) => (
+      <Row key={index}>
+        <StyledText fontWeight="500"> {assets?.symbol}</StyledText>
+        <div>
+        <StyledText>
+          {parseFloat(assets?.balance).toFixed(3)} {assets?.symbol}
+        </StyledText>
+        <SubText>${parseFloat(assets.stakedValue).toFixed(3)}</SubText>
+        </div>
+        <div>
+        <StyledText css={CSS_APR}> {formatApr(assets?.apy)}%</StyledText>
+        <SubText> (APY)</SubText>
+        </div>
+        <div>
+        <StyledText>{parseFloat(assets?.rewards).toFixed(3)} {assets?.symbol}</StyledText>
+        <SubText>${parseFloat(assets?.rewardsValue).toFixed(3)}</SubText>
+        </div>
+      
+      </Row>
+    ))
+    }
+    return null;
+  }
   return (
     <Wrapper>
       <HeadingWrapper>
@@ -70,7 +96,8 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets 
           <Title key={index}>{t}</Title>
         ))}
       </Row>
-       {getPylonRewards()}
+       {getPylonPoolRewards()}
+       {getPylonStakingRewards()}
       {parseFloat(ancAssets.debt?.value) > 0 ? (
         <Row>
           <StyledText fontWeight="500"> {borrowRewards?.name}</StyledText>

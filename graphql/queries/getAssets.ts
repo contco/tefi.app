@@ -140,10 +140,26 @@ export const getAssets = gql`
           availableLP
           apy
         }
+        pylonStakings  {
+          symbol
+          stakedValue
+          rewards
+          rewardsValue
+          apy
+          name
+          balance
+          totalValue
+        }
         pylonAirdrops {
           name
           price
           quantity
+        }
+        pylonPoolSum {
+          pylonHoldingsSum
+          pylonStakingSum
+          pylonPoolSum
+          pylonAirdropSum
         }
       }
     }

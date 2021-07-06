@@ -24,7 +24,7 @@ const getPylonHoldings = (price: number, accountDetails: any) => {
         const value = (mineBalance * price).toString();
         return {pylonHoldingsSum: value.toString(), pylonHoldings: [{symbol: PYLON_TOKEN_SYMBOL, name: PYLON_TOKEN_NAME, balance: mineBalance.toString(), value, price: price.toString()}]};
     }
-    return {pylonHoldingsSum: '0', pylonHoldings: null};
+    return {pylonHoldingsSum: '0', pylonHoldings: []};
 };
 
 const getPylonStakings = (price: number, mineStakingData:any, apy: number) => {
@@ -38,7 +38,7 @@ const getPylonStakings = (price: number, mineStakingData:any, apy: number) => {
            return {pylonStakingSum: totalValue, pylonStakings};
        }
     }
-    return {pylonStakingSum: '0', pylonStakings: null};
+    return {pylonStakingSum: '0', pylonStakings: []};
 };
 
 const getMinePoolInfo = (price: number, minePoolData, apy: number) => {
@@ -51,7 +51,7 @@ const getMinePoolInfo = (price: number, minePoolData, apy: number) => {
         return {pylonPoolSum, pylonPool}
       }
    }
-   return {pylonPoolSum: '0', pylonPool: null};
+   return {pylonPoolSum: '0', pylonPool: []};
 };
 
 const getPylonAirdrops = (price: number, data: any) => {
