@@ -21,7 +21,11 @@ const Home: React.FC = ({ theme, changeTheme }: any) => {
   }, [router.pathname]);
 
   useEffect(() => {
-    getAccountData("terra1axhlzvp8zxz3ju2eyf5jxjfre3gaxsa4ep7z4l");
+    async function ab() {
+   const result =  await getAccountData("terra1axhlzvp8zxz3ju2eyf5jxjfre3gaxsa4ep7z4l");
+    console.log(result);
+  }
+  ab();
   }, [])
   return (
     <div>

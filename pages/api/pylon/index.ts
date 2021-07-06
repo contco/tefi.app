@@ -1,9 +1,10 @@
 import { ApolloServer, gql } from 'apollo-server-micro';
 import { buildFederatedSchema } from '@apollo/federation';
-import { getAccountData } from './getAccountData';
+import { getAccountData } from "./getAccountData";
 
 const typeDefs = gql`
-  type PylongHoldings {
+
+  type PylonHoldings {
       name: String!
       symbol: String!
       balance: String!
@@ -37,24 +38,25 @@ const typeDefs = gql`
     name: String!
   }
 
-  type PylonTotal {
-      holdingsTotal: String!
-      stakingTotal: String
-      lpTotal: String!
-      airdropTotal: String!
+  type PylonSum {
+      pylonHoldingsSum: String!
+      pylonStakingSum: String!
+      pylonPoolSum: String!
+      pylonAirdropSum: String!
   }
 
   type PylonAccount {
     pylonHoldings: [PylonHoldings!]
     pylonStakings: [PylonStaking!]
-    pylonPool: PylonPool
-    pylonTotal: PylonTotal
+    pylonPool: [PylonPool!]
     pylonAirdrops: PylonAirdrops
+    pylonPoolSum: PylonSum
+
   }
 
   extend type Assets @key(fields: "address") {
     address: String! @external
-    pylon: Account
+    pylon: PylonAccount
   }
 `;
 
@@ -76,5 +78,5 @@ export const config = {
 };
 
 export default apolloServer.createHandler({
-  path: '/api/mirror',
+  path: '/api/pylon',
 });
