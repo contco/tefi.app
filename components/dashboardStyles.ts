@@ -5,6 +5,7 @@ import Styled from 'styled-components';
 export const Wrapper = Styled(Box)`
 ${css({
   mb: 60,
+  width: ['500px', null, null, null, '100%'],
 })}
 `;
 export const Row = Styled(Flex)`
@@ -35,9 +36,8 @@ ${(props) =>
     color: props.theme.colors.subHeading,
     fontWeight: 500,
     letterSpacing: 1,
-    fontSize: ['13px', null, null, 18],
-    width: [100, null, null, 150, null, null, 200],
-    wordWrap: 'break-word'
+    fontSize: ['14px', null, null, 18],
+    width: [100, null, 150, null, null, 200],
   })}
 `;
 
@@ -54,7 +54,7 @@ ${(props) =>
   css({
     color: props.theme.colors.detailsText,
     fontWeight: 'bold',
-    fontSize: ['9px', null, null, '12px'],
+    fontSize: ['10px', null, null, '12px'],
     pt: 1,
   })}
 `;
@@ -66,7 +66,6 @@ ${(props) =>
     fontSize: ['11px', null, null, 14, null, 16],
     width: [100, null, 150, null, null, 200],
     cursor: props.isChildren ? 'pointer' : '',
-    wordWrap: 'break-word'
   })}
     &:hover > * {
         display:flex;
@@ -77,7 +76,7 @@ export const HoverText = Styled(Text)`
 ${(props) =>
   css({
     color: props.theme.colors.detailsText,
-    fontSize: ['7px', null, null, '8px', null, '10px'],
+    fontSize: ['8px', null, null, '10px'],
     width: [100, null, 150, null, null, 200],
     opacity: '0',
     pt: 1,

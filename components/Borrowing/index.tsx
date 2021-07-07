@@ -36,9 +36,7 @@ const Borrowing: React.SFC<BorrowingProps> = ({ ancAssets }) => {
 
   return (
     <Wrapper
-      css={`
-        ${css({ mb: 0 })}
-      `}
+     
     >
       <HeadingWrapper>
         <Heading>{HEADING_TEXT}</Heading>
