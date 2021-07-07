@@ -4,7 +4,7 @@ import { plus } from '../../pages/api/mirror/utils';
 import { Wrapper, Row, Title, StyledText } from '../dashboardStyles';
 import { MarketValueList } from './dummy';
 
-const CUTOM_TEXT_CSS = css({ fontWeight: 500, fontSize: [14, null, null, 20, null, null, 28] });
+const CUTOM_TEXT_CSS = css({ fontWeight: 500, fontSize: [14, null, null, 20, null, null,null, 28] });
 
 export interface AssetsProps {
   ancAssets: AccountAnc;

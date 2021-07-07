@@ -9,7 +9,7 @@ const CSS_APR = (props) =>
   css({
     fontWeight: 500,
     color: props.theme.colors.secondary,
-    fontSize: ['12px', null, null, 14, null, 16],
+    fontSize: ['11px', null, null, '14px', null, null, 16],
   });
 
 export interface RewardsProps {
@@ -63,7 +63,7 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets }) => {
           </Box>
         </Row>
       ) : null}
-      {govRewards?.staked ? (
+      {govRewards?.staked && parseFloat(govRewards?.staked) > 0 ? (
         <Row>
           <StyledText fontWeight="500"> {govRewards?.name}</StyledText>
           <StyledText>{govRewards?.staked ? parseFloat(govRewards?.staked).toFixed(3) + ' ANC' : null}</StyledText>
@@ -74,7 +74,7 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets }) => {
           </StyledText>
         </Row>
       ) : null}
-      {poolRewards?.staked ? (
+      {poolRewards?.staked && parseFloat(poolRewards?.staked) > 0 ? (
         <Row>
           <StyledText fontWeight="500"> {poolRewards?.name}</StyledText>
           <StyledText isChildren={true}>

@@ -5,7 +5,7 @@ import Styled from 'styled-components';
 export const Wrapper = Styled(Box)`
 ${css({
   mb: 60,
-  width: ['500px', null, null, null, '100%'],
+  width: ['600px', null, null, '850px', null, '100%'],
 })}
 `;
 export const Row = Styled(Flex)`
@@ -63,7 +63,7 @@ ${(props) =>
   css({
     color: props.theme.colors.detailsText,
     letterSpacing: 1,
-    fontSize: ['11px', null, null, 14, null, 16],
+    fontSize: ['11px', null, null,null, '14px', null, null, 16],
     width: [100, null, 150, null, null, 200],
     cursor: props.isChildren ? 'pointer' : '',
   })}
