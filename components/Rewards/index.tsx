@@ -26,9 +26,9 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets 
 
   const getRewardsTotal = () => {
     const mirrorTotal = mirrorAssets?.total?.rewardsSum;
-    const pylonStakingTotal = pylonAssets?.pylonSum?.pylonStakingSum;
+    const pylonStakingTotal = pylonAssets?.pylonSum?.pylonStakingRewardsSum;
     const pylonPoolTotal = pylonAssets?.pylonSum?.pylonPoolRewardsSum;
-    const total = (parseFloat(mirrorTotal) + parseFloat(totalReward) + parseFloat(pylonStakingTotal)).toFixed(3);
+    const total = (parseFloat(mirrorTotal) + parseFloat(totalReward) + parseFloat(pylonStakingTotal) + parseFloat(pylonPoolTotal)).toFixed(3);
     return total ?? 0;
   };
 

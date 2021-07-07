@@ -167,6 +167,7 @@ export const getAssets = gql`
           pylonPoolSum
           pylonPoolRewardsSum
           pylonAirdropSum
+          pylonStakingRewardsSum
         }
       }
     }

@@ -182,6 +182,7 @@ interface PylonSum {
   pylonPoolSum: string;
   pylonAirdropSum: string;
   pylonPoolRewardsSum: string;
+  pylonStakingRewardsSum: string;
 }
 interface PylonAccount {
   __typename?: 'PylonAccount';

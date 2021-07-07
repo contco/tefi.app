@@ -65,6 +65,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
         <Body>
           <MarketValue
             core={data?.assets.core || {}}
+            pylonAssets={data?.assets?.pylon || {}}
             mirrorAssets={data?.assets?.mirror || {}}
             ancAssets={data?.assets?.anchor || {}}
           />

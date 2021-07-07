@@ -51,6 +51,7 @@ const typeDefs = gql`
       pylonPoolSum: String!
       pylonAirdropSum: String!
       pylonPoolRewardsSum: String!
+      pylonStakingRewardsSum: String!
   }
 
   type PylonAccount {

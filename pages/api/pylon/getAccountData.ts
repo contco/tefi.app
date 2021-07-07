@@ -35,10 +35,10 @@ const getPylonStakings = (price: number, mineStakingData:any, apy: number) => {
            const rewardsValue = (earned * price).toString();
            const totalValue = (rewardsValue + stakedValue).toString();
            const pylonStakings =  [{symbol: PYLON_TOKEN_SYMBOL, name: PYLON_TOKEN_NAME, balance: stakedBalance.toString(), rewards: earned.toString(), stakedValue, rewardsValue ,totalValue, apy: apy?.toString() ?? '0'}];
-           return {pylonStakingSum: totalValue, pylonStakings};
+           return {pylonStakingSum: totalValue, pylonStakingRewardsSum: rewardsValue, pylonStakings};
        }
     }
-    return {pylonStakingSum: '0', pylonStakings: []};
+    return {pylonStakingSum: '0',pylonStakingRewardsSum: '0', pylonStakings: []};
 };
 
 const getMinePoolInfo = (price: number, minePoolData, apy: number, lpValue: number) => {
@@ -84,10 +84,10 @@ export const getAccountData = async (address: string) => {
         const {priceInUst} = mineOverview.data;
         const lpValue = getLpValue(mineOverview?.data?.liquidityInfo, priceInUst);
         const {pylonHoldingsSum , pylonHoldings} = getPylonHoldings(priceInUst, getAccountDetails);
-        const {pylonStakingSum, pylonStakings} = getPylonStakings(priceInUst, mineStakingData, governanceOverview?.data?.apy);
+        const {pylonStakingSum,pylonStakingRewardsSum, pylonStakings} = getPylonStakings(priceInUst, mineStakingData, governanceOverview?.data?.apy);
         const {pylonPoolSum,pylonPoolRewardsSum, pylonPool} = getMinePoolInfo(priceInUst, minePoolData, liquidityOverview?.data?.apy, lpValue);
         const {pylonAirdropSum, pylonAirdrops} = getPylonAirdrops(priceInUst, airdropData?.data);
-        const pylonTotal = {pylonHoldingsSum, pylonStakingSum, pylonPoolSum, pylonAirdropSum,pylonPoolRewardsSum};
+        const pylonTotal = {pylonHoldingsSum, pylonStakingSum, pylonPoolSum, pylonAirdropSum, pylonPoolRewardsSum, pylonStakingRewardsSum};
         return {pylonHoldings, pylonStakings, pylonPool, pylonAirdrops, pylonSum: pylonTotal};
     }
     catch(err) {
