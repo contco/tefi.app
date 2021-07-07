@@ -78,7 +78,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
           <Earn ancAssets={data?.assets?.anchor || {}} />
           <Borrowing ancAssets={data?.assets?.anchor || {}} />
           <Rewards pylonAssets={data?.assets?.pylon || {}} mirrorAssets={data?.assets?.mirror || {}} ancAssets={data?.assets?.anchor || {}} />
-          <Pools mirrorAssets={data?.assets?.mirror || {}} ancAssets={data?.assets?.anchor || {}} />
+          <Pools pylonAssets={data?.assets?.pylon || {}} mirrorAssets={data?.assets?.mirror || {}} ancAssets={data?.assets?.anchor || {}} />
           <Airdrops pylonAssets={data?.assets?.pylon || {}} mirrorAssets={data?.assets?.mirror || {}} anchorAssets={data?.assets?.anchor} />
         </Body>
       </div>

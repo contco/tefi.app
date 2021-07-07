@@ -50,6 +50,7 @@ const typeDefs = gql`
       pylonStakingSum: String!
       pylonPoolSum: String!
       pylonAirdropSum: String!
+      pylonPoolRewardsSum: String!
   }
 
   type PylonAccount {
@@ -57,7 +58,7 @@ const typeDefs = gql`
     pylonStakings: [PylonStaking!]
     pylonPool: [PylonPool!]
     pylonAirdrops: PylonAirdrops
-    pylonPoolSum: PylonSum
+    pylonSum: PylonSum
 
   }
 

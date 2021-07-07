@@ -134,6 +134,12 @@ export const getAssets = gql`
         pylonPool {
           symbol
           lpName
+          stakedLpUstValue
+          availableLpUstValue
+          ustStaked
+          ustUnStaked
+          tokenStaked
+          tokenUnStaked
           stakedLP
           rewards
           rewardsValue
@@ -155,10 +161,11 @@ export const getAssets = gql`
           price
           quantity
         }
-        pylonPoolSum {
+        pylonSum {
           pylonHoldingsSum
           pylonStakingSum
           pylonPoolSum
+          pylonPoolRewardsSum
           pylonAirdropSum
         }
       }

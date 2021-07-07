@@ -26,7 +26,8 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets 
 
   const getRewardsTotal = () => {
     const mirrorTotal = mirrorAssets?.total?.rewardsSum;
-    const pylonStakingTotal = pylonAssets.pylonPoolSum.pylonStakingSum;
+    const pylonStakingTotal = pylonAssets?.pylonSum?.pylonStakingSum;
+    const pylonPoolTotal = pylonAssets?.pylonSum?.pylonPoolRewardsSum;
     const total = (parseFloat(mirrorTotal) + parseFloat(totalReward) + parseFloat(pylonStakingTotal)).toFixed(3);
     return total ?? 0;
   };
@@ -38,12 +39,16 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets 
 
   const getPylonPoolRewards = () => {
     if(pylonAssets?.pylonPool) {
-    return pylonAssets?.pylonPool.map((assets: any, index: number) => (
+    return pylonAssets?.pylonPool.map((assets: PylonPool, index: number) => (
       <Row key={index}>
         <StyledText fontWeight="500"> {assets?.lpName}</StyledText>
         <StyledText isChildren={true}>
           {' '}
           {parseFloat(assets?.stakedLP).toFixed(3)} LP
+          <HoverText>
+              {parseFloat(assets?.tokenStaked).toFixed(3)} {assets?.symbol} <br />
+              {parseFloat(assets?.ustStaked).toFixed(3)} {'UST'}
+          </HoverText>
         </StyledText>
         <div>
         <StyledText css={CSS_APR}> {formatApr(assets?.apy)}%</StyledText>

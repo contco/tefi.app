@@ -28,7 +28,7 @@ const Airdrops: React.FC<AirdropsProps> = ({mirrorAssets, anchorAssets, pylonAss
     const getAirdropTotal = () => {
         const mirrorTotal = parseFloat(mirrorAssets?.total?.airdropSum ?? '0');
         const anchorTotal = parseFloat(anchorAssets?.total?.airdropSum ?? '0');
-        const pylonTotal = parseFloat(pylonAssets?.pylonPoolSum?.pylonAirdropSum ?? '0');
+        const pylonTotal = parseFloat(pylonAssets?.pylonSum?.pylonAirdropSum ?? '0');
         const total = (mirrorTotal+anchorTotal + pylonTotal).toFixed(3)
         return total;
     };

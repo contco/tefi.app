@@ -152,6 +152,12 @@ interface PylonPool {
   __typename?: 'PylonPool';
   symbol: string;
   lpName: string;
+  stakedLpUstValue: string;
+  availableLpUstValue: string;
+  ustStaked: string;
+  ustUnStaked: string;
+  tokenStaked: string;
+  tokenUnStaked: string;
   stakedLP: string;
   rewards: string;
   rewardsValue: string;
@@ -175,6 +181,7 @@ interface PylonSum {
   pylonStakingSum: string;
   pylonPoolSum: string;
   pylonAirdropSum: string;
+  pylonPoolRewardsSum: string;
 }
 interface PylonAccount {
   __typename?: 'PylonAccount';
@@ -182,7 +189,7 @@ interface PylonAccount {
   pylonPool: PylonPool[];
   pylonAirdrops: Airdrops;
   pylonStakings: PylonStakings[];
-  pylonPoolSum: PylonSum
+  pylonSum: PylonSum
 }
 
 interface Assets {
