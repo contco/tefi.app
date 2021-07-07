@@ -36,7 +36,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
 
   const ADDRESS_ANC = `terra18jg24fpqvjntm2wfc0p47skqccdr9ldtgl5ac9`;
   const ADDRESS_MIR = 'terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m0q3';
-  const address3 = 'terra14lsth0ernuvvleesun5rehf46s8q3k5u5knnkk';
+  // const address3 = 'terra14lsth0ernuvvleesun5rehf46s8q3k5u5knnkk';
 
   useEffect(() => {
     const localAddress = localStorage.getItem(ADDRESS_KEY);
@@ -50,7 +50,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     }
   }, []);
 
-  const { data, loading, error } = useQuery(getAssets, { variables: { address: address3 } });
+  const { data, loading, error } = useQuery(getAssets, { variables: { address: address } });
 
   if (loading) {
     return <Loading />;
