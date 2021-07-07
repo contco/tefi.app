@@ -5,6 +5,7 @@ import Styled from 'styled-components';
 export const Wrapper = Styled(Box)`
 ${css({
   mb: 60,
+  overflowX: ['scroll', null, null, 'hidden'],
 })}
 `;
 export const Row = Styled(Flex)`
@@ -36,8 +37,8 @@ ${(props) =>
     fontWeight: 500,
     letterSpacing: 1,
     fontSize: [14, null, null, 18],
-    width: [100, null, null, 200],
-    textAlign: 'justify',
+    width: [100, null, null, 150, null, null, 200],
+    wordWrap: 'break-word'
   })}
 `;
 
@@ -63,9 +64,10 @@ ${(props) =>
   css({
     color: props.theme.colors.detailsText,
     letterSpacing: 1,
-    fontSize: ['12px', null,null, 14, null, 16],
+    fontSize: ['12px', null, null, 14, null, 16],
     width: [100, null, 150, null, null, 200],
     cursor: props.isChildren ? 'pointer' : '',
+    wordWrap: 'break-word'
   })}
     &:hover > * {
         display:flex;
@@ -81,11 +83,4 @@ ${(props) =>
     opacity: '0',
     pt: 1,
   })}
-`;
-
-export const Gap = Styled.div`
-    ${() =>
-      css({
-        height: 60,
-      })}
 `;
