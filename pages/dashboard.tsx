@@ -9,6 +9,7 @@ import Assets from '../components/Asset';
 import LunaStaking from '../components/LunaStaking';
 import MarketValue from '../components/MarketValue';
 import Borrowing from '../components/Borrowing';
+import PylonGateway from '../components/PylonGateway';
 import Pools from '../components/Pools';
 import Rewards from '../components/Rewards';
 import { useQuery } from '@apollo/client';
@@ -76,6 +77,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
             pylonAssets={data?.assets?.pylon || {}}
           />
           <LunaStaking core={data?.assets.core || {}} />
+          <PylonGateway pylonAssets={data?.assets?.pylon || {}}/>
           <Earn ancAssets={data?.assets?.anchor || {}} />
           <Borrowing ancAssets={data?.assets?.anchor || {}} />
           <Rewards pylonAssets={data?.assets?.pylon || {}} mirrorAssets={data?.assets?.mirror || {}} ancAssets={data?.assets?.anchor || {}} />

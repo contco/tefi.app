@@ -52,9 +52,12 @@ const typeDefs = gql`
       pylonAirdropSum: String!
       pylonPoolRewardsSum: String!
       pylonStakingRewardsSum: String!
+      gatewayRewardsSum: String!
+      gatewayDepositsSum: String!
   }
   
   type PylonGateway {
+    symbol: String!
     poolName: String!
     deposit: String!
     depositDate: String!

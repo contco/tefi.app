@@ -18,7 +18,9 @@ const getUserProjectsData = async (projects: any, address: string) => {
 };
 
 const getProjectPoolData = (userProjects: any, launchpadProjects: any) => {
-  const poolData = userProjects.reduce((poolList, userData, index) => {
+    let gatewayRewardsSum = 0;
+    let gatewayDepositsSum = 0;
+  const gatewayPoolData = userProjects.reduce((poolList, userData, index) => {
      if(userData && userData?.project?.depositLogs?.length !== 0) {
        const data = userData?.project?.depositLogs.map((deposit: any) => {
           const poolDetails = launchpadProjects[index]?.pools.find(pool => pool.id === deposit?.pool?.id); 
@@ -27,14 +29,16 @@ const getProjectPoolData = (userProjects: any, launchpadProjects: any) => {
           const depositReleaseDate = deposit?.pool?.vestingFinishesAt;
           const rewardData = userData?.project?.accumulatedReward?.find(rewardData => rewardData?.id === deposit?.pool?.id);
           const reward = (rewardData?.reward).toString() ?? "0";
-          const rewardValue = (rewardData?.reward * userData?.price).toString() ?? "0";
-          return {apy: poolDetails?.apy.toString(), poolName, deposit: (deposit?.amountInUst).toString(), depositDate: deposit?.depositedAt, rewardReleaseDate, depositReleaseDate, reward, rewardValue} ;
+          const rewardValue = (rewardData?.reward * userData?.price) ?? 0;
+          gatewayDepositsSum = gatewayDepositsSum + deposit?.amountInUst;
+          gatewayRewardsSum = gatewayRewardsSum + rewardValue;
+          return {symbol:launchpadProjects[index]?.symbol, apy: poolDetails?.apy.toString(), poolName, deposit: (deposit?.amountInUst).toString(), depositDate: deposit?.depositedAt, rewardReleaseDate, depositReleaseDate, reward, rewardValue: rewardValue.toString()} ;
         });
         poolList.push(...data);
      }
     return poolList;
   }, []);
-  return poolData;
+  return {gatewayPoolData, gatewayDepositsSum: gatewayDepositsSum.toString(), gatewayRewardsSum: gatewayRewardsSum.toString()};
 }
 
 export const getGatewayData = async (address: string) => {
@@ -44,5 +48,5 @@ export const getGatewayData = async (address: string) => {
     const projectPoolData = getProjectPoolData(userProjectsData, launchpadProjects?.data?.projects);
     return projectPoolData;
     }
-    return [];
+    return { gatewayPoolData: [], gatewayDepositsSum: '0', gatewayRewardsSum: '0'};
 }

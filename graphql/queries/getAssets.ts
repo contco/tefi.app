@@ -168,6 +168,19 @@ export const getAssets = gql`
           pylonPoolRewardsSum
           pylonAirdropSum
           pylonStakingRewardsSum
+          gatewayRewardsSum
+          gatewayDepositsSum
+        }
+        pylonGateway {
+          symbol
+          reward
+          apy
+          poolName
+          deposit
+          depositDate
+          depositReleaseDate
+          rewardReleaseDate
+          rewardValue
         }
       }
     }

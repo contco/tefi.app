@@ -85,9 +85,10 @@ export const getAccountData = async (address: string) => {
         const {pylonStakingSum,pylonStakingRewardsSum, pylonStakings} = getPylonStakings(priceInUst, mineStakingData, governanceOverview?.data?.apy);
         const {pylonPoolSum,pylonPoolRewardsSum, pylonPool} = getMinePoolInfo(priceInUst, minePoolData, liquidityOverview?.data?.apy, lpValue);
         const {pylonAirdropSum, pylonAirdrops} = getPylonAirdrops(priceInUst, airdropData?.data);
-        const pylonTotal = {pylonHoldingsSum, pylonStakingSum, pylonPoolSum, pylonAirdropSum, pylonPoolRewardsSum, pylonStakingRewardsSum};
+        const {gatewayPoolData, gatewayRewardsSum, gatewayDepositsSum} = pylonGateway;
+        const pylonTotal = {pylonHoldingsSum, pylonStakingSum, pylonPoolSum, pylonAirdropSum, pylonPoolRewardsSum, pylonStakingRewardsSum, gatewayRewardsSum, gatewayDepositsSum};
 
-        return {pylonHoldings, pylonStakings, pylonPool, pylonAirdrops, pylonSum: pylonTotal, pylonGateway};
+        return {pylonHoldings, pylonStakings, pylonPool, pylonAirdrops, pylonSum: pylonTotal, pylonGateway: gatewayPoolData};
     }
     catch(err) {
       throw new Error("Error Fetching Pylon Data");
