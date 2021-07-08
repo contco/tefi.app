@@ -123,6 +123,53 @@ export const getAssets = gql`
         }
         totalReward
       }
+      pylon  {
+        pylonHoldings {
+          symbol
+          name
+          price
+          balance
+          value
+        }
+        pylonPool {
+          symbol
+          lpName
+          stakedLpUstValue
+          availableLpUstValue
+          ustStaked
+          ustUnStaked
+          tokenStaked
+          tokenUnStaked
+          stakedLP
+          rewards
+          rewardsValue
+          availableLP
+          apy
+        }
+        pylonStakings  {
+          symbol
+          stakedValue
+          rewards
+          rewardsValue
+          apy
+          name
+          balance
+          totalValue
+        }
+        pylonAirdrops {
+          name
+          price
+          quantity
+        }
+        pylonSum {
+          pylonHoldingsSum
+          pylonStakingSum
+          pylonPoolSum
+          pylonPoolRewardsSum
+          pylonAirdropSum
+          pylonStakingRewardsSum
+        }
+      }
     }
   }
 `;

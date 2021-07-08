@@ -8,16 +8,18 @@ export interface AssetsProps {
   mirrorAssets: MirrorAccount;
   ancAssets: AccountAnc;
   core: Core;
+  pylonAssets: PylonAccount
 }
 
-const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core }: AssetsProps) => {
+const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core, pylonAssets }: AssetsProps) => {
   const ancAsset = ancAssets.assets[0];
   const ancValue = (parseFloat(ancAsset?.amount) * parseFloat(ancAsset?.price)).toFixed(3);
 
   const getAssetsTotal = () => {
     const mirrorTotal = mirrorAssets?.total?.unstakedSum;
     const coreTotal = core?.total?.assetsSum;
-    const total = parseFloat(plus(mirrorTotal, coreTotal)) + parseFloat(ancValue);
+    const pylonHoldingsSum = pylonAssets?.pylonSum?.pylonHoldingsSum;
+    const total = parseFloat(plus(mirrorTotal, coreTotal)) + parseFloat(ancValue) + parseFloat(pylonHoldingsSum);
     return total.toFixed(3) ?? '0';
   };
 
@@ -32,7 +34,7 @@ const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core }: Assets
           <Title key={index}>{t}</Title>
         ))}
       </Row>
-      {[...core?.coins, ...mirrorAssets?.mirrorHoldings].map((asset: Coin) => (
+      {[ ...pylonAssets?.pylonHoldings, ...mirrorAssets?.mirrorHoldings, ...core?.coins].map((asset: Coin) => (
         <Row key={asset.symbol}>
           <StyledText fontWeight={500}> {asset.symbol}</StyledText>
           <StyledText fontWeight={500}> {asset.name}</StyledText>
