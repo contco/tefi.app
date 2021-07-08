@@ -46,7 +46,7 @@ const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets }) => {
         ))}
       </Row>
 
-      {pool?.balance ? (
+      {parseFloat(totalLP) > 0 ? (
         <Row>
           <StyledText fontWeight={500}> {pool?.reward?.name}</StyledText>
           <StyledText>
