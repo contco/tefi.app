@@ -24,6 +24,7 @@ ${css({
   m: 'auto',
   width: ['90%', null, '75%'],
   mt: 20,
+  overflowX: ['scroll', null, null, null, null,'hidden'],
 })}
 `;
 
@@ -32,7 +33,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   const [addressType, setAddressType] = useState<string>(WALLET_ADDRESS_TYPE);
   const { useConnectedWallet } = useWallet();
   const connectedWallet = useConnectedWallet();
-
+  
   useEffect(() => {
     const localAddress = localStorage.getItem(ADDRESS_KEY);
     const walletAddress = connectedWallet?.terraAddress;

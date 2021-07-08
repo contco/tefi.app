@@ -1,11 +1,11 @@
 import { Box, Flex, Text } from '@contco/core-ui';
 import css from '@styled-system/css';
 import Styled from 'styled-components';
-import { borderLeft } from 'styled-system';
 
 export const Wrapper = Styled(Box)`
 ${css({
   mb: 60,
+  width: ['600px', null, null, '850px', null, '100%'],
 })}
 `;
 export const Row = Styled(Flex)`
@@ -24,7 +24,7 @@ ${(props) =>
   css({
     color: props.theme.colors.Heading,
     letterSpacing: 2,
-    fontSize: 28,
+    fontSize: [20, null, null, 28],
     fontWeight: 900,
     mb: 2,
   })}
@@ -36,9 +36,8 @@ ${(props) =>
     color: props.theme.colors.subHeading,
     fontWeight: 500,
     letterSpacing: 1,
-    fontSize: 18,
-    width: 200,
-    textAlign: 'justify',
+    fontSize: ['14px', null, null, 18],
+    width: [100, null, 150, null, null, 200],
   })}
 `;
 
@@ -55,7 +54,7 @@ ${(props) =>
   css({
     color: props.theme.colors.detailsText,
     fontWeight: 'bold',
-    fontSize: 0,
+    fontSize: ['10px', null, null, '12px'],
     pt: 1,
   })}
 `;
@@ -64,9 +63,8 @@ ${(props) =>
   css({
     color: props.theme.colors.detailsText,
     letterSpacing: 1,
-    fontSize: 16,
-    width: 200,
-    textAlign: 'justify',
+    fontSize: ['11px', null, null,null, '14px', null, null, 16],
+    width: [100, null, 150, null, null, 200],
     cursor: props.isChildren ? 'pointer' : '',
   })}
     &:hover > * {
@@ -78,16 +76,9 @@ export const HoverText = Styled(Text)`
 ${(props) =>
   css({
     color: props.theme.colors.detailsText,
-    fontSize: '10px',
-    width: 200,
+    fontSize: ['8px', null, null, '10px'],
+    width: [100, null, 150, null, null, 200],
     opacity: '0',
     pt: 1,
   })}
-`;
-
-export const Gap = Styled.div`
-    ${() =>
-      css({
-        height: 60,
-      })}
 `;
