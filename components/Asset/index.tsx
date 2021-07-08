@@ -1,5 +1,5 @@
 import { AssetsTitle } from '../../constants';
-import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText } from '../dashboardStyles';
+import { CheckBox, Wrapper, Row, HeadingWrapper, Heading, Title, StyledText } from '../dashboardStyles';
 import { convertToFloatValue } from '../../utils/convertFloat';
 import { plus } from '../../pages/api/mirror/utils';
 import { Flex } from '@contco/core-ui';
@@ -44,10 +44,10 @@ const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core }: Assets
     <Wrapper>
       <HeadingWrapper>
         <Heading>{HEADING_TEXT}</Heading>
-        <Flex>
+        <Flex alignItems="flex-end">
           <StyledText>${getAssetsTotal()}</StyledText>
-          <Flex alignItems="center" justifyContent="space-between">
-            <input type="checkbox" onChange={handleChange} />
+          <Flex alignItems="center">
+            <CheckBox type="checkbox" onChange={handleChange} />
             <StyledText>Hide small balances</StyledText>
           </Flex>
         </Flex>

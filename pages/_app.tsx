@@ -14,7 +14,7 @@ import { LIGHT_THEME, DARK_THEME } from '../constants';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const apolloClient = useApollo(pageProps);
-  const [theme, setTheme] = useState<String>(LIGHT_THEME);
+  const [theme, setTheme] = useState<string>(LIGHT_THEME);
 
   const changeTheme = () => {
     if (theme === LIGHT_THEME) {
