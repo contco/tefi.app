@@ -25,7 +25,7 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets 
   const totalReward = ancAssets?.totalReward;
 
   const getRewardsTotal = () => {
-    const mirrorTotal = mirrorAssets?.total?.rewardsSum;
+    const mirrorTotal = mirrorAssets?.total?.mirrorPoolRewardsSum;
     const pylonStakingTotal = pylonAssets?.pylonSum?.pylonStakingRewardsSum;
     const pylonPoolTotal = pylonAssets?.pylonSum?.pylonPoolRewardsSum;
     const total = (parseFloat(mirrorTotal) + parseFloat(totalReward) + parseFloat(pylonStakingTotal) + parseFloat(pylonPoolTotal)).toFixed(3);
@@ -37,9 +37,10 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets 
     return parseFloat(aprPercentage).toFixed(2);
   };
 
-  const getPylonPoolRewards = () => {
+  const getPool = () => {
     if(pylonAssets?.pylonPool) {
-    return pylonAssets?.pylonPool.map((assets: PylonPool, index: number) => (
+      const pool = [...pylonAssets?.pylonPool, ...mirrorAssets?.mirrorStaking].sort((a,b) => a.rewardsValue - b.rewardsValue);
+    return pool.map((assets: Pool, index: number) => (
       <Row key={index}>
         <StyledText fontWeight="500"> {assets?.lpName}</StyledText>
         <StyledText isChildren={true}>
@@ -51,14 +52,13 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets 
           </HoverText>
         </StyledText>
         <div>
-        <StyledText css={CSS_APR}> {formatApr(assets?.apy)}%</StyledText>
-        <SubText> (APY)</SubText>
+        <StyledText css={CSS_APR}> {assets?.apy ? formatApr(assets?.apy): formatApr(assets?.apr)}%</StyledText>
+        {assets?.apy ? <SubText> (APY)</SubText> : null }
         </div>
         <div>
         <StyledText>{parseFloat(assets?.rewards).toFixed(3)} {assets?.symbol}</StyledText>
         <SubText>${parseFloat(assets?.rewardsValue).toFixed(3)}</SubText>
         </div>
-      
       </Row>
     ))
     }
@@ -101,7 +101,7 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets 
           <Title key={index}>{t}</Title>
         ))}
       </Row>
-       {getPylonPoolRewards()}
+       {getPool()}
        {getPylonStakingRewards()}
       {parseFloat(ancAssets.debt?.value) > 0 ? (
         <Row>
@@ -155,21 +155,6 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets 
           </div>
         </Row>
       ) : null}
-      {mirrorAssets?.mirrorStaking.map((assets: MirrorStaking, index: number) => (
-        <Row key={index}>
-          <StyledText fontWeight="500"> {assets?.name}</StyledText>
-          <StyledText isChildren={true}>
-            {' '}
-            {parseFloat(assets?.lpBalance).toFixed(3)} LP
-            <HoverText>
-              {parseFloat(assets?.tokenStaked).toFixed(3)} {assets?.symbol} <br />
-              {parseFloat(assets?.ustStaked).toFixed(3)} {'UST'}
-            </HoverText>
-          </StyledText>
-          <StyledText css={CSS_APR}> {formatApr(assets?.apr)}%</StyledText>
-          <StyledText>${parseFloat(assets?.rewardsUstValue).toFixed(3)}</StyledText>
-        </Row>
-      ))}
     </Wrapper>
   );
 };

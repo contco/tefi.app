@@ -7,6 +7,25 @@ interface Holdings {
   name: string;
 }
 
+
+interface Pool {
+  symbol: string;
+  lpName: string;
+  stakedLpUstValue: string;
+  availableLpUstValue: string;
+  ustStaked: string;
+  ustUnStaked: string;
+  tokenStaked: string;
+  tokenUnStaked: string;
+  stakedLP: string;
+  rewards: string;
+  rewardsValue: string;
+  availableLP: string;
+  apy?: string;
+  apr?: string;
+}
+
+
 interface Coin extends Holdings {
  __typename?: "Coin";
 }
@@ -109,62 +128,20 @@ interface AccountAnc {
   totalReward?: string;
 }
 
-interface MirrorStaking {
-  __typename?: 'MirrorStaking';
-  symbol: string;
-  apr: string;
-  ustStaked?: string;
-  tokenStaked?: string;
-  tokenStakedUstValue?: string;
-  stakeTotalUstValue?: string;
-  poolTotalWithRewards?: string;
-  rewards?: string;
-  rewardsUstValue?: string;
-  price?: string;
-  name?: string;
-  lpBalance?: string;
-}
-
-interface MirrorHoldings extends Holdings {
-  __typename?: 'MirrorHoldings';
-}
-
-interface PylonHoldings extends Holdings {
-  __typename?: 'PylonHoldings';
-}
-interface AssetsTotal {
-  __typename?: 'AssetsTotal';
-  rewardsSum: string;
-  stakedSum: string;
-  unstakedSum: string;
-  airdropSum: string;
+interface MirrorTotal {
+  mirrorHoldingsSum: string;
+  mirrorPoolRewardsSum: string;
+  mirrorPoolSum: string;
+  mirrorAirdropSum: string;
 }
 
 interface MirrorAccount {
   __typename?: 'Account';
-  mirrorStaking: MirrorStaking[];
-  mirrorHoldings: MirrorHoldings[];
-  total: AssetsTotal;
+  mirrorStaking: Pool[];
+  mirrorHoldings: Holdings[];
+  total: MirrorTotal;
   airdrops: Array<Airdrops>;
 }
-
-interface PylonPool {
-  __typename?: 'PylonPool';
-  symbol: string;
-  lpName: string;
-  stakedLpUstValue: string;
-  availableLpUstValue: string;
-  ustStaked: string;
-  ustUnStaked: string;
-  tokenStaked: string;
-  tokenUnStaked: string;
-  stakedLP: string;
-  rewards: string;
-  rewardsValue: string;
-  availableLP: string;
-  apy: string
-}
-
 interface PylonStakings {
   symbol
   name
@@ -200,7 +177,7 @@ interface PylonGateway {
 }
 interface PylonAccount {
   __typename?: 'PylonAccount';
-  pylonHoldings: PylonHoldings[];
+  pylonHoldings: Holdings[];
   pylonPool: PylonPool[];
   pylonAirdrops: Airdrops;
   pylonStakings: PylonStakings[];

@@ -27,18 +27,19 @@ export const getAssets = gql`
       }
       mirror {
         mirrorStaking {
-          apr
-          ustStaked
           symbol
+          lpName
+          stakedLpUstValue
+          availableLpUstValue
+          ustStaked
+          ustUnStaked
           tokenStaked
-          tokenStakedUstValue
-          stakeTotalUstValue
-          poolTotalWithRewards
-          price
-          name
+          tokenUnStaked
+          availableLP
+          stakedLP
           rewards
-          rewardsUstValue
-          lpBalance
+          rewardsValue
+          apr
         }
         mirrorHoldings {
           name
@@ -54,10 +55,10 @@ export const getAssets = gql`
           round
         }
         total {
-          stakedSum
-          rewardsSum
-          unstakedSum
-          airdropSum
+          mirrorHoldingsSum
+          mirrorPoolRewardsSum
+          mirrorPoolSum
+          mirrorAirdropSum
         }
       }
       anchor {
