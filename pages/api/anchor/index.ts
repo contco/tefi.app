@@ -3,13 +3,13 @@ import { buildFederatedSchema } from '@apollo/federation';
 import { getAccount } from './lib/anc';
 
 const typeDefs = gql`
-  type Token {
+  type Coin {
+    name: String!
     symbol: String!
-    amount: String!
-    price: String!
-    staked: String
+    balance: String
+    value: String
+    price: String
   }
-
   type Reward {
     name: String
     staked: String
@@ -49,7 +49,6 @@ const typeDefs = gql`
     stakableValue: String
     anc: String
     ust: String
-
   }
 
   type GovData {
@@ -61,7 +60,7 @@ const typeDefs = gql`
   }
 
   type AccountANC {
-    assets: [Token]
+    assets: Coin
     debt: BorrowData
     earn: EarnData
     pool: LPData

@@ -93,7 +93,7 @@ interface Total {
 
 interface AccountAnc {
   __typename?: 'AccountANC';
-  assets?: Array<Token>;
+  assets?: Coin;
   debt?: BorrowData;
   earn?: EarnData;
   pool?: LpData;

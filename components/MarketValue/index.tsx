@@ -31,7 +31,7 @@ const Total: React.SFC<AssetsProps> = ({ ancAssets, mirrorAssets, core }) => {
   };
 
   const getGovStaked = () => {
-    return parseFloat(ancAssets?.gov?.reward?.staked) * parseFloat(ancAssets?.assets[0].price);
+    return parseFloat(ancAssets?.gov?.reward?.staked) * parseFloat(ancAssets?.assets.price);
   };
 
   const getEarn = () => {
@@ -57,7 +57,7 @@ const Total: React.SFC<AssetsProps> = ({ ancAssets, mirrorAssets, core }) => {
   };
 
   const getAssetsTotal = () => {
-    const ancValue = (parseFloat(ancAssets?.assets[0].amount) * parseFloat(ancAssets?.assets[0].price)).toFixed(3);
+    const ancValue = ancAssets?.assets.value
 
     const mirrorTotal = mirrorAssets?.total?.unstakedSum;
     const coreTotal = core?.total?.assetsSum;
