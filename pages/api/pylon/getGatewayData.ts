@@ -1,5 +1,11 @@
 import axios from "axios";
 import { PYLON_API_ENDPOINT } from "./constants";
+import {addDays} from "date-fns";
+
+const addDate = (date: string, days: number) => {
+    const result = addDays(new Date(date), days);
+    return result.toISOString();
+}
 
 const getUserProjectsData = async (projects: any, address: string) => {
  if(projects) {
@@ -25,8 +31,9 @@ const getProjectPoolData = (userProjects: any, launchpadProjects: any) => {
        const data = userData?.project?.depositLogs.map((deposit: any) => {
           const poolDetails = launchpadProjects[index]?.pools.find(pool => pool.id === deposit?.pool?.id); 
           const poolName = launchpadProjects[index]?.symbol+ " " +poolDetails?.name;
-          const rewardReleaseDate = deposit?.pool?.cliffFinishesAt;
-          const depositReleaseDate = deposit?.pool?.vestingFinishesAt;
+         
+          const rewardReleaseDate = addDate(deposit?.depositedAt, poolDetails?.cliffPeriodInDays);
+          const depositReleaseDate =  addDate(deposit?.depositedAt, poolDetails.vestingPeriodInDays )
           const rewardData = userData?.project?.accumulatedReward?.find(rewardData => rewardData?.id === deposit?.pool?.id);
           const reward = (rewardData?.reward).toString() ?? "0";
           const rewardValue = (rewardData?.reward * userData?.price) ?? 0;
