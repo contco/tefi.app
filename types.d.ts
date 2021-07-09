@@ -187,16 +187,21 @@ interface PylonSum {
   gatewayDepositsSum: string;
 }
 
-interface PylonGateway {
-  symbol: string;
-  poolName: string;
+interface DepositLogs {
   deposit: string
   depositDate: string
   depositReleaseDate: string
   rewardReleaseDate: string
+}
+
+interface PylonGateway {
+  symbol: string;
+  poolName: string;
+  totalDeposit: string!
+  depositLogs: DepositLogs[]
   apy: string
-  reward: string
-  rewardValue: string
+  rewards: string
+  rewardsValue: string
 }
 interface PylonAccount {
   __typename?: 'PylonAccount';

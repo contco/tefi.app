@@ -173,14 +173,18 @@ export const getAssets = gql`
         }
         pylonGateway {
           symbol
-          reward
           apy
           poolName
-          deposit
-          depositDate
-          depositReleaseDate
-          rewardReleaseDate
-          rewardValue
+          totalDeposit
+          rewards
+          rewardsValue
+          depositLogs {
+            deposit
+            depositDate
+            depositReleaseDate
+            rewardReleaseDate
+          }
+
         }
       }
     }
