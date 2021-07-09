@@ -26,8 +26,7 @@ const Total: React.SFC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAss
   const getPoolTotal = () => {
     const total =
       parseFloat(mirrorAssets?.total?.mirrorPoolSum) +
-      parseFloat(ancAssets?.pool?.stakedValue) +
-      parseFloat(ancAssets?.pool?.stakableValue) +
+      parseFloat(ancAssets?.total?.anchorPoolSum) +
       parseFloat(pylonAssets?.pylonSum?.pylonPoolSum);
     return total ?? 0;
   };

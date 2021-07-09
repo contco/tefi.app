@@ -93,17 +93,19 @@ export const getAssets = gql`
         }
 
         pool {
-          reward {
-            name
-            staked
-            apy
-            reward
-          }
-          balance
-          anc
-          ust
-          stakedValue
-          stakableValue
+          symbol
+          lpName
+          stakedLpUstValue
+          availableLpUstValue
+          ustStaked
+          ustUnStaked
+          tokenStaked
+          tokenUnStaked
+          stakedLP
+          rewards
+          rewardsValue
+          availableLP
+          apy
         }
         gov {
           reward {
@@ -121,6 +123,8 @@ export const getAssets = gql`
         }
         total {
           airdropSum
+          anchorRewardsSum
+          anchorPoolSum
         }
         totalReward
       }

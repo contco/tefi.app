@@ -19,7 +19,7 @@ export interface RewardsProps {
 const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets }) => {
   const borrowRewards = ancAssets?.debt?.reward;
   const govRewards = ancAssets?.gov?.reward;
-  const poolRewards = ancAssets?.pool?.reward;
+  const poolRewards = ancAssets?.total?.anchorRewardsSum;
   const ancPrice = ancAssets?.assets[0]?.price;
 
   const totalReward = ancAssets?.totalReward;
@@ -39,7 +39,7 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets 
 
   const getPool = () => {
     if(pylonAssets?.pylonPool) {
-      const pool = [...pylonAssets?.pylonPool, ...mirrorAssets?.mirrorStaking].sort((a,b) => a.rewardsValue - b.rewardsValue);
+      const pool = [...pylonAssets?.pylonPool, ...mirrorAssets?.mirrorStaking, ...ancAssets.pool].sort((a,b) => b.rewardsValue - a.rewardsValue);
     return pool.map((assets: Pool, index: number) => (
       <Row key={index}>
         <StyledText fontWeight="500"> {assets?.lpName}</StyledText>
@@ -106,7 +106,7 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets 
       {parseFloat(ancAssets.debt?.value) > 0 ? (
         <Row>
           <StyledText fontWeight="500"> {borrowRewards?.name}</StyledText>
-          <StyledText>{borrowRewards?.staked ? parseFloat(borrowRewards?.staked).toFixed(3) : null}</StyledText>
+          <StyledText>{borrowRewards?.staked ? parseFloat(borrowRewards?.staked).toFixed(3) : "N/A"}</StyledText>
           <StyledText css={CSS_APR}> {borrowRewards?.apy}%</StyledText>
           <div>
             <StyledText>{borrowRewards?.reward} ANC</StyledText>
@@ -128,31 +128,6 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets 
             Automatically <br />
             re-staked
           </StyledText>
-        </Row>
-      ) : null}
-      {poolRewards?.staked ? (
-        <Row>
-          <StyledText fontWeight="500"> {poolRewards?.name}</StyledText>
-          <StyledText isChildren={true}>
-            {parseFloat(poolRewards?.staked).toFixed(3) + ' LP'}
-            <HoverText>
-              {parseFloat(ancAssets?.pool?.anc).toFixed(3)} {'ANC'} <br />
-              {parseFloat(ancAssets?.pool?.ust).toFixed(3)} {'UST'}
-            </HoverText>
-          </StyledText>
-          <StyledText css={CSS_APR}> {poolRewards?.apy}%</StyledText>
-          <div>
-            <StyledText>
-              {poolRewards?.reward} {'ANC'}
-            </StyledText>
-
-            <SubText>
-              $
-              {poolRewards?.reward === '<0.001'
-                ? 0
-                : (parseFloat(poolRewards?.reward) * parseFloat(ancPrice)).toFixed(3)}
-            </SubText>
-          </div>
         </Row>
       ) : null}
     </Wrapper>

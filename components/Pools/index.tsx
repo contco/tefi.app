@@ -10,17 +10,15 @@ export interface PoolsProps {
 }
 
 const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets, pylonAssets }) => {
-  const pool = ancAssets?.pool;
 
   const getPoolTotal = () => {
     const pylonPoolTotal = pylonAssets?.pylonSum?.pylonPoolSum;
-    const total = (parseFloat(pylonPoolTotal) + parseFloat(mirrorAssets?.total?.mirrorPoolSum) + parseFloat(pool?.stakedValue) + parseFloat(pool?.stakableValue)).toFixed(3);
+    const total = (parseFloat(pylonPoolTotal) + parseFloat(mirrorAssets?.total?.mirrorPoolSum) + parseFloat(ancAssets?.total?.anchorPoolSum)).toFixed(3);
     return total ?? '0';
   };
 
-  const getPylonPool = () => {
-    if(pylonAssets?.pylonPool) {
-      const pool = [...pylonAssets?.pylonPool, ...mirrorAssets?.mirrorStaking].sort((a,b) => (parseFloat(a.availableLpUstValue) + parseFloat(a.stakedLpUstValue)) - (parseFloat(b.availableLpUstValue) + parseFloat(b.stakedLpUstValue)) );
+  const getPool = () => {
+      const pool = [...pylonAssets?.pylonPool, ...mirrorAssets?.mirrorStaking, ...ancAssets.pool].sort((a,b) => (parseFloat(b.availableLpUstValue) + parseFloat(b.stakedLpUstValue)) - (parseFloat(a.availableLpUstValue) + parseFloat(a.stakedLpUstValue)) );
       return pool.map((assets: Pool, index) => (
         <Row key={index}>
           <StyledText fontWeight={500}> {assets?.lpName}</StyledText>
@@ -33,7 +31,7 @@ const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets, pylonAssets }) =
           </StyledText>
           <StyledText> ${parseFloat(assets?.stakedLpUstValue + assets?.availableLpUstValue).toFixed(3)}</StyledText>
         </Row>
-      ))}
+      ))
     };
 
   return (
@@ -47,17 +45,7 @@ const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets, pylonAssets }) =
           <Title key={index}>{t}</Title>
         ))}
       </Row>
-      {getPylonPool()}
-
-      {pool?.balance ? (
-        <Row>
-          <StyledText fontWeight={500}> {pool?.reward?.name}</StyledText>
-          <StyledText >
-            {(parseFloat(pool?.balance) + parseFloat(pool?.reward?.staked)).toFixed(3)} {'LP'}
-          </StyledText>
-          <StyledText>${(parseFloat(pool?.stakableValue) + parseFloat(pool?.stakedValue)).toFixed(3)}</StyledText>
-        </Row>
-      ) : null}
+      {getPool()}
     </Wrapper>
   );
 };

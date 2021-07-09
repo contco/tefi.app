@@ -96,16 +96,6 @@ interface EarnData {
   reward?: Reward;
 }
 
-interface LpData {
-  __typename?: 'LPData';
-  reward: Reward;
-  balance: string;
-  stakedValue: string;
-  stakableValue: string;
-  anc: string;
-  ust: string;
-}
-
 interface GovData {
   __typename?: 'GovData';
   reward: Reward;
@@ -114,6 +104,8 @@ interface GovData {
 interface Total {
   __typename?: 'Total';
   airdropSum: string;
+  anchorPoolSum: string;
+  anchorRewardsSum: string;
 }
 
 interface AccountAnc {
@@ -121,7 +113,7 @@ interface AccountAnc {
   assets?: Array<Token>;
   debt?: BorrowData;
   earn?: EarnData;
-  pool?: LpData;
+  pool: Pool[];
   gov?: GovData;
   airdrops?: Array<Airdrops>;
   total?: Total;

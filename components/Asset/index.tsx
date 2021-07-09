@@ -16,7 +16,7 @@ const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core, pylonAss
   const ancValue = (parseFloat(ancAsset?.amount) * parseFloat(ancAsset?.price)).toFixed(3);
 
   const getAssetsTotal = () => {
-    const mirrorTotal = mirrorAssets?.total?.unstakedSum;
+    const mirrorTotal = mirrorAssets?.total?.mirrorHoldingsSum;
     const coreTotal = core?.total?.assetsSum;
     const pylonHoldingsSum = pylonAssets?.pylonSum?.pylonHoldingsSum;
     const total = parseFloat(plus(mirrorTotal, coreTotal)) + parseFloat(ancValue) + parseFloat(pylonHoldingsSum);
