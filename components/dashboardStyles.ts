@@ -63,7 +63,7 @@ ${(props) =>
   css({
     color: props.theme.colors.detailsText,
     letterSpacing: 1,
-    fontSize: ['11px', null, null,null, '14px', null, null, 16],
+    fontSize: ['11px', null, null, null, '14px', null, null, 16],
     width: [100, null, 150, null, null, 200],
     cursor: props.isChildren ? 'pointer' : '',
   })}
@@ -81,4 +81,13 @@ ${(props) =>
     opacity: '0',
     pt: 1,
   })}
+`;
+
+export const CheckBox = Styled.input`
+  margin-right: 12px;
+  ${() =>
+    css({
+      height: [14, null, null, null, 18],
+      width: [14, null, null, null, 18],
+    })}
 `;

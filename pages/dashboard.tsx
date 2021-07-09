@@ -24,7 +24,7 @@ ${css({
   m: 'auto',
   width: ['90%', null, '75%'],
   mt: 20,
-  overflowX: ['scroll', null, null, null, null,'hidden'],
+  overflowX: ['scroll', null, null, null, null, 'hidden'],
 })}
 `;
 

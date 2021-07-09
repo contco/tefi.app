@@ -62,9 +62,11 @@ export const getAssets = gql`
       }
       anchor {
         assets {
-          amount
+          balance
           symbol
           price
+          name
+          value
         }
         debt {
           reward {
