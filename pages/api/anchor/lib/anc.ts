@@ -5,6 +5,16 @@ import {getAncPoolData} from './lp';
 import getGov from './gov';
 import { formatAirdrops, getAirdrops } from './airdrop';
 
+const getAnchorHoldings = (balance: number, price: number ) => {
+  if(balance) {
+    const value = (balance * price).toString();
+     const anchorHoldings = [{symbol: 'ANC', name: 'Anchor', balance: balance.toString(), value, price: price.toString() }];
+     return {anchorHoldings, anchorHoldingsSum: value};
+  }
+  return { anchorHoldings: [], anchorHoldingsSum: '0'};
+
+}
+
 export const getAccount = async (address: any) => {
   const balanceRequest = anchor.anchorToken.getBalance(address);
   const priceRequest = anchor.anchorToken.getANCPrice();
@@ -30,7 +40,10 @@ export const getAccount = async (address: any) => {
 
   const {poolData, anchorPoolSum, anchorRewardsSum } = pool;
 
+  const {anchorHoldings, anchorHoldingsSum} = getAnchorHoldings(parseFloat(balance), parseFloat(price));
+
   let reward = 0;
+  
   if (debt.reward.reward === '<0.001') {
     reward = parseFloat(anchorRewardsSum);
   } else { 
@@ -40,13 +53,7 @@ export const getAccount = async (address: any) => {
   const rewardValue = reward * parseFloat(price);
 
   const result = {
-    assets: [
-      {
-        amount: balance.toString(),
-        price: price.toString(),
-        symbol: 'ANC',
-      },
-    ],
+    assets: anchorHoldings,
     debt: {
       reward: {
         name: debt.reward.name,
@@ -77,12 +84,14 @@ export const getAccount = async (address: any) => {
         apy: gov.reward.apy,
         staked: gov.reward.staked,
       },
+      price: parseFloat(price),
     },
     airdrops,
     total: {
       airdropSum,
       anchorRewardsSum,
-      anchorPoolSum
+      anchorPoolSum,
+      anchorHoldingsSum,
     },
     totalReward: rewardValue.toString(),
   };

@@ -53,7 +53,7 @@ const Airdrops: React.FC<AirdropsProps> = ({mirrorAssets, anchorAssets, pylonAss
             {airdrops.map((assets:Airdrops, index: number) =>
                 <Row key={index}>
                     <StyledText fontWeight={500}> {assets?.name}</StyledText>
-                    <StyledText>{assets?.round ?? "---"} </StyledText>
+                    <StyledText>{assets?.round ?? "N/A"} </StyledText>
                     <StyledText > ${parseFloat(assets?.quantity).toFixed(3)}</StyledText>
                     <StyledText > ${parseFloat(assets?.price).toFixed(3)}</StyledText>
                 </Row>

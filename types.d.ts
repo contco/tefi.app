@@ -51,14 +51,6 @@ interface CoreTotal {
   stakedSum: string;
 }
 
-interface Token {
-  __typename?: 'Token';
-  symbol: string;
-  amount: string;
-  price: string;
-  staked?: string;
-}
-
 interface Reward {
   __typename?: 'Reward';
   name?: string;
@@ -99,6 +91,7 @@ interface EarnData {
 interface GovData {
   __typename?: 'GovData';
   reward: Reward;
+  price: string;
 }
 
 interface Total {
@@ -106,11 +99,12 @@ interface Total {
   airdropSum: string;
   anchorPoolSum: string;
   anchorRewardsSum: string;
+  anchorHoldingsSum: string;
 }
 
 interface AccountAnc {
   __typename?: 'AccountANC';
-  assets?: Array<Token>;
+  assets?: Holdings[];
   debt?: BorrowData;
   earn?: EarnData;
   pool: Pool[];

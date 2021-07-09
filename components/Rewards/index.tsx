@@ -19,8 +19,7 @@ export interface RewardsProps {
 const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets }) => {
   const borrowRewards = ancAssets?.debt?.reward;
   const govRewards = ancAssets?.gov?.reward;
-  const poolRewards = ancAssets?.total?.anchorRewardsSum;
-  const ancPrice = ancAssets?.assets[0]?.price;
+  const ancPrice = ancAssets?.gov.price;
 
   const totalReward = ancAssets?.totalReward;
 

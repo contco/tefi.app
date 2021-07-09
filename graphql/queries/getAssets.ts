@@ -63,9 +63,11 @@ export const getAssets = gql`
       }
       anchor {
         assets {
-          amount
+          name
           symbol
           price
+          balance
+          value
         }
         debt {
           reward {
@@ -114,6 +116,7 @@ export const getAssets = gql`
             reward
             apy
           }
+          price
         }
         airdrops {
           name
@@ -125,6 +128,7 @@ export const getAssets = gql`
           airdropSum
           anchorRewardsSum
           anchorPoolSum
+          anchorHoldingsSum
         }
         totalReward
       }

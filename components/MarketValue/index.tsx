@@ -13,7 +13,7 @@ export interface AssetsProps {
   pylonAssets: PylonAccount;
 }
 
-const Total: React.SFC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAssets}) => {
+const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAssets}) => {
   const getLunaStakingRewards = () => {
     let total = 0;
     for (const a in core.staking) {
@@ -32,7 +32,7 @@ const Total: React.SFC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAss
   };
 
   const getGovStaked = () => {
-    return parseFloat(ancAssets?.gov?.reward?.staked) * parseFloat(ancAssets?.assets[0].price);
+    return parseFloat(ancAssets?.gov?.reward?.staked) * parseFloat(ancAssets?.gov?.price);
   };
 
   const getEarn = () => {
@@ -59,7 +59,7 @@ const Total: React.SFC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAss
   };
 
   const getAssetsTotal = () => {
-    const ancValue = (parseFloat(ancAssets?.assets[0].amount) * parseFloat(ancAssets?.assets[0].price)).toFixed(3);
+    const ancHoldingsTotal = ancAssets?.total?.anchorHoldingsSum;
     const pylonHoldingsTotal = pylonAssets.pylonSum.pylonHoldingsSum;
     const pylonStakingsTotal = pylonAssets.pylonSum.pylonStakingSum;
     const pylonGatewayDepositTotal = pylonAssets.pylonSum.gatewayDepositsSum;
@@ -67,7 +67,7 @@ const Total: React.SFC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAss
     const coreTotal = core?.total?.assetsSum;
     const total =
       parseFloat(plus(mirrorTotal, coreTotal)) +
-      parseFloat(ancValue) +
+      parseFloat(ancHoldingsTotal) +
       parseFloat(pylonHoldingsTotal) +
       parseFloat(pylonStakingsTotal) +
       parseFloat(pylonGatewayDepositTotal) +

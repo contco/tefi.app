@@ -1,7 +1,9 @@
+import { useEffect, useState } from 'react';
 import { AssetsTitle } from '../../constants';
 import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText } from '../dashboardStyles';
 import { convertToFloatValue } from '../../utils/convertFloat';
 import { plus } from '../../pages/api/mirror/utils';
+
 const HEADING_TEXT = `Assets`;
 
 export interface AssetsProps {
@@ -12,16 +14,22 @@ export interface AssetsProps {
 }
 
 const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core, pylonAssets }: AssetsProps) => {
-  const ancAsset = ancAssets.assets[0];
-  const ancValue = (parseFloat(ancAsset?.amount) * parseFloat(ancAsset?.price)).toFixed(3);
+
+  const [holdings, setHoldings] = useState<Holdings[]>([]);
 
   const getAssetsTotal = () => {
     const mirrorTotal = mirrorAssets?.total?.mirrorHoldingsSum;
     const coreTotal = core?.total?.assetsSum;
     const pylonHoldingsSum = pylonAssets?.pylonSum?.pylonHoldingsSum;
-    const total = parseFloat(plus(mirrorTotal, coreTotal)) + parseFloat(ancValue) + parseFloat(pylonHoldingsSum);
+    const total = parseFloat(plus(mirrorTotal, coreTotal)) + parseFloat(ancAssets?.total?.anchorHoldingsSum) + parseFloat(pylonHoldingsSum);
     return total.toFixed(3) ?? '0';
   };
+
+  useEffect(() => {
+    const holdings = [ ...pylonAssets?.pylonHoldings, ...mirrorAssets?.mirrorHoldings, ...core?.coins, ...ancAssets?.assets];
+    const sortedHoldings = holdings.sort((a: any,b: any) => b.value - a.value);
+    setHoldings(sortedHoldings);
+  }, [mirrorAssets, ancAssets, core,pylonAssets]);
 
   return (
     <Wrapper>
@@ -34,7 +42,7 @@ const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core, pylonAss
           <Title key={index}>{t}</Title>
         ))}
       </Row>
-      {[ ...pylonAssets?.pylonHoldings, ...mirrorAssets?.mirrorHoldings, ...core?.coins].map((asset: Coin) => (
+      {holdings.map((asset: Holdings) => (
         <Row key={asset.symbol}>
           <StyledText fontWeight={500}> {asset.symbol}</StyledText>
           <StyledText fontWeight={500}> {asset.name}</StyledText>
@@ -43,15 +51,6 @@ const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core, pylonAss
           <StyledText> ${convertToFloatValue(asset.value)}</StyledText>
         </Row>
       ))}
-      {parseFloat(ancAsset.amount) > 0 ? (
-        <Row>
-          <StyledText fontWeight={500}> {ancAsset?.symbol}</StyledText>
-          <StyledText fontWeight={500}> {'Anchor'}</StyledText>
-          <StyledText> {parseFloat(ancAsset?.amount).toFixed(3)} ANC</StyledText>
-          <StyledText> ${parseFloat(ancAsset?.price).toFixed(3)}</StyledText>
-          <StyledText>${ancValue}</StyledText>
-        </Row>
-      ) : null}
     </Wrapper>
   );
 };

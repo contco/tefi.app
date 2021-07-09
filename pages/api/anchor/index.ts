@@ -5,9 +5,10 @@ import { getAccount } from './lib/anc';
 const typeDefs = gql`
   type Token {
     symbol: String!
-    amount: String!
+    name: String!
+    balance: String!
+    value: String!
     price: String!
-    staked: String
   }
 
   type Reward {
@@ -60,16 +61,18 @@ const typeDefs = gql`
 
   type GovData {
     reward: Reward!
+    price: String!
   }
 
   type Total {
     airdropSum: String!
     anchorRewardsSum: String!
     anchorPoolSum: String!
+    anchorHoldingsSum: String!
   }
 
   type AccountANC {
-    assets: [Token]
+    assets: [Token!]
     debt: BorrowData
     earn: EarnData
     pool: [LPData!]
