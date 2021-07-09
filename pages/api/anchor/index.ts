@@ -43,13 +43,19 @@ const typeDefs = gql`
   }
 
   type LPData {
-    reward: Reward!
-    balance: String!
-    stakedValue: String
-    stakableValue: String
-    anc: String
-    ust: String
-
+    symbol: String!
+    lpName: String!
+    stakedLpUstValue: String!
+    availableLpUstValue: String!
+    ustStaked: String!
+    ustUnStaked: String!
+    tokenStaked: String!
+    tokenUnStaked: String!
+    availableLP: String!
+    stakedLP: String!
+    rewards: String!
+    rewardsValue: String!
+    apy: String!
   }
 
   type GovData {
@@ -58,13 +64,15 @@ const typeDefs = gql`
 
   type Total {
     airdropSum: String!
+    anchorRewardsSum: String!
+    anchorPoolSum: String!
   }
 
   type AccountANC {
     assets: [Token]
     debt: BorrowData
     earn: EarnData
-    pool: LPData
+    pool: [LPData!]
     gov: GovData
     airdrops: [Airdrops!]
     total: Total

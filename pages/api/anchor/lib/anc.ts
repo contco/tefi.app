@@ -1,7 +1,7 @@
 import { anchor } from './test-defaults';
 import getDebt from './borrow';
 import getEarn from './earn';
-import getPool from './lp';
+import {getAncPoolData} from './lp';
 import getGov from './gov';
 import { formatAirdrops, getAirdrops } from './airdrop';
 
@@ -11,7 +11,7 @@ export const getAccount = async (address: any) => {
 
   const debtRequest = getDebt(address);
   const earnRequest = getEarn(address);
-  const poolRequest = getPool(address);
+  const poolRequest = getAncPoolData(address);
   const govRequest = getGov(address);
   const airdropRequest = getAirdrops(address);
 
@@ -28,13 +28,13 @@ export const getAccount = async (address: any) => {
   const [balance, price, debt, earn, pool, gov, airdropData] = anchorData;
   const { airdrops, airdropSum } = formatAirdrops(airdropData, price);
 
+  const {poolData, anchorPoolSum, anchorRewardsSum } = pool;
+
   let reward = 0;
   if (debt.reward.reward === '<0.001') {
-    reward = parseFloat(pool.reward.reward);
-  } else if (pool.reward.reward === '<0.001') {
-    reward = parseFloat(debt.reward.reward);
-  } else {
-    reward = parseFloat(debt.reward.reward) + parseFloat(pool.reward.reward);
+    reward = parseFloat(anchorRewardsSum);
+  } else { 
+    reward = parseFloat(debt.reward.reward) + parseFloat(anchorRewardsSum);
   }
 
   const rewardValue = reward * parseFloat(price);
@@ -69,19 +69,7 @@ export const getAccount = async (address: any) => {
       },
     },
 
-    pool: {
-      reward: {
-        name: pool.reward.name,
-        apy: pool.reward.apy,
-        staked: pool.reward.staked,
-        reward: pool.reward.reward,
-      },
-      balance: pool.balance,
-      anc: pool.anc,
-      ust: pool.ust,
-      stakedValue: pool.stakedValue,
-      stakableValue: pool.stakableValue,
-    },
+    pool: poolData,
 
     gov: {
       reward: {
@@ -93,6 +81,8 @@ export const getAccount = async (address: any) => {
     airdrops,
     total: {
       airdropSum,
+      anchorRewardsSum,
+      anchorPoolSum
     },
     totalReward: rewardValue.toString(),
   };
