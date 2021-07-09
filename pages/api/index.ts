@@ -6,6 +6,7 @@ const gateway = new ApolloGateway({
         { name: 'terra-core', url: 'http://localhost:3003/api/terra-core' },
         { name: 'anchor', url: 'http://localhost:3003/api/anchor' },
         { name: 'mirror', url: 'http://localhost:3003/api/mirror' },
+        { name: 'pylon', url: 'http://localhost:3003/api/pylon' },
     ],
 });
 

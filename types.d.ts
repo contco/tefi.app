@@ -1,3 +1,16 @@
+
+interface Holdings {
+  symbol: string;
+  value: string;
+  balance: string;
+  price: string;
+  name: string;
+}
+
+interface Coin extends Holdings {
+ __typename?: "Coin";
+}
+
 interface Core {
   __typename?: 'Core';
   coins: Coin[];
@@ -18,13 +31,6 @@ interface CoreTotal {
   assetsSum: string;
   stakedSum: string;
 }
-interface Coin {
-  symbol: string;
-  value: string;
-  price: string;
-  balance: string;
-  name: string;
-}
 
 interface Token {
   __typename?: 'Token';
@@ -43,11 +49,11 @@ interface Reward {
 }
 
 interface Airdrops {
-  __typename?: 'Airdrops';
-  price?: string;
-  quantity?: string;
+  __typename?: string;
+  price: string;
+  quantity: string;
   round?: number;
-  name?: string;
+  name: string;
 }
 
 interface UserCollateral {
@@ -119,13 +125,12 @@ interface MirrorStaking {
   lpBalance?: string;
 }
 
-interface MirrorHoldings {
+interface MirrorHoldings extends Holdings {
   __typename?: 'MirrorHoldings';
-  symbol: string;
-  value: string;
-  balance: string;
-  price: string;
-  name: string;
+}
+
+interface PylonHoldings extends Holdings {
+  __typename?: 'PylonHoldings';
 }
 interface AssetsTotal {
   __typename?: 'AssetsTotal';
@@ -143,9 +148,55 @@ interface MirrorAccount {
   airdrops: Array<Airdrops>;
 }
 
+interface PylonPool {
+  __typename?: 'PylonPool';
+  symbol: string;
+  lpName: string;
+  stakedLpUstValue: string;
+  availableLpUstValue: string;
+  ustStaked: string;
+  ustUnStaked: string;
+  tokenStaked: string;
+  tokenUnStaked: string;
+  stakedLP: string;
+  rewards: string;
+  rewardsValue: string;
+  availableLP: string;
+  apy: string
+}
+
+interface PylonStakings {
+  symbol
+  name
+  stakedValue
+  rewards
+  rewardsValue
+  apy
+  balance
+  totalValue
+}
+
+interface PylonSum {
+  pylonHoldingsSum: string;
+  pylonStakingSum: string;
+  pylonPoolSum: string;
+  pylonAirdropSum: string;
+  pylonPoolRewardsSum: string;
+  pylonStakingRewardsSum: string;
+}
+interface PylonAccount {
+  __typename?: 'PylonAccount';
+  pylonHoldings: PylonHoldings[];
+  pylonPool: PylonPool[];
+  pylonAirdrops: Airdrops;
+  pylonStakings: PylonStakings[];
+  pylonSum: PylonSum
+}
+
 interface Assets {
   __typename?: 'Assets';
   address: string;
   anchor?: AccountAnc;
   mirror?: MirrorAccount;
+  pylon?: PylonAccount;
 }

@@ -33,11 +33,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   const [addressType, setAddressType] = useState<string>(WALLET_ADDRESS_TYPE);
   const { useConnectedWallet } = useWallet();
   const connectedWallet = useConnectedWallet();
-
-  const ADDRESS_ANC = `terra18jg24fpqvjntm2wfc0p47skqccdr9ldtgl5ac9`;
-  const ADDRESS_MIR = 'terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m0q3';
-  const address3 = 'terra14lsth0ernuvvleesun5rehf46s8q3k5u5knnkk';
-
+  
   useEffect(() => {
     const localAddress = localStorage.getItem(ADDRESS_KEY);
     const walletAddress = connectedWallet?.terraAddress;
@@ -70,6 +66,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
         <Body>
           <MarketValue
             core={data?.assets.core || {}}
+            pylonAssets={data?.assets?.pylon || {}}
             mirrorAssets={data?.assets?.mirror || {}}
             ancAssets={data?.assets?.anchor || {}}
           />
@@ -77,13 +74,14 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
             mirrorAssets={data?.assets?.mirror || {}}
             core={data?.assets.core}
             ancAssets={data?.assets?.anchor || {}}
+            pylonAssets={data?.assets?.pylon || {}}
           />
           <LunaStaking core={data?.assets.core || {}} />
           <Earn ancAssets={data?.assets?.anchor || {}} />
           <Borrowing ancAssets={data?.assets?.anchor || {}} />
-          <Rewards mirrorAssets={data?.assets?.mirror || {}} ancAssets={data?.assets?.anchor || {}} />
-          <Pools mirrorAssets={data?.assets?.mirror || {}} ancAssets={data?.assets?.anchor || {}} />
-          <Airdrops mirrorAssets={data?.assets?.mirror || {}} anchorAssets={data?.assets?.anchor} />
+          <Rewards pylonAssets={data?.assets?.pylon || {}} mirrorAssets={data?.assets?.mirror || {}} ancAssets={data?.assets?.anchor || {}} />
+          <Pools pylonAssets={data?.assets?.pylon || {}} mirrorAssets={data?.assets?.mirror || {}} ancAssets={data?.assets?.anchor || {}} />
+          <Airdrops pylonAssets={data?.assets?.pylon || {}} mirrorAssets={data?.assets?.mirror || {}} anchorAssets={data?.assets?.anchor} />
         </Body>
       </div>
     </div>

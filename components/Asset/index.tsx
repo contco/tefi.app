@@ -11,19 +11,22 @@ export interface AssetsProps {
   mirrorAssets: MirrorAccount;
   ancAssets: AccountAnc;
   core: Core;
+  pylonAssets: PylonAccount;
 }
 
-const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core }: AssetsProps) => {
+const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core, pylonAssets }: AssetsProps) => {
   const [totalAssets, setTotalAssets] = useState(
     parseFloat(ancAssets.assets.value) > 0
-      ? [...core?.coins, ...mirrorAssets?.mirrorHoldings, ancAssets?.assets]
-      : [...core?.coins, ...mirrorAssets?.mirrorHoldings],
+      ? [...pylonAssets?.pylonHoldings, ...core?.coins, ...mirrorAssets?.mirrorHoldings, ancAssets?.assets]
+      : [...pylonAssets?.pylonHoldings, ...core?.coins, ...mirrorAssets?.mirrorHoldings],
   );
 
   const getAssetsTotal = () => {
     const mirrorTotal = mirrorAssets?.total?.unstakedSum;
     const coreTotal = core?.total?.assetsSum;
-    const total = parseFloat(plus(mirrorTotal, coreTotal)) + parseFloat(ancAssets.assets.value);
+    const pylonHoldingsSum = pylonAssets?.pylonSum?.pylonHoldingsSum;
+    const total =
+      parseFloat(plus(mirrorTotal, coreTotal)) + parseFloat(ancAssets.assets.value) + parseFloat(pylonHoldingsSum);
     return total.toFixed(3) ?? '0';
   };
 
@@ -34,8 +37,8 @@ const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core }: Assets
     } else {
       setTotalAssets(
         parseFloat(ancAssets.assets.value) > 0
-          ? [...core?.coins, ...mirrorAssets?.mirrorHoldings, ancAssets?.assets]
-          : [...core?.coins, ...mirrorAssets?.mirrorHoldings],
+          ? [...pylonAssets?.pylonHoldings, ...core?.coins, ...mirrorAssets?.mirrorHoldings, ancAssets?.assets]
+          : [...pylonAssets?.pylonHoldings, ...core?.coins, ...mirrorAssets?.mirrorHoldings],
       );
     }
   };
