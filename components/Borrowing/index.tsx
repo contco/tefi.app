@@ -5,7 +5,7 @@ import { Flex } from '@contco/core-ui';
 import Styled from 'styled-components';
 import PercentageBar from '../PercentageBar';
 
-const HEADING_TEXT = `Borrowing`;
+const HEADING_TEXT = `Anchor Borrow`;
 
 const CSS_NET_APR = (props) =>
   css({

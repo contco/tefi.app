@@ -2,6 +2,7 @@ import css from '@styled-system/css';
 import { RewardsTitle } from '../../constants';
 import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, HoverText, SubText } from '../dashboardStyles';
 import { times } from '../../pages/api/mirror/utils';
+import { convertToFloatValue } from '../../utils/convertFloat';
 const HEADING_TEXT = `Rewards`;
 
 const CSS_APR = (props) =>
@@ -105,7 +106,7 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets 
       {parseFloat(ancAssets.debt?.value) > 0 ? (
         <Row>
           <StyledText fontWeight="500"> {borrowRewards?.name}</StyledText>
-          <StyledText>{borrowRewards?.staked ? parseFloat(borrowRewards?.staked).toFixed(3) : "N/A"}</StyledText>
+          <StyledText>{borrowRewards?.staked ? convertToFloatValue(borrowRewards?.staked) : "N/A"}</StyledText>
           <StyledText css={CSS_APR}> {borrowRewards?.apy}%</StyledText>
           <div>
             <StyledText>{borrowRewards?.reward} ANC</StyledText>
@@ -121,7 +122,7 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets 
       {govRewards?.staked ? (
         <Row>
           <StyledText fontWeight="500"> {govRewards?.name}</StyledText>
-          <StyledText>{govRewards?.staked ? parseFloat(govRewards?.staked).toFixed(3) + ' ANC' : null}</StyledText>
+          <StyledText> {convertToFloatValue(govRewards?.staked) + ' ANC'}</StyledText>
           <StyledText css={CSS_APR}> {govRewards?.apy}%</StyledText>
           <StyledText>
             Automatically <br />

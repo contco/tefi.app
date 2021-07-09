@@ -1,5 +1,4 @@
 import {useState, useEffect} from "react";
-import pylon from "../../pages/api/pylon";
 import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText } from "../dashboardStyles";
 
 const HEADING_TEXT = `Airdrops`

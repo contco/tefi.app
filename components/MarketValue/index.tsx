@@ -2,7 +2,6 @@ import css from '@styled-system/css';
 import { MarketTitles } from '../../constants';
 import { plus } from '../../pages/api/mirror/utils';
 import { Wrapper, Row, Title, StyledText } from '../dashboardStyles';
-import { MarketValueList } from './dummy';
 
 const CUTOM_TEXT_CSS = css({ fontWeight: 500, fontSize: [16, null, 18, null, 28] });
 
@@ -32,7 +31,7 @@ const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAsse
   };
 
   const getGovStaked = () => {
-    return parseFloat(ancAssets?.gov?.reward?.staked) * parseFloat(ancAssets?.gov?.price);
+    return parseFloat(ancAssets?.gov?.reward?.staked) * parseFloat(ancAssets?.assets[0].price);
   };
 
   const getEarn = () => {
@@ -59,7 +58,7 @@ const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAsse
   };
 
   const getAssetsTotal = () => {
-    const ancHoldingsTotal = ancAssets?.total?.anchorHoldingsSum;
+    const ancValue = ancAssets?.total?.anchorHoldingsSum;
     const pylonHoldingsTotal = pylonAssets.pylonSum.pylonHoldingsSum;
     const pylonStakingsTotal = pylonAssets.pylonSum.pylonStakingSum;
     const pylonGatewayDepositTotal = pylonAssets.pylonSum.gatewayDepositsSum;
@@ -67,7 +66,7 @@ const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAsse
     const coreTotal = core?.total?.assetsSum;
     const total =
       parseFloat(plus(mirrorTotal, coreTotal)) +
-      parseFloat(ancHoldingsTotal) +
+      parseFloat(ancValue) +
       parseFloat(pylonHoldingsTotal) +
       parseFloat(pylonStakingsTotal) +
       parseFloat(pylonGatewayDepositTotal) +
@@ -111,14 +110,12 @@ const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAsse
           <Title key={index}>{t}</Title>
         ))}
       </Row>
-      {MarketValueList.map((a, index) => (
-        <Row key={index}>
+        <Row>
           <StyledText css={CUTOM_TEXT_CSS}>${totalMarketValue}</StyledText>
           <StyledText css={CUTOM_TEXT_CSS}>${totalAssets}</StyledText>
           <StyledText css={CUTOM_TEXT_CSS}>${totalBorrowing}</StyledText>
           <StyledText css={CUTOM_TEXT_CSS}>${totalRewards}</StyledText>
         </Row>
-      ))}
     </Wrapper>
   );
 };
