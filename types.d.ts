@@ -65,6 +65,7 @@ interface Airdrops {
   quantity: string;
   round?: number;
   name: string;
+  symbol: string;
 }
 
 interface UserCollateral {

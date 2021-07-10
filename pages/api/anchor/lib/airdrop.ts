@@ -7,6 +7,7 @@ import { demicrofy,formatANCWithPostfixUnits} from '@anchor-protocol/notation';
 
 const ANCHOR_API_URL = "https://airdrop.anchorprotocol.com/api/get?";
 const ANCHOR_TOKEN_NAME = "Anchor";
+const ANCHOR_TOKEN_SYMBOL = "ANC";
 
 const generateFetchUrl = (address: string, chainID) => {
     const uri = `${ANCHOR_API_URL}address=${address}&chainId=${chainID}`;
@@ -30,7 +31,7 @@ export const formatAirdrops = (result: any , ancPrice: string) => {
         const amount = formatANCWithPostfixUnits(demicrofy(airdrop?.amount));
         const price = times(ancPrice, amount);
         airdropSum = plus(airdropSum, price);
-        return {quantity: amount, name: ANCHOR_TOKEN_NAME, round: airdrop?.stage, price };
+        return {quantity: amount, name: ANCHOR_TOKEN_NAME, round: airdrop?.stage, price, symbol: ANCHOR_TOKEN_SYMBOL };
       });
       return {airdrops, airdropSum};
     }

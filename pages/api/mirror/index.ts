@@ -35,10 +35,11 @@ const typeDefs = gql`
   }
 
   type Airdrops {
-    price: String
-    quantity: String
-    round: Int
-    name: String
+    price: String!
+    quantity: String!
+    round: Int!
+    name: String!
+    symbol: String!
   }
 
   type Account {

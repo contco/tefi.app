@@ -50,6 +50,7 @@ export const getAssets = gql`
         }
         airdrops {
           name
+          symbol
           quantity
           price
           round
@@ -120,6 +121,7 @@ export const getAssets = gql`
         }
         airdrops {
           name
+          symbol
           quantity
           price
           round
@@ -167,6 +169,7 @@ export const getAssets = gql`
         }
         pylonAirdrops {
           name
+          symbol
           price
           quantity
         }
