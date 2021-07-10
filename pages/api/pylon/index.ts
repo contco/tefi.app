@@ -52,6 +52,25 @@ const typeDefs = gql`
       pylonAirdropSum: String!
       pylonPoolRewardsSum: String!
       pylonStakingRewardsSum: String!
+      gatewayRewardsSum: String!
+      gatewayDepositsSum: String!
+  }
+
+  type DepositLogs {
+    deposit: String!
+    depositDate: String!
+    depositReleaseDate: String!
+    rewardReleaseDate: String!
+  }
+  
+  type PylonGateway {
+    symbol: String!
+    poolName: String!
+    totalDeposit: String!
+    depositLogs: [DepositLogs!]
+    apy: String!
+    rewards: String!
+    rewardsValue: String!
   }
 
   type PylonAccount {
@@ -60,6 +79,7 @@ const typeDefs = gql`
     pylonPool: [PylonPool!]
     pylonAirdrops: PylonAirdrops
     pylonSum: PylonSum
+    pylonGateway: [PylonGateway!]
 
   }
 

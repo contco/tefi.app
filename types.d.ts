@@ -183,6 +183,25 @@ interface PylonSum {
   pylonAirdropSum: string;
   pylonPoolRewardsSum: string;
   pylonStakingRewardsSum: string;
+  gatewayRewardsSum: string;
+  gatewayDepositsSum: string;
+}
+
+interface DepositLogs {
+  deposit: string
+  depositDate: string
+  depositReleaseDate: string
+  rewardReleaseDate: string
+}
+
+interface PylonGateway {
+  symbol: string;
+  poolName: string;
+  totalDeposit: string!
+  depositLogs: DepositLogs[]
+  apy: string
+  rewards: string
+  rewardsValue: string
 }
 interface PylonAccount {
   __typename?: 'PylonAccount';
@@ -191,6 +210,7 @@ interface PylonAccount {
   pylonAirdrops: Airdrops;
   pylonStakings: PylonStakings[];
   pylonSum: PylonSum
+  pylonGateway: PylonGateway[];
 }
 
 interface Assets {
