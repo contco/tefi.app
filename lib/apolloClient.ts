@@ -6,7 +6,7 @@ let apolloClient: any;
 const authToken = '';
 
 const httpLink = createHttpLink({
-  uri: process.env.SERVER_END_POINT,
+  uri: '/api',
   fetch,
 });
 

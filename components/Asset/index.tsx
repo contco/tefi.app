@@ -1,40 +1,66 @@
 import { AssetsTitle } from '../../constants';
-import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText } from '../dashboardStyles';
+import { CheckBox, Wrapper, Row, HeadingWrapper, Heading, Title, StyledText } from '../dashboardStyles';
 import { convertToFloatValue } from '../../utils/convertFloat';
 import { plus } from '../../pages/api/mirror/utils';
+import { Flex } from '@contco/core-ui';
+import { useState } from 'react';
+
 const HEADING_TEXT = `Assets`;
 
 export interface AssetsProps {
   mirrorAssets: MirrorAccount;
   ancAssets: AccountAnc;
   core: Core;
-  pylonAssets: PylonAccount
+  pylonAssets: PylonAccount;
 }
 
 const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core, pylonAssets }: AssetsProps) => {
-  const ancAsset = ancAssets.assets[0];
-  const ancValue = (parseFloat(ancAsset?.amount) * parseFloat(ancAsset?.price)).toFixed(3);
+  const [totalAssets, setTotalAssets] = useState(
+    parseFloat(ancAssets.assets.value) > 0
+      ? [...pylonAssets?.pylonHoldings, ...core?.coins, ...mirrorAssets?.mirrorHoldings, ancAssets?.assets]
+      : [...pylonAssets?.pylonHoldings, ...core?.coins, ...mirrorAssets?.mirrorHoldings],
+  );
 
   const getAssetsTotal = () => {
     const mirrorTotal = mirrorAssets?.total?.unstakedSum;
     const coreTotal = core?.total?.assetsSum;
     const pylonHoldingsSum = pylonAssets?.pylonSum?.pylonHoldingsSum;
-    const total = parseFloat(plus(mirrorTotal, coreTotal)) + parseFloat(ancValue) + parseFloat(pylonHoldingsSum);
+    const total =
+      parseFloat(plus(mirrorTotal, coreTotal)) + parseFloat(ancAssets.assets.value) + parseFloat(pylonHoldingsSum);
     return total.toFixed(3) ?? '0';
+  };
+
+  const handleChange = (e: any) => {
+    if (e.target.checked) {
+      const largerAssets = totalAssets.filter((asset: Coin) => parseFloat(asset?.value) >= 1);
+      setTotalAssets(largerAssets);
+    } else {
+      setTotalAssets(
+        parseFloat(ancAssets.assets.value) > 0
+          ? [...pylonAssets?.pylonHoldings, ...core?.coins, ...mirrorAssets?.mirrorHoldings, ancAssets?.assets]
+          : [...pylonAssets?.pylonHoldings, ...core?.coins, ...mirrorAssets?.mirrorHoldings],
+      );
+    }
   };
 
   return (
     <Wrapper>
       <HeadingWrapper>
         <Heading>{HEADING_TEXT}</Heading>
-        <StyledText>${getAssetsTotal()}</StyledText>
+        <Flex alignItems="flex-end">
+          <StyledText>${getAssetsTotal()}</StyledText>
+          <Flex alignItems="center">
+            <CheckBox type="checkbox" onChange={handleChange} />
+            <StyledText>Hide small balances</StyledText>
+          </Flex>
+        </Flex>
       </HeadingWrapper>
       <Row>
         {AssetsTitle.map((t, index) => (
           <Title key={index}>{t}</Title>
         ))}
       </Row>
-      {[ ...pylonAssets?.pylonHoldings, ...mirrorAssets?.mirrorHoldings, ...core?.coins].map((asset: Coin) => (
+      {totalAssets.map((asset: Coin) => (
         <Row key={asset.symbol}>
           <StyledText fontWeight={500}> {asset.symbol}</StyledText>
           <StyledText fontWeight={500}> {asset.name}</StyledText>
@@ -43,15 +69,6 @@ const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core, pylonAss
           <StyledText> ${convertToFloatValue(asset.value)}</StyledText>
         </Row>
       ))}
-      {parseFloat(ancAsset.amount) > 0 ? (
-        <Row>
-          <StyledText fontWeight={500}> {ancAsset?.symbol}</StyledText>
-          <StyledText fontWeight={500}> {'Anchor'}</StyledText>
-          <StyledText> {parseFloat(ancAsset?.amount).toFixed(3)} ANC</StyledText>
-          <StyledText> ${parseFloat(ancAsset?.price).toFixed(3)}</StyledText>
-          <StyledText>${ancValue}</StyledText>
-        </Row>
-      ) : null}
     </Wrapper>
   );
 };

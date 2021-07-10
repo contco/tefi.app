@@ -40,13 +40,14 @@ export const getAccount = async (address: any) => {
   const rewardValue = reward * parseFloat(price);
 
   const result = {
-    assets: [
-      {
-        amount: balance.toString(),
-        price: price.toString(),
-        symbol: 'ANC',
-      },
-    ],
+    assets: {
+      balance: balance,
+      price: price,
+      symbol: 'ANC',
+      name: 'Anchor',
+      value: (parseFloat(balance) * parseFloat(price)).toString(),
+    },
+
     debt: {
       reward: {
         name: debt.reward.name,

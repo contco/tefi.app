@@ -38,22 +38,21 @@ const Header: React.FC<Props> = ({ theme, changeTheme, address, addressType }) =
   return (
     <Container>
       <LeftSection>
-        <StyledLogoIcon />
         <StyledTitle >
           Tefi<span>App</span>
         </StyledTitle>
       </LeftSection>
       <RightSection>
         {address ?
-          <WalletContainer>
+          <WalletContainer onClick={onCopyClick}>
             <WalletCopyContainer>
-              <WalletIcon onClick={onCopyClick} />
+              <WalletIcon />
               <WalletCopyTooltip isVisible={isVisible}>Copied!</WalletCopyTooltip>
             </WalletCopyContainer>
             <StyledAddressText>
               {slicedAddress}
             </StyledAddressText>
-              <CloseIcon onClick={onDisconnect}/>
+            <CloseIcon onClick={onDisconnect}/>
           </WalletContainer>
           : ''}
         <SwitchContainer>

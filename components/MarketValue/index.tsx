@@ -4,7 +4,7 @@ import { plus } from '../../pages/api/mirror/utils';
 import { Wrapper, Row, Title, StyledText } from '../dashboardStyles';
 import { MarketValueList } from './dummy';
 
-const CUTOM_TEXT_CSS = css({ fontWeight: 500, fontSize: [16, null, 18, null, 28] });
+const CUTOM_TEXT_CSS = css({ fontWeight: 500, fontSize: [14, null, null, 20, null, null, null, 28] });
 
 export interface AssetsProps {
   ancAssets: AccountAnc;
@@ -13,7 +13,7 @@ export interface AssetsProps {
   pylonAssets: PylonAccount;
 }
 
-const Total: React.SFC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAssets}) => {
+const Total: React.SFC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAssets }) => {
   const getLunaStakingRewards = () => {
     let total = 0;
     for (const a in core.staking) {
@@ -33,7 +33,7 @@ const Total: React.SFC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAss
   };
 
   const getGovStaked = () => {
-    return parseFloat(ancAssets?.gov?.reward?.staked) * parseFloat(ancAssets?.assets[0].price);
+    return parseFloat(ancAssets?.gov?.reward?.staked) * parseFloat(ancAssets?.assets.price);
   };
 
   const getEarn = () => {
@@ -60,7 +60,7 @@ const Total: React.SFC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAss
   };
 
   const getAssetsTotal = () => {
-    const ancValue = (parseFloat(ancAssets?.assets[0].amount) * parseFloat(ancAssets?.assets[0].price)).toFixed(3);
+    const ancValue = ancAssets?.assets.value;
     const pylonHoldingsTotal = pylonAssets.pylonSum.pylonHoldingsSum;
     const pylonStakingsTotal = pylonAssets.pylonSum.pylonStakingSum;
     const pylonGatewayDepositTotal = pylonAssets.pylonSum.gatewayDepositsSum;
@@ -86,7 +86,14 @@ const Total: React.SFC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAss
     const pylonStakingRewardsTotal = pylonAssets?.pylonSum?.pylonStakingRewardsSum;
     const pylonGatewayRewardsTotal = pylonAssets.pylonSum.gatewayRewardsSum;
     const total =
-  parseFloat(pylonGatewayRewardsTotal) +  parseFloat(pylonPoolRewardsTotal)+parseFloat(pylonStakingRewardsTotal)+   parseFloat(mirrorTotal) + parseFloat(ancAssets?.totalReward) + getLunaStakingRewards() + getAirdropTotal();
+      parseFloat(pylonGatewayRewardsTotal)
+      parseFloat(pylonPoolRewardsTotal) +
+      parseFloat(pylonStakingRewardsTotal) +
+      parseFloat(mirrorTotal) +
+      parseFloat(ancAssets?.totalReward) +
+      getLunaStakingRewards() +
+      getAirdropTotal();
+
 
     return total.toFixed(3) ?? '0';
   };

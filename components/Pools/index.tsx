@@ -11,6 +11,9 @@ export interface PoolsProps {
 
 const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets, pylonAssets }) => {
   const pool = ancAssets?.pool;
+  const ancPrice = ancAssets.assets[0]?.price;
+  const totalLP = (parseFloat(pool?.balance) + parseFloat(pool?.reward?.staked)).toFixed(3);
+  const totalLPValue = (parseFloat(pool?.stakableValue) + parseFloat(pool?.stakedValue)).toFixed(3);
 
   const getPoolTotal = () => {
     const pylonPoolTotal = pylonAssets?.pylonSum?.pylonPoolSum;
@@ -35,6 +38,17 @@ const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets, pylonAssets }) =
       ))}
     };
 
+  const getAncUstVal = () => {
+    const oneLPVal = parseFloat(totalLPValue) / parseFloat(totalLP);
+    const ust = (oneLPVal / 2) * parseFloat(totalLP);
+    const anc = ((oneLPVal / 2) * parseFloat(totalLP)) / parseFloat(ancPrice);
+
+    return {
+      ust,
+      anc,
+    };
+  };
+
   return (
     <Wrapper>
       <HeadingWrapper>
@@ -48,13 +62,17 @@ const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets, pylonAssets }) =
       </Row>
       {getPylonPool()}
 
-      {pool?.balance ? (
+      {parseFloat(totalLP) > 0 ? (
         <Row>
           <StyledText fontWeight={500}> {pool?.reward?.name}</StyledText>
-          <StyledText >
-            {(parseFloat(pool?.balance) + parseFloat(pool?.reward?.staked)).toFixed(3)} {'LP'}
+          <StyledText>
+            {totalLP} {'LP'}
+            <HoverText>
+              {getAncUstVal().anc.toFixed(3)} {'ANC'} <br />
+              {getAncUstVal().ust.toFixed(3)} {'UST'}
+            </HoverText>
           </StyledText>
-          <StyledText>${(parseFloat(pool?.stakableValue) + parseFloat(pool?.stakedValue)).toFixed(3)}</StyledText>
+          <StyledText>${totalLPValue}</StyledText>
         </Row>
       ) : null}
 
