@@ -31,7 +31,7 @@ const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAsse
   };
 
   const getGovStaked = () => {
-    return parseFloat(ancAssets?.gov?.reward?.staked) * parseFloat(ancAssets?.gov.price);
+    return parseFloat(ancAssets?.gov?.reward?.staked ?? "0") * parseFloat(ancAssets?.gov.price);
   };
 
   const getEarn = () => {
@@ -64,6 +64,7 @@ const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAsse
     const pylonGatewayDepositTotal = pylonAssets.pylonSum.gatewayDepositsSum;
     const mirrorTotal = mirrorAssets?.total?.mirrorHoldingsSum;
     const coreTotal = core?.total?.assetsSum;
+
     const total =
       parseFloat(plus(mirrorTotal, coreTotal)) +
       parseFloat(ancValue) +
@@ -75,6 +76,7 @@ const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAsse
       getGovStaked() +
       getCollateralValue() +
       getEarn();
+
     return total.toFixed(3) ?? '0';
   };
 
@@ -84,14 +86,13 @@ const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAsse
     const pylonStakingRewardsTotal = pylonAssets?.pylonSum?.pylonStakingRewardsSum;
     const pylonGatewayRewardsTotal = pylonAssets.pylonSum.gatewayRewardsSum;
     const total =
-      parseFloat(pylonGatewayRewardsTotal)
+      parseFloat(pylonGatewayRewardsTotal) +
       parseFloat(pylonPoolRewardsTotal) +
       parseFloat(pylonStakingRewardsTotal) +
       parseFloat(mirrorTotal) +
       parseFloat(ancAssets?.totalReward) +
       getLunaStakingRewards() +
       getAirdropTotal();
-
 
     return total.toFixed(3) ?? '0';
   };

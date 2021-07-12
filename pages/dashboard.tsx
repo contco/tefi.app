@@ -47,15 +47,19 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     }
   }, []);
 
-  const { data, loading, error } = useQuery(getAssets, { variables: { address: address } });
+  const { data, loading, error, refetch } = useQuery(getAssets, { variables: { address: address } });
+   
+  useEffect(() => {
+    if(error) {
+      refetch();
+    }
+  }, [error]);
 
-  if (loading) {
+
+  if (loading || error) {
     return <Loading />;
   }
 
-  if (error) {
-    return <p> {error?.message}</p>;
-  }
 
   return (
     <div>
