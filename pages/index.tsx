@@ -4,7 +4,6 @@ import Head from 'next/head';
 import Header from '../components/Header';
 import Landing from '../components/Landing';
 import styled from 'styled-components';
-import { TEFI_PREVIEW_IMAGE } from '../constants';
 
 const EmptyContainer = styled.div`
   height: 100vh;
@@ -24,18 +23,8 @@ const Home: React.FC = ({ theme, changeTheme }: any) => {
   return (
     <div>
         <Head>
-        <title>Tefi App</title>
-        <link rel="icon" href="/favicon.ico?v=2" />
-        <meta property="og:url" content="https://www.tefi.app/" />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content={'Tefi App'} />
-        <meta name="twitter:card" content="TefiApp | Your portal to TeFi" />
-        <meta
-          property="og:description"
-          content="TefiApp | Your portal to TeFi"
-        />
-        <meta property="og:image" content={TEFI_PREVIEW_IMAGE} />
-      </Head>
+          <title>Tefi App</title>
+        </Head>
       {!isDisplay ? (
         <EmptyContainer />
       ) : (
