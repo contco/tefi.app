@@ -105,11 +105,7 @@ interface Total {
 
 interface AccountAnc {
   __typename?: 'AccountANC';
-<<<<<<< HEAD
   assets?: Holdings[];
-=======
-  assets?: Coin;
->>>>>>> develop
   debt?: BorrowData;
   earn?: EarnData;
   pool: Pool[];
