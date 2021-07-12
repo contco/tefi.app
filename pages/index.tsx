@@ -4,7 +4,7 @@ import Head from 'next/head';
 import Header from '../components/Header';
 import Landing from '../components/Landing';
 import styled from 'styled-components';
-import {getGatewayData} from "./api/pylon/getGatewayData";
+
 const EmptyContainer = styled.div`
   height: 100vh;
   width: 100vh;
@@ -20,13 +20,6 @@ const Home: React.FC = ({ theme, changeTheme }: any) => {
     setTimeout(() => setIsDisplay(true), 1000);
   }, [router.pathname]);
 
-  useEffect(() => {
-    async function ab() {
-   const result =  await getGatewayData("terra18jg24fpqvjntm2wfc0p47skqccdr9ldtgl5ac9");
-    console.log(result[0]);
-  }
-  ab();
-  }, [])
   return (
     <div>
       <Head>

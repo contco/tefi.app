@@ -3,7 +3,7 @@ import { MarketTitles } from '../../constants';
 import { plus } from '../../pages/api/mirror/utils';
 import { Wrapper, Row, Title, StyledText } from '../dashboardStyles';
 
-const CUTOM_TEXT_CSS = css({ fontWeight: 500, fontSize: [16, null, 18, null, 28] });
+const CUTOM_TEXT_CSS = css({ fontWeight: 500, fontSize: [14, null, null, 20, null, null, null, 28] });
 
 export interface AssetsProps {
   ancAssets: AccountAnc;
@@ -84,7 +84,14 @@ const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAsse
     const pylonStakingRewardsTotal = pylonAssets?.pylonSum?.pylonStakingRewardsSum;
     const pylonGatewayRewardsTotal = pylonAssets.pylonSum.gatewayRewardsSum;
     const total =
-  parseFloat(pylonGatewayRewardsTotal) +  parseFloat(pylonPoolRewardsTotal)+parseFloat(pylonStakingRewardsTotal)+   parseFloat(mirrorTotal) + parseFloat(ancAssets?.totalReward) + getLunaStakingRewards() + getAirdropTotal();
+      parseFloat(pylonGatewayRewardsTotal)
+      parseFloat(pylonPoolRewardsTotal) +
+      parseFloat(pylonStakingRewardsTotal) +
+      parseFloat(mirrorTotal) +
+      parseFloat(ancAssets?.totalReward) +
+      getLunaStakingRewards() +
+      getAirdropTotal();
+
 
     return total.toFixed(3) ?? '0';
   };

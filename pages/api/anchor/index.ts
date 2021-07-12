@@ -10,7 +10,7 @@ const typeDefs = gql`
     value: String!
     price: String!
   }
-
+  
   type Reward {
     name: String
     staked: String

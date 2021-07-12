@@ -1,6 +1,7 @@
 import axios from "axios";
 import { PYLON_API_ENDPOINT } from "./constants";
 
+
 const getUserProjectsData = async (projects: any, address: string) => {
  if(projects) {
     const userProjectsDataPromise = projects.map( async (project: any) => {
@@ -17,24 +18,45 @@ const getUserProjectsData = async (projects: any, address: string) => {
     return null;
 };
 
+const updatePoolList = (data: any,  poolList) => {
+    const depositIndex = poolList.findIndex(item => item.poolName === data.poolName);
+    if (depositIndex === -1) {
+        poolList.push({...data, totalDeposit: data.depositLogs[0].deposit});
+        return {poolList, isNewPool: true};
+    } 
+    else {
+        const depositLogs =  [...data.depositLogs, ...poolList[depositIndex].depositLogs];
+        const totalDeposit = (parseFloat(poolList[depositIndex].totalDeposit) + parseFloat(data.depositLogs[0].deposit)).toString();
+        const newData = {...data,  depositLogs, totalDeposit};
+        poolList[depositIndex] = newData;
+        return {poolList, isNewPool: false};
+    }
+}
+
 const getProjectPoolData = (userProjects: any, launchpadProjects: any) => {
     let gatewayRewardsSum = 0;
     let gatewayDepositsSum = 0;
   const gatewayPoolData = userProjects.reduce((poolList, userData, index) => {
      if(userData && userData?.project?.depositLogs?.length !== 0) {
-       const data = userData?.project?.depositLogs.map((deposit: any) => {
+        let pool = [...poolList];
+       userData?.project?.depositLogs.forEach((deposit: any) => {
           const poolDetails = launchpadProjects[index]?.pools.find(pool => pool.id === deposit?.pool?.id); 
           const poolName = launchpadProjects[index]?.symbol+ " " +poolDetails?.name;
           const rewardReleaseDate = deposit?.pool?.cliffFinishesAt;
           const depositReleaseDate = deposit?.pool?.vestingFinishesAt;
           const rewardData = userData?.project?.accumulatedReward?.find(rewardData => rewardData?.id === deposit?.pool?.id);
-          const reward = (rewardData?.reward).toString() ?? "0";
-          const rewardValue = (rewardData?.reward * userData?.price) ?? 0;
-          gatewayDepositsSum = gatewayDepositsSum + deposit?.amountInUst;
-          gatewayRewardsSum = gatewayRewardsSum + rewardValue;
-          return {symbol:launchpadProjects[index]?.symbol, apy: poolDetails?.apy.toString(), poolName, deposit: (deposit?.amountInUst).toString(), depositDate: deposit?.depositedAt, rewardReleaseDate, depositReleaseDate, reward, rewardValue: rewardValue.toString()} ;
+          const rewards = (rewardData?.reward).toString() ?? "0";
+          const rewardsValue = (rewardData?.reward * userData?.price) ?? 0;
+
+          const data = {symbol:launchpadProjects[index]?.symbol, apy: poolDetails?.apy.toString(), poolName, depositLogs: [{deposit: (deposit?.amountInUst).toString(), depositDate: deposit?.depositedAt, rewardReleaseDate, depositReleaseDate}], rewards, rewardsValue: rewardsValue.toString()} 
+          const {poolList: newPool, isNewPool} = updatePoolList(data, [...pool]);
+          if (isNewPool) {
+            gatewayDepositsSum = gatewayDepositsSum + deposit?.amountInUst;
+            gatewayRewardsSum = gatewayRewardsSum + rewardsValue;
+          }
+          pool = [...newPool]
         });
-        poolList.push(...data);
+        return pool;
      }
     return poolList;
   }, []);

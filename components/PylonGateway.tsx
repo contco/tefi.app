@@ -1,4 +1,3 @@
-import {format} from "date-fns";
 import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, SubText} from './dashboardStyles';
 import { convertToFloatValue } from '../utils/convertFloat';
 const HEADING_TEXT = `Pylon Gateway`;
@@ -27,19 +26,15 @@ const PylonGateway: React.FC<Props> = ({ pylonAssets }: Props) => {
       <Row>
           <Title> Pool Name</Title>
           <Title> Deposit</Title>
-          <Title> Lockup Ending</Title>
-          <Title> Rewards Claim</Title>
           <Title> Rewards</Title>
       </Row>
       {pylonAssets?.pylonGateway.map((asset: PylonGateway) => (
         <Row key={asset.poolName}>
           <StyledText fontWeight={500}> {asset.poolName}</StyledText>
-          <StyledText> ${asset.deposit}</StyledText>
-          <StyledText> {format(new Date(asset.depositReleaseDate), "dd-LLL-yy")}</StyledText>
-          <StyledText>{format(new Date(asset.rewardReleaseDate), "dd-LLL-yy")}</StyledText>
+          <StyledText> ${convertToFloatValue(asset.totalDeposit)}</StyledText>
           <div>
-          <StyledText> {convertToFloatValue(asset.reward)} {asset.symbol}</StyledText>
-          <SubText>${convertToFloatValue(asset?.rewardValue)}</SubText>
+          <StyledText> {convertToFloatValue(asset.rewards)} {asset.symbol}</StyledText>
+          <SubText>${convertToFloatValue(asset?.rewardsValue)}</SubText>
           </div>
         </Row>
       ))}

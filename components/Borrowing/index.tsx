@@ -11,6 +11,7 @@ const CSS_NET_APR = (props) =>
   css({
     fontWeight: 500,
     color: props.theme.colors.secondary,
+    fontSize: ['11px', null, null, '14px', null, null, 16],
   });
 
 const StyledPercentage = Styled(Flex)`
@@ -34,11 +35,7 @@ const Borrowing: React.SFC<BorrowingProps> = ({ ancAssets }) => {
   if (!borrow?.collaterals) return <></>;
 
   return (
-    <Wrapper
-      css={`
-        ${css({ mb: 0 })}
-      `}
-    >
+    <Wrapper>
       <HeadingWrapper>
         <Heading>{HEADING_TEXT}</Heading>
         <StyledText>${parseFloat(borrow?.value).toFixed(3)}</StyledText>

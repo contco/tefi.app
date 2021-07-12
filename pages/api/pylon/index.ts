@@ -56,17 +56,22 @@ const typeDefs = gql`
       gatewayRewardsSum: String!
       gatewayDepositsSum: String!
   }
-  
-  type PylonGateway {
-    symbol: String!
-    poolName: String!
+
+  type DepositLogs {
     deposit: String!
     depositDate: String!
     depositReleaseDate: String!
     rewardReleaseDate: String!
+  }
+  
+  type PylonGateway {
+    symbol: String!
+    poolName: String!
+    totalDeposit: String!
+    depositLogs: [DepositLogs!]
     apy: String!
-    reward: String!
-    rewardValue: String!
+    rewards: String!
+    rewardsValue: String!
   }
 
   type PylonAccount {
