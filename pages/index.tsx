@@ -1,29 +1,42 @@
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import Head from 'next/head';
+import Header from '../components/Header';
+import Landing from '../components/Landing';
 import styled from 'styled-components';
-import intro from '../public/intro.gif';
 
-const Container = styled.div`
-  background-color: rgb(17, 41, 144);
-  display: flex;
-  flex-grow: 1;
+const EmptyContainer = styled.div`
   height: 100vh;
-  justify-content: center;
-  align-items: center;
+  width: 100vh;
+  background-color: ${(props) => props.theme.colors.primary};
 `;
 
-const Gif = styled.img`
-  width: 100%;
-  height: auto;
-`;
+const Home: React.FC = ({ theme, changeTheme }: any) => {
+  const [isDisplay, setIsDisplay] = useState<boolean>(false);
+  const router = useRouter();
+  
+  useEffect(() => {
+    setIsDisplay(false);
+    setTimeout(() => setIsDisplay(true), 1000);
+  }, [router.pathname]);
 
-const Title = styled.h1`
-  color: orange;
-  font-size: 80px;
-`;
-
-export default function Home() {
   return (
-    <Container>
-      <Gif src={intro} alt="loading..." />
-    </Container>
+    <div>
+      <Head>
+        <title>Tefi app</title>
+      </Head>
+      {!isDisplay ? (
+        <EmptyContainer />
+      ) : (
+        <div>
+          <div>
+            <Header theme={theme} changeTheme={changeTheme} />
+          </div>
+          <Landing />
+        </div>
+      )}
+    </div>
   );
-}
+};
+
+export default Home;
