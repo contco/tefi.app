@@ -31,7 +31,7 @@ const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAsse
   };
 
   const getGovStaked = () => {
-    return parseFloat(ancAssets?.gov?.reward?.staked) * parseFloat(ancAssets?.assets[0].price);
+    return parseFloat(ancAssets?.gov?.reward?.staked) * parseFloat(ancAssets?.gov.price);
   };
 
   const getEarn = () => {
