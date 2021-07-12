@@ -14,7 +14,7 @@ import Pools from '../components/Pools';
 import Rewards from '../components/Rewards';
 import { useQuery } from '@apollo/client';
 import { getAssets } from '../graphql/queries/getAssets';
-import { ADDRESS_KEY, LOCAL_ADDRESS_TYPE, WALLET_ADDRESS_TYPE } from '../constants';
+import { ADDRESS_KEY, LOCAL_ADDRESS_TYPE, WALLET_ADDRESS_TYPE, TEFI_PREVIEW_IMAGE } from '../constants';
 import Airdrops from '../components/Airdrop';
 
 import useWallet from '../lib/useWallet';
@@ -63,8 +63,19 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
 
   return (
     <div>
+
       <Head>
         <title>Tefi App | Dashboard</title>
+        <link rel="icon" href="/favicon.ico?v=2" />
+        <meta property="og:url" content="https://www.tefi.app/" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={'Tefi App'} />
+        <meta name="twitter:card" content="TefiApp | Your portal to TeFi" />
+        <meta
+          property="og:description"
+          content="TefiApp | Your portal to TeFi"
+        />
+        <meta property="og:image" content={TEFI_PREVIEW_IMAGE} />
       </Head>
       <div>
         <Header theme={theme} changeTheme={changeTheme} addressType={addressType} address={address} />
