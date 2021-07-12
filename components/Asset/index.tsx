@@ -49,9 +49,9 @@ const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core, pylonAss
         <Heading>{HEADING_TEXT}</Heading>
         <Flex alignItems="flex-end">
           <StyledText>${getAssetsTotal()}</StyledText>
-          <Flex alignItems="center">
+          <Flex justifyContent="center" alignItems="center">
             <CheckBox type="checkbox" onChange={handleChange} />
-            <StyledText>Hide small balances</StyledText>
+            <StyledText pt={1}>Hide small balances</StyledText>
           </Flex>
         </Flex>
       </HeadingWrapper>

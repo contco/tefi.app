@@ -85,6 +85,8 @@ ${(props) =>
 
 export const CheckBox = Styled.input`
   margin-right: 12px;
+  margin-top: 0;
+  margin-bottom: 0;
   ${() =>
     css({
       height: [14, null, null, null, 18],
