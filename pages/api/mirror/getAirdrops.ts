@@ -26,7 +26,7 @@ export const formatAirdrops = (airdrops, price:string) => {
       const airdropQuantity = formatAsset(airdrop?.amount, MIR);
       const airdropPrice = times(airdropQuantity, price ?? 0);
       airdropSum = plus(airdropSum, airdropPrice);
-      return ({ quantity:airdropQuantity , price: airdropPrice, name: MIRROR_TOKEN, round: airdrop.stage ?? 0  })
+      return ({ quantity: airdropQuantity, symbol: MIR, price: airdropPrice, name: MIRROR_TOKEN, round: airdrop.stage ?? 0  })
     });
 
   return {mirrorAirdrops: contents, airdropSum};

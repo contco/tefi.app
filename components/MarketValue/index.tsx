@@ -2,7 +2,6 @@ import css from '@styled-system/css';
 import { MarketTitles } from '../../constants';
 import { plus } from '../../pages/api/mirror/utils';
 import { Wrapper, Row, Title, StyledText } from '../dashboardStyles';
-import { MarketValueList } from './dummy';
 
 const CUTOM_TEXT_CSS = css({ fontWeight: 500, fontSize: [14, null, null, 20, null, null, null, 28] });
 
@@ -13,7 +12,7 @@ export interface AssetsProps {
   pylonAssets: PylonAccount;
 }
 
-const Total: React.SFC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAssets }) => {
+const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAssets}) => {
   const getLunaStakingRewards = () => {
     let total = 0;
     for (const a in core.staking) {
@@ -25,15 +24,14 @@ const Total: React.SFC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAss
 
   const getPoolTotal = () => {
     const total =
-      parseFloat(mirrorAssets?.total?.stakedSum) +
-      parseFloat(ancAssets?.pool?.stakedValue) +
-      parseFloat(ancAssets?.pool?.stakableValue) +
+      parseFloat(mirrorAssets?.total?.mirrorPoolSum) +
+      parseFloat(ancAssets?.total?.anchorPoolSum) +
       parseFloat(pylonAssets?.pylonSum?.pylonPoolSum);
     return total ?? 0;
   };
 
   const getGovStaked = () => {
-    return parseFloat(ancAssets?.gov?.reward?.staked) * parseFloat(ancAssets?.assets.price);
+    return parseFloat(ancAssets?.gov?.reward?.staked) * parseFloat(ancAssets?.gov.price);
   };
 
   const getEarn = () => {
@@ -41,7 +39,7 @@ const Total: React.SFC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAss
   };
 
   const getAirdropTotal = () => {
-    const mirrorTotal = parseFloat(mirrorAssets?.total?.airdropSum ?? '0');
+    const mirrorTotal = parseFloat(mirrorAssets?.total?.mirrorAirdropSum ?? '0');
     const anchorTotal = parseFloat(ancAssets?.total?.airdropSum ?? '0');
     const pylonTotal = parseFloat(pylonAssets?.pylonSum?.pylonAirdropSum ?? '0');
     const total = mirrorTotal + anchorTotal + pylonTotal;
@@ -60,11 +58,11 @@ const Total: React.SFC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAss
   };
 
   const getAssetsTotal = () => {
-    const ancValue = ancAssets?.assets.value;
+    const ancValue = ancAssets?.total?.anchorHoldingsSum;
     const pylonHoldingsTotal = pylonAssets.pylonSum.pylonHoldingsSum;
     const pylonStakingsTotal = pylonAssets.pylonSum.pylonStakingSum;
     const pylonGatewayDepositTotal = pylonAssets.pylonSum.gatewayDepositsSum;
-    const mirrorTotal = mirrorAssets?.total?.unstakedSum;
+    const mirrorTotal = mirrorAssets?.total?.mirrorHoldingsSum;
     const coreTotal = core?.total?.assetsSum;
     const total =
       parseFloat(plus(mirrorTotal, coreTotal)) +
@@ -81,7 +79,7 @@ const Total: React.SFC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAss
   };
 
   const getRewardsTotal = () => {
-    const mirrorTotal = mirrorAssets?.total?.rewardsSum;
+    const mirrorTotal = mirrorAssets?.total?.mirrorPoolRewardsSum;
     const pylonPoolRewardsTotal = pylonAssets?.pylonSum?.pylonPoolRewardsSum;
     const pylonStakingRewardsTotal = pylonAssets?.pylonSum?.pylonStakingRewardsSum;
     const pylonGatewayRewardsTotal = pylonAssets.pylonSum.gatewayRewardsSum;
@@ -119,14 +117,12 @@ const Total: React.SFC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAss
           <Title key={index}>{t}</Title>
         ))}
       </Row>
-      {MarketValueList.map((a, index) => (
-        <Row key={index}>
+        <Row>
           <StyledText css={CUTOM_TEXT_CSS}>${totalMarketValue}</StyledText>
           <StyledText css={CUTOM_TEXT_CSS}>${totalAssets}</StyledText>
           <StyledText css={CUTOM_TEXT_CSS}>${totalBorrowing}</StyledText>
           <StyledText css={CUTOM_TEXT_CSS}>${totalRewards}</StyledText>
         </Row>
-      ))}
     </Wrapper>
   );
 };

@@ -3,13 +3,14 @@ import { buildFederatedSchema } from '@apollo/federation';
 import { getAccount } from './lib/anc';
 
 const typeDefs = gql`
-  type Coin {
-    name: String!
+  type Token {
     symbol: String!
-    balance: String
-    value: String
-    price: String
+    name: String!
+    balance: String!
+    value: String!
+    price: String!
   }
+  
   type Reward {
     name: String
     staked: String
@@ -18,10 +19,11 @@ const typeDefs = gql`
   }
 
   type Airdrops {
-    price: String
-    quantity: String
-    round: Int
-    name: String
+    price: String!
+    quantity: String!
+    round: Int!
+    name: String!
+    symbol: String!
   }
 
   type UserCollateral {
@@ -43,27 +45,38 @@ const typeDefs = gql`
   }
 
   type LPData {
-    reward: Reward!
-    balance: String!
-    stakedValue: String
-    stakableValue: String
-    anc: String
-    ust: String
+    symbol: String!
+    lpName: String!
+    stakedLpUstValue: String!
+    availableLpUstValue: String!
+    ustStaked: String!
+    ustUnStaked: String!
+    tokenStaked: String!
+    tokenUnStaked: String!
+    availableLP: String!
+    stakedLP: String!
+    rewards: String!
+    rewardsValue: String!
+    apy: String!
   }
 
   type GovData {
     reward: Reward!
+    price: String!
   }
 
   type Total {
     airdropSum: String!
+    anchorRewardsSum: String!
+    anchorPoolSum: String!
+    anchorHoldingsSum: String!
   }
 
   type AccountANC {
-    assets: Coin
+    assets: [Token!]
     debt: BorrowData
     earn: EarnData
-    pool: LPData
+    pool: [LPData!]
     gov: GovData
     airdrops: [Airdrops!]
     total: Total

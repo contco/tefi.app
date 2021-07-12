@@ -5,17 +5,18 @@ import { getAccountData } from './getAccountData';
 const typeDefs = gql`
   type MirrorStaking {
     symbol: String!
+    lpName: String!
+    stakedLpUstValue: String!
+    availableLpUstValue: String!
+    ustStaked: String!
+    ustUnStaked: String!
+    tokenStaked: String!
+    tokenUnStaked: String!
+    availableLP: String!
+    stakedLP: String!
+    rewards: String!
+    rewardsValue: String!
     apr: String!
-    ustStaked: String
-    tokenStaked: String
-    tokenStakedUstValue: String
-    stakeTotalUstValue: String
-    poolTotalWithRewards: String
-    rewards: String
-    rewardsUstValue: String
-    price: String
-    name: String
-    lpBalance: String
   }
 
   type MirrorHoldings {
@@ -26,24 +27,25 @@ const typeDefs = gql`
     price: String!
   }
 
-  type AssetsTotal {
-    rewardsSum: String!
-    stakedSum: String!
-    unstakedSum: String!
-    airdropSum: String!
+  type MirrorTotal {
+    mirrorHoldingsSum: String!
+    mirrorPoolRewardsSum: String!
+    mirrorPoolSum: String!
+    mirrorAirdropSum: String!
   }
 
   type Airdrops {
-    price: String
-    quantity: String
-    round: Int
-    name: String
+    price: String!
+    quantity: String!
+    round: Int!
+    name: String!
+    symbol: String!
   }
 
   type Account {
     mirrorStaking: [MirrorStaking!]
     mirrorHoldings: [MirrorHoldings!]
-    total: AssetsTotal
+    total: MirrorTotal
     airdrops: [Airdrops!]
   }
   extend type Assets @key(fields: "address") {

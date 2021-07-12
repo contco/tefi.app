@@ -43,6 +43,7 @@ const typeDefs = gql`
     price: String!
     quantity: String!
     name: String!
+    symbol: String!
   }
 
   type PylonSum {

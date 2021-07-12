@@ -3,7 +3,7 @@ import { css } from 'styled-components';
 import { EarnTitle } from '../../constants';
 import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText } from '../dashboardStyles';
 
-const HEADING_TEXT = `Earn`;
+const HEADING_TEXT = `Anchor Earn`;
 
 const CSS_NET_APR = (props) =>
   css({

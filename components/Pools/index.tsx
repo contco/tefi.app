@@ -10,20 +10,16 @@ export interface PoolsProps {
 }
 
 const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets, pylonAssets }) => {
-  const pool = ancAssets?.pool;
-  const ancPrice = ancAssets.assets[0]?.price;
-  const totalLP = (parseFloat(pool?.balance) + parseFloat(pool?.reward?.staked)).toFixed(3);
-  const totalLPValue = (parseFloat(pool?.stakableValue) + parseFloat(pool?.stakedValue)).toFixed(3);
 
   const getPoolTotal = () => {
     const pylonPoolTotal = pylonAssets?.pylonSum?.pylonPoolSum;
-    const total = (parseFloat(pylonPoolTotal) + parseFloat(mirrorAssets?.total?.stakedSum) + parseFloat(pool?.stakedValue) + parseFloat(pool?.stakableValue)).toFixed(3);
+    const total = (parseFloat(pylonPoolTotal) + parseFloat(mirrorAssets?.total?.mirrorPoolSum) + parseFloat(ancAssets?.total?.anchorPoolSum)).toFixed(3);
     return total ?? '0';
   };
 
-  const getPylonPool = () => {
-    if(pylonAssets?.pylonPool) {
-      return pylonAssets?.pylonPool.map((assets: PylonPool, index) => (
+  const getPool = () => {
+      const pool = [...pylonAssets?.pylonPool, ...mirrorAssets?.mirrorStaking, ...ancAssets.pool].sort((a,b) => (parseFloat(b.availableLpUstValue) + parseFloat(b.stakedLpUstValue)) - (parseFloat(a.availableLpUstValue) + parseFloat(a.stakedLpUstValue)) );
+      return pool.map((assets: Pool, index) => (
         <Row key={index}>
           <StyledText fontWeight={500}> {assets?.lpName}</StyledText>
           <StyledText isChildren={true}>
@@ -35,19 +31,8 @@ const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets, pylonAssets }) =
           </StyledText>
           <StyledText> ${parseFloat(assets?.stakedLpUstValue + assets?.availableLpUstValue).toFixed(3)}</StyledText>
         </Row>
-      ))}
+      ))
     };
-
-  const getAncUstVal = () => {
-    const oneLPVal = parseFloat(totalLPValue) / parseFloat(totalLP);
-    const ust = (oneLPVal / 2) * parseFloat(totalLP);
-    const anc = ((oneLPVal / 2) * parseFloat(totalLP)) / parseFloat(ancPrice);
-
-    return {
-      ust,
-      anc,
-    };
-  };
 
   return (
     <Wrapper>
@@ -60,35 +45,7 @@ const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets, pylonAssets }) =
           <Title key={index}>{t}</Title>
         ))}
       </Row>
-      {getPylonPool()}
-
-      {parseFloat(totalLP) > 0 ? (
-        <Row>
-          <StyledText fontWeight={500}> {pool?.reward?.name}</StyledText>
-          <StyledText>
-            {totalLP} {'LP'}
-            <HoverText>
-              {getAncUstVal().anc.toFixed(3)} {'ANC'} <br />
-              {getAncUstVal().ust.toFixed(3)} {'UST'}
-            </HoverText>
-          </StyledText>
-          <StyledText>${totalLPValue}</StyledText>
-        </Row>
-      ) : null}
-
-      {mirrorAssets?.mirrorStaking.map((assets: MirrorStaking, index) => (
-        <Row key={index}>
-          <StyledText fontWeight={500}> {assets?.name}</StyledText>
-          <StyledText isChildren={true}>
-            {parseFloat(assets?.lpBalance).toFixed(3)} LP
-            <HoverText>
-              {parseFloat(assets?.tokenStaked).toFixed(3)} {assets?.symbol} <br />
-              {parseFloat(assets?.ustStaked).toFixed(3)} {'UST'}
-            </HoverText>
-          </StyledText>
-          <StyledText> ${parseFloat(assets?.stakeTotalUstValue).toFixed(3)}</StyledText>
-        </Row>
-      ))}
+      {getPool()}
     </Wrapper>
   );
 };

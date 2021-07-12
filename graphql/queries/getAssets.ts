@@ -27,18 +27,19 @@ export const getAssets = gql`
       }
       mirror {
         mirrorStaking {
-          apr
-          ustStaked
           symbol
+          lpName
+          stakedLpUstValue
+          availableLpUstValue
+          ustStaked
+          ustUnStaked
           tokenStaked
-          tokenStakedUstValue
-          stakeTotalUstValue
-          poolTotalWithRewards
-          price
-          name
+          tokenUnStaked
+          availableLP
+          stakedLP
           rewards
-          rewardsUstValue
-          lpBalance
+          rewardsValue
+          apr
         }
         mirrorHoldings {
           name
@@ -49,23 +50,24 @@ export const getAssets = gql`
         }
         airdrops {
           name
+          symbol
           quantity
           price
           round
         }
         total {
-          stakedSum
-          rewardsSum
-          unstakedSum
-          airdropSum
+          mirrorHoldingsSum
+          mirrorPoolRewardsSum
+          mirrorPoolSum
+          mirrorAirdropSum
         }
       }
       anchor {
         assets {
-          balance
+          name
           symbol
           price
-          name
+          balance
           value
         }
         debt {
@@ -94,17 +96,19 @@ export const getAssets = gql`
         }
 
         pool {
-          reward {
-            name
-            staked
-            apy
-            reward
-          }
-          balance
-          anc
-          ust
-          stakedValue
-          stakableValue
+          symbol
+          lpName
+          stakedLpUstValue
+          availableLpUstValue
+          ustStaked
+          ustUnStaked
+          tokenStaked
+          tokenUnStaked
+          stakedLP
+          rewards
+          rewardsValue
+          availableLP
+          apy
         }
         gov {
           reward {
@@ -113,15 +117,20 @@ export const getAssets = gql`
             reward
             apy
           }
+          price
         }
         airdrops {
           name
+          symbol
           quantity
           price
           round
         }
         total {
           airdropSum
+          anchorRewardsSum
+          anchorPoolSum
+          anchorHoldingsSum
         }
         totalReward
       }
@@ -160,6 +169,7 @@ export const getAssets = gql`
         }
         pylonAirdrops {
           name
+          symbol
           price
           quantity
         }

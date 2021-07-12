@@ -1,11 +1,12 @@
 /* eslint-disable no-console */
-import { anchor, ContractAddresses } from './test-defaults';
+import { ContractAddresses } from './test-defaults';
 import { getLatestBlockHeight, mantleFetch } from './utils';
 import { DEFAULT_MANTLE_ENDPOINTS } from '../../../../utils/ancEndpoints';
 import big from 'big.js';
 import { ancPriceQuery } from './ancPrice';
-import { demicrofy, formatANCWithPostfixUnits, formatRate, formatUSTWithPostfixUnits } from '@anchor-protocol/notation';
+import { formatLP, MICRO } from '@anchor-protocol/notation';
 import { borrowAPYQuery } from './borrow';
+
 
 export const REWARDS_CLAIMABLE_ANC_UST_LP_REWARDS_QUERY = `
   query (
@@ -29,15 +30,6 @@ export const REWARDS_CLAIMABLE_ANC_UST_LP_REWARDS_QUERY = `
   }
 `;
 
-export const getLPBalance = async ({ address }: any) => {
-  const result = await anchor.anchorToken.getLPBalance(address);
-  return result;
-};
-
-export const stakedLP = async ({ address }: any) => {
-  const result = await anchor.anchorToken.getProvidedLP(address);
-  return result;
-};
 
 export const rewardsClaimableAncUstLpRewardsQuery = async (mantleEndpoint, address) => {
   try {
@@ -61,7 +53,6 @@ export const rewardsClaimableAncUstLpRewardsQuery = async (mantleEndpoint, addre
       },
       `${mantleEndpoint}?rewards--claimable-anc-ust-lp-rewards`,
     );
-
     return {
       lPBalance: JSON.parse(rawData?.lPBalance?.Result),
       lPStakerInfo: JSON.parse(rawData?.lPStakerInfo?.Result),
@@ -71,56 +62,34 @@ export const rewardsClaimableAncUstLpRewardsQuery = async (mantleEndpoint, addre
   }
 };
 
-export const getAncUstLp = async (address) => {
-  const balance = await anchor.anchorToken.getLPBalance(address);
-  const pool = await rewardsClaimableAncUstLpRewardsQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet'], address);
-  const ancData = await ancPriceQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']);
+export const getAncPoolData = async (address) => {
+  const poolPromise =  rewardsClaimableAncUstLpRewardsQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet'], address);
+  const ancDataPromise =  ancPriceQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']);
+  const rewardsApyPromise =  borrowAPYQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']);
+   
+  const [pool, ancData, rewardsApy] = await Promise.all([poolPromise, ancDataPromise, rewardsApyPromise]);
 
-  const totalUserLPHolding = big(balance).plus(pool.lPStakerInfo.bond_amount);
-  const LPValue = big(ancData?.ancPrice?.USTPoolSize)
+  if (pool?.lPStakerInfo?.bond_amount != '0' || pool?.lPBalance?.balance != '0') {
+    const symbol = 'ANC';
+    const lpName = 'ANC-UST LP';
+    const apy = rewardsApy?.lpRewards[0]?.APY ?? '0';
+    const availableLP = parseFloat(pool?.lPBalance?.balance) / MICRO;
+    const stakedLP = parseFloat(pool?.lPStakerInfo?.bond_amount) / MICRO;
+    const lpValue = formatLP(big(ancData?.ancPrice?.USTPoolSize)
     ?.div(ancData?.ancPrice?.LPShare === '0' ? 1 : ancData?.ancPrice?.LPShare)
-    ?.mul(2);
-  const withdrawableAssets = {
-    anc: big(ancData?.ancPrice?.ANCPoolSize)
-      ?.mul(totalUserLPHolding)
-      ?.div(ancData?.ancPrice?.LPShare === '0' ? 1 : ancData?.ancPrice?.LPShare),
-    ust: big(ancData?.ancPrice?.USTPoolSize)
-      ?.mul(totalUserLPHolding)
-      ?.div(ancData?.ancPrice?.LPShare === '0' ? 1 : ancData?.ancPrice?.LPShare),
-  };
-
-  const staked = pool.lPStakerInfo.bond_amount;
-  const stakedValue = big(staked)?.mul(LPValue);
-
-  const stakable = pool.lPBalance.balance;
-  const stakableValue = big(stakable)?.mul(LPValue);
-  return {
-    withdrawableAssets,
-    stakedValue,
-    stakableValue,
-  };
-};
-
-export default async (address) => {
-  const balance = await getLPBalance({ address });
-  const staked = await stakedLP({ address });
-  const allRewards = await borrowAPYQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']);
-  const rewards = await rewardsClaimableAncUstLpRewardsQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet'], address);
-  const ancUstLPData = await getAncUstLp(address);
-
-  const result = {
-    reward: {
-      name: 'ANC-LP',
-      staked: parseFloat(staked) > 0 ? staked : null,
-      apy: formatRate(allRewards?.lpRewards[0]?.APY),
-      reward: formatUSTWithPostfixUnits(demicrofy(rewards?.lPStakerInfo?.pending_reward)),
-    },
-    balance: balance,
-    stakedValue: formatUSTWithPostfixUnits(demicrofy(ancUstLPData?.stakedValue)),
-    anc: formatANCWithPostfixUnits(demicrofy(ancUstLPData?.withdrawableAssets.anc)),
-    ust: formatUSTWithPostfixUnits(demicrofy(ancUstLPData?.withdrawableAssets.ust)),
-    stakableValue: formatUSTWithPostfixUnits(demicrofy(ancUstLPData?.stakableValue)),
-  };
-
-  return result;
-};
+    ?.mul(2));
+    const ustStaked = (stakedLP / 2 ) * parseFloat(lpValue);
+    const tokenStaked = ustStaked / ancData?.ancPrice?.ANCPrice;
+    const ustUnStaked = (availableLP / 2 ) * parseFloat(lpValue);
+    const tokenUnStaked = ustUnStaked / ancData?.ancPrice?.ANCPrice;
+    const stakedLpUstValue = stakedLP * parseFloat(lpValue);
+    const availableLpUstValue = availableLP * parseFloat(lpValue);
+    const rewards = parseFloat(pool?.lPStakerInfo?.pending_reward) / MICRO;
+    const rewardsValue = rewards * ancData?.ancPrice?.ANCPrice;
+    const poolData =  [{symbol, lpName, apy, availableLP: availableLP.toString(), stakedLP: stakedLP.toString(), ustStaked: ustStaked.toString(), ustUnStaked: ustUnStaked.toString(), tokenStaked: tokenStaked.toString(), tokenUnStaked: tokenUnStaked.toString(), stakedLpUstValue: stakedLpUstValue.toString(), availableLpUstValue: availableLpUstValue.toString(), rewards: rewards.toString(), rewardsValue: rewardsValue.toString()}];
+    const anchorPoolSum = (stakedLpUstValue + availableLpUstValue).toString();
+    const anchorRewardsSum = rewardsValue.toString();
+    return {poolData, anchorPoolSum, anchorRewardsSum};
+  }
+  return {poolData: [], anchorPoolSum: '0', anchorRewardsSum: '0'};
+}

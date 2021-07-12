@@ -63,7 +63,7 @@ const getPylonAirdrops = (price: number, data: any) => {
     const {amount} = data;
     if (amount) {
       const value = (amount * price).toString();
-      const pylonAirdrops = {name: PYLON_TOKEN_SYMBOL, quantity: amount.toString(), price: value};
+      const pylonAirdrops = {name: PYLON_TOKEN_NAME, symbol: PYLON_TOKEN_SYMBOL, quantity: amount.toString(), price: value};
       return {pylonAirdropSum: value, pylonAirdrops};
     }
     return {pylonAirdropSum: '0', pylonAirdrops: undefined};
