@@ -10,7 +10,7 @@ const PylonGateway: React.FC<Props> = ({ pylonAssets }: Props) => {
 
   const getGatewayTotal = () => {
     const total = parseFloat(pylonAssets?.pylonSum?.gatewayDepositsSum) + parseFloat(pylonAssets?.pylonSum?.gatewayRewardsSum);
-    return total.toFixed(3) ?? '0';
+    return convertToFloatValue(total.toString()) ?? '0';
   };
 
  if(!pylonAssets.pylonGateway || pylonAssets?.pylonGateway.length === 0) {
