@@ -67,7 +67,7 @@ export const OrText = styled(Text)`
   mt: ['6%', null, '3%'],
   fontSize: [14, null, 20],
   letterSpacing: '0.83px',
-  color: '#000',
+  color: 'title',
 })}
 `;
 
