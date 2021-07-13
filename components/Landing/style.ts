@@ -5,8 +5,13 @@ import styled from 'styled-components';
 export const Container = styled(Flex)`
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   height: 88vh;
+  padding: 12px;
+  ${css({
+  justifyContent: ['space-around', 'space-around', 'space-around', 'center'],
+  padding: ['20% 3%', '20% 3%', '20% 3%', '0'],
+  alignItems: ['stretch', 'stretch', 'stretch', 'center'],
+})}
 `;
 
 export const Title = styled(Text)`
@@ -17,6 +22,7 @@ export const Title = styled(Text)`
   color: 'title',
   fontSize: [3, 6, 8, null, '50px'],
   letterSpacing: 2.5,
+  alignSelf: 'center'
 })}
 `;
 
@@ -30,20 +36,18 @@ export const Tefi = styled(Text)`
 
 export const ConnectText = styled(Text)`
   font-weight: 500;
-  transition: all 0.3s ease-in;
   ${css({
-  fontSize: [14, null, 20],
+  fontSize: [14, null, 19],
   letterSpacing: '0.83px',
   color: 'secondary'
 })}
 `;
 
 export const ConnectButton = styled(Button)`
-  border-radius: 34.5px;
+  border-radius: 30.5px;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.3s ease-in;
   &:hover ${ConnectText}{
    color: ${props => props.theme.colors.background}
   }
@@ -51,8 +55,8 @@ export const ConnectButton = styled(Button)`
     css({
       mt: ['10%', null, '5%'],
       border: props.theme.colors.connectborder,
-      bg: 'background',
-      width: [250, null, 303],
+      bg: 'transparent',
+      width: ['100%', null, null, 303],
       height: [40, null, 48],
       '&:hover': {
         bg: 'secondary',
@@ -68,6 +72,7 @@ export const OrText = styled(Text)`
   fontSize: [14, null, 20],
   letterSpacing: '0.83px',
   color: 'title',
+  textAlign: 'center'
 })}
 `;
 
@@ -75,45 +80,49 @@ export const AddressContainer = styled(Flex)`
   align-items: center;
   ${css({
   mt: ['2%', null, '1%', null, '3%'],
-  flexDirection: ['column', null, 'row'],
+  flexDirection: ['column', null, null, 'row'],
 })}
 `;
 
 export const AddressInput = styled(Input)`
-  border-radius: 36px;
+  border-radius: 23px;
   border: none;
   outline: none;
+  margin: 0;
 
   ${css({
-  mr: [null, null, 7],
   bg: '#f5f5f5',
-  width: [260, 320, null, 400, null, null, 400],
-  height: [40, null, 48, null, 48],
-  fontSize: [2, null, 3],
-  pl: '5%',
+  width: ['100%', null, null, 466],
+  height: 56,
+  fontSize: [2, null, '16px'],
+  pl: '3.33%',
+  pr: '3.33%',
   '&::-webkit-input-placeholder': {
-    fontSize: [2, null, 3],
+    fontSize: [2, null, '18px'],
     fontWeight: 400,
     letterSpacing: '1px',
-    color: '#c1c1c1',
+    color: '##687792',
   },
 })}
 `;
 
 export const AddressSubmit = styled(Button)`
-  border-radius: 34.5px;
+  border-radius: 24px;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   ${(props) =>
     css({
-      mt: ['10px', null, '0px'],
-      ml: [null, null, null, null, 15, null, 50],
+      mt: ['9.3%', null, null, '0px'],
+      ml: [null, null, null, '9.3%'],
       bg: 'secondary',
-      width: [168, null, 140, null, 168],
-      height: [45, null, 55, null, 48],
+      width: ['100%', null, null, 168],
+      height: 56,
       opacity: props.disabled ? 0.7 : 1,
       pointerEvents: props.disabled ? 'none' : null,
+      '&:hover': {
+        opacity: 0.7,
+      }
     })}
 `;
 

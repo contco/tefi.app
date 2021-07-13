@@ -60,14 +60,14 @@ const Landing: React.FC = () => {
           {connectedWallet?.terraAddress ? (
             <ConnectText>Connected</ConnectText>
           ) : (
-            <ConnectText>Connect Terra Station</ConnectText>
+            <ConnectText>Connect Wallet</ConnectText>
           )}
         </ConnectButton>
 
         <OrText>or</OrText>
 
         <AddressContainer>
-          <AddressInput defaultValue={address} onChange={handleAddress} placeholder="Terra Address" />
+          <AddressInput defaultValue={address} onChange={handleAddress} placeholder="Enter a Terra address" />
           <AddressSubmit disabled={!validWalletAddress} onClick={onAddressSubmit}>
             <AddressSubmitText>Submit</AddressSubmitText>
           </AddressSubmit>
