@@ -86,7 +86,7 @@ export const getAncPoolData = async (address) => {
     const availableLpUstValue = availableLP * parseFloat(lpValue);
     const rewards = parseFloat(pool?.lPStakerInfo?.pending_reward) / MICRO;
     const rewardsValue = rewards * ancData?.ancPrice?.ANCPrice;
-    const poolData =  [{symbol, lpName, apy, availableLP: availableLP.toString(), stakedLP: stakedLP.toString(), ustStaked: ustStaked.toString(), ustUnStaked: ustUnStaked.toString(), tokenStaked: tokenStaked.toString(), tokenUnStaked: tokenUnStaked.toString(), stakedLpUstValue: stakedLpUstValue.toString(), availableLpUstValue: availableLpUstValue.toString(), rewards: rewards.toString(), rewardsValue: rewardsValue.toString(), rewardsSymbol: symbol}];
+    const poolData =  [{symbol, lpName, apr: apy, availableLP: availableLP.toString(), stakedLP: stakedLP.toString(), ustStaked: ustStaked.toString(), ustUnStaked: ustUnStaked.toString(), tokenStaked: tokenStaked.toString(), tokenUnStaked: tokenUnStaked.toString(), stakedLpUstValue: stakedLpUstValue.toString(), availableLpUstValue: availableLpUstValue.toString(), rewards: rewards.toString(), rewardsValue: rewardsValue.toString(), rewardsSymbol: symbol}];
     const anchorPoolSum = (stakedLpUstValue + availableLpUstValue).toString();
     const anchorRewardsSum = rewardsValue.toString();
     return {poolData, anchorPoolSum, anchorRewardsSum};

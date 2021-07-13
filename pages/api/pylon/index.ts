@@ -37,7 +37,7 @@ const typeDefs = gql`
     rewards: String!
     rewardsValue: String!
     rewardsSymbol: String!
-    apy: String!
+    apr: String!
 }
 
   type PylonAirdrops {
