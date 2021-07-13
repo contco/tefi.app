@@ -11,7 +11,7 @@ export interface AssetsProps {
 const Assets: React.FC<AssetsProps> = ({core}: AssetsProps) => {
   const getStakedTotal = () => {
     const total =  core?.total?.stakedSum;
-    return total ?? '0';
+    return convertToFloatValue(total.toString()) ?? '0';
   };
 
  if(!core?.staking || core.staking.length === 0) {
@@ -22,7 +22,7 @@ const Assets: React.FC<AssetsProps> = ({core}: AssetsProps) => {
     <Wrapper>
       <HeadingWrapper>
         <Heading>{HEADING_TEXT}</Heading>
-        <StyledText>${parseInt(getStakedTotal()).toFixed(3)}</StyledText>
+        <StyledText>${getStakedTotal()}</StyledText>
       </HeadingWrapper>
       <Row>
           {TITLES_LIST.map((item) => (

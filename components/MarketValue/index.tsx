@@ -1,6 +1,7 @@
 import css from '@styled-system/css';
 import { MarketTitles } from '../../constants';
 import { plus } from '../../pages/api/mirror/utils';
+import { convertToFloatValue } from '../../utils/convertFloat';
 import { Wrapper, Row, Title, StyledText } from '../dashboardStyles';
 
 const CUTOM_TEXT_CSS = css({ fontWeight: 500, fontSize: [14, null, null, 20, null, null, null, 28] });
@@ -12,7 +13,7 @@ export interface AssetsProps {
   pylonAssets: PylonAccount;
 }
 
-const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAssets}) => {
+const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAssets }) => {
   const getLunaStakingRewards = () => {
     let total = 0;
     for (const a in core.staking) {
@@ -31,7 +32,7 @@ const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAsse
   };
 
   const getGovStaked = () => {
-    return parseFloat(ancAssets?.gov?.reward?.staked ?? "0") * parseFloat(ancAssets?.gov.price);
+    return parseFloat(ancAssets?.gov?.reward?.staked ?? '0') * parseFloat(ancAssets?.gov.price);
   };
 
   const getEarn = () => {
@@ -118,12 +119,12 @@ const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAsse
           <Title key={index}>{t}</Title>
         ))}
       </Row>
-        <Row>
-          <StyledText css={CUTOM_TEXT_CSS}>${totalMarketValue}</StyledText>
-          <StyledText css={CUTOM_TEXT_CSS}>${totalAssets}</StyledText>
-          <StyledText css={CUTOM_TEXT_CSS}>${totalBorrowing}</StyledText>
-          <StyledText css={CUTOM_TEXT_CSS}>${totalRewards}</StyledText>
-        </Row>
+      <Row>
+        <StyledText css={CUTOM_TEXT_CSS}>${convertToFloatValue(totalMarketValue)}</StyledText>
+        <StyledText css={CUTOM_TEXT_CSS}>${convertToFloatValue(totalAssets)}</StyledText>
+        <StyledText css={CUTOM_TEXT_CSS}>${convertToFloatValue(totalBorrowing)}</StyledText>
+        <StyledText css={CUTOM_TEXT_CSS}>${convertToFloatValue(totalRewards)}</StyledText>
+      </Row>
     </Wrapper>
   );
 };

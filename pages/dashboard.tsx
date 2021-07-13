@@ -34,7 +34,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   const [addressType, setAddressType] = useState<string>(WALLET_ADDRESS_TYPE);
   const { useConnectedWallet } = useWallet();
   const connectedWallet = useConnectedWallet();
-  
+
   useEffect(() => {
     const localAddress = localStorage.getItem(ADDRESS_KEY);
     const walletAddress = connectedWallet?.terraAddress;
@@ -47,19 +47,19 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     }
   }, []);
 
-  const { data, loading, error, refetch } = useQuery(getAssets, { variables: { address: address } });
-   
+  const { data, loading, error, refetch } = useQuery(getAssets, {
+    variables: { address: address },
+  });
+
   useEffect(() => {
-    if(error) {
+    if (error) {
       refetch();
     }
   }, [error]);
 
-
   if (loading || error) {
     return <Loading />;
   }
-
 
   return (
     <div>
@@ -81,13 +81,25 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
             ancAssets={data?.assets?.anchor || {}}
             pylonAssets={data?.assets?.pylon || {}}
           />
-          <LunaStaking core={data?.assets.core || {}} />
-          <PylonGateway pylonAssets={data?.assets?.pylon || {}}/>
+          <PylonGateway pylonAssets={data?.assets?.pylon || {}} />
           <Earn ancAssets={data?.assets?.anchor || {}} />
           <Borrowing ancAssets={data?.assets?.anchor || {}} />
-          <Rewards pylonAssets={data?.assets?.pylon || {}} mirrorAssets={data?.assets?.mirror || {}} ancAssets={data?.assets?.anchor || {}} />
-          <Pools pylonAssets={data?.assets?.pylon || {}} mirrorAssets={data?.assets?.mirror || {}} ancAssets={data?.assets?.anchor || {}} />
-          <Airdrops pylonAssets={data?.assets?.pylon || {}} mirrorAssets={data?.assets?.mirror || {}} anchorAssets={data?.assets?.anchor} />
+          <Rewards
+            pylonAssets={data?.assets?.pylon || {}}
+            mirrorAssets={data?.assets?.mirror || {}}
+            ancAssets={data?.assets?.anchor || {}}
+          />
+          <Pools
+            pylonAssets={data?.assets?.pylon || {}}
+            mirrorAssets={data?.assets?.mirror || {}}
+            ancAssets={data?.assets?.anchor || {}}
+          />
+          <LunaStaking core={data?.assets.core || {}} />
+          <Airdrops
+            pylonAssets={data?.assets?.pylon || {}}
+            mirrorAssets={data?.assets?.mirror || {}}
+            anchorAssets={data?.assets?.anchor}
+          />
         </Body>
       </div>
     </div>
