@@ -36,6 +36,7 @@ const typeDefs = gql`
     stakedLP: String!
     rewards: String!
     rewardsValue: String!
+    rewardsSymbol: String!
     apy: String!
 }
 

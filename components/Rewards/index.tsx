@@ -58,7 +58,7 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets 
         {assets?.apy ? <SubText> (APY)</SubText> : null }
         </div>
         <div>
-        <StyledText>{parseFloat(assets?.rewards).toFixed(3)} {assets?.symbol}</StyledText>
+        <StyledText>{parseFloat(assets?.rewards).toFixed(3)} {assets?.rewardsSymbol}</StyledText>
         <SubText>${parseFloat(assets?.rewardsValue).toFixed(3)}</SubText>
         </div>
       </Row>

@@ -39,6 +39,7 @@ export const getAssets = gql`
           stakedLP
           rewards
           rewardsValue
+          rewardsSymbol
           apr
         }
         mirrorHoldings {
@@ -107,6 +108,7 @@ export const getAssets = gql`
           stakedLP
           rewards
           rewardsValue
+          rewardsSymbol
           availableLP
           apy
         }
@@ -154,6 +156,7 @@ export const getAssets = gql`
           stakedLP
           rewards
           rewardsValue
+          rewardsSymbol
           availableLP
           apy
         }

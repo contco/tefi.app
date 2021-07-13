@@ -5,7 +5,7 @@ import { getPairPool } from './getPairPool';
 import { getAssetsStats } from './getAssetsStats';
 import { getTokenBalance } from './getTokenBalance';
 import {formatAirdrops, getAirdrops} from "./getAirdrops";
-import { balance, BalanceKey, PriceKey, parsePairPool, UUSD, fromLP, price, div, UNIT, times, plus } from './utils';
+import { balance, BalanceKey, PriceKey, parsePairPool, UUSD, fromLP, price, div, UNIT, times, plus, MIR } from './utils';
 import MIRROR_ASSETS from './mirrorAssets.json';
 const MIR_TOKEN = MIRROR_ASSETS[0].token;
 
@@ -35,8 +35,8 @@ export const getRewards = (rewardsBalance, listing, priceResult) => {
   return { rewards, rewardsValue };
 };
 
-export const calculatePoolDetails = (listing, rewardsBalance, priceResult, lpDetails, assetStats) => {
-  const rewards = getRewards(rewardsBalance, listing, priceResult);
+export const calculatePoolDetails = (listing, rewardsBalance, priceResult, lpDetails, assetStats, mirPrice) => {
+  const rewards = getRewards(rewardsBalance, listing, mirPrice);
   const poolValues = getPoolValues(lpDetails, priceResult);
   const apr = getApr(assetStats, listing.token);
   return { ...poolValues, ...rewards, apr, availableLpUstValue: '0', ustUnStaked: '0',tokenUnStaked: '', availableLP: '0' };
@@ -87,10 +87,10 @@ export const getAccountData = async (address: string) => {
     }
     if (lpDetails?.asset?.amount !== '0') {
       const lpBalance = div(poolBalance[listing.token], 1000000);
-      const poolData = calculatePoolDetails(listing, rewardsBalance, priceResult, lpDetails, assetStats);
+      const poolData = calculatePoolDetails(listing, rewardsBalance, priceResult, lpDetails, assetStats, mirPrice);
       mirrorPoolSum = plus(mirrorPoolSum, poolData.stakedLpUstValue);
       mirrorPoolRewardsSum = plus(mirrorPoolRewardsSum, poolData.rewardsValue);
-      poolList.push({ symbol: listing.symbol, lpName: `${listing.symbol}-UST LP`, stakedLP: lpBalance ?? 0,  ...poolData });
+      poolList.push({ symbol: listing.symbol, lpName: `${listing.symbol}-UST LP`, stakedLP: lpBalance ?? 0, rewardsSymbol: MIR,   ...poolData });
     }
     return poolList;
   }, []);;

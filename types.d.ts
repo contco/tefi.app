@@ -21,6 +21,7 @@ interface Pool {
   rewards: string;
   rewardsValue: string;
   availableLP: string;
+  rewardsSymbol: string;
   apy?: string;
   apr?: string;
 }
