@@ -21,6 +21,7 @@ export const lightTheme = {
     copyrightText: '#b4b1b1',
     modalBackground: '#ffffff',
     connectborder: 'solid 1px #0221ba',
+    title: '#000',
   },
   opacity: {
     logo: `0.25`,
@@ -45,6 +46,7 @@ export const darkTheme = {
     copyrightText: '#ffffff',
     modalBackground: '#1a1a1a',
     connectborder: '1px solid #fff',
+    title: '#ffffff',
   },
   opacity: {
     logo: `0.40`,

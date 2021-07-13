@@ -14,7 +14,7 @@ export const Title = styled(Text)`
   display: flex;
   align-items: flex-end;
   ${css({
-  color: '#000',
+  color: 'title',
   fontSize: [3, 6, 8, null, '50px'],
   letterSpacing: 2.5,
 })}
@@ -52,8 +52,8 @@ export const ConnectButton = styled(Button)`
       mt: ['10%', null, '5%'],
       border: props.theme.colors.connectborder,
       bg: 'background',
-      width: [250, null, 323],
-      height: [45, null, 62],
+      width: [250, null, 303],
+      height: [40, null, 48],
       '&:hover': {
         bg: 'secondary',
       }
@@ -87,13 +87,13 @@ export const AddressInput = styled(Input)`
   ${css({
   mr: [null, null, 7],
   bg: '#f5f5f5',
-  width: [260, 320, null, 450, null, null, 577],
-  height: [40, null, 55, null, 62],
-  fontSize: [2, null, 5],
+  width: [260, 320, null, 400, null, null, 400],
+  height: [40, null, 48, null, 48],
+  fontSize: [2, null, 3],
   pl: '5%',
   '&::-webkit-input-placeholder': {
-    fontSize: [2, null, 5],
-    fontWeight: 500,
+    fontSize: [2, null, 3],
+    fontWeight: 400,
     letterSpacing: '1px',
     color: '#c1c1c1',
   },
@@ -111,7 +111,7 @@ export const AddressSubmit = styled(Button)`
       ml: [null, null, null, null, 15, null, 50],
       bg: 'secondary',
       width: [168, null, 140, null, 168],
-      height: [45, null, 55, null, 62],
+      height: [45, null, 55, null, 48],
       opacity: props.disabled ? 0.7 : 1,
       pointerEvents: props.disabled ? 'none' : null,
     })}
@@ -143,7 +143,7 @@ export const ModalTitle = styled(Text)`
   width: '100%',
   fontWeight: 'bold',
   fontSize: [1, null, 3],
-})}}
+})}
 `;
 
 export const ModalSection = styled(Flex)`

@@ -6,7 +6,7 @@ import TEFI_LOGO from '../public/tefi.svg';
 
 const Container = styled(Flex)`
   height: 100vh;
-  widht: 100vw;
+  width: 100vw;
   justify-content: center;
   align-items: center;
   ${css({
