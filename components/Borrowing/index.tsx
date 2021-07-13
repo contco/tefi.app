@@ -4,6 +4,7 @@ import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText } from '../das
 import { Flex } from '@contco/core-ui';
 import Styled from 'styled-components';
 import PercentageBar from '../PercentageBar';
+import { convertToFloatValue } from '../../utils/convertFloat';
 
 const HEADING_TEXT = `Anchor Borrow`;
 
@@ -29,8 +30,8 @@ export interface BorrowingProps {
 const Borrowing: React.SFC<BorrowingProps> = ({ ancAssets }) => {
   const borrow: BorrowData = ancAssets.debt;
   const collateralValue = borrow.collaterals
-    ? (parseFloat(borrow?.collaterals[0]?.balance) / 1000000) * parseFloat(borrow.price)
-    : 0;
+    ? ((parseFloat(borrow?.collaterals[0]?.balance) / 1000000) * parseFloat(borrow.price)).toString()
+    : '0';
 
   if (!borrow?.collaterals) return <></>;
 
@@ -38,7 +39,7 @@ const Borrowing: React.SFC<BorrowingProps> = ({ ancAssets }) => {
     <Wrapper>
       <HeadingWrapper>
         <Heading>{HEADING_TEXT}</Heading>
-        <StyledText>${parseFloat(borrow?.value).toFixed(3)}</StyledText>
+        <StyledText>${convertToFloatValue(borrow?.value)}</StyledText>
       </HeadingWrapper>
       <Row>
         {BorrowingTitle.map((t, index) => (
@@ -47,9 +48,9 @@ const Borrowing: React.SFC<BorrowingProps> = ({ ancAssets }) => {
       </Row>
 
       <Row>
-        <StyledText> ${collateralValue.toFixed(3)}</StyledText>
-        <StyledText> ${parseFloat(borrow?.value).toFixed(3)}</StyledText>
-        <StyledText css={CSS_NET_APR}> {borrow?.reward?.apy}%</StyledText>
+        <StyledText> ${convertToFloatValue(collateralValue)}</StyledText>
+        <StyledText> ${convertToFloatValue(borrow?.value)}</StyledText>
+        <StyledText css={CSS_NET_APR}> {convertToFloatValue(borrow?.reward?.apy)}%</StyledText>
       </Row>
 
       <StyledPercentage>
