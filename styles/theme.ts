@@ -9,6 +9,7 @@ export const lightTheme = {
   fontSizes,
   lineHeights,
   colors: {
+    background: '#ffffff',
     primary: '#ffffff',
     secondary: '#0221ba',
     Heading: '#000000',
@@ -32,6 +33,7 @@ export const darkTheme = {
   fontSizes,
   lineHeights,
   colors: {
+    background: '#202235',
     primary: '#0221ba',
     secondary: '#ffffff',
     Heading: '#ffffff',

@@ -11,7 +11,7 @@ import TEFI_LOGO from '../../public/tefi.svg';
 export const Container = styled(Flex)`
 ${props => css({
   height: '64px',
-  backgroundColor: props.theme.colors.primary,
+  backgroundColor: props.theme.colors.background,
   flexDirection: 'row',
   justifyContent: 'space-between',
   alignItems: 'center',
@@ -131,8 +131,8 @@ export const RightSection = styled(Flex)`
 
 export const WalletContainer = styled(Flex)`
 &:hover ${WalletIcon} .wallet_svg__iconElement, &:hover ${StyledAddressText}, &:hover ${CloseIcon} {
-  fill: ${props => props.theme.colors.primary};  
-  color: ${props => props.theme.colors.primary}
+  fill: ${props => props.theme.colors.background};  
+  color: ${props => props.theme.colors.background}
 };
 transition: all 0.3s ease-in;
 ${props => css({
