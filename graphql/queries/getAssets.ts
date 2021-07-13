@@ -110,7 +110,7 @@ export const getAssets = gql`
           rewardsValue
           rewardsSymbol
           availableLP
-          apy
+          apr
         }
         gov {
           reward {
@@ -158,7 +158,7 @@ export const getAssets = gql`
           rewardsValue
           rewardsSymbol
           availableLP
-          apy
+          apr
         }
         pylonStakings  {
           symbol
