@@ -1,6 +1,6 @@
 import {useState, useEffect} from "react";
 import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText } from "../dashboardStyles";
-
+import { convertToFloatValue } from "../../utils/convertFloat";
 const HEADING_TEXT = `Airdrops`
 
 
@@ -54,8 +54,8 @@ const Airdrops: React.FC<AirdropsProps> = ({mirrorAssets, anchorAssets, pylonAss
                 <Row key={index}>
                     <StyledText fontWeight={500}> {assets?.name}</StyledText>
                     <StyledText>{assets?.round ?? "N/A"} </StyledText>
-                    <StyledText > {parseFloat(assets?.quantity).toFixed(3)} {assets?.symbol}</StyledText>
-                    <StyledText > ${parseFloat(assets?.price).toFixed(3)}</StyledText>
+                    <StyledText > {convertToFloatValue(assets?.quantity)} {assets?.symbol}</StyledText>
+                    <StyledText > ${convertToFloatValue(assets?.price)}</StyledText>
                 </Row>
             )}
         </Wrapper>
