@@ -6,10 +6,9 @@ export const Container = styled(Flex)`
   flex-direction: column;
   justify-content: center;
   height: 88vh;
-  padding: 12px;
+  padding: 3%;
+  justify-content: center;
   ${css({
-  justifyContent: ['space-around', 'space-around', 'space-around', 'center'],
-  padding: ['20% 3%', '20% 3%', '20% 3%', '0'],
   alignItems: ['stretch', 'stretch', 'stretch', 'center'],
 })}
 `;
@@ -53,7 +52,7 @@ export const ConnectButton = styled(Button)`
   }
   ${(props) =>
     css({
-      mt: ['10%', null, '5%'],
+      mt: [null, null, '80px', '5%'],
       border: props.theme.colors.connectborder,
       bg: 'transparent',
       width: ['100%', null, null, 303],
@@ -68,7 +67,8 @@ export const ConnectButton = styled(Button)`
 export const OrText = styled(Text)`
   font-weight: 500;
   ${css({
-  mt: ['6%', null, '3%'],
+  mt: '33px',
+  mb: '33px',
   fontSize: [14, null, 20],
   letterSpacing: '0.83px',
   color: 'title',
@@ -92,7 +92,7 @@ export const AddressInput = styled(Input)`
 
   ${css({
   bg: '#f5f5f5',
-  width: ['100%', null, null, 466],
+  width: ['100%', null, null, 499],
   height: 56,
   fontSize: [2, null, '16px'],
   pl: '3.33%',
