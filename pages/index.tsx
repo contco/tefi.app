@@ -4,7 +4,6 @@ import Head from 'next/head';
 import Header from '../components/Header';
 import Landing from '../components/Landing';
 import styled from 'styled-components';
-import { getAccount } from './api/anchor/lib/anc';
 const EmptyContainer = styled.div`
   height: 100vh;
   width: 100vh;
@@ -20,9 +19,6 @@ const Home: React.FC = ({ theme, changeTheme }: any) => {
     setTimeout(() => setIsDisplay(true), 1000);
   }, [router.pathname]);
 
-  useEffect(() => {
-    getAccount("terra1a4xyusa48u9cx678cvx23jajh4ca6v8ec2pguu");
-  });
   return (
     <div>
       <Head>

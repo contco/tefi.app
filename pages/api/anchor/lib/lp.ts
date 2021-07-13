@@ -63,13 +63,13 @@ export const rewardsClaimableAncUstLpRewardsQuery = async (mantleEndpoint, addre
 };
 
 export const getAncPoolData = async (address) => {
+  try {
   const poolPromise =  rewardsClaimableAncUstLpRewardsQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet'], address);
   const ancDataPromise =  ancPriceQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']);
   const rewardsApyPromise =  borrowAPYQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']);
    
   const [pool, ancData, rewardsApy] = await Promise.all([poolPromise, ancDataPromise, rewardsApyPromise]);
-
-  if (pool?.lPStakerInfo?.bond_amount != '0' || pool?.lPBalance?.balance != '0') {
+  if (pool  && (pool?.lPStakerInfo?.bond_amount != '0' || pool?.lPBalance?.balance != '0')) {
     const symbol = 'ANC';
     const lpName = 'ANC-UST LP';
     const apy = rewardsApy?.lpRewards[0]?.APY ?? '0';
@@ -92,4 +92,8 @@ export const getAncPoolData = async (address) => {
     return {poolData, anchorPoolSum, anchorRewardsSum};
   }
   return {poolData: [], anchorPoolSum: '0', anchorRewardsSum: '0'};
+}
+catch(err) {
+  throw new Error("Error Fetching Anchor Pool Data");
+}
 }

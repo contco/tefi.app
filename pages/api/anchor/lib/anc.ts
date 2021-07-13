@@ -95,6 +95,6 @@ export const getAccount = async (address: any) => {
     },
     totalReward: rewardValue.toString(),
   };
-
+  
   return result;
 };
