@@ -50,7 +50,7 @@ const getMinePoolInfo = (price: number, minePoolData, apy: number, lpValue: numb
         const tokenStaked = ustStaked / price;
         const tokenUnStaked = ustUnStaked  / price; 
         const rewardsValue = (price * earned).toString();
-        const pylonPool = [{symbol: PYLON_TOKEN_SYMBOL , lpName: PYLON_UST_LP, availableLP: balance.toString(), stakedLP: stakedBalance.toString(), rewards: earned.toString(), rewardsValue, apy: apy?.toString() ?? '0', stakedLpUstValue: stakedLpUstValue.toString(),availableLpUstValue: availableLpUstValue.toString(), ustStaked: ustStaked.toString(),ustUnStaked: ustUnStaked.toString(), tokenStaked: tokenStaked.toString(), tokenUnStaked: tokenUnStaked.toString()}];
+        const pylonPool = [{symbol: PYLON_TOKEN_SYMBOL , lpName: PYLON_UST_LP, availableLP: balance.toString(), stakedLP: stakedBalance.toString(), rewards: earned.toString(), rewardsValue, apy: apy?.toString() ?? '0', stakedLpUstValue: stakedLpUstValue.toString(),availableLpUstValue: availableLpUstValue.toString(), ustStaked: ustStaked.toString(),ustUnStaked: ustUnStaked.toString(), rewardsSymbol: PYLON_TOKEN_SYMBOL, tokenStaked: tokenStaked.toString(), tokenUnStaked: tokenUnStaked.toString()}];
         const pylonPoolSum = (stakedLpUstValue + availableLpUstValue).toString();
         const pylonPoolRewardsSum = rewardsValue?.toString() ?? '0';
         return {pylonPoolSum, pylonPoolRewardsSum, pylonPool}

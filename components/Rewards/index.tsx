@@ -30,8 +30,13 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets 
     const mirrorTotal = mirrorAssets?.total?.mirrorPoolRewardsSum;
     const pylonStakingTotal = pylonAssets?.pylonSum?.pylonStakingRewardsSum;
     const pylonPoolTotal = pylonAssets?.pylonSum?.pylonPoolRewardsSum;
-    const total = (parseFloat(mirrorTotal) + parseFloat(totalReward) + parseFloat(pylonStakingTotal) + parseFloat(pylonPoolTotal)).toFixed(3);
-    return total ?? 0;
+    const total = (
+      parseFloat(mirrorTotal) +
+      parseFloat(totalReward) +
+      parseFloat(pylonStakingTotal) +
+      parseFloat(pylonPoolTotal)
+    );
+    return convertToFloatValue(total.toString()) ?? 0;
   };
 
   const formatApr = (apr = '0') => {
@@ -40,58 +45,63 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets 
   };
 
   const getPool = () => {
-    if(pylonAssets?.pylonPool) {
-      const pool = [...pylonAssets?.pylonPool, ...mirrorAssets?.mirrorStaking, ...ancAssets.pool].sort((a,b) => b.rewardsValue - a.rewardsValue);
-    return pool.map((assets: Pool, index: number) => (
-      <Row key={index}>
-        <StyledText fontWeight="500"> {assets?.lpName}</StyledText>
-        <StyledText isChildren={true}>
-          {' '}
-          {parseFloat(assets?.stakedLP).toFixed(3)} LP
-          <HoverText>
-              {parseFloat(assets?.tokenStaked).toFixed(3)} {assets?.symbol} <br />
-              {parseFloat(assets?.ustStaked).toFixed(3)} {'UST'}
-          </HoverText>
-        </StyledText>
-        <div>
-        <StyledText css={CSS_APR}> {assets?.apy ? formatApr(assets?.apy): formatApr(assets?.apr)}%</StyledText>
-        {assets?.apy ? <SubText> (APY)</SubText> : null }
-        </div>
-        <div>
-        <StyledText>{parseFloat(assets?.rewards).toFixed(3)} {assets?.symbol}</StyledText>
-        <SubText>${parseFloat(assets?.rewardsValue).toFixed(3)}</SubText>
-        </div>
-      </Row>
-    ))
+      const pool = [...pylonAssets?.pylonPool, ...mirrorAssets?.mirrorStaking, ...ancAssets.pool].sort(
+        (a, b) => b.rewardsValue - a.rewardsValue,
+      );
+      if(pool && pool.length > 0) {
+      return pool.map((assets: Pool, index: number) => (
+        <Row key={index}>
+          <StyledText fontWeight="500"> {assets?.lpName}</StyledText>
+          <StyledText isChildren={true}>
+            {' '}
+            {convertToFloatValue(assets?.stakedLP)} LP
+            <HoverText>
+              {convertToFloatValue(assets?.tokenStaked)} {assets?.symbol} <br />
+              {convertToFloatValue(assets?.ustStaked)} {'UST'}
+            </HoverText>
+          </StyledText>
+          <div>
+            <StyledText css={CSS_APR}> {assets?.apy ? formatApr(assets?.apy) : formatApr(assets?.apr)}%</StyledText>
+            {assets?.apy ? <SubText> (APY)</SubText> : null}
+          </div>
+          <div>
+            <StyledText>
+              {convertToFloatValue(assets?.rewards)} {assets?.rewardsValue}
+            </StyledText>
+            <SubText>${convertToFloatValue(assets?.rewardsValue)}</SubText>
+          </div>
+        </Row>
+      ));
     }
     return null;
-  }
+  };
 
   const getPylonStakingRewards = () => {
-    if(pylonAssets?.pylonStakings) {
-    return pylonAssets?.pylonStakings.map((assets: PylonStakings, index: number) => (
-      <Row key={index}>
-        <StyledText fontWeight="500"> {assets?.symbol}</StyledText>
-        <div>
-        <StyledText>
-          {parseFloat(assets?.balance).toFixed(3)} {assets?.symbol}
-        </StyledText>
-        <SubText>${parseFloat(assets.stakedValue).toFixed(3)}</SubText>
-        </div>
-        <div>
-        <StyledText css={CSS_APR}> {formatApr(assets?.apy)}%</StyledText>
-        <SubText> (APY)</SubText>
-        </div>
-        <div>
-        <StyledText>{parseFloat(assets?.rewards).toFixed(3)} {assets?.symbol}</StyledText>
-        <SubText>${parseFloat(assets?.rewardsValue).toFixed(3)}</SubText>
-        </div>
-      
-      </Row>
-    ))
+    if (pylonAssets?.pylonStakings) {
+      return pylonAssets?.pylonStakings.map((assets: PylonStakings, index: number) => (
+        <Row key={index}>
+          <StyledText fontWeight="500"> {assets?.symbol}</StyledText>
+          <div>
+            <StyledText>
+              {convertToFloatValue(assets?.balance)} {assets?.symbol}
+            </StyledText>
+            <SubText>${convertToFloatValue(assets.stakedValue)}</SubText>
+          </div>
+          <div>
+            <StyledText css={CSS_APR}> {formatApr(assets?.apy)}%</StyledText>
+            <SubText> (APY)</SubText>
+          </div>
+          <div>
+            <StyledText>
+              {convertToFloatValue(assets?.rewards)} {assets?.symbol}
+            </StyledText>
+            <SubText>${convertToFloatValue(assets?.rewardsValue)}</SubText>
+          </div>
+        </Row>
+      ));
     }
     return null;
-  }
+  };
   return (
     <Wrapper>
       <HeadingWrapper>
@@ -103,12 +113,12 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets 
           <Title key={index}>{t}</Title>
         ))}
       </Row>
-       {getPool()}
-       {getPylonStakingRewards()}
+      {getPool()}
+      {getPylonStakingRewards()}
       {parseFloat(ancAssets.debt?.value) > 0 ? (
         <Row>
           <StyledText fontWeight="500"> {borrowRewards?.name}</StyledText>
-          <StyledText>{"N/A"}</StyledText>
+          <StyledText>{'N/A'}</StyledText>
           <StyledText css={CSS_APR}> {borrowRewards?.apy}%</StyledText>
           <Box>
             <StyledText>{borrowRewards?.reward} ANC</StyledText>

@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 import { request } from 'graphql-request';
 import networks from '../../../utils/networks';
-import { gt, MIR, plus, formatAsset, times} from './utils';
+import { gt, MIR, plus, UNIT} from './utils';
 
 const STATS_NETWORK = 'Terra';
 const MIRROR_TOKEN = "Mirror";
@@ -15,7 +15,7 @@ const AIRDROP = gql`
 export const getAirdrops = async (address: string) => {
   const variables = { address, network: STATS_NETWORK.toUpperCase() };
   const result = await request(networks.mainnet.stats, AIRDROP, variables);
-  const airdrops = result?.airdrop.filter(({amount}) => gt(amount, 0));
+  const airdrops = result?.airdrop.filter(({amount, claimable}) => gt(amount, 0) && claimable);
   return airdrops;
 };
 
@@ -23,10 +23,10 @@ export const formatAirdrops = (airdrops, price:string) => {
   let airdropSum = '0';
   const contents = !airdrops?.length ? []
   :  airdrops.map((airdrop) => {
-      const airdropQuantity = formatAsset(airdrop?.amount, MIR);
-      const airdropPrice = times(airdropQuantity, price ?? 0);
+      const airdropQuantity  = parseFloat(airdrop?.amount) / UNIT;
+      const airdropPrice = airdropQuantity * parseFloat(price);
       airdropSum = plus(airdropSum, airdropPrice);
-      return ({ quantity: airdropQuantity, symbol: MIR, price: airdropPrice, name: MIRROR_TOKEN, round: airdrop.stage ?? 0  })
+      return ({ quantity: airdropQuantity.toString(), symbol: MIR, price: airdropPrice.toString(), name: MIRROR_TOKEN, round: airdrop.stage ?? 0  })
     });
 
   return {mirrorAirdrops: contents, airdropSum};
