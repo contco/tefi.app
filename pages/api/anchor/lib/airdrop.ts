@@ -22,14 +22,13 @@ export const getAirdrops = async (address: string) => {
 
 
 export const formatAirdrops = (result: any , ancPrice: string) => {
-  if (result?.data) {
-  
+  if (result?.data) {  
     const claimableAirdrops = result?.data.filter(airdrop => airdrop.claimable);
     if(claimableAirdrops && claimableAirdrops.length > 0) {
       let airdropSum = '0';
       const airdrops = result?.data.map((airdrop: any) => {
         const amount = formatANCWithPostfixUnits(demicrofy(airdrop?.amount));
-        const price = times(ancPrice, amount);
+        const price = (parseFloat(ancPrice) * parseFloat(airdrop?.amount)).toString();
         airdropSum = plus(airdropSum, price);
         return {quantity: amount, name: ANCHOR_TOKEN_NAME, round: airdrop?.stage, price, symbol: ANCHOR_TOKEN_SYMBOL };
       });

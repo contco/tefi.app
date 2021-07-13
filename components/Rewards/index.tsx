@@ -45,10 +45,10 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets 
   };
 
   const getPool = () => {
-    if (pylonAssets?.pylonPool) {
       const pool = [...pylonAssets?.pylonPool, ...mirrorAssets?.mirrorStaking, ...ancAssets.pool].sort(
         (a, b) => b.rewardsValue - a.rewardsValue,
       );
+      if(pool && pool.length > 0) {
       return pool.map((assets: Pool, index: number) => (
         <Row key={index}>
           <StyledText fontWeight="500"> {assets?.lpName}</StyledText>
