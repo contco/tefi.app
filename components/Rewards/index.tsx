@@ -66,7 +66,7 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets 
           </div>
           <div>
             <StyledText>
-              {convertToFloatValue(assets?.rewards)} {assets?.symbol}
+              {convertToFloatValue(assets?.rewards)} {assets?.rewardsValue}
             </StyledText>
             <SubText>${convertToFloatValue(assets?.rewardsValue)}</SubText>
           </div>
