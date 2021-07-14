@@ -4,7 +4,7 @@ import { plus } from '../../pages/api/mirror/utils';
 import { convertToFloatValue } from '../../utils/convertFloat';
 import { Wrapper, Row, Title, StyledText } from '../dashboardStyles';
 
-const CUTOM_TEXT_CSS = css({ fontWeight: 500, fontSize: [14, null, null, 20, null, null, null, 28] });
+const CUTOM_TEXT_CSS = css({ fontWeight: 500, fontSize: [14, null, null, 10, null, null, null, 16] });
 
 export interface AssetsProps {
   ancAssets: AccountAnc;
@@ -119,7 +119,7 @@ const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAsse
           <Title key={index}>{t}</Title>
         ))}
       </Row>
-      <Row>
+      <Row >
         <StyledText css={CUTOM_TEXT_CSS}>${convertToFloatValue(totalMarketValue)}</StyledText>
         <StyledText css={CUTOM_TEXT_CSS}>${convertToFloatValue(totalAssets)}</StyledText>
         <StyledText css={CUTOM_TEXT_CSS}>${convertToFloatValue(totalBorrowing)}</StyledText>

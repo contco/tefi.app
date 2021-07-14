@@ -5,7 +5,7 @@ import Styled from 'styled-components';
 export const Wrapper = Styled(Box)`
 ${css({
   mb: 60,
-  width: ['600px', null, null, '850px', null, '100%'],
+   width: ['700px', null, null, '950px', null, '100%'],
 })}
 `;
 export const Row = Styled(Flex)`
@@ -24,7 +24,7 @@ ${(props) =>
   css({
     color: props.theme.colors.Heading,
     letterSpacing: 2,
-    fontSize: [20, null, null, 28],
+    fontSize: [18, null, null, 24],
     fontWeight: 900,
     mb: 2,
   })}

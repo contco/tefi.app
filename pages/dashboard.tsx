@@ -22,10 +22,10 @@ import Earn from '../components/Earn';
 
 const Body = Styled(Box)`
 ${css({
-  m: 'auto',
-  width: ['90%', null, '75%'],
-  mt: 20,
-  overflowX: ['scroll', null, null, null, null, 'hidden'],
+  
+  width: ['100%'],
+  padding: '3%',
+  verflowX: ['scroll', null, null, null, null, 'hidden'],
 })}
 `;
 
