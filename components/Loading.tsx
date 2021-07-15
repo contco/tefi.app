@@ -7,11 +7,18 @@ import TEFI_LOGO from '../public/tefi.svg';
 const Container = styled(Flex)`
   height: 100vh;
   width: 100vw;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   ${css({
     bg: 'background',
   })}
+`;
+
+const Text = styled.p`
+  margin-top: 39px;
+  color: ${(props) => props.theme.colors.detailsText};
 `;
 
 const rotate = keyframes`
@@ -46,6 +53,7 @@ const Loading: React.FC = () => {
   return (
     <Container>
       <StyledLogo />
+      <Text>searching the cosmos...</Text>
     </Container>
   );
 };

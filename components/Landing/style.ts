@@ -6,10 +6,10 @@ export const Container = styled(Flex)`
   flex-direction: column;
   justify-content: center;
   height: 88vh;
-  padding: 12px;
+  padding: 16px;
   ${css({
   justifyContent: ['space-around', 'space-around', 'space-around', 'center'],
-  padding: ['25% 3%', '25% 3%', '25% 3%', '0'],
+  padding: ['25% 3%', '25% 3%', '25% 16px', '0'],
   alignItems: ['stretch', 'stretch', 'stretch', 'center'],
 })}
 `;
@@ -57,7 +57,7 @@ export const ConnectButton = styled(Button)`
       border: props.theme.colors.connectborder,
       bg: 'transparent',
       width: ['100%', null, null, 303],
-      height: [40, null, 48],
+      height: 56,
       '&:hover': {
         bg: 'secondary',
       }
@@ -85,14 +85,14 @@ export const AddressContainer = styled(Flex)`
 `;
 
 export const AddressInput = styled(Input)`
-  border-radius: 23px;
+  border-radius: 9px;
   border: none;
   outline: none;
   margin: 0;
 
   ${css({
   bg: '#f5f5f5',
-  width: ['100%', null, null, 466],
+  width: ['100%', null, null, 600],
   height: 56,
   fontSize: [2, null, '16px'],
   pl: '3.33%',
@@ -107,7 +107,7 @@ export const AddressInput = styled(Input)`
 `;
 
 export const AddressSubmit = styled(Button)`
-  border-radius: 24px;
+  border-radius: 9px;
   align-items: center;
   justify-content: center;
   cursor: pointer;
@@ -129,7 +129,7 @@ export const AddressSubmit = styled(Button)`
 export const AddressSubmitText = styled(Text)`
   font-weight: 500;
   ${css({
-  fontSize: [1, null, 3],
+  fontSize: [1, null, 4, 3],
   color: 'background',
   letterSpacing: '0.83px',
 })};
