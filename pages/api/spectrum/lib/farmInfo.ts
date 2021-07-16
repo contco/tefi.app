@@ -1,7 +1,8 @@
 import axios from "axios";
 import { LCD_URL } from "../../utils";
 import { contracts } from "./contracts";
-import{ getMirrorPairStats} from "./mirrorPairStats";
+import { getMirrorPairStats } from "./mirrorPairStats";
+import { getSpecPairStats } from "./specPairStats";
 
 
 const getPoolInfos = async () => {
@@ -64,15 +65,40 @@ export const getPairsInfo = async (poolInfo: any ) => {
     return pairsInfo;
 }
 
+const getGovConfig = async () => {
+    const {data: govConfig} =  await axios.get(LCD_URL + `wasm/contracts/${contracts.gov}/store`, {
+        params: {
+          query_msg: JSON.stringify({
+            config: {}
+          })
+       },
+    });
+   return govConfig?.result;
+}
 
-export const getPairStats = (mirrorPoolInfo, specPoolInfo, pairInfo) => {
-   const mirrorStats = getMirrorPairStats(mirrorPoolInfo, pairInfo);
+const getGovVaults = async () => {
+    const {data: govVaults} =  await axios.get(LCD_URL + `wasm/contracts/${contracts.gov}/store`, {
+        params: {
+          query_msg: JSON.stringify({
+            vaults: {}
+          })
+       },
+    });
+   return govVaults?.result;
+}
+
+export const getPairStats = async (mirrorPoolInfo, specPoolInfo, pairInfo,govConfig,govVaults) => {
+    const mirrorStats = await getMirrorPairStats(mirrorPoolInfo, pairInfo, govConfig, govVaults);
+    const specStats = await getSpecPairStats(specPoolInfo, pairInfo, govVaults);
+
 }
 
 export const getFarmInfos = async() => {
 
    const {poolInfo, mirrorPoolInfo, specPoolInfo} = await getPoolInfos();
    const pairInfo = await getPairsInfo(poolInfo);
-   const pairStats = await getPairStats(mirrorPoolInfo, specPoolInfo, pairInfo)
+   const govConfig = await getGovConfig();
+   const govVaults = await getGovVaults();
+   const pairStats = await getPairStats(mirrorPoolInfo, specPoolInfo, pairInfo, govConfig, govVaults)
   
 }
