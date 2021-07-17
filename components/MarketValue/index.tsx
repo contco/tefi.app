@@ -4,7 +4,7 @@ import { plus } from '../../pages/api/mirror/utils';
 import { convertToFloatValue } from '../../utils/convertFloat';
 import { Wrapper, Row, Title, StyledText } from '../dashboardStyles';
 
-const CUTOM_TEXT_CSS = css({ fontWeight: 500, fontSize: [14, null, null, 10, null, null, null, 16] });
+const CUTOM_TEXT_CSS = css({ fontWeight: 800 });
 
 export interface AssetsProps {
   ancAssets: AccountAnc;
