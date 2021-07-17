@@ -27,6 +27,7 @@ export const LeftSection = styled(Flex)`
   ${css({
   flexDirection: 'row',
   alignItems: 'center',
+  ml: 3,
 })}
 `;
 
@@ -52,7 +53,6 @@ export const StyledTitle = styled(Text)`
   fontWeight: 900,
   letterSpacing: 0.5,
   lineHeight: 0.88,
-  marginLeft: 3,
 })}
  & > * {
    font-weight:500;
@@ -126,6 +126,7 @@ export const RightSection = styled(Flex)`
   flexDirection: 'row',
   justifyContent: 'flex-end',
   alignItems: 'center',
+  mr: 3,
 })}
 `;
 
@@ -186,7 +187,6 @@ ${css({
   transition: 'opacity 0.3s',
   cursor: 'pointer',
   ml: 3,
-  mr: 3,
 })}
   &:hover {
     opacity: 0.7;
@@ -209,6 +209,5 @@ export const AnimatedRefresh = styled(REFRESHING_LOGO)`
     css({
       color: 'secondary',
       ml: 3,
-      mr: 3,
     })}
 `;
