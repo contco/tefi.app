@@ -27,7 +27,6 @@ export const LeftSection = styled(Flex)`
   ${css({
   flexDirection: 'row',
   alignItems: 'center',
-  ml: [1, null, null, 3],
 })}
 `;
 
@@ -127,8 +126,6 @@ export const RightSection = styled(Flex)`
   flexDirection: 'row',
   justifyContent: 'flex-end',
   alignItems: 'center',
-  mr: [1, null, null, 3],
-  width: [150, null, 480],
 })}
 `;
 
