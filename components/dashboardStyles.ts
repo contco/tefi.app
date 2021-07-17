@@ -12,7 +12,7 @@ export const Row = Styled(Flex)`
 ${css({
   justifyContent: 'space-between',
   py: 3,
-})}
+})} 
 `;
 export const HeadingWrapper = Styled(Box)`
 ${css({

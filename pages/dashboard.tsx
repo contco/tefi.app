@@ -25,7 +25,6 @@ ${css({
   
   width: ['100%'],
   padding: '3%',
-  verflowX: ['scroll', null, null, null, null, 'hidden'],
 })}
 `;
 
