@@ -13,7 +13,7 @@ export const MarketTitles = ['Total Market Value', 'Total Assets', 'Total Borrow
 export const AssetsTitle = ['Ticker', 'Name', 'Balance', 'Price', 'Value'];
 
 //Borrowing
-export const BorrowingTitle = ['Collateral Value', 'Borrowed Value', 'Net APR'];
+export const BorrowingTitle = ['Collateral Value', 'Borrowed Value', 'Distribution APR'];
 
 //Pools
 export const PoolsTitle = ['Name', 'Balance', 'Value'];
@@ -32,7 +32,8 @@ export const WALLET_ADDRESS_TYPE = 'wallet';
 
 
 export enum WalletConnectType {
-    Extension,
-    Mobile
-  }
-  
+  Extension,
+  Mobile
+}
+
+export const TEFI_PREVIEW_IMAGE = "https://storage.googleapis.com/tefi-app/tefi-preview.png";
