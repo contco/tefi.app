@@ -1,11 +1,8 @@
 import axios from "axios";
 import { LCD_URL } from "../../utils";
-import { plus } from "../../../../utils/math";
 import { contracts } from "./contracts";
-import { getMirrorPairStats } from "./mirrorPairStats";
-import { getSpecPairStats } from "./specPairStats";
-import { HEIGHT_PER_YEAR } from "./utils";
-
+import { getPairStats } from "./pairStats";
+import { getRewardInfos } from "./rewardInfos";
 
 
 const getPoolInfos = async () => {
@@ -90,28 +87,12 @@ const getGovVaults = async () => {
    return govVaults?.result;
 }
 
-export const getPairStats = async (height,specPrice, mirrorPoolInfo, specPoolInfo, pairInfo,govConfig,govVaults) => {
-    const mirrorStats = await getMirrorPairStats(mirrorPoolInfo, pairInfo, govConfig, govVaults);
-    const specStats = await getSpecPairStats(specPoolInfo, pairInfo, govVaults);
-    const pairStats: any = {...mirrorStats, ...specStats};
-    const pairStatKeys = Object.keys(pairStats);
-    const totalWeight = pairStatKeys.map(key => pairStats[key].multiplier).reduce((a, b) => a + b, 0);
-    const specPerHeight = govConfig.mint_end > height ? govConfig.mint_per_block : '0';
-    const ustPerYear = +specPerHeight * HEIGHT_PER_YEAR * +specPrice;
-    let vaultFee = 0, tvl = '0';
-    Object.values(pairStats).forEach((pair:any, index:number) => {
-        pairStats[pairStatKeys[index]].specApr = pair.multiplier === 0 ? 0 : (ustPerYear * pair.multiplier / totalWeight / +pair.tvl) ?? 0;
-        vaultFee += (pair.vaultFee ?? 0);
-        tvl = plus(tvl, pair.tvl);
-    });
-    const stats = {pairs: pairStats, tvl, vaultFee};
-    return stats;
-}
 
-export const getFarmInfos = async(height: number, specPrice: string) => {
+export const getFarmInfos = async(address: string, height: number, specPrice: string) => {
    const {poolInfo, mirrorPoolInfo, specPoolInfo} = await getPoolInfos();
    const pairInfo = await getPairsInfo(poolInfo);
    const govConfig = await getGovConfig();
    const govVaults = await getGovVaults();
-   const pairStats = await getPairStats(height, specPrice,mirrorPoolInfo, specPoolInfo, pairInfo, govConfig, govVaults)
+   const pairStats = await getPairStats(height, specPrice,mirrorPoolInfo, specPoolInfo, pairInfo, govConfig, govVaults);
+   const pairRewardInfos = await getRewardInfos(address, height);
 }

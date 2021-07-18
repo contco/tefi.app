@@ -1,9 +1,9 @@
 import axios from "axios";
 import { request, gql } from 'graphql-request';
-import { LCD_URL } from "../../utils";
-import { contracts } from "./contracts";
-import { fromEntries, getPairPool } from "./utils";
-import networks from "../../../../utils/networks";
+import { LCD_URL } from "../../../utils";
+import { contracts } from "../contracts";
+import { fromEntries, getPairPool } from "../utils";
+import networks from "../../../../../utils/networks";
 import BigNumber from 'bignumber.js';
 
 const GOV_STAT_QUERY = gql`

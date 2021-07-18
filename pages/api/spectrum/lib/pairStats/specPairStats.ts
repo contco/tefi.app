@@ -1,5 +1,5 @@
-import { fromEntries, getPairPool } from "./utils";
-import { contracts } from "./contracts";
+import { fromEntries, getPairPool } from "../utils";
+import { contracts } from "../contracts";
 import BigNumber from "bignumber.js";
 
 export const getSpecPairStats = async (pool, pairInfos, govVaults) => { 
