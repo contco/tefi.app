@@ -66,6 +66,7 @@ export const getAccount = async (address: any) => {
       value: debt.value,
       percentage: debt.percentage,
       price: debt.price,
+      netApy: debt.netApy
     },
 
     earn: {

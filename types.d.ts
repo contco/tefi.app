@@ -83,6 +83,7 @@ interface BorrowData {
   collaterals: Array<UserCollateral>;
   percentage: string;
   price: string;
+  netApy: string;
 }
 
 interface EarnData {
