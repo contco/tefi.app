@@ -25,6 +25,8 @@ ${css({
   
   width: ['100%'],
   padding: '3%',
+  overflowX: ['scroll', null, null, null, null, 'hidden'],
+
 })}
 `;
 
