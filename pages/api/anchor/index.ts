@@ -38,6 +38,7 @@ const typeDefs = gql`
     collaterals: [UserCollateral]
     percentage: String
     price: String
+    netApy: String
   }
 
   type EarnData {

@@ -85,6 +85,7 @@ export const getAssets = gql`
           value
           percentage
           price
+          netApy
         }
 
         earn {
