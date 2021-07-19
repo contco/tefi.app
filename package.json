@@ -39,6 +39,7 @@
     "add": "^2.0.6",
     "apollo-server-micro": "^2.23.0",
     "axios": "^0.21.1",
+    "axios-cache-adapter": "^2.7.3",
     "big.js": "^6.1.1",
     "bignumber.js": "^9.0.1",
     "date-fns": "^2.22.1",

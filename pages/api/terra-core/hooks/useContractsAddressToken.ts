@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Dictionary } from "ramda"
-import { UUSD } from "constants/constants"
+import { UUSD } from "../constants/constants"
 import createContext from "./createContext"
 import { useNetwork } from "hooks"
 

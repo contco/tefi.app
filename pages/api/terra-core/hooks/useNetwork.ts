@@ -1,6 +1,6 @@
 import { useWallet } from "@terra-money/wallet-provider"
-import { FINDER } from "constants/constants"
-import networks from "constants/networks"
+import { FINDER } from "../constants/constants"
+import networks from "../../../../utils/networks"
 
 const useNetwork = () => {
   const { network: extNetwork } = useWallet()

@@ -1,7 +1,7 @@
 import { LazyQueryResult } from "@apollo/client"
 import { Dictionary } from "ramda"
 
-import { UUSD } from "constants/constants"
+import { UUSD } from "../constants/constants"
 import { sum } from "libs/math"
 
 import usePairPool from "graphql/queries/usePairPool"

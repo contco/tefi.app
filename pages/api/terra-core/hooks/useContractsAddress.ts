@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { Dictionary } from "ramda"
 import createContext from "./createContext"
 import { useNetwork } from "hooks"
-import { NATIVE_TOKENS } from "constants/constants"
+import { NATIVE_TOKENS } from "../constants/constants"
 import { getSymbol } from "helpers/token"
 
 interface ContractAddressJSON {
