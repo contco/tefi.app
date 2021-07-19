@@ -61,6 +61,23 @@ export const BORROW_APY_QUERY = `
   }
 `;
 
+export const BORROW_RATE_QUERY = `
+  query ($marketContract: String!) {
+    marketBalances: BankBalancesAddress(Address: $marketContract) {
+      Result {
+        Denom
+        Amount
+      }
+    }
+    marketState: WasmContractsContractAddressStore(
+      ContractAddress: "terra1sepfj7s0aeg5967uxnfk4thzlerrsktkpelm5s"
+        QueryMsg: "{\\"state\\":{}}"
+    ) {
+        Result  
+      }              
+    },
+`;
+
 export const getBorrowLimit = async ({ address }: any) => {
   const result = await anchor.borrow.getBorrowLimit({ market: MARKET_DENOMS.UUSD, address });
   return result;
@@ -117,7 +134,7 @@ export const getBorrowRate = async () => {
   const market_states = await axios.get('https://mantle.anchorprotocol.com/?borrow--market-states', {
     params: {
       query:
-        'query ($marketContract: String!) {\n  marketBalances: BankBalancesAddress(Address: $marketContract) {\n    Result {\n      Denom\n      Amount\n    }\n  }\n  marketState: WasmContractsContractAddressStore(\n    ContractAddress: "terra1sepfj7s0aeg5967uxnfk4thzlerrsktkpelm5s"\n    QueryMsg: "{\\"state\\":{}}"\n  ) {\n    Result\n  }\n}\n',
+        BORROW_RATE_QUERY,
       variables: { marketContract: 'terra1sepfj7s0aeg5967uxnfk4thzlerrsktkpelm5s' },
     },
   });
@@ -145,10 +162,10 @@ export default async (address) => {
   const rewards = await rewardsClaimableUstBorrowRewardsQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet'], address);
   const percentage = ((parseFloat(borrowedValue) / parseFloat(borrowLimit)) * 100) / 2;
   const lunaPrice = await getPrice(LUNA_DENOM);
-  const distributionAPY = allRewards?.borrowerDistributionAPYs[0]?.DistributionAPY
+  const distributionAPY = allRewards?.borrowerDistributionAPYs[0]?.DistributionAPY;
   const borrowRate = await getBorrowRate();
   const borrowApy = borrowRate?.data?.result?.rate * blocksPerYear;
-  const netApy = (parseFloat(distributionAPY) - borrowApy).toString()
+  const netApy = (parseFloat(distributionAPY) - borrowApy).toString();
 
   const result = {
     reward: {
@@ -161,7 +178,7 @@ export default async (address) => {
     collaterals: collaterals && collaterals[0] ? collaterals : null,
     percentage: percentage.toString(),
     price: lunaPrice,
-    netApy: formatRate(netApy)
+    netApy: formatRate(netApy),
   };
 
   return result;
