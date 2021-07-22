@@ -50,25 +50,39 @@ const getSpecPrice = (specPool) => {
     return price;
 };
 
+const getSpecGov = (userSpec, specPrice, govApr) => {
+  if(userSpec.balance !== '0') {
+    const name = "SPEC Gov";
+    const staked = userSpec?.balance;
+    const value =  times(staked, specPrice);
+    return {name, staked, value, apr: govApr, rewards: null, price: specPrice};
+  }
+  else return null;
+}
 const getHoldings = (balance, price) => {
-  const value = times(balance, price);
-  return [{name: 'Spectrum', symbol: 'SPEC',balance, price, value}]
+  if (balance !== '0') {
+    const value = times(balance, price);
+    return [{name: 'Spectrum', symbol: 'SPEC',balance, price, value}]
+  }
+  return [];
 }
 
-export const getAccount =async (address: string) => {
- const height  = await getLatestBlockHeight();
- const userSpec = await getUserSpecInfo(address);
- const specPool = await getSpecPool();
- const specBalance= await getUserBalance(address);
+const fetchData = async (address: string) => {
+  const userSpecPromise =  getUserSpecInfo(address);
+  const specPoolPromise =  getSpecPool();
+  const specBalancePromise =  getUserBalance(address);
+  const result  = await Promise.all([userSpecPromise, specPoolPromise, specBalancePromise]);
+  return result;
+}
 
- const specPrice =  getSpecPrice(specPool);
+export const getAccount = async (address: string) => {
+  const height  = await getLatestBlockHeight();
+  const [userSpec, specPool, specBalance] = await fetchData(address);
+  const specPrice =  getSpecPrice(specPool);
 
- const holdings = getHoldings(specBalance ,specPrice);
- console.log(holdings);
+  const {farms, govApr} = await getFarmInfos(address, height, specPrice);
+  const holdings = getHoldings(specBalance ,specPrice);
+  const specGov = getSpecGov(userSpec, specPrice, govApr)
 
- // here balance = spec staked
-
-
- getFarmInfos(address, height, specPrice);
-
+  return {farms, specHoldings: holdings, specGov};
 };

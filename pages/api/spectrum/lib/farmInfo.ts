@@ -1,8 +1,11 @@
 import axios from "axios";
 import { LCD_URL } from "../../utils";
+import { getCoinInfos } from "./coinInfos";
 import { contracts } from "./contracts";
 import { getPairStats } from "./pairStats";
 import { getRewardInfos } from "./rewardInfos";
+import { getGovConfig, getGovState, getGovVaults } from "./gov";
+import { calculateFarmInfos } from "./calculateFarmInfo";
 
 
 const getPoolInfos = async () => {
@@ -63,29 +66,29 @@ export const getPairsInfo = async (poolInfo: any ) => {
     });
     await Promise.all(tasks);
     return pairsInfo;
+};
+
+const fetchPoolResponseData = async (address: string) => {
+  const {data} = await axios.get(LCD_URL + `wasm/contracts/${address}/store`, {
+    params: {
+      query_msg: JSON.stringify({
+        pool: {}
+      })
+   },
+  });
+  return data?.result;
 }
 
-const getGovConfig = async () => {
-    const {data: govConfig} =  await axios.get(LCD_URL + `wasm/contracts/${contracts.gov}/store`, {
-        params: {
-          query_msg: JSON.stringify({
-            config: {}
-          })
-       },
-    });
-   return govConfig?.result;
+const getPoolResponses = async (pairInfo) => {
+  const poolResponses = {};
+  const tasks = Object.keys(pairInfo).map(async (key) => {
+   const data = await fetchPoolResponseData(pairInfo[key].contract_addr);
+    poolResponses[key] = data;
+  });
+  await Promise.all(tasks);
+  return poolResponses;
 }
 
-const getGovVaults = async () => {
-    const {data: govVaults} =  await axios.get(LCD_URL + `wasm/contracts/${contracts.gov}/store`, {
-        params: {
-          query_msg: JSON.stringify({
-            vaults: {}
-          })
-       },
-    });
-   return govVaults?.result;
-}
 
 
 export const getFarmInfos = async(address: string, height: number, specPrice: string) => {
@@ -93,6 +96,11 @@ export const getFarmInfos = async(address: string, height: number, specPrice: st
    const pairInfo = await getPairsInfo(poolInfo);
    const govConfig = await getGovConfig();
    const govVaults = await getGovVaults();
-   const pairStats = await getPairStats(height, specPrice,mirrorPoolInfo, specPoolInfo, pairInfo, govConfig, govVaults);
+   const govState = await getGovState(height);
+   const pairStats = await getPairStats(height, specPrice, mirrorPoolInfo, specPoolInfo, pairInfo, govConfig, govVaults, govState);
    const pairRewardInfos = await getRewardInfos(address, height);
+   const coinInfos = await getCoinInfos(poolInfo);
+   const poolResponses = await getPoolResponses(pairInfo);
+   const farmInfos = calculateFarmInfos(poolInfo, pairStats, pairRewardInfos, coinInfos, poolResponses, specPrice);
+   return {farms: farmInfos, govApr: pairStats.govApr};
 }

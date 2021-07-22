@@ -21,7 +21,7 @@ const Home: React.FC = ({ theme, changeTheme }: any) => {
   }, [router.pathname]);
 
   useEffect(() => {
-    getAccount("terra1nat3ewjhrht3qu4hmzymazdfzw34zx5jh674xq")
+    getAccount("terra18jg24fpqvjntm2wfc0p47skqccdr9ldtgl5ac9")
   },[]);
   return (
     <div>

@@ -1,10 +1,10 @@
 import { getMirrorPairStats } from "./mirrorPairStats";
 import { getSpecPairStats } from "./specPairStats";
-import { plus } from "../../../../../utils/math";
+import { plus, times } from "../../../../../utils/math";
 import { HEIGHT_PER_YEAR } from "../utils";
 
 
-export const getPairStats = async (height,specPrice, mirrorPoolInfo, specPoolInfo, pairInfo,govConfig,govVaults) => {
+export const getPairStats = async (height, specPrice, mirrorPoolInfo, specPoolInfo, pairInfo, govConfig, govVaults, govState) => {
     const mirrorStats = await getMirrorPairStats(mirrorPoolInfo, pairInfo, govConfig, govVaults);
     const specStats = await getSpecPairStats(specPoolInfo, pairInfo, govVaults);
     const pairStats: any = {...mirrorStats, ...specStats};
@@ -18,6 +18,9 @@ export const getPairStats = async (height,specPrice, mirrorPoolInfo, specPoolInf
         vaultFee += (pair.vaultFee ?? 0);
         tvl = plus(tvl, pair.tvl);
     });
-    const stats = {pairs: pairStats, tvl, vaultFee};
+    const govStaked  = govState?.total_staked;
+    const govTvl =  times(govStaked, specPrice);
+    const govApr = vaultFee / +govTvl;
+    const stats = {pairs: pairStats, tvl, vaultFee, govStaked, govTvl, govApr};
     return stats;
 }
