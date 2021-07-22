@@ -41,6 +41,8 @@ export const getAssets = gql`
           rewardsValue
           rewardsSymbol
           apr
+          shortApr
+          isShort
         }
         mirrorHoldings {
           name

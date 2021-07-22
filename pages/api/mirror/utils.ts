@@ -87,6 +87,7 @@ const parseResults = <Parsed>(object?: Dictionary<ContractData>) =>
     LPSTAKED = "lpStaked",
     MIRGOVSTAKED = "MIRGovStaked",
     REWARD = "reward",
+    SHORT="short",
   }
 
   export const price = {
@@ -163,6 +164,7 @@ export const balance = {
       const info = reward_infos?.find((info) => info.asset_token === token)
       return info?.pending_reward ?? '0';
     }),
+  [BalanceKey.SHORT]: (stakingReward: StakingReward) =>  reduceIsShort(stakingReward)
 };
 
 const reduceLP = (
@@ -191,6 +193,15 @@ const reduceBondAmount = ({ reward_infos }: StakingReward) =>
     },
     {}
 );
+
+const reduceIsShort = ({ reward_infos }: StakingReward) =>
+  reward_infos.reduce<Dictionary<boolean>>(
+    (acc, { asset_token, is_short}) => {
+      return { ...acc, [asset_token]: is_short }
+    },
+    {}
+);
+
 
 export const fromLP =  (
   lp: string,

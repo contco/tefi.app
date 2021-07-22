@@ -61,8 +61,9 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets 
             </HoverText>
           </StyledText>
           <div>
-            <StyledText css={CSS_APR}> {assets?.apy ? formatApr(assets?.apy) : formatApr(assets?.apr)}%</StyledText>
+            <StyledText css={CSS_APR}> {assets?.apy ? formatApr(assets?.apy) : assets?.isShort ? formatApr(assets?.shortApr) : formatApr(assets?.apr) }%</StyledText>
             {assets?.apy ? <SubText> (APY)</SubText> : null}
+            {assets?.isShort ? <SubText> (SHORT)</SubText> : null}
           </div>
           <div>
             <StyledText>

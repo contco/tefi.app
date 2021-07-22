@@ -109,6 +109,7 @@ interface RewardInfo {
     bond_amount: string
     index: string
     pending_reward: string
+    is_short: boolean
 }
 
 interface StakingPool {

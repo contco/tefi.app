@@ -24,6 +24,8 @@ interface Pool {
   rewardsSymbol: string;
   apy?: string;
   apr?: string;
+  shortApr: string;
+  isShort: boolean;
 }
 
 

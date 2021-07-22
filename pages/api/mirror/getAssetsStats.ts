@@ -27,5 +27,10 @@ export const getAssetsStats = async () => {
   const apr = result.assets.reduce((acc: any, { token, statistic }) => {
     return { ...acc, [token]: statistic.apr.long };
   }, {});
-  return apr;
+   const shortApr = result.assets.reduce((acc: any, { token, statistic }) => {
+    return { ...acc, [token]: statistic.apr.short };
+  }, {});
+  return {
+    apr, shortApr
+  };
 };

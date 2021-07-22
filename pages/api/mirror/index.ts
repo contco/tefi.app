@@ -18,6 +18,8 @@ const typeDefs = gql`
     rewardsValue: String!
     rewardsSymbol: String!
     apr: String!
+    shortApr: String!
+    isShort: Boolean
   }
 
   type MirrorHoldings {

@@ -19,9 +19,14 @@ export const getPoolValues = (lpDetails, priceResult) => {
 };
 
 export const getApr = (assetStats, token) => {
-  const apr = assetStats ? assetStats[token] : '0';
+  const apr = assetStats ? assetStats.apr[token] : '0';
   return apr ?? 0;
 };
+
+export const getShortApr = (assetStats, token) => {
+  const shortApr = assetStats ? assetStats.shortApr[token] : '0';
+  return shortApr ?? 0;
+}
 
 export const getHoldingsData = (tokenBalance, priceResult, token) => {
   const balance = div(tokenBalance[token].balance, UNIT);
@@ -29,17 +34,19 @@ export const getHoldingsData = (tokenBalance, priceResult, token) => {
   return { balance, value };
 };
 
-export const getRewards = (rewardsBalance, listing, priceResult) => {
+export const getRewards = (rewardsBalance, listing, priceResult, shorts) => {
   const rewards = div(rewardsBalance[listing.token], UNIT);
   const rewardsValue = times(rewards, priceResult);
-  return { rewards, rewardsValue };
+  const isShort = shorts[listing.token]
+  return { rewards, rewardsValue, isShort };
 };
 
-export const calculatePoolDetails = (listing, rewardsBalance, priceResult, lpDetails, assetStats, mirPrice) => {
-  const rewards = getRewards(rewardsBalance, listing, mirPrice);
+export const calculatePoolDetails = (listing, rewardsBalance, priceResult, lpDetails, assetStats, mirPrice, shorts) => {
+  const rewards = getRewards(rewardsBalance, listing, mirPrice, shorts);
   const poolValues = getPoolValues(lpDetails, priceResult);
   const apr = getApr(assetStats, listing.token);
-  return { ...poolValues, ...rewards, apr, availableLpUstValue: '0', ustUnStaked: '0',tokenUnStaked: '', availableLP: '0' };
+  const shortApr = getShortApr(assetStats, listing.token)
+  return { ...poolValues, ...rewards, apr, shortApr,availableLpUstValue: '0', ustUnStaked: '0',tokenUnStaked: '', availableLP: '0' };
 };
 
 export const fetchData = (address: string) => {
@@ -62,6 +69,7 @@ export const getAccountData = async (address: string) => {
    
   const poolBalance = balance[BalanceKey.LPTOTAL](lpTokenBalance, stakingRewards);
   const rewardsBalance = balance[BalanceKey.REWARD](pairsList, stakingRewards);
+  const shorts = balance[BalanceKey.SHORT](stakingRewards)
   const mirPrice = price["pair"](stakingPool)[MIR_TOKEN];
   const {mirrorAirdrops, airdropSum: mirrorAirdropSum} = formatAirdrops(airdropsData, mirPrice);
 
@@ -87,7 +95,7 @@ export const getAccountData = async (address: string) => {
     }
     if (lpDetails?.asset?.amount !== '0') {
       const lpBalance = div(poolBalance[listing.token], 1000000);
-      const poolData = calculatePoolDetails(listing, rewardsBalance, priceResult, lpDetails, assetStats, mirPrice);
+      const poolData = calculatePoolDetails(listing, rewardsBalance, priceResult, lpDetails, assetStats, mirPrice, shorts);
       mirrorPoolSum = plus(mirrorPoolSum, poolData.stakedLpUstValue);
       mirrorPoolRewardsSum = plus(mirrorPoolRewardsSum, poolData.rewardsValue);
       poolList.push({ symbol: listing.symbol, lpName: `${listing.symbol}-UST LP`, stakedLP: lpBalance ?? 0, rewardsSymbol: MIR,   ...poolData });

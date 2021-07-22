@@ -60,7 +60,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   if (loading || error) {
     return <Loading />;
   }
-
+  
   return (
     <div>
       <Head>
