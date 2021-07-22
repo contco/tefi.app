@@ -1,18 +1,9 @@
-import css from '@styled-system/css';
 import { RewardsTitle } from '../../constants';
-import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, HoverText, SubText } from '../dashboardStyles';
+import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, HoverText, SubText, CSS_APR } from '../dashboardStyles';
 import { times } from '../../pages/api/mirror/utils';
 import { convertToFloatValue } from '../../utils/convertFloat';
 import { Box } from '@contco/core-ui';
 const HEADING_TEXT = `Rewards`;
-
-const CSS_APR = (props) =>
-  css({
-    fontWeight: 500,
-    color: props.theme.colors.secondary,
-    fontSize: ['11px', null, null, '14px', null, null, 16],
-  });
-
 export interface RewardsProps {
   ancAssets: AccountAnc;
   mirrorAssets: MirrorAccount;

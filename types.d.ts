@@ -162,7 +162,7 @@ interface DepositLogs {
 interface PylonGateway {
   symbol: string;
   poolName: string;
-  totalDeposit: string!
+  totalDeposit: string;
   depositLogs: DepositLogs[]
   apy: string
   rewards: string
@@ -176,6 +176,42 @@ interface PylonAccount {
   pylonStakings: PylonStakings[];
   pylonSum: PylonSum
   pylonGateway: PylonGateway[];
+}
+
+interface SpecFarms {
+  symbol: string;
+  lpName: string;
+  stakedLp: string;
+  stakedLpUstValue: string;
+  tokenStaked: string;
+  ustStaked: string;
+  farm: string;
+  stakedSpec: string;
+  stakedSpecValue: string;
+  stakedMir: string;
+  stakedMirValue: string;
+  apy: string;
+}
+
+interface SpectrumTotal {
+  farmsTotal: string;
+  holdingsTotal: string;
+}
+
+interface SpecGov {
+  name: string;
+  staked: string;
+  value: string;
+  rewards: string;
+  price: string;
+  apr: string;
+}
+
+interface SpectrumAccount {
+  farms: SpecFarms[];
+  specHoldings: Holdings[];
+  specGov?: SpecGov;
+  spectrumTotal: SpectrumTotal
 }
 
 interface Assets {

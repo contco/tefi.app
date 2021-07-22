@@ -80,9 +80,10 @@ export const getAccount = async (address: string) => {
   const [userSpec, specPool, specBalance] = await fetchData(address);
   const specPrice =  getSpecPrice(specPool);
 
-  const {farms, govApr} = await getFarmInfos(address, height, specPrice);
+  const {farms, farmsTotal, govApr} = await getFarmInfos(address, height, specPrice);
   const holdings = getHoldings(specBalance ,specPrice);
   const specGov = getSpecGov(userSpec, specPrice, govApr)
-
-  return {farms, specHoldings: holdings, specGov};
+  const holdingsTotal = specBalance === '0' ? '0' : holdings[0].value;
+  const spectrumTotal = {farmsTotal, holdingsTotal: holdingsTotal}
+  return {farms, specHoldings: holdings, specGov, spectrumTotal};
 };

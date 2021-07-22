@@ -36,10 +36,16 @@ const typeDefs = gql`
     apr: String!
   }
 
+  type SpectrumTotal {
+    farmsTotal: String!
+    holdingsTotal: String!
+  }
+
   type SpectrumAccount {
     farms: [SpecFarms!]
     specHoldings: [SpecHoldings!]
     specGov: SpecGov
+    spectrumTotal: SpectrumTotal
   }
 
   extend type Assets @key(fields: "address") {

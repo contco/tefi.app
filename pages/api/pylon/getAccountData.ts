@@ -1,7 +1,6 @@
 import axios from "axios";
 import {PYLON_API_ENDPOINT, PYLON_TOKEN_NAME, PYLON_TOKEN_SYMBOL, PYLON_UST_LP} from "./constants";
 import { getGatewayData } from "./getGatewayData";
-import { getLpValue } from "../utils";
 
 const fetchPylonData = async (address: string) => {
     const mineOverviewPromise = axios.get(PYLON_API_ENDPOINT + 'mine/v1/overview');  
@@ -69,6 +68,13 @@ const getPylonAirdrops = (price: number, data: any) => {
     }
     return {pylonAirdropSum: '0', pylonAirdrops: undefined};
 }
+
+const getLpValue = (liquidityInfo: any,  minePrice: number) => {
+    const {tokenReserve, ustReserve, totalShares} = liquidityInfo;
+    const totalLpValue = (tokenReserve * minePrice) + ustReserve;
+    const lpValue = totalLpValue / totalShares;
+    return lpValue;
+ }
 
 export const getAccountData = async (address: string) => {  
     try {

@@ -11,6 +11,7 @@ import MarketValue from '../components/MarketValue';
 import Borrowing from '../components/Borrowing';
 import PylonGateway from '../components/PylonGateway';
 import Pools from '../components/Pools';
+import SpectrumFarms from '../components/SpectrumFarms';
 import Rewards from '../components/Rewards';
 import { useQuery } from '@apollo/client';
 import { getAssets } from '../graphql/queries/getAssets';
@@ -94,6 +95,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
             mirrorAssets={data?.assets?.mirror || {}}
             ancAssets={data?.assets?.anchor || {}}
           />
+          <SpectrumFarms spectrum={data?.assets?.spectrum} />
           <LunaStaking core={data?.assets.core || {}} />
           <Airdrops
             pylonAssets={data?.assets?.pylon || {}}

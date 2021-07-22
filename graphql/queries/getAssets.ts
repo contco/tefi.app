@@ -202,6 +202,41 @@ export const getAssets = gql`
 
         }
       }
+      spectrum {
+        farms {
+          symbol
+          lpName
+          stakedLp
+          stakedLpUstValue
+          tokenStaked
+          ustStaked
+          farm
+          stakedSpec
+          stakedSpecValue
+          stakedMir
+          stakedMirValue
+          apy
+        }
+        specGov {
+          name
+          staked
+          value
+          rewards
+          price
+          apr
+        }
+        specHoldings{
+          symbol
+          name
+          price
+          balance
+          value
+        }
+        spectrumTotal {
+          farmsTotal
+          holdingsTotal
+        }
+      }
     }
   }
 `;
