@@ -11,6 +11,7 @@ interface Holdings {
 interface Pool {
   symbol: string;
   lpName: string;
+  lpShortName: string;
   stakedLpUstValue: string;
   availableLpUstValue: string;
   ustStaked: string;

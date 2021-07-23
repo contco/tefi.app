@@ -6,6 +6,7 @@ const typeDefs = gql`
   type MirrorStaking {
     symbol: String!
     lpName: String!
+    lpShortName: String!
     stakedLpUstValue: String!
     availableLpUstValue: String!
     ustStaked: String!

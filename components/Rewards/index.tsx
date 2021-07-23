@@ -51,7 +51,7 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets 
       if(pool && pool.length > 0) {
       return pool.map((assets: Pool, index: number) => (
         <Row key={index}>
-          <StyledText fontWeight="500"> {assets?.lpName}</StyledText>
+          <StyledText fontWeight="500">{assets?.isShort ? assets?.lpShortName: assets?.lpName}</StyledText>
           <StyledText isChildren={true}>
             {' '}
             {convertToFloatValue(assets?.stakedLP)} LP
@@ -63,8 +63,6 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets 
           <div>
             <StyledText css={CSS_APR}> {assets?.apy ? formatApr(assets?.apy) : assets?.isShort ? formatApr(assets?.shortApr) : formatApr(assets?.apr) }%</StyledText>
             {assets?.apy ? <SubText> (APY)</SubText> : null}
-            {assets?.isShort ? <SubText> (SHORT)</SubText> : null}
-            {assets?.isShort === false ?  <SubText> (LONG)</SubText> : null}
           </div>
           <div>
             <StyledText>

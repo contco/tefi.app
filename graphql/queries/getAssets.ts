@@ -29,6 +29,7 @@ export const getAssets = gql`
         mirrorStaking {
           symbol
           lpName
+          lpShortName
           stakedLpUstValue
           availableLpUstValue
           ustStaked

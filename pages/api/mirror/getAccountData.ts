@@ -98,7 +98,7 @@ export const getAccountData = async (address: string) => {
       const poolData = calculatePoolDetails(listing, rewardsBalance, priceResult, lpDetails, assetStats, mirPrice, shorts);
       mirrorPoolSum = plus(mirrorPoolSum, poolData.stakedLpUstValue);
       mirrorPoolRewardsSum = plus(mirrorPoolRewardsSum, poolData.rewardsValue);
-      poolList.push({ symbol: listing.symbol, lpName: `${listing.symbol}-UST LP`, stakedLP: lpBalance ?? 0, rewardsSymbol: MIR,   ...poolData });
+      poolList.push({ symbol: listing.symbol, lpName: `${listing.symbol}-UST LP`, lpShortName: `${listing.symbol} Short`, stakedLP: lpBalance ?? 0, rewardsSymbol: MIR,   ...poolData });
     }
     return poolList;
   }, []);;
