@@ -3,6 +3,7 @@ import { contracts } from "./contracts";
 import { getLatestBlockHeight, LCD_URL } from "../../utils";
 import { getFarmInfos } from "./farmInfo";
 import { div, times } from "../../../../utils/math";
+import { UNIT } from "../../mirror/utils";
 
 
 const getUserSpecInfo = async (address) => {
@@ -53,16 +54,18 @@ const getSpecPrice = (specPool) => {
 const getSpecGov = (userSpec, specPrice, govApr) => {
   if(userSpec.balance !== '0') {
     const name = "SPEC Gov";
-    const staked = userSpec?.balance;
+    const staked = (parseFloat(userSpec?.balance)/ UNIT).toString();
     const value =  times(staked, specPrice);
-    return {name, staked, value, apr: govApr, rewards: null, price: specPrice};
+    const apr = times(govApr, '100');
+    return {name, staked, value, apr, rewards: "N/A", price: specPrice};
   }
   else return null;
 }
 const getHoldings = (balance, price) => {
   if (balance !== '0') {
-    const value = times(balance, price);
-    return [{name: 'Spectrum', symbol: 'SPEC',balance, price, value}]
+    const specBalance = (parseFloat(balance) / UNIT).toString(); 
+    const value = times(specBalance, price);
+    return [{name: 'Spectrum', symbol: 'SPEC',balance: specBalance, price, value}]
   }
   return [];
 }

@@ -75,12 +75,14 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
             pylonAssets={data?.assets?.pylon || {}}
             mirrorAssets={data?.assets?.mirror || {}}
             ancAssets={data?.assets?.anchor || {}}
+            spectrum={data?.assets?.spectrum}
           />
           <Assets
             mirrorAssets={data?.assets?.mirror || {}}
             core={data?.assets.core}
             ancAssets={data?.assets?.anchor || {}}
             pylonAssets={data?.assets?.pylon || {}}
+            spectrum={data?.assets?.spectrum}
           />
           <PylonGateway pylonAssets={data?.assets?.pylon || {}} />
           <Earn ancAssets={data?.assets?.anchor || {}} />
@@ -89,6 +91,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
             pylonAssets={data?.assets?.pylon || {}}
             mirrorAssets={data?.assets?.mirror || {}}
             ancAssets={data?.assets?.anchor || {}}
+            spectrum={data?.assets?.spectrum}
           />
           <Pools
             pylonAssets={data?.assets?.pylon || {}}

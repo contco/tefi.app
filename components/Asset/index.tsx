@@ -12,9 +12,10 @@ export interface AssetsProps {
   ancAssets: AccountAnc;
   core: Core;
   pylonAssets: PylonAccount;
+  spectrum: SpectrumAccount
 }
 
-const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core, pylonAssets }: AssetsProps) => {
+const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core, pylonAssets, spectrum}: AssetsProps) => {
 
   const [holdings, setHoldings] = useState<Holdings[]>([]);
 
@@ -22,18 +23,19 @@ const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core, pylonAss
     const mirrorTotal = mirrorAssets?.total?.mirrorHoldingsSum;
     const coreTotal = core?.total?.assetsSum;
     const pylonHoldingsSum = pylonAssets?.pylonSum?.pylonHoldingsSum;
-    const total = parseFloat(plus(mirrorTotal, coreTotal)) + parseFloat(ancAssets?.total?.anchorHoldingsSum) + parseFloat(pylonHoldingsSum);
+    const spectrumSum = spectrum?.spectrumTotal?.holdingsTotal;
+    const total = parseFloat(spectrumSum) + parseFloat(plus(mirrorTotal, coreTotal)) + parseFloat(ancAssets?.total?.anchorHoldingsSum) + parseFloat(pylonHoldingsSum);
     return convertToFloatValue(total.toString()) ?? '0';
   };
 
   useEffect(() => {
-    const holdings = [ ...pylonAssets?.pylonHoldings, ...mirrorAssets?.mirrorHoldings, ...core?.coins, ...ancAssets?.assets];
+    const holdings = [ ...spectrum?.specHoldings, ...pylonAssets?.pylonHoldings, ...mirrorAssets?.mirrorHoldings, ...core?.coins, ...ancAssets?.assets];
     const sortedHoldings = holdings.sort((a: any,b: any) => b.value - a.value);
     setHoldings(sortedHoldings);
-  }, [mirrorAssets, ancAssets, core,pylonAssets]);
+  }, [mirrorAssets, ancAssets, core,pylonAssets, spectrum]);
 
   const handleChange = (e: any) => {
-    const holdings = [ ...pylonAssets?.pylonHoldings, ...mirrorAssets?.mirrorHoldings, ...core?.coins, ...ancAssets?.assets];
+    const holdings = [ ...spectrum?.specHoldings, ...pylonAssets?.pylonHoldings, ...mirrorAssets?.mirrorHoldings, ...core?.coins, ...ancAssets?.assets];
     const sortedHoldings = holdings.sort((a: any,b: any) => b.value - a.value);
     if (e.target.checked) {
       const largerAssets = sortedHoldings.filter((asset: Holdings) => parseFloat(asset?.value) >= 1);

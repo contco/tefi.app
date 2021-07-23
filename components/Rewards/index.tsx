@@ -8,9 +8,10 @@ export interface RewardsProps {
   ancAssets: AccountAnc;
   mirrorAssets: MirrorAccount;
   pylonAssets: PylonAccount;
+  spectrum: SpectrumAccount
 }
 
-const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets }) => {
+const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets, spectrum }) => {
   const borrowRewards = ancAssets?.debt?.reward;
   const govRewards = ancAssets?.gov?.reward;
   const ancPrice = ancAssets?.gov.price;
@@ -127,6 +128,22 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets 
           <StyledText fontWeight="500"> {govRewards?.name}</StyledText>
           <StyledText> {convertToFloatValue(govRewards?.staked) + ' ANC'}</StyledText>
           <StyledText css={CSS_APR}> {govRewards?.apy}%</StyledText>
+          <StyledText>
+            Automatically <br />
+            re-staked
+          </StyledText>
+        </Row>
+      ) : null}
+          {spectrum?.specGov ? (
+        <Row>
+          <StyledText fontWeight="500"> {spectrum.specGov.name}</StyledText>
+          <StyledText isChildren> 
+            {convertToFloatValue(spectrum.specGov.staked) + ' SPEC'}
+            <HoverText>
+              ${convertToFloatValue(spectrum?.specGov.value)}
+            </HoverText>
+          </StyledText>
+          <StyledText css={CSS_APR}> {convertToFloatValue(spectrum.specGov?.apr)}%</StyledText>
           <StyledText>
             Automatically <br />
             re-staked
