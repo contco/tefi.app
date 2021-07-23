@@ -64,7 +64,7 @@ export default async (address) => {
       staked: staked,
       apy: formatRate(allRewards?.govRewards[0]?.CurrentAPY),
     },
-    price: stakedValue.toString()
+    value: stakedValue.toString()
   };
   return result;
 };

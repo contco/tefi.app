@@ -136,7 +136,7 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets 
           <StyledText fontWeight="500"> {govRewards?.name}</StyledText>
           <Box>
           <StyledText> {convertToFloatValue(govRewards?.staked) + ' ANC'}</StyledText>
-          <SubText>${convertToFloatValue(ancAssets?.gov?.price)}</SubText>
+          <SubText>${convertToFloatValue(ancAssets?.gov?.value)}</SubText>
           </Box>
           <StyledText css={CSS_APR}> {govRewards?.apy}%</StyledText>
           <StyledText>

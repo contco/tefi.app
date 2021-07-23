@@ -85,7 +85,8 @@ export const getAccount = async (address: any) => {
         apy: gov.reward.apy,
         staked: gov.reward.staked,
       },
-      price: gov.price,
+      price: parseFloat(price),
+      value: gov.value
     },
     airdrops,
     total: {

@@ -65,6 +65,7 @@ const typeDefs = gql`
   type GovData {
     reward: Reward!
     price: String!
+    value: String!
   }
 
   type Total {

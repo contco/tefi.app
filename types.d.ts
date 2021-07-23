@@ -95,6 +95,7 @@ interface GovData {
   __typename?: 'GovData';
   reward: Reward;
   price: string;
+  value: string;
 }
 
 interface Total {
