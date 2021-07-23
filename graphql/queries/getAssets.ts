@@ -121,6 +121,7 @@ export const getAssets = gql`
             apy
           }
           price
+          value
         }
         airdrops {
           name
