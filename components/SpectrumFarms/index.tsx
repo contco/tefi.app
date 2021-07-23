@@ -1,5 +1,5 @@
 import { convertToFloatValue } from '../../utils/convertFloat';
-import { Wrapper, Row,ColumnFlex, HeadingWrapper, Heading, Title, StyledText, SubText ,HoverText, CSS_APR } from '../dashboardStyles';
+import { Wrapper, Row,HeadingWrapper, Heading, Title, StyledText,HoverText } from '../dashboardStyles';
 
 const HEADING_TEXT = `Spectrum Farms`;
 
@@ -16,6 +16,7 @@ const Pools: React.FC<PoolsProps> = ({ spectrum }) => {
     return spectrum.farms.map((farm: SpecFarms, index) => (
       <Row key={index}>
         <StyledText fontWeight={500}> {farm?.lpName}</StyledText>
+        <StyledText> {farm?.farm}</StyledText>
         <StyledText isChildren={true}>
           {convertToFloatValue(farm?.stakedLp)} LP
           <HoverText>
@@ -24,20 +25,14 @@ const Pools: React.FC<PoolsProps> = ({ spectrum }) => {
           </HoverText>
         </StyledText>
         <StyledText> ${convertToFloatValue(farm?.stakedLpUstValue)}</StyledText>
-        <StyledText css={CSS_APR}> {(parseFloat(farm?.apy) * 100).toFixed(3)}%</StyledText>
-        <ColumnFlex>
-            <StyledText> {convertToFloatValue(farm?.stakedSpec)} SPEC</StyledText>
-            <SubText> ${convertToFloatValue(farm?.stakedSpecValue)}</SubText>
-            {farm.farm === "Mirror" ? (
-            <>
-            <StyledText mt={3}> {convertToFloatValue(farm?.stakedMir)} {"MIR"}</StyledText>
-            <SubText> ${convertToFloatValue(farm?.stakedMirValue)}</SubText>
-            </>
-            ) : null}
-        </ColumnFlex>
       </Row>
     ));
   };
+
+  if (!spectrum?.farms || spectrum?.farms.length === 0 ) {
+    return <> </>;
+  } 
+
 
   return (
     <Wrapper>
@@ -47,10 +42,9 @@ const Pools: React.FC<PoolsProps> = ({ spectrum }) => {
       </HeadingWrapper>
       <Row>
           <Title>Name</Title>
+          <Title>Farm</Title>
           <Title>Balance</Title>
           <Title>Value</Title>
-          <Title>APY</Title>
-          <Title>Rewards Staked</Title>
       </Row>
       {getFarms()}
     </Wrapper>

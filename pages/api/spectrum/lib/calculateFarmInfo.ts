@@ -27,6 +27,7 @@ export const getPoolValues = (lpBalance: number, lpValue: number, price: number)
 export const calculateFarmInfos = (poolInfo, pairStats, pairRewardInfos, coinInfos, poolResponses, specPrice) => {
   const farmInfos = [];
   let farmsTotal = 0;
+  let rewardsTotal = 0;
   const tokenPrice = parseFloat(specPrice);
   for (const key of Object.keys(poolInfo)) { 
     
@@ -54,7 +55,8 @@ export const calculateFarmInfos = (poolInfo, pairStats, pairRewardInfos, coinInf
         stakedMirValue = getStakedTokenValue(stakedMir, poolResponses[contracts.mirrorToken]);
       }
       const poolValues = getPoolValues(stakedLp, lpValue, tokenPrice );
-      farmsTotal = farmsTotal + (parseFloat(stakedSpecValue) + parseFloat(stakedMirValue) +  parseFloat(poolValues.stakedLpUstValue));
+      farmsTotal = farmsTotal + parseFloat(poolValues.stakedLpUstValue) ;
+      rewardsTotal = rewardsTotal + parseFloat(stakedMirValue) + parseFloat(stakedSpecValue);
       const farmInfo = {
         symbol: coinInfos[key],
         lpName: `${coinInfos[key]}-UST LP`,
@@ -72,5 +74,5 @@ export const calculateFarmInfos = (poolInfo, pairStats, pairRewardInfos, coinInf
       farmInfos.push(farmInfo);
   }
 }
-return {farmInfos, farmsTotal: farmsTotal.toString()};
+return {farmInfos, farmsTotal: farmsTotal.toString(), rewardsTotal: rewardsTotal.toString()};
 }

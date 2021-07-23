@@ -92,7 +92,9 @@ const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAsse
     const pylonPoolRewardsTotal = pylonAssets?.pylonSum?.pylonPoolRewardsSum;
     const pylonStakingRewardsTotal = pylonAssets?.pylonSum?.pylonStakingRewardsSum;
     const pylonGatewayRewardsTotal = pylonAssets.pylonSum.gatewayRewardsSum;
+    const spectrumRewardsTotal = spectrum?.spectrumTotal?.rewardsTotal;
     const total =
+      parseFloat(spectrumRewardsTotal) +
       parseFloat(pylonGatewayRewardsTotal) +
       parseFloat(pylonPoolRewardsTotal) +
       parseFloat(pylonStakingRewardsTotal) +

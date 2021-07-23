@@ -39,6 +39,7 @@ const typeDefs = gql`
   type SpectrumTotal {
     farmsTotal: String!
     holdingsTotal: String!
+    rewardsTotal: String!
   }
 
   type SpectrumAccount {

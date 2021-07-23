@@ -105,6 +105,6 @@ export const getFarmInfos = async(address: string, height: number, specPrice: st
    const [pairInfo, govConfig, govVaults, govState, coinInfos, pairRewardInfos] = await fetchFarmData(height, address ,poolInfo);
    const pairStats = await getPairStats(height, specPrice, mirrorPoolInfo, specPoolInfo, pairInfo, govConfig, govVaults, govState);
    const poolResponses = await getPoolResponses(pairInfo);
-   const {farmInfos, farmsTotal} = calculateFarmInfos(poolInfo, pairStats, pairRewardInfos, coinInfos, poolResponses, specPrice);
-   return {farms: farmInfos, farmsTotal, govApr: pairStats.govApr};
+   const {farmInfos, farmsTotal, rewardsTotal} = calculateFarmInfos(poolInfo, pairStats, pairRewardInfos, coinInfos, poolResponses, specPrice);
+   return {farms: farmInfos, farmsTotal, rewardsTotal, govApr: pairStats.govApr};
 }

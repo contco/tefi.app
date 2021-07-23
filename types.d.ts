@@ -196,6 +196,7 @@ interface SpecFarms {
 interface SpectrumTotal {
   farmsTotal: string;
   holdingsTotal: string;
+  rewardsTotal: string;
 }
 
 interface SpecGov {

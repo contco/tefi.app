@@ -235,6 +235,7 @@ export const getAssets = gql`
         spectrumTotal {
           farmsTotal
           holdingsTotal
+          rewardsTotal
         }
       }
     }
