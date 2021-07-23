@@ -3,6 +3,7 @@ import { mantleFetch } from './utils';
 import { DEFAULT_MANTLE_ENDPOINTS } from '../../../../utils/ancEndpoints';
 import { demicrofy, formatANCWithPostfixUnits, formatRate } from '@anchor-protocol/notation';
 import { borrowAPYQuery } from './borrow';
+import { ancPriceQuery } from './ancPrice';
 
 export const REWARDS_ANC_GOVERNANCE_REWARDS_QUERY = `
   query (
@@ -49,16 +50,21 @@ export const rewardsAncGovernanceRewardsQuery = async (mantleEndpoint, address) 
 export default async (address) => {
   const govInfo = await rewardsAncGovernanceRewardsQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet'], address);
   const allRewards = await borrowAPYQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']);
+  const staked =
+    parseFloat(govInfo?.userGovStakingInfo?.balance) > 0
+      ? formatANCWithPostfixUnits(demicrofy(govInfo?.userGovStakingInfo?.balance))
+      : null;
+  const ancData = await ancPriceQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']);
+
+  const stakedValue = parseFloat(staked) * parseFloat(ancData?.ancPrice?.ANCPrice);
 
   const result = {
     reward: {
       name: 'ANC Gov',
-      staked:
-        parseFloat(govInfo?.userGovStakingInfo?.balance) > 0
-          ? formatANCWithPostfixUnits(demicrofy(govInfo?.userGovStakingInfo?.balance))
-          : null,
+      staked: staked,
       apy: formatRate(allRewards?.govRewards[0]?.CurrentAPY),
     },
+    price: stakedValue.toString()
   };
   return result;
 };
