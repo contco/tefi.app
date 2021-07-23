@@ -13,7 +13,7 @@ export const MarketTitles = ['Total Market Value', 'Total Assets', 'Total Borrow
 export const AssetsTitle = ['Ticker', 'Name', 'Balance', 'Price', 'Value'];
 
 //Borrowing
-export const BorrowingTitle = ['Collateral Value', 'Borrowed Value', 'Distribution APR'];
+export const BorrowingTitle = ['Collateral Value', 'Borrowed Value', 'Net APR'];
 
 //Pools
 export const PoolsTitle = ['Name', 'Balance', 'Value'];
