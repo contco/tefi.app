@@ -28,7 +28,7 @@ const getPoolResponses = async (pairInfo) => {
     const poolResponses = {};
     const tasks = Object.keys(pairInfo).map(async (key) => {
         const data = await fetchPoolResponseData(pairInfo[key].contract_addr);
-        poolResponses[key] = data;
+        poolResponses[key] = { ...data, liquidity_token: pairInfo[key].liquidity_token, contract_addr: pairInfo[key].contract_addr };
     });
     await Promise.all(tasks);
     return poolResponses;
@@ -38,15 +38,22 @@ const getUserPoolResponses = async (address, pairInfo) => {
     const poolResponses = {};
     const tasks = Object.keys(pairInfo).map(async (key) => {
         const data = await fetchUserPoolBalance(address, pairInfo[key].liquidity_token);
-        poolResponses[key] = data;
+        poolResponses[key] = { ...data, liquidity_token: pairInfo[key].liquidity_token, contract_addr: pairInfo[key].contract_addr };
     });
     await Promise.all(tasks);
     return poolResponses;
 }
 
 export const getPoolsInfo = async () => {
-    const poolResponses = await getPoolResponses(pairs);
     const userPoolReponse = await getUserPoolResponses('terra1q2lyn467rhya0475394djyxqhrfzyqs0tegft3', pairs);
+    const poolFiltered = {}
+    Object.keys(userPoolReponse).map((key, value) => {
+        if (Number(userPoolReponse[value].balance) > 0) {
+            poolFiltered[key] = userPoolReponse[value]
+        }
+    });
+    const poolResponses = await getPoolResponses(poolFiltered);
+
     console.log("poolResponses", poolResponses);
     console.log("userPoolReponse", userPoolReponse);
     return poolResponses;
