@@ -70,11 +70,11 @@ const getPylonAirdrops = (price: number, data: any) => {
 }
 
 const getLpValue = (liquidityInfo: any,  minePrice: number) => {
-   const {tokenReserve, ustReserve, totalShares} = liquidityInfo;
-   const totalLpValue = (tokenReserve * minePrice) + ustReserve;
-   const lpValue = totalLpValue / totalShares;
-   return lpValue;
-}
+    const {tokenReserve, ustReserve, totalShares} = liquidityInfo;
+    const totalLpValue = (tokenReserve * minePrice) + ustReserve;
+    const lpValue = totalLpValue / totalShares;
+    return lpValue;
+ }
 
 export const getAccountData = async (address: string) => {  
     try {

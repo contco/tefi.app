@@ -11,6 +11,8 @@ import MarketValue from '../components/MarketValue';
 import Borrowing from '../components/Borrowing';
 import PylonGateway from '../components/PylonGateway';
 import Pools from '../components/Pools';
+import SpectrumFarms from '../components/SpectrumFarms';
+import SpectrumRewards from "../components/SpectrumRewards";
 import Rewards from '../components/Rewards';
 import { NetworkStatus, useQuery } from '@apollo/client';
 import { getAssets } from '../graphql/queries/getAssets';
@@ -82,12 +84,14 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
             pylonAssets={data?.assets?.pylon || {}}
             mirrorAssets={data?.assets?.mirror || {}}
             ancAssets={data?.assets?.anchor || {}}
+            spectrum={data?.assets?.spectrum}
           />
           <Assets
             mirrorAssets={data?.assets?.mirror || {}}
             core={data?.assets.core}
             ancAssets={data?.assets?.anchor || {}}
             pylonAssets={data?.assets?.pylon || {}}
+            spectrum={data?.assets?.spectrum}
           />
           <PylonGateway pylonAssets={data?.assets?.pylon || {}} />
           <Earn ancAssets={data?.assets?.anchor || {}} />
@@ -96,12 +100,15 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
             pylonAssets={data?.assets?.pylon || {}}
             mirrorAssets={data?.assets?.mirror || {}}
             ancAssets={data?.assets?.anchor || {}}
+            spectrum={data?.assets?.spectrum}
           />
           <Pools
             pylonAssets={data?.assets?.pylon || {}}
             mirrorAssets={data?.assets?.mirror || {}}
             ancAssets={data?.assets?.anchor || {}}
           />
+          <SpectrumFarms spectrum={data?.assets?.spectrum} />
+          <SpectrumRewards spectrum={data?.assets?.spectrum} />
           <LunaStaking core={data?.assets.core || {}} />
           <Airdrops
             pylonAssets={data?.assets?.pylon || {}}
