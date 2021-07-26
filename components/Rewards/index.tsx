@@ -137,12 +137,14 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets,
           {spectrum?.specGov ? (
         <Row>
           <StyledText fontWeight="500"> {spectrum.specGov.name}</StyledText>
-          <StyledText isChildren> 
+          <Box>
+          <StyledText> 
             {convertToFloatValue(spectrum.specGov.staked) + ' SPEC'}
-            <HoverText>
-              ${convertToFloatValue(spectrum?.specGov.value)}
-            </HoverText>
           </StyledText>
+          <SubText>
+              ${convertToFloatValue(spectrum?.specGov.value)}
+            </SubText>
+          </Box>
           <StyledText css={CSS_APR}> {convertToFloatValue(spectrum.specGov?.apr)}%</StyledText>
           <StyledText>
             Automatically <br />
