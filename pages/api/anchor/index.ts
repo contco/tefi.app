@@ -38,6 +38,7 @@ const typeDefs = gql`
     collaterals: [UserCollateral]
     percentage: String
     price: String
+    netApy: String
   }
 
   type EarnData {
@@ -64,6 +65,7 @@ const typeDefs = gql`
   type GovData {
     reward: Reward!
     price: String!
+    value: String!
   }
 
   type Total {

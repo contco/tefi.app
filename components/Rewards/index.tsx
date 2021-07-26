@@ -126,7 +126,10 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets,
       {govRewards?.staked && parseFloat(govRewards?.staked) > 0 ? (
         <Row>
           <StyledText fontWeight="500"> {govRewards?.name}</StyledText>
+          <Box>
           <StyledText> {convertToFloatValue(govRewards?.staked) + ' ANC'}</StyledText>
+          <SubText>${convertToFloatValue(ancAssets?.gov?.value)}</SubText>
+          </Box>
           <StyledText css={CSS_APR}> {govRewards?.apy}%</StyledText>
           <StyledText>
             Automatically <br />

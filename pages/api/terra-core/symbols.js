@@ -11,7 +11,7 @@ export const DENOM_SYMBOLS = {
     uhkd: {name: "Terra HongKong Dollar", symbol: "HKT"},
     uinr: {name: "Terra Indian Rupee", symbol: "INT"},
     ujpy: {name: "Terra Japanese Yen", symbol: "JPT"},
-    ukrw: {name: "Terra South Korean Kwon", symbol: "KRT"},
+    ukrw: {name: "Terra South Korean Won", symbol: "KRT"},
     umnt: {name: "Terra Mongolian Togrog", symbol: "MNT"},
     unok:{name: "Terra Norwegian Krone", symbol: "NOT"},
     usdr:{name: "TerraSDR", symbol: "SDT"},

@@ -18,6 +18,7 @@ export interface AssetsProps {
 const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core, pylonAssets, spectrum}: AssetsProps) => {
 
   const [holdings, setHoldings] = useState<Holdings[]>([]);
+  const [hideSmall, setHideSmall] = useState(true);
 
   const getAssetsTotal = () => {
     const mirrorTotal = mirrorAssets?.total?.mirrorHoldingsSum;
@@ -30,19 +31,13 @@ const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core, pylonAss
 
   useEffect(() => {
     const holdings = [ ...spectrum?.specHoldings, ...pylonAssets?.pylonHoldings, ...mirrorAssets?.mirrorHoldings, ...core?.coins, ...ancAssets?.assets];
-    const sortedHoldings = holdings.sort((a: any,b: any) => b.value - a.value);
+    let sortedHoldings = holdings.sort((a: any, b: any) => b.value - a.value);
+    if (hideSmall) sortedHoldings = sortedHoldings.filter((asset: Holdings) => parseFloat(asset?.value) >= 1);
     setHoldings(sortedHoldings);
-  }, [mirrorAssets, ancAssets, core,pylonAssets, spectrum]);
+  }, [spectrum, mirrorAssets, ancAssets, core, pylonAssets, hideSmall]);
 
   const handleChange = (e: any) => {
-    const holdings = [ ...spectrum?.specHoldings, ...pylonAssets?.pylonHoldings, ...mirrorAssets?.mirrorHoldings, ...core?.coins, ...ancAssets?.assets];
-    const sortedHoldings = holdings.sort((a: any,b: any) => b.value - a.value);
-    if (e.target.checked) {
-      const largerAssets = sortedHoldings.filter((asset: Holdings) => parseFloat(asset?.value) >= 1);
-      setHoldings(largerAssets);
-    } else {
-      setHoldings(sortedHoldings);
-    }
+    setHideSmall(e.target.checked);
   };
 
   return (
@@ -52,7 +47,7 @@ const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core, pylonAss
         <Flex alignItems="flex-end">
           <StyledText>${getAssetsTotal()}</StyledText>
           <Flex justifyContent="center" alignItems="center">
-            <CheckBox type="checkbox" onChange={handleChange} />
+            <CheckBox type="checkbox" onChange={handleChange} checked={hideSmall} />
             <StyledText pt={1}>Hide small balances</StyledText>
           </Flex>
         </Flex>

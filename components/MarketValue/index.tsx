@@ -65,9 +65,9 @@ const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAsse
 
   const getAssetsTotal = () => {
     const ancValue = ancAssets?.total?.anchorHoldingsSum;
-    const pylonHoldingsTotal = pylonAssets.pylonSum.pylonHoldingsSum;
-    const pylonStakingsTotal = pylonAssets.pylonSum.pylonStakingSum;
-    const pylonGatewayDepositTotal = pylonAssets.pylonSum.gatewayDepositsSum;
+    const pylonHoldingsTotal = pylonAssets?.pylonSum?.pylonHoldingsSum;
+    const pylonStakingsTotal = pylonAssets?.pylonSum?.pylonStakingSum;
+    const pylonGatewayDepositTotal = pylonAssets?.pylonSum?.gatewayDepositsSum;
     const mirrorTotal = mirrorAssets?.total?.mirrorHoldingsSum;
     const coreTotal = core?.total?.assetsSum;
 

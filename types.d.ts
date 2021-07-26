@@ -83,6 +83,7 @@ interface BorrowData {
   collaterals: Array<UserCollateral>;
   percentage: string;
   price: string;
+  netApy: string;
 }
 
 interface EarnData {
@@ -94,6 +95,7 @@ interface GovData {
   __typename?: 'GovData';
   reward: Reward;
   price: string;
+  value: string;
 }
 
 interface Total {

@@ -85,6 +85,7 @@ export const getAssets = gql`
           value
           percentage
           price
+          netApy
         }
 
         earn {
@@ -120,6 +121,7 @@ export const getAssets = gql`
             apy
           }
           price
+          value
         }
         airdrops {
           name
