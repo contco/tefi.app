@@ -1,25 +1,17 @@
-import css from '@styled-system/css';
 import { RewardsTitle } from '../../constants';
-import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, HoverText, SubText } from '../dashboardStyles';
+import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, HoverText, SubText, CSS_APR } from '../dashboardStyles';
 import { times } from '../../pages/api/mirror/utils';
 import { convertToFloatValue } from '../../utils/convertFloat';
 import { Box } from '@contco/core-ui';
 const HEADING_TEXT = `Rewards`;
-
-const CSS_APR = (props) =>
-  css({
-    fontWeight: 500,
-    color: props.theme.colors.secondary,
-    fontSize: ['11px', null, null, '14px', null, null, 16],
-  });
-
 export interface RewardsProps {
   ancAssets: AccountAnc;
   mirrorAssets: MirrorAccount;
   pylonAssets: PylonAccount;
+  spectrum: SpectrumAccount
 }
 
-const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets }) => {
+const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets, spectrum }) => {
   const borrowRewards = ancAssets?.debt?.reward;
   const govRewards = ancAssets?.gov?.reward;
   const ancPrice = ancAssets?.gov.price;
@@ -139,6 +131,24 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets 
           <SubText>${convertToFloatValue(ancAssets?.gov?.value)}</SubText>
           </Box>
           <StyledText css={CSS_APR}> {govRewards?.apy}%</StyledText>
+          <StyledText>
+            Automatically <br />
+            re-staked
+          </StyledText>
+        </Row>
+      ) : null}
+          {spectrum?.specGov ? (
+        <Row>
+          <StyledText fontWeight="500"> {spectrum.specGov.name}</StyledText>
+          <Box>
+          <StyledText> 
+            {convertToFloatValue(spectrum.specGov.staked) + ' SPEC'}
+          </StyledText>
+          <SubText>
+              ${convertToFloatValue(spectrum?.specGov.value)}
+            </SubText>
+          </Box>
+          <StyledText css={CSS_APR}> {convertToFloatValue(spectrum.specGov?.apr)}%</StyledText>
           <StyledText>
             Automatically <br />
             re-staked
