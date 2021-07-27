@@ -1,6 +1,6 @@
 import axios from "axios";
 import { mirrorContracts } from "./mirrorContracts";
-import { UNIT, times } from "./utils";
+import { UNIT, times, MIR } from "./utils";
 import { LCD_URL } from "../utils";
 
 export const fetchGovBalance = async (address: string) => {
@@ -21,10 +21,11 @@ export const getGovData = (balance: string, statistic: any) => {
       return null;
   }
   else {
-      const name = "Mirror Gov"; 
+      const name = "MIR Gov"; 
+      const symbol = MIR;
       const staked = (parseFloat(balance)/ UNIT).toString();
       const value =  times(staked, statistic?.mirPrice);
       const apr = times(statistic?.govAPR, '100');
-      return {name, staked, value, apr, price: statistic?.mirPrice, rewards: "Automatically re-staked"};
+      return {name, symbol, staked, value, apr, price: statistic?.mirPrice, rewards: "Automatically re-staked"};
   }
 }

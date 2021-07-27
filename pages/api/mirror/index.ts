@@ -45,6 +45,7 @@ const typeDefs = gql`
 
   type MirrorGov {
     name: String!
+    symbol: String!
     staked: String!
     value: String!
     rewards: String!

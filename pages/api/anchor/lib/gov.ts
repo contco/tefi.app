@@ -59,12 +59,13 @@ export default async (address) => {
   const stakedValue = parseFloat(staked.toString()) * parseFloat(ancData?.ancPrice?.ANCPrice);
 
   const result = {
-    reward: {
-      name: 'ANC Gov',
-      staked: staked.toString(),
-      apy: formatRate(allRewards?.govRewards[0]?.CurrentAPY),
-    },
-    value: stakedValue.toString()
+    name: 'ANC Gov',
+    symbol: "ANC",
+    staked: staked.toString(),
+    apr: formatRate(allRewards?.govRewards[0]?.CurrentAPY),
+    price: ancData?.ancPrice?.ANCPrice,
+    rewards: "Automatically re-staked",
+    value: stakedValue.toString(),
   };
   return result;
 };

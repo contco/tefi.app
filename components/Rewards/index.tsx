@@ -13,19 +13,17 @@ export interface RewardsProps {
 
 const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets, spectrum }) => {
   const borrowRewards = ancAssets?.debt?.reward;
-  const govRewards = ancAssets?.gov?.reward;
   const ancPrice = ancAssets?.gov.price;
 
   const totalReward = ancAssets?.totalReward;
 
   const getRewardsTotal = () => {
+    const ancTotal = totalReward;
     const mirrorTotal = mirrorAssets?.total?.mirrorPoolRewardsSum;
-    const pylonStakingTotal = pylonAssets?.pylonSum?.pylonStakingRewardsSum;
     const pylonPoolTotal = pylonAssets?.pylonSum?.pylonPoolRewardsSum;
     const total = (
       parseFloat(mirrorTotal) +
-      parseFloat(totalReward) +
-      parseFloat(pylonStakingTotal) +
+      parseFloat(ancTotal) +
       parseFloat(pylonPoolTotal)
     );
     return convertToFloatValue(total.toString()) ?? 0;
@@ -68,32 +66,33 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets,
     return null;
   };
 
-  const getPylonStakingRewards = () => {
-    if (pylonAssets?.pylonStakings) {
-      return pylonAssets?.pylonStakings.map((assets: PylonStakings, index: number) => (
-        <Row key={index}>
-          <StyledText fontWeight="500"> {assets?.symbol}</StyledText>
+  const displayGovData = () => {
+    const govData = [pylonAssets?.gov, spectrum?.specGov, mirrorAssets?.gov, ancAssets?.gov].filter(item => item != null).sort((a,b) => parseFloat(b.value) - parseFloat(a.value));
+    return govData?.map((govItem: Gov) => {
+      return(
+        <Row key={govItem.name}>
+          <StyledText fontWeight="500"> {govItem.name}</StyledText>
+          <Box>
+          <StyledText> 
+            {convertToFloatValue(govItem.staked)} {govItem.symbol}
+          </StyledText>
+          <SubText>
+              ${convertToFloatValue(govItem.value)}
+            </SubText>
+          </Box>
           <div>
-            <StyledText>
-              {convertToFloatValue(assets?.balance)} {assets?.symbol}
-            </StyledText>
-            <SubText>${convertToFloatValue(assets.stakedValue)}</SubText>
+            <StyledText css={CSS_APR}> {govItem?.apy ? convertToFloatValue(govItem?.apy) : convertToFloatValue(govItem?.apr)}%</StyledText>
+            {govItem?.apy ? <SubText> (APY)</SubText> : null}
           </div>
-          <div>
-            <StyledText css={CSS_APR}> {formatApr(assets?.apy)}%</StyledText>
-            <SubText> (APY)</SubText>
-          </div>
-          <div>
-            <StyledText>
-              {convertToFloatValue(assets?.rewards)} {assets?.symbol}
-            </StyledText>
-            <SubText>${convertToFloatValue(assets?.rewardsValue)}</SubText>
-          </div>
+          <StyledText>
+            Automatically <br />
+            re-staked
+          </StyledText>
         </Row>
-      ));
-    }
-    return null;
-  };
+      )
+    })
+    
+  }
   return (
     <Wrapper>
       <HeadingWrapper>
@@ -106,7 +105,6 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets,
         ))}
       </Row>
       {getPool()}
-      {getPylonStakingRewards()}
       {parseFloat(ancAssets.debt?.value) > 0 ? (
         <Row>
           <StyledText fontWeight="500"> {borrowRewards?.name}</StyledText>
@@ -123,38 +121,7 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets,
           </Box>
         </Row>
       ) : null}
-      {govRewards?.staked && parseFloat(govRewards?.staked) > 0 ? (
-        <Row>
-          <StyledText fontWeight="500"> {govRewards?.name}</StyledText>
-          <Box>
-          <StyledText> {convertToFloatValue(govRewards?.staked) + ' ANC'}</StyledText>
-          <SubText>${convertToFloatValue(ancAssets?.gov?.value)}</SubText>
-          </Box>
-          <StyledText css={CSS_APR}> {govRewards?.apy}%</StyledText>
-          <StyledText>
-            Automatically <br />
-            re-staked
-          </StyledText>
-        </Row>
-      ) : null}
-          {spectrum?.specGov ? (
-        <Row>
-          <StyledText fontWeight="500"> {spectrum.specGov.name}</StyledText>
-          <Box>
-          <StyledText> 
-            {convertToFloatValue(spectrum.specGov.staked) + ' SPEC'}
-          </StyledText>
-          <SubText>
-              ${convertToFloatValue(spectrum?.specGov.value)}
-            </SubText>
-          </Box>
-          <StyledText css={CSS_APR}> {convertToFloatValue(spectrum.specGov?.apr)}%</StyledText>
-          <StyledText>
-            Automatically <br />
-            re-staked
-          </StyledText>
-        </Row>
-      ) : null}
+      {displayGovData()}
     </Wrapper>
   );
 };
