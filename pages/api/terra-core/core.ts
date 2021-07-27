@@ -66,11 +66,11 @@ export const getBankBalance = async ({ args: { address } }: any) => {
     const balanceRequest = terra.bank.balance(address);
     const pricesRequest = axios.get(FCD_URL + "dashboard");
     const stakingRequest = axios.get(FCD_URL + `staking/${address}`);
-    const [balance, pricesData, stakeData] = await Promise.all([balanceRequest, pricesRequest, stakingRequest]);
+    const poolsRequest = getPoolsInfo(address);
+    const [balance, pricesData, stakeData, pools] = await Promise.all([balanceRequest, pricesRequest, stakingRequest, poolsRequest]);
     const coins = balance.toData();
     const lunaPrice = pricesData?.data?.prices[UUSD_DENOM];
     const { tokens, assetsSum }: any = await getTerraTokens(coins, lunaPrice);
     const { staking, stakedSum } = formatStakeData(stakeData?.data, lunaPrice);
-    const pools = await getPoolsInfo(address);
     return { address, core: { coins: tokens, pools, staking, total: { assetsSum, stakedSum } } };
 };
