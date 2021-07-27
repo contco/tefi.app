@@ -1,5 +1,6 @@
 import axios from "axios";
 import { LCD_URL } from "../utils";
+import { calculatePoolData } from "./calculatePool";
 import pairs from './constants/pairs.json'
 
 const fetchPoolResponseData = async (address: string) => {
@@ -44,8 +45,8 @@ const getUserPoolBalances = async (address, pairInfo) => {
     return poolResponses;
 }
 
-export const getPoolsInfo = async () => {
-    const userPoolBalance = await getUserPoolBalances('terra1q2lyn467rhya0475394djyxqhrfzyqs0tegft3', pairs);
+export const getPoolsInfo = async (address) => {
+    const userPoolBalance = await getUserPoolBalances(address, pairs);
     const poolFiltered = {}
     Object.keys(userPoolBalance).map((key, value) => {
         if (Number(userPoolBalance[value].balance) > 0) {
@@ -54,8 +55,8 @@ export const getPoolsInfo = async () => {
     });
     const poolResponses = await getPoolResponses(poolFiltered);
 
-    console.log("poolResponses", poolResponses);
-    console.log("userPoolBalance", userPoolBalance);
-    return poolResponses;
+    const poolsInfo = await calculatePoolData(poolResponses, userPoolBalance);
+    console.log(poolsInfo);
+    return poolsInfo;
 }
 

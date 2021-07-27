@@ -1,7 +1,9 @@
-import { contracts } from "./contracts";
 import BigNumber from "bignumber.js";
-import { UNIT } from "../../mirror/utils";
+import { UNIT } from "../mirror/utils";
 import { getLpValue } from "../utils";
+import { div } from "../../../utils/math"
+import pairs from './constants/pairs.json'
+import tokens from './constants/mainnet-tokens.json';
 
 export const getPoolValues = (lpBalance: number, lpValue: number, price: number) => {
     const stakedLpUstValue = lpBalance * lpValue;
@@ -24,55 +26,36 @@ export const getStakedTokenValue = (value, poolResponse) => {
     }
 }
 
-export const calculateFarmInfos = (poolInfo, pairStats, pairRewardInfos, coinInfos, poolResponses, specPrice) => {
-    const farmInfos = [];
-    let farmsTotal = 0;
-    let rewardsTotal = 0;
-    const tokenPrice = parseFloat(specPrice);
-    for (const key of Object.keys(poolInfo)) {
-
-        if (pairRewardInfos[key] && pairRewardInfos[key].bond_amount) {
-            const pairStat = pairStats.pairs[key];
-            const poolApr = pairStat?.poolApr || 0;
-            const poolApy = pairStat?.poolApy || 0;
-            const specApr = pairStat?.specApr || 0;
-            const govApr = pairStats.govApr || 0;
-            const specApy = specApr + specApr * govApr / 2;
-            const compoundApy = poolApy + specApy;
-            const farmApr = pairStat?.farmApr || 0;
-            const farmApy = poolApr + poolApr * farmApr / 2;
-            const stakeApy = farmApy + specApy;
-            const apy = Math.max(compoundApy, stakeApy).toString();
-            const lpValue = getLpValue(poolResponses[key], tokenPrice);
-            const stakedLp = parseFloat(pairRewardInfos[key].bond_amount) / UNIT;
-            const stakedSpec = parseFloat(pairRewardInfos[key]?.pending_spec_reward) / UNIT;
-            const stakedSpecValue = getStakedTokenValue(stakedSpec, poolResponses[contracts.specToken])
-            let stakedMir = 0;
-            let stakedMirValue = '0';
-
-            if (poolInfo[key].farm === "Mirror") {
-                stakedMir = parseFloat(pairRewardInfos[key]?.pending_farm_reward) / UNIT;
-                stakedMirValue = getStakedTokenValue(stakedMir, poolResponses[contracts.mirrorToken]);
-            }
-            const poolValues = getPoolValues(stakedLp, lpValue, tokenPrice);
-            farmsTotal = farmsTotal + parseFloat(poolValues.stakedLpUstValue);
-            rewardsTotal = rewardsTotal + parseFloat(stakedMirValue) + parseFloat(stakedSpecValue);
-            const farmInfo = {
-                symbol: coinInfos[key],
-                lpName: `${coinInfos[key]}-UST LP`,
-                stakedLp: stakedLp.toString(),
-                stakedLpUstValue: poolValues.stakedLpUstValue,
-                tokenStaked: poolValues.tokenStaked,
-                ustStaked: poolValues.ustStaked,
-                farm: poolInfo[key].farm,
-                stakedSpec: stakedSpec.toString(),
-                stakedSpecValue,
-                stakedMir: stakedMir.toString(),
-                stakedMirValue,
-                apy,
-            };
-            farmInfos.push(farmInfo);
-        }
+export const getTokenPrice = (poolResponse) => {
+    if (poolResponse.assets[0].info.native_token) {
+        return div(poolResponse.assets[0].amount, poolResponse.assets[1].amount);
+    } else {
+        return div(poolResponse.assets[1].amount, poolResponse.assets[0].amount);
     }
-    return { farmInfos, farmsTotal: farmsTotal.toString(), rewardsTotal: rewardsTotal.toString() };
 }
+
+export const calculatePoolData = async (poolResponses, userPoolBalances) => {
+    let totalValue = 0;
+    const poolData = Object.keys(poolResponses).map(key => {
+        const price = getTokenPrice(poolResponses[key])
+        const lpValue = getLpValue(poolResponses[key], parseFloat(price));
+        const stakedLP = parseFloat(userPoolBalances[key].balance) / UNIT;
+        const poolValue = getPoolValues(stakedLP, lpValue, parseFloat(price));
+        const { stakedLpUstValue } = poolValue;
+        totalValue = totalValue + parseFloat(stakedLpUstValue);
+
+        let symbol = ''
+        if (userPoolBalances[key].contract_addr === pairs[key].contract_addr) {
+            pairs[key].asset_infos.map(a => {
+                tokens.map(token => {
+                    if (token.contract_addr = a['token']) {
+                        symbol = token.symbol
+                    }
+                })
+            })
+        }
+        return { price, stakedLP: stakedLP.toString(), ...poolValue, symbol };
+    })
+    return { ...poolData, totalValue: totalValue.toString() }
+}
+

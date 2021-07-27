@@ -21,7 +21,8 @@ const Home: React.FC = ({ theme, changeTheme }: any) => {
   }, [router.pathname]);
 
   useEffect(() => {
-    getPoolsInfo();
+    getPoolsInfo('terra1q2lyn467rhya0475394djyxqhrfzyqs0tegft3');
+
   }, [])
 
   return (
