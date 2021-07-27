@@ -43,9 +43,19 @@ const typeDefs = gql`
     symbol: String!
   }
 
+  type MirrorGov {
+    name: String!
+    staked: String!
+    value: String!
+    rewards: String!
+    price: String!
+    apr: String!
+  }
+
   type Account {
     mirrorStaking: [MirrorStaking!]
     mirrorHoldings: [MirrorHoldings!]
+    gov: MirrorGov
     total: MirrorTotal
     airdrops: [Airdrops!]
   }

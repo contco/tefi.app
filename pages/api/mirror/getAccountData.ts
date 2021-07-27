@@ -5,6 +5,7 @@ import { getPairPool } from './getPairPool';
 import { getAssetsStats } from './getAssetsStats';
 import { getTokenBalance } from './getTokenBalance';
 import {formatAirdrops, getAirdrops} from "./getAirdrops";
+import { getGovData, fetchGovBalance } from './getGovData';
 import { balance, BalanceKey, PriceKey, parsePairPool, UUSD, fromLP, price, div, UNIT, times, plus, MIR } from './utils';
 import MIRROR_ASSETS from './mirrorAssets.json';
 const MIR_TOKEN = MIRROR_ASSETS[0].token;
@@ -50,7 +51,8 @@ export const fetchData = (address: string) => {
   const assetStatsPromise  = getAssetsStats();
   const tokenBalancePromise  = getTokenBalance(address);
   const airdrops = getAirdrops(address);
-  return Promise.all([lpTokenBalancePromise , stakingRewardsPromise , pairsListPromise , stakingPoolPromise , assetStatsPromise , tokenBalancePromise, airdrops ]);
+  const govBalancePromise = fetchGovBalance(address);
+  return Promise.all([lpTokenBalancePromise , stakingRewardsPromise , pairsListPromise , stakingPoolPromise , assetStatsPromise , tokenBalancePromise, airdrops, govBalancePromise ]);
 }
 
 export const getAccountData = async (address: string) => {
@@ -58,7 +60,7 @@ export const getAccountData = async (address: string) => {
   let mirrorPoolSum = '0';
   let mirrorHoldingsSum = '0';
   
-  const [lpTokenBalance, stakingRewards, stakingPool, pairsList, assetStats, tokenBalance, airdropsData ] = await fetchData(address);
+  const [lpTokenBalance, stakingRewards, stakingPool, pairsList, assetStats, tokenBalance, airdropsData, govBalance] = await fetchData(address);
    
   const poolBalance = balance[BalanceKey.LPTOTAL](lpTokenBalance, stakingRewards);
   const rewardsBalance = balance[BalanceKey.REWARD](pairsList, stakingRewards);
@@ -66,6 +68,7 @@ export const getAccountData = async (address: string) => {
   const {mirrorAirdrops, airdropSum: mirrorAirdropSum} = formatAirdrops(airdropsData, mirPrice);
 
   const mirrorHoldings = [];
+  const gov = getGovData(govBalance, assetStats?.statistic);
   
   const result = MIRROR_ASSETS.reduce((poolList, listing: ListedItem) => {
     const pairPool =
@@ -87,13 +90,13 @@ export const getAccountData = async (address: string) => {
     }
     if (lpDetails?.asset?.amount !== '0') {
       const lpBalance = div(poolBalance[listing.token], 1000000);
-      const poolData = calculatePoolDetails(listing, rewardsBalance, priceResult, lpDetails, assetStats, mirPrice);
+      const poolData = calculatePoolDetails(listing, rewardsBalance, priceResult, lpDetails, assetStats?.apr, mirPrice);
       mirrorPoolSum = plus(mirrorPoolSum, poolData.stakedLpUstValue);
       mirrorPoolRewardsSum = plus(mirrorPoolRewardsSum, poolData.rewardsValue);
       poolList.push({ symbol: listing.symbol, lpName: `${listing.symbol}-UST LP`, stakedLP: lpBalance ?? 0, rewardsSymbol: MIR,   ...poolData });
     }
     return poolList;
   }, []);;
-  const account = { mirrorStaking: result, mirrorHoldings, airdrops: mirrorAirdrops, total: { mirrorPoolSum, mirrorPoolRewardsSum, mirrorHoldingsSum, mirrorAirdropSum} };
+  const account = { mirrorStaking: result, mirrorHoldings, airdrops: mirrorAirdrops, gov, total: { mirrorPoolSum, mirrorPoolRewardsSum, mirrorHoldingsSum, mirrorAirdropSum} };
   return account;
 };
