@@ -1,7 +1,6 @@
 import css from '@styled-system/css';
 import { MarketTitles } from '../../constants';
 import { plus } from '../../pages/api/mirror/utils';
-import pylon from '../../pages/api/pylon';
 import { convertToFloatValue } from '../../utils/convertFloat';
 import { Wrapper, Row, Title, StyledText } from '../dashboardStyles';
 

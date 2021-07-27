@@ -1,5 +1,5 @@
 
-import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, HoverText, SubText, CSS_APR } from '../dashboardStyles';
+import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, SubText, CSS_APR } from '../dashboardStyles';
 import { times } from '../../pages/api/mirror/utils';
 import { convertToFloatValue } from '../../utils/convertFloat';
 
