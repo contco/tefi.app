@@ -12,12 +12,13 @@ const typeDefs = gql`
       price: String!
   }
 
-  type PylonStaking {
+  type PylonGov {
       name: String!
       symbol: String!
-      balance: String!
+      staked: String!
       rewards: String!
-      stakedValue: String! 
+      value: String! 
+      price: String!
       rewardsValue: String!
       totalValue: String!
       apy: String!
@@ -49,11 +50,9 @@ const typeDefs = gql`
 
   type PylonSum {
       pylonHoldingsSum: String!
-      pylonStakingSum: String!
       pylonPoolSum: String!
       pylonAirdropSum: String!
       pylonPoolRewardsSum: String!
-      pylonStakingRewardsSum: String!
       gatewayRewardsSum: String!
       gatewayDepositsSum: String!
   }
@@ -77,7 +76,7 @@ const typeDefs = gql`
 
   type PylonAccount {
     pylonHoldings: [PylonHoldings!]
-    pylonStakings: [PylonStaking!]
+    gov: PylonGov
     pylonPool: [PylonPool!]
     pylonAirdrops: PylonAirdrops
     pylonSum: PylonSum

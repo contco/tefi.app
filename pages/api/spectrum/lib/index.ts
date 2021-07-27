@@ -54,10 +54,11 @@ const getSpecPrice = (specPool) => {
 const getSpecGov = (userSpec, specPrice, govApr) => {
   if(userSpec.balance !== '0') {
     const name = "SPEC Gov";
+    const symbol = "SPEC";
     const staked = (parseFloat(userSpec?.balance)/ UNIT).toString();
     const value =  times(staked, specPrice);
     const apr = times(govApr, '100');
-    return {name, staked, value, apr, rewards: "N/A", price: specPrice};
+    return {name, symbol, staked, value, apr, rewards: "Automatically re-staked", price: specPrice};
   }
   else return null;
 }

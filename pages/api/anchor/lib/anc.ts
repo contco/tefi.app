@@ -79,15 +79,7 @@ export const getAccount = async (address: any) => {
 
     pool: poolData,
 
-    gov: {
-      reward: {
-        name: gov.reward.name,
-        apy: gov.reward.apy,
-        staked: gov.reward.staked,
-      },
-      price: parseFloat(price),
-      value: gov.value
-    },
+    gov: gov,
     airdrops,
     total: {
       airdropSum,

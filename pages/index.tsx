@@ -4,7 +4,7 @@ import Head from 'next/head';
 import Header from '../components/Header';
 import Landing from '../components/Landing';
 import styled from 'styled-components';
-
+ 
 const EmptyContainer = styled.div`
   height: 100vh;
   width: 100vh;

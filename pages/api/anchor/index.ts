@@ -63,8 +63,12 @@ const typeDefs = gql`
   }
 
   type GovData {
-    reward: Reward!
+    name: String!
+    symbol: String!
+    staked: String!
+    rewards: String!
     price: String!
+    apr: String!
     value: String!
   }
 
