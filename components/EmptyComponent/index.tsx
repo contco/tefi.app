@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import css from '@styled-system/css';
 import {Flex, Text} from "@contco/core-ui";
 
 
@@ -13,6 +14,9 @@ align-items: center;
 const EmptyText = styled(Text)`
   font-size: 22px;
   letter-spacing: 2px;
+  ${css({
+      color: 'secondary',
+  })}
 `
 
 const EmptyComponent = ({children}: any) => {
