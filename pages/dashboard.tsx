@@ -4,6 +4,7 @@ import css from '@styled-system/css';
 import Styled from 'styled-components';
 import { Box } from '@contco/core-ui';
 import Loading from '../components/Loading';
+import EmptyComponent from '../components/EmptyComponent';
 import Header from '../components/Header';
 import Assets from '../components/Asset';
 import LunaStaking from '../components/LunaStaking';
@@ -62,6 +63,22 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
 
   if (loading || error) {
     if (networkStatus !== NetworkStatus.refetch) return <Loading />;
+  }
+
+
+  if(!data || data?.length === 0) {
+    return (
+    <EmptyComponent>
+       <Header
+          onRefresh={() => refetch()}
+          refreshing={networkStatus == NetworkStatus.refetch}
+          theme={theme}
+          changeTheme={changeTheme}
+          addressType={addressType}
+          address={address}
+        />
+      </EmptyComponent>
+    );
   }
 
   return (
