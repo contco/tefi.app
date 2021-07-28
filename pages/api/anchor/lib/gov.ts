@@ -50,6 +50,7 @@ export const rewardsAncGovernanceRewardsQuery = async (mantleEndpoint, address) 
 export default async (address) => {
   const govInfo = await rewardsAncGovernanceRewardsQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet'], address);
   const allRewards = await borrowAPYQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']);
+  if(govInfo?.userGovStakingInfo?.balance !== "0") {
   const staked =
     parseFloat(govInfo?.userGovStakingInfo?.balance) > 0
       ? parseFloat(govInfo?.userGovStakingInfo?.balance)/1000000
@@ -68,4 +69,6 @@ export default async (address) => {
     value: stakedValue.toString(),
   };
   return result;
+  }
+  return null;
 };
