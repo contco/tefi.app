@@ -1,8 +1,26 @@
+import axios from "axios"
+
 export const getLatestBlockHeight = async () => {
   const response = await fetch('https://lcd.terra.dev/blocks/latest');
   const block = await response.json();
   return block.block.header.height;
 };
+
+export const getLastSyncedHeight = async () => {
+  try {
+  const LAST_SYNCED_HEIGHT_QUERY = `
+  query {
+    LastSyncedHeight
+  }
+`;
+  const payload = {query: LAST_SYNCED_HEIGHT_QUERY, variables: {} };
+  const {data} = await axios.post("https://mantle.anchorprotocol.com/?last-synced-height", payload);
+  return data?.data?.LastSyncedHeight;
+}
+catch(err) {
+  throw new Error("Error fetching last synced height");
+}
+}
 
 export const mantleFetch = (
   query: string,
