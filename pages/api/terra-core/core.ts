@@ -18,7 +18,7 @@ export const getPrice = async (denom: string) => {
     return ussdPrice.swaprate;
     }
     catch(err) {
-       throw new Error("SwapRate api not working");
+       throw new Error("Swaprate api not working for: " + denom);
     }
 };
 
