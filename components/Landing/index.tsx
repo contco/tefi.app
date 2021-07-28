@@ -12,6 +12,8 @@ import {
   ModalBox,
   ModalTitle,
   ModalSection,
+  WarningText,
+  Row
 } from './style';
 
 import useWallet from '../../lib/useWallet';
@@ -48,6 +50,15 @@ const Landing: React.FC = () => {
     setModelVisible(false);
   };
 
+  const getWarningText = () => {
+    if(address) {
+      if (validWalletAddress) {
+        return "Valid Terra Address";
+      }
+      else return "* Terra Address is Invalid";
+    }
+  }
+
   return (
     <>
       <Container>
@@ -65,12 +76,16 @@ const Landing: React.FC = () => {
         </ConnectButton>
 
         <OrText>or</OrText>
-
         <AddressContainer>
-          <AddressInput defaultValue={address} onChange={handleAddress} placeholder="Enter a Terra address" />
+          <Row>
+            <AddressInput defaultValue={address} onChange={handleAddress} placeholder="Enter a Terra address" />
+            <WarningText>{getWarningText()}</WarningText>
+          </Row>
+          <Row>
           <AddressSubmit disabled={!validWalletAddress} onClick={onAddressSubmit}>
             <AddressSubmitText>Submit</AddressSubmitText>
           </AddressSubmit>
+          </Row>
         </AddressContainer>
       </Container>
       <Modal isOpen={showModel} onClose={() => setModelVisible(false)}>

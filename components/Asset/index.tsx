@@ -9,6 +9,7 @@ const HEADING_TEXT = `Assets`;
 const HIDE_KEY = "hide_small";
 const HIDDEN_STATE = "hidden";
 const SMALL_VISIBLE_STATE = "visible";
+
 export interface AssetsProps {
   mirrorAssets: MirrorAccount;
   ancAssets: AccountAnc;
