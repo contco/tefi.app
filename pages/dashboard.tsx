@@ -19,6 +19,7 @@ import Airdrops from '../components/Airdrop';
 
 import useWallet from '../lib/useWallet';
 import Earn from '../components/Earn';
+import getShortInfo from './api/mirror/getShortInfo';
 
 const Body = Styled(Box)`
 ${css({
@@ -47,6 +48,15 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     }
   }, []);
 
+  useEffect(() => {
+    const call = async () => {
+      const result = await getShortInfo(address);
+      console.log(result);
+    };
+
+    call();
+  });
+
   const { data, loading, error, refetch } = useQuery(getAssets, {
     variables: { address: address },
   });
@@ -60,7 +70,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   if (loading || error) {
     return <Loading />;
   }
-  
+
   return (
     <div>
       <Head>
