@@ -76,7 +76,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
 
   if(!data || data?.length === 0) {
     return (
-    <EmptyComponent>
+    <EmptyComponent msg={networkStatus === NetworkStatus.refetch ? "Oops! Error Fetching Assets" : null}>
        <Header
           onRefresh={() => refetch()}
           refreshing={networkStatus == NetworkStatus.refetch}

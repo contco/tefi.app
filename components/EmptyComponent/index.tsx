@@ -18,13 +18,15 @@ const EmptyText = styled(Text)`
       color: 'secondary',
   })}
 `
+const DEFAULT_MESSAGE = "Sorry! No Data Available";
 
-const EmptyComponent = ({children}: any) => {
+
+const EmptyComponent = ({children, msg = DEFAULT_MESSAGE}: any) => {
     return (
         <>
         {children}
         <Container>
-            <EmptyText>Sorry! No Data Available</EmptyText>
+            <EmptyText>{msg}</EmptyText>
         </Container>
         </>
     )
