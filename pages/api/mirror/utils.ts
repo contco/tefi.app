@@ -20,7 +20,7 @@ export const dp = (symbol?: string) =>!symbol || lookupSymbol(symbol) === "UST" 
 export const SMALLEST = 1e6;
 const rm = BN.ROUND_DOWN;
   
-const stringify = (msg: object) => JSON.stringify(msg).replace(/"/g, '\\"');
+const stringify = (msg: any) => JSON.stringify(msg).replace(/"/g, '\\"');
 
 
 
@@ -129,7 +129,7 @@ export const contractInfo = {
     dict(lpTokenInfo, ({ total_supply }) => total_supply),
 }
 
-const reward = ( info?: RewardInfo) => {
+export const reward = ( info?: RewardInfo) => {
   if ( info) {
     const { pending_reward } = info
     const reward = (parseFloat(pending_reward)/1000000);

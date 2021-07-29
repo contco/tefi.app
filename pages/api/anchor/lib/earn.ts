@@ -1,8 +1,9 @@
 import { MARKET_DENOMS } from '@anchor-protocol/anchor.js';
 import { anchor, blocksPerYear, ContractAddresses } from './test-defaults';
 import { formatRate } from '@anchor-protocol/notation';
-import { getLatestBlockHeight, mantleFetch } from './utils';
+import {getLastSyncedHeight, mantleFetch } from './utils';
 import { DEFAULT_MANTLE_ENDPOINTS } from '../../../../utils/ancEndpoints';
+
 
 export const EARN_EPOCH_STATES_QUERY = `
   query (
@@ -32,21 +33,22 @@ export const getTotalDesposit = async ({ address }: any) => {
 };
 
 export const getAPY = async () => {
-  const apy = await anchor.earn.getAPY({ market: MARKET_DENOMS.UUSD });
-  return apy;
+
+    const apy = await anchor.earn.getAPY({ market: MARKET_DENOMS.UUSD });
+    return apy;
+
 };
 
 export async function earnEpochStatesQuery(mantleEndpoint) {
   try {
-    const blockHeight = await getLatestBlockHeight();
-
+    const lastSyncedHeight = await getLastSyncedHeight();
     const rawData = await mantleFetch(
       EARN_EPOCH_STATES_QUERY,
       {
         moneyMarketContract: ContractAddresses['moneyMarket'],
         moneyMarketEpochStateQuery: JSON.stringify({
           epoch_state: {
-            block_height: blockHeight - 1,
+            block_height: lastSyncedHeight,
           },
         }),
         overseerContract: ContractAddresses['overseer'],
@@ -70,7 +72,6 @@ export default async (address) => {
   const totalDesposit = await getTotalDesposit({ address });
   const earnEpoch = await earnEpochStatesQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']);
   const apy = parseFloat(earnEpoch?.overseerEpochState?.deposit_rate) * blocksPerYear;
-
   const result = {
     reward: {
       name: 'ANC Earn',

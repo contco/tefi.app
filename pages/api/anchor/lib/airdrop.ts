@@ -1,8 +1,8 @@
 import axios from "axios";
 import networks from "../../../../utils/networks";
-import {times, plus} from "../../mirror/utils";
+import { plus} from "../../mirror/utils";
 import { demicrofy,formatANCWithPostfixUnits} from '@anchor-protocol/notation';
-
+import { LCD_URL } from "../../utils";
 
 
 const ANCHOR_API_URL = "https://airdrop.anchorprotocol.com/api/get?";
@@ -14,21 +14,49 @@ const generateFetchUrl = (address: string, chainID) => {
     return uri; 
 }
 
+export const isAirdropsClaimed = async (address: string, stage: string) => {
+  try {
+   const {data} =  await axios.get(LCD_URL + `wasm/contracts/terra146ahqn6d3qgdvmj8cj96hh03dzmeedhsf0kxqm/store`, {
+       params: {
+         query_msg: JSON.stringify({
+           is_claimed: {
+             address,
+             stage: parseInt(stage)
+           }
+         })
+      },
+   });
+   return data?.result?.is_claimed;
+ }
+ catch(err) {
+   throw new Error("Error fetching airdrop claim info");
+ }
+
+}
+
 export const getAirdrops = async (address: string) => {
     const anchorURI = generateFetchUrl(address, networks.mainnet.chainID);
     const result = await axios.get(anchorURI);
-    return result;
+    if(result?.data && result?.data.length > 0 ) {
+      const airdropsClaimsPromise = result?.data?.map(async (data) => {
+         const isClaimed = await isAirdropsClaimed(address, data?.stage);
+         return {...data, isClaimed};
+      });
+    const airdrops=  await Promise.all(airdropsClaimsPromise);
+    return airdrops;
+  }
+  else return [];
 }
 
 
 export const formatAirdrops = (result: any , ancPrice: string) => {
-  if (result?.data) {  
-    const claimableAirdrops = result?.data.filter(airdrop => airdrop.claimable);
+  if (result && result?.length > 0) {  
+    const claimableAirdrops = result.filter(airdrop => !airdrop.isClaimed);
     if(claimableAirdrops && claimableAirdrops.length > 0) {
       let airdropSum = '0';
-      const airdrops = result?.data.map((airdrop: any) => {
+      const airdrops = claimableAirdrops.map((airdrop: any) => {
         const amount = formatANCWithPostfixUnits(demicrofy(airdrop?.amount));
-        const price = (parseFloat(ancPrice) * parseFloat(airdrop?.amount)).toString();
+        const price = (parseFloat(ancPrice) * parseFloat(amount)).toString();
         airdropSum = plus(airdropSum, price);
         return {quantity: amount, name: ANCHOR_TOKEN_NAME, round: airdrop?.stage, price, symbol: ANCHOR_TOKEN_SYMBOL };
       });
