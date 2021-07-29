@@ -77,7 +77,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
 
   
 
-  if (!called || loading || fetchCount !== MAX_TRY) {
+  if (!called || loading || (!data && fetchCount !== MAX_TRY)) {
     return <Loading />;
   }
 
