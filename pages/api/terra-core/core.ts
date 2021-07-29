@@ -1,6 +1,7 @@
 import { LCDClient } from '@terra-money/terra.js';
 import axios from "axios";
 import { IS_TEST, TERRA_TEST_NET, TERRA_MAIN_NET } from '../../../constants';
+import { fetchBlunaDetails } from './bluna';
 import {plus, times, div} from "../mirror/utils";
 import {UUSD_DENOM, LUNA_DENOM,DENOM_SYMBOLS} from "./symbols";
 
@@ -74,7 +75,10 @@ export const getBankBalance = async ({ args: { address } }: any) => {
  
     const coins = balance.toData();
     const lunaPrice =  pricesData?.data?.prices[UUSD_DENOM];
-    const {tokens, assetsSum}: any = await getTerraTokens(coins, lunaPrice);
+    const getTerraRequest = getTerraTokens(coins, lunaPrice);
+    const blunaHoldingRequest = fetchBlunaDetails(address, lunaPrice);
+    const [terraTokens, blunaHoldings] = await Promise.all([getTerraRequest,blunaHoldingRequest]);
+    const {tokens, assetsSum} = terraTokens;
     const {staking, stakedSum} = formatStakeData(stakeData?.data, lunaPrice);
-    return { address, core: { coins: tokens, staking, total: {assetsSum, stakedSum} }};
+    return { address, core: { coins: [...tokens, ...blunaHoldings], staking, total: {assetsSum, stakedSum} }};
 };
