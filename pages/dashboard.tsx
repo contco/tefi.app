@@ -23,6 +23,8 @@ import Airdrops from '../components/Airdrop';
 import useWallet from '../lib/useWallet';
 import Earn from '../components/Earn';
 
+const MAX_TRY = 3;
+
 const Body = Styled(Box)`
 ${css({
   m: 'auto',
@@ -35,6 +37,7 @@ ${css({
 const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   const [address, setAddress] = useState<string>('');
   const [addressType, setAddressType] = useState<string>(WALLET_ADDRESS_TYPE);
+  const [fetchCount, setFetchCount] = useState<number>(0);
   const { useConnectedWallet } = useWallet();
   const connectedWallet = useConnectedWallet();
 
@@ -64,19 +67,23 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   }, [address]);
 
   useEffect(() => {
-    if (error) {
-      refetch();
+    if (error && fetchCount !== MAX_TRY) {
+      setFetchCount(fetchCount + 1);
+      setTimeout(() => {
+        refetch();
+      }, 3000);
     }
   }, [error]);
 
-  if (!called || loading || error) {
-    if (networkStatus !== NetworkStatus.refetch) return <Loading />;
-  }
+  
 
+  if (!called || loading || fetchCount !== MAX_TRY) {
+    return <Loading />;
+  }
 
   if(!data || data?.length === 0) {
     return (
-    <EmptyComponent msg={networkStatus === NetworkStatus.refetch ? "Oops! Error Fetching Assets" : null}>
+    <EmptyComponent msg={error ? "Oops! Error Fetching Assets" : null}>
        <Header
           onRefresh={() => refetch()}
           refreshing={networkStatus == NetworkStatus.refetch}
