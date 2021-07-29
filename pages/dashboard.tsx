@@ -15,7 +15,7 @@ import Pools from '../components/Pools';
 import SpectrumFarms from '../components/SpectrumFarms';
 import SpectrumRewards from "../components/SpectrumRewards";
 import Rewards from '../components/Rewards';
-import { NetworkStatus, useQuery } from '@apollo/client';
+import { NetworkStatus, useLazyQuery } from '@apollo/client';
 import { getAssets } from '../graphql/queries/getAssets';
 import { ADDRESS_KEY, LOCAL_ADDRESS_TYPE, WALLET_ADDRESS_TYPE } from '../constants';
 import Airdrops from '../components/Airdrop';
@@ -50,10 +50,18 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     }
   }, []);
 
-  const { data, loading, error, refetch, networkStatus } = useQuery(getAssets, {
+
+
+  const [fetchAssets, { data, called, loading, error, refetch, networkStatus }] = useLazyQuery(getAssets, {
     variables: { address: address },
     notifyOnNetworkStatusChange: true,
   });
+
+  useEffect(() => {
+     if(address) {
+      fetchAssets({variables: {address}});
+     }
+  }, [address]);
 
   useEffect(() => {
     if (error) {
@@ -61,7 +69,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     }
   }, [error]);
 
-  if (loading || error) {
+  if (!called || loading || error) {
     if (networkStatus !== NetworkStatus.refetch) return <Loading />;
   }
 
