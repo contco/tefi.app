@@ -79,7 +79,7 @@ export const OrText = styled(Text)`
 export const AddressContainer = styled(Flex)`
   align-items: center;
   ${css({
-  mt: ['2%', null, '1%', null, '3%'],
+  mt: ['2%', null, '1%', '3%'],
   flexDirection: ['column', null, null, 'row'],
 })}
 `;
@@ -92,7 +92,7 @@ export const AddressInput = styled(Input)`
 
   ${css({
   bg: '#f5f5f5',
-  width: ['100%', null, null, 600],
+  width: ['100%', null, null, 400, null, 600],
   height: 56,
   fontSize: [2, null, '16px'],
   pl: '3.33%',
@@ -113,7 +113,7 @@ export const AddressSubmit = styled(Button)`
   cursor: pointer;
   ${(props) =>
     css({
-      mt: ['9.3%', null, null, '0px'],
+      mt: ['5%', null, '3%', '0px'],
       ml: [null, null, null, '9.3%'],
       bg: 'secondary',
       width: ['100%', null, null, 168],
@@ -175,3 +175,19 @@ export const ModalSection = styled(Flex)`
   }
 })}
 `;
+
+export const WarningText = styled(Text)`
+ ${css({
+   color: "#f39c12",
+   fontSize:0,
+   minHeight: 12,
+   m: 2,
+ })}
+`;
+
+export const Row = styled(Box)`
+  ${css({
+    width: ['100%', null, null , 'auto'],
+    minHeight: ["auto", null, null, 100, null],
+  })}
+`; 

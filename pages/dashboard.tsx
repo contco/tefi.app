@@ -4,6 +4,7 @@ import css from '@styled-system/css';
 import Styled from 'styled-components';
 import { Box } from '@contco/core-ui';
 import Loading from '../components/Loading';
+import EmptyComponent from '../components/EmptyComponent';
 import Header from '../components/Header';
 import Assets from '../components/Asset';
 import LunaStaking from '../components/LunaStaking';
@@ -14,7 +15,7 @@ import Pools from '../components/Pools';
 import SpectrumFarms from '../components/SpectrumFarms';
 import SpectrumRewards from "../components/SpectrumRewards";
 import Rewards from '../components/Rewards';
-import { NetworkStatus, useQuery } from '@apollo/client';
+import { NetworkStatus, useLazyQuery } from '@apollo/client';
 import { getAssets } from '../graphql/queries/getAssets';
 import { ADDRESS_KEY, LOCAL_ADDRESS_TYPE, WALLET_ADDRESS_TYPE } from '../constants';
 import Airdrops from '../components/Airdrop';
@@ -49,10 +50,18 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     }
   }, []);
 
-  const { data, loading, error, refetch, networkStatus } = useQuery(getAssets, {
+
+
+  const [fetchAssets, { data, called, loading, error, refetch, networkStatus }] = useLazyQuery(getAssets, {
     variables: { address: address },
     notifyOnNetworkStatusChange: true,
   });
+
+  useEffect(() => {
+     if(address) {
+      fetchAssets({variables: {address}});
+     }
+  }, [address]);
 
   useEffect(() => {
     if (error) {
@@ -60,8 +69,24 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     }
   }, [error]);
 
-  if (loading || error) {
+  if (!called || loading || error) {
     if (networkStatus !== NetworkStatus.refetch) return <Loading />;
+  }
+
+
+  if(!data || data?.length === 0) {
+    return (
+    <EmptyComponent msg={networkStatus === NetworkStatus.refetch ? "Oops! Error Fetching Assets" : null}>
+       <Header
+          onRefresh={() => refetch()}
+          refreshing={networkStatus == NetworkStatus.refetch}
+          theme={theme}
+          changeTheme={changeTheme}
+          addressType={addressType}
+          address={address}
+        />
+      </EmptyComponent>
+    );
   }
 
   return (

@@ -13,7 +13,6 @@ export interface RewardsProps {
 
 const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets, spectrum }) => {
   const borrowRewards = ancAssets?.debt?.reward;
-  const ancPrice = ancAssets?.gov.price;
 
   const totalReward = ancAssets?.totalReward;
 
@@ -116,7 +115,7 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets,
               $
               {borrowRewards?.reward === '<0.001'
                 ? 0
-                : (parseFloat(borrowRewards?.reward) * parseFloat(ancPrice)).toFixed(3)}
+                : (parseFloat(borrowRewards?.reward) * parseFloat(ancAssets?.debt?.price)).toFixed(3)}
             </SubText>
           </Box>
         </Row>
