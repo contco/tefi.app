@@ -16,6 +16,8 @@ const key = new MnemonicKey({
     'immense pear text path unique have educate forum maple need carbon side hello remove strike drive legal december protect industry alley truly december brick',
 });
 
+export const blocksPerYear = 4656810;
+
 export const ContractAddresses = {
   cw20: 'terra14z56l0fp2lsf86zy3hty2z47ezkhnthtr9yq76',
   gov: 'terra1f32xyep306hhcxxxf7mlyh0ucggc00rm2s9da5',
@@ -23,8 +25,9 @@ export const ContractAddresses = {
   staking: 'terra1897an2xux840p9lrh6py3ryankc6mspw49xse3',
   ancUstLP: 'terra1gecs98vcuktyfkrve9czrpgtg0m3aq586x6gzm',
   ancUstPair: 'terra1gm5p3ner9x9xpwugn9sp6gvhd0lwrtkyrecdn3',
+  overseer: 'terra1tmnqgvg567ypvsvk6rwsga3srp7e3lg6u0elp8',
+  interest: 'terra1kq8zzq5hufas9t0kjsjc62t2kucfnx8txf547n'
 };
-
 
 export const wallet = new Wallet(lcd, key);
 

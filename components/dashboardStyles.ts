@@ -93,3 +93,15 @@ export const CheckBox = Styled.input`
       width: [14, null, null, null, 18],
     })}
 `;
+
+
+export const ColumnFlex  = Styled(Flex)`
+ flex-direction: column;
+`
+
+export const CSS_APR = (props) =>
+  css({
+    fontWeight: 500,
+    color: props.theme.colors.secondary,
+    fontSize: ['11px', null, null, '14px', null, null, 16],
+  });

@@ -66,6 +66,7 @@ export const getAccount = async (address: any) => {
       value: debt.value,
       percentage: debt.percentage,
       price: debt.price,
+      netApy: debt.netApy
     },
 
     earn: {
@@ -78,14 +79,7 @@ export const getAccount = async (address: any) => {
 
     pool: poolData,
 
-    gov: {
-      reward: {
-        name: gov.reward.name,
-        apy: gov.reward.apy,
-        staked: gov.reward.staked,
-      },
-      price: parseFloat(price),
-    },
+    gov: gov,
     airdrops,
     total: {
       airdropSum,

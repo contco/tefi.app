@@ -50,7 +50,7 @@ const Borrowing: React.SFC<BorrowingProps> = ({ ancAssets }) => {
       <Row>
         <StyledText> ${convertToFloatValue(collateralValue)}</StyledText>
         <StyledText> ${convertToFloatValue(borrow?.value)}</StyledText>
-        <StyledText css={CSS_NET_APR}> {convertToFloatValue(borrow?.reward?.apy)}%</StyledText>
+        <StyledText css={CSS_NET_APR}> {convertToFloatValue(borrow?.netApy)}%</StyledText>
       </Row>
 
       <StyledPercentage>

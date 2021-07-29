@@ -9,6 +9,7 @@ export const lightTheme = {
   fontSizes,
   lineHeights,
   colors: {
+    background: '#ffffff',
     primary: '#ffffff',
     secondary: '#0221ba',
     Heading: '#000000',
@@ -20,6 +21,7 @@ export const lightTheme = {
     copyrightText: '#b4b1b1',
     modalBackground: '#ffffff',
     connectborder: 'solid 1px #0221ba',
+    title: '#000',
   },
   opacity: {
     logo: `0.25`,
@@ -32,6 +34,7 @@ export const darkTheme = {
   fontSizes,
   lineHeights,
   colors: {
+    background: '#202235',
     primary: '#0221ba',
     secondary: '#ffffff',
     Heading: '#ffffff',
@@ -43,6 +46,7 @@ export const darkTheme = {
     copyrightText: '#ffffff',
     modalBackground: '#1a1a1a',
     connectborder: '1px solid #fff',
+    title: '#ffffff',
   },
   opacity: {
     logo: `0.40`,

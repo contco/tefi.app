@@ -1,5 +1,5 @@
 
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import css from '@styled-system/css';
 import { Flex, Text } from '@contco/core-ui';
 import LIGHT_SWITCH_ICON from '../../public/light-switch.svg';
@@ -7,11 +7,13 @@ import DARK_SWITCH_ICON from '../../public/dark-switch.svg';
 import WALLET_ICON from "../../public/wallet.svg";
 import CLOSE_ICON from "../../public/close.svg";
 import TEFI_LOGO from '../../public/tefi.svg';
+import REFRESH_LOGO from '../../public/refresh.svg';
+import REFRESHING_LOGO from '../../public/refreshing.svg';
 
 export const Container = styled(Flex)`
 ${props => css({
   height: '64px',
-  backgroundColor: props.theme.colors.primary,
+  backgroundColor: props.theme.colors.background,
   flexDirection: 'row',
   justifyContent: 'space-between',
   alignItems: 'center',
@@ -25,7 +27,7 @@ export const LeftSection = styled(Flex)`
   ${css({
   flexDirection: 'row',
   alignItems: 'center',
-  ml: [1, null, null, 3],
+  ml: 3,
 })}
 `;
 
@@ -50,7 +52,7 @@ export const StyledTitle = styled(Text)`
   fontSize: 26,
   fontWeight: 900,
   letterSpacing: 0.5,
-  lineHeight: 0.88
+  lineHeight: 0.88,
 })}
  & > * {
    font-weight:500;
@@ -124,15 +126,14 @@ export const RightSection = styled(Flex)`
   flexDirection: 'row',
   justifyContent: 'flex-end',
   alignItems: 'center',
-  mr: [1, null, null, 3],
-  width: [150, null, 480],
+  mr: 3,
 })}
 `;
 
 export const WalletContainer = styled(Flex)`
 &:hover ${WalletIcon} .wallet_svg__iconElement, &:hover ${StyledAddressText}, &:hover ${CloseIcon} {
-  fill: ${props => props.theme.colors.primary};  
-  color: ${props => props.theme.colors.primary}
+  fill: ${props => props.theme.colors.background};  
+  color: ${props => props.theme.colors.background}
 };
 transition: all 0.3s ease-in;
 ${props => css({
@@ -164,7 +165,7 @@ export const LightSwitchIcon = styled(LIGHT_SWITCH_ICON)`
 ${css({
   transition: 'opacity 0.3s',
   cursor: 'pointer',
-  marginBottom: '4px'
+  ml: 3,
 })}
   &:hover {
     opacity: 0.7;
@@ -174,9 +175,39 @@ export const DarkSwitchIcon = styled(DARK_SWITCH_ICON)`
 ${css({
   transition: 'opacity 0.3s',
   cursor: 'pointer',
-  marginBottom: '5px'
+  ml: 3,
 })}
   &:hover {
     opacity: 0.7;
   }
+`;
+export const RefreshIcon = styled(REFRESH_LOGO)`
+${css({
+  color: 'secondary',
+  transition: 'opacity 0.3s',
+  cursor: 'pointer',
+  ml: 3,
+})}
+  &:hover {
+    opacity: 0.7;
+  }
+`;
+
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+export const AnimatedRefresh = styled(REFRESHING_LOGO)`
+  animation: ${rotate} 2s infinite;
+  ${(props) =>
+    css({
+      color: 'secondary',
+      ml: 3,
+    })}
 `;

@@ -11,8 +11,10 @@ import MarketValue from '../components/MarketValue';
 import Borrowing from '../components/Borrowing';
 import PylonGateway from '../components/PylonGateway';
 import Pools from '../components/Pools';
+import SpectrumFarms from '../components/SpectrumFarms';
+import SpectrumRewards from "../components/SpectrumRewards";
 import Rewards from '../components/Rewards';
-import { useQuery } from '@apollo/client';
+import { NetworkStatus, useQuery } from '@apollo/client';
 import { getAssets } from '../graphql/queries/getAssets';
 import { ADDRESS_KEY, LOCAL_ADDRESS_TYPE, WALLET_ADDRESS_TYPE } from '../constants';
 import Airdrops from '../components/Airdrop';
@@ -48,8 +50,9 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     }
   }, []);
 
-  const { data, loading, error, refetch } = useQuery(getAssets, {
+  const { data, loading, error, refetch, networkStatus } = useQuery(getAssets, {
     variables: { address: address },
+    notifyOnNetworkStatusChange: true,
   });
 
   useEffect(() => {
@@ -59,7 +62,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   }, [error]);
 
   if (loading || error) {
-    return <Loading />;
+    if (networkStatus !== NetworkStatus.refetch) return <Loading />;
   }
 
   return (
@@ -68,19 +71,28 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
         <title>Tefi App | Dashboard</title>
       </Head>
       <div>
-        <Header theme={theme} changeTheme={changeTheme} addressType={addressType} address={address} />
+        <Header
+          onRefresh={() => refetch()}
+          refreshing={networkStatus == NetworkStatus.refetch}
+          theme={theme}
+          changeTheme={changeTheme}
+          addressType={addressType}
+          address={address}
+        />
         <Body>
           <MarketValue
             core={data?.assets.core || {}}
             pylonAssets={data?.assets?.pylon || {}}
             mirrorAssets={data?.assets?.mirror || {}}
             ancAssets={data?.assets?.anchor || {}}
+            spectrum={data?.assets?.spectrum}
           />
           <Assets
             mirrorAssets={data?.assets?.mirror || {}}
             core={data?.assets.core}
             ancAssets={data?.assets?.anchor || {}}
             pylonAssets={data?.assets?.pylon || {}}
+            spectrum={data?.assets?.spectrum}
           />
           <PylonGateway pylonAssets={data?.assets?.pylon || {}} />
           <Earn ancAssets={data?.assets?.anchor || {}} />
@@ -89,12 +101,15 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
             pylonAssets={data?.assets?.pylon || {}}
             mirrorAssets={data?.assets?.mirror || {}}
             ancAssets={data?.assets?.anchor || {}}
+            spectrum={data?.assets?.spectrum}
           />
           <Pools
             pylonAssets={data?.assets?.pylon || {}}
             mirrorAssets={data?.assets?.mirror || {}}
             ancAssets={data?.assets?.anchor || {}}
           />
+          <SpectrumFarms spectrum={data?.assets?.spectrum} />
+          <SpectrumRewards spectrum={data?.assets?.spectrum} />
           <LunaStaking core={data?.assets.core || {}} />
           <Airdrops
             pylonAssets={data?.assets?.pylon || {}}
