@@ -13,7 +13,7 @@ import Borrowing from '../components/Borrowing';
 import PylonGateway from '../components/PylonGateway';
 import Pools from '../components/Pools';
 import SpectrumFarms from '../components/SpectrumFarms';
-import SpectrumRewards from "../components/SpectrumRewards";
+import SpectrumRewards from '../components/SpectrumRewards';
 import Rewards from '../components/Rewards';
 import { NetworkStatus, useLazyQuery } from '@apollo/client';
 import { getAssets } from '../graphql/queries/getAssets';
@@ -53,17 +53,15 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     }
   }, []);
 
-
-
   const [fetchAssets, { data, called, loading, error, refetch, networkStatus }] = useLazyQuery(getAssets, {
     variables: { address: address },
     notifyOnNetworkStatusChange: true,
   });
 
   useEffect(() => {
-     if(address) {
-      fetchAssets({variables: {address}});
-     }
+    if (address) {
+      fetchAssets({ variables: { address } });
+    }
   }, [address]);
 
   useEffect(() => {
@@ -75,16 +73,14 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     }
   }, [error]);
 
-  
-
   if (!called || loading || (!data && fetchCount !== MAX_TRY)) {
-    return <Loading />;
+    if (networkStatus !== NetworkStatus.refetch) return <Loading />;
   }
 
-  if(!data || data?.length === 0) {
+  if (!data || data?.length === 0) {
     return (
-    <EmptyComponent msg={error ? "Oops! Error Fetching Assets" : null}>
-       <Header
+      <EmptyComponent msg={error ? 'Oops! Error Fetching Assets' : null}>
+        <Header
           onRefresh={() => refetch()}
           refreshing={networkStatus == NetworkStatus.refetch}
           theme={theme}
