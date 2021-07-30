@@ -22,7 +22,7 @@ const Home: React.FC = ({ theme, changeTheme }: any) => {
   }, [router.pathname]);
 
   useEffect(() => {
-    getPoolsInfo('terra1q2lyn467rhya0475394djyxqhrfzyqs0tegft3');
+    getPoolsInfo('terra18jg24fpqvjntm2wfc0p47skqccdr9ldtgl5ac9');
   }, [])
 
   return (
