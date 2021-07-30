@@ -30,7 +30,7 @@ export interface BorrowingProps {
 const Borrowing: React.SFC<BorrowingProps> = ({ ancAssets }) => {
   const borrow: BorrowData = ancAssets.debt;
   const collateralValue = borrow.collaterals
-    ? ((parseFloat(borrow?.collaterals[0]?.balance) / 1000000) * parseFloat(borrow.price)).toString()
+    ? ((parseFloat(borrow?.collaterals[0]?.balance) / 1000000) * parseFloat(borrow.lunaprice)).toString()
     : '0';
 
   if (!borrow?.collaterals) return <></>;

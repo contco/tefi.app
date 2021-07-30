@@ -1,8 +1,8 @@
 import { LCDClient } from '@terra-money/terra.js';
 import axios from "axios";
 import { IS_TEST, TERRA_TEST_NET, TERRA_MAIN_NET } from '../../../constants';
+import { fetchBlunaDetails } from './bluna';
 import { plus, times, div } from "../mirror/utils";
-import { getPoolsInfo } from './poolsInfo';
 import { UUSD_DENOM, LUNA_DENOM, DENOM_SYMBOLS } from "./symbols";
 
 const DIVIDER = '1000000';
@@ -71,11 +71,16 @@ export const getBankBalance = async ({ args: { address } }: any) => {
     const balanceRequest = terra.bank.balance(address);
     const pricesRequest = axios.get(FCD_URL + "dashboard");
     const stakingRequest = axios.get(FCD_URL + `staking/${address}`);
-    const poolsRequest = getPoolsInfo(address);
-    const [balance, pricesData, stakeData, pools] = await Promise.all([balanceRequest, pricesRequest, stakingRequest, poolsRequest]);
+    const [balance, pricesData, stakeData] = await Promise.all([balanceRequest, pricesRequest, stakingRequest]);
+
     const coins = balance.toData();
+
     const lunaPrice = pricesData?.data?.prices[UUSD_DENOM];
-    const { tokens, assetsSum }: any = await getTerraTokens(coins, lunaPrice);
+    const getTerraRequest = getTerraTokens(coins, lunaPrice);
+    const blunaHoldingRequest: any = fetchBlunaDetails(address, lunaPrice);
+    const [terraTokens, blunaHoldings] = await Promise.all([getTerraRequest, blunaHoldingRequest]);
+    const { tokens, assetsSum } = terraTokens;
+    const assetsTotalSum = plus(parseFloat(assetsSum), parseFloat(blunaHoldings[0]?.value));
     const { staking, stakedSum } = formatStakeData(stakeData?.data, lunaPrice);
-    return { address, core: { coins: tokens, pools, staking, total: { assetsSum, stakedSum } } };
+    return { address, core: { coins: [...tokens, ...blunaHoldings], staking, total: { assetsSum: assetsTotalSum.toString(), stakedSum } } };
 };
