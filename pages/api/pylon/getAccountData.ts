@@ -32,7 +32,8 @@ const getPylonGov = (price: number, mineStakingData:any, apy: number) => {
            const stakedValue = (stakedBalance * price).toString();
            const rewardsValue = (earned * price).toString();
            const totalValue = (rewardsValue + stakedValue).toString();
-           const gov =  {name: "MINE Gov", symbol: "MINE", staked: stakedBalance.toString(), rewards: earned.toString(), value: stakedValue, price: price.toString(), rewardsValue ,totalValue, apy: apy?.toString() ?? '0'};
+           const apyPercent = apy * 100;
+           const gov =  {name: "MINE Gov", symbol: "MINE", staked: stakedBalance.toString(), rewards: earned.toString(), value: stakedValue, price: price.toString(), rewardsValue ,totalValue, apy: apyPercent?.toString() ?? '0'};
            return gov;
        }
     }
