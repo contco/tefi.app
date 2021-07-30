@@ -11,14 +11,40 @@ export const DENOM_SYMBOLS = {
     uhkd: {name: "Terra HongKong Dollar", symbol: "HKT"},
     uinr: {name: "Terra Indian Rupee", symbol: "INT"},
     ujpy: {name: "Terra Japanese Yen", symbol: "JPT"},
-    ukrw: {name: "Terra South Korean Won", symbol: "KRT"},
-    umnt: {name: "Terra Mongolian Togrog", symbol: "MNT"},
+    ukrw: {
+        name: "Terra South Korean Won",
+        symbol: "KRT",
+        isNative:true,
+        isLunaPair: true,
+        pool_addr: "terra1zw0kfxrxgrs5l087mjm79hcmj3y8z6tljuhpmc"
+    },
+    umnt: {
+        name: "Terra Mongolian Togrog",
+        symbol: "MNT",
+        isNative: true,
+        isLunaPair: true,
+        pool_addr: "terra1sndgzq62wp23mv20ndr4sxg6k8xcsudsy87uph",
+    },
     unok:{name: "Terra Norwegian Krone", symbol: "NOT"},
-    usdr:{name: "TerraSDR", symbol: "SDT"},
+    usdr:{
+        name: "TerraSDR",
+        symbol: "SDT",
+        isNative: true,
+        isLunaPair: true,
+        pool_addr: "terra1vs2vuks65rq7xj78mwtvn7vvnm2gn7adjlr002",
+    },
     usek: {name: "Terra Swedish Krona", symbol: "SET"},
     usgd: {name: "Terra Singapore Dolalr", symbol: "SGT"},
     uthb: {name: "Terra Thai Baht", symbol: "THT"},
+};
 
+export const BLUNA = {
+        name: "Bonded Luna",
+        symbol: "bLUNA",
+        isNative: false,
+        isLunaPair: true,
+        token_addr: "terra1kc87mu460fwkqte29rquh4hc20m54fxwtsx7gp",
+        pool_addr: "terra1jxazgm67et0ce260kvrpfv50acuushpjsz2y0p"
 };
 
 export const UUSD_DENOM = "uusd";

@@ -92,7 +92,8 @@ interface BorrowData {
   value?: string;
   collaterals: Array<UserCollateral>;
   percentage: string;
-  price: string;
+  lunaprice: string;
+  ancprice: string;
   netApy: string;
 }
 

@@ -37,7 +37,8 @@ const typeDefs = gql`
     value: String
     collaterals: [UserCollateral]
     percentage: String
-    price: String
+    lunaprice: String
+    ancprice: String
     netApy: String
   }
 
