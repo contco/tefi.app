@@ -93,7 +93,8 @@ export const getAssets = gql`
           }
           value
           percentage
-          price
+          lunaprice
+          ancprice
           netApy
         }
 
