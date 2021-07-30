@@ -13,9 +13,14 @@ const terra = new LCDClient(IS_TEST ? TERRA_TEST_NET : TERRA_MAIN_NET);
 
 
 export const getPrice = async (denom: string) => {
-    const priceList = await axios.get(FCD_URL + `market/swaprate/${denom}`);
-    const ussdPrice = priceList?.data.find(price => price.denom === UUSD_DENOM);
-    return ussdPrice.swaprate;
+    try {
+        const priceList = await axios.get(FCD_URL + `market/swaprate/${denom}`);
+        const ussdPrice = priceList?.data.find(price => price.denom === UUSD_DENOM);
+        return ussdPrice.swaprate;
+    }
+    catch (err) {
+        throw new Error("Swaprate api not working for: " + denom);
+    }
 };
 
 const getTerraTokens = async (coins, price: string) => {

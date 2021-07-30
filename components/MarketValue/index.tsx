@@ -34,9 +34,11 @@ const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAsse
   };
 
   const getGovStaked = () => {
-    const ancGov = parseFloat(ancAssets?.gov?.reward?.staked ?? '0') * parseFloat(ancAssets?.gov.price);
+    const ancGov = parseFloat(ancAssets?.gov?.value ?? '0');
+    const mirrorGov = parseFloat(mirrorAssets?.gov?.value ?? '0');
+    const pylonGov = parseFloat(pylonAssets?.gov?.value ?? '0');
     const specGov = parseFloat(spectrum?.specGov?.value ?? '0');
-    const govStaked = ancGov + specGov;
+    const govStaked = mirrorGov + ancGov + pylonGov + specGov;
     return govStaked;
   };
 
@@ -66,7 +68,6 @@ const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAsse
   const getAssetsTotal = () => {
     const ancValue = ancAssets?.total?.anchorHoldingsSum;
     const pylonHoldingsTotal = pylonAssets?.pylonSum?.pylonHoldingsSum;
-    const pylonStakingsTotal = pylonAssets?.pylonSum?.pylonStakingSum;
     const pylonGatewayDepositTotal = pylonAssets?.pylonSum?.gatewayDepositsSum;
     const mirrorTotal = mirrorAssets?.total?.mirrorHoldingsSum;
     const coreTotal = core?.total?.assetsSum;
@@ -76,7 +77,6 @@ const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAsse
       parseFloat(plus(mirrorTotal, coreTotal)) +
       parseFloat(ancValue) +
       parseFloat(pylonHoldingsTotal) +
-      parseFloat(pylonStakingsTotal) +
       parseFloat(pylonGatewayDepositTotal) +
       getLunaStakedTotal() +
       getPoolTotal() +
@@ -90,14 +90,12 @@ const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAsse
   const getRewardsTotal = () => {
     const mirrorTotal = mirrorAssets?.total?.mirrorPoolRewardsSum;
     const pylonPoolRewardsTotal = pylonAssets?.pylonSum?.pylonPoolRewardsSum;
-    const pylonStakingRewardsTotal = pylonAssets?.pylonSum?.pylonStakingRewardsSum;
     const pylonGatewayRewardsTotal = pylonAssets.pylonSum.gatewayRewardsSum;
     const spectrumRewardsTotal = spectrum?.spectrumTotal?.rewardsTotal;
     const total =
       parseFloat(spectrumRewardsTotal) +
       parseFloat(pylonGatewayRewardsTotal) +
       parseFloat(pylonPoolRewardsTotal) +
-      parseFloat(pylonStakingRewardsTotal) +
       parseFloat(mirrorTotal) +
       parseFloat(ancAssets?.totalReward) +
       getLunaStakingRewards() +

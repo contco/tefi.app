@@ -4,7 +4,6 @@ import { LIGHT_THEME } from '../../constants';
 import {
   Container,
   LeftSection,
-  StyledLogoIcon,
   StyledTitle,
   RightSection,
   WalletContainer,

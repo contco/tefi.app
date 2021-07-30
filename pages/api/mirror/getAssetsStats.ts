@@ -18,6 +18,10 @@ const ASSETSTATS = gql`
         }
       }
     }
+    statistic {
+      govAPR
+      mirPrice
+    }
   }
 `;
 
@@ -27,5 +31,5 @@ export const getAssetsStats = async () => {
   const apr = result.assets.reduce((acc: any, { token, statistic }) => {
     return { ...acc, [token]: statistic.apr.long };
   }, {});
-  return apr;
+  return {apr, statistic: result?.statistic};
 };

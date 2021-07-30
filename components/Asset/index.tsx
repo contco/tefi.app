@@ -6,6 +6,9 @@ import { plus } from '../../pages/api/mirror/utils';
 import { Flex } from '@contco/core-ui';
 
 const HEADING_TEXT = `Assets`;
+const HIDE_KEY = "hide_small";
+const HIDDEN_STATE = "hidden";
+const SMALL_VISIBLE_STATE = "visible";
 
 export interface AssetsProps {
   mirrorAssets: MirrorAccount;
@@ -18,7 +21,12 @@ export interface AssetsProps {
 const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core, pylonAssets, spectrum}: AssetsProps) => {
 
   const [holdings, setHoldings] = useState<Holdings[]>([]);
-  const [hideSmall, setHideSmall] = useState(true);
+  const [hideSmall, setHideSmall] = useState(false);
+
+  useEffect(() => {
+    const localHideSmallState = localStorage.getItem(HIDE_KEY);
+    setHideSmall(localHideSmallState === HIDDEN_STATE);
+  }, []);
 
   const getAssetsTotal = () => {
     const mirrorTotal = mirrorAssets?.total?.mirrorHoldingsSum;
@@ -38,6 +46,8 @@ const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core, pylonAss
 
   const handleChange = (e: any) => {
     setHideSmall(e.target.checked);
+    const hiddenState = e.target.checked ? HIDDEN_STATE : SMALL_VISIBLE_STATE;
+    localStorage.setItem(HIDE_KEY,hiddenState);
   };
 
   return (

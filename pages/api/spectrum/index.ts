@@ -29,6 +29,7 @@ const typeDefs = gql`
   
   type SpecGov {
     name: String!
+    symbol: String!
     staked: String!
     value: String!
     rewards: String!

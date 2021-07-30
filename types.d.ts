@@ -7,6 +7,16 @@ interface Holdings {
   name: string;
 }
 
+interface Gov {
+  name: string
+  symbol: string
+  staked: string
+  value: string
+  rewards: string
+  price: string
+  apr?: string
+  apy?: string;
+}
 
 interface Pool {
   symbol: string;
@@ -91,13 +101,6 @@ interface EarnData {
   reward?: Reward;
 }
 
-interface GovData {
-  __typename?: 'GovData';
-  reward: Reward;
-  price: string;
-  value: string;
-}
-
 interface Total {
   __typename?: 'Total';
   airdropSum: string;
@@ -112,7 +115,7 @@ interface AccountAnc {
   debt?: BorrowData;
   earn?: EarnData;
   pool: Pool[];
-  gov?: GovData;
+  gov?: Gov;
   airdrops?: Array<Airdrops>;
   total?: Total;
   totalReward?: string;
@@ -129,27 +132,21 @@ interface MirrorAccount {
   __typename?: 'Account';
   mirrorStaking: Pool[];
   mirrorHoldings: Holdings[];
+  gov: Gov;
   total: MirrorTotal;
   airdrops: Array<Airdrops>;
 }
-interface PylonStakings {
-  symbol
-  name
-  stakedValue
+interface PylonGov extends Gov {
   rewards
   rewardsValue
-  apy
-  balance
   totalValue
 }
 
 interface PylonSum {
   pylonHoldingsSum: string;
-  pylonStakingSum: string;
   pylonPoolSum: string;
   pylonAirdropSum: string;
   pylonPoolRewardsSum: string;
-  pylonStakingRewardsSum: string;
   gatewayRewardsSum: string;
   gatewayDepositsSum: string;
 }
@@ -175,7 +172,7 @@ interface PylonAccount {
   pylonHoldings: Holdings[];
   pylonPool: PylonPool[];
   pylonAirdrops: Airdrops;
-  pylonStakings: PylonStakings[];
+  gov: PylonGov;
   pylonSum: PylonSum
   pylonGateway: PylonGateway[];
 }
@@ -223,4 +220,5 @@ interface Assets {
   anchor?: AccountAnc;
   mirror?: MirrorAccount;
   pylon?: PylonAccount;
+  spectrum: SpectrumAccount
 }
