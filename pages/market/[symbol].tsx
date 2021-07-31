@@ -1,42 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import Header from '../../components/Header';
-
 import { Line, LineChart, ResponsiveContainer, Tooltip } from 'recharts';
 import styled, { useTheme } from 'styled-components';
 import { GetStaticPaths } from 'next';
+import Header from '../../components/Header';
+import OPEN_NEW_ICON from '../../public/open-new.svg';
+import { justifyContent } from 'styled-system';
 
 const assets = {
   luna: {
     pair: 'LUNA-UST',
     name: 'Terra LUNA',
     symbol: 'LUNA',
+    url: 'https://terra.money/',
   },
   anc: {
     pair: 'ANC-UST',
     name: 'Anchor Protocol',
     symbol: 'ANC',
+    url: 'https://anchorprotocol.com',
   },
   mir: {
     pair: 'MIR-UST',
     name: 'Mirror Protocol',
     symbol: 'MIR',
+    url: 'https://terra.mirror.finance/',
   },
   mine: {
     pair: 'MINE-UST',
     name: 'Pylon Protocol',
     symbol: 'MINE',
+    url: 'https://www.pylon.money/',
   },
   spec: {
     pair: 'SPEC-UST',
     name: 'Spectrum Protocol',
     symbol: 'SPEC',
+    url: 'https://terra.spec.finance/',
   },
   lota: {
     pair: 'LOTA-UST',
     name: 'LoTerra',
     symbol: 'LOTA',
+    url: 'https://loterra.io/',
   },
 };
 
@@ -55,12 +62,18 @@ const ChartContainer = styled.p`
   }
 `;
 
-const StyledName = styled.p`
+export const NewOpenIcon = styled(OPEN_NEW_ICON)``;
+
+const StyledName = styled.a`
   ${(props) => ({
     color: props.theme.colors.secondary,
     fontSize: 26,
     fontWeight: 600,
+    display: 'flex',
+    alignItems: 'center',
+    height: '30px',
   })}
+  cursor: pointer;
 `;
 
 const StyledPrice = styled.p`
@@ -110,10 +123,12 @@ const renderTooltip = ({ payload }) => {
   return <StyledDate>{date}</StyledDate>;
 };
 
-const NamePrice = ({ price, name }) => {
+const NamePrice = ({ price, name, url }) => {
   return (
     <NamePriceContainer>
-      <StyledName>{name}</StyledName>
+      <StyledName href={url} target="_blank">
+        {name} <NewOpenIcon />
+      </StyledName>
       <StyledPrice>{`$${price}`}</StyledPrice>
     </NamePriceContainer>
   );
@@ -177,7 +192,7 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
       </Head>
       <Header theme={currentTheme} changeTheme={changeTheme} />
       <Container>
-        <NamePrice price={price} name={data.name} />
+        <NamePrice price={price} name={data.name} url={data.url} />
         <ChartContainer>
           <ResponsiveContainer width={'100%'} height={263}>
             <LineChart
