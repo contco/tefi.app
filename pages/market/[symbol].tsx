@@ -48,7 +48,14 @@ const Container = styled.div`
   padding-top: 30px;
 `;
 
-export const StyledName = styled.p`
+const ChartContainer = styled.p`
+  width: 55%;
+  @media (max-width: 768px) {
+    width: 85%;
+  }
+`;
+
+const StyledName = styled.p`
   ${(props) => ({
     color: props.theme.colors.secondary,
     fontSize: 26,
@@ -56,7 +63,7 @@ export const StyledName = styled.p`
   })}
 `;
 
-export const StyledPrice = styled.p`
+const StyledPrice = styled.p`
   ${(props) => ({
     color: props.theme.colors.secondary,
     fontSize: 20,
@@ -64,7 +71,7 @@ export const StyledPrice = styled.p`
   })}
 `;
 
-export const StyledDate = styled.p`
+const StyledDate = styled.p`
   ${(props) => ({
     color: props.theme.colors.secondary,
     fontSize: 12,
@@ -72,18 +79,30 @@ export const StyledDate = styled.p`
   })}
 `;
 
-export const SymbolsContainer = styled.div`
+const NamePriceContainer = styled.div`
+  width: 55%;
+  @media (max-width: 768px) {
+    width: 85%;
+  }
+`;
+
+const SymbolsContainer = styled.div`
   width: 55%;
   display: flex;
   justify-content: space-between;
-  padding-top: 50px;
+  padding-top: 60px;
+  @media (max-width: 768px) {
+    width: 85%;
+  }
 `;
 
-export const SymbolContainer: any = styled.div`
-  padding: 10px;
-  font-weight: ${(props: any) => (props.selected ? '900' : '400')};
+const SymbolContainer: any = styled.div`
+  padding-bottom: 13px;
+  font-weight: 500;
+  border-bottom: ${(props: any) => (props.selected ? `3px solid ${props.theme.colors.secondary}` : 'node')};
   color: ${(props: any) => props.theme.colors.secondary};
   cursor: pointer;
+  text-shadow: 0 0 0.01px black, 0 0 0.01px black, 0 0 0.01px black;
 `;
 
 const renderTooltip = ({ payload }) => {
@@ -93,10 +112,10 @@ const renderTooltip = ({ payload }) => {
 
 const NamePrice = ({ price, name }) => {
   return (
-    <div style={{ width: '55%' }}>
+    <NamePriceContainer>
       <StyledName>{name}</StyledName>
       <StyledPrice>{`$${price}`}</StyledPrice>
-    </div>
+    </NamePriceContainer>
   );
 };
 
@@ -106,7 +125,7 @@ const Symbol = ({ keyName, symbol }) => {
   return (
     <SymbolContainer
       onClick={() => {
-        router.push(`/asset/${keyName}`, undefined, { shallow: true });
+        router.push(`/market/${keyName}`, undefined, { shallow: true });
       }}
       selected={router.query.symbol == keyName}
     >
@@ -154,28 +173,30 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
   return (
     <div>
       <Head>
-        <title>TefiApp</title>
+        <title>TefiApp - Markets</title>
       </Head>
       <Header theme={currentTheme} changeTheme={changeTheme} />
       <Container>
         <NamePrice price={price} name={data.name} />
-        <ResponsiveContainer width="55%" height={263}>
-          <LineChart
-            data={formatData(data.chart)}
-            onMouseEnter={onMouseEnter}
-            onMouseMove={onMouseMove}
-            onMouseLeave={onMouseLeave}
-          >
-            <Line type="linear" dataKey="value" dot={false} stroke={theme.colors.secondary} strokeWidth={1.66} />
-            <Tooltip
-              cursor={{ stroke: theme.colors.secondary, strokeWidth: 1 }}
-              contentStyle={{ backgroundColor: 'red' }}
-              content={renderTooltip}
-              isAnimationActive={false}
-              position={{ y: -20 }}
-            />
-          </LineChart>
-        </ResponsiveContainer>
+        <ChartContainer>
+          <ResponsiveContainer width={'100%'} height={263}>
+            <LineChart
+              data={formatData(data.chart)}
+              onMouseEnter={onMouseEnter}
+              onMouseMove={onMouseMove}
+              onMouseLeave={onMouseLeave}
+            >
+              <Line type="linear" dataKey="value" dot={false} stroke={theme.colors.secondary} strokeWidth={1.66} />
+              <Tooltip
+                cursor={{ stroke: theme.colors.secondary, strokeWidth: 1 }}
+                contentStyle={{ backgroundColor: 'red' }}
+                content={renderTooltip}
+                isAnimationActive={false}
+                position={{ y: -20 }}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </ChartContainer>
         <SymbolsContainer>
           {Object.keys(assets).map((keyName, i) => (
             <Symbol keyName={keyName} symbol={assets[keyName].symbol} />
@@ -191,7 +212,15 @@ const fetchData = async (pair) => {
   return await res.json();
 };
 
-export async function getStaticProps({ params }) {
+export async function getStaticProps({ params: { symbol } }) {
+  if (!assets[symbol])
+    return {
+      redirect: {
+        destination: '/market/luna',
+        permanent: false,
+      },
+    };
+
   const allData = await Object.keys(assets).map(async (keyName, i) => {
     const chart = await fetchData(assets[keyName].pair);
     return { chart, ...assets[keyName], keyName };
@@ -214,8 +243,8 @@ export async function getStaticProps({ params }) {
 
 export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
   return {
-    paths: [], //indicates that no page needs be created at build time
-    fallback: 'blocking', //indicates the type of fallback
+    paths: [],
+    fallback: 'blocking',
   };
 };
 
