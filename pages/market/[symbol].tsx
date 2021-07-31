@@ -52,7 +52,7 @@ const Container = styled.div`
   flex: 1;
   flex-direction: column;
   align-items: center;
-  padding-top: 30px;
+  padding-top: 60px;
 `;
 
 const ChartContainer = styled.p`
@@ -115,7 +115,6 @@ const SymbolContainer: any = styled.div`
   border-bottom: ${(props: any) => (props.selected ? `3px solid ${props.theme.colors.secondary}` : 'node')};
   color: ${(props: any) => props.theme.colors.secondary};
   cursor: pointer;
-  text-shadow: 0 0 0.01px black, 0 0 0.01px black, 0 0 0.01px black;
 `;
 
 const renderTooltip = ({ payload }) => {
