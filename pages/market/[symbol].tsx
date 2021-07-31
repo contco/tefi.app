@@ -162,7 +162,7 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
 
   const [data, setData] = useState(d[router.query.symbol]);
 
-  const currentPrice = parseFloat(data.chart.data[0][1]);
+  const currentPrice = parseFloat(data.currentPrice);
 
   const [price, setPrice] = useState(currentPrice);
 
@@ -222,7 +222,7 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
 };
 
 const fetchData = async (pair) => {
-  const res = await fetch(`https://alpac4.com/${pair}_day.json`);
+  const res = await fetch(`https://alpac4.com/${pair}_day.json?_vercel_no_cache=1`);
   return await res.json();
 };
 
@@ -237,12 +237,12 @@ export async function getStaticProps({ params: { symbol } }) {
 
   const allData = await Object.keys(assets).map(async (keyName, i) => {
     const chart = await fetchData(assets[keyName].pair);
-    return { chart, ...assets[keyName], keyName };
+    return { chart, ...assets[keyName], keyName, currentPrice: chart.data[0][1] };
   });
 
   const all = await Promise.all(allData);
 
-  const data = {};
+  const data: any = {};
 
   all.map((item) => {
     data[item.keyName] = item;
