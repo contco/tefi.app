@@ -158,17 +158,18 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
   const theme: any = useTheme();
   const router: any = useRouter();
 
-  console.log(d[router.query.symbol]);
+  const [data, setData] = useState(d);
+  const [refreshing, setRefreshing] = useState(false);
 
-  const [data, setData] = useState(d[router.query.symbol]);
+  const selectedData = data[router.query.symbol];
 
-  const currentPrice = parseFloat(data.currentPrice);
+  const currentPrice = parseFloat(selectedData.currentPrice);
 
   const [price, setPrice] = useState(currentPrice);
 
   useEffect(() => {
     const newData = d[router.query.symbol];
-    setData(newData);
+    // setData(newData);
     setPrice(newData.chart.data[0][1]);
   }, [router.query.symbol]);
 
@@ -184,18 +185,30 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
     setPrice(currentPrice);
   };
 
+  const onRefresh = async () => {
+    setRefreshing(true);
+    const allData = await fetchData();
+    const all = await Promise.all(allData);
+    const newData: any = {};
+    all.map((item) => {
+      data[item.keyName] = item;
+    });
+    setData(newData);
+    setRefreshing(false);
+  };
+
   return (
     <div>
       <Head>
         <title>TefiApp - Markets</title>
       </Head>
-      <Header theme={currentTheme} changeTheme={changeTheme} hideCharts />
+      <Header theme={currentTheme} changeTheme={changeTheme} hideCharts onRefresh={onRefresh} refreshing={refreshing} />
       <Container>
-        <NamePrice price={price} name={data.name} url={data.url} />
+        <NamePrice price={price} name={selectedData.name} url={selectedData.url} />
         <ChartContainer>
           <ResponsiveContainer width={'100%'} height={263}>
             <LineChart
-              data={formatData(data.chart)}
+              data={formatData(selectedData.chart)}
               onMouseEnter={onMouseEnter}
               onMouseMove={onMouseMove}
               onMouseLeave={onMouseLeave}
@@ -221,9 +234,12 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
   );
 };
 
-const fetchData = async (pair) => {
-  const res = await fetch(`https://alpac4.com/${pair}_day.json?_vercel_no_cache=1`);
-  return await res.json();
+const fetchData = async () => {
+  return await Object.keys(assets).map(async (keyName, i) => {
+    const res = await fetch(`https://alpac4.com/${assets[keyName].pair}_day.json?_vercel_no_cache=1`);
+    const chart = await res.json();
+    return { chart, ...assets[keyName], keyName, currentPrice: chart.data[0][1] };
+  });
 };
 
 export async function getStaticProps({ params: { symbol } }) {
@@ -235,10 +251,7 @@ export async function getStaticProps({ params: { symbol } }) {
       },
     };
 
-  const allData = await Object.keys(assets).map(async (keyName, i) => {
-    const chart = await fetchData(assets[keyName].pair);
-    return { chart, ...assets[keyName], keyName, currentPrice: chart.data[0][1] };
-  });
+  const allData = await fetchData();
 
   const all = await Promise.all(allData);
 

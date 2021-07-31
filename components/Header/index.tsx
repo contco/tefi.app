@@ -78,7 +78,7 @@ const Header: React.FC<Props> = ({ theme, changeTheme, address, addressType, onR
         <SwitchContainer>
           {theme === LIGHT_THEME ? <LightSwitchIcon onClick={changeTheme} /> : <DarkSwitchIcon onClick={changeTheme} />}
         </SwitchContainer>
-        {address && (!refreshing ? <RefreshIcon onClick={onRefresh} /> : <AnimatedRefresh />)}
+        {onRefresh && (!refreshing ? <RefreshIcon onClick={onRefresh} /> : <AnimatedRefresh />)}
       </RightSection>
     </Container>
   );
