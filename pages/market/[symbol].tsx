@@ -159,7 +159,6 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
   const router: any = useRouter();
 
   const [data, setData] = useState(d);
-  const [refreshing, setRefreshing] = useState(false);
 
   const selectedData = data[router.query.symbol];
 
@@ -185,24 +184,12 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
     setPrice(currentPrice);
   };
 
-  const onRefresh = async () => {
-    setRefreshing(true);
-    const allData = await fetchData();
-    const all = await Promise.all(allData);
-    const newData: any = {};
-    all.map((item) => {
-      data[item.keyName] = item;
-    });
-    setData(newData);
-    setRefreshing(false);
-  };
-
   return (
     <div>
       <Head>
         <title>TefiApp - Markets</title>
       </Head>
-      <Header theme={currentTheme} changeTheme={changeTheme} hideCharts onRefresh={onRefresh} refreshing={refreshing} />
+      <Header theme={currentTheme} changeTheme={changeTheme} hideCharts />
       <Container>
         <NamePrice price={price} name={selectedData.name} url={selectedData.url} />
         <ChartContainer>
@@ -236,7 +223,7 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
 
 const fetchData = async () => {
   return await Object.keys(assets).map(async (keyName, i) => {
-    const res = await fetch(`https://alpac4.com/${assets[keyName].pair}_day.json?_vercel_no_cache=1`);
+    const res: any = await fetch(`https://alpac4.com/${assets[keyName].pair}_day.json?_vercel_no_cache=1`);
     const chart = await res.json();
     return { chart, ...assets[keyName], keyName, currentPrice: chart.data[0][1] };
   });
@@ -265,6 +252,7 @@ export async function getStaticProps({ params: { symbol } }) {
     props: {
       data,
     },
+    revalidate: 5,
   };
 }
 
