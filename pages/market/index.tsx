@@ -5,7 +5,7 @@ export default function Page() {
   const router = useRouter();
 
   useEffect(() => {
-    router.push('/asset/luna');
+    router.push('/market/luna');
   }, []);
 
   return null;
@@ -14,7 +14,7 @@ export default function Page() {
 export async function getServerSideProps(context) {
   return {
     redirect: {
-      destination: '/asset/luna',
+      destination: '/market/luna',
       permanent: false,
     },
   };
