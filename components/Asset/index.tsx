@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import { AssetsTitle } from '../../constants';
 import { CheckBox, Wrapper, Row, HeadingWrapper, Heading, Title, StyledText } from '../dashboardStyles';
 import { convertToFloatValue } from '../../utils/convertFloat';
 import { plus } from '../../pages/api/mirror/utils';
 import { Flex } from '@contco/core-ui';
+import { assets } from '../../constants/assets';
+import { NewOpenIcon } from '../Icons';
 
 const HEADING_TEXT = `Assets`;
 const HIDE_KEY = "hide_small";
@@ -18,8 +21,8 @@ export interface AssetsProps {
   spectrum: SpectrumAccount
 }
 
-const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core, pylonAssets, spectrum}: AssetsProps) => {
-
+const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core, pylonAssets, spectrum }: AssetsProps) => {
+  const router = useRouter();
   const [holdings, setHoldings] = useState<Holdings[]>([]);
   const [hideSmall, setHideSmall] = useState(false);
 
@@ -38,7 +41,7 @@ const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core, pylonAss
   };
 
   useEffect(() => {
-    const holdings = [ ...spectrum?.specHoldings, ...pylonAssets?.pylonHoldings, ...mirrorAssets?.mirrorHoldings, ...core?.coins, ...ancAssets?.assets];
+    const holdings = [...spectrum?.specHoldings, ...pylonAssets?.pylonHoldings, ...mirrorAssets?.mirrorHoldings, ...core?.coins, ...ancAssets?.assets];
     let sortedHoldings = holdings.sort((a: any, b: any) => b.value - a.value);
     if (hideSmall) sortedHoldings = sortedHoldings.filter((asset: Holdings) => parseFloat(asset?.value) >= 1);
     setHoldings(sortedHoldings);
@@ -47,8 +50,12 @@ const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core, pylonAss
   const handleChange = (e: any) => {
     setHideSmall(e.target.checked);
     const hiddenState = e.target.checked ? HIDDEN_STATE : SMALL_VISIBLE_STATE;
-    localStorage.setItem(HIDE_KEY,hiddenState);
+    localStorage.setItem(HIDE_KEY, hiddenState);
   };
+
+  const handleAssetsNavigation = (symbol: string) => {
+    if (symbol !== undefined) router.push(`/market/${assets[symbol]}`);
+  }
 
   return (
     <Wrapper>
@@ -69,7 +76,14 @@ const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core, pylonAss
       </Row>
       {holdings.map((asset: Holdings) => (
         <Row key={asset.symbol}>
-          <StyledText fontWeight={500}> {asset.symbol}</StyledText>
+          <StyledText
+            fontWeight={500}
+            isURL={assets[asset.symbol.toLowerCase()]}
+            onClick={() => handleAssetsNavigation(assets[asset.symbol.toLowerCase()])}
+          >
+            {asset.symbol}
+            {assets[asset.symbol.toLowerCase()] && <NewOpenIcon visibility='hidden' />}
+          </StyledText>
           <StyledText fontWeight={500}> {asset.name}</StyledText>
           <StyledText> {convertToFloatValue(asset.balance)}</StyledText>
           <StyledText> ${convertToFloatValue(asset.price)}</StyledText>
