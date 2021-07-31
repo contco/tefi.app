@@ -51,7 +51,6 @@ export default class MyDocument extends Document {
             `,
             }}
           />
-          <title>TefiApp</title>
         </Head>
         <body>
           <Main />

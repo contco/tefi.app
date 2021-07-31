@@ -17,6 +17,7 @@ import {
   DarkSwitchIcon,
   RefreshIcon,
   AnimatedRefresh,
+  ChartsIcon,
 } from './style';
 
 import useWallet from '../../lib/useWallet';
@@ -30,8 +31,9 @@ type Props = {
   addressType?: string;
   onRefresh?: () => void;
   refreshing?: boolean;
+  hideCharts?: boolean;
 };
-const Header: React.FC<Props> = ({ theme, changeTheme, address, addressType, onRefresh, refreshing }) => {
+const Header: React.FC<Props> = ({ theme, changeTheme, address, addressType, onRefresh, refreshing, hideCharts }) => {
   const slicedAddress = `${address?.slice(0, 6) + '....' + address?.slice(address?.length - 6, address?.length)}`;
   const [isVisible, setVisible] = useState<boolean>(false);
 
@@ -55,11 +57,12 @@ const Header: React.FC<Props> = ({ theme, changeTheme, address, addressType, onR
   return (
     <Container>
       <LeftSection>
-        <StyledTitle>
+        <StyledTitle onClick={() => router.push('/')}>
           Tefi<span>App</span>
         </StyledTitle>
       </LeftSection>
       <RightSection>
+        {!hideCharts && <ChartsIcon onClick={() => router.push('/market')} />}
         {address ? (
           <WalletContainer onClick={onCopyClick}>
             <WalletCopyContainer>
