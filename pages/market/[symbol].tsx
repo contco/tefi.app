@@ -6,7 +6,6 @@ import styled, { useTheme } from 'styled-components';
 import { GetStaticPaths } from 'next';
 import Header from '../../components/Header';
 import OPEN_NEW_ICON from '../../public/open-new.svg';
-import { justifyContent } from 'styled-system';
 
 const assets = {
   luna: {
@@ -52,7 +51,8 @@ const Container = styled.div`
   flex: 1;
   flex-direction: column;
   align-items: center;
-  padding-top: 60px;
+  justify-content: center;
+  height: 90vh;
 `;
 
 const ChartContainer = styled.p`
@@ -158,17 +158,12 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
   const theme: any = useTheme();
   const router: any = useRouter();
 
-  const [data, setData] = useState(d);
-
-  const selectedData = data[router.query.symbol];
-
-  const currentPrice = parseFloat(selectedData.currentPrice);
-
-  const [price, setPrice] = useState(currentPrice);
+  const [data, setData]: any = useState(d[router.query.symbol]);
+  const [price, setPrice] = useState(parseFloat(data.currentPrice));
 
   useEffect(() => {
     const newData = d[router.query.symbol];
-    // setData(newData);
+    setData(newData);
     setPrice(newData.chart.data[0][1]);
   }, [router.query.symbol]);
 
@@ -181,7 +176,7 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
   };
 
   const onMouseLeave = () => {
-    setPrice(currentPrice);
+    setPrice(parseFloat(data.currentPrice));
   };
 
   return (
@@ -191,11 +186,11 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
       </Head>
       <Header theme={currentTheme} changeTheme={changeTheme} hideCharts />
       <Container>
-        <NamePrice price={price} name={selectedData.name} url={selectedData.url} />
+        <NamePrice price={price} name={data.name} url={data.url} />
         <ChartContainer>
           <ResponsiveContainer width={'100%'} height={263}>
             <LineChart
-              data={formatData(selectedData.chart)}
+              data={formatData(data.chart)}
               onMouseEnter={onMouseEnter}
               onMouseMove={onMouseMove}
               onMouseLeave={onMouseLeave}
