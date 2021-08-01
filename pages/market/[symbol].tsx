@@ -46,13 +46,18 @@ const assets = {
   },
 };
 
+const MainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+`;
+
 const Container = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 90vh;
 `;
 
 const ChartContainer = styled.p`
@@ -180,7 +185,7 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
   };
 
   return (
-    <div>
+    <MainContainer>
       <Head>
         <title>TefiApp - Markets</title>
       </Head>
@@ -212,7 +217,7 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
           ))}
         </SymbolsContainer>
       </Container>
-    </div>
+    </MainContainer>
   );
 };
 
