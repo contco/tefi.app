@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import Link from 'next/link'
 import { AssetsTitle } from '../../constants';
 import { CheckBox, Wrapper, Row, HeadingWrapper, Heading, Title, StyledText } from '../dashboardStyles';
 import { convertToFloatValue } from '../../utils/convertFloat';
@@ -12,6 +12,8 @@ const HEADING_TEXT = `Assets`;
 const HIDE_KEY = "hide_small";
 const HIDDEN_STATE = "hidden";
 const SMALL_VISIBLE_STATE = "visible";
+const LINK_ICON_WIDTH = 16;
+const LINK_ICON_HEIGHT = 12;
 
 export interface AssetsProps {
   mirrorAssets: MirrorAccount;
@@ -22,7 +24,7 @@ export interface AssetsProps {
 }
 
 const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core, pylonAssets, spectrum }: AssetsProps) => {
-  const router = useRouter();
+
   const [holdings, setHoldings] = useState<Holdings[]>([]);
   const [hideSmall, setHideSmall] = useState(false);
 
@@ -53,10 +55,6 @@ const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core, pylonAss
     localStorage.setItem(HIDE_KEY, hiddenState);
   };
 
-  const handleAssetsNavigation = (symbol: string) => {
-    if (symbol !== undefined) router.push(`/market/${assets[symbol]}`);
-  }
-
   return (
     <Wrapper>
       <HeadingWrapper>
@@ -79,10 +77,17 @@ const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core, pylonAss
           <StyledText
             fontWeight={500}
             isURL={assets[asset.symbol.toLowerCase()]}
-            onClick={() => handleAssetsNavigation(assets[asset.symbol.toLowerCase()])}
           >
-            {asset.symbol}
-            {assets[asset.symbol.toLowerCase()] && <NewOpenIcon visibility='hidden' />}
+            {assets[asset.symbol.toLowerCase()] ?
+              <Link href={assets[asset.symbol.toLowerCase()] ? `/market/${asset.symbol.toLowerCase()}/` : '#'}>
+                <a target="_blank" >
+                  {asset.symbol}
+                </a>
+              </Link>
+              :
+              asset.symbol
+            }
+            {assets[asset.symbol.toLowerCase()] && <NewOpenIcon visibility='hidden' width={LINK_ICON_WIDTH} height={LINK_ICON_HEIGHT} />}
           </StyledText>
           <StyledText fontWeight={500}> {asset.name}</StyledText>
           <StyledText> {convertToFloatValue(asset.balance)}</StyledText>
