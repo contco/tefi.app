@@ -8,12 +8,18 @@ import Header from '../../components/Header';
 import { assets } from '../../constants/assets';
 import { NewOpenIcon } from '../../components/Icons';
 
+const MainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+`;
+
 const Container = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
   align-items: center;
-  padding-top: 60px;
+  justify-content: center;
 `;
 
 const ChartContainer = styled.p`
@@ -118,17 +124,12 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
   const theme: any = useTheme();
   const router: any = useRouter();
 
-  const [data, setData] = useState(d);
-
-  const selectedData = data[router.query.symbol];
-
-  const currentPrice = parseFloat(selectedData.currentPrice);
-
-  const [price, setPrice] = useState(currentPrice);
+  const [data, setData]: any = useState(d[router.query.symbol]);
+  const [price, setPrice] = useState(parseFloat(data.currentPrice));
 
   useEffect(() => {
     const newData = d[router.query.symbol];
-    // setData(newData);
+    setData(newData);
     setPrice(newData.chart.data[0][1]);
   }, [router.query.symbol]);
 
@@ -141,21 +142,21 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
   };
 
   const onMouseLeave = () => {
-    setPrice(currentPrice);
+    setPrice(parseFloat(data.currentPrice));
   };
 
   return (
-    <div>
+    <MainContainer>
       <Head>
         <title>TefiApp - Markets</title>
       </Head>
       <Header theme={currentTheme} changeTheme={changeTheme} hideCharts />
       <Container>
-        <NamePrice price={price} name={selectedData.name} url={selectedData.url} />
+        <NamePrice price={price} name={data.name} url={data.url} />
         <ChartContainer>
           <ResponsiveContainer width={'100%'} height={263}>
             <LineChart
-              data={formatData(selectedData.chart)}
+              data={formatData(data.chart)}
               onMouseEnter={onMouseEnter}
               onMouseMove={onMouseMove}
               onMouseLeave={onMouseLeave}
@@ -177,7 +178,7 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
           ))}
         </SymbolsContainer>
       </Container>
-    </div>
+    </MainContainer>
   );
 };
 
