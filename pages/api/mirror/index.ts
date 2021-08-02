@@ -56,12 +56,43 @@ const typeDefs = gql`
     apr: String!
   }
 
+  type AssetInfo {
+    idx: String!
+    name: String
+    price: String
+    symbol: String
+  }
+
+  type BorrowInfo {
+    amount: Float
+    amountValue: Float
+    shortApr: String
+  }
+
+  type CollateralInfo {
+    collateral: Float
+    collateralRatio: Float
+  }
+
+  type LockedInfo {
+    lockedAmount: String
+    unlock_time: Int
+  }
+
+  type MirrorShortFarm {
+    assetInfo: AssetInfo
+    borrowInfo: BorrowInfo
+    collateralInfo: CollateralInfo
+    lockedInfo: LockedInfo
+  }
+
   type Account {
     mirrorStaking: [MirrorStaking!]
     mirrorHoldings: [MirrorHoldings!]
     gov: MirrorGov
     total: MirrorTotal
     airdrops: [Airdrops!]
+    mirrorShortFarm: [MirrorShortFarm!]
   }
   extend type Assets @key(fields: "address") {
     address: String! @external

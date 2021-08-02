@@ -1,30 +1,52 @@
 import axios from 'axios';
+import MIRROR_ASSETS from './mirrorAssets.json';
+import { getAssetsStats } from './getAssetsStats';
+import { getShortApr } from './getAccountData';
 
 const MANTLE_URL = 'https://mantle.terra.dev/';
 
-const LOCK_POSITION_INFO_QUERY = (idx: number) => `
-  query lockPositionInfo {
-    position${idx}: WasmContractsContractAddressStore(
-      ContractAddress: "terra169urmlm8wcltyjsrn7gedheh7dker69ujmerv2"
-      QueryMsg: "{\\"position_lock_info\\":{\\"position_idx\\":\\"${idx}\\"}}"
-    ) {
-      Height
-      Result
-    },
-  }
-`;
-
 const MINT_POSITIONS_QUERY = `
-  query WasmContractsContractAddressStore($contract: String, $msg: String) {
-    WasmContractsContractAddressStore(
-      ContractAddress: $contract
-      QueryMsg: $msg
+query WasmContractsContractAddressStore($contract: String, $msg: String) {
+  WasmContractsContractAddressStore(
+    ContractAddress: $contract
+    QueryMsg: $msg
     ) {
       Height
       Result
     }
   }
-`;
+  `;
+
+const GET_ASSET_PRICE = (contract) => `
+  query oraclePrice {  
+    result: WasmContractsContractAddressStore(
+      ContractAddress: "terra1t6xe0txzywdg85n6k8c960cuwgh6l8esw6lau9"
+      QueryMsg: "{\\"price\\":{\\"base_asset\\":\\"${contract}\\",\\"quote_asset\\":\\"uusd\\"}}"
+      ) {
+        Height
+        Result
+      },
+    }  
+    `;
+
+const LOCK_POSITION_INFO_QUERY = (idx: number) => `
+    query lockPositionInfo {
+      position${idx}: WasmContractsContractAddressStore(
+        ContractAddress: "terra169urmlm8wcltyjsrn7gedheh7dker69ujmerv2"
+        QueryMsg: "{\\"position_lock_info\\":{\\"position_idx\\":\\"${idx}\\"}}"
+        ) {
+          Height
+          Result
+        },
+      }
+      `;
+
+const getAssetInfo = (token) => {
+  return MIRROR_ASSETS.filter((asset) => asset.token === token)[0];
+};
+
+const valueConversion = (value) => value / 1000000;
+
 export const getMintInfo = async (address: string) => {
   try {
     const mintInfo = await axios.get(MANTLE_URL + `?mintPositions`, {
@@ -43,14 +65,28 @@ export const getMintInfo = async (address: string) => {
   }
 };
 
+export const getOraclePrice = async (contract) => {
+  try {
+    const oraclePrice = await axios.get(MANTLE_URL + `?oraclePrice`, {
+      params: {
+        query: GET_ASSET_PRICE(contract),
+      },
+    });
+
+    return JSON.parse(oraclePrice?.data?.data?.result?.Result)?.rate;
+  } catch (err) {
+    getOraclePrice(contract);
+  }
+};
+
 export const getLockInfo = async (address: string) => {
   try {
     const mintInfo = await getMintInfo(address);
     const positions = JSON.parse(mintInfo?.data?.data?.WasmContractsContractAddressStore?.Result).positions;
-    const totalShortInfo = [];
+    const assetStats = await getAssetsStats();
 
-    if (positions) {
-      positions.forEach(async (position) => {
+    const totalShortInfo = Promise.all(
+      positions.map(async (position) => {
         const { asset, collateral, idx } = position;
         const lockInfo = await axios.get(MANTLE_URL + `?lockPositionInfo`, {
           params: {
@@ -59,31 +95,44 @@ export const getLockInfo = async (address: string) => {
         });
 
         const lockedInfo = JSON.parse(lockInfo?.data.data[`position${idx}`].Result);
+        const shortApr = getShortApr(assetStats, asset.info.token.contract_addr);
+        const assetInfo = getAssetInfo(asset.info.token.contract_addr);
+        const oraclePrice = await getOraclePrice(asset.info.token.contract_addr);
 
         const shortInfo = {
-          lockedInfo,
-          asset: {
-            amount: asset.amount,
+          assetInfo: {
+            idx: idx,
+            name: assetInfo.symbol + ' Short',
+            symbol: assetInfo.symbol,
+            price: oraclePrice,
             token: asset.info.token.contract_addr,
           },
-          collateral: collateral.amount,
+          borrowInfo: {
+            amount: valueConversion(asset.amount),
+            amountValue: valueConversion(asset.amount) * oraclePrice,
+            shortApr: shortApr,
+          },
+          lockedInfo,
+          collateralInfo: {
+            collateral: valueConversion(collateral.amount),
+            collateralRatio: (valueConversion(collateral.amount) / (valueConversion(asset.amount) * oraclePrice)) * 100,
+          },
         };
 
-        totalShortInfo.push(shortInfo);
-      });
-    }
-    return { totalShortInfo };
+        return shortInfo;
+      }),
+    );
+    return totalShortInfo;
   } catch (err) {
     getLockInfo(address);
   }
 };
 
 export default async (address: string) => {
-  const shortInfo = await getLockInfo(address);
+  const shortData = await getLockInfo(address);
 
-  if (shortInfo) {
-    return shortInfo;
+  if (shortData) {
+    return shortData;
   }
-
   return null;
 };

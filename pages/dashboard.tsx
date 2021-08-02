@@ -22,7 +22,6 @@ import Airdrops from '../components/Airdrop';
 
 import useWallet from '../lib/useWallet';
 import Earn from '../components/Earn';
-import getShortInfo from './api/mirror/getShortInfo';
 
 const MAX_TRY = 3;
 
@@ -53,15 +52,6 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
       setAddressType(WALLET_ADDRESS_TYPE);
     }
   }, []);
-
-   useEffect(() => {
-    const call = async () => {
-      const result = await getShortInfo(address);
-      console.log(result);
-    };
-
-    call();
-  });
 
   const [fetchAssets, { data, called, loading: dataLoading, error, refetch, networkStatus }] = useLazyQuery(getAssets, {
     variables: { address: address },

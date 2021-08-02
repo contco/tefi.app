@@ -4,6 +4,7 @@ import { getStakingPool } from './getStakingPool';
 import { getPairPool } from './getPairPool';
 import { getAssetsStats } from './getAssetsStats';
 import { getTokenBalance } from './getTokenBalance';
+import getShortInfo from './getShortInfo';
 import {formatAirdrops, getAirdrops} from "./getAirdrops";
 import { getGovData, fetchGovBalance } from './getGovData';
 import { balance, BalanceKey, PriceKey, parsePairPool, UUSD, fromLP, price, div, UNIT, times, plus, MIR } from './utils';
@@ -59,7 +60,8 @@ export const fetchData = (address: string) => {
   const tokenBalancePromise  = getTokenBalance(address);
   const airdrops = getAirdrops(address);
   const govBalancePromise = fetchGovBalance(address);
-  return Promise.all([lpTokenBalancePromise , stakingRewardsPromise , pairsListPromise , stakingPoolPromise , assetStatsPromise , tokenBalancePromise, airdrops, govBalancePromise ]);
+  const shortDataPromise = getShortInfo(address);
+  return Promise.all([lpTokenBalancePromise , stakingRewardsPromise , pairsListPromise , stakingPoolPromise , assetStatsPromise , tokenBalancePromise, airdrops, govBalancePromise, shortDataPromise ]);
 }
 
 export const getAccountData = async (address: string) => {
@@ -67,7 +69,7 @@ export const getAccountData = async (address: string) => {
   let mirrorPoolSum = '0';
   let mirrorHoldingsSum = '0';
   
-  const [lpTokenBalance, stakingRewards, stakingPool, pairsList, assetStats, tokenBalance, airdropsData, govBalance] = await fetchData(address);
+  const [lpTokenBalance, stakingRewards, stakingPool, pairsList, assetStats, tokenBalance, airdropsData, govBalance, shortData] = await fetchData(address);
    
   const poolBalance = balance[BalanceKey.LPTOTAL](lpTokenBalance, stakingRewards);
   const rewardsBalance = balance[BalanceKey.REWARD](pairsList, stakingRewards);
@@ -76,6 +78,7 @@ export const getAccountData = async (address: string) => {
   const {mirrorAirdrops, airdropSum: mirrorAirdropSum} = formatAirdrops(airdropsData, mirPrice);
 
   const mirrorHoldings = [];
+
   const gov = getGovData(govBalance, assetStats?.statistic);
   
   const result = MIRROR_ASSETS.reduce((poolList, listing: ListedItem) => {
@@ -105,6 +108,6 @@ export const getAccountData = async (address: string) => {
     }
     return poolList;
   }, []);;
-  const account = { mirrorStaking: result, mirrorHoldings, airdrops: mirrorAirdrops, gov, total: { mirrorPoolSum, mirrorPoolRewardsSum, mirrorHoldingsSum, mirrorAirdropSum} };
+  const account = { mirrorShortFarm: shortData, mirrorStaking: result, mirrorHoldings, airdrops: mirrorAirdrops, gov, total: { mirrorPoolSum, mirrorPoolRewardsSum, mirrorHoldingsSum, mirrorAirdropSum} };
   return account;
 };

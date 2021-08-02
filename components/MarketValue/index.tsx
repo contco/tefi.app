@@ -11,7 +11,7 @@ export interface AssetsProps {
   mirrorAssets: MirrorAccount;
   core: Core;
   pylonAssets: PylonAccount;
-  spectrum: SpectrumAccount
+  spectrum: SpectrumAccount;
 }
 
 const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAssets, spectrum }) => {
