@@ -37,7 +37,8 @@ const typeDefs = gql`
     value: String
     collaterals: [UserCollateral]
     percentage: String
-    price: String
+    lunaprice: String
+    ancprice: String
     netApy: String
   }
 
@@ -63,8 +64,13 @@ const typeDefs = gql`
   }
 
   type GovData {
-    reward: Reward!
+    name: String!
+    symbol: String!
+    staked: String!
+    rewards: String!
     price: String!
+    apr: String!
+    value: String!
   }
 
   type Total {

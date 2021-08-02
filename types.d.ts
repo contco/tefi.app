@@ -7,6 +7,16 @@ interface Holdings {
   name: string;
 }
 
+interface Gov {
+  name: string
+  symbol: string
+  staked: string
+  value: string
+  rewards: string
+  price: string
+  apr?: string
+  apy?: string;
+}
 
 interface Pool {
   symbol: string;
@@ -85,19 +95,14 @@ interface BorrowData {
   value?: string;
   collaterals: Array<UserCollateral>;
   percentage: string;
-  price: string;
+  lunaprice: string;
+  ancprice: string;
   netApy: string;
 }
 
 interface EarnData {
   __typename?: 'EarnData';
   reward?: Reward;
-}
-
-interface GovData {
-  __typename?: 'GovData';
-  reward: Reward;
-  price: string;
 }
 
 interface Total {
@@ -114,7 +119,7 @@ interface AccountAnc {
   debt?: BorrowData;
   earn?: EarnData;
   pool: Pool[];
-  gov?: GovData;
+  gov?: Gov;
   airdrops?: Array<Airdrops>;
   total?: Total;
   totalReward?: string;
@@ -131,27 +136,21 @@ interface MirrorAccount {
   __typename?: 'Account';
   mirrorStaking: Pool[];
   mirrorHoldings: Holdings[];
+  gov: Gov;
   total: MirrorTotal;
   airdrops: Array<Airdrops>;
 }
-interface PylonStakings {
-  symbol
-  name
-  stakedValue
+interface PylonGov extends Gov {
   rewards
   rewardsValue
-  apy
-  balance
   totalValue
 }
 
 interface PylonSum {
   pylonHoldingsSum: string;
-  pylonStakingSum: string;
   pylonPoolSum: string;
   pylonAirdropSum: string;
   pylonPoolRewardsSum: string;
-  pylonStakingRewardsSum: string;
   gatewayRewardsSum: string;
   gatewayDepositsSum: string;
 }
@@ -166,7 +165,7 @@ interface DepositLogs {
 interface PylonGateway {
   symbol: string;
   poolName: string;
-  totalDeposit: string!
+  totalDeposit: string;
   depositLogs: DepositLogs[]
   apy: string
   rewards: string
@@ -177,9 +176,46 @@ interface PylonAccount {
   pylonHoldings: Holdings[];
   pylonPool: PylonPool[];
   pylonAirdrops: Airdrops;
-  pylonStakings: PylonStakings[];
+  gov: PylonGov;
   pylonSum: PylonSum
   pylonGateway: PylonGateway[];
+}
+
+interface SpecFarms {
+  symbol: string;
+  lpName: string;
+  stakedLp: string;
+  stakedLpUstValue: string;
+  tokenStaked: string;
+  ustStaked: string;
+  farm: string;
+  stakedSpec: string;
+  stakedSpecValue: string;
+  stakedMir: string;
+  stakedMirValue: string;
+  apy: string;
+}
+
+interface SpectrumTotal {
+  farmsTotal: string;
+  holdingsTotal: string;
+  rewardsTotal: string;
+}
+
+interface SpecGov {
+  name: string;
+  staked: string;
+  value: string;
+  rewards: string;
+  price: string;
+  apr: string;
+}
+
+interface SpectrumAccount {
+  farms: SpecFarms[];
+  specHoldings: Holdings[];
+  specGov?: SpecGov;
+  spectrumTotal: SpectrumTotal
 }
 
 interface Assets {
@@ -188,4 +224,5 @@ interface Assets {
   anchor?: AccountAnc;
   mirror?: MirrorAccount;
   pylon?: PylonAccount;
+  spectrum: SpectrumAccount
 }

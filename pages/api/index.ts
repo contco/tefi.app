@@ -1,12 +1,15 @@
 import { ApolloServer } from 'apollo-server-micro';
 import { ApolloGateway } from '@apollo/gateway';
 
+const SERVER_END_POINT = process.env.SERVER_ENDPOINT;
+
 const gateway = new ApolloGateway({
     serviceList: [
-        { name: 'terra-core', url: 'http://localhost:3003/api/terra-core' },
-        { name: 'anchor', url: 'http://localhost:3003/api/anchor' },
-        { name: 'mirror', url: 'http://localhost:3003/api/mirror' },
-        { name: 'pylon', url: 'http://localhost:3003/api/pylon' },
+        { name: 'terra-core', url: `${SERVER_END_POINT}/terra-core` },
+        { name: 'anchor', url: `${SERVER_END_POINT}/anchor` },
+        { name: 'mirror', url: `${SERVER_END_POINT}/mirror` },
+        { name: 'pylon', url: `${SERVER_END_POINT}/pylon` },
+        { name: 'spectrum', url: `${SERVER_END_POINT}/spectrum` }
     ],
 });
 

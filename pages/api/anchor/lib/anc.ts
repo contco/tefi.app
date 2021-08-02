@@ -1,19 +1,20 @@
 import { anchor } from './test-defaults';
 import getDebt from './borrow';
 import getEarn from './earn';
-import {getAncPoolData} from './lp';
+import { getAncPoolData } from './lp';
 import getGov from './gov';
 import { formatAirdrops, getAirdrops } from './airdrop';
 
-const getAnchorHoldings = (balance: number, price: number ) => {
-  if(balance) {
+const getAnchorHoldings = (balance: number, price: number) => {
+  if (balance) {
     const value = (balance * price).toString();
-     const anchorHoldings = [{symbol: 'ANC', name: 'Anchor', balance: balance.toString(), value, price: price.toString() }];
-     return {anchorHoldings, anchorHoldingsSum: value};
+    const anchorHoldings = [
+      { symbol: 'ANC', name: 'Anchor', balance: balance.toString(), value, price: price.toString() },
+    ];
+    return { anchorHoldings, anchorHoldingsSum: value };
   }
-  return { anchorHoldings: [], anchorHoldingsSum: '0'};
-
-}
+  return { anchorHoldings: [], anchorHoldingsSum: '0' };
+};
 
 export const getAccount = async (address: any) => {
   const balanceRequest = anchor.anchorToken.getBalance(address);
@@ -38,15 +39,15 @@ export const getAccount = async (address: any) => {
   const [balance, price, debt, earn, pool, gov, airdropData] = anchorData;
   const { airdrops, airdropSum } = formatAirdrops(airdropData, price);
 
-  const {poolData, anchorPoolSum, anchorRewardsSum } = pool;
+  const { poolData, anchorPoolSum, anchorRewardsSum } = pool;
 
-  const {anchorHoldings, anchorHoldingsSum} = getAnchorHoldings(parseFloat(balance), parseFloat(price));
+  const { anchorHoldings, anchorHoldingsSum } = getAnchorHoldings(parseFloat(balance), parseFloat(price));
 
   let reward = 0;
-  
+
   if (debt.reward.reward === '<0.001') {
     reward = parseFloat(anchorRewardsSum);
-  } else { 
+  } else {
     reward = parseFloat(debt.reward.reward) + parseFloat(anchorRewardsSum);
   }
 
@@ -65,8 +66,9 @@ export const getAccount = async (address: any) => {
       collaterals: debt.collaterals,
       value: debt.value,
       percentage: debt.percentage,
-      price: debt.price,
-      netApy: debt.netApy
+      lunaprice: debt.lunaprice,
+      ancprice: debt.ancprice,
+      netApy: debt.netApy,
     },
 
     earn: {
@@ -79,14 +81,7 @@ export const getAccount = async (address: any) => {
 
     pool: poolData,
 
-    gov: {
-      reward: {
-        name: gov.reward.name,
-        apy: gov.reward.apy,
-        staked: gov.reward.staked,
-      },
-      price: parseFloat(price),
-    },
+    gov: gov,
     airdrops,
     total: {
       airdropSum,
@@ -96,6 +91,6 @@ export const getAccount = async (address: any) => {
     },
     totalReward: rewardValue.toString(),
   };
-  
+
   return result;
 };

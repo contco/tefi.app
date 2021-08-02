@@ -1,16 +1,15 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import { AppProps } from 'next/app';
 import GlobalStyles from '../styles/global';
 import { ApolloProvider } from '@apollo/client';
 import { useApollo } from '../lib/apolloClient';
 import { ThemeProvider } from 'styled-components';
-import WalletConnectProvider from "../providers/WalletConnectProvider";
-import RedirectProvider from "../providers/RedirectProvider";
+import WalletConnectProvider from '../providers/WalletConnectProvider';
+import RedirectProvider from '../providers/RedirectProvider';
+import Head from 'next/head';
 
-
-import { lightTheme, darkTheme } from '../styles/theme'
+import { lightTheme, darkTheme } from '../styles/theme';
 import { LIGHT_THEME, DARK_THEME } from '../constants';
-
 
 function MyApp({ Component, pageProps }: AppProps) {
   const apolloClient = useApollo(pageProps);
@@ -35,12 +34,15 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <ApolloProvider client={apolloClient}>
+      <Head>
+        <title>TefiApp</title>
+      </Head>
       <ThemeProvider theme={theme === LIGHT_THEME ? lightTheme : darkTheme}>
         <GlobalStyles />
         <WalletConnectProvider>
           <RedirectProvider>
             <Component {...pageProps} theme={theme} changeTheme={changeTheme} />
-         </RedirectProvider>
+          </RedirectProvider>
         </WalletConnectProvider>
       </ThemeProvider>
     </ApolloProvider>

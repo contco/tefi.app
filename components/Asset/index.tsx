@@ -6,41 +6,48 @@ import { plus } from '../../pages/api/mirror/utils';
 import { Flex } from '@contco/core-ui';
 
 const HEADING_TEXT = `Assets`;
+const HIDE_KEY = "hide_small";
+const HIDDEN_STATE = "hidden";
+const SMALL_VISIBLE_STATE = "visible";
 
 export interface AssetsProps {
   mirrorAssets: MirrorAccount;
   ancAssets: AccountAnc;
   core: Core;
   pylonAssets: PylonAccount;
+  spectrum: SpectrumAccount
 }
 
-const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core, pylonAssets }: AssetsProps) => {
+const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core, pylonAssets, spectrum}: AssetsProps) => {
 
   const [holdings, setHoldings] = useState<Holdings[]>([]);
+  const [hideSmall, setHideSmall] = useState(false);
+
+  useEffect(() => {
+    const localHideSmallState = localStorage.getItem(HIDE_KEY);
+    setHideSmall(localHideSmallState === HIDDEN_STATE);
+  }, []);
 
   const getAssetsTotal = () => {
     const mirrorTotal = mirrorAssets?.total?.mirrorHoldingsSum;
     const coreTotal = core?.total?.assetsSum;
     const pylonHoldingsSum = pylonAssets?.pylonSum?.pylonHoldingsSum;
-    const total = parseFloat(plus(mirrorTotal, coreTotal)) + parseFloat(ancAssets?.total?.anchorHoldingsSum) + parseFloat(pylonHoldingsSum);
+    const spectrumSum = spectrum?.spectrumTotal?.holdingsTotal;
+    const total = parseFloat(spectrumSum) + parseFloat(plus(mirrorTotal, coreTotal)) + parseFloat(ancAssets?.total?.anchorHoldingsSum) + parseFloat(pylonHoldingsSum);
     return convertToFloatValue(total.toString()) ?? '0';
   };
 
   useEffect(() => {
-    const holdings = [ ...pylonAssets?.pylonHoldings, ...mirrorAssets?.mirrorHoldings, ...core?.coins, ...ancAssets?.assets];
-    const sortedHoldings = holdings.sort((a: any,b: any) => b.value - a.value);
+    const holdings = [ ...spectrum?.specHoldings, ...pylonAssets?.pylonHoldings, ...mirrorAssets?.mirrorHoldings, ...core?.coins, ...ancAssets?.assets];
+    let sortedHoldings = holdings.sort((a: any, b: any) => b.value - a.value);
+    if (hideSmall) sortedHoldings = sortedHoldings.filter((asset: Holdings) => parseFloat(asset?.value) >= 1);
     setHoldings(sortedHoldings);
-  }, [mirrorAssets, ancAssets, core,pylonAssets]);
+  }, [spectrum, mirrorAssets, ancAssets, core, pylonAssets, hideSmall]);
 
   const handleChange = (e: any) => {
-    const holdings = [ ...pylonAssets?.pylonHoldings, ...mirrorAssets?.mirrorHoldings, ...core?.coins, ...ancAssets?.assets];
-    const sortedHoldings = holdings.sort((a: any,b: any) => b.value - a.value);
-    if (e.target.checked) {
-      const largerAssets = sortedHoldings.filter((asset: Holdings) => parseFloat(asset?.value) >= 1);
-      setHoldings(largerAssets);
-    } else {
-      setHoldings(sortedHoldings);
-    }
+    setHideSmall(e.target.checked);
+    const hiddenState = e.target.checked ? HIDDEN_STATE : SMALL_VISIBLE_STATE;
+    localStorage.setItem(HIDE_KEY,hiddenState);
   };
 
   return (
@@ -50,7 +57,7 @@ const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core, pylonAss
         <Flex alignItems="flex-end">
           <StyledText>${getAssetsTotal()}</StyledText>
           <Flex justifyContent="center" alignItems="center">
-            <CheckBox type="checkbox" onChange={handleChange} />
+            <CheckBox type="checkbox" onChange={handleChange} checked={hideSmall} />
             <StyledText pt={1}>Hide small balances</StyledText>
           </Flex>
         </Flex>

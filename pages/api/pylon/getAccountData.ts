@@ -25,18 +25,19 @@ const getPylonHoldings = (price: number, accountDetails: any) => {
     return {pylonHoldingsSum: '0', pylonHoldings: []};
 };
 
-const getPylonStakings = (price: number, mineStakingData:any, apy: number) => {
+const getPylonGov = (price: number, mineStakingData:any, apy: number) => {
     if (mineStakingData?.data) {
        const {stakedBalance, earned} = mineStakingData?.data;
        if(stakedBalance !== 0) {
            const stakedValue = (stakedBalance * price).toString();
            const rewardsValue = (earned * price).toString();
            const totalValue = (rewardsValue + stakedValue).toString();
-           const pylonStakings =  [{symbol: PYLON_TOKEN_SYMBOL, name: PYLON_TOKEN_NAME, balance: stakedBalance.toString(), rewards: earned.toString(), stakedValue, rewardsValue ,totalValue, apy: apy?.toString() ?? '0'}];
-           return {pylonStakingSum: totalValue, pylonStakingRewardsSum: rewardsValue, pylonStakings};
+           const apyPercent = apy * 100;
+           const gov =  {name: "MINE Gov", symbol: "MINE", staked: stakedBalance.toString(), rewards: earned.toString(), value: stakedValue, price: price.toString(), rewardsValue ,totalValue, apy: apyPercent?.toString() ?? '0'};
+           return gov;
        }
     }
-    return {pylonStakingSum: '0',pylonStakingRewardsSum: '0', pylonStakings: []};
+    return null;
 };
 
 const getMinePoolInfo = (price: number, minePoolData, apy: number, lpValue: number) => {
@@ -70,11 +71,11 @@ const getPylonAirdrops = (price: number, data: any) => {
 }
 
 const getLpValue = (liquidityInfo: any,  minePrice: number) => {
-   const {tokenReserve, ustReserve, totalShares} = liquidityInfo;
-   const totalLpValue = (tokenReserve * minePrice) + ustReserve;
-   const lpValue = totalLpValue / totalShares;
-   return lpValue;
-}
+    const {tokenReserve, ustReserve, totalShares} = liquidityInfo;
+    const totalLpValue = (tokenReserve * minePrice) + ustReserve;
+    const lpValue = totalLpValue / totalShares;
+    return lpValue;
+ }
 
 export const getAccountData = async (address: string) => {  
     try {
@@ -82,13 +83,13 @@ export const getAccountData = async (address: string) => {
         const {priceInUst} = mineOverview.data;
         const lpValue = getLpValue(mineOverview?.data?.liquidityInfo, priceInUst);
         const {pylonHoldingsSum , pylonHoldings} = getPylonHoldings(priceInUst, getAccountDetails);
-        const {pylonStakingSum,pylonStakingRewardsSum, pylonStakings} = getPylonStakings(priceInUst, mineStakingData, governanceOverview?.data?.apy);
+        const gov = getPylonGov(priceInUst, mineStakingData, governanceOverview?.data?.apy);
         const {pylonPoolSum,pylonPoolRewardsSum, pylonPool} = getMinePoolInfo(priceInUst, minePoolData, liquidityOverview?.data?.apy, lpValue);
         const {pylonAirdropSum, pylonAirdrops} = getPylonAirdrops(priceInUst, airdropData?.data);
         const {gatewayPoolData, gatewayRewardsSum, gatewayDepositsSum} = pylonGateway;
-        const pylonTotal = {pylonHoldingsSum, pylonStakingSum, pylonPoolSum, pylonAirdropSum, pylonPoolRewardsSum, pylonStakingRewardsSum, gatewayRewardsSum, gatewayDepositsSum};
+        const pylonTotal = {pylonHoldingsSum, pylonPoolSum, pylonAirdropSum, pylonPoolRewardsSum, gatewayRewardsSum, gatewayDepositsSum};
 
-        return {pylonHoldings, pylonStakings, pylonPool, pylonAirdrops, pylonSum: pylonTotal, pylonGateway: gatewayPoolData};
+        return {pylonHoldings, gov, pylonPool, pylonAirdrops, pylonSum: pylonTotal, pylonGateway: gatewayPoolData};
     }
     catch(err) {
       throw new Error("Error Fetching Pylon Data");

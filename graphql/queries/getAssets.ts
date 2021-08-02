@@ -59,6 +59,15 @@ export const getAssets = gql`
           price
           round
         }
+        gov {
+          name
+          symbol
+          staked
+          value
+          rewards
+          price
+          apr
+        }
         total {
           mirrorHoldingsSum
           mirrorPoolRewardsSum
@@ -87,7 +96,8 @@ export const getAssets = gql`
           }
           value
           percentage
-          price
+          lunaprice
+          ancprice
           netApy
         }
 
@@ -117,13 +127,13 @@ export const getAssets = gql`
           apr
         }
         gov {
-          reward {
-            name
-            staked
-            reward
-            apy
-          }
+          name
+          symbol
+          staked
+          value
+          rewards
           price
+          apr
         }
         airdrops {
           name
@@ -164,14 +174,16 @@ export const getAssets = gql`
           availableLP
           apr
         }
-        pylonStakings  {
+        gov {
+          name
           symbol
-          stakedValue
+          staked
+          value
+          rewards
+          price
+          apy
           rewards
           rewardsValue
-          apy
-          name
-          balance
           totalValue
         }
         pylonAirdrops {
@@ -182,11 +194,9 @@ export const getAssets = gql`
         }
         pylonSum {
           pylonHoldingsSum
-          pylonStakingSum
           pylonPoolSum
           pylonPoolRewardsSum
           pylonAirdropSum
-          pylonStakingRewardsSum
           gatewayRewardsSum
           gatewayDepositsSum
         }
@@ -204,6 +214,43 @@ export const getAssets = gql`
             rewardReleaseDate
           }
 
+        }
+      }
+      spectrum {
+        farms {
+          symbol
+          lpName
+          stakedLp
+          stakedLpUstValue
+          tokenStaked
+          ustStaked
+          farm
+          stakedSpec
+          stakedSpecValue
+          stakedMir
+          stakedMirValue
+          apy
+        }
+        specGov {
+          name
+          symbol
+          staked
+          value
+          rewards
+          price
+          apr
+        }
+        specHoldings{
+          symbol
+          name
+          price
+          balance
+          value
+        }
+        spectrumTotal {
+          farmsTotal
+          holdingsTotal
+          rewardsTotal
         }
       }
     }

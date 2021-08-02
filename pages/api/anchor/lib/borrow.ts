@@ -6,6 +6,7 @@ import { demicrofy, formatRate, formatUSTWithPostfixUnits } from '@anchor-protoc
 import { getPrice } from '../../terra-core/core';
 import { LUNA_DENOM } from '../../terra-core/symbols';
 import axios from 'axios';
+import { ancPriceQuery } from './ancPrice';
 
 const LCDURL = 'https://lcd.terra.dev/';
 
@@ -133,8 +134,7 @@ export async function borrowAPYQuery(mantleEndpoint) {
 export const getBorrowRate = async () => {
   const market_states = await axios.get('https://mantle.anchorprotocol.com/?borrow--market-states', {
     params: {
-      query:
-        BORROW_RATE_QUERY,
+      query: BORROW_RATE_QUERY,
       variables: { marketContract: 'terra1sepfj7s0aeg5967uxnfk4thzlerrsktkpelm5s' },
     },
   });
@@ -160,12 +160,13 @@ export default async (address) => {
   const collaterals = await getCollaterals({ address });
   const allRewards = await borrowAPYQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']);
   const rewards = await rewardsClaimableUstBorrowRewardsQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet'], address);
-  const percentage = ((parseFloat(borrowedValue) / parseFloat(borrowLimit)) * 100) / 2;
+  const percentage = (parseFloat(borrowedValue) / parseFloat(borrowLimit)) * 100 * 0.6;
   const lunaPrice = await getPrice(LUNA_DENOM);
   const distributionAPY = allRewards?.borrowerDistributionAPYs[0]?.DistributionAPY;
   const borrowRate = await getBorrowRate();
   const borrowApy = borrowRate?.data?.result?.rate * blocksPerYear;
   const netApy = (parseFloat(distributionAPY) - borrowApy).toString();
+  const { ancPrice } = await ancPriceQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']);
 
   const result = {
     reward: {
@@ -177,7 +178,8 @@ export default async (address) => {
     value: borrowedValue,
     collaterals: collaterals && collaterals[0] ? collaterals : null,
     percentage: percentage.toString(),
-    price: lunaPrice,
+    lunaprice: lunaPrice,
+    ancprice: ancPrice.ANCPrice,
     netApy: formatRate(netApy),
   };
 
