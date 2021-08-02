@@ -47,9 +47,7 @@ export const getLockInfo = async (address: string) => {
   try {
     const mintInfo = await getMintInfo(address);
     const positions = JSON.parse(mintInfo?.data?.data?.WasmContractsContractAddressStore?.Result).positions;
-    const totalLockInfo = [];
-    const collaterals = [];
-    const borrowed = [];
+    const totalShortInfo = [];
 
     if (positions) {
       positions.forEach(async (position) => {
@@ -59,34 +57,32 @@ export const getLockInfo = async (address: string) => {
             query: LOCK_POSITION_INFO_QUERY(idx),
           },
         });
-        totalLockInfo.push(JSON.parse(lockInfo?.data.data[`position${idx}`].Result));
-        borrowed.push({
-          idx,
+
+        const lockedInfo = JSON.parse(lockInfo?.data.data[`position${idx}`].Result);
+
+        const shortInfo = {
+          lockedInfo,
           asset: {
             amount: asset.amount,
             token: asset.info.token.contract_addr,
           },
-        });
-        collaterals.push({ idx, collateral: collateral.amount });
+          collateral: collateral.amount,
+        };
+
+        totalShortInfo.push(shortInfo);
       });
     }
-    return { totalLockInfo, borrowed, collaterals };
+    return { totalShortInfo };
   } catch (err) {
     getLockInfo(address);
   }
 };
 
 export default async (address: string) => {
-  const lockInfo = await getLockInfo(address);
+  const shortInfo = await getLockInfo(address);
 
-  if (lockInfo) {
-    const result = {
-      lockInfo: lockInfo?.totalLockInfo,
-      borrowInfo: lockInfo?.borrowed,
-      collateralInfo: lockInfo?.collaterals,
-    };
-
-    return result;
+  if (shortInfo) {
+    return shortInfo;
   }
 
   return null;
