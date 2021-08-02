@@ -1,4 +1,3 @@
-
 interface Holdings {
   symbol: string;
   value: string;
@@ -8,13 +7,13 @@ interface Holdings {
 }
 
 interface Gov {
-  name: string
-  symbol: string
-  staked: string
-  value: string
-  rewards: string
-  price: string
-  apr?: string
+  name: string;
+  symbol: string;
+  staked: string;
+  value: string;
+  rewards: string;
+  price: string;
+  apr?: string;
   apy?: string;
 }
 
@@ -39,9 +38,8 @@ interface Pool {
   isShort: boolean;
 }
 
-
 interface Coin extends Holdings {
- __typename?: "Coin";
+  __typename?: 'Coin';
 }
 
 interface Core {
@@ -132,6 +130,36 @@ interface MirrorTotal {
   mirrorAirdropSum: string;
 }
 
+interface AssetInfo {
+  idx: string;
+  name: string;
+  price: string;
+  symbol: string;
+}
+
+interface BorrowInfo {
+  amount: number;
+  amountValue: number;
+  shortApr: string;
+}
+
+interface CollateralInfo {
+  collateral: number;
+  collateralRatio: number;
+}
+
+interface LockedInfo {
+  lockedAmount: string;
+  unlock_time: number;
+}
+
+interface MirrorShortFarm {
+  assetInfo: AssetInfo;
+  borrowInfo: BorrowInfo;
+  collateralInfo: CollateralInfo;
+  lockedInfo: LockedInfo;
+}
+
 interface MirrorAccount {
   __typename?: 'Account';
   mirrorStaking: Pool[];
@@ -139,11 +167,12 @@ interface MirrorAccount {
   gov: Gov;
   total: MirrorTotal;
   airdrops: Array<Airdrops>;
+  mirrorShortFarm: MirrorShortFarm[];
 }
 interface PylonGov extends Gov {
-  rewards
-  rewardsValue
-  totalValue
+  rewards;
+  rewardsValue;
+  totalValue;
 }
 
 interface PylonSum {
@@ -156,20 +185,20 @@ interface PylonSum {
 }
 
 interface DepositLogs {
-  deposit: string
-  depositDate: string
-  depositReleaseDate: string
-  rewardReleaseDate: string
+  deposit: string;
+  depositDate: string;
+  depositReleaseDate: string;
+  rewardReleaseDate: string;
 }
 
 interface PylonGateway {
   symbol: string;
   poolName: string;
   totalDeposit: string;
-  depositLogs: DepositLogs[]
-  apy: string
-  rewards: string
-  rewardsValue: string
+  depositLogs: DepositLogs[];
+  apy: string;
+  rewards: string;
+  rewardsValue: string;
 }
 interface PylonAccount {
   __typename?: 'PylonAccount';
@@ -177,7 +206,7 @@ interface PylonAccount {
   pylonPool: PylonPool[];
   pylonAirdrops: Airdrops;
   gov: PylonGov;
-  pylonSum: PylonSum
+  pylonSum: PylonSum;
   pylonGateway: PylonGateway[];
 }
 
@@ -215,7 +244,7 @@ interface SpectrumAccount {
   farms: SpecFarms[];
   specHoldings: Holdings[];
   specGov?: SpecGov;
-  spectrumTotal: SpectrumTotal
+  spectrumTotal: SpectrumTotal;
 }
 
 interface Assets {
@@ -224,5 +253,5 @@ interface Assets {
   anchor?: AccountAnc;
   mirror?: MirrorAccount;
   pylon?: PylonAccount;
-  spectrum: SpectrumAccount
+  spectrum: SpectrumAccount;
 }

@@ -22,6 +22,8 @@ import Airdrops from '../components/Airdrop';
 
 import useWallet from '../lib/useWallet';
 import Earn from '../components/Earn';
+import ShortFarms from '../components/ShortFarms';
+import MirrorBorrowing from '../components/MirrorBorrowing';
 
 const MAX_TRY = 3;
 
@@ -124,6 +126,8 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
               mirrorAssets={data?.assets?.mirror || {}}
               ancAssets={data?.assets?.anchor || {}}
             />
+            <MirrorBorrowing mirrorAssets={data?.assets?.mirror || {}} />
+            <ShortFarms mirrorAssets={data?.assets?.mirror || {}} />
             <SpectrumFarms spectrum={data?.assets?.spectrum} />
             <SpectrumRewards spectrum={data?.assets?.spectrum} />
             <LunaStaking core={data?.assets.core || {}} />

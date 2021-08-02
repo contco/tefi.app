@@ -85,6 +85,7 @@ export const getAssets = gql`
           borrowInfo {
             amount
             shortApr
+            amountValue
           }
 
           collateralInfo {
