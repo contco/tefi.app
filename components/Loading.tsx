@@ -5,7 +5,7 @@ import styled, { keyframes } from 'styled-components';
 import TEFI_LOGO from '../public/tefi.svg';
 
 const Container = styled(Flex)`
-  height: 100vh;
+  height: 90vh;
   width: 100vw;
   display: flex;
   flex-direction: column;
@@ -18,7 +18,8 @@ const Container = styled(Flex)`
 
 const Text = styled.p`
   margin-top: 39px;
-  color: ${(props) => props.theme.colors.detailsText};
+  color: ${(props) => props.theme.colors.secondary};
+  font-weight: 500;
 `;
 
 const rotate = keyframes`

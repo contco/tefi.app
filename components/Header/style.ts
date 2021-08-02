@@ -7,8 +7,9 @@ import DARK_SWITCH_ICON from '../../public/dark-switch.svg';
 import WALLET_ICON from "../../public/wallet.svg";
 import CLOSE_ICON from "../../public/close.svg";
 import TEFI_LOGO from '../../public/tefi.svg';
-import REFRESH_LOGO from '../../public/refresh.svg';
-import REFRESHING_LOGO from '../../public/refreshing.svg';
+import REFRESH_ICON from '../../public/refresh.svg';
+import REFRESHING_ICON from '../../public/refreshing.svg';
+import CHARTS_ICON from '../../public/charts.svg';
 
 export const Container = styled(Flex)`
 ${props => css({
@@ -53,6 +54,7 @@ export const StyledTitle = styled(Text)`
   fontWeight: 900,
   letterSpacing: 0.5,
   lineHeight: 0.88,
+  cursor: 'pointer',
 })}
  & > * {
    font-weight:500;
@@ -181,7 +183,7 @@ ${css({
     opacity: 0.7;
   }
 `;
-export const RefreshIcon = styled(REFRESH_LOGO)`
+export const RefreshIcon = styled(REFRESH_ICON)`
 ${css({
   color: 'secondary',
   transition: 'opacity 0.3s',
@@ -203,11 +205,24 @@ const rotate = keyframes`
   }
 `;
 
-export const AnimatedRefresh = styled(REFRESHING_LOGO)`
+export const AnimatedRefresh = styled(REFRESHING_ICON)`
   animation: ${rotate} 2s infinite;
   ${(props) =>
     css({
       color: 'secondary',
       ml: 3,
     })}
+`;
+
+export const ChartsIcon = styled(CHARTS_ICON)`
+${css({
+  transition: 'opacity 0.3s',
+  cursor: 'pointer',
+  ml: 3,
+  color: 'secondary',
+  mr: [2, null, null, 4],
+})}
+  &:hover {
+    opacity: 0.7;
+  }
 `;
