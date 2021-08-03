@@ -93,8 +93,11 @@ export const getAssets = gql`
             collateralRatio
           }
           lockedInfo {
-            lockedAmount
+            locked_amount
             unlock_time
+            reward
+            rewardValue
+            shorted
           }
         }
       }

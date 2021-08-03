@@ -81,7 +81,7 @@ interface ContractAddressHelpers {
     getToken: (symbol?: string) => string
     getSymbol: (token?: string) => string
     getIsDelisted: (token: string) => boolean
-    toAssetInfo: (token: string) => AssetInfo | NativeInfo
+    toAssetInfo: (token: string) => AssetInfo | NativeInfo | any
     toToken: (params: Asset) => Token
     parseToken: (token: AssetToken | NativeToken) => Asset
 }

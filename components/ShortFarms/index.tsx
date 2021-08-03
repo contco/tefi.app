@@ -1,6 +1,7 @@
 import { ShortTitle } from '../../constants';
 import { convertToFloatValue } from '../../utils/convertFloat';
-import { Heading, HeadingWrapper, Row, StyledText, Title, Wrapper } from '../dashboardStyles';
+import { Heading, HeadingWrapper, Row, StyledText, SubText, Title, Wrapper } from '../dashboardStyles';
+import { Box } from '@contco/core-ui';
 
 const HEADING_TEXT = 'Mirror Short Farms';
 
@@ -14,10 +15,15 @@ const ShortFarms: React.FC<ShortFarmProps> = ({ mirrorAssets }) => {
     return short.map((assets: MirrorShortFarm, index) => (
       <Row key={index}>
         <StyledText fontWeight={500}> {assets?.assetInfo?.symbol}</StyledText>
-        <StyledText>Shorted</StyledText>
-        <StyledText>{convertToFloatValue(assets?.lockedInfo?.lockedAmount)} UST</StyledText>
+        <StyledText>
+          {convertToFloatValue(assets?.lockedInfo?.shorted)} {assets?.assetInfo?.symbol}
+        </StyledText>
+        <StyledText>{convertToFloatValue(assets?.lockedInfo?.locked_amount)} UST</StyledText>
         <StyledText>unlocked amount</StyledText>
-        <StyledText>Reward</StyledText>
+        <Box>
+          <StyledText>{parseFloat(assets?.lockedInfo?.reward).toFixed(6)} MIR</StyledText>
+          <SubText>{parseFloat(assets?.lockedInfo?.rewardValue).toFixed(6)} UST</SubText>
+        </Box>
       </Row>
     ));
   };

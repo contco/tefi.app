@@ -64,19 +64,22 @@ const typeDefs = gql`
   }
 
   type BorrowInfo {
-    amount: Float
-    amountValue: Float
+    amount: String
+    amountValue: String
     shortApr: String
   }
 
   type CollateralInfo {
-    collateral: Float
-    collateralRatio: Float
+    collateral: String
+    collateralRatio: String
   }
 
   type LockedInfo {
-    lockedAmount: String
+    locked_amount: String
     unlock_time: Int
+    reward: String
+    rewardValue: String
+    shorted: String
   }
 
   type MirrorShortFarm {

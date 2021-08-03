@@ -138,19 +138,22 @@ interface AssetInfo {
 }
 
 interface BorrowInfo {
-  amount: number;
-  amountValue: number;
+  amount: string;
+  amountValue: string;
   shortApr: string;
 }
 
 interface CollateralInfo {
-  collateral: number;
-  collateralRatio: number;
+  collateral: string;
+  collateralRatio: string;
 }
 
 interface LockedInfo {
-  lockedAmount: string;
+  locked_amount: string;
   unlock_time: number;
+  reward: string;
+  rewardValue: string;
+  shorted: string;
 }
 
 interface MirrorShortFarm {

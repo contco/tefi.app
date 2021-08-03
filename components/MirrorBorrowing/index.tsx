@@ -18,12 +18,12 @@ const ShortFarms: React.FC<ShortFarmProps> = ({ mirrorAssets }) => {
         <StyledText>{assets?.assetInfo?.price} UST</StyledText>
         <Box>
           <StyledText>
-            {convertToFloatValue(assets?.borrowInfo.amount.toString())} {assets?.assetInfo?.symbol}
+            {convertToFloatValue(assets?.borrowInfo.amount)} {assets?.assetInfo?.symbol}
           </StyledText>
-          <SubText>{convertToFloatValue(assets?.borrowInfo?.amountValue.toString())} UST</SubText>
+          <SubText>{convertToFloatValue(assets?.borrowInfo?.amountValue)} UST</SubText>
         </Box>
-        <StyledText>{convertToFloatValue(assets?.collateralInfo?.collateral.toString())} UST</StyledText>
-        <StyledText css={CSS_APR}>{assets?.collateralInfo?.collateralRatio.toFixed(2)}%</StyledText>
+        <StyledText>{convertToFloatValue(assets?.collateralInfo?.collateral)} UST</StyledText>
+        <StyledText css={CSS_APR}>{parseFloat(assets?.collateralInfo?.collateralRatio).toFixed(2)}%</StyledText>
       </Row>
     ));
   };

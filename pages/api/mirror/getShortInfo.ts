@@ -2,6 +2,9 @@ import axios from 'axios';
 import MIRROR_ASSETS from './mirrorAssets.json';
 import { getAssetsStats } from './getAssetsStats';
 import { getShortApr } from './getAccountData';
+import { getPairPool } from './getPairPool';
+import { getStakingRewards } from './getStakingRewards';
+import { balance, BalanceKey, div, times, UNIT } from './utils';
 
 const MANTLE_URL = 'https://mantle.terra.dev/';
 
@@ -45,7 +48,13 @@ const getAssetInfo = (token) => {
   return MIRROR_ASSETS.filter((asset) => asset.token === token)[0];
 };
 
-const valueConversion = (value) => value / 1000000;
+const valueConversion = (value) => value / UNIT;
+
+export const getRewards = (rewardsBalance, token, mirPrice) => {
+  const reward = div(rewardsBalance[token], UNIT);
+  const rewardValue = times(reward, mirPrice);
+  return { reward, rewardValue };
+};
 
 export const getMintInfo = async (address: string) => {
   try {
@@ -83,7 +92,18 @@ export const getLockInfo = async (address: string) => {
   try {
     const mintInfo = await getMintInfo(address);
     const positions = JSON.parse(mintInfo?.data?.data?.WasmContractsContractAddressStore?.Result).positions;
-    const assetStats = await getAssetsStats();
+    const assetStatsPromise = getAssetsStats();
+    const pairsListPromise = await getPairPool();
+    const stakingRewardsPromise = getStakingRewards(address);
+
+    const [assetStats, pairsList, stakingRewards] = await Promise.all([
+      assetStatsPromise,
+      pairsListPromise,
+      stakingRewardsPromise,
+    ]);
+
+    const rewardsBalance = balance[BalanceKey.REWARD](pairsList as any, stakingRewards);
+    const mirPrice = assetStats?.statistic?.mirPrice;
 
     const totalShortInfo = Promise.all(
       positions.map(async (position) => {
@@ -94,6 +114,7 @@ export const getLockInfo = async (address: string) => {
           },
         });
 
+        const rewards = getRewards(rewardsBalance, asset.info.token.contract_addr, mirPrice);
         const lockedInfo = JSON.parse(lockInfo?.data.data[`position${idx}`].Result);
         const shortApr = getShortApr(assetStats, asset.info.token.contract_addr);
         const assetInfo = getAssetInfo(asset.info.token.contract_addr);
@@ -108,14 +129,23 @@ export const getLockInfo = async (address: string) => {
             token: asset.info.token.contract_addr,
           },
           borrowInfo: {
-            amount: valueConversion(asset.amount),
-            amountValue: valueConversion(asset.amount) * oraclePrice,
+            amount: valueConversion(asset.amount).toString(),
+            amountValue: (valueConversion(asset.amount) * oraclePrice).toString(),
             shortApr: shortApr,
           },
-          lockedInfo,
+          lockedInfo: {
+            locked_amount: valueConversion(lockedInfo?.locked_amount).toString(),
+            unlock_time: lockedInfo?.unlock_time,
+            reward: rewards.reward,
+            rewardValue: rewards.rewardValue,
+            shorted: valueConversion(parseFloat(asset?.amount)).toString(),
+          },
           collateralInfo: {
-            collateral: valueConversion(collateral.amount),
-            collateralRatio: (valueConversion(collateral.amount) / (valueConversion(asset.amount) * oraclePrice)) * 100,
+            collateral: valueConversion(collateral.amount).toString(),
+            collateralRatio: (
+              (valueConversion(collateral.amount) / (valueConversion(asset.amount) * oraclePrice)) *
+              100
+            ).toString(),
           },
         };
 
