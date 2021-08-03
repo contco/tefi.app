@@ -89,6 +89,7 @@ const Landing: React.FC = () => {
           </Row>
         </AddressContainer>
       </Container>
+      { !isMobile ?
       <Modal isOpen={showModel} onClose={() => setModelVisible(false)}>
         <ModalBox>
           <ModalTitle>Connect To A Wallet</ModalTitle>
@@ -98,6 +99,11 @@ const Landing: React.FC = () => {
           <ModalSection onClick={() => onTypeSelect(WalletConnectType.Mobile)}>Terra Wallet (Mobile)</ModalSection>
         </ModalBox>
       </Modal>
+      :
+      <ModalBox>
+        <ModalTitle>Connecting...</ModalTitle>   
+      </ModalBox>
+}
     </>
   );
 };
