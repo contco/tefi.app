@@ -5,7 +5,7 @@ const SERVER_END_POINT = process.env.SERVER_ENDPOINT;
 
 const gateway = new ApolloGateway({
     serviceList: [
-        { name: 'terra-core', url: `${SERVER_END_POINT}/terra-core`},
+        { name: 'terra-core', url: `${SERVER_END_POINT}/terra-core` },
         { name: 'anchor', url: `${SERVER_END_POINT}/anchor` },
         { name: 'mirror', url: `${SERVER_END_POINT}/mirror` },
         { name: 'pylon', url: `${SERVER_END_POINT}/pylon`},
