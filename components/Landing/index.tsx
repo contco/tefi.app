@@ -13,9 +13,9 @@ import {
   ModalTitle,
   ModalSection,
   WarningText,
-  Row
+  Row,
 } from './style';
-
+import { isMobile } from 'react-device-detect';
 import useWallet from '../../lib/useWallet';
 import { AccAddress } from '@terra-money/terra.js';
 import { Modal } from '@contco/core-ui';
@@ -51,13 +51,12 @@ const Landing: React.FC = () => {
   };
 
   const getWarningText = () => {
-    if(address) {
+    if (address) {
       if (validWalletAddress) {
-        return "Valid Terra Address";
-      }
-      else return "* Terra Address is Invalid";
+        return 'Valid Terra Address';
+      } else return '* Terra Address is Invalid';
     }
-  }
+  };
 
   return (
     <>
@@ -67,7 +66,9 @@ const Landing: React.FC = () => {
           <Tefi>&nbsp;TeFi</Tefi>
         </Title>
 
-        <ConnectButton onClick={() => setModelVisible(!showModel)}>
+        <ConnectButton
+          onClick={isMobile ? () => onTypeSelect(WalletConnectType.Mobile) : () => setModelVisible(!showModel)}
+        >
           {connectedWallet?.terraAddress ? (
             <ConnectText>Connected</ConnectText>
           ) : (
@@ -82,9 +83,9 @@ const Landing: React.FC = () => {
             <WarningText>{getWarningText()}</WarningText>
           </Row>
           <Row>
-          <AddressSubmit disabled={!validWalletAddress} onClick={onAddressSubmit}>
-            <AddressSubmitText>Submit</AddressSubmitText>
-          </AddressSubmit>
+            <AddressSubmit disabled={!validWalletAddress} onClick={onAddressSubmit}>
+              <AddressSubmitText>Submit</AddressSubmitText>
+            </AddressSubmit>
           </Row>
         </AddressContainer>
       </Container>

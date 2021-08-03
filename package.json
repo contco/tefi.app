@@ -49,6 +49,7 @@
     "next-pwa": "^5.2.24",
     "numeral": "^2.0.6",
     "react": "17.0.1",
+    "react-device-detect": "^1.17.0",
     "react-dom": "17.0.1",
     "react-query": "^3.17.0",
     "react-router-dom": "^5.2.0",
