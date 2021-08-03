@@ -11,6 +11,7 @@ const FCD_URL = "https://fcd.terra.dev/v1/";
 
 export const getPoolValues = (lpBalance: number, lpValue: number, price: number, poolResponse) => {
     const stakeableLpUstValue = lpBalance * lpValue;
+
     let ust = 0;
     if (!(poolResponse.assets[0].info.native_token && poolResponse.assets[1].info.native_token)) {
         ust = stakeableLpUstValue / 2;
@@ -23,7 +24,7 @@ export const getPoolValues = (lpBalance: number, lpValue: number, price: number,
 }
 
 
-export const getTokenPrice = (poolResponse) => {
+export const getTokenPrice = (poolResponse, lunaUstPrice) => {
     if (!(poolResponse.assets[0].info.native_token && poolResponse.assets[1].info.native_token)) {
         if (poolResponse.assets[0].info.native_token) {
             return div(poolResponse.assets[0].amount, poolResponse.assets[1].amount);
@@ -32,10 +33,13 @@ export const getTokenPrice = (poolResponse) => {
         }
     }
     else {
+        let priceInLuna;
         if (poolResponse.assets[0].info.native_token.denom === LUNA_DENOM) {
-            return div(poolResponse.assets[1].amount, poolResponse.assets[0].amount);
+            priceInLuna = div(poolResponse.assets[1].amount, poolResponse.assets[0].amount)
+            return times(priceInLuna, lunaUstPrice)
         } else {
-            return div(poolResponse.assets[0].amount, poolResponse.assets[1].amount);
+            priceInLuna = div(poolResponse.assets[0].amount, poolResponse.assets[1].amount)
+            return times(priceInLuna, lunaUstPrice);
         }
     }
 }
@@ -46,7 +50,7 @@ export const calculatePoolData = async (poolResponses, userPoolBalances) => {
     const lunaPrice = pricesRequest?.data?.prices[UUSD_DENOM];
 
     const poolData = Object.keys(poolResponses).map(key => {
-        const price = getTokenPrice(poolResponses[key])
+        const price = getTokenPrice(poolResponses[key], lunaPrice)
         const lpValue = getLpValue(poolResponses[key], parseFloat(price));
         const stakeableLP = parseFloat(userPoolBalances[key].balance) / UNIT;
         const poolValue = getPoolValues(stakeableLP, lpValue, parseFloat(price), poolResponses[key]);
