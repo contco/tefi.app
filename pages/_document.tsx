@@ -1,6 +1,7 @@
 import Document, { DocumentContext, Html, Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 import { TEFI_PREVIEW_IMAGE } from '../constants';
+
 export default class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
     const sheet = new ServerStyleSheet();
@@ -35,7 +36,6 @@ export default class MyDocument extends Document {
           <link href="/favicon-16x16.png" rel="icon" type="image/png" sizes="16x16" />
           <link href="/favicon-32x32.png" rel="icon" type="image/png" sizes="32x32" />
           <link rel="apple-touch-icon" href="/apple-icon.png"></link>
-          <meta name="theme-color" content="#317EFB" />
           <link rel="icon" href="/favicon.ico?v=3" />
           <meta property="og:url" content="https://www.tefi.app/" />
           <meta property="og:type" content="website" />
