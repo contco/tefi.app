@@ -1,47 +1,25 @@
 import axios from "axios";
-import BigNumber from "bignumber.js";
 import { UNIT } from "../mirror/utils";
 import { getLpValue } from "../utils";
-import { div, gt, times, ceil, plus, minus } from "../../../utils/math"
+import { times } from "../../../utils/math"
 import pairs from './constants/pairs.json'
 import tokens from './constants/mainnet-tokens.json';
-import { tokenInfos } from "./constants/constants";
-import { UUSD_DENOM, LUNA_DENOM } from "./symbols";
+import { UUSD_DENOM } from "./symbols";
 const FCD_URL = "https://fcd.terra.dev/v1/";
+import { getPrice, isLunaPair } from "../commons";
 
-export const getPoolValues = (lpBalance: number, lpValue: number, price: number, poolResponse) => {
+export const getPoolValues = (lpBalance: number, lpValue: number, price: number, isLuna = false, lunaPrice?: number) => {
+    let ust, luna = null
     const stakeableLpUstValue = lpBalance * lpValue;
-
-    let ust = 0;
-    if (!(poolResponse.assets[0].info.native_token && poolResponse.assets[1].info.native_token)) {
-        ust = stakeableLpUstValue / 2;
+    const tokenValueInUST = stakeableLpUstValue / 2;
+    if (isLuna) {
+        luna = (tokenValueInUST / lunaPrice).toString();
     }
     else {
-        ust = stakeableLpUstValue;
+        ust = tokenValueInUST.toString()
     }
-    const token = ust / price;
-    return { stakeableLpUstValue: stakeableLpUstValue.toString(), ust: ust.toString(), token: token.toString() };
-}
-
-
-export const getTokenPrice = (poolResponse, lunaUstPrice) => {
-    if (!(poolResponse.assets[0].info.native_token && poolResponse.assets[1].info.native_token)) {
-        if (poolResponse.assets[0].info.native_token) {
-            return div(poolResponse.assets[0].amount, poolResponse.assets[1].amount);
-        } else {
-            return div(poolResponse.assets[1].amount, poolResponse.assets[0].amount);
-        }
-    }
-    else {
-        let priceInLuna;
-        if (poolResponse.assets[0].info.native_token.denom === LUNA_DENOM) {
-            priceInLuna = div(poolResponse.assets[1].amount, poolResponse.assets[0].amount)
-            return times(priceInLuna, lunaUstPrice)
-        } else {
-            priceInLuna = div(poolResponse.assets[0].amount, poolResponse.assets[1].amount)
-            return times(priceInLuna, lunaUstPrice);
-        }
-    }
+    const token = tokenValueInUST / price;
+    return { stakeableLpUstValue: stakeableLpUstValue.toString(), ust, luna, token: token.toString() };
 }
 
 export const calculatePoolData = async (poolResponses, userPoolBalances) => {
@@ -50,10 +28,14 @@ export const calculatePoolData = async (poolResponses, userPoolBalances) => {
     const lunaPrice = pricesRequest?.data?.prices[UUSD_DENOM];
 
     const poolData = Object.keys(poolResponses).map(key => {
-        const price = getTokenPrice(poolResponses[key], lunaPrice)
-        const lpValue = getLpValue(poolResponses[key], parseFloat(price));
+        let price = getPrice(poolResponses[key])
+        const isLuna = isLunaPair(poolResponses[key]);
+        if (isLuna) {
+            price = times(price, lunaPrice);
+        }
+        const lpValue = getLpValue(poolResponses[key], parseFloat(price), isLuna, lunaPrice);
         const stakeableLP = parseFloat(userPoolBalances[key].balance) / UNIT;
-        const poolValue = getPoolValues(stakeableLP, lpValue, parseFloat(price), poolResponses[key]);
+        const poolValue = getPoolValues(stakeableLP, lpValue, parseFloat(price), isLuna, parseFloat(lunaPrice));
         const { stakeableLpUstValue } = poolValue;
         total = total + parseFloat(stakeableLpUstValue);
 
@@ -67,9 +49,8 @@ export const calculatePoolData = async (poolResponses, userPoolBalances) => {
                 })
             })
         }
-        console.log('poolResponses', poolResponses)
         return { price, stakeableLP: stakeableLP.toString(), ...poolValue, symbol };
     })
-    return { ...poolData, total: total.toString() }
+    return { list: poolData, total: total.toString() }
 }
 

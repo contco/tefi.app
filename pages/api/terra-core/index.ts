@@ -37,12 +37,13 @@ const typeDefs = gql`
         stakeableLpUstValue: String
         symbol: String
         token: String
-        ust: String  
+        ust: String
+        luna: String  
     }
 
     type Pool {
         list:[PoolTokens]
-        totalValue:String
+        total:String
     }
 
     type Assets @key(fields: "address") {
