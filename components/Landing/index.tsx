@@ -100,11 +100,10 @@ const Landing: React.FC = () => {
         </ModalBox>
       </Modal>
       :
-      <ModalBox>
-        <ModalTitle>Connecting...</ModalTitle>   
-      </ModalBox>
-}
-    </>
+      null
+
+
+       } </>
   );
 };
 
