@@ -1,3 +1,4 @@
+import { StringDecoder } from "node:string_decoder";
 
 interface Holdings {
   symbol: string;
@@ -215,6 +216,16 @@ interface SpectrumAccount {
   spectrumTotal: SpectrumTotal
 }
 
+interface loterraDraw {
+  combinations: string;
+  drawTime: string
+  ticketCounts: string
+  ticketPrice: string;
+  jackpot: string;
+}
+interface LoterraAccount {
+  loterraDraw: LoterraDraw
+}
 interface Assets {
   __typename?: 'Assets';
   address: string;
@@ -222,4 +233,5 @@ interface Assets {
   mirror?: MirrorAccount;
   pylon?: PylonAccount;
   spectrum: SpectrumAccount
+  loterra: LoterraAccount,
 }

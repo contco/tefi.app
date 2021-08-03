@@ -20,12 +20,12 @@ const formatCombinations = (userCombinations) => {
 export const getLoterraAccount = async (address: string) => {
     const loterraConfig = await getLoterraConfig();
     const {userCombinations, ticketCounts, jackpot} = await getLotteryDetails(address, loterraConfig?.lottery_counter);
-   
     if(userCombinations && userCombinations.length > 0) {
         const combinations = formatCombinations(userCombinations);
         const ticketPrice = div(loterraConfig?.price_per_ticket_to_register, UNIT);
-        const result = {combinations, ticketCounts, jackpot, drawTime: loterraConfig?.block_time_play.toString(), ticketPrice};
-        return result;
+        const drawTime = loterraConfig?.block_time_play * 1000;
+        const loterraDraw = {combinations, ticketCounts, jackpot, drawTime: drawTime.toString(), ticketPrice};
+        return {loterraDraw};
     }
     return null;
 }

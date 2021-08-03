@@ -22,7 +22,7 @@ const typeDefs = gql`
   }
 
   type LoterraAccount {
-    loteraDraw: LoterraDraw
+    loterraDraw: LoterraDraw
   }
 
   extend type Assets @key(fields: "address") {
@@ -33,7 +33,7 @@ const typeDefs = gql`
 
 const resolvers = {
   Assets: {
-    spectrum(assets) {
+    loterra(assets) {
       return getLoterraAccount(assets.address);
     }
   },
