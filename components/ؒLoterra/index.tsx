@@ -1,7 +1,6 @@
 import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText } from '../dashboardStyles';
 import {Box} from "@contco/core-ui";
 import {useTimer} from "react-timer-hook";
-import { LoterraAccount } from '../../types';
 import { convertToFloatValue } from '../../utils/convertFloat';
 const HEADING_TEXT = `LoTerra`;
 

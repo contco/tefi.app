@@ -114,6 +114,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
             mirrorAssets={data?.assets?.mirror || {}}
             ancAssets={data?.assets?.anchor || {}}
             spectrum={data?.assets?.spectrum}
+            loterra={data?.assets?.loterra}
           />
           <Assets
             mirrorAssets={data?.assets?.mirror || {}}
@@ -130,6 +131,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
             mirrorAssets={data?.assets?.mirror || {}}
             ancAssets={data?.assets?.anchor || {}}
             spectrum={data?.assets?.spectrum}
+            loterra={data?.assets?.loterra} 
           />
           <Pools
             pylonAssets={data?.assets?.pylon || {}}

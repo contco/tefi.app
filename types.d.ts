@@ -1,5 +1,3 @@
-import { StringDecoder } from "node:string_decoder";
-
 interface Holdings {
   symbol: string;
   value: string;
@@ -14,6 +12,7 @@ interface Gov {
   staked: string
   value: string
   rewards: string
+  rewardsValue?: string
   price: string
   apr?: string
   apy?: string;
@@ -223,8 +222,13 @@ interface loterraDraw {
   ticketPrice: string;
   jackpot: string;
 }
+
+interface LotaGov extends Gov {
+  rewardsValue: string;
+}
 interface LoterraAccount {
   loterraDraw: LoterraDraw
+  lotaGov: LotaGov
 }
 interface Assets {
   __typename?: 'Assets';

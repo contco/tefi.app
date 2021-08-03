@@ -21,8 +21,20 @@ const typeDefs = gql`
    ticketCounts: String!
   }
 
+  type LotaGov {
+      name: String!
+      symbol: String!
+      staked: String!
+      value: String!
+      rewards: String!
+      rewardsValue: String!
+      apr: String!
+      price: String!
+  }
+
   type LoterraAccount {
     loterraDraw: LoterraDraw
+    lotaGov: LotaGov
   }
 
   extend type Assets @key(fields: "address") {

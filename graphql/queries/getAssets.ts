@@ -258,6 +258,16 @@ export const getAssets = gql`
           ticketPrice
           jackpot
         }
+        lotaGov {
+          name
+          symbol
+          staked
+          value
+          rewards
+          rewardsValue
+          apr
+          price
+        }
       }
     }
   }

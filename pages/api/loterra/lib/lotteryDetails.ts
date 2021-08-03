@@ -4,6 +4,7 @@ import { div } from "../../../../utils/math";
 import { UNIT } from "../../mirror/utils";
 
 export const getLotteryDetails = async (address:string, lottery_id: string) => {
+  try {
     const count_ticket = {
         count_ticket: {
             lottery_id
@@ -26,4 +27,8 @@ export const getLotteryDetails = async (address:string, lottery_id: string) => {
     const [ticketCounts, userCombinations, jackpot] = await Promise.all([ticketCountsRequest, userCombinationsRequest, jackPotRequest]);
     const recentJacpot = div(jackpot, UNIT);
     return {ticketCounts, userCombinations: userCombinations?.combination, jackpot: recentJacpot};
+    }
+    catch(err) {
+        return {ticketCounts: null, userCombinations: null, jackpot: null};
+    }
 }
