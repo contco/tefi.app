@@ -13,6 +13,7 @@ export const getLpValue = (liquidityInfo: any, price: number) => {
   const totalShares = parseFloat(liquidityInfo.total_share);
   let ustReserve = 0
   let tokenReserve = 0
+  console.log('liquidityInfo', liquidityInfo)
   if (!(liquidityInfo.assets[0].info.native_token && liquidityInfo.assets[1].info.native_token)) {
     ustReserve = parseFloat(liquidityInfo?.assets[0]?.info?.native_token ? liquidityInfo?.assets[0]?.amount : liquidityInfo?.assets[1]?.amount);
     tokenReserve = parseFloat(liquidityInfo?.assets[0]?.info?.native_token ? liquidityInfo?.assets[1]?.amount : liquidityInfo?.assets[0]?.amount);

@@ -9,10 +9,15 @@ import { tokenInfos } from "./constants/constants";
 import { UUSD_DENOM, LUNA_DENOM } from "./symbols";
 const FCD_URL = "https://fcd.terra.dev/v1/";
 
-export const getPoolValues = (lpBalance: number, lpValue: number, price: number) => {
-
+export const getPoolValues = (lpBalance: number, lpValue: number, price: number, poolResponse) => {
     const stakeableLpUstValue = lpBalance * lpValue;
-    const ust = stakeableLpUstValue / 2;
+    let ust = 0;
+    if (!(poolResponse.assets[0].info.native_token && poolResponse.assets[1].info.native_token)) {
+        ust = stakeableLpUstValue / 2;
+    }
+    else {
+        ust = stakeableLpUstValue;
+    }
     const token = ust / price;
     return { stakeableLpUstValue: stakeableLpUstValue.toString(), ust: ust.toString(), token: token.toString() };
 }
@@ -42,11 +47,9 @@ export const calculatePoolData = async (poolResponses, userPoolBalances) => {
 
     const poolData = Object.keys(poolResponses).map(key => {
         const price = getTokenPrice(poolResponses[key])
-
         const lpValue = getLpValue(poolResponses[key], parseFloat(price));
-
         const stakeableLP = parseFloat(userPoolBalances[key].balance) / UNIT;
-        const poolValue = getPoolValues(stakeableLP, lpValue, parseFloat(price));
+        const poolValue = getPoolValues(stakeableLP, lpValue, parseFloat(price), poolResponses[key]);
         const { stakeableLpUstValue } = poolValue;
         total = total + parseFloat(stakeableLpUstValue);
 
