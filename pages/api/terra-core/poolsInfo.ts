@@ -55,7 +55,6 @@ export const getPoolsInfo = async (address) => {
     });
     const poolResponses = await getPoolResponses(poolFiltered);
     const poolsInfo = await calculatePoolData(poolResponses, userPoolBalance);
-    console.log('poolsInfo', poolsInfo);
     return poolsInfo;
 }
 

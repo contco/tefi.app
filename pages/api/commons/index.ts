@@ -34,7 +34,6 @@ export const getPrice = (poolResponse) => {
       return div(poolResponse.assets[0].amount, poolResponse.assets[1].amount);
     }
     else {
-      console.log(poolResponse.assets[1].info.native_token.denom)
       return div(poolResponse.assets[1].amount, poolResponse.assets[0].amount);
     }
   }
