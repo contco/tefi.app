@@ -159,11 +159,13 @@ export const getLockInfo = async (address: string) => {
         return shortInfo;
       }),
     );
+
     return totalShortInfo;
   } catch (err) {
     getLockInfo(address);
   }
 };
+
 
 export default async (address: string) => {
   const shortData = await getLockInfo(address);

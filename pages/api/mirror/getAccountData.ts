@@ -51,6 +51,7 @@ export const calculatePoolDetails = (listing, rewardsBalance, priceResult, lpDet
   return { ...poolValues, ...rewards, apr, shortApr,availableLpUstValue: '0', ustUnStaked: '0',tokenUnStaked: '', availableLP: '0' };
 };
 
+
 export const fetchData = (address: string) => {
   const lpTokenBalancePromise = getLpTokenBalance(address);
   const stakingRewardsPromise  = getStakingRewards(address);
