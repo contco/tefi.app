@@ -8,8 +8,9 @@ const gateway = new ApolloGateway({
         { name: 'terra-core', url: `${SERVER_END_POINT}/terra-core` },
         { name: 'anchor', url: `${SERVER_END_POINT}/anchor` },
         { name: 'mirror', url: `${SERVER_END_POINT}/mirror` },
-        { name: 'pylon', url: `${SERVER_END_POINT}/pylon` },
-        { name: 'spectrum', url: `${SERVER_END_POINT}/spectrum` }
+        { name: 'pylon', url: `${SERVER_END_POINT}/pylon`},
+        { name: 'spectrum', url: `${SERVER_END_POINT}/spectrum` },
+        { name: 'loterra', url: `${SERVER_END_POINT}/loterra` }
     ],
 });
 

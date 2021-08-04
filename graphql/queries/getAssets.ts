@@ -250,6 +250,25 @@ export const getAssets = gql`
           rewardsTotal
         }
       }
+      loterra {
+        loterraDraw {
+          combinations
+          drawTime
+          ticketCounts
+          ticketPrice
+          jackpot
+        }
+        lotaGov {
+          name
+          symbol
+          staked
+          value
+          rewards
+          rewardsValue
+          apr
+          price
+        }
+      }
     }
   }
 `;
