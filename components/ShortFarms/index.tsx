@@ -18,11 +18,14 @@ const ShortFarms: React.FC<ShortFarmProps> = ({ mirrorAssets }) => {
         <StyledText>
           {convertToFloatValue(assets?.lockedInfo?.shorted)} {assets?.assetInfo?.symbol}
         </StyledText>
-        <StyledText>{convertToFloatValue(assets?.lockedInfo?.locked_amount)} UST</StyledText>
-        <StyledText>unlocked amount</StyledText>
         <Box>
-          <StyledText>{parseFloat(assets?.lockedInfo?.reward).toFixed(6)} MIR</StyledText>
-          <SubText>{parseFloat(assets?.lockedInfo?.rewardValue).toFixed(6)} UST</SubText>
+          <StyledText>{convertToFloatValue(assets?.lockedInfo?.locked_amount)} UST</StyledText>
+          <SubText>{assets?.lockedInfo?.unlock_time}</SubText>
+        </Box>
+        <StyledText>{convertToFloatValue(assets?.lockedInfo?.unlocked_amount)} UST</StyledText>
+        <Box>
+          <StyledText>{convertToFloatValue(assets?.lockedInfo?.reward)} MIR</StyledText>
+          <SubText>{convertToFloatValue(assets?.lockedInfo?.rewardValue)} UST</SubText>
         </Box>
       </Row>
     ));

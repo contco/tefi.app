@@ -76,7 +76,8 @@ const typeDefs = gql`
 
   type LockedInfo {
     locked_amount: String
-    unlock_time: Int
+    unlocked_amount: String
+    unlock_time: String
     reward: String
     rewardValue: String
     shorted: String

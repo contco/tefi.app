@@ -4,7 +4,7 @@ import { getAssetsStats } from './getAssetsStats';
 import { getShortApr } from './getAccountData';
 import { getPairPool } from './getPairPool';
 import { getStakingRewards } from './getStakingRewards';
-import { balance, BalanceKey, div, times, UNIT } from './utils';
+import { balance, BalanceKey, div, secondsToDate, times, UNIT } from './utils';
 
 const MANTLE_URL = 'https://mantle.terra.dev/';
 
@@ -120,6 +120,12 @@ export const getLockInfo = async (address: string) => {
         const assetInfo = getAssetInfo(asset.info.token.contract_addr);
         const oraclePrice = await getOraclePrice(asset.info.token.contract_addr);
 
+        const currentDate = new Date().getTime() / 1000;
+
+        const locked_amount = lockedInfo?.unlock_time > currentDate ? lockedInfo?.locked_amount : 0;
+        const unlocked_amount = lockedInfo?.unlock_time < currentDate ? lockedInfo?.locked_amount : 0;
+        const timeString = lockedInfo?.unlock_time > currentDate ? secondsToDate(lockedInfo?.unlock_time) : null;
+
         const shortInfo = {
           assetInfo: {
             idx: idx,
@@ -134,8 +140,9 @@ export const getLockInfo = async (address: string) => {
             shortApr: shortApr,
           },
           lockedInfo: {
-            locked_amount: valueConversion(lockedInfo?.locked_amount).toString(),
-            unlock_time: lockedInfo?.unlock_time,
+            locked_amount: valueConversion(locked_amount).toString(),
+            unlocked_amount: valueConversion(unlocked_amount).toString(),
+            unlock_time: timeString,
             reward: rewards.reward,
             rewardValue: rewards.rewardValue,
             shorted: valueConversion(parseFloat(asset?.amount)).toString(),

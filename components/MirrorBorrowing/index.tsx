@@ -15,7 +15,7 @@ const ShortFarms: React.FC<ShortFarmProps> = ({ mirrorAssets }) => {
     return short.map((assets: MirrorShortFarm, index) => (
       <Row key={index}>
         <StyledText fontWeight={500}> {assets?.assetInfo?.name}</StyledText>
-        <StyledText>{assets?.assetInfo?.price} UST</StyledText>
+        <StyledText>{convertToFloatValue(assets?.assetInfo?.price)} UST</StyledText>
         <Box>
           <StyledText>
             {convertToFloatValue(assets?.borrowInfo.amount)} {assets?.assetInfo?.symbol}

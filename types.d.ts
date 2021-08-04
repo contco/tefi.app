@@ -150,7 +150,8 @@ interface CollateralInfo {
 
 interface LockedInfo {
   locked_amount: string;
-  unlock_time: number;
+  unlocked_amount: string;
+  unlock_time: string;
   reward: string;
   rewardValue: string;
   shorted: string;

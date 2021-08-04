@@ -94,6 +94,7 @@ export const getAssets = gql`
           }
           lockedInfo {
             locked_amount
+            unlocked_amount
             unlock_time
             reward
             rewardValue
