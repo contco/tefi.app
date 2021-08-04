@@ -53,7 +53,7 @@ const typeDefs = gql`
         address: String!
         core: Core
         holdings: Coin
-        pools: Pool
+        terraSwapPool: Pool
     }
     
     type Query {
