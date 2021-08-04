@@ -38,6 +38,8 @@ export default class MyDocument extends Document {
           <link rel="apple-touch-icon" href="/apple-icon.png"></link>
           <link rel="icon" href="/favicon.ico?v=3" />
           <meta property="og:url" content="https://www.tefi.app/" />
+          <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+
           <meta property="og:type" content="website" />
           <meta property="og:title" content={'TefiApp | Your portal to TeFi'} />
           <meta name="twitter:name" content={'TefiApp | Your portal to TeFi'} />
