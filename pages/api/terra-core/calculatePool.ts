@@ -25,11 +25,12 @@ export const getPoolValues = (lpBalance: number, lpValue: number, price: number,
 
 const getPoolSymbol = async (poolresponse, isLuna = false) => {
     let tokenContract = ''
-    const liqContract = poolresponse.liquidity_token;
     let coinInfo;
     let symbol1 = ''
     let symbol2 = ''
     let lpName = ''
+    const liqContract = poolresponse.liquidity_token;
+
     pairs.map(pair => {
         if (pair.contract_addr === poolresponse.contract_addr) {
             pair.asset_infos.map(asset => {
