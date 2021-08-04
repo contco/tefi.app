@@ -188,6 +188,7 @@ export const getAssets = gql`
           symbol
           price
           quantity
+          round
         }
         pylonSum {
           pylonHoldingsSum
