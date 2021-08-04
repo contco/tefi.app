@@ -10,24 +10,26 @@ import { getPrice, isLunaPair } from "../commons";
 import { getTokenData } from "../spectrum/lib/coinInfos";
 
 export const getPoolValues = (lpBalance: number, lpValue: number, price: number, isLuna = false, lunaPrice?: number) => {
-    let ust, luna = null
+    let token1UnStaked = null
     const stakeableLpUstValue = lpBalance * lpValue;
     const tokenValueInUST = stakeableLpUstValue / 2;
     if (isLuna) {
-        luna = (tokenValueInUST / lunaPrice).toString();
+        token1UnStaked = (tokenValueInUST / lunaPrice).toString();
     }
     else {
-        ust = tokenValueInUST.toString()
+        token1UnStaked = tokenValueInUST.toString()
     }
-    const token = tokenValueInUST / price;
-    return { stakeableLpUstValue: stakeableLpUstValue.toString(), ust, luna, token: token.toString() };
+    const token2UnStaked = tokenValueInUST / price;
+    return { stakeableLpUstValue: stakeableLpUstValue.toString(), token1UnStaked, token2UnStaked: token2UnStaked.toString() };
 }
 
 const getPoolSymbol = async (poolresponse, isLuna = false) => {
     let tokenContract = ''
     const liqContract = poolresponse.liquidity_token;
     let coinInfo;
-    let symbol = ''
+    let symbol1 = ''
+    let symbol2 = ''
+    let lpName = ''
     pairs.map(pair => {
         if (pair.contract_addr === poolresponse.contract_addr) {
             pair.asset_infos.map(asset => {
@@ -39,18 +41,22 @@ const getPoolSymbol = async (poolresponse, isLuna = false) => {
     });
     if (tokenContract && !isLuna) {
         coinInfo = await getTokenData(tokenContract)
-        symbol = coinInfo?.symbol + '-UST'
+        lpName = coinInfo?.symbol + '-UST LP';
+        symbol1 = 'UST'
+        symbol2 = coinInfo?.symbol;
     }
     else {
         if (liqContract) {
             tokens.map(token => {
                 if (token.contract_addr === liqContract) {
-                    symbol = token.symbol
+                    lpName = token.symbol + '-LUNA LP';
+                    symbol1 = 'LUNA'
+                    symbol2 = token.symbol;
                 }
             })
         }
     }
-    return symbol;
+    return { symbol1, symbol2, lpName };
 }
 
 export const calculatePoolData = async (poolResponses, userPoolBalances) => {
@@ -60,7 +66,7 @@ export const calculatePoolData = async (poolResponses, userPoolBalances) => {
 
     const poolData = await Object.keys(poolResponses).map(async key => {
         const isLuna = isLunaPair(poolResponses[key]);
-        const symbol = await getPoolSymbol(poolResponses[key], isLuna);
+        const { symbol1, symbol2, lpName } = await getPoolSymbol(poolResponses[key], isLuna);
         let price = getPrice(poolResponses[key])
         if (isLuna) { price = times(price, lunaPrice); }
         const lpValue = getLpValue(poolResponses[key], parseFloat(price), isLuna, lunaPrice);
@@ -68,7 +74,7 @@ export const calculatePoolData = async (poolResponses, userPoolBalances) => {
         const poolValue = getPoolValues(stakeableLP, lpValue, parseFloat(price), isLuna, parseFloat(lunaPrice));
         const { stakeableLpUstValue } = poolValue;
         total = total + parseFloat(stakeableLpUstValue);
-        return { price, stakeableLP: stakeableLP.toString(), ...poolValue, symbol };
+        return { symbol1, symbol2, lpName, price, ...poolValue, stakeableLP: stakeableLP.toString(), };
     })
     return { list: poolData, total: total.toString() }
 }

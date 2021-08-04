@@ -32,13 +32,16 @@ const typeDefs = gql`
     }
 
     type PoolTokens {
+        symbol1: String
+        symbol2:String
+        lpName: String
         price: String
         stakeableLP: String
-        stakeableLpUstValue: String
-        symbol: String
-        token: String
-        ust: String
-        luna: String  
+        stakeableLpUstValue:String
+        token1UnStaked:String
+        token1Staked:String
+        token2UnStaked:String
+        token2Staked:String
     }
 
     type Pool {

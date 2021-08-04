@@ -470,21 +470,21 @@
     },
     {
         "name": "terraswap liquidity token",
-        "symbol": "KRT-LUNA",
+        "symbol": "KRT",
         "decimals": 6,
         "total_supply": "7095004901207",
         "contract_addr": "terra12dnl585uxzddjw9hw4ca694f054shgpg93cg90"
     },
     {
         "name": "terraswap liquidity token",
-        "symbol": "ANC-LUNA",
+        "symbol": "ANC",
         "decimals": 6,
         "total_supply": "5590606905135",
         "contract_addr": "terra1xqeym28j9xgv0p93pwwt6qcxf9tdvf9ztfxf0w"
     },
     {
         "name": "terraswap liquidity token",
-        "symbol": "SDT-LUNA",
+        "symbol": "SDT",
         "decimals": 6,
         "total_supply": "92234209",
         "contract_addr": "terra1mljg7dvzknqh3gc62emagf7hwxxg8efemennp8"
