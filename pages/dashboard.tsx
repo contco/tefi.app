@@ -68,7 +68,6 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
 
   useEffect(() => {
     if (error && fetchCount !== MAX_TRY) {
-      console.log(error);
       setFetchCount(fetchCount + 1);
       setTimeout(() => {
         refetch();

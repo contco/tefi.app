@@ -18,7 +18,10 @@ const ShortFarms: React.FC<ShortFarmProps> = ({ mirrorAssets }) => {
 
   const getCollateralTotal = () => {
     const short = mirrorAssets?.mirrorShortFarm;
-    const totalCollateral = short.reduce((a, shortAsset) => a + parseFloat(shortAsset?.collateralInfo?.collateral), 0);
+    const totalCollateral = short.reduce(
+      (a, shortAsset) => a + parseFloat(shortAsset?.collateralInfo?.collateralValue),
+      0,
+    );
     return totalCollateral.toString();
   };
 
@@ -34,7 +37,16 @@ const ShortFarms: React.FC<ShortFarmProps> = ({ mirrorAssets }) => {
           </StyledText>
           <SubText>{convertToFloatValue(assets?.borrowInfo?.amountValue)} UST</SubText>
         </Box>
-        <StyledText>{convertToFloatValue(assets?.collateralInfo?.collateral)} UST</StyledText>
+        <Box>
+          <StyledText>
+            {convertToFloatValue(assets?.collateralInfo?.collateral)} {assets?.collateralInfo?.csymbol}
+          </StyledText>
+          <SubText>
+            {assets?.collateralInfo?.csymbol === 'UST'
+              ? null
+              : convertToFloatValue(assets?.collateralInfo?.collateralValue) + ' UST'}
+          </SubText>
+        </Box>
         <StyledText css={CSS_APR}>{parseFloat(assets?.collateralInfo?.collateralRatio).toFixed(2)}%</StyledText>
       </Row>
     ));

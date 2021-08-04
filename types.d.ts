@@ -145,7 +145,9 @@ interface BorrowInfo {
 
 interface CollateralInfo {
   collateral: string;
+  collateralValue: string;
   collateralRatio: string;
+  csymbol: string;
 }
 
 interface LockedInfo {

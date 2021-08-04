@@ -3,9 +3,8 @@ import numeral from 'numeral';
 import MIRROR_ASSETS from './mirrorAssets.json';
 import { addMinutes, format as formatting } from 'date-fns';
 
-
 const listedAll: ListedItem[] = MIRROR_ASSETS;
-export const FMT = { HHmm: "EEE, LLL dd, HH:mm aa", MMdd: "LLL dd, yyyy" }
+export const FMT = { HHmm: 'EEE, LLL dd, HH:mm aa', MMdd: 'LLL dd, yyyy' };
 
 export const WASMQUERY = 'WasmContractsContractAddressStore';
 export const STAKING_CONTRACT = 'terra17f7zu97865jmknk7p2glqvxzhduk78772ezac5';
@@ -205,7 +204,6 @@ export const format: Formatter = (amount, symbol, config) => {
 
 export const formatAsset: Formatter = (amount, symbol, config) => (symbol ? `${format(amount, symbol, config)}` : '');
 
-
 export const getUTCDate = () => {
   const offset = new Date().getTimezoneOffset();
   const utc = addMinutes(new Date(), offset);
@@ -215,3 +213,6 @@ export const getUTCDate = () => {
 export const isPast = (second: number) => second * 1000 < Date.now();
 export const isFuture = (second: number) => Date.now() < second * 1000;
 export const secondsToDate = (second?: number) => (second ? formatting(new Date(second * 1000), FMT.HHmm) : '');
+
+export const ANC = 'terra14z56l0fp2lsf86zy3hty2z47ezkhnthtr9yq76';
+export const aUST = 'terra1hzh9vpxhsk8253se0vv5jj6etdvxu3nv8z07zu';

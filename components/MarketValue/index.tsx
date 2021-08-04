@@ -24,7 +24,10 @@ const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAsse
 
   const getCollateralTotal = () => {
     const short = mirrorAssets?.mirrorShortFarm;
-    const totalCollateral = short.reduce((a, shortAsset) => a + parseFloat(shortAsset?.collateralInfo?.collateral), 0);
+    const totalCollateral = short.reduce(
+      (a, shortAsset) => a + parseFloat(shortAsset?.collateralInfo?.collateralValue),
+      0,
+    );
     return totalCollateral.toString();
   };
 

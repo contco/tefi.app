@@ -90,7 +90,9 @@ export const getAssets = gql`
 
           collateralInfo {
             collateral
+            collateralValue
             collateralRatio
+            csymbol
           }
           lockedInfo {
             locked_amount

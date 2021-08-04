@@ -71,7 +71,9 @@ const typeDefs = gql`
 
   type CollateralInfo {
     collateral: String
+    collateralValue: String
     collateralRatio: String
+    csymbol: String
   }
 
   type LockedInfo {
@@ -108,9 +110,8 @@ const resolvers = {
   Assets: {
     mirror(assets) {
       return getAccountData(assets.address);
-    }
+    },
   },
-
 };
 
 const apolloServer = new ApolloServer({ schema: buildFederatedSchema([{ typeDefs, resolvers }]) });
