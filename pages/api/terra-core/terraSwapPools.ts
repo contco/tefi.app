@@ -45,7 +45,7 @@ const getUserPoolBalances = async (address, pairInfo) => {
     return poolResponses;
 }
 
-export const getPoolsInfo = async (address) => {
+export const getTerraSwapPoolData = async (address) => {
     const userPoolBalance = await getUserPoolBalances(address, pairs);
     const poolFiltered = {}
     Object.keys(userPoolBalance).map((key, value) => {
