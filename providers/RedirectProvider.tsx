@@ -1,35 +1,28 @@
-import {useRouter} from "next/router";
-import { useEffect, FC } from "react"
-import useWallet from "../lib/useWallet";
-import {ADDRESS_KEY} from "../constants";
+import { useRouter } from 'next/router';
+import { useEffect, FC } from 'react';
+import useWallet from '../lib/useWallet';
+import { ADDRESS_KEY } from '../constants';
 
 const RedirectProvider: FC = ({ children }) => {
-const {useConnectedWallet}  = useWallet();
-const connectedWallet = useConnectedWallet();
-const router = useRouter();
- 
-useEffect(() => {
-  const localAddress = localStorage.getItem(ADDRESS_KEY);
+  const { useConnectedWallet } = useWallet();
+  const connectedWallet = useConnectedWallet();
+  const router = useRouter();
 
-  if(router.pathname === "/") {
-      if(localAddress || connectedWallet?.terraAddress) {
-          router.push("/dashboard");
+  useEffect(() => {
+    const localAddress = localStorage.getItem(ADDRESS_KEY);
+
+    if (router.pathname === '/') {
+      if (localAddress || connectedWallet?.terraAddress) {
+        router.push('/dashboard');
       }
-  }
-  else  {
-      if(!localAddress && !connectedWallet?.terraAddress) {
-          router.push("/");
+    } else if (router.pathname === '/dashboard') {
+      if (!localAddress && !connectedWallet?.terraAddress) {
+        router.push('/');
       }
-  }
-   
-} ,[connectedWallet, router.pathname]);
+    }
+  }, [connectedWallet, router.pathname]);
 
+  return <>{children}</>;
+};
 
-return (
-  <>
-  {children}
-  </>
-)
-}
-
-export default RedirectProvider
+export default RedirectProvider;

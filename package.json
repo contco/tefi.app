@@ -53,6 +53,7 @@
     "react-dom": "17.0.1",
     "react-query": "^3.17.0",
     "react-router-dom": "^5.2.0",
+    "recharts": "^2.0.10",
     "styled-components": "^5.2.1",
     "styled-system": "^5.1.5"
   },

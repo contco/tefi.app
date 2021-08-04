@@ -53,7 +53,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     }
   }, []);
 
-  const [fetchAssets, { data, called, loading, error, refetch, networkStatus }] = useLazyQuery(getAssets, {
+  const [fetchAssets, { data, called, loading: dataLoading, error, refetch, networkStatus }] = useLazyQuery(getAssets, {
     variables: { address: address },
     notifyOnNetworkStatusChange: true,
   });
@@ -73,24 +73,8 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     }
   }, [error]);
 
-  if (!called || loading || (!data && fetchCount !== MAX_TRY)) {
-    if (networkStatus !== NetworkStatus.refetch) return <Loading />;
-  }
-
-  if (!data || data?.length === 0) {
-    return (
-      <EmptyComponent msg={error ? 'Oops! Error Fetching Assets' : null}>
-        <Header
-          onRefresh={() => refetch()}
-          refreshing={networkStatus == NetworkStatus.refetch}
-          theme={theme}
-          changeTheme={changeTheme}
-          addressType={addressType}
-          address={address}
-        />
-      </EmptyComponent>
-    );
-  }
+  const loading =
+    (!called || dataLoading || (!data && fetchCount !== MAX_TRY)) && networkStatus !== NetworkStatus.refetch;
 
   return (
     <div>
@@ -99,51 +83,57 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
       </Head>
       <div>
         <Header
-          onRefresh={() => refetch()}
+          onRefresh={loading ? null : () => refetch()}
           refreshing={networkStatus == NetworkStatus.refetch}
           theme={theme}
           changeTheme={changeTheme}
           addressType={addressType}
           address={address}
         />
-        <Body>
-          <MarketValue
-            core={data?.assets.core || {}}
-            pylonAssets={data?.assets?.pylon || {}}
-            mirrorAssets={data?.assets?.mirror || {}}
-            ancAssets={data?.assets?.anchor || {}}
-            spectrum={data?.assets?.spectrum}
-          />
-          <Assets
-            mirrorAssets={data?.assets?.mirror || {}}
-            core={data?.assets.core}
-            ancAssets={data?.assets?.anchor || {}}
-            pylonAssets={data?.assets?.pylon || {}}
-            spectrum={data?.assets?.spectrum}
-          />
-          <PylonGateway pylonAssets={data?.assets?.pylon || {}} />
-          <Earn ancAssets={data?.assets?.anchor || {}} />
-          <Borrowing ancAssets={data?.assets?.anchor || {}} />
-          <Rewards
-            pylonAssets={data?.assets?.pylon || {}}
-            mirrorAssets={data?.assets?.mirror || {}}
-            ancAssets={data?.assets?.anchor || {}}
-            spectrum={data?.assets?.spectrum}
-          />
-          <Pools
-            pylonAssets={data?.assets?.pylon || {}}
-            mirrorAssets={data?.assets?.mirror || {}}
-            ancAssets={data?.assets?.anchor || {}}
-          />
-          <SpectrumFarms spectrum={data?.assets?.spectrum} />
-          <SpectrumRewards spectrum={data?.assets?.spectrum} />
-          <LunaStaking core={data?.assets.core || {}} />
-          <Airdrops
-            pylonAssets={data?.assets?.pylon || {}}
-            mirrorAssets={data?.assets?.mirror || {}}
-            anchorAssets={data?.assets?.anchor}
-          />
-        </Body>
+        {loading ? (
+          <Loading />
+        ) : !data || data?.length === 0 ? (
+          <EmptyComponent msg={error ? 'Oops! Error Fetching Assets' : null} />
+        ) : (
+          <Body>
+            <MarketValue
+              core={data?.assets.core || {}}
+              pylonAssets={data?.assets?.pylon || {}}
+              mirrorAssets={data?.assets?.mirror || {}}
+              ancAssets={data?.assets?.anchor || {}}
+              spectrum={data?.assets?.spectrum}
+            />
+            <Assets
+              mirrorAssets={data?.assets?.mirror || {}}
+              core={data?.assets.core}
+              ancAssets={data?.assets?.anchor || {}}
+              pylonAssets={data?.assets?.pylon || {}}
+              spectrum={data?.assets?.spectrum}
+            />
+            <PylonGateway pylonAssets={data?.assets?.pylon || {}} />
+            <Earn ancAssets={data?.assets?.anchor || {}} />
+            <Borrowing ancAssets={data?.assets?.anchor || {}} />
+            <Rewards
+              pylonAssets={data?.assets?.pylon || {}}
+              mirrorAssets={data?.assets?.mirror || {}}
+              ancAssets={data?.assets?.anchor || {}}
+              spectrum={data?.assets?.spectrum}
+            />
+            <Pools
+              pylonAssets={data?.assets?.pylon || {}}
+              mirrorAssets={data?.assets?.mirror || {}}
+              ancAssets={data?.assets?.anchor || {}}
+            />
+            <SpectrumFarms spectrum={data?.assets?.spectrum} />
+            <SpectrumRewards spectrum={data?.assets?.spectrum} />
+            <LunaStaking core={data?.assets.core || {}} />
+            <Airdrops
+              pylonAssets={data?.assets?.pylon || {}}
+              mirrorAssets={data?.assets?.mirror || {}}
+              anchorAssets={data?.assets?.anchor}
+            />
+          </Body>
+        )}
       </div>
     </div>
   );
