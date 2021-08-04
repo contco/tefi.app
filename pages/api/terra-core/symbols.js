@@ -38,14 +38,24 @@ export const DENOM_SYMBOLS = {
     uthb: { name: "Terra Thai Baht", symbol: "THT" },
 };
 
-export const BLUNA = {
-    name: "Bonded Luna",
-    symbol: "bLUNA",
-    isNative: false,
-    isLunaPair: true,
-    token_addr: "terra1kc87mu460fwkqte29rquh4hc20m54fxwtsx7gp",
-    pool_addr: "terra1jxazgm67et0ce260kvrpfv50acuushpjsz2y0p"
-};
+export const SWAP_TOKENS = [
+    {
+        name: "Bonded Luna",
+        symbol: "bLUNA",
+        isNative: false,
+        isLunaPair: true,
+        token_addr: "terra1kc87mu460fwkqte29rquh4hc20m54fxwtsx7gp",
+        pool_addr: "terra1jxazgm67et0ce260kvrpfv50acuushpjsz2y0p"
+    },
+    {
+        name: "LoTerra",
+        symbol: "LOTA",
+        isNative: false,
+        isLunaPair: false,
+        token_addr: "terra1ez46kxtulsdv07538fh5ra5xj8l68mu8eg24vr",
+        pool_addr: "terra1pn20mcwnmeyxf68vpt3cyel3n57qm9mp289jta"
+    }
+];
 
 export const UUSD_DENOM = "uusd";
 export const LUNA_DENOM = "uluna";
