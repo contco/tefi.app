@@ -21,24 +21,24 @@ ${css({
 `;
 export const Heading = Styled(Text)`
 ${(props) =>
-  css({
-    color: props.theme.colors.Heading,
-    letterSpacing: 2,
-    fontSize: [20, null, null, 28],
-    fontWeight: 900,
-    mb: 2,
-  })}
+    css({
+      color: props.theme.colors.Heading,
+      letterSpacing: 2,
+      fontSize: [20, null, null, 28],
+      fontWeight: 900,
+      mb: 2,
+    })}
 `;
 
 export const Title = Styled(Text)`
 ${(props) =>
-  css({
-    color: props.theme.colors.subHeading,
-    fontWeight: 500,
-    letterSpacing: 1,
-    fontSize: ['14px', null, null, 18],
-    width: [100, null, 150, null, null, 200],
-  })}
+    css({
+      color: props.theme.colors.subHeading,
+      fontWeight: 500,
+      letterSpacing: 1,
+      fontSize: ['14px', null, null, 18],
+      width: [100, null, 150, null, null, 200],
+    })}
 `;
 
 export const TextContainer = Styled(Flex)`
@@ -51,36 +51,40 @@ export const TextContainer = Styled(Flex)`
 
 export const SubText = Styled(Text)`
 ${(props) =>
-  css({
-    color: props.theme.colors.detailsText,
-    fontWeight: 'bold',
-    fontSize: ['10px', null, null, '12px'],
-    pt: 1,
-  })}
+    css({
+      color: props.theme.colors.detailsText,
+      fontWeight: 'bold',
+      fontSize: ['10px', null, null, '12px'],
+      pt: 1,
+    })}
 `;
 export const StyledText = Styled(Text)`
 ${(props) =>
-  css({
-    color: props.theme.colors.detailsText,
-    letterSpacing: 1,
-    fontSize: ['11px', null, null, null, '14px', null, null, 16],
-    width: [100, null, 150, null, null, 200],
-    cursor: props.isChildren ? 'pointer' : '',
-  })}
+    css({
+      color: props.theme.colors.detailsText,
+      letterSpacing: 1,
+      fontSize: ['11px', null, null, null, '14px', null, null, 16],
+      width: [100, null, 150, null, null, 200],
+      cursor: props.isChildren || props.isURL ? 'pointer' : '',
+    })}
     &:hover > * {
-        display:flex;
-        opacity:1
+        display:${(props) => !props.isURL ? 'flex' : ''};
+        opacity:${(props) => !props.isURL ? '1' : ''};
+        visibility: visible;
+    }
+    &:hover {
+      text-decoration: ${(props) => props.isURL ? "underline" : ''}
     }
 `;
 export const HoverText = Styled(Text)`
 ${(props) =>
-  css({
-    color: props.theme.colors.detailsText,
-    fontSize: ['8px', null, null, '10px'],
-    width: [100, null, 150, null, null, 200],
-    opacity: '0',
-    pt: 1,
-  })}
+    css({
+      color: props.theme.colors.detailsText,
+      fontSize: ['8px', null, null, '10px'],
+      width: [100, null, 150, null, null, 200],
+      opacity: '0',
+      pt: 1,
+    })}
 `;
 
 export const CheckBox = Styled.input`
@@ -95,7 +99,7 @@ export const CheckBox = Styled.input`
 `;
 
 
-export const ColumnFlex  = Styled(Flex)`
+export const ColumnFlex = Styled(Flex)`
  flex-direction: column;
 `
 

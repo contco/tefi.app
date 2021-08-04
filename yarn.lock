@@ -5906,6 +5906,11 @@ react-smooth@^2.0.0:
     raf "^3.4.0"
     react-transition-group "2.9.0"
 
+react-timer-hook@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/react-timer-hook/-/react-timer-hook-3.0.4.tgz#13089b62cc81c6dd0d2bd904cd54add668089c4b"
+  integrity sha512-3Ifg00REsB7871rkpiLZEVTsagaOVvcBKF33Qu9eqJ3tWjYxej3hr2Fo8tep9KP0eXBfE5k60C/M+Tv4/I/ZzA==
+
 react-transition-group@2.9.0:
   version "2.9.0"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-2.9.0.tgz#df9cdb025796211151a436c69a8f3b97b5b07c8d"

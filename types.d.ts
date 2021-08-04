@@ -7,13 +7,14 @@ interface Holdings {
 }
 
 interface Gov {
-  name: string;
-  symbol: string;
-  staked: string;
-  value: string;
-  rewards: string;
-  price: string;
-  apr?: string;
+  name: string
+  symbol: string
+  staked: string
+  value: string
+  rewards: string
+  rewardsValue?: string
+  price: string
+  apr?: string
   apy?: string;
 }
 
@@ -253,11 +254,27 @@ interface SpectrumAccount {
   spectrumTotal: SpectrumTotal;
 }
 
+interface loterraDraw {
+  combinations: string;
+  drawTime: string
+  ticketCounts: string
+  ticketPrice: string;
+  jackpot: string;
+}
+
+interface LotaGov extends Gov {
+  rewardsValue: string;
+}
+interface LoterraAccount {
+  loterraDraw: LoterraDraw
+  lotaGov: LotaGov
+}
 interface Assets {
   __typename?: 'Assets';
   address: string;
   anchor?: AccountAnc;
   mirror?: MirrorAccount;
   pylon?: PylonAccount;
-  spectrum: SpectrumAccount;
+  spectrum: SpectrumAccount
+  loterra: LoterraAccount,
 }
