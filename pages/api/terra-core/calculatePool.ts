@@ -11,6 +11,7 @@ import { getTokenData } from "../spectrum/lib/coinInfos";
 
 export const getPoolValues = (lpBalance: number, lpValue: number, price: number, isLuna = false, lunaPrice?: number) => {
     let token1UnStaked = null
+    let token1Staked = "0", token2Staked = "0";
     const stakeableLpUstValue = lpBalance * lpValue;
     const tokenValueInUST = stakeableLpUstValue / 2;
     if (isLuna) {
@@ -20,7 +21,7 @@ export const getPoolValues = (lpBalance: number, lpValue: number, price: number,
         token1UnStaked = tokenValueInUST.toString()
     }
     const token2UnStaked = tokenValueInUST / price;
-    return { stakeableLpUstValue: stakeableLpUstValue.toString(), token1UnStaked, token2UnStaked: token2UnStaked.toString() };
+    return { stakeableLpUstValue: stakeableLpUstValue.toString(), token1UnStaked, token1Staked, token2UnStaked: token2UnStaked.toString(), token2Staked };
 }
 
 const getPoolSymbol = async (poolresponse, isLuna = false) => {
