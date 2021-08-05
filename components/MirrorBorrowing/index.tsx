@@ -10,6 +10,8 @@ export interface ShortFarmProps {
 }
 
 const ShortFarms: React.FC<ShortFarmProps> = ({ mirrorAssets }) => {
+  let short = mirrorAssets?.mirrorShortFarm;
+
   const getBorrowedTotal = () => {
     const short = mirrorAssets?.mirrorShortFarm;
     const totalBorrowed = short.reduce((a, shortAsset) => a + parseFloat(shortAsset?.borrowInfo?.amountValue), 0);
@@ -26,7 +28,6 @@ const ShortFarms: React.FC<ShortFarmProps> = ({ mirrorAssets }) => {
   };
 
   const getMirBorrow = () => {
-    let short = mirrorAssets?.mirrorShortFarm;
     short = short
       .slice()
       .sort((a, b) => parseFloat(b?.collateralInfo?.collateralRatio) - parseFloat(a?.collateralInfo?.collateralRatio));
@@ -54,6 +55,11 @@ const ShortFarms: React.FC<ShortFarmProps> = ({ mirrorAssets }) => {
       </Row>
     ));
   };
+
+  if (!short || short.length === 0) {
+    return <></>;
+  }
+
   return (
     <Wrapper>
       <HeadingWrapper>

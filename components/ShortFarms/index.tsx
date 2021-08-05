@@ -15,9 +15,11 @@ export const getTotalForFarm = (short, prop) => {
 
 const ShortFarms: React.FC<ShortFarmProps> = ({ mirrorAssets }) => {
   let short = mirrorAssets?.mirrorShortFarm;
-  short = short.slice().sort((a, b) => parseFloat(b?.lockedInfo?.rewardValue) - parseFloat(a?.lockedInfo?.rewardValue));
 
   const getShorts = () => {
+    short = short
+      .slice()
+      .sort((a, b) => parseFloat(b?.lockedInfo?.rewardValue) - parseFloat(a?.lockedInfo?.rewardValue));
     return short.map((assets: MirrorShortFarm, index) => (
       <Row key={index}>
         <StyledText fontWeight={500}> {assets?.assetInfo?.symbol}</StyledText>
@@ -36,6 +38,10 @@ const ShortFarms: React.FC<ShortFarmProps> = ({ mirrorAssets }) => {
       </Row>
     ));
   };
+
+  if (!short || short.length === 0) {
+    return <></>;
+  }
 
   return (
     <Wrapper>
