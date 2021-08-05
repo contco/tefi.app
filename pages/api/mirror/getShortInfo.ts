@@ -125,7 +125,76 @@ const getAUSTInfo = async () => {
   }
 };
 
-export const getLockInfo = async (address: string) => {
+const getCollateralInfo = async (collateral, asset, oraclePrice) => {
+  let collateralInfo: {
+    symbol: string;
+    collateral: number;
+    collateralValue: number;
+    collateralRatio: number;
+  } = {
+    symbol: '',
+    collateral: 0,
+    collateralValue: 0,
+    collateralRatio: 0,
+  };
+
+  const contractAddr = collateral?.info?.token
+    ? collateral?.info?.token?.contract_addr
+    : collateral?.info?.native_token?.denom;
+
+  if (contractAddr.includes('terra')) {
+    if (contractAddr === ANC) {
+      const ancPrice = await anchor.anchorToken.getANCPrice();
+      const collateralValue = parseFloat(ancPrice) * collateral?.amount;
+      collateralInfo = {
+        symbol: 'ANC',
+        collateral: collateral.amount,
+        collateralValue: collateralValue,
+        collateralRatio: (valueConversion(collateralValue) / (valueConversion(asset.amount) * oraclePrice)) * 100,
+      };
+    } else if (contractAddr === aUST) {
+      const exchangeRate = await getAUSTInfo();
+      const collateralValue = parseFloat(exchangeRate?.exchange_rate) * collateral?.amount;
+
+      collateralInfo = {
+        symbol: 'aUST',
+        collateral: collateral.amount,
+        collateralValue: collateralValue,
+        collateralRatio: (valueConversion(collateralValue) / (valueConversion(asset.amount) * oraclePrice)) * 100,
+      };
+    } else {
+      const info = getAssetInfo(collateral.info.token.contract_addr);
+      const price = await getOraclePrice(collateral.info.token.contract_addr);
+      const collateralValue = parseFloat(price) * collateral?.amount;
+      collateralInfo = {
+        symbol: info?.symbol,
+        collateral: collateral.amount,
+        collateralValue: collateralValue,
+        collateralRatio: (valueConversion(collateralValue) / (valueConversion(asset.amount) * oraclePrice)) * 100,
+      };
+    }
+  } else if (contractAddr === 'uluna') {
+    const lunaPrice = await getPrice(LUNA_DENOM);
+    const collateralValue = parseFloat(lunaPrice) * collateral?.amount;
+    collateralInfo = {
+      symbol: 'LUNA',
+      collateral: collateral.amount,
+      collateralValue: collateralValue,
+      collateralRatio: (valueConversion(collateralValue) / (valueConversion(asset.amount) * oraclePrice)) * 100,
+    };
+  } else {
+    collateralInfo = {
+      symbol: 'UST',
+      collateral: collateral.amount,
+      collateralValue: parseFloat(collateral.amount),
+      collateralRatio: (valueConversion(collateral.amount) / (valueConversion(asset.amount) * oraclePrice)) * 100,
+    };
+  }
+
+  return collateralInfo;
+};
+
+export const getShortInfo = async (address: string) => {
   try {
     const mintInfo = await getMintInfo(address);
     const positions = JSON.parse(mintInfo?.data?.data?.WasmContractsContractAddressStore?.Result).positions;
@@ -156,70 +225,8 @@ export const getLockInfo = async (address: string) => {
         const locked_amount = lockedInfo?.unlock_time > currentDate ? lockedInfo?.locked_amount : 0;
         const unlocked_amount = lockedInfo?.unlock_time < currentDate ? lockedInfo?.locked_amount : 0;
         const timeString = lockedInfo?.unlock_time > currentDate ? secondsToDate(lockedInfo?.unlock_time) : null;
-        let collateralInfo: {
-          symbol: string;
-          collateral: number;
-          collateralValue: number;
-          collateralRatio: number;
-        } = {
-          symbol: '',
-          collateral: 0,
-          collateralValue: 0,
-          collateralRatio: 0,
-        };
 
-        const contractAddr = collateral?.info?.token
-          ? collateral?.info?.token?.contract_addr
-          : collateral?.info?.native_token?.denom;
-
-        if (contractAddr.includes('terra')) {
-          if (contractAddr === ANC) {
-            const ancPrice = await anchor.anchorToken.getANCPrice();
-            const collateralValue = parseFloat(ancPrice) * collateral?.amount;
-            collateralInfo = {
-              symbol: 'ANC',
-              collateral: collateral.amount,
-              collateralValue: collateralValue,
-              collateralRatio: (valueConversion(collateralValue) / (valueConversion(asset.amount) * oraclePrice)) * 100,
-            };
-          } else if (contractAddr === aUST) {
-            const exchangeRate = await getAUSTInfo();
-            const collateralValue = parseFloat(exchangeRate?.exchange_rate) * collateral?.amount;
-
-            collateralInfo = {
-              symbol: 'aUST',
-              collateral: collateral.amount,
-              collateralValue: collateralValue,
-              collateralRatio: (valueConversion(collateralValue) / (valueConversion(asset.amount) * oraclePrice)) * 100,
-            };
-          } else {
-            const info = getAssetInfo(collateral.info.token.contract_addr);
-            const price = await getOraclePrice(collateral.info.token.contract_addr);
-            const collateralValue = parseFloat(price) * collateral?.amount;
-            collateralInfo = {
-              symbol: info?.symbol,
-              collateral: collateral.amount,
-              collateralValue: collateralValue,
-              collateralRatio: (valueConversion(collateralValue) / (valueConversion(asset.amount) * oraclePrice)) * 100,
-            };
-          }
-        } else if (contractAddr === 'uluna') {
-          const lunaPrice = await getPrice(LUNA_DENOM);
-          const collateralValue = parseFloat(lunaPrice) * collateral?.amount;
-          collateralInfo = {
-            symbol: 'LUNA',
-            collateral: collateral.amount,
-            collateralValue: collateralValue,
-            collateralRatio: (valueConversion(collateralValue) / (valueConversion(asset.amount) * oraclePrice)) * 100,
-          };
-        } else {
-          collateralInfo = {
-            symbol: 'UST',
-            collateral: collateral.amount,
-            collateralValue: parseFloat(collateral.amount),
-            collateralRatio: (valueConversion(collateral.amount) / (valueConversion(asset.amount) * oraclePrice)) * 100,
-          };
-        }
+        const collateralInfo = await getCollateralInfo(collateral, asset, oraclePrice);
 
         const shortInfo = {
           assetInfo: {
@@ -254,12 +261,12 @@ export const getLockInfo = async (address: string) => {
     );
     return totalShortInfo;
   } catch (err) {
-    getLockInfo(address);
+    getShortInfo(address);
   }
 };
 
 export default async (address: string) => {
-  const shortData = await getLockInfo(address);
+  const shortData = await getShortInfo(address);
 
   if (shortData) {
     return shortData;

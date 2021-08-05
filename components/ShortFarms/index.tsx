@@ -14,7 +14,8 @@ export const getTotalForFarm = (short, prop) => {
 };
 
 const ShortFarms: React.FC<ShortFarmProps> = ({ mirrorAssets }) => {
-  const short = mirrorAssets?.mirrorShortFarm;
+  let short = mirrorAssets?.mirrorShortFarm;
+  short = short.slice().sort((a, b) => parseFloat(b?.lockedInfo?.rewardValue) - parseFloat(a?.lockedInfo?.rewardValue));
 
   const getShorts = () => {
     return short.map((assets: MirrorShortFarm, index) => (

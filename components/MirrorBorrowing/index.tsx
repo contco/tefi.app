@@ -26,7 +26,10 @@ const ShortFarms: React.FC<ShortFarmProps> = ({ mirrorAssets }) => {
   };
 
   const getMirBorrow = () => {
-    const short = mirrorAssets?.mirrorShortFarm;
+    let short = mirrorAssets?.mirrorShortFarm;
+    short = short
+      .slice()
+      .sort((a, b) => parseFloat(b?.collateralInfo?.collateralRatio) - parseFloat(a?.collateralInfo?.collateralRatio));
     return short.map((assets: MirrorShortFarm, index) => (
       <Row key={index}>
         <StyledText fontWeight={500}> {assets?.assetInfo?.name}</StyledText>
