@@ -9,10 +9,19 @@ const fetchPylonData = async (address: string) => {
     const getAccountDetailsPromise = axios.get(PYLON_API_ENDPOINT + `account/v1/${address}`);
     const mineStakingPromise = axios.get(PYLON_API_ENDPOINT + `governance/v1/status/${address}`);
     const minePoolPromise = axios.get(PYLON_API_ENDPOINT + `liquidity/v1/status/${address}`);
-    const airdropPromise = axios.get(PYLON_API_ENDPOINT + `mine/v1/airdrop/${address}`);
     const gatewayDataPromise = getGatewayData(address);
-    const result = await Promise.all([mineOverviewPromise, getAccountDetailsPromise, mineStakingPromise, minePoolPromise,governanceOverviewPromise, poolOverViewPromise,airdropPromise, gatewayDataPromise]);
+    const result = await Promise.all([mineOverviewPromise, getAccountDetailsPromise, mineStakingPromise, minePoolPromise,governanceOverviewPromise, poolOverViewPromise, gatewayDataPromise]);
     return result;
+}
+
+const fetchAirdropData = async (address: string) => {
+  try {
+    const airdropData =  await axios.get(PYLON_API_ENDPOINT + `mine/v1/airdrop/${address}`);
+    return airdropData;
+  }
+  catch(err) {
+      return null;
+  }
 }
 
 const getPylonHoldings = (price: number, accountDetails: any) => {
@@ -61,12 +70,12 @@ const getMinePoolInfo = (price: number, minePoolData, apy: number, lpValue: numb
 };
 
 const getPylonAirdrops = (price: number, data: any) => {
-    const {amount} = data;
-    if (amount) {
+    if (data && data?.amount) {
+      const {amount} = data;
       const value = (amount * price).toString();
       const pylonAirdrops = {name: PYLON_TOKEN_NAME, symbol: PYLON_TOKEN_SYMBOL, quantity: amount.toString(), price: value};
       return {pylonAirdropSum: value, pylonAirdrops};
-    }
+    } 
     return {pylonAirdropSum: '0', pylonAirdrops: undefined};
 }
 
@@ -79,7 +88,8 @@ const getLpValue = (liquidityInfo: any,  minePrice: number) => {
 
 export const getAccountData = async (address: string) => {  
     try {
-        const [mineOverview, getAccountDetails, mineStakingData, minePoolData, governanceOverview, liquidityOverview, airdropData, pylonGateway] = await fetchPylonData(address);
+        const [pylonData, airdropData] = await Promise.all([fetchPylonData(address), fetchAirdropData(address)]);
+        const [mineOverview, getAccountDetails, mineStakingData, minePoolData, governanceOverview, liquidityOverview, pylonGateway] = pylonData;
         const {priceInUst} = mineOverview.data;
         const lpValue = getLpValue(mineOverview?.data?.liquidityInfo, priceInUst);
         const {pylonHoldingsSum , pylonHoldings} = getPylonHoldings(priceInUst, getAccountDetails);
