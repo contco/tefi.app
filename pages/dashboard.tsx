@@ -15,7 +15,7 @@ import Pools from '../components/Pools';
 import SpectrumFarms from '../components/SpectrumFarms';
 import SpectrumRewards from '../components/SpectrumRewards';
 import Rewards from '../components/Rewards';
-import Loterra from "../components/ؒLoterra";
+import Loterra from '../components/ؒLoterra';
 import { NetworkStatus, useLazyQuery } from '@apollo/client';
 import { getAssets } from '../graphql/queries/getAssets';
 import { ADDRESS_KEY, LOCAL_ADDRESS_TYPE, WALLET_ADDRESS_TYPE } from '../constants';
@@ -100,13 +100,13 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
         ) : (
           <Body>
             <MarketValue
-             core={data?.assets.core || {}}
-             pylonAssets={data?.assets?.pylon || {}}
-             mirrorAssets={data?.assets?.mirror || {}}
-             ancAssets={data?.assets?.anchor || {}}
-             spectrum={data?.assets?.spectrum}
-             loterra={data?.assets?.loterra}
-           />
+              core={data?.assets.core || {}}
+              pylonAssets={data?.assets?.pylon || {}}
+              mirrorAssets={data?.assets?.mirror || {}}
+              ancAssets={data?.assets?.anchor || {}}
+              spectrum={data?.assets?.spectrum}
+              loterra={data?.assets?.loterra}
+            />
             <Assets
               mirrorAssets={data?.assets?.mirror || {}}
               core={data?.assets.core}
@@ -122,7 +122,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
               mirrorAssets={data?.assets?.mirror || {}}
               ancAssets={data?.assets?.anchor || {}}
               spectrum={data?.assets?.spectrum}
-              loterra={data?.assets?.loterra} 
+              loterra={data?.assets?.loterra}
             />
             <Pools
               pylonAssets={data?.assets?.pylon || {}}

@@ -2,9 +2,8 @@ import axios from 'axios';
 import MIRROR_ASSETS from './mirrorAssets.json';
 import { getAssetsStats } from './getAssetsStats';
 import { getShortApr } from './getAccountData';
-import { getPairPool } from './getPairPool';
 import { getStakingRewards } from './getStakingRewards';
-import { ANC, aUST, balance, BalanceKey, div, secondsToDate, times, UNIT } from './utils';
+import { ANC, aUST, div, secondsToDate, times, UNIT } from './utils';
 import { anchor } from '../anchor/lib/test-defaults';
 import { getPrice } from '../terra-core/core';
 import { LUNA_DENOM } from '../terra-core/symbols';
@@ -66,8 +65,10 @@ const getAssetInfo = (token) => {
 
 const valueConversion = (value) => value / UNIT;
 
-export const getRewards = (rewardsBalance, token, mirPrice) => {
-  const reward = div(rewardsBalance[token], UNIT);
+export const getRewards = (token, mirPrice, stakingRewards) => {
+  const shortRewards = stakingRewards.reward_infos.filter((asset) => asset.is_short === true);
+  const assetReward = shortRewards.filter((asset) => asset.asset_token === token)[0];
+  const reward = div(parseFloat(assetReward.pending_reward), UNIT);
   const rewardValue = times(reward, mirPrice);
   return { reward, rewardValue };
 };
@@ -129,16 +130,10 @@ export const getLockInfo = async (address: string) => {
     const mintInfo = await getMintInfo(address);
     const positions = JSON.parse(mintInfo?.data?.data?.WasmContractsContractAddressStore?.Result).positions;
     const assetStatsPromise = getAssetsStats();
-    const pairsListPromise = await getPairPool();
     const stakingRewardsPromise = getStakingRewards(address);
 
-    const [assetStats, pairsList, stakingRewards] = await Promise.all([
-      assetStatsPromise,
-      pairsListPromise,
-      stakingRewardsPromise,
-    ]);
+    const [assetStats, stakingRewards] = await Promise.all([assetStatsPromise, stakingRewardsPromise]);
 
-    const rewardsBalance = balance[BalanceKey.REWARD](pairsList as any, stakingRewards);
     const mirPrice = assetStats?.statistic?.mirPrice;
 
     const totalShortInfo = Promise.all(
@@ -150,7 +145,7 @@ export const getLockInfo = async (address: string) => {
           },
         });
 
-        const rewards = getRewards(rewardsBalance, asset.info.token.contract_addr, mirPrice);
+        const rewards = getRewards(asset.info.token.contract_addr, mirPrice, stakingRewards);
         const lockedInfo = JSON.parse(lockInfo?.data.data[`position${idx}`].Result);
         const shortApr = getShortApr(assetStats, asset.info.token.contract_addr);
         const assetInfo = getAssetInfo(asset.info.token.contract_addr);
