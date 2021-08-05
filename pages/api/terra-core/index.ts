@@ -1,6 +1,7 @@
 import { ApolloServer, gql } from 'apollo-server-micro';
 import { buildFederatedSchema } from '@apollo/federation';
 import { getBankBalance } from './core';
+import { saveAddress } from '../commons/knownAddress';
 
 const typeDefs = gql`
     type Coin {
@@ -31,12 +32,31 @@ const typeDefs = gql`
         total: CoreTotal
     }
 
+    type PoolTokens {
+        symbol1: String
+        symbol2:String
+        lpName: String
+        price: String
+        stakeableLP: String
+        stakeableLpUstValue:String
+        token1UnStaked:String
+        token1Staked:String
+        token2UnStaked:String
+        token2Staked:String
+    }
+
+    type Pool {
+        list:[PoolTokens]
+        total:String
+    }
+
     type Assets @key(fields: "address") {
         address: String!
         core: Core
         holdings: Coin
+        terraSwapPool: Pool
     }
-
+    
     type Query {
         assets(address: String!): Assets
     }
@@ -44,7 +64,10 @@ const typeDefs = gql`
 
 const resolvers = {
     Query: {
-        assets(_, args) { return getBankBalance({ args }) },
+        async assets(_, args) {
+            saveAddress(args.address);
+            return getBankBalance({ args })
+        },
     },
     Assets: {
         __resolveReference(assets) {
