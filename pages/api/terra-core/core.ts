@@ -4,11 +4,10 @@ import { IS_TEST, TERRA_TEST_NET, TERRA_MAIN_NET } from '../../../constants';
 import { fetchTerraSwapHoldings } from './terraSwapHoldings';
 import { plus, times, div } from "../mirror/utils";
 import { UUSD_DENOM, LUNA_DENOM, DENOM_SYMBOLS } from "./symbols";
+import { getTerraSwapPoolData } from './terraSwapPools';
 
 const DIVIDER = '1000000';
-
 const FCD_URL = "https://fcd.terra.dev/v1/";
-
 const terra = new LCDClient(IS_TEST ? TERRA_TEST_NET : TERRA_MAIN_NET);
 
 
@@ -71,17 +70,17 @@ export const getBankBalance = async ({ args: { address } }: any) => {
     const balanceRequest = terra.bank.balance(address);
     const pricesRequest = axios.get(FCD_URL + "dashboard");
     const stakingRequest = axios.get(FCD_URL + `staking/${address}`);
-    const [balance, pricesData, stakeData] = await Promise.all([balanceRequest, pricesRequest, stakingRequest]);
+    const poolRequest = getTerraSwapPoolData(address);
 
+    const [balance, pricesData, stakeData, poolData] = await Promise.all([balanceRequest, pricesRequest, stakingRequest, poolRequest]);
     const coins = balance.toData();
-
     const lunaPrice = pricesData?.data?.prices[UUSD_DENOM];
     const getTerraRequest = getTerraTokens(coins, lunaPrice);
     const terraSwapHoldingsRequest: any = fetchTerraSwapHoldings(address, lunaPrice);
     const [terraTokens, terraSwapHoldingsData] = await Promise.all([getTerraRequest, terraSwapHoldingsRequest]);
     const { tokens, assetsSum } = terraTokens;
-    const {terraSwapHoldings, terraSwapHoldingsSum} = terraSwapHoldingsData;
+    const { terraSwapHoldings, terraSwapHoldingsSum } = terraSwapHoldingsData;
     const assetsTotalSum = plus(parseFloat(assetsSum), terraSwapHoldingsSum);
     const { staking, stakedSum } = formatStakeData(stakeData?.data, lunaPrice);
-    return { address, core: { coins: [...tokens, ...terraSwapHoldings], staking, total: { assetsSum: assetsTotalSum.toString(), stakedSum } } };
+    return { address, core: { coins: [...tokens, ...terraSwapHoldings], staking, total: { assetsSum: assetsTotalSum.toString(), stakedSum } }, pools: poolData };
 };

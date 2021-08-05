@@ -31,12 +31,31 @@ const typeDefs = gql`
         total: CoreTotal
     }
 
+    type PoolTokens {
+        symbol1: String
+        symbol2:String
+        lpName: String
+        price: String
+        stakeableLP: String
+        stakeableLpUstValue:String
+        token1UnStaked:String
+        token1Staked:String
+        token2UnStaked:String
+        token2Staked:String
+    }
+
+    type Pool {
+        list:[PoolTokens]
+        total:String
+    }
+
     type Assets @key(fields: "address") {
         address: String!
         core: Core
         holdings: Coin
+        terraSwapPool: Pool
     }
-
+    
     type Query {
         assets(address: String!): Assets
     }
