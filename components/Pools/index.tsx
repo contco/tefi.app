@@ -30,7 +30,7 @@ const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets, pylonAssets }) =
     );
     return pool.map((assets: Pool, index) => (
       <Row key={index}>
-        <StyledText fontWeight={500}> {assets?.isShort ? assets?.lpShortName: assets?.lpName}</StyledText>
+        <StyledText fontWeight={500}> {assets?.lpName}</StyledText>
         <StyledText isChildren={true}>
           {convertToFloatValue(assets?.stakedLP + assets?.availableLP)} LP
           <HoverText>

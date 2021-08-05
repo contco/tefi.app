@@ -3,7 +3,7 @@ import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, HoverText, Su
 import { times } from '../../pages/api/mirror/utils';
 import { convertToFloatValue } from '../../utils/convertFloat';
 import { Box } from '@contco/core-ui';
-import loterra from '../../pages/api/loterra';
+
 const HEADING_TEXT = `Rewards`;
 export interface RewardsProps {
   ancAssets: AccountAnc;
@@ -43,7 +43,7 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets,
       if(pool && pool.length > 0) {
       return pool.map((assets: Pool, index: number) => (
         <Row key={index}>
-          <StyledText fontWeight="500">{assets?.isShort ? assets?.lpShortName: assets?.lpName}</StyledText>
+          <StyledText fontWeight="500">{assets?.lpName}</StyledText>
           <StyledText isChildren={true}>
             {' '}
             {convertToFloatValue(assets?.stakedLP)} LP
@@ -53,7 +53,7 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets,
             </HoverText>
           </StyledText>
           <div>
-            <StyledText css={CSS_APR}> {assets?.apy ? formatApr(assets?.apy) : assets?.isShort ? formatApr(assets?.shortApr) : formatApr(assets?.apr) }%</StyledText>
+            <StyledText css={CSS_APR}> {assets?.apy ? formatApr(assets?.apy) : formatApr(assets?.apr) }%</StyledText>
             {assets?.apy ? <SubText> (APY)</SubText> : null}
           </div>
           <div>

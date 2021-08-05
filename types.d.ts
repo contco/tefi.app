@@ -35,8 +35,6 @@ interface Pool {
   rewardsSymbol: string;
   apy?: string;
   apr?: string;
-  shortApr: string;
-  isShort: boolean;
 }
 
 interface Coin extends Holdings {

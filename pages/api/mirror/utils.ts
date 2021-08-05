@@ -143,7 +143,6 @@ export const balance = {
       const info = reward_infos?.find((info) => info.asset_token === token);
       return info?.pending_reward ?? '0';
     }),
-  [BalanceKey.SHORT]: (stakingReward: StakingReward) => reduceIsShort(stakingReward),
 };
 
 const reduceLP = (listedAll: ListedItem[], { lpTokenBalance, stakingReward }: LPParams) => {
@@ -162,11 +161,6 @@ const reduceLP = (listedAll: ListedItem[], { lpTokenBalance, stakingReward }: LP
 const reduceBondAmount = ({ reward_infos }: StakingReward) =>
   reward_infos.reduce<Dictionary<string>>((acc, { asset_token, bond_amount }) => {
     return { ...acc, [asset_token]: bond_amount };
-  }, {});
-
-const reduceIsShort = ({ reward_infos }: StakingReward) =>
-  reward_infos.reduce<Dictionary<boolean>>((acc, { asset_token, is_short }) => {
-    return { ...acc, [asset_token]: is_short };
   }, {});
 
 export const fromLP = (
