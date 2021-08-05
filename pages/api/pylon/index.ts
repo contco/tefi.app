@@ -46,6 +46,7 @@ const typeDefs = gql`
     quantity: String!
     name: String!
     symbol: String!
+    round: Int!
   }
 
   type PylonSum {
