@@ -5,6 +5,26 @@ import { getAncPoolData } from './lp';
 import getGov from './gov';
 import { formatAirdrops, getAirdrops } from './airdrop';
 
+const fetchBalance = async (address: string) => {
+  try {
+    const balance = await anchor.anchorToken.getBalance(address);
+    return balance;
+  }
+  catch(err){
+    return '0';
+  }
+}
+
+const fetchPrice = async () => {
+  try {
+    const price = anchor.anchorToken.getANCPrice();
+    return price;
+  }
+  catch(err){    
+    return '0';
+  }
+}
+
 const getAnchorHoldings = (balance: number, price: number) => {
   if (balance) {
     const value = (balance * price).toString();
@@ -17,9 +37,8 @@ const getAnchorHoldings = (balance: number, price: number) => {
 };
 
 export const getAccount = async (address: any) => {
-  const balanceRequest = anchor.anchorToken.getBalance(address);
-  const priceRequest = anchor.anchorToken.getANCPrice();
-
+  const balanceRequest = fetchBalance(address);
+  const priceRequest = fetchPrice();
   const debtRequest = getDebt(address);
   const earnRequest = getEarn(address);
   const poolRequest = getAncPoolData(address);

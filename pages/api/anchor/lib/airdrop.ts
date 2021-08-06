@@ -35,6 +35,7 @@ export const isAirdropsClaimed = async (address: string, stage: string) => {
 }
 
 export const getAirdrops = async (address: string) => {
+  try {
     const anchorURI = generateFetchUrl(address, networks.mainnet.chainID);
     const result = await axios.get(anchorURI);
     if(result?.data && result?.data.length > 0 ) {
@@ -46,6 +47,10 @@ export const getAirdrops = async (address: string) => {
     return airdrops;
   }
   else return [];
+  }
+  catch(err){
+    return [];
+  }
 }
 
 

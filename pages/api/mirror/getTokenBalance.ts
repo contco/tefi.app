@@ -7,6 +7,7 @@ import { alias, parse } from './utils';
 const TOKEN_BALANCE = 'TokenBalance';
 
 export const getTokenBalance = async (address: string) => {
+  try {
   const generate = ({ token }: ListedItem) => {
     return { contract: token, msg: { balance: { address } } };
   };
@@ -21,4 +22,8 @@ query ${TOKEN_BALANCE} {
   const result = await request(networks.mainnet.mantle, balanceQuery);
   const parsedData: Dictionary<{ balance: string }> = parse(result);
   return parsedData;
+}
+catch(err){
+  return null;
+}
 };

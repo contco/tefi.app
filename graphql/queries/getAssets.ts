@@ -188,6 +188,7 @@ export const getAssets = gql`
           symbol
           price
           quantity
+          round
         }
         pylonSum {
           pylonHoldingsSum
@@ -248,6 +249,25 @@ export const getAssets = gql`
           farmsTotal
           holdingsTotal
           rewardsTotal
+        }
+      }
+      loterra {
+        loterraDraw {
+          combinations
+          drawTime
+          ticketCounts
+          ticketPrice
+          jackpot
+        }
+        lotaGov {
+          name
+          symbol
+          staked
+          value
+          rewards
+          rewardsValue
+          apr
+          price
         }
       }
     }
