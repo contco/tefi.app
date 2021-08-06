@@ -11,10 +11,11 @@ export interface AssetsProps {
   mirrorAssets: MirrorAccount;
   core: Core;
   pylonAssets: PylonAccount;
-  spectrum: SpectrumAccount
+  spectrum: SpectrumAccount;
+  loterra: LoterraAccount
 }
 
-const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAssets, spectrum }) => {
+const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAssets, spectrum, loterra }) => {
   const getLunaStakingRewards = () => {
     let total = 0;
     for (const a in core.staking) {
@@ -38,7 +39,8 @@ const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAsse
     const mirrorGov = parseFloat(mirrorAssets?.gov?.value ?? '0');
     const pylonGov = parseFloat(pylonAssets?.gov?.value ?? '0');
     const specGov = parseFloat(spectrum?.specGov?.value ?? '0');
-    const govStaked = mirrorGov + ancGov + pylonGov + specGov;
+    const lotaGov = parseFloat(loterra?.lotaGov?.value ?? '0');
+    const govStaked = mirrorGov + ancGov + pylonGov + specGov + lotaGov;
     return govStaked;
   };
 
@@ -92,12 +94,14 @@ const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAsse
     const pylonPoolRewardsTotal = pylonAssets?.pylonSum?.pylonPoolRewardsSum;
     const pylonGatewayRewardsTotal = pylonAssets.pylonSum.gatewayRewardsSum;
     const spectrumRewardsTotal = spectrum?.spectrumTotal?.rewardsTotal;
+    const loterraRewardsTotal =  loterra?.lotaGov?.rewardsValue ?? '0';
     const total =
       parseFloat(spectrumRewardsTotal) +
       parseFloat(pylonGatewayRewardsTotal) +
       parseFloat(pylonPoolRewardsTotal) +
       parseFloat(mirrorTotal) +
       parseFloat(ancAssets?.totalReward) +
+      parseFloat(loterraRewardsTotal) +
       getLunaStakingRewards() +
       getAirdropTotal();
 

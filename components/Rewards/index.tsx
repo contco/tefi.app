@@ -3,15 +3,17 @@ import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, HoverText, Su
 import { times } from '../../pages/api/mirror/utils';
 import { convertToFloatValue } from '../../utils/convertFloat';
 import { Box } from '@contco/core-ui';
+import loterra from '../../pages/api/loterra';
 const HEADING_TEXT = `Rewards`;
 export interface RewardsProps {
   ancAssets: AccountAnc;
   mirrorAssets: MirrorAccount;
   pylonAssets: PylonAccount;
-  spectrum: SpectrumAccount
+  spectrum: SpectrumAccount;
+  loterra: LoterraAccount
 }
 
-const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets, spectrum }) => {
+const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets, spectrum, loterra }) => {
   const borrowRewards = ancAssets?.debt?.reward;
   const totalReward = ancAssets?.totalReward;
 
@@ -19,10 +21,12 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets,
     const ancTotal = totalReward;
     const mirrorTotal = mirrorAssets?.total?.mirrorPoolRewardsSum;
     const pylonPoolTotal = pylonAssets?.pylonSum?.pylonPoolRewardsSum;
+    const loterraRewards = loterra?.lotaGov?.rewardsValue ?? '0';
     const total = (
       parseFloat(mirrorTotal) +
       parseFloat(ancTotal) +
-      parseFloat(pylonPoolTotal)
+      parseFloat(pylonPoolTotal) +
+      parseFloat(loterraRewards)
     );
     return convertToFloatValue(total.toString()) ?? 0;
   };
@@ -65,7 +69,7 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets,
   };
 
   const displayGovData = () => {
-    const govData = [pylonAssets?.gov, spectrum?.specGov, mirrorAssets?.gov, ancAssets?.gov].filter(item => item != null).sort((a,b) => parseFloat(b.value) - parseFloat(a.value));
+    const govData = [pylonAssets?.gov, spectrum?.specGov, mirrorAssets?.gov, ancAssets?.gov, loterra?.lotaGov].filter(item => item != null).sort((a,b) => parseFloat(b.value) - parseFloat(a.value));
     return govData?.map((govItem: Gov) => {
       return(
         <Row key={govItem.name}>
@@ -82,10 +86,21 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets,
             <StyledText css={CSS_APR}> {govItem?.apy ? convertToFloatValue(govItem?.apy) : convertToFloatValue(govItem?.apr)}%</StyledText>
             {govItem?.apy ? <SubText> (APY)</SubText> : null}
           </div>
-          <StyledText>
+          {govItem.symbol === "LOTA" ? 
+            (
+            <div>
+              <StyledText>
+                {convertToFloatValue(govItem?.rewards)} {govItem.symbol}
+              </StyledText>
+              <SubText>${convertToFloatValue(govItem?.rewardsValue)}</SubText>
+            </div>
+            )
+            :
+            <StyledText>
             Automatically <br />
             re-staked
-          </StyledText>
+            </StyledText>
+          }
         </Row>
       )
     })
