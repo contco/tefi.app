@@ -116,7 +116,7 @@ const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAsse
     const pylonPoolRewardsTotal = pylonAssets?.pylonSum?.pylonPoolRewardsSum;
     const pylonGatewayRewardsTotal = pylonAssets.pylonSum.gatewayRewardsSum;
     const spectrumRewardsTotal = spectrum?.spectrumTotal?.rewardsTotal;
-    const shortReward = getTotalForFarm(mirrorAssets?.mirrorShortFarm, 'reward');
+    const shortReward = getTotalForFarm(mirrorAssets?.mirrorShortFarm, 'rewardValue');
     const loterraRewardsTotal =  loterra?.lotaGov?.rewardsValue ?? '0';
     const total =
       parseFloat(spectrumRewardsTotal) +
