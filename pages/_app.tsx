@@ -36,9 +36,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ApolloProvider client={apolloClient}>
       <Head>
         <title>TefiApp</title>
-
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="theme-color" content={theme === LIGHT_THEME ? '	#FF0000' : '#202235'} />
+        
       </Head>
       <ThemeProvider theme={theme === LIGHT_THEME ? lightTheme : darkTheme}>
         <GlobalStyles />
