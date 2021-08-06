@@ -32,8 +32,8 @@ export default class MyDocument extends Document {
       <Html>
         <Head>
 
-        <title>Tefi-App</title>
-        <meta name = "apple-mobile-web-app-capable" content="yes" />
+          <title>Tefi App</title>
+          <meta name="apple-mobile-web-app-capable" content="yes" />
           <link rel="manifest" href="/manifest.json" />
           <link href="/favicon-16x16.png" rel="icon" type="image/png" sizes="16x16" />
           <link href="/favicon-32x32.png" rel="icon" type="image/png" sizes="32x32" />
