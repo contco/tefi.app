@@ -30,10 +30,10 @@ interface Pool {
   token2Staked: string;
   token2UnStaked: string;
   stakedLp: string;
-  rewards: string;
-  rewardsValue: string;
   stakeableLp: string;
-  rewardsSymbol: string;
+  rewards?: string;
+  rewardsValue?: string;
+  rewardsSymbol?: string;
   apy?: string;
   apr?: string;
 }
@@ -138,6 +138,12 @@ interface MirrorAccount {
   gov: Gov;
   total: MirrorTotal;
   airdrops: Array<Airdrops>;
+}
+
+interface terrSwapAccount {
+  __typename?: 'Account';
+  list: Pool[];
+  total: string;
 }
 interface PylonGov extends Gov {
   rewards

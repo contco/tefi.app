@@ -81,6 +81,7 @@ export const calculatePoolData = async (poolResponses, userPoolBalances) => {
         total = total + parseFloat(stakeableLpUstValue);
         poolsData.push({ symbol1, symbol2, lpName, price, ...poolValue, stakedLp: "0", stakeableLp: stakeableLP.toString() });
     });
+
     await Promise.all(poolTask);
     return { list: poolsData, total: total.toString() }
 }

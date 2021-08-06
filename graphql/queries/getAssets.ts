@@ -220,6 +220,24 @@ export const getAssets = gql`
 
         }
       }
+      terraSwapPool{
+        list{
+          symbol1
+          symbol2
+          lpName
+          price  
+          stakedLp
+          stakedLpUstValue
+          stakeableLp
+          stakeableLpUstValue
+          token1UnStaked
+          token1Staked
+          token2UnStaked
+          token2Staked
+          totalLpUstValue
+        }
+        total
+      }
       spectrum {
         farms {
           symbol

@@ -98,13 +98,13 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
         ) : (
           <Body>
             <MarketValue
-             core={data?.assets.core || {}}
-             pylonAssets={data?.assets?.pylon || {}}
-             mirrorAssets={data?.assets?.mirror || {}}
-             ancAssets={data?.assets?.anchor || {}}
-             spectrum={data?.assets?.spectrum}
-             loterra={data?.assets?.loterra}
-           />
+              core={data?.assets.core || {}}
+              pylonAssets={data?.assets?.pylon || {}}
+              mirrorAssets={data?.assets?.mirror || {}}
+              ancAssets={data?.assets?.anchor || {}}
+              spectrum={data?.assets?.spectrum}
+              loterra={data?.assets?.loterra}
+            />
             <Assets
               mirrorAssets={data?.assets?.mirror || {}}
               core={data?.assets.core}
@@ -120,12 +120,13 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
               mirrorAssets={data?.assets?.mirror || {}}
               ancAssets={data?.assets?.anchor || {}}
               spectrum={data?.assets?.spectrum}
-              loterra={data?.assets?.loterra} 
+              loterra={data?.assets?.loterra}
             />
             <Pools
               pylonAssets={data?.assets?.pylon || {}}
               mirrorAssets={data?.assets?.mirror || {}}
               ancAssets={data?.assets?.anchor || {}}
+              terraSwapAssets={data?.assets?.terraSwapPool}
             />
             <SpectrumFarms spectrum={data?.assets?.spectrum} />
             <SpectrumRewards spectrum={data?.assets?.spectrum} />

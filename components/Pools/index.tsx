@@ -8,21 +8,23 @@ export interface PoolsProps {
   mirrorAssets: MirrorAccount;
   ancAssets: AccountAnc;
   pylonAssets: PylonAccount;
+  terraSwapAssets: terrSwapAccount;
 }
 
-const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets, pylonAssets }) => {
+const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets, pylonAssets, terraSwapAssets }) => {
   const getPoolTotal = () => {
     const pylonPoolTotal = pylonAssets?.pylonSum?.pylonPoolSum;
     const total = (
       parseFloat(pylonPoolTotal) +
       parseFloat(mirrorAssets?.total?.mirrorPoolSum) +
-      parseFloat(ancAssets?.total?.anchorPoolSum)
+      parseFloat(ancAssets?.total?.anchorPoolSum) +
+      parseFloat(terraSwapAssets.total)
     )
     return convertToFloatValue(total.toString()) ?? '0';
   };
 
   const getPool = () => {
-    const pool = [...pylonAssets?.pylonPool, ...mirrorAssets?.mirrorStaking, ...ancAssets.pool].sort(
+    const pool = [...pylonAssets?.pylonPool, ...mirrorAssets?.mirrorStaking, ...ancAssets.pool, ...terraSwapAssets.list].sort(
       (a, b) =>
         parseFloat(b.stakeableLpUstValue) +
         parseFloat(b.stakedLpUstValue) -
@@ -45,7 +47,7 @@ const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets, pylonAssets }) =
             {convertToFloatValue(assets?.stakeableLp)} LP
             <HoverText>
               {convertToFloatValue(assets?.token2UnStaked)} {assets?.symbol2} <br />
-              {convertToFloatValue(assets?.token1Staked)} {assets.symbol1}
+              {convertToFloatValue(assets?.token1UnStaked)} {assets.symbol1}
             </HoverText>
 
           </StyledText>
