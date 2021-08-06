@@ -11,6 +11,6 @@ export const wasmStoreRequest = async (contract_addr: string, query_msg: any) =>
         return data?.result;
     }
     catch(err) {
-        throw new Error(`Store Request Error: ${err}`);
+        return null;
     }
 }

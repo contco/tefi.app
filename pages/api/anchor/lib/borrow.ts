@@ -9,6 +9,7 @@ import axios from 'axios';
 import { ancPriceQuery } from './ancPrice';
 
 const LCDURL = 'https://lcd.terra.dev/';
+const name = 'UST Borrow';
 
 export const REWARDS_CLAIMABLE_UST_BORROW_REWARDS_QUERY = `
   query (
@@ -155,22 +156,16 @@ export const getBorrowRate = async () => {
 };
 
 export default async (address) => {
-  const borrowLimit = await getBorrowLimit({ address });
-  const borrowedValue = await getBorrowedValue({ address });
-  const collaterals = await getCollaterals({ address });
-  const allRewards = await borrowAPYQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']);
-  const rewards = await rewardsClaimableUstBorrowRewardsQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet'], address);
+  try {
+  const [borrowLimit, borrowedValue, collaterals, allRewards, rewards, lunaPrice, borrowRate, {ancPrice}] = await Promise.all([getBorrowLimit({ address }), getBorrowedValue({ address }), getCollaterals({ address }), borrowAPYQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']), rewardsClaimableUstBorrowRewardsQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet'], address), getPrice(LUNA_DENOM), getBorrowRate(), ancPriceQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']) ]);
   const percentage = (parseFloat(borrowedValue) / parseFloat(borrowLimit)) * 100 * 0.6;
-  const lunaPrice = await getPrice(LUNA_DENOM);
   const distributionAPY = allRewards?.borrowerDistributionAPYs[0]?.DistributionAPY;
-  const borrowRate = await getBorrowRate();
   const borrowApy = borrowRate?.data?.result?.rate * blocksPerYear;
   const netApy = (parseFloat(distributionAPY) - borrowApy).toString();
-  const { ancPrice } = await ancPriceQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']);
 
   const result = {
     reward: {
-      name: 'UST Borrow',
+      name,
       apy: formatRate(distributionAPY),
       reward: formatUSTWithPostfixUnits(demicrofy(rewards?.borrowerInfo?.pending_rewards)),
     },
@@ -184,4 +179,22 @@ export default async (address) => {
   };
 
   return result;
+ }
+ catch(err){
+   const result = {
+    reward: {
+      name,
+      apy: '0',
+      reward: '0',
+    },
+    limit: '0',
+    value: '0',
+    collaterals:  null,
+    percentage: '0',
+    lunaprice: '0',
+    ancprice: '0',
+    netApy: '0',
+  };
+  return result;
+ }
 };

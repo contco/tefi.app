@@ -13,10 +13,15 @@ const AIRDROP = gql`
 `
 
 export const getAirdrops = async (address: string) => {
+  try {
   const variables = { address, network: STATS_NETWORK.toUpperCase() };
   const result = await request(networks.mainnet.stats, AIRDROP, variables);
   const airdrops = result?.airdrop.filter(({amount, claimable}) => gt(amount, 0) && claimable);
   return airdrops;
+  }
+  catch(err){
+    return [];
+  }
 };
 
 export const formatAirdrops = (airdrops, price:string) => {

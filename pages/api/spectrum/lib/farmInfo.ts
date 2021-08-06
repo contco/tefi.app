@@ -101,10 +101,15 @@ const fetchFarmData = async (height, address, poolInfo) => {
 }
 
 export const getFarmInfos = async (address: string, height: number, specPrice: string) => {
+  try {
   const { poolInfo, mirrorPoolInfo, specPoolInfo } = await getPoolInfos();
   const [pairInfo, govConfig, govVaults, govState, coinInfos, pairRewardInfos] = await fetchFarmData(height, address, poolInfo);
   const pairStats = await getPairStats(height, specPrice, mirrorPoolInfo, specPoolInfo, pairInfo, govConfig, govVaults, govState);
   const poolResponses = await getPoolResponses(pairInfo);
   const { farmInfos, farmsTotal, rewardsTotal } = calculateFarmInfos(poolInfo, pairStats, pairRewardInfos, coinInfos, poolResponses, specPrice);
   return { farms: farmInfos, farmsTotal, rewardsTotal, govApr: pairStats.govApr };
+  }
+  catch(err){
+    return {farms: [], farmsTotal: '0', rewardsTotal: '0', govApr: 0 }
+  }
 }

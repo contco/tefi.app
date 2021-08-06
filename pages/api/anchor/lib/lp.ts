@@ -96,6 +96,6 @@ export const getAncPoolData = async (address) => {
     return { poolData: [], anchorPoolSum: '0', anchorRewardsSum: '0' };
   }
   catch (err) {
-    throw new Error("Error Fetching Anchor Pool Data");
+    return { poolData: [], anchorPoolSum: '0', anchorRewardsSum: '0' };
   }
 }

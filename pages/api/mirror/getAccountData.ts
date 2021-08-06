@@ -67,47 +67,50 @@ export const getAccountData = async (address: string) => {
   let mirrorPoolSum = '0';
   let mirrorHoldingsSum = '0';
 
-  const [lpTokenBalance, stakingRewards, stakingPool, pairsList, assetStats, tokenBalance, airdropsData, govBalance] = await fetchData(address);
-  const rewardsBalance = balance[BalanceKey.REWARD](pairsList, stakingRewards);
-  const mirPrice = price["pair"](stakingPool)[MIR_TOKEN];
-  const { mirrorAirdrops, airdropSum: mirrorAirdropSum } = formatAirdrops(airdropsData, mirPrice);
+  const [lpTokenBalance, stakingRewards, pairsList, stakingPool, assetStats, tokenBalance, airdropsData, govBalance] = await fetchData(address);
+  const poolBalance = lpTokenBalance && stakingRewards ? balance[BalanceKey.LPTOTAL](lpTokenBalance, stakingRewards) : null;
+  const rewardsBalance = stakingPool && stakingRewards ? balance[BalanceKey.REWARD](stakingPool, stakingRewards) : null;
+  const mirPrice = pairsList ? price["pair"](pairsList)[MIR_TOKEN] : '0';
 
+  const { mirrorAirdrops, airdropSum: mirrorAirdropSum } = formatAirdrops(airdropsData, mirPrice);
   const mirrorHoldings = [];
   const gov = getGovData(govBalance, assetStats?.statistic);
-
   const result = MIRROR_ASSETS.reduce((poolList, listing: ListedItem) => {
-    const pairPool =
-      stakingPool && stakingPool[listing.token]
-        ? parsePairPool(stakingPool[listing.token])
-        : { uusd: '0', asset: '0', total: '0' };
-    const shares = {
-      asset: { amount: pairPool.asset, token: listing.token },
-      uusd: { amount: pairPool.uusd, token: UUSD },
-    };
-    let bondAmount = '0';
-    stakingRewards.reward_infos.map((staked) => {
-      if (staked.asset_token === listing.token) {
-        bondAmount = staked.bond_amount;
-      }
-    })
-    const stakedLpDetails = fromLP(bondAmount, shares, pairPool.total);
-    const unstakedLpDetails = fromLP(lpTokenBalance[listing.token].balance, shares, pairPool.total);
-
     const priceKey = listing.status === 'LISTED' ? PriceKey.PAIR : PriceKey.END;
-    const priceResult = price[priceKey](stakingPool)[listing.token];
-    if (tokenBalance[listing.token]?.balance !== '0') {
+    const priceResult = pairsList ? price[priceKey](pairsList)[listing.token] : '0';
+    if (tokenBalance && tokenBalance[listing.token]?.balance !== '0') {
       const holdingsData = getHoldingsData(tokenBalance, priceResult, listing.token);
       mirrorHoldingsSum = plus(mirrorHoldingsSum, holdingsData.value);
       mirrorHoldings.push({ symbol: listing.symbol, name: listing.name, price: priceResult, ...holdingsData });
     }
-    if (stakedLpDetails?.asset?.amount !== '0') {
-      const stakedLpBalance = div(bondAmount, 1000000);
-      const unStakedLpBalance = div(lpTokenBalance[listing.token].balance, 1000000);
+    if (stakingPool && pairsList && poolBalance && stakingRewards) {
+      const pairPool =
+        pairsList && pairsList[listing.token]
+          ? parsePairPool(pairsList[listing.token])
+          : { uusd: '0', asset: '0', total: '0' };
+      const shares = {
+        asset: { amount: pairPool.asset, token: listing.token },
+        uusd: { amount: pairPool.uusd, token: UUSD },
+      };
+      let bondAmount = '0';
+      stakingRewards.reward_infos.map((staked) => {
+        if (staked.asset_token === listing.token) {
+          bondAmount = staked.bond_amount;
+        }
+      })
+      const stakedLpDetails = fromLP(bondAmount, shares, pairPool.total);
+      const unstakedLpDetails = fromLP(lpTokenBalance[listing.token].balance, shares, pairPool.total);
 
-      const poolData = calculatePoolDetails(listing, rewardsBalance, priceResult, stakedLpDetails, unstakedLpDetails, assetStats?.apr, mirPrice);
-      mirrorPoolSum = plus(mirrorPoolSum, poolData.totalLpUstValue);
-      mirrorPoolRewardsSum = plus(mirrorPoolRewardsSum, poolData.rewardsValue);
-      poolList.push({ symbol1: 'UST', symbol2: listing.symbol, lpName: `${listing.symbol}-UST LP`, stakedLp: stakedLpBalance ?? "0", stakeableLp: unStakedLpBalance ?? "0", rewardsSymbol: MIR, ...poolData });
+
+      const lpDetails = fromLP(poolBalance[listing.token], shares, pairPool.total);
+      if (lpDetails?.asset?.amount !== '0') {
+        const stakedLpBalance = div(bondAmount, 1000000);
+        const unStakedLpBalance = div(lpTokenBalance[listing.token].balance, 1000000);
+        const poolData = calculatePoolDetails(listing, rewardsBalance, priceResult, stakedLpDetails, unstakedLpDetails, assetStats?.apr, mirPrice);
+        mirrorPoolSum = plus(mirrorPoolSum, poolData.stakedLpUstValue);
+        mirrorPoolRewardsSum = plus(mirrorPoolRewardsSum, poolData.rewardsValue);
+        poolList.push({ symbol1: 'UST', symbol2: listing.symbol, lpName: `${listing.symbol}-UST LP`, stakedLp: stakedLpBalance ?? "0", stakeableLp: unStakedLpBalance ?? "0", rewardsSymbol: MIR, ...poolData });
+      }
     }
     return poolList;
   }, []);;
