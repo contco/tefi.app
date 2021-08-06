@@ -9,6 +9,7 @@ const convertPrice = (poolPrice: string, price: string) => {
 }
 
 export const fetchTerraSwapHoldings = async (address:string, lunaUstPrice: string) => { 
+    try {
     const terraSwapHoldings = [];
     let terraSwapHoldingsSum = '0';
     const swapTasks = SWAP_TOKENS.map(async (item) => {
@@ -27,4 +28,8 @@ export const fetchTerraSwapHoldings = async (address:string, lunaUstPrice: strin
     });
     await Promise.all(swapTasks);
     return {terraSwapHoldingsSum, terraSwapHoldings};
+   }
+   catch (err) {
+       return {terraSwapHoldingsSum: '0', terraSwapHoldings: [] }
+   }
 }
