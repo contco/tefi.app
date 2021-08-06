@@ -81,7 +81,6 @@ export const getAncPoolData = async (address) => {
         ?.mul(2));
       const token1Staked = (stakedLp / 2) * parseFloat(lpValue);
       const token2Staked = token1Staked / ancData?.ancPrice?.ANCPrice;
-
       const token1UnStaked = (stakeableLp / 2) * parseFloat(lpValue);
       const token2UnStaked = token1UnStaked / ancData?.ancPrice?.ANCPrice;
       const stakedLpUstValue = stakedLp * parseFloat(lpValue);
@@ -94,7 +93,7 @@ export const getAncPoolData = async (address) => {
       const anchorRewardsSum = rewardsValue.toString();
       return { poolData, anchorPoolSum: totalLpUstValue, anchorRewardsSum };
     }
-    return { poolData: [], totalLpUstValue: '0', anchorRewardsSum: '0' };
+    return { poolData: [], anchorPoolSum: '0', anchorRewardsSum: '0' };
   }
   catch (err) {
     throw new Error("Error Fetching Anchor Pool Data");
