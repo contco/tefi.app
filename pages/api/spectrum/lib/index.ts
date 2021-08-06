@@ -1,49 +1,37 @@
-import axios from "axios";
 import { contracts } from "./contracts";
-import { getLatestBlockHeight, LCD_URL } from "../../utils";
+import { getLatestBlockHeight } from "../../utils";
 import { getFarmInfos } from "./farmInfo";
 import { div, times } from "../../../../utils/math";
 import { UNIT } from "../../mirror/utils";
-
+import { wasmStoreRequest } from "../../commons";
 
 const getUserSpecInfo = async (address) => {
-    const {data} = await axios.get(LCD_URL + `wasm/contracts/${contracts.gov}/store`, {
-        params: {
-          query_msg: JSON.stringify({
-            balance: {
-              address: address,
-            }
-          })
-       },
-    });
-    
-    return data?.result;
+  const userSpecInfoMsg = {
+    balance: {
+      address
+    }
+  };
+   const data = await wasmStoreRequest(contracts.gov, userSpecInfoMsg);
+   return data;
 }
 
 const getSpecPool = async () => {
-    const {data} = await axios.get(LCD_URL + `wasm/contracts/${contracts.specPool}/store`, {
-        params: {
-          query_msg: JSON.stringify({
-            pool: {}
-          })
-       },
-    });
-    
-    return data?.result;
+  const specPoolMsg = { 
+    pool: {}
+  };
+  const data = await wasmStoreRequest(contracts.specPool, specPoolMsg);
+  return data;
 };
 
 
 const getUserBalance = async (address: string) => {
-    const {data} = await axios.get(LCD_URL + `wasm/contracts/${contracts.specToken}/store`, {
-        params: {
-          query_msg: JSON.stringify({
-            balance: {
-                address
-            }
-          })
-       },
-    });
-    return data?.result?.balance ?? 0;
+    const userBalanceMsg = {
+      balance: {
+        address
+      }
+    };
+    const data = await wasmStoreRequest(contracts.specToken, userBalanceMsg);
+    return data?.balance ?? '0';
 };
 
 const getSpecPrice = (specPool) => {
@@ -52,7 +40,7 @@ const getSpecPrice = (specPool) => {
 };
 
 const getSpecGov = (userSpec, specPrice, govApr) => {
-  if(userSpec.balance !== '0') {
+  if(userSpec && userSpec?.balance !== '0') {
     const name = "SPEC Gov";
     const symbol = "SPEC";
     const staked = (parseFloat(userSpec?.balance)/ UNIT).toString();
@@ -82,12 +70,12 @@ const fetchData = async (address: string) => {
 export const getAccount = async (address: string) => {
   const height  = await getLatestBlockHeight();
   const [userSpec, specPool, specBalance] = await fetchData(address);
-  const specPrice =  getSpecPrice(specPool);
+  const specPrice =  specPool ? getSpecPrice(specPool) : '0';
 
   const {farms, farmsTotal,rewardsTotal, govApr} = await getFarmInfos(address, height, specPrice);
   const holdings = getHoldings(specBalance ,specPrice);
   const specGov = getSpecGov(userSpec, specPrice, govApr)
   const holdingsTotal = specBalance === '0' ? '0' : holdings[0].value;
-  const spectrumTotal = {farmsTotal, holdingsTotal: holdingsTotal,rewardsTotal }
+  const spectrumTotal = {farmsTotal, holdingsTotal: holdingsTotal, rewardsTotal }
   return {farms, specHoldings: holdings, specGov, spectrumTotal};
 };

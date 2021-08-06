@@ -13,17 +13,18 @@ const getLotaRewards = (claims: any) => {
 }
 
 export const getLoterraStaking = async (address: string) => {
-    const poolInfoRequest =  getPoolInfo(contracts.pool);
-    const holderParams = {
+    try{
+    const holderMsg = {
         holder: {address: address}
     };
-    const claimParams = {
+    const claimMsg = {
         claims: {
             address: address
         }
     };
-    const holderRequest =  wasmStoreRequest(contracts.staking, holderParams); 
-    const claimsRequest = wasmStoreRequest(contracts.staking, claimParams);
+    const poolInfoRequest =  getPoolInfo(contracts.pool);
+    const holderRequest =  wasmStoreRequest(contracts.staking, holderMsg); 
+    const claimsRequest = wasmStoreRequest(contracts.staking, claimMsg);
     const [poolInfo, holderInfo, claimInfo] = await Promise.all([poolInfoRequest, holderRequest,claimsRequest]);
     if(holderInfo?.balance && holderInfo?.balance !== "0") {
         const name = "LOTA Gov";
@@ -42,4 +43,8 @@ export const getLoterraStaking = async (address: string) => {
         return result;
     }
     return null;
+    }
+    catch(err){
+        return null
+    }
 }

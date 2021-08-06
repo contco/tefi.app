@@ -7,6 +7,7 @@ import { alias, parse } from './utils';
 const PAIR_POOL = 'PairPool';
 
 export const getLpTokenBalance = async (address: string): Promise<Dictionary<Balance>> => {
+  try{
   const generate = ({ lpToken }: ListedItem) => {
     return { contract: lpToken, msg: { balance: { address } } };
   };
@@ -19,4 +20,8 @@ export const getLpTokenBalance = async (address: string): Promise<Dictionary<Bal
   const result = await request(networks.mainnet.mantle, contractQuery);
   const parsedData: Dictionary<Balance> = parse(result);
   return parsedData;
+  }
+  catch(err){
+    return null;
+  }
 };

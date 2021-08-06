@@ -64,6 +64,7 @@ const getProjectPoolData = (userProjects: any, launchpadProjects: any) => {
 }
 
 export const getGatewayData = async (address: string) => {
+  try {
     const launchpadProjects = await axios.get(PYLON_API_ENDPOINT + `launchpad/v1/projects/`);
     const userProjectsData = await getUserProjectsData(launchpadProjects?.data?.projects, address);
     if(userProjectsData) {
@@ -71,4 +72,8 @@ export const getGatewayData = async (address: string) => {
     return projectPoolData;
     }
     return { gatewayPoolData: [], gatewayDepositsSum: '0', gatewayRewardsSum: '0'};
+  }
+  catch(err){
+    return { gatewayPoolData: [], gatewayDepositsSum: '0', gatewayRewardsSum: '0'};
+  }
 }

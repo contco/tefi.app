@@ -4,6 +4,7 @@ import { formatRate } from '@anchor-protocol/notation';
 import {getLastSyncedHeight, mantleFetch } from './utils';
 import { DEFAULT_MANTLE_ENDPOINTS } from '../../../../utils/ancEndpoints';
 
+const name = 'ANC Earn';
 
 export const EARN_EPOCH_STATES_QUERY = `
   query (
@@ -69,15 +70,27 @@ export async function earnEpochStatesQuery(mantleEndpoint) {
 }
 
 export default async (address) => {
-  const totalDesposit = await getTotalDesposit({ address });
-  const earnEpoch = await earnEpochStatesQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']);
-  const apy = parseFloat(earnEpoch?.overseerEpochState?.deposit_rate) * blocksPerYear;
-  const result = {
-    reward: {
-      name: 'ANC Earn',
-      apy: formatRate(apy),
-      staked: totalDesposit,
-    },
-  };
-  return result;
+  try {
+    const [totalDesposit, earnEpoch] = await Promise.all([getTotalDesposit({ address }), earnEpochStatesQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']) ]);
+    const apy = parseFloat(earnEpoch?.overseerEpochState?.deposit_rate) * blocksPerYear;
+
+    const result = {
+      reward: {
+        name,
+        apy: formatRate(apy),
+        staked: totalDesposit,
+      },
+    };
+    return result;
+  }
+ catch(err){
+   const result =  {
+      reward: {
+        name,
+        apy: '0',
+        staked: '0'
+      }
+   };
+   return result;
+ }
 };
