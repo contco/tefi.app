@@ -51,7 +51,7 @@ const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets, pylonAssets }) =
           </StyledText>
           : <StyledText>-</StyledText>
         }
-        <StyledText> ${convertToFloatValue(assets?.stakedLpUstValue + assets?.stakeableLpUstValue)}</StyledText>
+        <StyledText> ${convertToFloatValue(assets?.totalLpUstValue)}</StyledText>
       </Row>
     ));
   };

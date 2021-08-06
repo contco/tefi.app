@@ -24,6 +24,7 @@ interface Pool {
   lpName: string;
   stakedLpUstValue: string;
   stakeableLpUstValue: string;
+  totalLpUstValue: string;
   token1Staked: string;
   token1UnStaked: string;
   token2Staked: string;
