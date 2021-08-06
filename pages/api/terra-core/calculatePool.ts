@@ -1,7 +1,7 @@
 import axios from "axios";
 import { UNIT } from "../mirror/utils";
 import { getLpValue } from "../utils";
-import { times } from "../../../utils/math"
+import { times, plus } from "../../../utils/math"
 import pairs from './constants/pairs.json'
 import tokens from './constants/mainnet-tokens.json';
 import { UUSD_DENOM } from "./symbols";
@@ -13,7 +13,7 @@ export const getPoolValues = (lpBalance: number, lpValue: number, price: number,
     let token1UnStaked = null
     let token1Staked = "0", token2Staked = "0", stakedLpUstValue = "0";
     const stakeableLpUstValue = lpBalance * lpValue;
-    const totalLpUstValue = (stakedLpUstValue).toString();
+    const totalLpUstValue = (stakeableLpUstValue).toString();
 
     const tokenValueInUST = stakeableLpUstValue / 2;
     if (isLuna) {
