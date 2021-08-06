@@ -17,13 +17,13 @@ export const getPoolValues = (stakedLpDetails, unstakedLpDetails, priceResult) =
   const stakedLpUstValue = plus(token1Staked, tokenStakedValue);
 
   const token1UnStaked = div(unstakedLpDetails.uusd.amount, UNIT);
-  const token2Unstaked = div(unstakedLpDetails.asset.amount, UNIT);
-  const tokenUnStakedValue = times(token2Unstaked, priceResult ?? 0);
+  const token2UnStaked = div(unstakedLpDetails.asset.amount, UNIT);
+  const tokenUnStakedValue = times(token2UnStaked, priceResult ?? 0);
   const stakeableLpUstValue = plus(token1UnStaked, tokenUnStakedValue);
 
   const totalLpUstValue = plus(stakedLpUstValue, stakeableLpUstValue);
 
-  return { token1Staked, token2Staked, token1UnStaked, token2Unstaked, stakedLpUstValue, stakeableLpUstValue, totalLpUstValue };
+  return { token1Staked, token2Staked, token1UnStaked, token2UnStaked, stakedLpUstValue, stakeableLpUstValue, totalLpUstValue };
 };
 
 export const getApr = (assetStats, token) => {

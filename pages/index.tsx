@@ -4,7 +4,7 @@ import Head from 'next/head';
 import Header from '../components/Header';
 import Landing from '../components/Landing';
 import styled from 'styled-components';
-import { getAccountData } from './api/mirror/getAccountData';
+
 
 const EmptyContainer = styled.div`
   height: 100vh;

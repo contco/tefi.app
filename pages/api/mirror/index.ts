@@ -8,7 +8,7 @@ const typeDefs = gql`
     symbol2: String!
     lpName: String!
     token1UnStaked:String!
-    token2Unstaked:String!
+    token2UnStaked:String!
     token1Staked:String!
     token2Staked:String!
     stakedLp: String!
