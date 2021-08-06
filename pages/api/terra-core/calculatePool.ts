@@ -11,8 +11,10 @@ import { getTokenData } from "../spectrum/lib/coinInfos";
 
 export const getPoolValues = (lpBalance: number, lpValue: number, price: number, isLuna = false, lunaPrice?: number) => {
     let token1UnStaked = null
-    let token1Staked = "0", token2Staked = "0";
+    let token1Staked = "0", token2Staked = "0", stakedLpUstValue = "0";
     const stakeableLpUstValue = lpBalance * lpValue;
+    const totalLpUstValue = (stakedLpUstValue).toString();
+
     const tokenValueInUST = stakeableLpUstValue / 2;
     if (isLuna) {
         token1UnStaked = (tokenValueInUST / lunaPrice).toString();
@@ -21,7 +23,7 @@ export const getPoolValues = (lpBalance: number, lpValue: number, price: number,
         token1UnStaked = tokenValueInUST.toString()
     }
     const token2UnStaked = tokenValueInUST / price;
-    return { stakeableLpUstValue: stakeableLpUstValue.toString(), token1UnStaked, token1Staked, token2UnStaked: token2UnStaked.toString(), token2Staked };
+    return { stakedLpUstValue, stakeableLpUstValue: stakeableLpUstValue.toString(), totalLpUstValue, token1UnStaked, token1Staked, token2UnStaked: token2UnStaked.toString(), token2Staked };
 }
 
 const getPoolSymbol = async (poolresponse, isLuna = false) => {
@@ -62,11 +64,12 @@ const getPoolSymbol = async (poolresponse, isLuna = false) => {
 }
 
 export const calculatePoolData = async (poolResponses, userPoolBalances) => {
+    let poolsData = [];
     let total = 0;
     const pricesRequest = await axios.get(FCD_URL + "dashboard");
     const lunaPrice = pricesRequest?.data?.prices[UUSD_DENOM];
 
-    const poolData = await Object.keys(poolResponses).map(async key => {
+    const poolTask = Object.keys(poolResponses).map(async key => {
         const isLuna = isLunaPair(poolResponses[key]);
         const { symbol1, symbol2, lpName } = await getPoolSymbol(poolResponses[key], isLuna);
         let price = getPrice(poolResponses[key])
@@ -76,8 +79,9 @@ export const calculatePoolData = async (poolResponses, userPoolBalances) => {
         const poolValue = getPoolValues(stakeableLP, lpValue, parseFloat(price), isLuna, parseFloat(lunaPrice));
         const { stakeableLpUstValue } = poolValue;
         total = total + parseFloat(stakeableLpUstValue);
-        return { symbol1, symbol2, lpName, price, ...poolValue, stakeableLP: stakeableLP.toString(), };
-    })
-    return { list: poolData, total: total.toString() }
+        poolsData.push({ symbol1, symbol2, lpName, price, ...poolValue, stakedLp: "0", stakeableLp: stakeableLP.toString() });
+    });
+    await Promise.all(poolTask);
+    return { list: poolsData, total: total.toString() }
 }
 

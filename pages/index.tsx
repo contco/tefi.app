@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import Landing from '../components/Landing';
 import styled from 'styled-components';
 import { getAccountData } from './api/mirror/getAccountData';
+
 const EmptyContainer = styled.div`
   height: 100vh;
   width: 100vh;
@@ -20,7 +21,7 @@ const Home: React.FC = ({ theme, changeTheme }: any) => {
     setTimeout(() => setIsDisplay(true), 1000);
   }, [router.pathname]);
   useEffect(() => {
-    getAccountData('terra18jg24fpqvjntm2wfc0p47skqccdr9ldtgl5ac9');
+    //getAccountData('terra18jg24fpqvjntm2wfc0p47skqccdr9ldtgl5ac9');
   }, [])
   return (
     <div>
