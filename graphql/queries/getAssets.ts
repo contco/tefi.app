@@ -27,16 +27,18 @@ export const getAssets = gql`
       }
       mirror {
         mirrorStaking {
-          symbol
+          symbol1
+          symbol2
           lpName
+          stakedLp
           stakedLpUstValue
-          availableLpUstValue
-          ustStaked
-          ustUnStaked
-          tokenStaked
-          tokenUnStaked
-          availableLP
-          stakedLP
+          stakeableLp
+          stakeableLpUstValue
+          token1UnStaked
+          token1Staked
+          token2UnStaked
+          token2Staked
+          totalLpUstValue
           rewards
           rewardsValue
           rewardsSymbol
@@ -108,19 +110,21 @@ export const getAssets = gql`
         }
 
         pool {
-          symbol
+          symbol1
+          symbol2
           lpName
+          stakedLp
           stakedLpUstValue
-          availableLpUstValue
-          ustStaked
-          ustUnStaked
-          tokenStaked
-          tokenUnStaked
-          stakedLP
+          stakeableLp
+          stakeableLpUstValue
+          token1UnStaked
+          token1Staked
+          token2UnStaked
+          token2Staked
+          totalLpUstValue
           rewards
           rewardsValue
           rewardsSymbol
-          availableLP
           apr
         }
         gov {
@@ -156,19 +160,21 @@ export const getAssets = gql`
           value
         }
         pylonPool {
-          symbol
+          symbol1
+          symbol2
           lpName
+          stakedLp
           stakedLpUstValue
-          availableLpUstValue
-          ustStaked
-          ustUnStaked
-          tokenStaked
-          tokenUnStaked
-          stakedLP
+          stakeableLp
+          stakeableLpUstValue
+          token1UnStaked
+          token1Staked
+          token2UnStaked
+          token2Staked
+          totalLpUstValue
           rewards
           rewardsValue
           rewardsSymbol
-          availableLP
           apr
         }
         gov {

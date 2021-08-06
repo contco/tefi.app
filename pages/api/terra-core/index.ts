@@ -48,7 +48,7 @@ const typeDefs = gql`
     }
 
     type Pool {
-        list:[PoolTokens]
+        list:[PoolTokens!]
         total:String
     }
 

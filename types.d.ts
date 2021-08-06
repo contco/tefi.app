@@ -19,18 +19,19 @@ interface Gov {
 }
 
 interface Pool {
-  symbol: string;
+  symbol1: string;
+  symbol2: string;
   lpName: string;
   stakedLpUstValue: string;
-  availableLpUstValue: string;
-  ustStaked: string;
-  ustUnStaked: string;
-  tokenStaked: string;
-  tokenUnStaked: string;
-  stakedLP: string;
+  stakeableLpUstValue: string;
+  token1Staked: string;
+  token1UnStaked: string;
+  token2Staked: string;
+  token2UnStaked: string;
+  stakedLp: string;
   rewards: string;
   rewardsValue: string;
-  availableLP: string;
+  stakeableLp: string;
   rewardsSymbol: string;
   apy?: string;
   apr?: string;
@@ -38,7 +39,7 @@ interface Pool {
 
 
 interface Coin extends Holdings {
- __typename?: "Coin";
+  __typename?: "Coin";
 }
 
 interface Core {
