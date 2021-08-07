@@ -39,11 +39,7 @@ interface Pool {
 }
 
 interface Coin extends Holdings {
-<<<<<<< HEAD
   __typename?: "Coin";
-=======
-  __typename?: 'Coin';
->>>>>>> develop
 }
 
 interface Core {
