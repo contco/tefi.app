@@ -27,16 +27,18 @@ export const getAssets = gql`
       }
       mirror {
         mirrorStaking {
-          symbol
+          symbol1
+          symbol2
           lpName
+          stakedLp
           stakedLpUstValue
-          availableLpUstValue
-          ustStaked
-          ustUnStaked
-          tokenStaked
-          tokenUnStaked
-          availableLP
-          stakedLP
+          stakeableLp
+          stakeableLpUstValue
+          token1UnStaked
+          token1Staked
+          token2UnStaked
+          token2Staked
+          totalLpUstValue
           rewards
           rewardsValue
           rewardsSymbol
@@ -70,6 +72,35 @@ export const getAssets = gql`
           mirrorPoolRewardsSum
           mirrorPoolSum
           mirrorAirdropSum
+        }
+        mirrorShortFarm {
+          assetInfo {
+            name
+            symbol
+            price
+            idx
+          }
+
+          borrowInfo {
+            amount
+            shortApr
+            amountValue
+          }
+
+          collateralInfo {
+            collateral
+            collateralValue
+            collateralRatio
+            csymbol
+          }
+          lockedInfo {
+            locked_amount
+            unlocked_amount
+            unlock_time
+            reward
+            rewardValue
+            shorted
+          }
         }
       }
       anchor {
@@ -108,19 +139,21 @@ export const getAssets = gql`
         }
 
         pool {
-          symbol
+          symbol1
+          symbol2
           lpName
+          stakedLp
           stakedLpUstValue
-          availableLpUstValue
-          ustStaked
-          ustUnStaked
-          tokenStaked
-          tokenUnStaked
-          stakedLP
+          stakeableLp
+          stakeableLpUstValue
+          token1UnStaked
+          token1Staked
+          token2UnStaked
+          token2Staked
+          totalLpUstValue
           rewards
           rewardsValue
           rewardsSymbol
-          availableLP
           apr
         }
         gov {
@@ -147,7 +180,7 @@ export const getAssets = gql`
         }
         totalReward
       }
-      pylon  {
+      pylon {
         pylonHoldings {
           symbol
           name
@@ -156,19 +189,21 @@ export const getAssets = gql`
           value
         }
         pylonPool {
-          symbol
+          symbol1
+          symbol2
           lpName
+          stakedLp
           stakedLpUstValue
-          availableLpUstValue
-          ustStaked
-          ustUnStaked
-          tokenStaked
-          tokenUnStaked
-          stakedLP
+          stakeableLp
+          stakeableLpUstValue
+          token1UnStaked
+          token1Staked
+          token2UnStaked
+          token2Staked
+          totalLpUstValue
           rewards
           rewardsValue
           rewardsSymbol
-          availableLP
           apr
         }
         gov {
@@ -211,8 +246,25 @@ export const getAssets = gql`
             depositReleaseDate
             rewardReleaseDate
           }
-
         }
+      }
+      terraSwapPool{
+        list{
+          symbol1
+          symbol2
+          lpName
+          price  
+          stakedLp
+          stakedLpUstValue
+          stakeableLp
+          stakeableLpUstValue
+          token1UnStaked
+          token1Staked
+          token2UnStaked
+          token2Staked
+          totalLpUstValue
+        }
+        total
       }
       spectrum {
         farms {
@@ -238,7 +290,7 @@ export const getAssets = gql`
           price
           apr
         }
-        specHoldings{
+        specHoldings {
           symbol
           name
           price

@@ -3,7 +3,7 @@ import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, HoverText, Su
 import { times } from '../../pages/api/mirror/utils';
 import { convertToFloatValue } from '../../utils/convertFloat';
 import { Box } from '@contco/core-ui';
-import loterra from '../../pages/api/loterra';
+
 const HEADING_TEXT = `Rewards`;
 export interface RewardsProps {
   ancAssets: AccountAnc;
@@ -37,23 +37,23 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets,
   };
 
   const getPool = () => {
-      const pool = [...pylonAssets?.pylonPool, ...mirrorAssets?.mirrorStaking, ...ancAssets.pool].sort(
-        (a, b) => b.rewardsValue - a.rewardsValue,
-      );
-      if(pool && pool.length > 0) {
+    const pool = [...pylonAssets?.pylonPool, ...mirrorAssets?.mirrorStaking, ...ancAssets.pool].sort(
+      (a, b) => b.rewardsValue - a.rewardsValue,
+    );
+    if (pool && pool.length > 0) {
       return pool.map((assets: Pool, index: number) => (
         <Row key={index}>
-          <StyledText fontWeight="500"> {assets?.lpName}</StyledText>
+          <StyledText fontWeight="500">{assets?.lpName}</StyledText>
           <StyledText isChildren={true}>
             {' '}
-            {convertToFloatValue(assets?.stakedLP)} LP
+            {convertToFloatValue(assets?.stakedLp)} LP
             <HoverText>
-              {convertToFloatValue(assets?.tokenStaked)} {assets?.symbol} <br />
-              {convertToFloatValue(assets?.ustStaked)} {'UST'}
+              {convertToFloatValue(assets?.token2Staked)} {assets?.symbol2} <br />
+              {convertToFloatValue(assets?.token1Staked)} {assets?.symbol1}
             </HoverText>
           </StyledText>
           <div>
-            <StyledText css={CSS_APR}> {assets?.apy ? formatApr(assets?.apy) : formatApr(assets?.apr)}%</StyledText>
+            <StyledText css={CSS_APR}> {assets?.apy ? formatApr(assets?.apy) : formatApr(assets?.apr) }%</StyledText>
             {assets?.apy ? <SubText> (APY)</SubText> : null}
           </div>
           <div>
@@ -69,16 +69,16 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets,
   };
 
   const displayGovData = () => {
-    const govData = [pylonAssets?.gov, spectrum?.specGov, mirrorAssets?.gov, ancAssets?.gov, loterra?.lotaGov].filter(item => item != null).sort((a,b) => parseFloat(b.value) - parseFloat(a.value));
+    const govData = [pylonAssets?.gov, spectrum?.specGov, mirrorAssets?.gov, ancAssets?.gov, loterra?.lotaGov].filter(item => item != null).sort((a, b) => parseFloat(b.value) - parseFloat(a.value));
     return govData?.map((govItem: Gov) => {
-      return(
+      return (
         <Row key={govItem.name}>
           <StyledText fontWeight="500"> {govItem.name}</StyledText>
           <Box>
-          <StyledText> 
-            {convertToFloatValue(govItem.staked)} {govItem.symbol}
-          </StyledText>
-          <SubText>
+            <StyledText>
+              {convertToFloatValue(govItem.staked)} {govItem.symbol}
+            </StyledText>
+            <SubText>
               ${convertToFloatValue(govItem.value)}
             </SubText>
           </Box>
@@ -86,25 +86,25 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets,
             <StyledText css={CSS_APR}> {govItem?.apy ? convertToFloatValue(govItem?.apy) : convertToFloatValue(govItem?.apr)}%</StyledText>
             {govItem?.apy ? <SubText> (APY)</SubText> : null}
           </div>
-          {govItem.symbol === "LOTA" ? 
+          {govItem.symbol === "LOTA" ?
             (
-            <div>
-              <StyledText>
-                {convertToFloatValue(govItem?.rewards)} {govItem.symbol}
-              </StyledText>
-              <SubText>${convertToFloatValue(govItem?.rewardsValue)}</SubText>
-            </div>
+              <div>
+                <StyledText>
+                  {convertToFloatValue(govItem?.rewards)} {govItem.symbol}
+                </StyledText>
+                <SubText>${convertToFloatValue(govItem?.rewardsValue)}</SubText>
+              </div>
             )
             :
             <StyledText>
-            Automatically <br />
-            re-staked
+              Automatically <br />
+              re-staked
             </StyledText>
           }
         </Row>
       )
     })
-    
+
   }
   return (
     <Wrapper>

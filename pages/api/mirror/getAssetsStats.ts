@@ -32,7 +32,11 @@ export const getAssetsStats = async () => {
   const apr = result.assets.reduce((acc: any, { token, statistic }) => {
     return { ...acc, [token]: statistic.apr.long };
   }, {});
-  return {apr, statistic: result?.statistic};
+  const shortApr = result.assets.reduce((acc: any, { token, statistic }) => {
+    return { ...acc, [token]: statistic.apr.short };
+  }, {});
+  
+  return { apr, shortApr,statistic: result?.statistic };
   }
   catch(err) {
     return null;
