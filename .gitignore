@@ -18,7 +18,6 @@ sw.js.map
 /public/sw.js.mem.map
 /public/workbox-*.js.map
 
-
 # next.js
 /.next/
 /out/
