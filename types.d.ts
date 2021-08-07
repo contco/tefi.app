@@ -38,9 +38,12 @@ interface Pool {
   apr?: string;
 }
 
-
 interface Coin extends Holdings {
+<<<<<<< HEAD
   __typename?: "Coin";
+=======
+  __typename?: 'Coin';
+>>>>>>> develop
 }
 
 interface Core {
@@ -131,6 +134,42 @@ interface MirrorTotal {
   mirrorAirdropSum: string;
 }
 
+interface AssetInfo {
+  idx: string;
+  name: string;
+  price: string;
+  symbol: string;
+}
+
+interface BorrowInfo {
+  amount: string;
+  amountValue: string;
+  shortApr: string;
+}
+
+interface CollateralInfo {
+  collateral: string;
+  collateralValue: string;
+  collateralRatio: string;
+  csymbol: string;
+}
+
+interface LockedInfo {
+  locked_amount: string;
+  unlocked_amount: string;
+  unlock_time: string;
+  reward: string;
+  rewardValue: string;
+  shorted: string;
+}
+
+interface MirrorShortFarm {
+  assetInfo: AssetInfo;
+  borrowInfo: BorrowInfo;
+  collateralInfo: CollateralInfo;
+  lockedInfo: LockedInfo;
+}
+
 interface MirrorAccount {
   __typename?: 'Account';
   mirrorStaking: Pool[];
@@ -138,6 +177,7 @@ interface MirrorAccount {
   gov: Gov;
   total: MirrorTotal;
   airdrops: Array<Airdrops>;
+  mirrorShortFarm: MirrorShortFarm[];
 }
 
 interface terrSwapAccount {
@@ -146,9 +186,9 @@ interface terrSwapAccount {
   total: string;
 }
 interface PylonGov extends Gov {
-  rewards
-  rewardsValue
-  totalValue
+  rewards;
+  rewardsValue;
+  totalValue;
 }
 
 interface PylonSum {
@@ -161,20 +201,20 @@ interface PylonSum {
 }
 
 interface DepositLogs {
-  deposit: string
-  depositDate: string
-  depositReleaseDate: string
-  rewardReleaseDate: string
+  deposit: string;
+  depositDate: string;
+  depositReleaseDate: string;
+  rewardReleaseDate: string;
 }
 
 interface PylonGateway {
   symbol: string;
   poolName: string;
   totalDeposit: string;
-  depositLogs: DepositLogs[]
-  apy: string
-  rewards: string
-  rewardsValue: string
+  depositLogs: DepositLogs[];
+  apy: string;
+  rewards: string;
+  rewardsValue: string;
 }
 interface PylonAccount {
   __typename?: 'PylonAccount';
@@ -182,7 +222,7 @@ interface PylonAccount {
   pylonPool: PylonPool[];
   pylonAirdrops: Airdrops;
   gov: PylonGov;
-  pylonSum: PylonSum
+  pylonSum: PylonSum;
   pylonGateway: PylonGateway[];
 }
 
@@ -220,7 +260,7 @@ interface SpectrumAccount {
   farms: SpecFarms[];
   specHoldings: Holdings[];
   specGov?: SpecGov;
-  spectrumTotal: SpectrumTotal
+  spectrumTotal: SpectrumTotal;
 }
 
 interface loterraDraw {

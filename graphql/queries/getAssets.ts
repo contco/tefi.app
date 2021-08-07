@@ -73,6 +73,35 @@ export const getAssets = gql`
           mirrorPoolSum
           mirrorAirdropSum
         }
+        mirrorShortFarm {
+          assetInfo {
+            name
+            symbol
+            price
+            idx
+          }
+
+          borrowInfo {
+            amount
+            shortApr
+            amountValue
+          }
+
+          collateralInfo {
+            collateral
+            collateralValue
+            collateralRatio
+            csymbol
+          }
+          lockedInfo {
+            locked_amount
+            unlocked_amount
+            unlock_time
+            reward
+            rewardValue
+            shorted
+          }
+        }
       }
       anchor {
         assets {
@@ -151,7 +180,7 @@ export const getAssets = gql`
         }
         totalReward
       }
-      pylon  {
+      pylon {
         pylonHoldings {
           symbol
           name
@@ -217,7 +246,6 @@ export const getAssets = gql`
             depositReleaseDate
             rewardReleaseDate
           }
-
         }
       }
       terraSwapPool{
@@ -262,7 +290,7 @@ export const getAssets = gql`
           price
           apr
         }
-        specHoldings{
+        specHoldings {
           symbol
           name
           price
