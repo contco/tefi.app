@@ -84,7 +84,8 @@ const parseResults = <Parsed>(object?: Dictionary<ContractData>) =>
     TOKEN = "token",
     LPTOTAL = "lpTotal",
     LPSTAKABLE = "lpStakable",
-    LPSTAKED = "lpStaked",
+    LPLONGSTAKED = "lpLongStaked",
+    LPSHORTSTAKED = "lpShortStaked",
     MIRGOVSTAKED = "MIRGovStaked",
     REWARD = "reward",
   }
@@ -148,8 +149,10 @@ export const balance = {
   ) => reduceLP(listedAll, { lpTokenBalance, stakingReward }),
   [BalanceKey.LPSTAKABLE]: (lpTokenBalance: Dictionary<Balance>) =>
     dict(lpTokenBalance, ({ balance }) => balance),
-  [BalanceKey.LPSTAKED]: (stakingReward: StakingReward) =>
+  [BalanceKey.LPLONGSTAKED]: (stakingReward: StakingReward) =>
     reduceBondAmount(stakingReward),
+  [BalanceKey.LPSHORTSTAKED]: (stakingReward: StakingReward) =>
+    reduceBondAmount(stakingReward, true),
   [BalanceKey.MIRGOVSTAKED]: (govStake: Balance) => {
     const token = getToken(MIR)
     return { [token]: govStake.balance }
@@ -183,11 +186,16 @@ const reduceLP = (
     {}
   )
 }
-
-const reduceBondAmount = ({ reward_infos }: StakingReward) =>
+const reduceBondAmount = ({ reward_infos }: StakingReward, isShort = false) =>
   reward_infos.reduce<Dictionary<string>>(
-    (acc, { asset_token, bond_amount }) => {
-      return { ...acc, [asset_token]: bond_amount }
+    (acc, { asset_token, bond_amount, is_short }) => {
+      if (isShort && is_short) {
+        return { ...acc, [asset_token]: bond_amount }
+      }
+      else if (!isShort && !is_short) {
+        return { ...acc, [asset_token]: bond_amount }
+      }
+      return acc;
     },
     {}
 );
