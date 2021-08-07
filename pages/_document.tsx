@@ -43,6 +43,14 @@ export default class MyDocument extends Document {
           <link rel="apple-touch-icon" sizes="180x180" href="icons/180.png" />
           <link rel="apple-touch-icon" sizes="167x167" href="icons/167.png" />
           <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+          {/* //Splash screen for ios  */}
+          {/* <link href="/apple_splash_2048.png" sizes="2048x2732" rel="apple-touch-startup-image" />
+          <link href="/apple_splash_1668.png" sizes="1668x2224" rel="apple-touch-startup-image" />
+          <link href="/apple_splash_1536.png" sizes="1536x2048" rel="apple-touch-startup-image" />
+          <link href="/apple_splash_1125.png" sizes="1125x2436" rel="apple-touch-startup-image" />
+          <link href="/apple_splash_1242.png" sizes="1242x2208" rel="apple-touch-startup-image" />
+          <link href="/apple_splash_750.png" sizes="750x1334" rel="apple-touch-startup-image" />
+          <link href="/apple_splash_640.png" sizes="640x1136" rel="apple-touch-startup-image" /> */}
 
           <meta property="og:type" content="website" />
           <meta property="og:title" content={'TefiApp | Your portal to TeFi'} />
