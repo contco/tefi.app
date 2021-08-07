@@ -1,6 +1,13 @@
-module.exports = {
+const withPWA = require('next-pwa');
+const runtimeCaching = require('next-pwa/cache');
+
+module.exports = withPWA({
   env: {
-    SERVER_END_POINT: process.env.SERVER_END_POINT
+    SERVER_END_POINT: process.env.SERVER_END_POINT,
+  },
+  pwa: {
+    dest: 'public',
+    runtimeCaching,
   },
   webpack(config) {
     config.module.rules.push({
@@ -13,5 +20,4 @@ module.exports = {
 
     return config;
   },
-};
-
+});

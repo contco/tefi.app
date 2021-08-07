@@ -35,7 +35,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ApolloProvider client={apolloClient}>
       <Head>
-        <title>TefiApp</title>
+        <title>Tefi App</title>
       </Head>
       <ThemeProvider theme={theme === LIGHT_THEME ? lightTheme : darkTheme}>
         <GlobalStyles />
