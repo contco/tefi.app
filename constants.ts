@@ -42,3 +42,8 @@ export enum WalletConnectType {
 }
 
 export const TEFI_PREVIEW_IMAGE = 'https://storage.googleapis.com/tefi-app/tefi-preview.png';
+
+const BASE_URL = `https://storage.googleapis.com/tefi-app`;
+
+export const ICON_ANC_URL = `${BASE_URL}/ANC.png`;
+export const ICON_LUNA_URL = `${BASE_URL}/Luna.png`;
