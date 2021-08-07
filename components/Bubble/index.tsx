@@ -28,8 +28,8 @@ const OvalShap = styled.div`
   ${css({
   margin: '0 auto',
   borderRadius: '50%',
-  width: [50, 60, 70, 84, 90, 110, 120, null, 130, 150],
-  height: [50, 60, 70, 84, 90, 110, 120, null, 130, 150],
+  width: [50 * 2, 60, 70, 84, 90, 110, 120, null, 130, 150 * 2],
+  height: [50 * 2, 60, 70, 84, 90, 110, 120, null, 130, 150 * 2],
   background: '#95fa84'
 })}
 `;
@@ -37,15 +37,15 @@ const OvalShap = styled.div`
 const StyleImage = styled.img`
   ${css({
   borderRadius: '50%',
-  width: [50 / 3, 60 / 3, 70 / 3, 84 / 3, 90 / 3, 110 / 3, 120 / 3, null, 130 / 3, 150 / 3],
-  height: [50 / 3, 60 / 3, 70 / 3, 84 / 3, 90 / 3, 110 / 3, 120 / 3, null, 130 / 3, 150 / 3],
+  width: [50 / 3 * 2, 60 / 3, 70 / 3, 84 / 3, 90 / 3, 110 / 3, 120 / 3, null, 130 / 3, (150 / 3) * 2],
+  height: [50 / 3 * 2, 60 / 3, 70 / 3, 84 / 3, 90 / 3, 110 / 3, 120 / 3, null, 130 / 3, (150 / 3) * 2],
   position: 'relative',
   top: '50%',
   left: '50%',
   marginRight: '-50%',
   transform: 'translate(-50%, -50%)',
   background: '#ffffff',
-  padding: 1 * 2,
+  padding: [0.5, null, 1],
 })}
 `;
 
