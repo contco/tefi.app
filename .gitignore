@@ -9,6 +9,15 @@
 /coverage
 sw.js
 sw.js.map
+
+**/public/workbox-*.js
+**/public/sw.js
+**/public/worker-*.js
+/public/sw.js.map
+/public/sw.js.mem
+/public/sw.js.mem.map
+/public/workbox-*.js.map
+
 # next.js
 /.next/
 /out/
