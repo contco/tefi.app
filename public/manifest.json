@@ -1,4 +1,6 @@
 {
+    "name": "Tefi App",
+    "short_name": "Tefi",
     "display": "Standalone",
     "orientation": "portrait",
     "scope": "/",
