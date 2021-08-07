@@ -58,14 +58,24 @@ ${(props) =>
       pt: 1,
     })}
 `;
-export const StyledText = Styled(Text)`
-${(props) =>
-    css({
-      color: props.theme.colors.detailsText,
-      letterSpacing: 1,
-      fontSize: ['11px', null, null, null, '14px', null, null, 16],
+
+export const StyledTextContainer = Styled(Flex)`
+  ${css({
+    mr:[2, null, null, null, 4],
+  })}
+`;
+export const SimpleText = Styled(Text)`
+${props => css({
+  color: props.theme.colors.detailsText,
+  letterSpacing: 1,
+  fontSize: ['11px', null, null, null, '14px', null, null, 16],
+  cursor: props.isChildren || props.isURL ? 'pointer' : '',
+})}
+
+`;
+export const StyledText = Styled(SimpleText)`
+${css({
       width: [100, null, 150, null, null, 200],
-      cursor: props.isChildren || props.isURL ? 'pointer' : '',
     })}
     &:hover > * {
         display:${(props) => !props.isURL ? 'flex' : ''};
