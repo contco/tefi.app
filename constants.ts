@@ -47,3 +47,7 @@ const BASE_URL = `https://storage.googleapis.com/tefi-app`;
 
 export const ICON_ANC_URL = `${BASE_URL}/ANC.png`;
 export const ICON_LUNA_URL = `${BASE_URL}/Luna.png`;
+export const ICON_LOTA_URL = `${BASE_URL}/LOTA.png`;
+export const ICON_MINE_URL = `${BASE_URL}/MINE.png`;
+export const ICON_MIR_URL = `${BASE_URL}/MIR.svg`;
+export const ICON_SPEC_URL = `${BASE_URL}/Luna.png`;
