@@ -64,36 +64,38 @@ export const rewardsClaimableAncUstLpRewardsQuery = async (mantleEndpoint, addre
 
 export const getAncPoolData = async (address) => {
   try {
-  const poolPromise =  rewardsClaimableAncUstLpRewardsQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet'], address);
-  const ancDataPromise =  ancPriceQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']);
-  const rewardsApyPromise =  borrowAPYQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']);
-   
-  const [pool, ancData, rewardsApy] = await Promise.all([poolPromise, ancDataPromise, rewardsApyPromise]);
-  if (pool  && (pool?.lPStakerInfo?.bond_amount != '0' || pool?.lPBalance?.balance != '0')) {
-    const symbol = 'ANC';
-    const lpName = 'ANC-UST LP';
-    const apy = rewardsApy?.lpRewards[0]?.APY ?? '0';
-    const availableLP = parseFloat(pool?.lPBalance?.balance) / MICRO;
-    const stakedLP = parseFloat(pool?.lPStakerInfo?.bond_amount) / MICRO;
-    const lpValue = formatLP(big(ancData?.ancPrice?.USTPoolSize)
-    ?.div(ancData?.ancPrice?.LPShare === '0' ? 1 : ancData?.ancPrice?.LPShare)
-    ?.mul(2));
-    const ustStaked = (stakedLP / 2 ) * parseFloat(lpValue);
-    const tokenStaked = ustStaked / ancData?.ancPrice?.ANCPrice;
-    const ustUnStaked = (availableLP / 2 ) * parseFloat(lpValue);
-    const tokenUnStaked = ustUnStaked / ancData?.ancPrice?.ANCPrice;
-    const stakedLpUstValue = stakedLP * parseFloat(lpValue);
-    const availableLpUstValue = availableLP * parseFloat(lpValue);
-    const rewards = parseFloat(pool?.lPStakerInfo?.pending_reward) / MICRO;
-    const rewardsValue = rewards * ancData?.ancPrice?.ANCPrice;
-    const poolData =  [{symbol, lpName, apr: apy, availableLP: availableLP.toString(), stakedLP: stakedLP.toString(), ustStaked: ustStaked.toString(), ustUnStaked: ustUnStaked.toString(), tokenStaked: tokenStaked.toString(), tokenUnStaked: tokenUnStaked.toString(), stakedLpUstValue: stakedLpUstValue.toString(), availableLpUstValue: availableLpUstValue.toString(), rewards: rewards.toString(), rewardsValue: rewardsValue.toString(), rewardsSymbol: symbol}];
-    const anchorPoolSum = (stakedLpUstValue + availableLpUstValue).toString();
-    const anchorRewardsSum = rewardsValue.toString();
-    return {poolData, anchorPoolSum, anchorRewardsSum};
+    const poolPromise = rewardsClaimableAncUstLpRewardsQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet'], address);
+    const ancDataPromise = ancPriceQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']);
+    const rewardsApyPromise = borrowAPYQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']);
+
+    const [pool, ancData, rewardsApy] = await Promise.all([poolPromise, ancDataPromise, rewardsApyPromise]);
+    if (pool && (pool?.lPStakerInfo?.bond_amount != '0' || pool?.lPBalance?.balance != '0')) {
+      const symbol1 = 'UST';
+      const symbol2 = 'ANC';
+      const lpName = 'ANC-UST LP';
+      const apy = rewardsApy?.lpRewards[0]?.APY ?? '0';
+      const stakeableLp = parseFloat(pool?.lPBalance?.balance) / MICRO;
+      const stakedLp = parseFloat(pool?.lPStakerInfo?.bond_amount) / MICRO;
+      const lpValue = formatLP(big(ancData?.ancPrice?.USTPoolSize)
+        ?.div(ancData?.ancPrice?.LPShare === '0' ? 1 : ancData?.ancPrice?.LPShare)
+        ?.mul(2));
+      const token1Staked = (stakedLp / 2) * parseFloat(lpValue);
+      const token2Staked = token1Staked / ancData?.ancPrice?.ANCPrice;
+      const token1UnStaked = (stakeableLp / 2) * parseFloat(lpValue);
+      const token2UnStaked = token1UnStaked / ancData?.ancPrice?.ANCPrice;
+      const stakedLpUstValue = stakedLp * parseFloat(lpValue);
+      const stakeableLpUstValue = stakeableLp * parseFloat(lpValue);
+      const totalLpUstValue = (stakedLpUstValue + stakeableLpUstValue).toString();
+      const rewards = parseFloat(pool?.lPStakerInfo?.pending_reward) / MICRO;
+      const rewardsValue = rewards * ancData?.ancPrice?.ANCPrice;
+
+      const poolData = [{ symbol1, symbol2, lpName, apr: apy, stakeableLp: stakeableLp.toString(), stakedLp: stakedLp.toString(), totalLpUstValue, token1Staked: token1Staked.toString(), token1UnStaked: token1UnStaked.toString(), token2Staked: token2Staked.toString(), token2UnStaked: token2UnStaked.toString(), stakedLpUstValue: stakedLpUstValue.toString(), stakeableLpUstValue: stakeableLpUstValue.toString(), rewards: rewards.toString(), rewardsValue: rewardsValue.toString(), rewardsSymbol: symbol2 }];
+      const anchorRewardsSum = rewardsValue.toString();
+      return { poolData, anchorPoolSum: totalLpUstValue, anchorRewardsSum };
+    }
+    return { poolData: [], anchorPoolSum: '0', anchorRewardsSum: '0' };
   }
-  return {poolData: [], anchorPoolSum: '0', anchorRewardsSum: '0'};
-}
-catch(err) {
-  return {poolData: [], anchorPoolSum: '0', anchorRewardsSum: '0'};
-}
+  catch (err) {
+    return { poolData: [], anchorPoolSum: '0', anchorRewardsSum: '0' };
+  }
 }

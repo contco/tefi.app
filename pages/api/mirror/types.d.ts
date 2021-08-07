@@ -108,6 +108,7 @@ interface RewardInfo {
     asset_token: string
     bond_amount: string
     index: string
+    is_short: boolean;
     pending_reward: string
     is_short: boolean
 }

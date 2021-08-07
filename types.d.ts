@@ -19,25 +19,27 @@ interface Gov {
 }
 
 interface Pool {
-  symbol: string;
+  symbol1: string;
+  symbol2: string;
   lpName: string;
   stakedLpUstValue: string;
-  availableLpUstValue: string;
-  ustStaked: string;
-  ustUnStaked: string;
-  tokenStaked: string;
-  tokenUnStaked: string;
-  stakedLP: string;
-  rewards: string;
-  rewardsValue: string;
-  availableLP: string;
-  rewardsSymbol: string;
+  stakeableLpUstValue: string;
+  totalLpUstValue: string;
+  token1Staked: string;
+  token1UnStaked: string;
+  token2Staked: string;
+  token2UnStaked: string;
+  stakedLp: string;
+  stakeableLp: string;
+  rewards?: string;
+  rewardsValue?: string;
+  rewardsSymbol?: string;
   apy?: string;
   apr?: string;
 }
 
 interface Coin extends Holdings {
-  __typename?: 'Coin';
+  __typename?: "Coin";
 }
 
 interface Core {
@@ -172,6 +174,12 @@ interface MirrorAccount {
   total: MirrorTotal;
   airdrops: Array<Airdrops>;
   mirrorShortFarm: MirrorShortFarm[];
+}
+
+interface terrSwapAccount {
+  __typename?: 'Account';
+  list: Pool[];
+  total: string;
 }
 interface PylonGov extends Gov {
   rewards;

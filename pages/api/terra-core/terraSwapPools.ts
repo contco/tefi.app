@@ -2,27 +2,22 @@ import axios from "axios";
 import { LCD_URL } from "../utils";
 import { calculatePoolData } from "./calculatePool";
 import pairs from './constants/pairs.json'
+import { wasmStoreRequest } from "../commons";
 
 const fetchPoolResponseData = async (address: string) => {
-    const { data } = await axios.get(LCD_URL + `wasm/contracts/${address}/store`, {
-        params: {
-            query_msg: JSON.stringify({
-                pool: {}
-            })
-        },
-    });
-    return data?.result;
+    const queryMessage = {
+        pool: {}
+    }
+    const data = await wasmStoreRequest(address, queryMessage);
+    return data;
 }
 
 const fetchUserPoolBalance = async (address: string, liq_contract: string) => {
-    const { data } = await axios.get(LCD_URL + `wasm/contracts/${liq_contract}/store`, {
-        params: {
-            query_msg: JSON.stringify({
-                balance: { address }
-            })
-        },
-    });
-    return data?.result;
+    const queryMessage = {
+        balance: { address }
+    }
+    const data = await wasmStoreRequest(liq_contract, queryMessage);
+    return data;
 }
 
 const getPoolResponses = async (pairInfo) => {

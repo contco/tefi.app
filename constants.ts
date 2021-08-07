@@ -16,7 +16,7 @@ export const AssetsTitle = ['Ticker', 'Name', 'Balance', 'Price', 'Value'];
 export const BorrowingTitle = ['Collateral Value', 'Borrowed Value', 'Net APR'];
 
 //Pools
-export const PoolsTitle = ['Name', 'Balance', 'Value'];
+export const PoolsTitle = ['Name', 'Staked', 'Stakeable', 'Value'];
 
 //Rewards
 export const RewardsTitle = ['Name', 'Staked', 'APR', 'Reward'];

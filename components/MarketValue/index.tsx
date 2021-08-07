@@ -13,10 +13,11 @@ export interface AssetsProps {
   core: Core;
   pylonAssets: PylonAccount;
   spectrum: SpectrumAccount;
-  loterra: LoterraAccount
+  loterra: LoterraAccount;
+  terraSwapAssets: terrSwapAccount;
 }
 
-const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAssets, spectrum, loterra }) => {
+const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAssets, spectrum, loterra, terraSwapAssets }) => {
   const getBorrowedTotal = () => {
     const short = mirrorAssets?.mirrorShortFarm;
     const totalBorrowed = short.reduce((a, shortAsset) => a + parseFloat(shortAsset?.borrowInfo?.amountValue), 0);
@@ -46,7 +47,8 @@ const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAsse
       parseFloat(mirrorAssets?.total?.mirrorPoolSum) +
       parseFloat(ancAssets?.total?.anchorPoolSum) +
       parseFloat(spectrum?.spectrumTotal?.farmsTotal) +
-      parseFloat(pylonAssets?.pylonSum?.pylonPoolSum);
+      parseFloat(pylonAssets?.pylonSum?.pylonPoolSum) + 
+      parseFloat(terraSwapAssets.total);
     return total ?? 0;
   };
 

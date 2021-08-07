@@ -106,6 +106,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
               ancAssets={data?.assets?.anchor || {}}
               spectrum={data?.assets?.spectrum}
               loterra={data?.assets?.loterra}
+              terraSwapAssets={data?.assets?.terraSwapPool}
             />
             <Assets
               mirrorAssets={data?.assets?.mirror || {}}
@@ -128,6 +129,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
               pylonAssets={data?.assets?.pylon || {}}
               mirrorAssets={data?.assets?.mirror || {}}
               ancAssets={data?.assets?.anchor || {}}
+              terraSwapAssets={data?.assets?.terraSwapPool}
             />
             <MirrorBorrowing mirrorAssets={data?.assets?.mirror || {}} />
             <ShortFarms mirrorAssets={data?.assets?.mirror || {}} />
