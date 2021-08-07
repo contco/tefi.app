@@ -1,14 +1,14 @@
 import { LCDClient } from '@terra-money/terra.js';
 import axios from "axios";
 import { IS_TEST, TERRA_TEST_NET, TERRA_MAIN_NET } from '../../../constants';
-import { fetchBlunaDetails } from './bluna';
+import { fetchTerraSwapHoldings } from './terraSwapHoldings';
 import { plus, times, div } from "../mirror/utils";
 import { UUSD_DENOM, LUNA_DENOM, DENOM_SYMBOLS } from "./symbols";
+import { getTerraSwapPoolData } from './terraSwapPools';
+import { fetchData } from '../commons';
 
 const DIVIDER = '1000000';
-
 const FCD_URL = "https://fcd.terra.dev/v1/";
-
 const terra = new LCDClient(IS_TEST ? TERRA_TEST_NET : TERRA_MAIN_NET);
 
 
@@ -19,7 +19,7 @@ export const getPrice = async (denom: string) => {
         return ussdPrice.swaprate;
     }
     catch (err) {
-        throw new Error("Swaprate api not working for: " + denom);
+        return '0';
     }
 };
 
@@ -52,7 +52,7 @@ const getTerraTokens = async (coins, price: string) => {
 
 const formatStakeData = (stakeData: any, price: string) => {
     let stakedSum = '0';
-    if (stakeData?.myDelegations) {
+    if (stakeData && stakeData?.myDelegations) {
         const staking = stakeData?.myDelegations.map((data: any) => {
             const balance = div(data?.amountDelegated, DIVIDER);
             const rewards = div(data?.totalReward, DIVIDER);
@@ -67,20 +67,31 @@ const formatStakeData = (stakeData: any, price: string) => {
     else return { staking: [], stakedSum };
 }
 
+const fetchBalance = async (address: string) => {
+    try {
+        const balance = await terra.bank.balance(address);
+        return balance;
+    }
+    catch (err) {
+        return null;
+    }
+}
+
 export const getBankBalance = async ({ args: { address } }: any) => {
-    const balanceRequest = terra.bank.balance(address);
-    const pricesRequest = axios.get(FCD_URL + "dashboard");
-    const stakingRequest = axios.get(FCD_URL + `staking/${address}`);
-    const [balance, pricesData, stakeData] = await Promise.all([balanceRequest, pricesRequest, stakingRequest]);
+    const balanceRequest = fetchBalance(address);
+    const pricesRequest = fetchData(FCD_URL + "dashboard");
+    const stakingRequest = fetchData(FCD_URL + `staking/${address}`);
+    const poolRequest = getTerraSwapPoolData(address);
 
-    const coins = balance.toData();
-
-    const lunaPrice = pricesData?.data?.prices[UUSD_DENOM];
+    const [balance, pricesData, stakeData, terraSwapPool] = await Promise.all([balanceRequest, pricesRequest, stakingRequest, poolRequest]);
+    const coins = balance ? balance.toData() : null;
+    const lunaPrice = pricesData ? pricesData?.data?.prices[UUSD_DENOM] : '0';
     const getTerraRequest = getTerraTokens(coins, lunaPrice);
-    const blunaHoldingRequest: any = fetchBlunaDetails(address, lunaPrice);
-    const [terraTokens, blunaHoldings] = await Promise.all([getTerraRequest, blunaHoldingRequest]);
+    const terraSwapHoldingsRequest: any = fetchTerraSwapHoldings(address, lunaPrice);
+    const [terraTokens, terraSwapHoldingsData] = await Promise.all([getTerraRequest, terraSwapHoldingsRequest]);
     const { tokens, assetsSum } = terraTokens;
-    const assetsTotalSum = plus(parseFloat(assetsSum), parseFloat(blunaHoldings[0]?.value));
+    const { terraSwapHoldings, terraSwapHoldingsSum } = terraSwapHoldingsData;
+    const assetsTotalSum = plus(parseFloat(assetsSum), terraSwapHoldingsSum);
     const { staking, stakedSum } = formatStakeData(stakeData?.data, lunaPrice);
-    return { address, core: { coins: [...tokens, ...blunaHoldings], staking, total: { assetsSum: assetsTotalSum.toString(), stakedSum } } };
+    return { address, core: { coins: [...tokens, ...terraSwapHoldings], staking, total: { assetsSum: assetsTotalSum.toString(), stakedSum } }, terraSwapPool };
 };

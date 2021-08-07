@@ -1,4 +1,3 @@
-
 interface Holdings {
   symbol: string;
   value: string;
@@ -13,32 +12,34 @@ interface Gov {
   staked: string
   value: string
   rewards: string
+  rewardsValue?: string
   price: string
   apr?: string
   apy?: string;
 }
 
 interface Pool {
-  symbol: string;
+  symbol1: string;
+  symbol2: string;
   lpName: string;
   stakedLpUstValue: string;
-  availableLpUstValue: string;
-  ustStaked: string;
-  ustUnStaked: string;
-  tokenStaked: string;
-  tokenUnStaked: string;
-  stakedLP: string;
-  rewards: string;
-  rewardsValue: string;
-  availableLP: string;
-  rewardsSymbol: string;
+  stakeableLpUstValue: string;
+  totalLpUstValue: string;
+  token1Staked: string;
+  token1UnStaked: string;
+  token2Staked: string;
+  token2UnStaked: string;
+  stakedLp: string;
+  stakeableLp: string;
+  rewards?: string;
+  rewardsValue?: string;
+  rewardsSymbol?: string;
   apy?: string;
   apr?: string;
 }
 
-
 interface Coin extends Holdings {
- __typename?: "Coin";
+  __typename?: "Coin";
 }
 
 interface Core {
@@ -129,6 +130,42 @@ interface MirrorTotal {
   mirrorAirdropSum: string;
 }
 
+interface AssetInfo {
+  idx: string;
+  name: string;
+  price: string;
+  symbol: string;
+}
+
+interface BorrowInfo {
+  amount: string;
+  amountValue: string;
+  shortApr: string;
+}
+
+interface CollateralInfo {
+  collateral: string;
+  collateralValue: string;
+  collateralRatio: string;
+  csymbol: string;
+}
+
+interface LockedInfo {
+  locked_amount: string;
+  unlocked_amount: string;
+  unlock_time: string;
+  reward: string;
+  rewardValue: string;
+  shorted: string;
+}
+
+interface MirrorShortFarm {
+  assetInfo: AssetInfo;
+  borrowInfo: BorrowInfo;
+  collateralInfo: CollateralInfo;
+  lockedInfo: LockedInfo;
+}
+
 interface MirrorAccount {
   __typename?: 'Account';
   mirrorStaking: Pool[];
@@ -136,11 +173,18 @@ interface MirrorAccount {
   gov: Gov;
   total: MirrorTotal;
   airdrops: Array<Airdrops>;
+  mirrorShortFarm: MirrorShortFarm[];
+}
+
+interface terrSwapAccount {
+  __typename?: 'Account';
+  list: Pool[];
+  total: string;
 }
 interface PylonGov extends Gov {
-  rewards
-  rewardsValue
-  totalValue
+  rewards;
+  rewardsValue;
+  totalValue;
 }
 
 interface PylonSum {
@@ -153,20 +197,20 @@ interface PylonSum {
 }
 
 interface DepositLogs {
-  deposit: string
-  depositDate: string
-  depositReleaseDate: string
-  rewardReleaseDate: string
+  deposit: string;
+  depositDate: string;
+  depositReleaseDate: string;
+  rewardReleaseDate: string;
 }
 
 interface PylonGateway {
   symbol: string;
   poolName: string;
   totalDeposit: string;
-  depositLogs: DepositLogs[]
-  apy: string
-  rewards: string
-  rewardsValue: string
+  depositLogs: DepositLogs[];
+  apy: string;
+  rewards: string;
+  rewardsValue: string;
 }
 interface PylonAccount {
   __typename?: 'PylonAccount';
@@ -174,7 +218,7 @@ interface PylonAccount {
   pylonPool: PylonPool[];
   pylonAirdrops: Airdrops;
   gov: PylonGov;
-  pylonSum: PylonSum
+  pylonSum: PylonSum;
   pylonGateway: PylonGateway[];
 }
 
@@ -212,9 +256,24 @@ interface SpectrumAccount {
   farms: SpecFarms[];
   specHoldings: Holdings[];
   specGov?: SpecGov;
-  spectrumTotal: SpectrumTotal
+  spectrumTotal: SpectrumTotal;
 }
 
+interface loterraDraw {
+  combinations: string;
+  drawTime: string
+  ticketCounts: string
+  ticketPrice: string;
+  jackpot: string;
+}
+
+interface LotaGov extends Gov {
+  rewardsValue: string;
+}
+interface LoterraAccount {
+  loterraDraw: LoterraDraw
+  lotaGov: LotaGov
+}
 interface Assets {
   __typename?: 'Assets';
   address: string;
@@ -222,4 +281,5 @@ interface Assets {
   mirror?: MirrorAccount;
   pylon?: PylonAccount;
   spectrum: SpectrumAccount
+  loterra: LoterraAccount,
 }

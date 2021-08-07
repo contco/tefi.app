@@ -48,10 +48,9 @@ export const getAirdrops = async (address: string) => {
   }
   else return [];
   }
-  catch(err) {
+  catch(err){
     return [];
   }
-
 }
 
 

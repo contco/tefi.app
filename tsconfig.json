@@ -24,7 +24,7 @@
     "**/*.ts",
     "**/*.tsx",
     "components/Asset/dummy.js"
-  ],
+, "components/MirrorBorrowing"  ],
   "exclude": [
     "node_modules"
   ]

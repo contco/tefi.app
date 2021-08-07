@@ -8,37 +8,52 @@ export interface PoolsProps {
   mirrorAssets: MirrorAccount;
   ancAssets: AccountAnc;
   pylonAssets: PylonAccount;
+  terraSwapAssets: terrSwapAccount;
 }
 
-const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets, pylonAssets }) => {
+const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets, pylonAssets, terraSwapAssets }) => {
   const getPoolTotal = () => {
     const pylonPoolTotal = pylonAssets?.pylonSum?.pylonPoolSum;
     const total = (
       parseFloat(pylonPoolTotal) +
       parseFloat(mirrorAssets?.total?.mirrorPoolSum) +
-      parseFloat(ancAssets?.total?.anchorPoolSum)
+      parseFloat(ancAssets?.total?.anchorPoolSum) +
+      parseFloat(terraSwapAssets.total)
     )
     return convertToFloatValue(total.toString()) ?? '0';
   };
 
   const getPool = () => {
-    const pool = [...pylonAssets?.pylonPool, ...mirrorAssets?.mirrorStaking, ...ancAssets.pool].sort(
+    const pool = [...pylonAssets?.pylonPool, ...mirrorAssets?.mirrorStaking, ...ancAssets.pool, ...terraSwapAssets.list].sort(
       (a, b) =>
-        parseFloat(b.availableLpUstValue) +
+        parseFloat(b.stakeableLpUstValue) +
         parseFloat(b.stakedLpUstValue) -
-        (parseFloat(a.availableLpUstValue) + parseFloat(a.stakedLpUstValue)),
+        (parseFloat(a.stakeableLpUstValue) + parseFloat(a.stakedLpUstValue)),
     );
     return pool.map((assets: Pool, index) => (
       <Row key={index}>
         <StyledText fontWeight={500}> {assets?.lpName}</StyledText>
-        <StyledText isChildren={true}>
-          {convertToFloatValue(assets?.stakedLP + assets?.availableLP)} LP
-          <HoverText>
-            {convertToFloatValue(assets?.tokenStaked + assets?.tokenUnStaked)} {assets?.symbol} <br />
-            {convertToFloatValue(assets?.ustStaked + assets?.ustUnStaked)} {'UST'}
-          </HoverText>
-        </StyledText>
-        <StyledText> ${convertToFloatValue(assets?.stakedLpUstValue + assets?.availableLpUstValue)}</StyledText>
+        {assets?.stakedLp !== "0" ?
+          <StyledText isChildren={true}>
+            {convertToFloatValue(assets?.stakedLp)} LP
+            <HoverText>
+              {convertToFloatValue(assets?.token2Staked)} {assets?.symbol2} <br />
+              {convertToFloatValue(assets?.token1Staked)} {assets.symbol1}
+            </HoverText>
+          </StyledText>
+          : <StyledText>-</StyledText>}
+        {assets?.stakeableLp !== "0" ?
+          <StyledText isChildren={true}>
+            {convertToFloatValue(assets?.stakeableLp)} LP
+            <HoverText>
+              {convertToFloatValue(assets?.token2UnStaked)} {assets?.symbol2} <br />
+              {convertToFloatValue(assets?.token1UnStaked)} {assets.symbol1}
+            </HoverText>
+
+          </StyledText>
+          : <StyledText>-</StyledText>
+        }
+        <StyledText> ${convertToFloatValue(assets?.totalLpUstValue)}</StyledText>
       </Row>
     ));
   };
