@@ -194,6 +194,20 @@ const getCollateralInfo = async (collateral, asset, oraclePrice) => {
   return collateralInfo;
 };
 
+const getLockedInfo = async (idx) => {
+  try {
+    const lockInfo = await axios.get(MANTLE_URL + `?lockPositionInfo`, {
+      params: {
+        query: LOCK_POSITION_INFO_QUERY(idx),
+      },
+    });
+
+    return JSON.parse(lockInfo?.data.data[`position${idx}`]?.Result);
+  } catch (err) {
+    getLockedInfo(idx);
+  }
+};
+
 export const getShortInfo = async (address: string) => {
   try {
     const mintInfo = await getMintInfo(address);
@@ -208,14 +222,9 @@ export const getShortInfo = async (address: string) => {
     const totalShortInfo = Promise.all(
       positions.map(async (position) => {
         const { asset, collateral, idx } = position;
-        const lockInfo = await axios.get(MANTLE_URL + `?lockPositionInfo`, {
-          params: {
-            query: LOCK_POSITION_INFO_QUERY(idx),
-          },
-        });
 
+        const lockedInfo = await getLockedInfo(idx);
         const rewards = getRewards(asset.info.token.contract_addr, mirPrice, stakingRewards);
-        const lockedInfo = JSON.parse(lockInfo?.data.data[`position${idx}`].Result);
         const shortApr = getShortApr(assetStats, asset.info.token.contract_addr);
         const assetInfo = getAssetInfo(asset.info.token.contract_addr);
         const oraclePrice = await getOraclePrice(asset.info.token.contract_addr);
