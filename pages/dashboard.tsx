@@ -106,6 +106,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
               ancAssets={data?.assets?.anchor || {}}
               spectrum={data?.assets?.spectrum}
               loterra={data?.assets?.loterra}
+              terraSwapAssets={data?.assets?.terraSwapPool}
             />
             <Assets
               mirrorAssets={data?.assets?.mirror || {}}
