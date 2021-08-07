@@ -3,7 +3,8 @@ import {wasmStoreRequest} from "../../commons";
 import { div } from "../../../../utils/math";
 import { UNIT } from "../../mirror/utils";
 
-export const getLotteryDetails = async (address:string, lottery_id: string) => {
+export const getLotteryDetails = async (address:string, lottery_id: string | undefined) => {
+  if(lottery_id){
   try {
     const count_ticket = {
         count_ticket: {
@@ -30,5 +31,7 @@ export const getLotteryDetails = async (address:string, lottery_id: string) => {
     }
     catch(err) {
         return {ticketCounts: null, userCombinations: null, jackpot: null};
-    }
+    }   
+}
+return {ticketCounts: null, userCombinations: null, jackpot: null};
 }

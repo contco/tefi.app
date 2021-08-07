@@ -19,8 +19,7 @@ const formatCombinations = (userCombinations) => {
 }
 
 export const getLoterraAccount = async (address: string) => {
-    const loterraConfig = await getLoterraConfig();
-    const lotaGov = await getLoterraStaking(address);
+    const [loterraConfig, lotaGov] = await Promise.all([getLoterraConfig(), getLoterraStaking(address)]);
     const {userCombinations, ticketCounts, jackpot} = await getLotteryDetails(address, loterraConfig?.lottery_counter);
     if(userCombinations && userCombinations.length > 0) {
         const combinations = formatCombinations(userCombinations);
@@ -29,5 +28,5 @@ export const getLoterraAccount = async (address: string) => {
         const loterraDraw = {combinations, ticketCounts, jackpot, drawTime: drawTime.toString(), ticketPrice};
         return {loterraDraw, lotaGov };
     }
-    return null;
+    return {loterraDraw: null, lotaGov};
 }

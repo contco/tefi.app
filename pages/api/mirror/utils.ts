@@ -140,7 +140,7 @@ export const balance = {
   [BalanceKey.REWARD]: (stakingPool: Dictionary<StakingPool>, stakingReward: StakingReward) =>
     dict(stakingPool, (_, token) => {
       const { reward_infos } = stakingReward;
-      const info = reward_infos?.find((info) => info.asset_token === token);
+      const info = reward_infos?.find((info) => (info.asset_token === token && !info.is_short) );
       return info?.pending_reward ?? '0';
     }),
 };
@@ -151,7 +151,7 @@ const reduceLP = (listedAll: ListedItem[], { lpTokenBalance, stakingReward }: LP
       ...acc,
       [token]: plus(
         lpTokenBalance[token].balance,
-        stakingReward.reward_infos.find(({ asset_token }) => asset_token === token)?.bond_amount,
+        stakingReward.reward_infos.find(({ is_short, asset_token }) => (asset_token === token) && !is_short)?.bond_amount,
       ),
     }),
     {},
