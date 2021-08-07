@@ -53,12 +53,49 @@ const typeDefs = gql`
     apr: String!
   }
 
+  type AssetInfo {
+    idx: String!
+    name: String
+    price: String
+    symbol: String
+  }
+
+  type BorrowInfo {
+    amount: String
+    amountValue: String
+    shortApr: String
+  }
+
+  type CollateralInfo {
+    collateral: String
+    collateralValue: String
+    collateralRatio: String
+    csymbol: String
+  }
+
+  type LockedInfo {
+    locked_amount: String
+    unlocked_amount: String
+    unlock_time: String
+    reward: String
+    rewardValue: String
+    shorted: String
+  }
+
+  type MirrorShortFarm {
+    assetInfo: AssetInfo
+    borrowInfo: BorrowInfo
+    collateralInfo: CollateralInfo
+    lockedInfo: LockedInfo
+  }
+
   type Account {
     mirrorStaking: [MirrorStaking!]
     mirrorHoldings: [MirrorHoldings!]
     gov: MirrorGov
     total: MirrorTotal
     airdrops: [Airdrops!]
+    mirrorShortFarm: [MirrorShortFarm!]
   }
   extend type Assets @key(fields: "address") {
     address: String! @external
@@ -70,9 +107,8 @@ const resolvers = {
   Assets: {
     mirror(assets) {
       return getAccountData(assets.address);
-    }
+    },
   },
-
 };
 
 const apolloServer = new ApolloServer({ schema: buildFederatedSchema([{ typeDefs, resolvers }]) });

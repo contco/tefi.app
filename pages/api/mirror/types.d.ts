@@ -81,7 +81,7 @@ interface ContractAddressHelpers {
     getToken: (symbol?: string) => string
     getSymbol: (token?: string) => string
     getIsDelisted: (token: string) => boolean
-    toAssetInfo: (token: string) => AssetInfo | NativeInfo
+    toAssetInfo: (token: string) => AssetInfo | NativeInfo | any
     toToken: (params: Asset) => Token
     parseToken: (token: AssetToken | NativeToken) => Asset
 }
@@ -109,6 +109,7 @@ interface RewardInfo {
     bond_amount: string
     index: string
     pending_reward: string
+    is_short: boolean
 }
 
 interface StakingPool {

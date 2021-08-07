@@ -100,6 +100,6 @@ export const getAccountData = async (address: string) => {
         return { pylonHoldings: [], gov: null, pylonAirdrops: null, pylonGateway: [], pylonPool: [], pylonSum: DEFAULT_PYLON_SUM };
     }
     catch(err) {
-      throw new Error("Error Fetching Pylon Data");
+        return { pylonHoldings: [], gov: null, pylonAirdrops: null, pylonGateway: [], pylonPool: [], pylonSum: DEFAULT_PYLON_SUM };
     }
 };
