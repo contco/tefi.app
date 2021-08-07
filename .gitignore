@@ -10,16 +10,13 @@
 sw.js
 sw.js.map
 
-**/public/precache.*.*.js
-**/public/sw.js
 **/public/workbox-*.js
+**/public/sw.js
 **/public/worker-*.js
-**/public/fallback-*.js
-**/public/precache.*.*.js.map
-**/public/sw.js.map
-**/public/workbox-*.js.map
-**/public/worker-*.js.map
-**/public/fallback-*.js
+/public/sw.js.map
+/public/sw.js.mem
+/public/sw.js.mem.map
+/public/workbox-*.js.map
 
 
 # next.js
