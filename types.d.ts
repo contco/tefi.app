@@ -79,6 +79,7 @@ interface Airdrops {
   name: string;
   symbol: string;
   proof: string | string[];
+  contract: string
 }
 
 interface UserCollateral {

@@ -1,6 +1,7 @@
 import { PYLON_API_ENDPOINT, PYLON_TOKEN_NAME, PYLON_TOKEN_SYMBOL, PYLON_UST_LP } from "./constants";
 import { getGatewayData } from "./getGatewayData";
 import { fetchData } from "../commons/index";
+import { contracts } from "./constants";
 
 const DEFAULT_PYLON_SUM = { pylonHoldingsSum: '0', pylonPoolSum: '0', pylonAirdropSum: '0', pylonPoolRewardsSum: '0', gatewayRewardsSum: '0', gatewayDepositsSum: '0' };
 
@@ -68,12 +69,12 @@ const getPylonAirdrops = (price: number, data: any) => {
         const pylonAirdrops = data.claimableAirdrops.map((airdrop) => {
             const { airdropMineAmount, merkleProof, stage} = airdrop;
             const  value = (airdropMineAmount * price).toString();
-            const result = { name: PYLON_TOKEN_NAME, symbol: PYLON_TOKEN_SYMBOL, quantity: airdropMineAmount.toString(), value: value, round: stage, proof: merkleProof};
+            const result = { name: PYLON_TOKEN_NAME, symbol: PYLON_TOKEN_SYMBOL, quantity: airdropMineAmount.toString(), value: value, round: stage, proof: merkleProof, contract: contracts.airdrop};
             return result;
         });
         return { pylonAirdropSum, pylonAirdrops };
     }
-    return { pylonAirdropSum: '0', pylonAirdrops: undefined };
+    return { pylonAirdropSum: '0', pylonAirdrops: [] };
 }
 
 const getLpValue = (liquidityInfo: any, minePrice: number) => {

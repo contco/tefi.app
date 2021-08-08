@@ -43,7 +43,8 @@ const typeDefs = gql`
     round: Int!
     name: String!
     symbol: String!
-    proof: String!
+    proof: [String!]
+    contract: String!
   }
 
   type MirrorGov {

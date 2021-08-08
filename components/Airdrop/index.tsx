@@ -1,6 +1,9 @@
 import {useState, useEffect} from "react";
-import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText } from "../dashboardStyles";
+import { Wrapper, Row, AirdropHeading, Heading, Title, StyledText, ClaimButton } from "../dashboardStyles";
+import {Box} from "@contco/core-ui";
 import { convertToFloatValue } from "../../utils/convertFloat";
+import {claimAirdrops} from "./claim";
+import useWallet  from "../../lib/useWallet";
 const HEADING_TEXT = `Airdrops`
 
 
@@ -11,8 +14,11 @@ export interface AirdropsProps {
 };
 
 const Airdrops: React.FC<AirdropsProps> = ({mirrorAssets, anchorAssets, pylonAssets}) => {
-
     const [airdrops ,setAidrops] = useState([]);
+
+    const { useConnectedWallet, post } = useWallet();
+    const connectedWallet = useConnectedWallet();
+
 
     useEffect(() => {
      let airdropsData = [...mirrorAssets?.airdrops, ... anchorAssets?.airdrops, ...pylonAssets.pylonAirdrops ];
@@ -28,18 +34,27 @@ const Airdrops: React.FC<AirdropsProps> = ({mirrorAssets, anchorAssets, pylonAss
         const total = (mirrorTotal+anchorTotal + pylonTotal).toFixed(3)
         return total;
     };
+
+    const onClaimAirdrop = async () => {
+        if(airdrops.length > 0 && connectedWallet?.terraAddress) {
+           await claimAirdrops(airdrops, connectedWallet.terraAddress, post);
+        }
+    }
     
 
     return (
         <Wrapper>
-            <HeadingWrapper>
-                <Heading>
-                    {HEADING_TEXT}
-                </Heading>
-                <StyledText>
-                ${getAirdropTotal()}
-                </StyledText>
-            </HeadingWrapper>
+            <AirdropHeading>
+                <Box>
+                    <Heading>
+                        {HEADING_TEXT}
+                    </Heading>
+                    <StyledText>
+                        ${getAirdropTotal()}
+                    </StyledText>
+                </Box>
+               <ClaimButton onClick={onClaimAirdrop}>Claim All </ClaimButton>
+            </AirdropHeading>
             <Row>
               <Title>Name</Title>
               <Title>Round</Title>

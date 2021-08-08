@@ -58,6 +58,7 @@ export const getAssets = gql`
           value
           round
           proof
+          contract
         }
         gov {
           name
@@ -173,6 +174,7 @@ export const getAssets = gql`
           value
           round
           proof
+          contract
         }
         total {
           airdropSum
@@ -227,6 +229,7 @@ export const getAssets = gql`
           quantity
           round
           proof
+          contract
         }
         pylonSum {
           pylonHoldingsSum

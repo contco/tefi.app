@@ -50,6 +50,7 @@ const typeDefs = gql`
     symbol: String!
     round: Int!
     proof: [String!]
+    contract: String!
   }
 
   type PylonSum {
