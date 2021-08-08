@@ -1,6 +1,6 @@
 import { ShortTitle } from '../../constants';
 import { convertToFloatValue } from '../../utils/convertFloat';
-import { Heading, HeadingWrapper, Row, StyledText, SubText, Title, Wrapper } from '../dashboardStyles';
+import { Heading, HeadingWrapper, Row, StyledTextContainer, SimpleText, StyledText, SubText, Title, Wrapper } from '../dashboardStyles';
 import { Box, Flex } from '@contco/core-ui';
 
 const HEADING_TEXT = 'Mirror Short Farms';
@@ -48,21 +48,30 @@ const ShortFarms: React.FC<ShortFarmProps> = ({ mirrorAssets }) => {
       <HeadingWrapper>
         <Heading>{HEADING_TEXT}</Heading>
         <Flex>
-          <StyledText display="flex">
-            <b>Reward: </b>
-            &nbsp;
-            {convertToFloatValue(getTotalForFarm(short, 'reward'))} MIR
-          </StyledText>
-          <StyledText display="flex">
-            <b>Locked: </b>
-            &nbsp;
-            {convertToFloatValue(getTotalForFarm(short, 'locked_amount'))} UST
-          </StyledText>
-          <StyledText display="flex">
-            <b>Unlocked: </b>
-            &nbsp;
-            {convertToFloatValue(getTotalForFarm(short, 'unlocked_amount'))} UST
-          </StyledText>
+        <StyledTextContainer>
+          <SimpleText>
+            <b>Reward:</b> &nbsp;
+            </SimpleText>
+          <SimpleText>
+          {convertToFloatValue(getTotalForFarm(short, 'reward'))} MIR
+          </SimpleText>
+          </StyledTextContainer>
+          <StyledTextContainer>
+          <SimpleText>
+            <b>Locked:</b> &nbsp;
+            </SimpleText>
+          <SimpleText>
+          {convertToFloatValue(getTotalForFarm(short, 'locked_amount'))} UST
+          </SimpleText>
+          </StyledTextContainer>
+          <StyledTextContainer>
+          <SimpleText>
+            <b>Unlocked:</b> &nbsp;
+            </SimpleText>
+          <SimpleText>
+          {convertToFloatValue(getTotalForFarm(short, 'unlocked_amount'))} UST
+          </SimpleText>
+          </StyledTextContainer>
         </Flex>
       </HeadingWrapper>
       <Row>

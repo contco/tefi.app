@@ -7,7 +7,7 @@ import { getTokenBalance } from './getTokenBalance';
 import getShortInfo from './getShortInfo';
 import {formatAirdrops, getAirdrops} from "./getAirdrops";
 import { getGovData, fetchGovBalance } from './getGovData';
-import { balance, BalanceKey, PriceKey, parsePairPool, UUSD, fromLP, price, div, UNIT, times, plus, MIR, reward } from './utils';
+import { balance, BalanceKey, PriceKey, parsePairPool, UUSD, fromLP, price, div, UNIT, times, plus, MIR } from './utils';
 import MIRROR_ASSETS from './mirrorAssets.json';
 const MIR_TOKEN = MIRROR_ASSETS[0].token;
 

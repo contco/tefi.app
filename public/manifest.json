@@ -1,0 +1,23 @@
+{
+    "name": "Tefi App",
+    "short_name": "Tefi",
+    "display": "Standalone",
+    "orientation": "portrait",
+    "scope": "/",
+    "start_url": "/",
+    "icons": [
+        {
+          "src": "icons/icon.png",
+          "sizes": "192x192",
+          "type": "image/png",
+          "purpose": "maskable any"
+        },
+        {
+          "src": "icons/icon.png",
+          "sizes": "512x512",
+          "type": "image/png",
+          "purpose": "maskable any"
+        }
+      ],
+    "splash_pages": null
+  }
