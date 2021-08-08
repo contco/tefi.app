@@ -55,8 +55,9 @@ export const getAssets = gql`
           name
           symbol
           quantity
-          price
+          value
           round
+          proof
         }
         gov {
           name
@@ -169,8 +170,9 @@ export const getAssets = gql`
           name
           symbol
           quantity
-          price
+          value
           round
+          proof
         }
         total {
           airdropSum
@@ -221,9 +223,10 @@ export const getAssets = gql`
         pylonAirdrops {
           name
           symbol
-          price
+          value
           quantity
           round
+          proof
         }
         pylonSum {
           pylonHoldingsSum

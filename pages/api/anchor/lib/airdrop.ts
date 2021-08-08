@@ -61,9 +61,9 @@ export const formatAirdrops = (result: any , ancPrice: string) => {
       let airdropSum = '0';
       const airdrops = claimableAirdrops.map((airdrop: any) => {
         const amount = formatANCWithPostfixUnits(demicrofy(airdrop?.amount));
-        const price = (parseFloat(ancPrice) * parseFloat(amount)).toString();
-        airdropSum = plus(airdropSum, price);
-        return {quantity: amount, name: ANCHOR_TOKEN_NAME, round: airdrop?.stage, price, symbol: ANCHOR_TOKEN_SYMBOL };
+        const value = (parseFloat(ancPrice) * parseFloat(amount)).toString();
+        airdropSum = plus(airdropSum, value);
+        return {quantity: amount, name: ANCHOR_TOKEN_NAME, round: airdrop?.stage, value, symbol: ANCHOR_TOKEN_SYMBOL, proof: airdrop.proof };
       });
       return {airdrops, airdropSum};
     }

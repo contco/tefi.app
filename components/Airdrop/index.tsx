@@ -15,12 +15,8 @@ const Airdrops: React.FC<AirdropsProps> = ({mirrorAssets, anchorAssets, pylonAss
     const [airdrops ,setAidrops] = useState([]);
 
     useEffect(() => {
-
-     let airdropsData = [...mirrorAssets?.airdrops, ... anchorAssets?.airdrops ];
-     if(pylonAssets?.pylonAirdrops) {
-         airdropsData = [pylonAssets.pylonAirdrops, ...airdropsData];
-     }
-     airdropsData = airdropsData.sort((a,b) => parseFloat(b.price) - parseFloat(a.price));
+     let airdropsData = [...mirrorAssets?.airdrops, ... anchorAssets?.airdrops, ...pylonAssets.pylonAirdrops ];
+     airdropsData = airdropsData.sort((a,b) => parseFloat(b.value) - parseFloat(a.value));
      setAidrops(airdropsData);
 
     },[]);
@@ -55,7 +51,7 @@ const Airdrops: React.FC<AirdropsProps> = ({mirrorAssets, anchorAssets, pylonAss
                     <StyledText fontWeight={500}> {assets?.name}</StyledText>
                     <StyledText>{assets?.round ?? "N/A"} </StyledText>
                     <StyledText > {convertToFloatValue(assets?.quantity)} {assets?.symbol}</StyledText>
-                    <StyledText > ${convertToFloatValue(assets?.price)}</StyledText>
+                    <StyledText > ${convertToFloatValue(assets?.value)}</StyledText>
                 </Row>
             )}
         </Wrapper>
