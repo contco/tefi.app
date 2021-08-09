@@ -1,0 +1,14 @@
+[
+    {
+        "price": "-2.8%",
+        "symbol": "Mir",
+        "imageUrl": "https://storage.googleapis.com/tefi-app/MIR.svg",
+        "size": 2
+    },
+    {
+        "price": "1.8%",
+        "symbol": "Luna",
+        "imageUrl": "https://storage.googleapis.com/tefi-app/Luna.png",
+        "size": 1
+    }
+]

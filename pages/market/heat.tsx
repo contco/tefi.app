@@ -3,6 +3,8 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Header from '../../components/Header';
 import Bubble from '../../components/Bubble';
+import data from '../../components/Bubble/dummy.json';
+import { price } from '../api/mirror/utils';
 
 const HeatBubble: React.FC = ({ theme, changeTheme }: any) => {
 
@@ -15,7 +17,9 @@ const HeatBubble: React.FC = ({ theme, changeTheme }: any) => {
                 <div>
                     <Header theme={theme} changeTheme={changeTheme} />
                 </div>
-                <Bubble />
+                {data.map(d => {
+                    return <Bubble price={d.price} imageUrl={d.imageUrl} size={d.size} />
+                })}
             </div>
 
         </div>
