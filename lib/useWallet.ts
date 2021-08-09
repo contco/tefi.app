@@ -4,7 +4,7 @@ const useWalletConnect = () => {
   if(typeof window !== undefined) {
     const {ConnectType, useWallet, useConnectedWallet}= require("@terra-money/wallet-provider");
     
-    const { availableConnectTypes, availableInstallTypes, connect, install, disconnect } = useWallet();
+    const { availableConnectTypes, availableInstallTypes, connect, install, disconnect , post} = useWallet();
 
     const onConnect = (type: WalletConnectType) => {
       if (type === WalletConnectType.Mobile) {
@@ -22,10 +22,10 @@ const useWalletConnect = () => {
       }
      }
     }
-    return {onConnect, useConnectedWallet, disconnect};
+    return {onConnect, useConnectedWallet, disconnect, post};
   }
 
-  return {onConnect: null, connectedWallet: null, disconnect: null};
+  return {onConnect: null, connectedWallet: null, disconnect: null, post: null};
 
 };
 

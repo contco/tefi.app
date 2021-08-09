@@ -73,11 +73,13 @@ interface Reward {
 
 interface Airdrops {
   __typename?: string;
-  price: string;
+  value: string;
   quantity: string;
   round?: number;
   name: string;
   symbol: string;
+  proof: string | string[];
+  contract: string
 }
 
 interface UserCollateral {
@@ -216,7 +218,7 @@ interface PylonAccount {
   __typename?: 'PylonAccount';
   pylonHoldings: Holdings[];
   pylonPool: PylonPool[];
-  pylonAirdrops: Airdrops;
+  pylonAirdrops: Airdrops[];
   gov: PylonGov;
   pylonSum: PylonSum;
   pylonGateway: PylonGateway[];
