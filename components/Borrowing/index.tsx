@@ -17,9 +17,10 @@ const CSS_NET_APR = (props) =>
 
 const StyledPercentage = Styled(Flex)`
  ${css({
-   justifyContent: 'center',
+   justifyContent: ['flex-start', null, null,null, null, 'center'],
    py: [20, 30, null, 80],
    px: [20, 40, null, 60],
+   ml: [55, 30,'5px',null, 15, '0px']
  })}
 `;
 
