@@ -56,7 +56,7 @@ const ButtonWrap = styled(Box)`
 
 interface Props {
   showModal: boolean;
-  amount: number;
+  amount: string;
   airdropLength: number;
   loading: boolean; 
   onClaimClick: any;

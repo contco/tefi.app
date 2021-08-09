@@ -78,11 +78,17 @@ const Airdrops: React.FC<AirdropsProps> = ({mirrorAssets, anchorAssets, pylonAss
                 <Row key={index}>
                     <StyledText fontWeight={500}> {assets?.name}</StyledText>
                     <StyledText>{assets?.round ?? "N/A"} </StyledText>
-                    <StyledText > {convertToFloatValue(assets?.quantity)} {assets?.symbol}</StyledText>
-                    <StyledText > ${convertToFloatValue(assets?.value)}</StyledText>
+                    <StyledText> {convertToFloatValue(assets?.quantity)} {assets?.symbol}</StyledText>
+                    <StyledText> ${convertToFloatValue(assets?.value)}</StyledText>
                 </Row>
             )}
-            <AirdropModal onClaimClick={onClaimAirdrop} loading={loading} showModal={showModal} setModalVisible={setModalVisible} amount={getAirdropTotal()} airdropLength={airdrops.length}  />
+            <AirdropModal 
+                onClaimClick={onClaimAirdrop}
+                loading={loading}
+                showModal={showModal}
+                setModalVisible={setModalVisible}
+                amount={airdropSum}
+                airdropLength={airdrops.length}  />
         </Wrapper>
     );
 }
