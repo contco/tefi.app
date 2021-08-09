@@ -27,7 +27,6 @@ export const getAirdrops = async (address: string) => {
 
 export const formatAirdrops = (airdrops, price:string) => {
   let airdropSum = '0';
-  console.log(airdrops);
   const contents = !airdrops?.length ? []
   :  airdrops.map((airdrop) => {
       const airdropQuantity  = parseFloat(airdrop?.amount) / UNIT;

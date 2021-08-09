@@ -33,7 +33,7 @@ const generateTxOptions = (airdrops: Airdrops[], address: string) => {
                     stage: airdrop.round,
                     proof: airdrop.proof,
                 }
-            })
+            }, [])
             return msg;
         });
         const txOptions = getTxOptions(claimMessages);
@@ -43,25 +43,26 @@ const generateTxOptions = (airdrops: Airdrops[], address: string) => {
 }
 
 const executeAirdropClaim = async (txOptionBatches: any, post: any) => {
-    const tasks = txOptionBatches.map(async(txOption: any, index) => {
-        console.log(index);
-       const result = await post(txOption);
-       return result;
-    });
-        const executeResults = await Promise.all(tasks);
-        console.log(executeResults);
-        return executeResults;
+    try {
+        const executedResults = [];
+        for(let i = 0; i < txOptionBatches.length; i++) {
+            const result = await post(txOptionBatches[i]);
+            executedResults.push(result);
+        }
+        return executedResults;
+    }
+    catch(err){
+        throw new Error('Error claiming all airdrops');
+    }
 };
 
 export const claimAirdrops = async (airdrops: Airdrops[], address: string, post) => {
     try {
       const txOptionBatches = generateTxOptions(airdrops, address);
-      console.log(txOptionBatches);
       await executeAirdropClaim(txOptionBatches, post);
       return true;
     }
     catch(err){
-        console.log(err);
       return false;
     }
 }
