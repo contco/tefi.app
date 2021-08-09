@@ -3,12 +3,66 @@
         "price": "-2.8%",
         "symbol": "Mir",
         "imageUrl": "https://storage.googleapis.com/tefi-app/MIR.svg",
-        "size": 2
+        "size": 2,
+        "color": "#95fa84",
+        "position": {
+            "top": "10%",
+            "left": "70%"
+        }
     },
     {
         "price": "1.8%",
         "symbol": "Luna",
         "imageUrl": "https://storage.googleapis.com/tefi-app/Luna.png",
-        "size": 1
+        "size": 1,
+        "color": "#95fa84",
+        "position": {
+            "top": "20%",
+            "left": "40%"
+        }
+    },
+    {
+        "price": "1.8%",
+        "symbol": "LOTA",
+        "imageUrl": "https://storage.googleapis.com/tefi-app/LOTA.png",
+        "size": 0.5,
+        "color": "#d24a4a",
+        "position": {
+            "top": "80%",
+            "left": "60%"
+        }
+    },
+    {
+        "price": "1.8%",
+        "symbol": "MINE",
+        "imageUrl": "https://storage.googleapis.com/tefi-app/MINE.png",
+        "size": 1,
+        "color": "#d24a4a",
+        "position": {
+            "top": "80%",
+            "left": "80%"
+        }
+    },
+    {
+        "price": "1.8%",
+        "symbol": "MINE",
+        "imageUrl": "https://storage.googleapis.com/tefi-app/ANC.png",
+        "size": 1,
+        "color": "#95fa84",
+        "position": {
+            "top": "80%",
+            "left": "10%"
+        }
+    },
+    {
+        "price": "1.8%",
+        "symbol": "MINE",
+        "imageUrl": "https://storage.googleapis.com/tefi-app/SPEC.png",
+        "size": 1,
+        "color": "#95fa84",
+        "position": {
+            "top": "40%",
+            "left": "10%"
+        }
     }
 ]

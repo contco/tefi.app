@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import css from '@styled-system/css';
 import { Text, Flex, Box } from '@contco/core-ui';
 import { ICON_LUNA_URL, ICON_MIR_URL } from '../../constants';
-import { paddingLeft, paddingTop } from 'styled-system';
+import { fontSize } from 'styled-system';
 
 
 const Container = styled(Flex)`
@@ -26,20 +26,25 @@ const Row = styled(Flex)`
 `;
 
 const OvalShap = styled.div<BubbleProps>`
-  ${(props) => css({
-  margin: '0 auto',
+  ${({ size, position, color }) => css({
   borderRadius: '50%',
-  width: [50 * 2, 60, 70, 84, 90, 110, 120, null, 130, 150 * 2],
-  height: [50 * 2, 60, 70, 84, 90, 110, 120, null, 130, 150 * 2],
-  background: '#95fa84'
+  width: [50 * size, 60 * size, 70 * size, 84 * size, 90 * size, 110 * size, 120 * size, null, 130 * size, 150 * size],
+  height: [50 * size, 60 * size, 70 * size, 84 * size, 90 * size, 110 * size, 120 * size, null, 130 * size, 150 * size],
+  background: color,
+  position: 'absolute',
+  top: position?.top || 0,
+  bottom: position?.bottom || 0,
+  right: position?.right || 0,
+  left: position?.left || 0
+
 })}
 `;
 
-const StyleImage = styled.img`
-  ${(props) => css({
+const StyleImage = styled.img<BubbleProps>`
+  ${({ size }) => css({
   borderRadius: '50%',
-  width: [50 / 3 * 2, 60 / 3, 70 / 3, 84 / 3, 90 / 3, 110 / 3, 120 / 3, null, 130 / 3, (150 / 3) * 2],
-  height: [50 / 3 * 2, 60 / 3, 70 / 3, 84 / 3, 90 / 3, 110 / 3, 120 / 3, null, 130 / 3, (150 / 3) * 2],
+  width: [50 / 3 * size, 60 / 3 * size, 70 / 3 * size, 84 / 3 * size, 90 / 3 * size, 110 / 3 * size, 120 / 3 * size, null, 130 / 3 * size, (150 / 3) * size],
+  height: [50 / 3 * size, 60 / 3 * size, 70 / 3 * size, 84 / 3 * size, 90 / 3 * size, 110 / 3 * size, 120 / 3 * size, null, 130 / 3 * size, (150 / 3) * size],
   position: 'relative',
   top: '50%',
   left: '50%',
@@ -52,7 +57,7 @@ const StyleImage = styled.img`
 
 
 const StyleText = styled(Text)`
-  ${(props) => css({
+  ${({ size }) => css({
   position: 'relative',
   top: '50%',
   left: '50%',
@@ -60,16 +65,28 @@ const StyleText = styled(Text)`
   transform: 'translate(-50%, -50%)',
   color: '#ffffff',
   textAlign: 'center',
-  paddingBottom: [4, 4, 4, 4, 4, null, 8],
-  fontWeight: 900
+  width: 60,
+  height: 40,
+  fontWeight: 900,
+  fontSize: [0.5, null, 2],
+  paddingLeft: 1
 })}
 `;
 
-interface BubbleProps {
+type Position = {
+  top?: string,
+  bottom?: string,
+  right?: string,
+  left?: string
+}
+
+export type BubbleProps = {
   price: string,
   symbol?: string,
   imageUrl: string,
   size: number,
+  position: Position,
+  color: string
 }
 
 
