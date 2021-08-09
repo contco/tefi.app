@@ -66,7 +66,7 @@ const Airdrops: React.FC<AirdropsProps> = ({mirrorAssets, anchorAssets, pylonAss
                         ${airdropSum}
                     </StyledText>
                 </Box>
-               <ClaimButton onClick={() => setModalVisible(true)}>Claim All </ClaimButton>
+              {airdrops.length > 0  ? <ClaimButton onClick={() => setModalVisible(true)}>Claim All </ClaimButton> : null}
             </AirdropHeading>
             <Row>
               <Title>Name</Title>
