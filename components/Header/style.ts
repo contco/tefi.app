@@ -10,6 +10,8 @@ import TEFI_LOGO from '../../public/tefi.svg';
 import REFRESH_ICON from '../../public/refresh.svg';
 import REFRESHING_ICON from '../../public/refreshing.svg';
 import CHARTS_ICON from '../../public/charts.svg';
+import MENU_ICON from '../../public/icons/circle-menu.svg';
+
 
 export const Container = styled(Flex)`
 ${props => css({
@@ -20,7 +22,7 @@ ${props => css({
   alignItems: 'center',
   position: 'sticky',
   top: 0,
-  zIndex: '100'
+  zIndex: 1
 })}
 `;
 
@@ -71,13 +73,13 @@ export const WalletCopyTooltip = styled(Flex)`
   position: absolute;
   width: 44px;
   height: 20px;
-  background-color: green;
   top: 30px;
   left: 0px;
   font-size: 8px;
   justify-content: center;
   align-items: center;
   border-radius: 25px;
+  z-index: 3;
   opacity: ${props => props.isVisible ? 1 : 0};
   ${css({
   bg: '#555',
@@ -225,4 +227,25 @@ ${css({
   &:hover {
     opacity: 0.7;
   }
+`;
+
+
+export const HoverContainer = styled(Flex)`
+  ${css({
+    justifyContent:'center',
+    alignItems:'center',
+    p:2,
+    maxWidth: 'fit-content',
+    borderRadius: '50%',
+    transition: 'all ease-in 0.3s',
+    '&:hover': {
+        bg: 'focused',
+    }
+  })}
+`;
+
+export const StyledMenuIcon = styled(MENU_ICON)`
+  ${css({
+      color:'secondary',
+  })}
 `;

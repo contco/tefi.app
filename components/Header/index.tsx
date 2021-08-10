@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
+import { isMobile } from 'react-device-detect';
 import { LIGHT_THEME } from '../../constants';
+import Menu from './Menu';
 import {
   Container,
   LeftSection,
@@ -18,11 +20,14 @@ import {
   RefreshIcon,
   AnimatedRefresh,
   ChartsIcon,
+  HoverContainer,
+  StyledMenuIcon,
 } from './style';
 
 import useWallet from '../../lib/useWallet';
 
 import { WALLET_ADDRESS_TYPE, LOCAL_ADDRESS_TYPE, ADDRESS_KEY } from '../../constants';
+import { useEffect } from 'react';
 
 type Props = {
   theme: string;
@@ -34,12 +39,23 @@ type Props = {
   hideCharts?: boolean;
 };
 const Header: React.FC<Props> = ({ theme, changeTheme, address, addressType, onRefresh, refreshing, hideCharts }) => {
-  const slicedAddress = `${address?.slice(0, 6) + '....' + address?.slice(address?.length - 6, address?.length)}`;
+  const [slicedAddress, setSlicedAddress] = useState<string | null>(null);
   const [isVisible, setVisible] = useState<boolean>(false);
+  const [displayMenu, setDisplayMenu] = useState<boolean>(false);
+
+  useEffect(() => {
+    if(address) {
+      setSlicedAddress(`${address?.slice(0, 6) + '....' + address?.slice(address?.length - 6, address?.length)}`);
+    }
+    else {
+      setSlicedAddress(null);
+    }
+  }, [address])
 
   const onCopyClick = () => {
-    navigator.clipboard.writeText(address);
     setVisible(true);
+    navigator.clipboard.writeText(address);
+
     setTimeout(() => setVisible(false), 1000);
   };
   const { disconnect } = useWallet();
@@ -55,6 +71,7 @@ const Header: React.FC<Props> = ({ theme, changeTheme, address, addressType, onR
     }
   };
   return (
+    <>
     <Container>
       <LeftSection>
         <StyledTitle onClick={() => router.push('/')}>
@@ -62,11 +79,19 @@ const Header: React.FC<Props> = ({ theme, changeTheme, address, addressType, onR
         </StyledTitle>
       </LeftSection>
       <RightSection>
+        {
+        isMobile ?  
+         <HoverContainer onClick={() => setDisplayMenu(!displayMenu)}>
+           <StyledMenuIcon />
+         </HoverContainer>
+        :
+        ( 
+        <>
         {!hideCharts && <ChartsIcon onClick={() => router.push('/market')} />}
-        {address ? (
-          <WalletContainer onClick={onCopyClick}>
-            <WalletCopyContainer>
-              <WalletIcon />
+        {slicedAddress ? (
+          <WalletContainer >
+            <WalletCopyContainer onClick={onCopyClick} >
+              <WalletIcon/>
               <WalletCopyTooltip isVisible={isVisible}>Copied!</WalletCopyTooltip>
             </WalletCopyContainer>
             <StyledAddressText>{slicedAddress}</StyledAddressText>
@@ -79,8 +104,22 @@ const Header: React.FC<Props> = ({ theme, changeTheme, address, addressType, onR
           {theme === LIGHT_THEME ? <LightSwitchIcon onClick={changeTheme} /> : <DarkSwitchIcon onClick={changeTheme} />}
         </SwitchContainer>
         {onRefresh && (!refreshing ? <RefreshIcon onClick={onRefresh} /> : <AnimatedRefresh />)}
+        </>
+        )
+      }
       </RightSection>
     </Container>
+    <Menu 
+      theme={theme} 
+      changeTheme={changeTheme}
+      isVisible={displayMenu}
+      setVisibility={setDisplayMenu}
+      copyVisible={isVisible}
+      address={slicedAddress}
+      onCopyClick={onCopyClick}
+      onDisconnect={onDisconnect}
+    />
+    </>
   );
 };
 
