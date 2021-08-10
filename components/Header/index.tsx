@@ -18,6 +18,7 @@ import {
   RefreshIcon,
   AnimatedRefresh,
   ChartsIcon,
+  BubbleIcon
 } from './style';
 
 import useWallet from '../../lib/useWallet';
@@ -32,8 +33,9 @@ type Props = {
   onRefresh?: () => void;
   refreshing?: boolean;
   hideCharts?: boolean;
+  isBubble?: boolean;
 };
-const Header: React.FC<Props> = ({ theme, changeTheme, address, addressType, onRefresh, refreshing, hideCharts }) => {
+const Header: React.FC<Props> = ({ theme, changeTheme, address, addressType, onRefresh, refreshing, hideCharts, isBubble }) => {
   const slicedAddress = `${address?.slice(0, 6) + '....' + address?.slice(address?.length - 6, address?.length)}`;
   const [isVisible, setVisible] = useState<boolean>(false);
 
@@ -63,6 +65,7 @@ const Header: React.FC<Props> = ({ theme, changeTheme, address, addressType, onR
       </LeftSection>
       <RightSection>
         {!hideCharts && <ChartsIcon onClick={() => router.push('/market')} />}
+        {isBubble && <BubbleIcon onClick={() => router.push('/market/heat')} />}
         {address ? (
           <WalletContainer onClick={onCopyClick}>
             <WalletCopyContainer>
