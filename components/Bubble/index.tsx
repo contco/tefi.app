@@ -59,17 +59,18 @@ const StyleImage = styled.img<BubbleProps>`
 const StyleText = styled(Text)`
   ${({ size }) => css({
   position: 'relative',
-  top: '50%',
+  top: '55%',
   left: '50%',
   marginRight: '-50%',
   transform: 'translate(-50%, -50%)',
   color: '#ffffff',
   textAlign: 'center',
-  width: 60,
-  height: 40,
   fontWeight: 900,
-  fontSize: [size / 2, null, size / 1],
-  paddingLeft: 1
+  fontSize: [5 * size + 'px', null, 12 * size + 'px'],
+  paddingLeft: 1,
+  width: [50 / 3 * size, 60 / 3 * size, 70 / 3 * size, 84 / 3 * size, 90 / 3 * size, 110 / 3 * size, 120 / 3 * size, null, 130 / 3 * size, (150 / 3) * size],
+  height: [50 / 3 * size, 60 / 3 * size, 70 / 3 * size, 84 / 3 * size, 90 / 3 * size, 110 / 3 * size, 120 / 3 * size, null, 130 / 3 * size, (150 / 3) * size],
+
 })}
 `;
 
