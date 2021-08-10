@@ -52,7 +52,8 @@ const getTerraTokens = async (coins, price: string) => {
 
 const formatStakeData = (stakeData: any, price: string) => {
     let stakedSum = '0';
-    if (stakeData && stakeData?.myDelegations) {
+    let unstakedSum = '0';
+    if (stakeData && stakeData?.myDelegations && stakeData?.undelegations && stakeData?.redelegations) {
         const staking = stakeData?.myDelegations.map((data: any) => {
             const balance = div(data?.amountDelegated, DIVIDER);
             const rewards = div(data?.totalReward, DIVIDER);
@@ -60,11 +61,34 @@ const formatStakeData = (stakeData: any, price: string) => {
             const rewardsValue = times(rewards, price);
             const totalValue = plus(stakedValue, rewardsValue);
             stakedSum = plus(stakedSum, totalValue);
-            return { balance, rewards, stakedValue, rewardsValue, totalValue, validator: data?.validatorName };
+            return { balance, rewards, stakedValue, rewardsValue, totalValue, validator: data?.validatorName, state: 'Delegated' };
         });
-        return { staking, stakedSum };
+
+        const undelegated = stakeData?.undelegations.map((data: any) => {
+            const balance = div(data?.amount, DIVIDER);
+            const rewards = div(data?.totalReward, DIVIDER);
+            const stakedValue = times(balance, price);
+            const rewardsValue = times(rewards, price);
+            const totalValue = plus(stakedValue, rewardsValue);
+            unstakedSum = plus(unstakedSum, totalValue);
+            return { balance, rewards, stakedValue, rewardsValue, totalValue, validator: data?.validatorName, state: 'Undelegated' };
+        });
+
+        const redelegated = stakeData?.redelegations.map((data: any) => {
+            const balance = div(data?.amount, DIVIDER);
+            const rewards = div(data?.totalReward, DIVIDER);
+            const stakedValue = times(balance, price);
+            const rewardsValue = times(rewards, price);
+            const totalValue = plus(stakedValue, rewardsValue);
+            stakedSum = plus(stakedSum, totalValue);
+            return { balance, rewards, stakedValue, rewardsValue, totalValue, validator: data?.validatorName, state: 'Redelegated' };
+        });
+
+        const allData = [...staking, ...undelegated, ...redelegated];
+
+        return { allData, stakedSum, unstakedSum };
     }
-    else return { staking: [], stakedSum };
+    else return { allData: [], stakedSum, unstakedSum };
 }
 
 const fetchBalance = async (address: string) => {
@@ -92,6 +116,6 @@ export const getBankBalance = async ({ args: { address } }: any) => {
     const { tokens, assetsSum } = terraTokens;
     const { terraSwapHoldings, terraSwapHoldingsSum } = terraSwapHoldingsData;
     const assetsTotalSum = plus(parseFloat(assetsSum), terraSwapHoldingsSum);
-    const { staking, stakedSum } = formatStakeData(stakeData?.data, lunaPrice);
-    return { address, core: { coins: [...tokens, ...terraSwapHoldings], staking, total: { assetsSum: assetsTotalSum.toString(), stakedSum } }, terraSwapPool };
+    const { allData, stakedSum, unstakedSum } = formatStakeData(stakeData?.data, lunaPrice);
+    return { address, core: { coins: [...tokens, ...terraSwapHoldings], staking: allData, total: { assetsSum: assetsTotalSum.toString(), stakedSum, unstakedSum } }, terraSwapPool };
 };

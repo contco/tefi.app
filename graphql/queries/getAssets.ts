@@ -19,10 +19,12 @@ export const getAssets = gql`
           rewardsValue
           totalValue
           validator
+          state
         }
         total {
           assetsSum
           stakedSum
+          unstakedSum
         }
       }
       mirror {

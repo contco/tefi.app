@@ -56,11 +56,13 @@ interface LunaStaking {
   rewardsValue: string;
   totalValue: string;
   validator: string;
+  state: string;
 }
 
 interface CoreTotal {
   assetsSum: string;
   stakedSum: string;
+  unstakedSum: string;
 }
 
 interface Reward {
