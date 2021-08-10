@@ -68,7 +68,7 @@ const StyleText = styled(Text)`
   width: 60,
   height: 40,
   fontWeight: 900,
-  fontSize: [0.5, null, 2],
+  fontSize: [size / 2, null, size / 1],
   paddingLeft: 1
 })}
 `;

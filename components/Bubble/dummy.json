@@ -7,7 +7,7 @@
         "color": "#95fa84",
         "position": {
             "top": "10%",
-            "left": "70%"
+            "left": "65%"
         }
     },
     {
@@ -17,7 +17,7 @@
         "size": 1,
         "color": "#95fa84",
         "position": {
-            "top": "20%",
+            "top": "30%",
             "left": "40%"
         }
     },
@@ -28,8 +28,8 @@
         "size": 0.5,
         "color": "#d24a4a",
         "position": {
-            "top": "80%",
-            "left": "60%"
+            "top": "60%",
+            "left": "70%"
         }
     },
     {
@@ -39,30 +39,30 @@
         "size": 1,
         "color": "#d24a4a",
         "position": {
-            "top": "80%",
-            "left": "80%"
+            "top": "50%",
+            "left": "50%"
         }
     },
     {
         "price": "1.8%",
-        "symbol": "MINE",
+        "symbol": "ANC",
         "imageUrl": "https://storage.googleapis.com/tefi-app/ANC.png",
-        "size": 1,
+        "size": 1.5,
         "color": "#95fa84",
         "position": {
-            "top": "80%",
-            "left": "10%"
+            "top": "60%",
+            "left": "20%"
         }
     },
     {
         "price": "1.8%",
-        "symbol": "MINE",
+        "symbol": "SPEC",
         "imageUrl": "https://storage.googleapis.com/tefi-app/SPEC.png",
         "size": 1,
         "color": "#95fa84",
         "position": {
-            "top": "40%",
-            "left": "10%"
+            "top": "70%",
+            "left": "80%"
         }
     }
 ]
