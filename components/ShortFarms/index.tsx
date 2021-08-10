@@ -1,6 +1,16 @@
 import { ShortTitle } from '../../constants';
 import { convertToFloatValue } from '../../utils/convertFloat';
-import { Heading, HeadingWrapper, Row, StyledTextContainer, SimpleText, StyledText, SubText, Title, Wrapper } from '../dashboardStyles';
+import {
+  Heading,
+  HeadingWrapper,
+  Row,
+  StyledTextContainer,
+  SimpleText,
+  StyledText,
+  SubText,
+  Title,
+  Wrapper,
+} from '../dashboardStyles';
 import { Box, Flex } from '@contco/core-ui';
 
 const HEADING_TEXT = 'Mirror Short Farms';
@@ -14,7 +24,10 @@ export const getTotalForFarm = (short, prop) => {
 };
 
 const ShortFarms: React.FC<ShortFarmProps> = ({ mirrorAssets }) => {
-  let short = mirrorAssets?.mirrorShortFarm;
+  let short = mirrorAssets?.mirrorShortFarm?.filter(
+    (assets) =>
+      parseFloat(assets?.lockedInfo?.locked_amount) > 0 || parseFloat(assets?.lockedInfo?.unlocked_amount) > 0,
+  );
 
   const getShorts = () => {
     short = short
@@ -48,29 +61,23 @@ const ShortFarms: React.FC<ShortFarmProps> = ({ mirrorAssets }) => {
       <HeadingWrapper>
         <Heading>{HEADING_TEXT}</Heading>
         <Flex>
-        <StyledTextContainer>
-          <SimpleText>
-            <b>Reward:</b> &nbsp;
+          <StyledTextContainer>
+            <SimpleText>
+              <b>Reward:</b> &nbsp;
             </SimpleText>
-          <SimpleText>
-          {convertToFloatValue(getTotalForFarm(short, 'reward'))} MIR
-          </SimpleText>
+            <SimpleText>{convertToFloatValue(getTotalForFarm(short, 'reward'))} MIR</SimpleText>
           </StyledTextContainer>
           <StyledTextContainer>
-          <SimpleText>
-            <b>Locked:</b> &nbsp;
+            <SimpleText>
+              <b>Locked:</b> &nbsp;
             </SimpleText>
-          <SimpleText>
-          {convertToFloatValue(getTotalForFarm(short, 'locked_amount'))} UST
-          </SimpleText>
+            <SimpleText>{convertToFloatValue(getTotalForFarm(short, 'locked_amount'))} UST</SimpleText>
           </StyledTextContainer>
           <StyledTextContainer>
-          <SimpleText>
-            <b>Unlocked:</b> &nbsp;
+            <SimpleText>
+              <b>Unlocked:</b> &nbsp;
             </SimpleText>
-          <SimpleText>
-          {convertToFloatValue(getTotalForFarm(short, 'unlocked_amount'))} UST
-          </SimpleText>
+            <SimpleText>{convertToFloatValue(getTotalForFarm(short, 'unlocked_amount'))} UST</SimpleText>
           </StyledTextContainer>
         </Flex>
       </HeadingWrapper>
