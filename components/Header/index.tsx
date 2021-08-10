@@ -70,6 +70,13 @@ const Header: React.FC<Props> = ({ theme, changeTheme, address, addressType, onR
       router.push('/');
     }
   };
+
+  const onMenuClick  = () => {
+    if(!displayMenu) {
+      setDisplayMenu(true);
+    }
+
+  }
   return (
     <>
     <Container>
@@ -81,7 +88,7 @@ const Header: React.FC<Props> = ({ theme, changeTheme, address, addressType, onR
       <RightSection>
         {
         isMobile ?  
-         <HoverContainer onClick={() => setDisplayMenu(!displayMenu)}>
+         <HoverContainer onClick={onMenuClick}>
            <StyledMenuIcon />
          </HoverContainer>
         :

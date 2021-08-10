@@ -86,10 +86,18 @@ const Menu: React.FC<Props> = ({isVisible = false, copyVisible = false, setVisib
 
     const MenuRef = React.useRef<HTMLDivElement | null>(null);
     const router = useRouter();
+
     const onOutsideClick =  React.useCallback(() => {
-        setVisibility(false);
-    }, [setVisibility]);
+        setTimeout(() => {
+            if(isVisible){
+                setVisibility(false);
+            }
+        }, 100)
+       
+    }, [setVisibility, isVisible]);
+
     useOutsideClickListener(MenuRef, onOutsideClick);
+
     return (
         <Parent>
         <MenuContainer ref={MenuRef} isLight={theme === LIGHT_THEME} isVisible={isVisible}>
