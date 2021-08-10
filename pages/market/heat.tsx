@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import React from 'react';
 import Head from 'next/head';
 import Header from '../../components/Header';
-import Bubble, { BubbleProps } from '../../components/Bubble';
+import Bubble from '../../components/Bubble';
 import data from '../../components/Bubble/dummy.json';
 
 const HeatBubble: React.FC = ({ theme, changeTheme }: any) => {

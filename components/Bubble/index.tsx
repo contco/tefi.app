@@ -1,29 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import css from '@styled-system/css';
-import { Text, Flex, Box } from '@contco/core-ui';
-import { ICON_LUNA_URL, ICON_MIR_URL } from '../../constants';
-import { fontSize } from 'styled-system';
+import { Text } from '@contco/core-ui';
 
-
-const Container = styled(Flex)`
-  ${css({
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  paddingTop: 80,
-  paddingBottom: 40,
-  boxSizing: 'border-box',
-  height: [400, 480, 520, 600, null, 860, '100vh'],
-})}
-`;
-
-const Row = styled(Flex)`
-  ${css({
-  width: '98vw',
-  justifyContent: 'space-between',
-})}
-`;
 
 const OvalShap = styled.div<BubbleProps>`
   ${({ size, position, color }) => css({
@@ -35,9 +14,11 @@ const OvalShap = styled.div<BubbleProps>`
   top: position?.top || 0,
   bottom: position?.bottom || 0,
   right: position?.right || 0,
-  left: position?.left || 0
-
+  left: position?.left || 0,
 })}
+&:hover {
+  border:3px solid ${({ theme }) => theme.colors.secondary} 
+}
 `;
 
 const StyleImage = styled.img<BubbleProps>`
