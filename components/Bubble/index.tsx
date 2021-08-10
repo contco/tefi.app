@@ -7,8 +7,8 @@ import { Text } from '@contco/core-ui';
 const OvalShap = styled.div<BubbleProps>`
   ${({ size, position, color }) => css({
   borderRadius: '50%',
-  width: [50 * size, 60 * size, 70 * size, 84 * size, 90 * size, 110 * size, 120 * size, null, 130 * size, 150 * size],
-  height: [50 * size, 60 * size, 70 * size, 84 * size, 90 * size, 110 * size, 120 * size, null, 130 * size, 150 * size],
+  width: [80 * size, null, null, 84 * size, 90 * size, 110 * size, 120 * size, null, 130 * size, 150 * size],
+  height: [80 * size, null, null, 84 * size, 90 * size, 110 * size, 120 * size, null, 130 * size, 150 * size],
   background: color,
   position: 'absolute',
   top: position?.top || 0,
@@ -24,8 +24,8 @@ const OvalShap = styled.div<BubbleProps>`
 const StyleImage = styled.img<BubbleProps>`
   ${({ size }) => css({
   borderRadius: '50%',
-  width: [50 / 3 * size, 60 / 3 * size, 70 / 3 * size, 84 / 3 * size, 90 / 3 * size, 110 / 3 * size, 120 / 3 * size, null, 130 / 3 * size, (150 / 3) * size],
-  height: [50 / 3 * size, 60 / 3 * size, 70 / 3 * size, 84 / 3 * size, 90 / 3 * size, 110 / 3 * size, 120 / 3 * size, null, 130 / 3 * size, (150 / 3) * size],
+  width: [(80 / 3) * size, null, null, 84 / 3 * size, 90 / 3 * size, 110 / 3 * size, 120 / 3 * size, null, 130 / 3 * size, (150 / 3) * size],
+  height: [(80 / 3) * size, null, null, 84 / 3 * size, 90 / 3 * size, 110 / 3 * size, 120 / 3 * size, null, 130 / 3 * size, (150 / 3) * size],
   position: 'relative',
   top: '50%',
   left: '50%',
@@ -47,10 +47,10 @@ const StyleText = styled(Text)`
   color: '#ffffff',
   textAlign: 'center',
   fontWeight: 900,
-  fontSize: [5 * size + 'px', null, 12 * size + 'px'],
+  fontSize: [5 * size + 'px', null, 7 * size + 'px', null, 12 * size + 'px'],
   paddingLeft: 1,
-  width: [50 / 3 * size, 60 / 3 * size, 70 / 3 * size, 84 / 3 * size, 90 / 3 * size, 110 / 3 * size, 120 / 3 * size, null, 130 / 3 * size, (150 / 3) * size],
-  height: [50 / 3 * size, 60 / 3 * size, 70 / 3 * size, 84 / 3 * size, 90 / 3 * size, 110 / 3 * size, 120 / 3 * size, null, 130 / 3 * size, (150 / 3) * size],
+  width: [80 / 3 * size, null, null, 84 / 3 * size, 90 / 3 * size, 110 / 3 * size, 120 / 3 * size, null, 130 / 3 * size, (150 / 3) * size],
+  height: [80 / 3 * size, null, null, 84 / 3 * size, 90 / 3 * size, 110 / 3 * size, 120 / 3 * size, null, 130 / 3 * size, (150 / 3) * size],
 
 })}
 `;
@@ -73,7 +73,7 @@ export type BubbleProps = {
 
 
 const Bubble: React.FC<BubbleProps> = ({ ...BubbleProps }) => {
-  const { size } = BubbleProps
+
   return (
     <OvalShap {...BubbleProps}>
       <StyleImage src={BubbleProps.imageUrl} {...BubbleProps} />
