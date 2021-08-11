@@ -5,7 +5,7 @@ import Header from '../../components/Header';
 import { Text } from '@contco/core-ui';
 import css from '@styled-system/css';
 import Image from 'next/image';
-import { LIGHT_THEME, TEFI_API_PREVIEW_IMAGE } from '../../constants';
+import { LIGHT_THEME } from '../../constants';
 import { CodeBlock, atomOneLight, atomOneDark } from 'react-code-blocks';
 import { CODE_EXAMPLE } from '../../constants/docs-data';
 import { DOCS_SEO } from '../../next-seo.config';
@@ -75,7 +75,7 @@ const Docs: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
             </MainText>
           </TextContainer>
           <ImageContainer>
-            <Image width="800" height="560" src={TEFI_API_PREVIEW_IMAGE} alt="Picture of the author" />
+            <Image width="800" height="560" src="/tefi-api-preview.png" alt="Picture of the author" />
           </ImageContainer>
           <MainText style={{ marginTop: '50px', marginBottom: '50px' }}>URL</MainText>
           <CodeBlock
