@@ -21,8 +21,9 @@ export default {
 };
 
 export const DOCS_SEO = {
+  canonical: 'https://www.tefi.app/api',
   openGraph: {
-    url: 'https://www.tefi.app/',
+    url: 'https://www.tefi.app/api',
     type: 'website',
     title: 'TefiApi - Docs',
     description: '',

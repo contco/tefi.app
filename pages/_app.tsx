@@ -35,7 +35,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <React.Fragment>
+    <>
       <DefaultSeo {...SEO} />
       <ApolloProvider client={apolloClient}>
         <Head>
@@ -50,7 +50,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           </WalletConnectProvider>
         </ThemeProvider>
       </ApolloProvider>
-    </React.Fragment>
+    </>
   );
 }
 
