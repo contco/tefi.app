@@ -14,7 +14,7 @@ const gateway = new ApolloGateway({
     ],
 });
 
-const apolloServer = new ApolloServer({ gateway, subscriptions: false, playground: true });
+const apolloServer = new ApolloServer({ gateway, subscriptions: false, playground: true, introspection: true });
 
 export const config = {
     api: {
