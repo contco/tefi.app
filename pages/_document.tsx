@@ -36,7 +36,6 @@ export default class MyDocument extends Document {
           <link href="/favicon-16x16.png" rel="icon" type="image/png" sizes="16x16" />
           <link href="/favicon-32x32.png" rel="icon" type="image/png" sizes="32x32" />
           <link rel="icon" href="/favicon.ico?v=3" />
-          <meta property="og:url" content="https://www.tefi.app/" />
 
           <link rel="apple-touch-icon" href="icons/icon.png" />
           <link rel="apple-touch-icon" sizes="152x152" href="icons/152.png" />
@@ -174,11 +173,6 @@ export default class MyDocument extends Document {
             href="splash/apple-splash-1136-640.jpg"
             media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
           />
-
-          <meta property="og:type" content="website" />
-          <meta property="og:title" content={'TefiApp | Your portal to TeFi'} />
-          <meta name="twitter:name" content={'TefiApp | Your portal to TeFi'} />
-          <meta name="twitter:card" content="summary_large_image"></meta>
           
           <script async src={`https://www.googletagmanager.com/gtag/js?id=G-6Z0P6DM95C`} />
           <script
