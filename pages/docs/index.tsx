@@ -65,6 +65,13 @@ const Docs: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
     <MainContainer>
       <Head>
         <title>TefiApp - Docs</title>
+        <meta property="og:url" content="https://www.tefi.app/docs" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={'TefiApp | Your portal to TeFi'} />
+        <meta name="twitter:name" content={'TefiApp | Your portal to TeFi'} />
+        <meta name="twitter:card" content="summary_large_image"></meta>
+        <meta name="twitter:image" content={TEFI_API_PREVIEW_IMAGE} />
+        <meta property="og:image" content={TEFI_API_PREVIEW_IMAGE} />
       </Head>
       <Header theme={currentTheme} changeTheme={changeTheme} hideCharts />
       <Container>
