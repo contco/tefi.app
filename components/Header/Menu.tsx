@@ -1,5 +1,4 @@
 import React from 'react';
-import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import css from '@styled-system/css';
 import {Flex, Box} from "@contco/core-ui";
@@ -16,7 +15,7 @@ import {
     LightSwitchIcon,
     DarkSwitchIcon,
 } from './style';
-import ChartsIcon from '../../public/charts.svg';
+import CHARTS_ICON from '../../public/charts.svg';
 import { LIGHT_THEME } from '../../constants';
 
 const Parent = styled(Box)`
@@ -62,14 +61,54 @@ const ThemeIconContainer = styled(Flex)`
   })}
 `
 
-const ChartIconContainer = styled(Box)`
-  display: inline-block;
+const Section = styled(Flex)`
   ${css({
+      boxSizing:'border-box',
       color: 'secondary',
-      ml: 25,
-      mt: 3,
+      mx: 2,
   })}
-`
+`;
+
+const TopSection = styled(Section)`
+  ${props => css({
+      height: props.address ? 84 : 120,
+  })}
+`;
+
+const BottomSection = styled(Section)`
+  ${css({
+      height: 80,
+  })}
+`;
+const Divider = styled(Box)`
+  ${css({
+      boxSizing:'border-box',
+      minHeight: 1,
+      width: 'auto',
+      bg: 'focused',
+      my: 2,
+      mx:2,
+  })}
+`;
+
+const ChartsIcon = styled(CHARTS_ICON)`
+  ${css({
+      transform: 'scale(0.8)'
+  })}
+`;
+
+const LightIcon = styled(LightSwitchIcon)`
+${css({
+    transform: 'scale(0.8)'
+})}
+`;
+
+const DarkIcon = styled(DarkSwitchIcon)`
+${css({
+    transform: 'scale(0.8)'
+})}
+`;
+
 
 interface Props {
     isVisible?: boolean;
@@ -85,7 +124,6 @@ interface Props {
 const Menu: React.FC<Props> = ({isVisible = false, copyVisible = false, setVisibility, address, onCopyClick, onDisconnect, theme, changeTheme}) => {
 
     const MenuRef = React.useRef<HTMLDivElement | null>(null);
-    const router = useRouter();
 
     const onOutsideClick =  React.useCallback(() => {
         setTimeout(() => {
@@ -97,6 +135,10 @@ const Menu: React.FC<Props> = ({isVisible = false, copyVisible = false, setVisib
     }, [setVisibility, isVisible]);
 
     useOutsideClickListener(MenuRef, onOutsideClick);
+
+   const onLinkClick = (url: string) => {
+        setTimeout(() => window.open(url, '_blank'), 300);
+    }
 
     return (
         <Parent>
@@ -116,15 +158,33 @@ const Menu: React.FC<Props> = ({isVisible = false, copyVisible = false, setVisib
           null
         }
         </MobileWallet>
-        <ChartIconContainer>
-            <HoverContainer id='blue'>
-                <ChartsIcon onClick={() => router.push('/market')}/>
+        <TopSection address={address} height={100}>
+            <HoverContainer onClick={() => onLinkClick('/market')}>
+                <ChartsIcon/>
             </HoverContainer>
-        </ChartIconContainer>
+        </TopSection>
+        <Divider />
+        <BottomSection>
+         <HoverContainer onClick={() => onLinkClick('https://terra.mirror.finance/')}>
+         <img src="https://whitelist.mirror.finance/icon/MIR.png" alt='Mirror Protocol' height={24} width={24} />
+         </HoverContainer>
+         <HoverContainer onClick={() => onLinkClick('https://anchorprotocol.com/')}>
+         <img src="https://whitelist.anchorprotocol.com/logo/ANC.png" alt="Anchor Protocol" height={24} width={24} />
+         </HoverContainer>
+         <HoverContainer onClick={() => onLinkClick('https://app.pylon.money/')}>
+         <img src="https://assets.pylon.rocks/logo/MINE.png" alt="Pylon Protocol" height={24} width={24} />
+         </HoverContainer>
+         <HoverContainer onClick={() => onLinkClick('https://terra.spec.finance/')}>
+         <img src="https://raw.githubusercontent.com/spectrumprotocol/frontend/master/src/assets/SPEC.png" alt='Spectrum Protocol' height={24} width={24} />
+         </HoverContainer>
+         <HoverContainer onClick={() => onLinkClick('https://loterra.io/')}>
+         <img src="https://raw.githubusercontent.com/LoTerra/loterra-interface/master/static/LOTA.png" alt="LoTerra Protocol" height={24} width={24} />
+         </HoverContainer>
+        </BottomSection>
         </Box>
         <ThemeIconContainer>
         <SwitchContainer>
-          {theme === LIGHT_THEME ? <LightSwitchIcon onClick={changeTheme} /> : <DarkSwitchIcon onClick={changeTheme} />}
+          {theme === LIGHT_THEME ? <LightIcon onClick={changeTheme} /> : <DarkIcon onClick={changeTheme} />}
         </SwitchContainer>
         </ThemeIconContainer>
         </MenuContainer>

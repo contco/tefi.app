@@ -232,10 +232,12 @@ ${css({
 
 export const HoverContainer = styled(Flex)`
   ${css({
+    p:2,
     justifyContent:'center',
     alignItems:'center',
-    p:2,
     maxWidth: 'fit-content',
+    height: 'max-content',
+    overflow:'auto',
     borderRadius: '50%',
     transition: 'all ease-in 0.3s',
     '&:hover': {
@@ -247,5 +249,6 @@ export const HoverContainer = styled(Flex)`
 export const StyledMenuIcon = styled(MENU_ICON)`
   ${css({
       color:'secondary',
+      transform: 'scale(0.9)',
   })}
 `;
