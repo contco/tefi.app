@@ -1,5 +1,5 @@
 import React from 'react';
-import Head from 'next/head';
+import { NextSeo } from 'next-seo';
 import styled from 'styled-components';
 import Header from '../../components/Header';
 import { Text } from '@contco/core-ui';
@@ -63,16 +63,29 @@ export const MainText = styled(Text)`
 const Docs: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
   return (
     <MainContainer>
-      <Head>
-        <title>TefiApp - Docs</title>
-        <meta property="og:url" content="https://www.tefi.app/docs" />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content={'TefiApp | Your portal to TeFi'} />
-        <meta name="twitter:name" content={'TefiApp | Your portal to TeFi'} />
-        <meta name="twitter:card" content="summary_large_image"></meta>
-        <meta name="twitter:image" content={TEFI_API_PREVIEW_IMAGE} />
-        <meta property="og:image" content={TEFI_API_PREVIEW_IMAGE} />
-      </Head>
+      <NextSeo
+        title="TefiApp - Docs"
+        description=""
+        canonical="https://tefi.app/api"
+        openGraph={{
+          url: 'https://tefi.app/api',
+          title: 'TefiApp - Docs',
+          description: '',
+          images: [
+            {
+              url: TEFI_API_PREVIEW_IMAGE,
+              alt: 'tefi api preview page',
+              width: 1200,
+              height: 630,
+            },
+          ],
+          site_name: 'SiteName',
+        }}
+        twitter={{
+          handle: '@tefiapp',
+          cardType: 'summary_large_image',
+        }}
+      />
       <Header theme={currentTheme} changeTheme={changeTheme} hideCharts />
       <Container>
         <TextContainer>
