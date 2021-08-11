@@ -77,7 +77,7 @@ const Docs: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
         <TextContainer>
           <Title>Tefi API</Title>
           <MainText>
-            A powerful GraphQL API that unifies all the Terra Protocols. Build cool dashboards or bots to the 🌕
+            A powerful GraphQL API that unifies all Terra Protocols. Build cool dashboards or bots to the 🌕
           </MainText>
         </TextContainer>
         <ImageContainer>
