@@ -75,7 +75,7 @@ const Docs: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
             </MainText>
           </TextContainer>
           <ImageContainer>
-            <Image width="800" height="560" src="/tefi-api-preview.png" alt="Picture of the author" />
+            <Image width="800" height="400" src="/tefi-api-preview.png" alt="Picture of the author" />
           </ImageContainer>
           <MainText style={{ marginTop: '50px', marginBottom: '50px' }}>URL</MainText>
           <CodeBlock
