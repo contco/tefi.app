@@ -22,7 +22,7 @@ export default {
 
 export const DOCS_SEO = {
   openGraph: {
-    url: 'https://www.tefi.app/api',
+    url: 'https://www.tefi.app/',
     type: 'website',
     title: 'TefiApi - Docs',
     description: '',
