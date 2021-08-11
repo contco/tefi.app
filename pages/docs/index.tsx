@@ -63,7 +63,7 @@ export const MainText = styled(Text)`
 
 const Docs: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
   return (
-    <>
+    <React.Fragment>
       <NextSeo {...DOCS_SEO} />
       <MainContainer>
         <Header theme={currentTheme} changeTheme={changeTheme} hideCharts />
@@ -95,7 +95,7 @@ const Docs: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
           />
         </Container>
       </MainContainer>
-    </>
+    </React.Fragment>
   );
 };
 
