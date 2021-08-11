@@ -80,6 +80,7 @@ const Docs: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
         }}
         twitter={{
           handle: '@tefiapp',
+          site: '@tefiapp',
           cardType: 'summary_large_image',
         }}
       />
