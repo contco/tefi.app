@@ -6,7 +6,7 @@ export default {
     description: '',
     images: [
       {
-        url: TEFI_PREVIEW_IMAGE,
+        url: 'https://storage.googleapis.com/tefi-app/tefi-preview.png',
         width: 800,
         height: 600,
         alt: 'tefi-prewiew',
@@ -28,7 +28,7 @@ export const DOCS_SEO = {
     description: '',
     images: [
       {
-        url: TEFI_API_PREVIEW_IMAGE,
+        url: 'https://storage.googleapis.com/tefi-app/tefi-app-api-preview.png',
         width: 800,
         height: 600,
         alt: 'tefi-prewiew',

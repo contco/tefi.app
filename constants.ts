@@ -42,5 +42,3 @@ export enum WalletConnectType {
   Mobile,
 }
 
-export const TEFI_PREVIEW_IMAGE = 'https://storage.googleapis.com/tefi-app/tefi-preview.png';
-export const TEFI_API_PREVIEW_IMAGE = 'https://storage.googleapis.com/tefi-app/tefi-app-api-preview.png';
