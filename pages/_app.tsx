@@ -35,20 +35,22 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <ApolloProvider client={apolloClient}>
+    <>
       <DefaultSeo {...SEO} />
-      <Head>
-        <title>Tefi App</title>
-      </Head>
-      <ThemeProvider theme={theme === LIGHT_THEME ? lightTheme : darkTheme}>
-        <GlobalStyles />
-        <WalletConnectProvider>
-          <RedirectProvider>
-            <Component {...pageProps} theme={theme} changeTheme={changeTheme} />
-          </RedirectProvider>
-        </WalletConnectProvider>
-      </ThemeProvider>
-    </ApolloProvider>
+      <ApolloProvider client={apolloClient}>
+        <Head>
+          <title>Tefi App</title>
+        </Head>
+        <ThemeProvider theme={theme === LIGHT_THEME ? lightTheme : darkTheme}>
+          <GlobalStyles />
+          <WalletConnectProvider>
+            <RedirectProvider>
+              <Component {...pageProps} theme={theme} changeTheme={changeTheme} />
+            </RedirectProvider>
+          </WalletConnectProvider>
+        </ThemeProvider>
+      </ApolloProvider>
+    </>
   );
 }
 

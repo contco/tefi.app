@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { LIGHT_THEME, TEFI_API_PREVIEW_IMAGE } from '../../constants';
 import { CodeBlock, atomOneLight, atomOneDark } from 'react-code-blocks';
 import { CODE_EXAMPLE } from '../../constants/docs-data';
+import { DOCS_SEO } from '../../next-seo.config';
 
 const MainContainer = styled.div`
   display: flex;
@@ -62,57 +63,39 @@ export const MainText = styled(Text)`
 
 const Docs: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
   return (
-    <MainContainer>
-      <NextSeo
-        openGraph={{
-          url: 'https://www.tefi.app/api',
-          type: 'website',
-          title: 'TefiApi - Docs',
-          description: '',
-          images: [
-            {
-              url: TEFI_API_PREVIEW_IMAGE,
-              width: 800,
-              height: 600,
-              alt: 'tefi-prewiew',
-            },
-          ],
-        }}
-        twitter={{
-          handle: '@tefiapp',
-          site: '@tefiapp',
-          cardType: 'summary_large_image',
-        }}
-      />
-      <Header theme={currentTheme} changeTheme={changeTheme} hideCharts />
-      <Container>
-        <TextContainer>
-          <Title>Tefi API</Title>
-          <MainText>
-            A powerful GraphQL API that unifies all Terra Protocols. Build cool dashboards or bots to the 🌕
-          </MainText>
-        </TextContainer>
-        <ImageContainer>
-          <Image width="800" height="560" src={TEFI_API_PREVIEW_IMAGE} alt="Picture of the author" />
-        </ImageContainer>
-        <MainText style={{ marginTop: '50px', marginBottom: '50px' }}>URL</MainText>
-        <CodeBlock
-          text="https://www.tefi.app/api"
-          language="graphql"
-          showLineNumbers={false}
-          startingLineNumber={0}
-          theme={currentTheme === LIGHT_THEME ? atomOneLight : atomOneDark}
-        />
-        <MainText style={{ marginTop: '50px', marginBottom: '50px' }}>Example</MainText>
-        <CodeBlock
-          text={CODE_EXAMPLE}
-          language="graphql"
-          showLineNumbers={false}
-          startingLineNumber={0}
-          theme={currentTheme === LIGHT_THEME ? atomOneLight : atomOneDark}
-        />
-      </Container>
-    </MainContainer>
+    <>
+      <NextSeo {...DOCS_SEO} />
+      <MainContainer>
+        <Header theme={currentTheme} changeTheme={changeTheme} hideCharts />
+        <Container>
+          <TextContainer>
+            <Title>Tefi API</Title>
+            <MainText>
+              A powerful GraphQL API that unifies all Terra Protocols. Build cool dashboards or bots to the 🌕
+            </MainText>
+          </TextContainer>
+          <ImageContainer>
+            <Image width="800" height="560" src={TEFI_API_PREVIEW_IMAGE} alt="Picture of the author" />
+          </ImageContainer>
+          <MainText style={{ marginTop: '50px', marginBottom: '50px' }}>URL</MainText>
+          <CodeBlock
+            text="https://www.tefi.app/api"
+            language="graphql"
+            showLineNumbers={false}
+            startingLineNumber={0}
+            theme={currentTheme === LIGHT_THEME ? atomOneLight : atomOneDark}
+          />
+          <MainText style={{ marginTop: '50px', marginBottom: '50px' }}>Example</MainText>
+          <CodeBlock
+            text={CODE_EXAMPLE}
+            language="graphql"
+            showLineNumbers={false}
+            startingLineNumber={0}
+            theme={currentTheme === LIGHT_THEME ? atomOneLight : atomOneDark}
+          />
+        </Container>
+      </MainContainer>
+    </>
   );
 };
 
