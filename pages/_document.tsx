@@ -179,8 +179,7 @@ export default class MyDocument extends Document {
           <meta property="og:title" content={'TefiApp | Your portal to TeFi'} />
           <meta name="twitter:name" content={'TefiApp | Your portal to TeFi'} />
           <meta name="twitter:card" content="summary_large_image"></meta>
-          <meta name="twitter:image" content={TEFI_PREVIEW_IMAGE} />
-          <meta property="og:image" content={TEFI_PREVIEW_IMAGE} />
+          
           <script async src={`https://www.googletagmanager.com/gtag/js?id=G-6Z0P6DM95C`} />
           <script
             dangerouslySetInnerHTML={{
