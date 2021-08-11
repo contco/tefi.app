@@ -39,7 +39,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         openGraph={{
           url: 'https://www.tefi.app/',
           type: 'website',
-          title: 'TefiApp | Your portal to TeFi',
+          title: 'TefiApp | Your portal to TeFi test',
           description: '',
           images: [
             {
