@@ -14,6 +14,7 @@ const typeDefs = gql`
    type CoreTotal {
        assetsSum: String
        stakedSum: String
+       unstakedSum: String
    }
    
    type LunaStaking {
@@ -23,6 +24,7 @@ const typeDefs = gql`
        rewardsValue: String
        totalValue: String
        validator: String
+       state: String
    }
 
     type Core {
