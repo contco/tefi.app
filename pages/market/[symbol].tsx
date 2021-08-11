@@ -123,7 +123,7 @@ const formatData = (data) =>
     .reverse()
     .map((item) => ({ date: item[0], value: parseFloat(item[1]) }));
 
-const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d, symbol }: any) => {
+const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
   const theme: any = useTheme();
   const router: any = useRouter();
 
@@ -148,17 +148,18 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d, symbol }: a
     setPrice(parseFloat(data.currentPrice));
   };
 
-  const updateChartData = React.useCallback((price: string) => {
+  const updateChartData = (price: string) => {
+    console.log(price);
     if(data.chart && data.chart.data.length > 0) {
       const chartData = [...data.chart.data];
       chartData[0][1] = price;
       setData({...data, chart: {...data.chart, data: chartData}});
     }
-  }, [data]);
+  }
 
   useEffect(() => {
     const ws = new WebSocket(TERRA_OBSERVER_URL);
-
+    console.log('here', data.keyName);
     const connectWithTerraObserver = () => {
 
       ws.onopen = function () {
@@ -166,8 +167,10 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d, symbol }: a
       };
 
       ws.onmessage = function (message) {
+
         const messageData = JSON.parse(message?.data);
-         if(assets?.[symbol]?.poolAddress === messageData?.data?.contract && messageData.chain_id === "columbus-4"){
+        console.log(messageData?.data?.contract);
+         if(assets?.[router.query.symbol]?.poolAddress === messageData?.data?.contract && messageData.chain_id === "columbus-4"){
            const price =  parseFloat(getPrice(messageData?.data?.pool)).toFixed(3);
            setPrice(parseFloat(price));
            updateChartData(price)
@@ -176,18 +179,18 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d, symbol }: a
 
       ws.onclose = function(_) {
         setTimeout(function() {
+          console.log('calling');
           connectWithTerraObserver();
         }, 1000);
 
       };
     }
-
     connectWithTerraObserver();
 
     return () => ws.close();
 
-  }, [symbol]);
-
+  }, [data.keyName]);
+  console.log(data.keyName);
   return (
     <MainContainer>
       <Head>
@@ -254,7 +257,6 @@ export async function getStaticProps({ params: { symbol } }) {
 
   return {
     props: {
-      symbol: symbol,
       data,
     },
     revalidate: 5,
