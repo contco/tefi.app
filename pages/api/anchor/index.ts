@@ -19,11 +19,13 @@ const typeDefs = gql`
   }
 
   type Airdrops {
-    price: String!
+    value: String!
     quantity: String!
     round: Int!
     name: String!
     symbol: String!
+    proof: [String!]
+    contract: String!
   }
 
   type UserCollateral {

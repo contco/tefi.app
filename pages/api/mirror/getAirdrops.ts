@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
 import { request } from 'graphql-request';
 import networks from '../../../utils/networks';
+import { mirrorContracts } from './mirrorContracts';
 import { gt, MIR, plus, UNIT} from './utils';
 
 const STATS_NETWORK = 'Terra';
@@ -29,10 +30,9 @@ export const formatAirdrops = (airdrops, price:string) => {
   const contents = !airdrops?.length ? []
   :  airdrops.map((airdrop) => {
       const airdropQuantity  = parseFloat(airdrop?.amount) / UNIT;
-      const airdropPrice = airdropQuantity * parseFloat(price);
-      airdropSum = plus(airdropSum, airdropPrice);
-      return ({ quantity: airdropQuantity.toString(), symbol: MIR, price: airdropPrice.toString(), name: MIRROR_TOKEN, round: airdrop.stage ?? 0  })
+      const value = airdropQuantity * parseFloat(price);
+      airdropSum = plus(airdropSum, value);
+      return ({quantity: airdropQuantity.toString(), symbol: MIR, value: value.toString(), name: MIRROR_TOKEN, round: airdrop.stage ?? 0,  proof: JSON.parse(airdrop.proof), contract: mirrorContracts.airdrop})
     });
-
   return {mirrorAirdrops: contents, airdropSum};
 }

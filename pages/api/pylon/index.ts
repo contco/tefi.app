@@ -44,11 +44,13 @@ const typeDefs = gql`
 }
 
   type PylonAirdrops {
-    price: String!
+    value: String!
     quantity: String!
     name: String!
     symbol: String!
     round: Int!
+    proof: [String!]
+    contract: String!
   }
 
   type PylonSum {
@@ -81,7 +83,7 @@ const typeDefs = gql`
     pylonHoldings: [PylonHoldings!]
     gov: PylonGov
     pylonPool: [PylonPool!]
-    pylonAirdrops: PylonAirdrops
+    pylonAirdrops: [PylonAirdrops]
     pylonSum: PylonSum
     pylonGateway: [PylonGateway!]
 

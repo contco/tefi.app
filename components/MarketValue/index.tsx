@@ -75,8 +75,8 @@ const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAsse
   };
 
   const getLunaStakedTotal = () => {
-    const total = core?.total?.stakedSum;
-    return parseFloat(total) ?? 0;
+    const total = parseFloat(core?.total?.stakedSum) + parseFloat(core?.total?.unstakedSum);
+    return total ?? 0;
   };
 
   const getCollateralValue = () => {
@@ -118,7 +118,11 @@ const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAsse
     const pylonPoolRewardsTotal = pylonAssets?.pylonSum?.pylonPoolRewardsSum;
     const pylonGatewayRewardsTotal = pylonAssets.pylonSum.gatewayRewardsSum;
     const spectrumRewardsTotal = spectrum?.spectrumTotal?.rewardsTotal;
-    const shortReward = getTotalForFarm(mirrorAssets?.mirrorShortFarm, 'rewardValue');
+    const short = mirrorAssets?.mirrorShortFarm?.filter(
+    (assets) =>
+      parseFloat(assets?.lockedInfo?.locked_amount) > 0 || parseFloat(assets?.lockedInfo?.unlocked_amount) > 0,
+  );
+    const shortReward = getTotalForFarm(short, 'rewardValue');
     const loterraRewardsTotal =  loterra?.lotaGov?.rewardsValue ?? '0';
     const total =
       parseFloat(spectrumRewardsTotal) +

@@ -19,10 +19,12 @@ export const getAssets = gql`
           rewardsValue
           totalValue
           validator
+          state
         }
         total {
           assetsSum
           stakedSum
+          unstakedSum
         }
       }
       mirror {
@@ -55,8 +57,10 @@ export const getAssets = gql`
           name
           symbol
           quantity
-          price
+          value
           round
+          proof
+          contract
         }
         gov {
           name
@@ -169,8 +173,10 @@ export const getAssets = gql`
           name
           symbol
           quantity
-          price
+          value
           round
+          proof
+          contract
         }
         total {
           airdropSum
@@ -221,9 +227,11 @@ export const getAssets = gql`
         pylonAirdrops {
           name
           symbol
-          price
+          value
           quantity
           round
+          proof
+          contract
         }
         pylonSum {
           pylonHoldingsSum
