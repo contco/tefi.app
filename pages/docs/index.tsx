@@ -64,8 +64,8 @@ export const MainText = styled(Text)`
 const Docs: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
   return (
     <>
-      <NextSeo {...DOCS_SEO} />
       <MainContainer>
+      <NextSeo {...DOCS_SEO} />
         <Header theme={currentTheme} changeTheme={changeTheme} hideCharts />
         <Container>
           <TextContainer>

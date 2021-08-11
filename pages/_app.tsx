@@ -36,11 +36,11 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <DefaultSeo {...SEO} />
-      <ApolloProvider client={apolloClient}>
-        <Head>
+    <Head>
           <title>Tefi App</title>
-        </Head>
+    </Head>
+      <DefaultSeo {...SEO} />
+      <ApolloProvider client={apolloClient}>    
         <ThemeProvider theme={theme === LIGHT_THEME ? lightTheme : darkTheme}>
           <GlobalStyles />
           <WalletConnectProvider>
