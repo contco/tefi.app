@@ -7,7 +7,7 @@ import css from '@styled-system/css';
 import Image from 'next/image';
 import { LIGHT_THEME, TEFI_API_PREVIEW_IMAGE } from '../../constants';
 import { CodeBlock, atomOneLight, atomOneDark } from 'react-code-blocks';
-import { CODE_EXAMPLE } from './text';
+import { CODE_EXAMPLE } from '../../constants/docs-data';
 
 const MainContainer = styled.div`
   display: flex;
