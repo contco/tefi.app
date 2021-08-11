@@ -149,7 +149,6 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
   };
 
   const updateChartData = (price: string) => {
-    console.log(price);
     if(data.chart && data.chart.data.length > 0) {
       const chartData = [...data.chart.data];
       chartData[0][1] = price;
@@ -159,7 +158,6 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
 
   useEffect(() => {
     const ws = new WebSocket(TERRA_OBSERVER_URL);
-    console.log('here', data.keyName);
     const connectWithTerraObserver = () => {
 
       ws.onopen = function () {
@@ -169,8 +167,7 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
       ws.onmessage = function (message) {
 
         const messageData = JSON.parse(message?.data);
-        console.log(messageData?.data?.contract);
-         if(assets?.[router.query.symbol]?.poolAddress === messageData?.data?.contract && messageData.chain_id === "columbus-4"){
+         if(assets?.[data.keyName]?.poolAddress === messageData?.data?.contract && messageData.chain_id === "columbus-4"){
            const price =  parseFloat(getPrice(messageData?.data?.pool)).toFixed(3);
            setPrice(parseFloat(price));
            updateChartData(price)
@@ -179,7 +176,6 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
 
       ws.onclose = function(_) {
         setTimeout(function() {
-          console.log('calling');
           connectWithTerraObserver();
         }, 1000);
 
@@ -190,7 +186,7 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
     return () => ws.close();
 
   }, [data.keyName]);
-  console.log(data.keyName);
+
   return (
     <MainContainer>
       <Head>
