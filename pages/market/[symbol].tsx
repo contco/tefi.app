@@ -7,6 +7,9 @@ import { GetStaticPaths } from 'next';
 import Header from '../../components/Header';
 import { assets } from '../../constants/assets';
 import { NewOpenIcon } from '../../components/Icons';
+import { TERRA_OBSERVER_URL } from '../../constants';
+import { getPrice } from '../api/commons';
+
 
 const MainContainer = styled.div`
   display: flex;
@@ -142,8 +145,47 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
   };
 
   const onMouseLeave = () => {
-    setPrice(parseFloat(data.currentPrice));
+    setPrice(parseFloat(data.chart.data[0][1]));
   };
+
+  const updateChartData = (price: string) => {
+    if(data.chart && data.chart.data.length > 0) {
+      const chartData = [...data.chart.data];
+      chartData[0][1] = price;
+      setData({...data, chart: {...data.chart, data: chartData}});
+    }
+  }
+
+  useEffect(() => {
+    const ws = new WebSocket(TERRA_OBSERVER_URL);
+    const connectWithTerraObserver = () => {
+
+      ws.onopen = function () {
+        ws.send(JSON.stringify({subscribe: "ts_pool", chain_id: "columbus-4"}));
+      };
+
+      ws.onmessage = function (message) {
+
+        const messageData = JSON.parse(message?.data);
+         if(assets?.[data.keyName]?.poolAddress === messageData?.data?.contract && messageData.chain_id === "columbus-4"){
+           const price =  parseFloat(getPrice(messageData?.data?.pool)).toFixed(4);
+           setPrice(parseFloat(price));
+           updateChartData(price)
+         }
+      };
+
+      ws.onclose = function(_) {
+        setTimeout(function() {
+          connectWithTerraObserver();
+        }, 1000);
+
+      };
+    }
+    connectWithTerraObserver();
+
+    return () => ws.close();
+
+  }, [data.keyName]);
 
   return (
     <MainContainer>
