@@ -64,22 +64,19 @@ const Docs: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
   return (
     <MainContainer>
       <NextSeo
-        title="TefiApp - Docs"
-        description=""
-        canonical="https://tefi.app/api"
         openGraph={{
-          url: 'https://tefi.app/api',
-          title: 'TefiApp - Docs',
+          url: 'https://www.tefi.app/api',
+          type: 'website',
+          title: 'TefiApi - Docs',
           description: '',
           images: [
             {
               url: TEFI_API_PREVIEW_IMAGE,
-              alt: 'tefi api preview page',
-              width: 1200,
-              height: 630,
+              width: 800,
+              height: 600,
+              alt: 'tefi-prewiew',
             },
           ],
-          site_name: 'SiteName',
         }}
         twitter={{
           handle: '@tefiapp',
