@@ -65,6 +65,11 @@ const calculateStakeData = (delegations, price, state) => {
   });
 };
 
+const totalValueSum = (delegatedArray) => {
+  const total = delegatedArray.reduce((a, asset) => a + parseFloat(asset?.totalValue), 0);
+  return total.toString();
+};
+
 const formatStakeData = (stakeData: any, price: string) => {
   let stakedSum = '0';
   let unstakedSum = '0';
@@ -73,12 +78,12 @@ const formatStakeData = (stakeData: any, price: string) => {
     const undelegated = calculateStakeData(stakeData.undelegations, price, 'Undelegated');
     const redelegated = calculateStakeData(stakeData.redelegations, price, 'Redelegated');
 
-    stakedSum = plus(stakedSum, staking.totalValue);
-    unstakedSum = plus(unstakedSum, undelegated.totalValue);
-    stakedSum = plus(stakedSum, redelegated.totalValue);
+    stakedSum = plus(stakedSum, totalValueSum(staking));
+    unstakedSum = plus(unstakedSum, totalValueSum(undelegated));
+    stakedSum = plus(stakedSum, totalValueSum(redelegated));
 
     const allData = [...staking, ...undelegated, ...redelegated];
-    
+
     return { allData, stakedSum, unstakedSum };
   } else return { allData: [], stakedSum, unstakedSum };
 };
