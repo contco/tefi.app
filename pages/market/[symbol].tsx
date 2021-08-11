@@ -145,7 +145,7 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
   };
 
   const onMouseLeave = () => {
-    setPrice(parseFloat(data.currentPrice));
+    setPrice(parseFloat(data.chart.data[0][1]));
   };
 
   const updateChartData = (price: string) => {
@@ -168,7 +168,7 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
 
         const messageData = JSON.parse(message?.data);
          if(assets?.[data.keyName]?.poolAddress === messageData?.data?.contract && messageData.chain_id === "columbus-4"){
-           const price =  parseFloat(getPrice(messageData?.data?.pool)).toFixed(3);
+           const price =  parseFloat(getPrice(messageData?.data?.pool)).toFixed(4);
            setPrice(parseFloat(price));
            updateChartData(price)
          }
