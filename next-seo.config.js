@@ -31,7 +31,7 @@ export const DOCS_SEO = {
         url: 'https://storage.googleapis.com/tefi-app/tefi-app-api-preview.png',
         width: 800,
         height: 600,
-        alt: 'tefi-prewiew',
+        alt: 'tefi-api-prewiew',
       },
     ],
   },
