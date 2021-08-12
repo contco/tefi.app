@@ -3,6 +3,7 @@ export const LIGHT_THEME = 'light';
 export const TERRA_TEST_NET = { URL: 'https://tequila-lcd.terra.dev', chainID: 'tequila-0004' };
 export const TERRA_MAIN_NET = { URL: 'https://lcd.terra.dev', chainID: 'columbus-4' };
 export const TERRA_OBSERVER_URL = 'wss://observer.terra.dev';
+export const TERRA_SWAP_GRAPHQL_URL = 'https://terraswap-graph.terra.dev/graphql';
 
 //temp
 export const IS_TEST = false;
