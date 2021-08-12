@@ -5,16 +5,16 @@ export default function Page() {
   const router = useRouter();
 
   useEffect(() => {
-    router.push('/market/luna');
+    router.push('/market/uluna');
   }, []);
 
   return null;
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(_) {
   return {
     redirect: {
-      destination: '/market/luna',
+      destination: '/market/uluna',
       permanent: false,
     },
   };
