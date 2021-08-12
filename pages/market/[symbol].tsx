@@ -11,12 +11,13 @@ import { NewOpenIcon } from '../../components/Icons';
 import { TERRA_OBSERVER_URL, TERRA_SWAP_GRAPHQL_URL } from '../../constants';
 import {format, subYears} from 'date-fns';
 import { getPrice } from '../api/commons';
+import { animated, config, useTransition } from 'react-spring';
 
 const MINE_START_TIMESTAMP = 1625144400;
 
 const TERRA_SWAP_QUERY = gql`
 query PairData($to: Float!, $from: Float!,  $interval: Interval!, $pairAddresses: [String!]!  ) {
-  pairData(pairAddresses: $pairAddresses) {
+  pairs(pairAddresses: $pairAddresses) {
     pairAddress
     token0 {
       symbol
@@ -66,12 +67,12 @@ const StyledName = styled.a`
     display: 'flex',
     alignItems: 'center',
     height: '30px',
-    width: 'max-content'
+    width: 'max-content',
   })}
   cursor: pointer;
 `;
 
-const StyledPrice = styled.p`
+const StyledPrice = styled(animated.p)`
   ${(props) => ({
     color: props.theme.colors.secondary,
     fontSize: 20,
@@ -117,13 +118,46 @@ const renderTooltip = ({ payload }) => {
   return <StyledDate>{date}</StyledDate>;
 };
 
-const NamePrice = ({ price, name, url }) => {
+const NamePrice = ({ price, name, url, isPositive, shouldChangePriceColor }) => {
+  const theme: any = useTheme();
+  const colorChange = shouldChangePriceColor ? (isPositive ? 'green' : 'red') : theme.colors.secondary;
+
+  const transitions = useTransition([`${price}`], {
+    initial: null,
+    from: { opacity: 0, y: -10, color: colorChange, fontWeight: shouldChangePriceColor ? 900 : 600 },
+    enter: { opacity: 1, y: 0, color: theme.colors.secondary, fontWeight: 600 },
+    leave: { opacity: 0, y: 10, color: colorChange, fontWeight: shouldChangePriceColor ? 900 : 600 },
+    delay: shouldChangePriceColor ? 1000 : 50,
+    config: config.wobbly,
+  });
+
   return (
     <NamePriceContainer>
       <StyledName href={url} target="_blank">
         {name} <NewOpenIcon />
       </StyledName>
-      <StyledPrice>{`$${price}`}</StyledPrice>
+      <div
+        style={{
+          height: '30px',
+          display: 'flex',
+        }}
+      >
+        <StyledPrice>$</StyledPrice>
+        {transitions(({ opacity, y, color, fontWeight }, item) => (
+          <StyledPrice
+            style={{
+              position: 'absolute',
+              opacity: opacity.to({ range: [0.0, 1.0], output: [0, 1] }),
+              y,
+              color,
+              x: 16,
+              fontWeight,
+            }}
+          >
+            {item}
+          </StyledPrice>
+        ))}
+      </div>
     </NamePriceContainer>
   );
 };
@@ -173,12 +207,16 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
   const [data, setData]: any = useState(pairData?.[symbol]);
   const [price, setPrice] = useState(parseFloat(getCurrentPairPrice(pairData[symbol])));
   const [realTimePriceList, setRealTimePriceList] = useState<any>(DEFAULT_ASSETS_CURRENT_PRICE);
-   
+  const [shouldChangePriceColor, setShouldChangePriceColor] = useState<boolean>(false);
+  const [isPositive, setPositive] = useState<boolean>(false);
+
   const onMouseEnter = ({ isTooltipActive, activePayload }) => {
+    setShouldChangePriceColor(false);
     if (isTooltipActive) setPrice(activePayload[0]?.payload.value);
   };
 
   const onMouseMove = ({ isTooltipActive, activePayload }) => {
+    setShouldChangePriceColor(false);
     if (isTooltipActive) setPrice(activePayload[0]?.payload.value);
   };
 
@@ -196,11 +234,21 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
     updatePrice();
   };
 
+  const checkPositivePrice = (price: string, realTimePrice: string, pairPrice: string) => {
+    if (realTimePrice) {
+      return parseFloat(price) > parseFloat(realTimePrice); 
+    }
+    else {
+      return parseFloat(price) > parseFloat(pairPrice); 
+    }
+  }
+
   const updatePairData = (price: string, key: string) => {
      const pair = {...allPairsData[key]};
      const newHistoricalData = [...pair?.historicalData];
      newHistoricalData[0][`${pair?.tokenKey}Price`] = price;
-     const updatedPair = {...pair, historicalData: newHistoricalData};
+
+     const updatedPair = {...pair, historicalData: newHistoricalData, isPositive};
      setAllPairsData({...allPairsData, [key]: updatedPair });
      if(symbol === key) {
        setData(updatedPair);
@@ -215,29 +263,32 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
   useEffect(() => {
     const ws = new WebSocket(TERRA_OBSERVER_URL);
     const connectWithTerraObserver = () => {
-
       ws.onopen = function () {
-        ws.send(JSON.stringify({subscribe: "ts_pool", chain_id: "columbus-4"}));
+        ws.send(JSON.stringify({ subscribe: 'ts_pool', chain_id: 'columbus-4' }));
       };
 
       ws.onmessage = function (message) {
-
         const messageData = JSON.parse(message?.data);
         Object.keys(assets).map((key: string) => {
           if(assets?.[key]?.poolAddress === messageData?.data?.contract && messageData.chain_id === "columbus-4"){
-            const price =  parseFloat(getPrice(messageData?.data?.pool)).toFixed(4);
-            setRealTimePriceList({...realTimePriceList, [key]: price});
-            updatePairData(price, key);
-            updatePrice()
+            const price = parseFloat(getPrice(messageData?.data?.pool)).toFixed(4);
+            if(symbol === key)  {
+              const pair = allPairsData[key];
+              const isPositive = checkPositivePrice(price, realTimePriceList[key], pair?.historicalData[0][`${pair?.tokenKey}Price`] );
+              setPositive(isPositive);
+              setShouldChangePriceColor(true);
+              setPrice(parseFloat(price));
           }
+          setRealTimePriceList({...realTimePriceList, [key]: price});
+          updatePairData(price, key);
+        }
         })
-      };
+      }
 
-      ws.onclose = function(_) {
-        setTimeout(function() {
+      ws.onclose = function (_) {
+        setTimeout(function () {
           connectWithTerraObserver();
         }, 1000);
-
       };
     }
     connectWithTerraObserver();
@@ -246,7 +297,6 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
 
   }, [realTimePriceList, symbol]);
 
-  
   return (
     <MainContainer>
       <Head>
@@ -254,7 +304,13 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
       </Head>
       <Header theme={currentTheme} changeTheme={changeTheme} hideCharts />
       <Container>
-        <NamePrice price={price} name={data.name} url={data.url} />
+        <NamePrice
+          price={price}
+          name={data.name}
+          url={data.url}
+          isPositive={isPositive}
+          shouldChangePriceColor={shouldChangePriceColor}
+        />
         <ChartContainer>
           <ResponsiveContainer width={'100%'} height={263}>
             <LineChart
@@ -308,11 +364,12 @@ export async function getStaticProps({ params: { symbol } }) {
   const toDate = new Date();
   const fromDate = subYears(toDate, 1);
 
-  const {pairData} = await request(TERRA_SWAP_GRAPHQL_URL, TERRA_SWAP_QUERY,  {from: fromDate.getTime() / 1000, to: toDate.getTime() / 1000, interval: 'DAY', pairAddresses: poolAddresses});
+  const {pairs} = await request(TERRA_SWAP_GRAPHQL_URL, TERRA_SWAP_QUERY,  {from: fromDate.getTime() / 1000, to: toDate.getTime() / 1000, interval: 'DAY', pairAddresses: poolAddresses});
+
   const data: any = {};
   
   Object.keys(assets).map((keyName: string, index: number) => {
-    data[keyName] = {...assets[keyName], ...pairData[index], tokenKey: getTokenKey(pairData[index],keyName)};
+    data[keyName] = {...assets[keyName], ...pairs[index], tokenKey: getTokenKey(pairs[index],keyName)};
   });
 
   return {
