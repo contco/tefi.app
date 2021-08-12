@@ -121,7 +121,8 @@ const renderTooltip = ({ payload }) => {
 const NamePrice = ({ price, name, url, isPositive, shouldChangePriceColor }) => {
   const theme: any = useTheme();
   const colorChange = shouldChangePriceColor ? (isPositive ? 'green' : 'red') : theme.colors.secondary;
-  const transitions = useTransition(`${price}`, {
+
+  const transitions = useTransition([`${price}`], {
     initial: null,
     from: { opacity: 0, y: -10, color: colorChange, fontWeight: shouldChangePriceColor ? 900 : 600 },
     enter: { opacity: 1, y: 0, color: theme.colors.secondary, fontWeight: 600 },
@@ -270,14 +271,14 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
         const messageData = JSON.parse(message?.data);
         Object.keys(assets).map((key: string) => {
           if(assets?.[key]?.poolAddress === messageData?.data?.contract && messageData.chain_id === "columbus-4"){
-            const price =  parseFloat(getPrice(messageData?.data?.pool)).toFixed(4);
-            if(symbol === key) {
+            const price = parseFloat(getPrice(messageData?.data?.pool)).toFixed(4);
+            if(symbol === key)  {
               const pair = allPairsData[key];
               const isPositive = checkPositivePrice(price, realTimePriceList[key], pair?.historicalData[0][`${pair?.tokenKey}Price`] );
               setPositive(isPositive);
               setShouldChangePriceColor(true);
+              setPrice(parseFloat(price));
           }
-          updatePrice();
           setRealTimePriceList({...realTimePriceList, [key]: price});
           updatePairData(price, key);
         }
