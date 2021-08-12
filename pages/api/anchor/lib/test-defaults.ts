@@ -26,7 +26,8 @@ export const ContractAddresses = {
   ancUstLP: 'terra1gecs98vcuktyfkrve9czrpgtg0m3aq586x6gzm',
   ancUstPair: 'terra1gm5p3ner9x9xpwugn9sp6gvhd0lwrtkyrecdn3',
   overseer: 'terra1tmnqgvg567ypvsvk6rwsga3srp7e3lg6u0elp8',
-  interest: 'terra1kq8zzq5hufas9t0kjsjc62t2kucfnx8txf547n'
+  interest: 'terra1kq8zzq5hufas9t0kjsjc62t2kucfnx8txf547n',
+  airdrop: 'terra146ahqn6d3qgdvmj8cj96hh03dzmeedhsf0kxqm',
 };
 
 export const wallet = new Wallet(lcd, key);

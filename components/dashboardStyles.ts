@@ -19,6 +19,12 @@ ${css({
   mb: 20,
 })}
 `;
+export const AirdropHeading = Styled(Flex)`
+${css({
+  mb: 20,
+  justifyContent: 'space-between'
+})}
+`;
 export const Heading = Styled(Text)`
 ${(props) =>
     css({
@@ -108,7 +114,6 @@ export const CheckBox = Styled.input`
     })}
 `;
 
-
 export const ColumnFlex = Styled(Flex)`
  flex-direction: column;
 `
@@ -119,3 +124,22 @@ export const CSS_APR = (props) =>
     color: props.theme.colors.secondary,
     fontSize: ['11px', null, null, '14px', null, null, 16],
   });
+
+  export const ClaimButton = Styled(Flex)`
+  ${props => css({
+    transition:'all 0.3s ease-in',
+    justifyContent:'center',
+    alignItems:'center',
+    px:3,
+    cursor:'pointer',
+    height:30,
+    borderRadius: 50,
+    fontSize:0,
+    border: `solid 2px ${props.theme.colors.secondary}`,
+    color:'secondary',
+    '&:hover': {
+      bg: 'secondary',
+      color:'background',
+    }
+  })}
+`;

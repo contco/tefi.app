@@ -224,7 +224,6 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
             updatePrice()
           }
         })
-        
       };
 
       ws.onclose = function(_) {
