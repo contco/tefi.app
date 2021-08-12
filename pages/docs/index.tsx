@@ -61,11 +61,17 @@ export const MainText = styled(Text)`
   line-height: 200%;
 `;
 
+export const CodeContainer = styled.div`
+  ${css({
+    width: ['90%', '90%', '90%', null, '50%'],
+  })}
+`;
+
 const Docs: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
   return (
     <>
       <MainContainer>
-      <NextSeo {...DOCS_SEO} />
+        <NextSeo {...DOCS_SEO} />
         <Header theme={currentTheme} changeTheme={changeTheme} hideCharts />
         <Container>
           <TextContainer>
@@ -86,13 +92,16 @@ const Docs: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
             theme={currentTheme === LIGHT_THEME ? atomOneLight : atomOneDark}
           />
           <MainText style={{ marginTop: '50px', marginBottom: '50px' }}>Example</MainText>
-          <CodeBlock
-            text={CODE_EXAMPLE}
-            language="graphql"
-            showLineNumbers={false}
-            startingLineNumber={0}
-            theme={currentTheme === LIGHT_THEME ? atomOneLight : atomOneDark}
-          />
+          <CodeContainer>
+            <CodeBlock
+              text={CODE_EXAMPLE}
+              language="graphql"
+              showLineNumbers={false}
+              startingLineNumber={0}
+              theme={currentTheme === LIGHT_THEME ? atomOneLight : atomOneDark}
+              style={{ width: '100%' }}
+            />
+          </CodeContainer>
         </Container>
       </MainContainer>
     </>
