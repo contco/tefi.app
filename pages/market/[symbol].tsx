@@ -92,18 +92,16 @@ const renderTooltip = ({ payload }) => {
 };
 
 const NamePrice = ({ price, name, url, isPosistive, shouldChangePriceColor }) => {
-  const priceArr = Array.from(price);
-
   const theme: any = useTheme();
 
   const colorChange = shouldChangePriceColor ? (isPosistive ? 'green' : 'red') : theme.colors.secondary;
 
   const transitions = useTransition(`${price}`, {
     initial: null,
-    from: { opacity: 0, y: -10, color: colorChange },
-    enter: { opacity: 1, y: 0, color: theme.colors.secondary },
-    leave: { opacity: 0, y: 10, color: colorChange },
-    delay: shouldChangePriceColor ? 500 : 50,
+    from: { opacity: 0, y: -10, color: colorChange, fontWeight: shouldChangePriceColor ? 900 : 600 },
+    enter: { opacity: 1, y: 0, color: theme.colors.secondary, fontWeight: 600 },
+    leave: { opacity: 0, y: 10, color: colorChange, fontWeight: shouldChangePriceColor ? 900 : 600 },
+    delay: shouldChangePriceColor ? 1000 : 50,
     config: config.wobbly,
   });
 
@@ -119,7 +117,7 @@ const NamePrice = ({ price, name, url, isPosistive, shouldChangePriceColor }) =>
         }}
       >
         <StyledPrice>$</StyledPrice>
-        {transitions(({ opacity, y, color }, item) => (
+        {transitions(({ opacity, y, color, fontWeight }, item) => (
           <StyledPrice
             style={{
               position: 'absolute',
@@ -127,6 +125,7 @@ const NamePrice = ({ price, name, url, isPosistive, shouldChangePriceColor }) =>
               y,
               color,
               x: 16,
+              fontWeight,
             }}
           >
             {item}
