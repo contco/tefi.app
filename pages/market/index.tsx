@@ -11,7 +11,7 @@ export default function Page() {
   return null;
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(_) {
   return {
     redirect: {
       destination: '/market/luna',
