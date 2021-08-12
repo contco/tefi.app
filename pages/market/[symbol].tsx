@@ -12,6 +12,8 @@ import { TERRA_OBSERVER_URL, TERRA_SWAP_GRAPHQL_URL } from '../../constants';
 import {format, subYears} from 'date-fns';
 import { getPrice } from '../api/commons';
 
+const MINE_START_TIMESTAMP = 1625144400;
+
 const TERRA_SWAP_QUERY = gql`
 query PairData($to: Float!, $from: Float!,  $interval: Interval!, $pairAddresses: [String!]!  ) {
   pairData(pairAddresses: $pairAddresses) {
@@ -146,8 +148,12 @@ const getCurrentPairPrice = (pairData) => {
   return parseFloat(price).toFixed(4);
 }
 
-const formatChartData = (historicalData, tokenKey: string) => (
-      historicalData
+const formatChartData = (historicalData, tokenKey: string, symbol: string) => {
+  let data = [...historicalData];
+    if(symbol === 'mine') {
+       data = historicalData.filter((item) => item.timestamp  > MINE_START_TIMESTAMP);
+    }
+     data  = data
       .slice(0)
       .reverse()
       .map((item) => {
@@ -155,8 +161,9 @@ const formatChartData = (historicalData, tokenKey: string) => (
         const value = parseFloat(item[`${tokenKey}Price`]).toFixed(4);
         return {date, value: parseFloat(value) }
       }
-     )
-    )
+     );
+     return data;
+  }
 
 const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => {
   const theme: any = useTheme();
@@ -251,7 +258,7 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
         <ChartContainer>
           <ResponsiveContainer width={'100%'} height={263}>
             <LineChart
-              data={formatChartData(data?.historicalData, data?.tokenKey)}
+              data={formatChartData(data?.historicalData, data?.tokenKey, symbol)}
               onMouseEnter={onMouseEnter}
               onMouseMove={onMouseMove}
               onMouseLeave={onMouseLeave}
