@@ -1,5 +1,7 @@
 export const CODE_EXAMPLE = `{
-    assets(address: "terra1dp0taj85ruc299rkdvzp4z5pfg6z6swaed74e6") {
+    assets(
+      address: "terra...74e6"
+    ) {
         address
         core {
           coins {
