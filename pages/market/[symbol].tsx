@@ -9,7 +9,7 @@ import { assets } from '../../constants/assets';
 import { NewOpenIcon } from '../../components/Icons';
 import { TERRA_OBSERVER_URL } from '../../constants';
 import { getPrice } from '../api/commons';
-
+import { animated, config, useTransition } from 'react-spring';
 
 const MainContainer = styled.div`
   display: flex;
@@ -40,12 +40,12 @@ const StyledName = styled.a`
     display: 'flex',
     alignItems: 'center',
     height: '30px',
-    width: 'max-content'
+    width: 'max-content',
   })}
   cursor: pointer;
 `;
 
-const StyledPrice = styled.p`
+const StyledPrice = styled(animated.p)`
   ${(props) => ({
     color: props.theme.colors.secondary,
     fontSize: 20,
@@ -91,13 +91,48 @@ const renderTooltip = ({ payload }) => {
   return <StyledDate>{date}</StyledDate>;
 };
 
-const NamePrice = ({ price, name, url }) => {
+const NamePrice = ({ price, name, url, isPosistive, shouldChangePriceColor }) => {
+  const priceArr = Array.from(price);
+
+  const theme: any = useTheme();
+
+  const colorChange = shouldChangePriceColor ? (isPosistive ? 'green' : 'red') : theme.colors.secondary;
+
+  const transitions = useTransition(`${price}`, {
+    initial: null,
+    from: { opacity: 0, y: -10, color: colorChange },
+    enter: { opacity: 1, y: 0, color: theme.colors.secondary },
+    leave: { opacity: 0, y: 10, color: colorChange },
+    delay: shouldChangePriceColor ? 500 : 50,
+    config: config.wobbly,
+  });
+
   return (
     <NamePriceContainer>
       <StyledName href={url} target="_blank">
         {name} <NewOpenIcon />
       </StyledName>
-      <StyledPrice>{`$${price}`}</StyledPrice>
+      <div
+        style={{
+          height: '30px',
+          display: 'flex',
+        }}
+      >
+        <StyledPrice>$</StyledPrice>
+        {transitions(({ opacity, y, color }, item) => (
+          <StyledPrice
+            style={{
+              position: 'absolute',
+              opacity: opacity.to({ range: [0.0, 1.0], output: [0, 1] }),
+              y,
+              color,
+              x: 16,
+            }}
+          >
+            {item}
+          </StyledPrice>
+        ))}
+      </div>
     </NamePriceContainer>
   );
 };
@@ -129,6 +164,8 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
 
   const [data, setData]: any = useState(d[router.query.symbol]);
   const [price, setPrice] = useState(parseFloat(data.currentPrice));
+  const [isPosistive, setIsPosistive] = useState(false);
+  const [shouldChangePriceColor, setShouldChangePriceColor] = useState(false);
 
   useEffect(() => {
     const newData = d[router.query.symbol];
@@ -137,10 +174,12 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
   }, [router.query.symbol]);
 
   const onMouseEnter = ({ isTooltipActive, activePayload }) => {
+    setShouldChangePriceColor(false);
     if (isTooltipActive) setPrice(activePayload[0]?.payload.value);
   };
 
   const onMouseMove = ({ isTooltipActive, activePayload }) => {
+    setShouldChangePriceColor(false);
     if (isTooltipActive) setPrice(activePayload[0]?.payload.value);
   };
 
@@ -149,42 +188,47 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
   };
 
   const updateChartData = (price: string) => {
-    if(data.chart && data.chart.data.length > 0) {
+    if (data.chart && data.chart.data.length > 0) {
       const chartData = [...data.chart.data];
       chartData[0][1] = price;
-      setData({...data, chart: {...data.chart, data: chartData}});
+      setData({ ...data, chart: { ...data.chart, data: chartData } });
     }
-  }
+  };
 
   useEffect(() => {
     const ws = new WebSocket(TERRA_OBSERVER_URL);
     const connectWithTerraObserver = () => {
-
       ws.onopen = function () {
-        ws.send(JSON.stringify({subscribe: "ts_pool", chain_id: "columbus-4"}));
+        ws.send(JSON.stringify({ subscribe: 'ts_pool', chain_id: 'columbus-4' }));
       };
 
       ws.onmessage = function (message) {
-
         const messageData = JSON.parse(message?.data);
-         if(assets?.[data.keyName]?.poolAddress === messageData?.data?.contract && messageData.chain_id === "columbus-4"){
-           const price =  parseFloat(getPrice(messageData?.data?.pool)).toFixed(4);
-           setPrice(parseFloat(price));
-           updateChartData(price)
-         }
+        if (
+          assets?.[data.keyName]?.poolAddress === messageData?.data?.contract &&
+          messageData.chain_id === 'columbus-4'
+        ) {
+          const newPrice = parseFloat(getPrice(messageData?.data?.pool)).toFixed(5);
+          if (price > parseFloat(newPrice)) {
+            setIsPosistive(false);
+          } else {
+            setIsPosistive(true);
+          }
+          setShouldChangePriceColor(true);
+          setPrice(parseFloat(newPrice));
+          updateChartData(newPrice);
+        }
       };
 
-      ws.onclose = function(_) {
-        setTimeout(function() {
+      ws.onclose = function (_) {
+        setTimeout(function () {
           connectWithTerraObserver();
         }, 1000);
-
       };
-    }
+    };
     connectWithTerraObserver();
 
     return () => ws.close();
-
   }, [data.keyName]);
 
   return (
@@ -194,7 +238,13 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
       </Head>
       <Header theme={currentTheme} changeTheme={changeTheme} hideCharts />
       <Container>
-        <NamePrice price={price} name={data.name} url={data.url} />
+        <NamePrice
+          price={price}
+          name={data.name}
+          url={data.url}
+          isPosistive={isPosistive}
+          shouldChangePriceColor={shouldChangePriceColor}
+        />
         <ChartContainer>
           <ResponsiveContainer width={'100%'} height={263}>
             <LineChart
