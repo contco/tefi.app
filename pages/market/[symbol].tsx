@@ -11,7 +11,6 @@ import { NewOpenIcon } from '../../components/Icons';
 import { LIGHT_THEME, TERRA_OBSERVER_URL, TERRA_SWAP_GRAPHQL_URL } from '../../constants';
 import { format, subYears } from 'date-fns';
 import { getPrice } from '../api/commons';
-import { animated, config, useTransition } from 'react-spring';
 import TradingViewWidget, { Themes } from 'react-tradingview-widget';
 import Image from 'next/image';
 
@@ -81,7 +80,7 @@ const StyledName = styled.a`
   cursor: pointer;
 `;
 
-const StyledPrice = styled(animated.p)`
+const StyledPrice = styled.p`
   ${(props) => ({
     color: props.theme.colors.secondary,
     fontSize: 20,
@@ -151,19 +150,8 @@ const renderTooltip = ({ payload }) => {
   return <StyledDate>{date}</StyledDate>;
 };
 
-const NamePrice = ({ price, name, url, isPositive, shouldChangePriceColor, setUseTV, useTV }) => {
+const NamePrice = ({ price, name, url, setUseTV, useTV }) => {
   const theme: any = useTheme();
-  const colorChange = shouldChangePriceColor ? (isPositive ? 'green' : 'red') : theme.colors.secondary;
-
-  const transitions = useTransition([`${price}`], {
-    initial: null,
-    from: { opacity: 0, y: -10, color: colorChange, fontWeight: shouldChangePriceColor ? 900 : 600 },
-    enter: { opacity: 1, y: 0, color: theme.colors.secondary, fontWeight: 600 },
-    leave: { opacity: 0, y: 10, color: colorChange, fontWeight: shouldChangePriceColor ? 900 : 600 },
-    delay: shouldChangePriceColor ? 1000 : 50,
-    config: config.wobbly,
-  });
-
   return (
     <NamePriceContainer useTV={useTV}>
       <NameTopBar>
@@ -181,21 +169,7 @@ const NamePrice = ({ price, name, url, isPositive, shouldChangePriceColor, setUs
             display: 'flex',
           }}
         >
-          <StyledPrice>$</StyledPrice>
-          {transitions(({ opacity, y, color, fontWeight }, item) => (
-            <StyledPrice
-              style={{
-                position: 'absolute',
-                opacity: opacity.to({ range: [0.0, 1.0], output: [0, 1] }),
-                y,
-                color,
-                x: 16,
-                fontWeight,
-              }}
-            >
-              {item}
-            </StyledPrice>
-          ))}
+          <StyledPrice>{`$${price}`}</StyledPrice>
         </div>
       )}
     </NamePriceContainer>
@@ -246,17 +220,13 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
   const [data, setData]: any = useState(pairData?.[symbol]);
   const [price, setPrice] = useState(parseFloat(getCurrentPairPrice(pairData[symbol])));
   const [realTimePriceList, setRealTimePriceList] = useState<any>(DEFAULT_ASSETS_CURRENT_PRICE);
-  const [shouldChangePriceColor, setShouldChangePriceColor] = useState<boolean>(false);
-  const [isPositive, setPositive] = useState<boolean>(false);
   const [useTV, setUseTV] = useState<boolean>(false);
 
   const onMouseEnter = ({ isTooltipActive, activePayload }) => {
-    setShouldChangePriceColor(false);
     if (isTooltipActive) setPrice(activePayload[0]?.payload.value);
   };
 
   const onMouseMove = ({ isTooltipActive, activePayload }) => {
-    setShouldChangePriceColor(false);
     if (isTooltipActive) setPrice(activePayload[0]?.payload.value);
   };
 
@@ -286,7 +256,7 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
     const newHistoricalData = [...pair?.historicalData];
     newHistoricalData[0][`${pair?.tokenKey}Price`] = price;
 
-    const updatedPair = { ...pair, historicalData: newHistoricalData, isPositive };
+    const updatedPair = { ...pair, historicalData: newHistoricalData };
     setAllPairsData({ ...allPairsData, [key]: updatedPair });
     if (symbol === key) {
       setData(updatedPair);
@@ -317,8 +287,6 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
                 realTimePriceList[key],
                 pair?.historicalData[0][`${pair?.tokenKey}Price`],
               );
-              setPositive(isPositive);
-              setShouldChangePriceColor(true);
               setPrice(parseFloat(price));
             }
             setRealTimePriceList({ ...realTimePriceList, [key]: price });
@@ -345,15 +313,7 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
       </Head>
       <Header theme={currentTheme} changeTheme={changeTheme} hideCharts />
       <Container>
-        <NamePrice
-          price={price}
-          name={data.name}
-          url={data.url}
-          isPositive={isPositive}
-          shouldChangePriceColor={shouldChangePriceColor}
-          setUseTV={setUseTV}
-          useTV={useTV}
-        />
+        <NamePrice price={price} name={data.name} url={data.url} setUseTV={setUseTV} useTV={useTV} />
         <ChartContainer>
           {useTV ? (
             <TradingViewWidget
