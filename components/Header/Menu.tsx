@@ -13,6 +13,7 @@ import {
 } from './style';
 
 import CHARTS_ICON from '../../public/charts.svg';
+import Mirror from '../../public/icons/mirror.svg';
 import { LIGHT_THEME } from '../../constants';
 
 const Parent = styled(Box)`
@@ -60,18 +61,21 @@ const Section = styled(Flex)`
 const TopSection = styled(Section)`
   ${css({
       height: 120,
+      pt:2,
+
   })}
 `;
 
 const BottomSection = styled(Section)`
   ${css({
       height: 80,
+      flexDirection: 'column',
   })}
 `;
 const Divider = styled(Box)`
   ${css({
       boxSizing:'border-box',
-      minHeight: 1,
+      minHeight: 2,
       width: 'auto',
       bg: 'focused',
       my: 2,
@@ -79,24 +83,17 @@ const Divider = styled(Box)`
   })}
 `;
 
-const ChartsIcon = styled(CHARTS_ICON)`
-  ${css({
-      transform: 'scale(0.8)'
-  })}
-`;
+const ChartsIcon = styled(CHARTS_ICON)``;
 
-const LightIcon = styled(LightSwitchIcon)`
-${css({
-    transform: 'scale(0.8)'
-})}
+const StyledHover = styled(HoverContainer)`
+ ${css({
+     mx: '14px',
+ })}
+`
+const SectionRow = styled(Flex)`
+ align-items: center;
+ height: 40px;
 `;
-
-const DarkIcon = styled(DarkSwitchIcon)`
-${css({
-    transform: 'scale(0.8)'
-})}
-`;
-
 
 interface Props {
     isVisible?: boolean;
@@ -130,34 +127,45 @@ const Menu: React.FC<Props> = ({isVisible = false, setVisibility, theme, changeT
         <Parent>
         <MenuContainer ref={MenuRef} isLight={theme === LIGHT_THEME} isVisible={isVisible}>
         <Box>
-        <TopSection height={100}>
-            <HoverContainer onClick={() => onLinkClick('/market')}>
+        <TopSection>
+            <SectionRow>
+            <StyledHover onClick={() => onLinkClick('/market')}>
                 <ChartsIcon/>
-            </HoverContainer>
-            {onRefresh && (!refreshing ? <RefreshIcon onClick={onRefresh} /> : <AnimatedRefresh />)}
+            </StyledHover>
+            {onRefresh && (!refreshing ? 
+            (
+            <StyledHover>
+                <RefreshIcon onClick={onRefresh} />
+            </StyledHover> 
+            ) : <AnimatedRefresh />)}
+            </SectionRow>
         </TopSection>
         <Divider />
         <BottomSection>
-         <HoverContainer onClick={() => onLinkClick('https://terra.mirror.finance/')}>
-         <img src="https://whitelist.mirror.finance/icon/MIR.png" alt='Mirror Protocol' height={24} width={24} />
-         </HoverContainer>
-         <HoverContainer onClick={() => onLinkClick('https://anchorprotocol.com/')}>
-         <img src="https://whitelist.anchorprotocol.com/logo/ANC.png" alt="Anchor Protocol" height={24} width={24} />
-         </HoverContainer>
-         <HoverContainer onClick={() => onLinkClick('https://app.pylon.money/')}>
-         <img src="https://assets.pylon.rocks/logo/MINE.png" alt="Pylon Protocol" height={24} width={24} />
-         </HoverContainer>
-         <HoverContainer onClick={() => onLinkClick('https://terra.spec.finance/')}>
-         <img src="https://raw.githubusercontent.com/spectrumprotocol/frontend/master/src/assets/SPEC.png" alt='Spectrum Protocol' height={24} width={24} />
-         </HoverContainer>
-         <HoverContainer onClick={() => onLinkClick('https://loterra.io/')}>
-         <img src="https://raw.githubusercontent.com/LoTerra/loterra-interface/master/static/LOTA.png" alt="LoTerra Protocol" height={24} width={24} />
-         </HoverContainer>
+         <SectionRow >
+         <StyledHover onClick={() => onLinkClick('https://terra.mirror.finance/')}>
+         <img src="https://whitelist.mirror.finance/icon/MIR.png" alt='Mirror Protocol' height={26} width={26} />
+         </StyledHover>
+         <StyledHover onClick={() => onLinkClick('https://anchorprotocol.com/')}>
+         <img src="https://whitelist.anchorprotocol.com/logo/ANC.png" alt="Anchor Protocol" height={26} width={26} />
+         </StyledHover>
+         <StyledHover onClick={() => onLinkClick('https://app.pylon.money/')}>
+         <img src="https://assets.pylon.rocks/logo/MINE.png" alt="Pylon Protocol" height={26} width={26} />
+         </StyledHover>
+         </SectionRow>
+         <Flex mt={3}>
+         <StyledHover onClick={() => onLinkClick('https://terra.spec.finance/')}>
+         <img src="https://raw.githubusercontent.com/spectrumprotocol/frontend/master/src/assets/SPEC.png" alt='Spectrum Protocol' height={26} width={26} />
+         </StyledHover>
+         <StyledHover onClick={() => onLinkClick('https://loterra.io/')}>
+         <img src="https://raw.githubusercontent.com/LoTerra/loterra-interface/master/static/LOTA.png" alt="LoTerra Protocol" height={26} width={26} />
+         </StyledHover>
+         </Flex>
         </BottomSection>
         </Box>
         <ThemeIconContainer>
         <SwitchContainer>
-          {theme === LIGHT_THEME ? <LightIcon onClick={changeTheme} /> : <DarkIcon onClick={changeTheme} />}
+          {theme === LIGHT_THEME ? <LightSwitchIcon onClick={changeTheme} /> : <DarkSwitchIcon onClick={changeTheme} />}
         </SwitchContainer>
         </ThemeIconContainer>
         </MenuContainer>

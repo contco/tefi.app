@@ -14,12 +14,6 @@ import {
   WalletIcon,
   StyledAddressText,
   CloseIcon,
-  SwitchContainer,
-  LightSwitchIcon,
-  DarkSwitchIcon,
-  RefreshIcon,
-  AnimatedRefresh,
-  ChartsIcon,
   HoverContainer,
   StyledMenuIcon,
 } from './style';
@@ -97,7 +91,7 @@ const Header: React.FC<Props> = ({ theme, changeTheme, address, addressType, onR
             <CloseIcon onClick={onDisconnect} />
           </WalletContainer>
         ) : null }
-        <HoverContainer onClick={onMenuClick}>
+        <HoverContainer isActive={displayMenu} onClick={onMenuClick}>
            <StyledMenuIcon />
          </HoverContainer>
       </RightSection>

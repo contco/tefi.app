@@ -145,7 +145,7 @@ ${props => css({
   height: 35,
   borderRadius: 50,
   border: `solid 2px ${props.theme.colors.secondary}`,
-  mr: [1, null, null, 3],
+  mr: [2, 2, null, 4],
   cursor: 'pointer',
   justifyContent: 'space-between',
   alignItems: 'center',
@@ -190,7 +190,6 @@ ${css({
   color: 'secondary',
   transition: 'opacity 0.3s',
   cursor: 'pointer',
-  ml: 3,
 })}
   &:hover {
     opacity: 0.7;
@@ -209,8 +208,7 @@ const rotate = keyframes`
 
 export const AnimatedRefresh = styled(REFRESHING_ICON)`
   animation: ${rotate} 2s infinite;
-  ${(props) =>
-    css({
+  ${css({
       color: 'secondary',
       ml: 3,
     })}
@@ -231,15 +229,16 @@ ${css({
 
 
 export const HoverContainer = styled(Flex)`
-  ${css({
+  ${props => css({
     p:2,
     justifyContent:'center',
     alignItems:'center',
     maxWidth: 'fit-content',
     height: 'max-content',
-    overflow:'auto',
     borderRadius: '50%',
     transition: 'all ease-in 0.3s',
+    cursor: 'pointer',
+    bg: props.isActive ? 'focused' : 'transparent',
     '&:hover': {
         bg: 'focused',
     }
@@ -249,6 +248,5 @@ export const HoverContainer = styled(Flex)`
 export const StyledMenuIcon = styled(MENU_ICON)`
   ${css({
       color:'secondary',
-      transform: 'scale(0.9)',
   })}
 `;
