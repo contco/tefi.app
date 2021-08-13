@@ -65,10 +65,10 @@ interface Props {
   url?: string;
   priceChange: PriceChange;
   useTV: any;
-  setUseTV: any;
+  onSwitchTV: any;
 }
 
-export const AssetDetails: React.FC<Props> = ({price, name, url, useTV, setUseTV, priceChange }) => {
+export const AssetDetails: React.FC<Props> = ({price, name, url, useTV, onSwitchTV, priceChange }) => {
   return(
     <NamePriceContainer useTV={useTV}>
     <NameTopBar>
@@ -76,7 +76,7 @@ export const AssetDetails: React.FC<Props> = ({price, name, url, useTV, setUseTV
         {name} 
         <NewOpenIcon />
     </StyledName>
-    <ImageContainer onClick={() => setUseTV((prev) => !prev)} useTV={useTV}>
+    <ImageContainer onClick={onSwitchTV} useTV={useTV}>
           <Image width="30" height="16" src={useTV ? '/tv-white.png' : '/tv.png'} alt="Picture of the author" />
         </ImageContainer>
     </NameTopBar>

@@ -168,7 +168,6 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
             const newRealTimePrice = {...realTimePriceList, [key]: price};
             if(symbol === key)  {
               const pair = allPairsData[key];
-             // const isPositive = checkPositivePrice(price, realTimePriceList[key], pair?.historicalData[0][`${pair?.tokenKey}Price`] );
               calculateAndSetPriceChange(pair, price);
               setPrice(parseFloat(price));
             };
@@ -189,6 +188,11 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
     return () => ws.close();
   }, [realTimePriceList, symbol]);
 
+  const onSwitchTV = () => {
+    if (!TV_SYMBOLS[symbol]) router.push('/market', undefined, { shallow: true });
+    setUseTV((prev) => !prev);
+  };
+
   return (
     <MainContainer>
       <Head>
@@ -201,16 +205,18 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
           name={data.name}
           url={data.url}
           priceChange={priceChange}
-          setUseTV={setUseTV} 
+          onSwitchTV={onSwitchTV} 
           useTV={useTV}
         />
         <ChartContainer>
           {useTV ? (
-            <TradingViewWidget
-              symbol={TV_SYMBOLS[symbol]}
-              theme={currentTheme === LIGHT_THEME ? Themes.LIGHT : Themes.DARK}
-              autosize
-            />
+            TV_SYMBOLS[symbol] && (
+              <TradingViewWidget
+                symbol={TV_SYMBOLS[symbol]}
+                theme={currentTheme === LIGHT_THEME ? Themes.LIGHT : Themes.DARK}
+                autosize
+              />
+            )
           ) : (
             <ResponsiveContainer width={'100%'} height={263}>
               <LineChart
