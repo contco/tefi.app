@@ -126,7 +126,6 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
     updatePrice();
   };
 
-
   const updatePairData = (price: string, key: string) => {
     const pair = { ...allPairsData[key] };
     const newHistoricalData = [...pair?.historicalData];
