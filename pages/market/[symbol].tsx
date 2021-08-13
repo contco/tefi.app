@@ -115,7 +115,7 @@ const renderTooltip = ({ payload }) => {
   return <StyledDate>{date}</StyledDate>;
 };
 
-const NamePrice = ({ price, name, url, isPositive, shouldChangePriceColor }) => {
+const NamePrice = ({ price, name, url }) => {
   const theme: any = useTheme();
   return (
     <NamePriceContainer>
@@ -178,16 +178,12 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
   const [data, setData]: any = useState(pairData?.[symbol]);
   const [price, setPrice] = useState(parseFloat(getCurrentPairPrice(pairData[symbol])));
   const [realTimePriceList, setRealTimePriceList] = useState<any>(DEFAULT_ASSETS_CURRENT_PRICE);
-  const [shouldChangePriceColor, setShouldChangePriceColor] = useState<boolean>(false);
-  const [isPositive, setPositive] = useState<boolean>(false);
 
   const onMouseEnter = ({ isTooltipActive, activePayload }) => {
-    setShouldChangePriceColor(false);
     if (isTooltipActive) setPrice(activePayload[0]?.payload.value);
   };
 
   const onMouseMove = ({ isTooltipActive, activePayload }) => {
-    setShouldChangePriceColor(false);
     if (isTooltipActive) setPrice(activePayload[0]?.payload.value);
   };
 
@@ -217,7 +213,7 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
     const newHistoricalData = [...pair?.historicalData];
     newHistoricalData[0][`${pair?.tokenKey}Price`] = price;
 
-    const updatedPair = { ...pair, historicalData: newHistoricalData, isPositive };
+    const updatedPair = { ...pair, historicalData: newHistoricalData };
     setAllPairsData({ ...allPairsData, [key]: updatedPair });
     if (symbol === key) {
       setData(updatedPair);
@@ -248,8 +244,6 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
                 realTimePriceList[key],
                 pair?.historicalData[0][`${pair?.tokenKey}Price`],
               );
-              setPositive(isPositive);
-              setShouldChangePriceColor(true);
               setPrice(parseFloat(price));
             }
             setRealTimePriceList({ ...realTimePriceList, [key]: price });
@@ -276,13 +270,7 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
       </Head>
       <Header theme={currentTheme} changeTheme={changeTheme} hideCharts />
       <Container>
-        <NamePrice
-          price={price}
-          name={data.name}
-          url={data.url}
-          isPositive={isPositive}
-          shouldChangePriceColor={shouldChangePriceColor}
-        />
+        <NamePrice price={price} name={data.name} url={data.url} />
         <ChartContainer>
           <ResponsiveContainer width={'100%'} height={263}>
             <LineChart
