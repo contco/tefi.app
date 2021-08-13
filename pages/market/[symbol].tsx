@@ -6,37 +6,34 @@ import { Line, LineChart, ResponsiveContainer, Tooltip } from 'recharts';
 import styled, { useTheme } from 'styled-components';
 import { GetStaticPaths } from 'next';
 import Header from '../../components/Header';
-import { assets, DEFAULT_ASSETS_CURRENT_PRICE} from '../../constants/assets';
+import { assets, DEFAULT_ASSETS_CURRENT_PRICE } from '../../constants/assets';
 import { NewOpenIcon } from '../../components/Icons';
 import { TERRA_OBSERVER_URL, TERRA_SWAP_GRAPHQL_URL } from '../../constants';
-import {format, subYears} from 'date-fns';
+import { format, subYears } from 'date-fns';
 import { getPrice } from '../api/commons';
-import { animated, config, useTransition } from 'react-spring';
 
 const MINE_START_TIMESTAMP = 1625144400;
 
 const TERRA_SWAP_QUERY = gql`
-query PairData($to: Float!, $from: Float!,  $interval: Interval!, $pairAddresses: [String!]!  ) {
-  pairs(pairAddresses: $pairAddresses) {
-    pairAddress
-    token0 {
-      symbol
-    }
-    token1 {
-      symbol
-    }
-    latestToken0Price
-    latestToken1Price
-    historicalData(to: $to, from: $from, interval: $interval) {
-      timestamp
-      token0Price
-      token1Price
+  query PairData($to: Float!, $from: Float!, $interval: Interval!, $pairAddresses: [String!]!) {
+    pairs(pairAddresses: $pairAddresses) {
+      pairAddress
+      token0 {
+        symbol
+      }
+      token1 {
+        symbol
+      }
+      latestToken0Price
+      latestToken1Price
+      historicalData(to: $to, from: $from, interval: $interval) {
+        timestamp
+        token0Price
+        token1Price
+      }
     }
   }
-}
 `;
-
-
 
 const MainContainer = styled.div`
   display: flex;
@@ -72,7 +69,7 @@ const StyledName = styled.a`
   cursor: pointer;
 `;
 
-const StyledPrice = styled(animated.p)`
+const StyledPrice = styled.p`
   ${(props) => ({
     color: props.theme.colors.secondary,
     fontSize: 20,
@@ -120,17 +117,6 @@ const renderTooltip = ({ payload }) => {
 
 const NamePrice = ({ price, name, url, isPositive, shouldChangePriceColor }) => {
   const theme: any = useTheme();
-  const colorChange = shouldChangePriceColor ? (isPositive ? 'green' : 'red') : theme.colors.secondary;
-
-  const transitions = useTransition([`${price}`], {
-    initial: null,
-    from: { opacity: 0, y: -10, color: colorChange, fontWeight: shouldChangePriceColor ? 900 : 600 },
-    enter: { opacity: 1, y: 0, color: theme.colors.secondary, fontWeight: 600 },
-    leave: { opacity: 0, y: 10, color: colorChange, fontWeight: shouldChangePriceColor ? 900 : 600 },
-    delay: shouldChangePriceColor ? 1000 : 50,
-    config: config.wobbly,
-  });
-
   return (
     <NamePriceContainer>
       <StyledName href={url} target="_blank">
@@ -142,21 +128,7 @@ const NamePrice = ({ price, name, url, isPositive, shouldChangePriceColor }) => 
           display: 'flex',
         }}
       >
-        <StyledPrice>$</StyledPrice>
-        {transitions(({ opacity, y, color, fontWeight }, item) => (
-          <StyledPrice
-            style={{
-              position: 'absolute',
-              opacity: opacity.to({ range: [0.0, 1.0], output: [0, 1] }),
-              y,
-              color,
-              x: 16,
-              fontWeight,
-            }}
-          >
-            {item}
-          </StyledPrice>
-        ))}
+        <StyledPrice>{`$${price}`}</StyledPrice>
       </div>
     </NamePriceContainer>
   );
@@ -180,24 +152,23 @@ const Symbol = ({ keyName, symbol }) => {
 const getCurrentPairPrice = (pairData) => {
   const price = pairData?.historicalData[0]?.[`${pairData.tokenKey}Price`];
   return parseFloat(price).toFixed(4);
-}
+};
 
 const formatChartData = (historicalData, tokenKey: string, symbol: string) => {
   let data = [...historicalData];
-    if(symbol === 'mine') {
-       data = historicalData.filter((item) => item.timestamp  > MINE_START_TIMESTAMP);
-    }
-     data  = data
-      .slice(0)
-      .reverse()
-      .map((item) => {
-        const date = format(new Date(item?.timestamp * 1000), 'y-M-d');
-        const value = parseFloat(item[`${tokenKey}Price`]).toFixed(4);
-        return {date, value: parseFloat(value) }
-      }
-     );
-     return data;
+  if (symbol === 'mine') {
+    data = historicalData.filter((item) => item.timestamp > MINE_START_TIMESTAMP);
   }
+  data = data
+    .slice(0)
+    .reverse()
+    .map((item) => {
+      const date = format(new Date(item?.timestamp * 1000), 'y-M-d');
+      const value = parseFloat(item[`${tokenKey}Price`]).toFixed(4);
+      return { date, value: parseFloat(value) };
+    });
+  return data;
+};
 
 const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => {
   const theme: any = useTheme();
@@ -221,14 +192,13 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
   };
 
   const updatePrice = () => {
-    if(realTimePriceList[symbol]) {
+    if (realTimePriceList[symbol]) {
       setPrice(parseFloat(realTimePriceList[symbol]));
-    }
-    else {
+    } else {
       const price = getCurrentPairPrice(pairData[symbol]);
       setPrice(parseFloat(price));
     }
-  }
+  };
 
   const onMouseLeave = () => {
     updatePrice();
@@ -236,24 +206,23 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
 
   const checkPositivePrice = (price: string, realTimePrice: string, pairPrice: string) => {
     if (realTimePrice) {
-      return parseFloat(price) > parseFloat(realTimePrice); 
+      return parseFloat(price) > parseFloat(realTimePrice);
+    } else {
+      return parseFloat(price) > parseFloat(pairPrice);
     }
-    else {
-      return parseFloat(price) > parseFloat(pairPrice); 
-    }
-  }
+  };
 
   const updatePairData = (price: string, key: string) => {
-     const pair = {...allPairsData[key]};
-     const newHistoricalData = [...pair?.historicalData];
-     newHistoricalData[0][`${pair?.tokenKey}Price`] = price;
+    const pair = { ...allPairsData[key] };
+    const newHistoricalData = [...pair?.historicalData];
+    newHistoricalData[0][`${pair?.tokenKey}Price`] = price;
 
-     const updatedPair = {...pair, historicalData: newHistoricalData, isPositive};
-     setAllPairsData({...allPairsData, [key]: updatedPair });
-     if(symbol === key) {
-       setData(updatedPair);
-     }
-  }
+    const updatedPair = { ...pair, historicalData: newHistoricalData, isPositive };
+    setAllPairsData({ ...allPairsData, [key]: updatedPair });
+    if (symbol === key) {
+      setData(updatedPair);
+    }
+  };
 
   useEffect(() => {
     setData(pairData[symbol]);
@@ -270,31 +239,34 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
       ws.onmessage = function (message) {
         const messageData = JSON.parse(message?.data);
         Object.keys(assets).map((key: string) => {
-          if(assets?.[key]?.poolAddress === messageData?.data?.contract && messageData.chain_id === "columbus-4"){
+          if (assets?.[key]?.poolAddress === messageData?.data?.contract && messageData.chain_id === 'columbus-4') {
             const price = parseFloat(getPrice(messageData?.data?.pool)).toFixed(4);
-            if(symbol === key)  {
+            if (symbol === key) {
               const pair = allPairsData[key];
-              const isPositive = checkPositivePrice(price, realTimePriceList[key], pair?.historicalData[0][`${pair?.tokenKey}Price`] );
+              const isPositive = checkPositivePrice(
+                price,
+                realTimePriceList[key],
+                pair?.historicalData[0][`${pair?.tokenKey}Price`],
+              );
               setPositive(isPositive);
               setShouldChangePriceColor(true);
               setPrice(parseFloat(price));
+            }
+            setRealTimePriceList({ ...realTimePriceList, [key]: price });
+            updatePairData(price, key);
           }
-          setRealTimePriceList({...realTimePriceList, [key]: price});
-          updatePairData(price, key);
-        }
-        })
-      }
+        });
+      };
 
       ws.onclose = function (_) {
         setTimeout(function () {
           connectWithTerraObserver();
         }, 1000);
       };
-    }
+    };
     connectWithTerraObserver();
 
     return () => ws.close();
-
   }, [realTimePriceList, symbol]);
 
   return (
@@ -341,16 +313,14 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
 };
 
 const getTokenKey = (pairData, keyName: string) => {
-  if(pairData?.token0?.symbol === assets[keyName].terraSwapSymbol){
+  if (pairData?.token0?.symbol === assets[keyName].terraSwapSymbol) {
     return 'token0';
-  }
-  else {
+  } else {
     return 'token1';
   }
-}
+};
 
 export async function getStaticProps({ params: { symbol } }) {
-
   if (!assets[symbol])
     return {
       redirect: {
@@ -359,17 +329,21 @@ export async function getStaticProps({ params: { symbol } }) {
       },
     };
 
-    
-  const poolAddresses = Object.keys(assets).map(keyName => assets[keyName].poolAddress);
+  const poolAddresses = Object.keys(assets).map((keyName) => assets[keyName].poolAddress);
   const toDate = new Date();
   const fromDate = subYears(toDate, 1);
 
-  const {pairs} = await request(TERRA_SWAP_GRAPHQL_URL, TERRA_SWAP_QUERY,  {from: fromDate.getTime() / 1000, to: toDate.getTime() / 1000, interval: 'DAY', pairAddresses: poolAddresses});
+  const { pairs } = await request(TERRA_SWAP_GRAPHQL_URL, TERRA_SWAP_QUERY, {
+    from: fromDate.getTime() / 1000,
+    to: toDate.getTime() / 1000,
+    interval: 'DAY',
+    pairAddresses: poolAddresses,
+  });
 
   const data: any = {};
-  
+
   Object.keys(assets).map((keyName: string, index: number) => {
-    data[keyName] = {...assets[keyName], ...pairs[index], tokenKey: getTokenKey(pairs[index],keyName)};
+    data[keyName] = { ...assets[keyName], ...pairs[index], tokenKey: getTokenKey(pairs[index], keyName) };
   });
 
   return {
