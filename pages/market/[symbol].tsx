@@ -7,18 +7,24 @@ import styled, { useTheme } from 'styled-components';
 import { GetStaticPaths } from 'next';
 import Header from '../../components/Header';
 import { AssetDetails } from '../../components/Market/AssetDetails';
-import { GET_PAIRS_DATA } from '../../graphql/queries/getPairsData';
+import {GET_PAIRS_DATA} from '../../graphql/queries/getPairsData';
 import { assets, DEFAULT_ASSETS_CURRENT_PRICE} from '../../constants/assets';
-import { TERRA_OBSERVER_URL, TERRA_SWAP_GRAPHQL_URL } from '../../constants';
-import { getTokenKey, formatChartData, getCurrentPairPrice, checkPositivePrice} from '../../helpers/market';
+import { LIGHT_THEME, TERRA_OBSERVER_URL, TERRA_SWAP_GRAPHQL_URL } from '../../constants';
+import { getTokenKey, formatChartData, getCurrentPairPrice} from '../../helpers/market';
 import { subYears} from 'date-fns';
 import { getPrice } from '../api/commons';
+import TradingViewWidget, { Themes } from 'react-tradingview-widget';
 
+
+const TV_SYMBOLS = {
+  luna: 'KUCOIN:LUNAUST',
+  anc: 'KUCOIN:ANCUST',
+  mir: 'KUCOIN:MIRUST',
+};
 
 const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
 `;
 
 const Container = styled.div`
@@ -26,14 +32,17 @@ const Container = styled.div`
   flex: 1;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 `;
 
 const ChartContainer = styled.p`
   width: 55%;
+  height: 60vh;
   @media (max-width: 768px) {
     width: 85%;
+    height: 50vh;
   }
+  display: flex;
+  align-items: center;
 `;
 
 
@@ -45,12 +54,11 @@ const StyledDate = styled.p`
   })}
 `;
 
-
-const SymbolsContainer = styled.div`
+const SymbolsContainer: any = styled.div`
   width: 55%;
   display: flex;
   justify-content: space-between;
-  padding-top: 60px;
+  padding-top: ${(props: any) => props.useTV ? '30px' : '0px'};
   @media (max-width: 768px) {
     width: 85%;
   }
@@ -63,6 +71,7 @@ const SymbolContainer: any = styled.div`
   color: ${(props: any) => props.theme.colors.secondary};
   cursor: pointer;
 `;
+
 
 const renderTooltip = ({ payload }) => {
   const date = payload[0]?.payload?.date;
@@ -93,29 +102,25 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
   const [data, setData]: any = useState(pairData?.[symbol]);
   const [price, setPrice] = useState(parseFloat(getCurrentPairPrice(pairData[symbol])));
   const [realTimePriceList, setRealTimePriceList] = useState<any>(DEFAULT_ASSETS_CURRENT_PRICE);
-  const [shouldChangePriceColor, setShouldChangePriceColor] = useState<boolean>(false);
   const [priceChange, setPriceChange] = useState<PriceChange | null>(null);
-  const [isPositive, setPositive] = useState<boolean>(false);
+  const [useTV, setUseTV] = useState<boolean>(false);
 
   const onMouseEnter = ({ isTooltipActive, activePayload }) => {
-    setShouldChangePriceColor(false);
     if (isTooltipActive) setPrice(activePayload[0]?.payload.value);
   };
 
   const onMouseMove = ({ isTooltipActive, activePayload }) => {
-    setShouldChangePriceColor(false);
     if (isTooltipActive) setPrice(activePayload[0]?.payload.value);
   };
 
   const updatePrice = () => {
-    if(realTimePriceList[symbol]) {
+    if (realTimePriceList[symbol]) {
       setPrice(parseFloat(realTimePriceList[symbol]));
-    }
-    else {
+    } else {
       const price = getCurrentPairPrice(pairData[symbol]);
       setPrice(parseFloat(price));
     }
-  }
+  };
 
   const onMouseLeave = () => {
     updatePrice();
@@ -123,16 +128,16 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
 
 
   const updatePairData = (price: string, key: string) => {
-     const pair = {...allPairsData[key]};
-     const newHistoricalData = [...pair?.historicalData];
-     newHistoricalData[0][`${pair?.tokenKey}Price`] = price;
+    const pair = { ...allPairsData[key] };
+    const newHistoricalData = [...pair?.historicalData];
+    newHistoricalData[0][`${pair?.tokenKey}Price`] = price;
 
-     const updatedPair = {...pair, historicalData: newHistoricalData, isPositive};
-     setAllPairsData({...allPairsData, [key]: updatedPair });
-     if(symbol === key) {
-       setData(updatedPair);
-     }
-  }
+    const updatedPair = { ...pair, historicalData: newHistoricalData };
+    setAllPairsData({ ...allPairsData, [key]: updatedPair });
+    if (symbol === key) {
+      setData(updatedPair);
+    }
+  };
 
   const calculateAndSetPriceChange = (pairData, realTimePrice) => {
     const currentPrice = realTimePrice ? realTimePrice :  getCurrentPairPrice(pairData);
@@ -158,20 +163,18 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
       ws.onmessage = function (message) {
         const messageData = JSON.parse(message?.data);
         Object.keys(assets).map((key: string) => {
-          if(assets?.[key]?.poolAddress === messageData?.data?.contract && messageData.chain_id === "columbus-4"){
+          if (assets?.[key]?.poolAddress === messageData?.data?.contract && messageData.chain_id === 'columbus-4') {
             const price = parseFloat(getPrice(messageData?.data?.pool)).toFixed(4);
             const newRealTimePrice = {...realTimePriceList, [key]: price};
             if(symbol === key)  {
               const pair = allPairsData[key];
-              const isPositive = checkPositivePrice(price, realTimePriceList[key], pair?.historicalData[0][`${pair?.tokenKey}Price`] );
-              setPositive(isPositive);
-              setShouldChangePriceColor(true);
+             // const isPositive = checkPositivePrice(price, realTimePriceList[key], pair?.historicalData[0][`${pair?.tokenKey}Price`] );
               calculateAndSetPriceChange(pair, price);
               setPrice(parseFloat(price));
+            };
+            setRealTimePriceList(newRealTimePrice);
+            updatePairData(price, key);
           }
-          setRealTimePriceList(newRealTimePrice);
-          updatePairData(price, key);
-        }
         })
       }
 
@@ -180,11 +183,10 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
           connectWithTerraObserver();
         }, 1000);
       };
-    }
+    };
     connectWithTerraObserver();
 
     return () => ws.close();
-
   }, [realTimePriceList, symbol]);
 
   return (
@@ -198,33 +200,44 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
           price={price}
           name={data.name}
           url={data.url}
-          isPositive={isPositive}
-          shouldChangePriceColor={shouldChangePriceColor}
           priceChange={priceChange}
+          setUseTV={setUseTV} 
+          useTV={useTV}
         />
         <ChartContainer>
-          <ResponsiveContainer width={'100%'} height={263}>
-            <LineChart
-              data={formatChartData(data?.historicalData, data?.tokenKey, symbol)}
-              onMouseEnter={onMouseEnter}
-              onMouseMove={onMouseMove}
-              onMouseLeave={onMouseLeave}
-            >
-              <Line type="linear" dataKey="value" dot={false} stroke={theme.colors.secondary} strokeWidth={1.66} />
-              <Tooltip
-                cursor={{ stroke: theme.colors.secondary, strokeWidth: 1 }}
-                contentStyle={{ backgroundColor: 'red' }}
-                content={renderTooltip}
-                isAnimationActive={false}
-                position={{ y: -20 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
+          {useTV ? (
+            <TradingViewWidget
+              symbol={TV_SYMBOLS[symbol]}
+              theme={currentTheme === LIGHT_THEME ? Themes.LIGHT : Themes.DARK}
+              autosize
+            />
+          ) : (
+            <ResponsiveContainer width={'100%'} height={263}>
+              <LineChart
+                data={formatChartData(data?.historicalData, data?.tokenKey, symbol)}
+                onMouseEnter={onMouseEnter}
+                onMouseMove={onMouseMove}
+                onMouseLeave={onMouseLeave}
+              >
+                <Line type="linear" dataKey="value" dot={false} stroke={theme.colors.secondary} strokeWidth={1.66} />
+                <Tooltip
+                  cursor={{ stroke: theme.colors.secondary, strokeWidth: 1 }}
+                  content={renderTooltip}
+                  isAnimationActive={false}
+                  position={{ y: -20 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          )}
         </ChartContainer>
-        <SymbolsContainer>
-          {Object.keys(assets).map((keyName) => (
-            <Symbol key={keyName} keyName={keyName} symbol={assets[keyName].symbol} />
-          ))}
+        <SymbolsContainer useTV={useTV}>
+          {Object.keys(assets).map((keyName) =>
+            useTV ? (
+              TV_SYMBOLS[keyName] && <Symbol key={keyName} keyName={keyName} symbol={assets[keyName].symbol} />
+            ) : (
+              <Symbol key={keyName} keyName={keyName} symbol={assets[keyName].symbol} />
+            ),
+          )}
         </SymbolsContainer>
       </Container>
     </MainContainer>
@@ -232,7 +245,6 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
 };
 
 export async function getStaticProps({ params: { symbol } }) {
-
   if (!assets[symbol])
     return {
       redirect: {
@@ -241,17 +253,21 @@ export async function getStaticProps({ params: { symbol } }) {
       },
     };
 
-    
-  const poolAddresses = Object.keys(assets).map(keyName => assets[keyName].poolAddress);
+  const poolAddresses = Object.keys(assets).map((keyName) => assets[keyName].poolAddress);
   const toDate = new Date();
   const fromDate = subYears(toDate, 1);
 
-  const {pairs} = await request(TERRA_SWAP_GRAPHQL_URL, GET_PAIRS_DATA,  {from: fromDate.getTime() / 1000, to: toDate.getTime() / 1000, interval: 'DAY', pairAddresses: poolAddresses});
+  const { pairs } = await request(TERRA_SWAP_GRAPHQL_URL, GET_PAIRS_DATA, {
+    from: fromDate.getTime() / 1000,
+    to: toDate.getTime() / 1000,
+    interval: 'DAY',
+    pairAddresses: poolAddresses,
+  });
 
   const data: any = {};
-  
+
   Object.keys(assets).map((keyName: string, index: number) => {
-    data[keyName] = {...assets[keyName], ...pairs[index], tokenKey: getTokenKey(pairs[index],keyName)};
+    data[keyName] = { ...assets[keyName], ...pairs[index], tokenKey: getTokenKey(pairs[index], keyName) };
   });
 
   return {

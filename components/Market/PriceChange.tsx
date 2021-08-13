@@ -7,7 +7,6 @@ import { ArrowDownIcon, ArrowUpIcon } from '../Icons';
 const Container = styled(Flex)`
   ${props => css({
     color: props.isPositive ? 'green' : 'red',
-    mt: 4,
     alignItems: 'center',
     ml:-1
   })}
