@@ -2,6 +2,7 @@ import { assets } from "../../constants/assets";
 import {format} from 'date-fns';
 
 const MINE_START_TIMESTAMP = 1625144400;
+
 export const getTokenKey = (pairData, keyName: string) => {
     if(pairData?.token0?.symbol === assets[keyName].terraSwapSymbol){
       return 'token0';

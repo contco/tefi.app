@@ -10,7 +10,7 @@ import { AssetDetails } from '../../components/Market/AssetDetails';
 import { GET_PAIRS_DATA } from '../../graphql/queries/getPairsData';
 import { assets, DEFAULT_ASSETS_CURRENT_PRICE} from '../../constants/assets';
 import { TERRA_OBSERVER_URL, TERRA_SWAP_GRAPHQL_URL } from '../../constants';
-import { getTokenKey, formatChartData, getCurrentPairPrice, checkPositivePrice} from './helpers';
+import { getTokenKey, formatChartData, getCurrentPairPrice, checkPositivePrice} from '../../helpers/market';
 import { subYears} from 'date-fns';
 import { getPrice } from '../api/commons';
 
