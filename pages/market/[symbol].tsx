@@ -243,14 +243,6 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
     updatePrice();
   };
 
-  const checkPositivePrice = (price: string, realTimePrice: string, pairPrice: string) => {
-    if (realTimePrice) {
-      return parseFloat(price) > parseFloat(realTimePrice);
-    } else {
-      return parseFloat(price) > parseFloat(pairPrice);
-    }
-  };
-
   const updatePairData = (price: string, key: string) => {
     const pair = { ...allPairsData[key] };
     const newHistoricalData = [...pair?.historicalData];
@@ -266,7 +258,7 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
   useEffect(() => {
     setData(pairData[symbol]);
     updatePrice();
-    if (useTV && !TV_SYMBOLS[symbol]) router.push('/market');
+    if (useTV && !TV_SYMBOLS[symbol]) router.push('/market', undefined, { shallow: true });
   }, [symbol]);
 
   useEffect(() => {
@@ -283,11 +275,6 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
             const price = parseFloat(getPrice(messageData?.data?.pool)).toFixed(4);
             if (symbol === key) {
               const pair = allPairsData[key];
-              const isPositive = checkPositivePrice(
-                price,
-                realTimePriceList[key],
-                pair?.historicalData[0][`${pair?.tokenKey}Price`],
-              );
               setPrice(parseFloat(price));
             }
             setRealTimePriceList({ ...realTimePriceList, [key]: price });
