@@ -1,42 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import { gql, request } from 'graphql-request';
+import { request } from 'graphql-request';
 import { Line, LineChart, ResponsiveContainer, Tooltip } from 'recharts';
 import styled, { useTheme } from 'styled-components';
 import { GetStaticPaths } from 'next';
 import Header from '../../components/Header';
+import { AssetDetails } from '../../components/Market/AssetDetails';
+import { GET_PAIRS_DATA } from '../../graphql/queries/getPairsData';
 import { assets, DEFAULT_ASSETS_CURRENT_PRICE} from '../../constants/assets';
-import { NewOpenIcon } from '../../components/Icons';
 import { TERRA_OBSERVER_URL, TERRA_SWAP_GRAPHQL_URL } from '../../constants';
+import { getTokenKey } from './helpers';
 import {format, subYears} from 'date-fns';
 import { getPrice } from '../api/commons';
-import { animated, config, useTransition } from 'react-spring';
 
 const MINE_START_TIMESTAMP = 1625144400;
-
-const TERRA_SWAP_QUERY = gql`
-query PairData($to: Float!, $from: Float!,  $interval: Interval!, $pairAddresses: [String!]!  ) {
-  pairs(pairAddresses: $pairAddresses) {
-    pairAddress
-    token0 {
-      symbol
-    }
-    token1 {
-      symbol
-    }
-    latestToken0Price
-    latestToken1Price
-    historicalData(to: $to, from: $from, interval: $interval) {
-      timestamp
-      token0Price
-      token1Price
-    }
-  }
-}
-`;
-
-
 
 const MainContainer = styled.div`
   display: flex;
@@ -59,26 +37,6 @@ const ChartContainer = styled.p`
   }
 `;
 
-const StyledName = styled.a`
-  ${(props) => ({
-    color: props.theme.colors.secondary,
-    fontSize: 26,
-    fontWeight: 600,
-    display: 'flex',
-    alignItems: 'center',
-    height: '30px',
-    width: 'max-content',
-  })}
-  cursor: pointer;
-`;
-
-const StyledPrice = styled(animated.p)`
-  ${(props) => ({
-    color: props.theme.colors.secondary,
-    fontSize: 20,
-    fontWeight: 600,
-  })}
-`;
 
 const StyledDate = styled.p`
   ${(props) => ({
@@ -88,12 +46,6 @@ const StyledDate = styled.p`
   })}
 `;
 
-const NamePriceContainer = styled.div`
-  width: 55%;
-  @media (max-width: 768px) {
-    width: 85%;
-  }
-`;
 
 const SymbolsContainer = styled.div`
   width: 55%;
@@ -118,49 +70,6 @@ const renderTooltip = ({ payload }) => {
   return <StyledDate>{date}</StyledDate>;
 };
 
-const NamePrice = ({ price, name, url, isPositive, shouldChangePriceColor }) => {
-  const theme: any = useTheme();
-  const colorChange = shouldChangePriceColor ? (isPositive ? 'green' : 'red') : theme.colors.secondary;
-
-  const transitions = useTransition([`${price}`], {
-    initial: null,
-    from: { opacity: 0, y: -10, color: colorChange, fontWeight: shouldChangePriceColor ? 900 : 600 },
-    enter: { opacity: 1, y: 0, color: theme.colors.secondary, fontWeight: 600 },
-    leave: { opacity: 0, y: 10, color: colorChange, fontWeight: shouldChangePriceColor ? 900 : 600 },
-    delay: shouldChangePriceColor ? 1000 : 50,
-    config: config.wobbly,
-  });
-
-  return (
-    <NamePriceContainer>
-      <StyledName href={url} target="_blank">
-        {name} <NewOpenIcon />
-      </StyledName>
-      <div
-        style={{
-          height: '30px',
-          display: 'flex',
-        }}
-      >
-        <StyledPrice>$</StyledPrice>
-        {transitions(({ opacity, y, color, fontWeight }, item) => (
-          <StyledPrice
-            style={{
-              position: 'absolute',
-              opacity: opacity.to({ range: [0.0, 1.0], output: [0, 1] }),
-              y,
-              color,
-              x: 16,
-              fontWeight,
-            }}
-          >
-            {item}
-          </StyledPrice>
-        ))}
-      </div>
-    </NamePriceContainer>
-  );
-};
 
 const Symbol = ({ keyName, symbol }) => {
   const router = useRouter();
@@ -304,7 +213,7 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
       </Head>
       <Header theme={currentTheme} changeTheme={changeTheme} hideCharts />
       <Container>
-        <NamePrice
+        <AssetDetails
           price={price}
           name={data.name}
           url={data.url}
@@ -340,15 +249,6 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
   );
 };
 
-const getTokenKey = (pairData, keyName: string) => {
-  if(pairData?.token0?.symbol === assets[keyName].terraSwapSymbol){
-    return 'token0';
-  }
-  else {
-    return 'token1';
-  }
-}
-
 export async function getStaticProps({ params: { symbol } }) {
 
   if (!assets[symbol])
@@ -364,7 +264,7 @@ export async function getStaticProps({ params: { symbol } }) {
   const toDate = new Date();
   const fromDate = subYears(toDate, 1);
 
-  const {pairs} = await request(TERRA_SWAP_GRAPHQL_URL, TERRA_SWAP_QUERY,  {from: fromDate.getTime() / 1000, to: toDate.getTime() / 1000, interval: 'DAY', pairAddresses: poolAddresses});
+  const {pairs} = await request(TERRA_SWAP_GRAPHQL_URL, GET_PAIRS_DATA,  {from: fromDate.getTime() / 1000, to: toDate.getTime() / 1000, interval: 'DAY', pairAddresses: poolAddresses});
 
   const data: any = {};
   
