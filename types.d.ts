@@ -287,3 +287,8 @@ interface Assets {
   spectrum: SpectrumAccount
   loterra: LoterraAccount,
 }
+
+interface PriceChange {
+  change: number;
+  percentChange: number;
+}

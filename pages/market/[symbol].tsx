@@ -1,41 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import { gql, request } from 'graphql-request';
+import { request } from 'graphql-request';
 import { Line, LineChart, ResponsiveContainer, Tooltip } from 'recharts';
 import styled, { useTheme } from 'styled-components';
 import { GetStaticPaths } from 'next';
 import Header from '../../components/Header';
-import { assets, DEFAULT_ASSETS_CURRENT_PRICE } from '../../constants/assets';
-import { NewOpenIcon } from '../../components/Icons';
+import { AssetDetails } from '../../components/Market/AssetDetails';
+import {GET_PAIRS_DATA} from '../../graphql/queries/getPairsData';
+import { assets, DEFAULT_ASSETS_CURRENT_PRICE} from '../../constants/assets';
 import { LIGHT_THEME, TERRA_OBSERVER_URL, TERRA_SWAP_GRAPHQL_URL } from '../../constants';
-import { format, subYears } from 'date-fns';
+import { getTokenKey, formatChartData, getCurrentPairPrice} from '../../helpers/market';
+import { subYears} from 'date-fns';
 import { getPrice } from '../api/commons';
 import TradingViewWidget, { Themes } from 'react-tradingview-widget';
-import Image from 'next/image';
 
-const MINE_START_TIMESTAMP = 1625144400;
-
-const TERRA_SWAP_QUERY = gql`
-  query PairData($to: Float!, $from: Float!, $interval: Interval!, $pairAddresses: [String!]!) {
-    pairs(pairAddresses: $pairAddresses) {
-      pairAddress
-      token0 {
-        symbol
-      }
-      token1 {
-        symbol
-      }
-      latestToken0Price
-      latestToken1Price
-      historicalData(to: $to, from: $from, interval: $interval) {
-        timestamp
-        token0Price
-        token1Price
-      }
-    }
-  }
-`;
 
 const TV_SYMBOLS = {
   luna: 'KUCOIN:LUNAUST',
@@ -66,26 +45,6 @@ const ChartContainer = styled.p`
   align-items: center;
 `;
 
-const StyledName = styled.a`
-  ${(props) => ({
-    color: props.theme.colors.secondary,
-    fontSize: 26,
-    fontWeight: 600,
-    display: 'flex',
-    alignItems: 'center',
-    height: '30px',
-    width: 'max-content',
-  })}
-  cursor: pointer;
-`;
-
-const StyledPrice = styled.p`
-  ${(props) => ({
-    color: props.theme.colors.secondary,
-    fontSize: 20,
-    fontWeight: 600,
-  })}
-`;
 
 const StyledDate = styled.p`
   ${(props) => ({
@@ -95,19 +54,11 @@ const StyledDate = styled.p`
   })}
 `;
 
-const NamePriceContainer: any = styled.div`
-  width: 55%;
-  @media (max-width: 768px) {
-    width: 85%;
-  }
-  margin-bottom: ${(props: any) => (props.useTV ? '30px' : 0)};
-`;
-
-const SymbolsContainer = styled.div`
+const SymbolsContainer: any = styled.div`
   width: 55%;
   display: flex;
   justify-content: space-between;
-  padding-top: 60px;
+  padding-top: ${(props: any) => props.useTV ? '30px' : '0px'};
   @media (max-width: 768px) {
     width: 85%;
   }
@@ -121,60 +72,12 @@ const SymbolContainer: any = styled.div`
   cursor: pointer;
 `;
 
-const ImageContainer: any = styled.div`
-  background-color: ${(props: any) => (props.useTV ? 'black' : 'white')};
-  width: 50px;
-  height: 50px;
-  border-radius: 25px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  &:hover {
-    background-color: ${(props: any) => (props.useTV ? 'black' : '#f5f5f5')};
-    width: 52px;
-    height: 52px;
-    border-radius: 26px;
-  }
-  border: ${(props: any) => `1px solid ${props.theme.colors.secondary}`};
-`;
-
-const NameTopBar = styled.div`
-  height: 53px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
 
 const renderTooltip = ({ payload }) => {
   const date = payload[0]?.payload?.date;
   return <StyledDate>{date}</StyledDate>;
 };
 
-const NamePrice = ({ price, name, url, onSwitchTV, useTV }) => {
-  const theme: any = useTheme();
-  return (
-    <NamePriceContainer useTV={useTV}>
-      <NameTopBar>
-        <StyledName href={url} target="_blank">
-          {name} <NewOpenIcon />
-        </StyledName>
-        <ImageContainer onClick={onSwitchTV} useTV={useTV}>
-          <Image width="30" height="16" src={useTV ? '/tv-white.png' : '/tv.png'} alt="Picture of the author" />
-        </ImageContainer>
-      </NameTopBar>
-      {!useTV && (
-        <div
-          style={{
-            height: '30px',
-            display: 'flex',
-          }}
-        >
-          <StyledPrice>{`$${price}`}</StyledPrice>
-        </div>
-      )}
-    </NamePriceContainer>
-  );
-};
 
 const Symbol = ({ keyName, symbol }) => {
   const router = useRouter();
@@ -191,27 +94,6 @@ const Symbol = ({ keyName, symbol }) => {
   );
 };
 
-const getCurrentPairPrice = (pairData) => {
-  const price = pairData?.historicalData[0]?.[`${pairData.tokenKey}Price`];
-  return parseFloat(price).toFixed(4);
-};
-
-const formatChartData = (historicalData, tokenKey: string, symbol: string) => {
-  let data = [...historicalData];
-  if (symbol === 'mine') {
-    data = historicalData.filter((item) => item.timestamp > MINE_START_TIMESTAMP);
-  }
-  data = data
-    .slice(0)
-    .reverse()
-    .map((item) => {
-      const date = format(new Date(item?.timestamp * 1000), 'y-M-d');
-      const value = parseFloat(item[`${tokenKey}Price`]).toFixed(4);
-      return { date, value: parseFloat(value) };
-    });
-  return data;
-};
-
 const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => {
   const theme: any = useTheme();
   const router = useRouter();
@@ -220,6 +102,7 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
   const [data, setData]: any = useState(pairData?.[symbol]);
   const [price, setPrice] = useState(parseFloat(getCurrentPairPrice(pairData[symbol])));
   const [realTimePriceList, setRealTimePriceList] = useState<any>(DEFAULT_ASSETS_CURRENT_PRICE);
+  const [priceChange, setPriceChange] = useState<PriceChange | null>(null);
   const [useTV, setUseTV] = useState<boolean>(false);
 
   const onMouseEnter = ({ isTooltipActive, activePayload }) => {
@@ -255,8 +138,17 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
     }
   };
 
+  const calculateAndSetPriceChange = (pairData, realTimePrice) => {
+    const currentPrice = realTimePrice ? realTimePrice :  getCurrentPairPrice(pairData);
+    const dayOldPrice = pairData?.historicalData[1]?.[`${pairData.tokenKey}Price`];
+    const change = parseFloat(currentPrice) - parseFloat(dayOldPrice);
+    const percentChange = change / parseFloat(dayOldPrice)* 100;
+    setPriceChange({change, percentChange});
+  }
+
   useEffect(() => {
     setData(pairData[symbol]);
+    calculateAndSetPriceChange(pairData[symbol], realTimePriceList[symbol])
     updatePrice();
   }, [symbol]);
 
@@ -272,15 +164,17 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
         Object.keys(assets).map((key: string) => {
           if (assets?.[key]?.poolAddress === messageData?.data?.contract && messageData.chain_id === 'columbus-4') {
             const price = parseFloat(getPrice(messageData?.data?.pool)).toFixed(4);
-            if (symbol === key) {
+            const newRealTimePrice = {...realTimePriceList, [key]: price};
+            if(symbol === key)  {
               const pair = allPairsData[key];
+              calculateAndSetPriceChange(pair, price);
               setPrice(parseFloat(price));
-            }
-            setRealTimePriceList({ ...realTimePriceList, [key]: price });
+            };
+            setRealTimePriceList(newRealTimePrice);
             updatePairData(price, key);
           }
-        });
-      };
+        })
+      }
 
       ws.onclose = function (_) {
         setTimeout(function () {
@@ -305,7 +199,14 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
       </Head>
       <Header theme={currentTheme} changeTheme={changeTheme} hideCharts />
       <Container>
-        <NamePrice price={price} name={data.name} url={data.url} onSwitchTV={onSwitchTV} useTV={useTV} />
+        <AssetDetails
+          price={price}
+          name={data.name}
+          url={data.url}
+          priceChange={priceChange}
+          onSwitchTV={onSwitchTV} 
+          useTV={useTV}
+        />
         <ChartContainer>
           {useTV ? (
             TV_SYMBOLS[symbol] && (
@@ -334,7 +235,7 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
             </ResponsiveContainer>
           )}
         </ChartContainer>
-        <SymbolsContainer>
+        <SymbolsContainer useTV={useTV}>
           {Object.keys(assets).map((keyName) =>
             useTV ? (
               TV_SYMBOLS[keyName] && <Symbol key={keyName} keyName={keyName} symbol={assets[keyName].symbol} />
@@ -346,14 +247,6 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
       </Container>
     </MainContainer>
   );
-};
-
-const getTokenKey = (pairData, keyName: string) => {
-  if (pairData?.token0?.symbol === assets[keyName].terraSwapSymbol) {
-    return 'token0';
-  } else {
-    return 'token1';
-  }
 };
 
 export async function getStaticProps({ params: { symbol } }) {
@@ -369,7 +262,7 @@ export async function getStaticProps({ params: { symbol } }) {
   const toDate = new Date();
   const fromDate = subYears(toDate, 1);
 
-  const { pairs } = await request(TERRA_SWAP_GRAPHQL_URL, TERRA_SWAP_QUERY, {
+  const { pairs } = await request(TERRA_SWAP_GRAPHQL_URL, GET_PAIRS_DATA, {
     from: fromDate.getTime() / 1000,
     to: toDate.getTime() / 1000,
     interval: 'DAY',
