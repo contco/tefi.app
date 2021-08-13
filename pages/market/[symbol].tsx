@@ -59,10 +59,11 @@ const Container = styled.div`
 
 const ChartContainer = styled.p`
   width: 55%;
+  height: 60vh;
   @media (max-width: 768px) {
     width: 85%;
+    height: 50vh;
   }
-  height: 60vh;
   display: flex;
   align-items: center;
 `;
@@ -136,13 +137,14 @@ const ImageContainer: any = styled.div`
     height: 52px;
     border-radius: 26px;
   }
+  border: ${(props: any) => `1px solid ${props.theme.colors.secondary}`};
 `;
 
 const NameTopBar = styled.div`
+  height: 53px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 53px;
 `;
 
 const renderTooltip = ({ payload }) => {
