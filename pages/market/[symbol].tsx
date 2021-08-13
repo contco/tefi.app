@@ -258,7 +258,6 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
   useEffect(() => {
     setData(pairData[symbol]);
     updatePrice();
-    if (useTV && !TV_SYMBOLS[symbol]) router.push('/market', undefined, { shallow: true });
   }, [symbol]);
 
   useEffect(() => {
@@ -295,7 +294,7 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
   }, [realTimePriceList, symbol]);
 
   const onSwitchTV = () => {
-    if (!TV_SYMBOLS[symbol]) router.push('/market');
+    if (!TV_SYMBOLS[symbol]) router.push('/market', undefined, { shallow: true });
     setUseTV((prev) => !prev);
   };
 
