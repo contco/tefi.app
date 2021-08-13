@@ -150,7 +150,7 @@ const renderTooltip = ({ payload }) => {
   return <StyledDate>{date}</StyledDate>;
 };
 
-const NamePrice = ({ price, name, url, setUseTV, useTV }) => {
+const NamePrice = ({ price, name, url, onSwitchTV, useTV }) => {
   const theme: any = useTheme();
   return (
     <NamePriceContainer useTV={useTV}>
@@ -158,7 +158,7 @@ const NamePrice = ({ price, name, url, setUseTV, useTV }) => {
         <StyledName href={url} target="_blank">
           {name} <NewOpenIcon />
         </StyledName>
-        <ImageContainer onClick={() => setUseTV((prev) => !prev)} useTV={useTV}>
+        <ImageContainer onClick={onSwitchTV} useTV={useTV}>
           <Image width="30" height="16" src={useTV ? '/tv-white.png' : '/tv.png'} alt="Picture of the author" />
         </ImageContainer>
       </NameTopBar>
@@ -266,6 +266,7 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
   useEffect(() => {
     setData(pairData[symbol]);
     updatePrice();
+    if (useTV && !TV_SYMBOLS[symbol]) router.push('/market');
   }, [symbol]);
 
   useEffect(() => {
@@ -306,6 +307,11 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
     return () => ws.close();
   }, [realTimePriceList, symbol]);
 
+  const onSwitchTV = () => {
+    if (!TV_SYMBOLS[symbol]) router.push('/market');
+    setUseTV((prev) => !prev);
+  };
+
   return (
     <MainContainer>
       <Head>
@@ -313,14 +319,16 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
       </Head>
       <Header theme={currentTheme} changeTheme={changeTheme} hideCharts />
       <Container>
-        <NamePrice price={price} name={data.name} url={data.url} setUseTV={setUseTV} useTV={useTV} />
+        <NamePrice price={price} name={data.name} url={data.url} onSwitchTV={onSwitchTV} useTV={useTV} />
         <ChartContainer>
           {useTV ? (
-            <TradingViewWidget
-              symbol={TV_SYMBOLS[symbol]}
-              theme={currentTheme === LIGHT_THEME ? Themes.LIGHT : Themes.DARK}
-              autosize
-            />
+            TV_SYMBOLS[symbol] && (
+              <TradingViewWidget
+                symbol={TV_SYMBOLS[symbol]}
+                theme={currentTheme === LIGHT_THEME ? Themes.LIGHT : Themes.DARK}
+                autosize
+              />
+            )
           ) : (
             <ResponsiveContainer width={'100%'} height={263}>
               <LineChart
