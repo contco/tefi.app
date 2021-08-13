@@ -10,11 +10,10 @@ import { AssetDetails } from '../../components/Market/AssetDetails';
 import { GET_PAIRS_DATA } from '../../graphql/queries/getPairsData';
 import { assets, DEFAULT_ASSETS_CURRENT_PRICE} from '../../constants/assets';
 import { TERRA_OBSERVER_URL, TERRA_SWAP_GRAPHQL_URL } from '../../constants';
-import { getTokenKey } from './helpers';
-import {format, subYears} from 'date-fns';
+import { getTokenKey, formatChartData, getCurrentPairPrice, checkPositivePrice} from './helpers';
+import { subYears} from 'date-fns';
 import { getPrice } from '../api/commons';
 
-const MINE_START_TIMESTAMP = 1625144400;
 
 const MainContainer = styled.div`
   display: flex;
@@ -86,28 +85,6 @@ const Symbol = ({ keyName, symbol }) => {
   );
 };
 
-const getCurrentPairPrice = (pairData) => {
-  const price = pairData?.historicalData[0]?.[`${pairData.tokenKey}Price`];
-  return parseFloat(price).toFixed(4);
-}
-
-const formatChartData = (historicalData, tokenKey: string, symbol: string) => {
-  let data = [...historicalData];
-    if(symbol === 'mine') {
-       data = historicalData.filter((item) => item.timestamp  > MINE_START_TIMESTAMP);
-    }
-     data  = data
-      .slice(0)
-      .reverse()
-      .map((item) => {
-        const date = format(new Date(item?.timestamp * 1000), 'y-M-d');
-        const value = parseFloat(item[`${tokenKey}Price`]).toFixed(4);
-        return {date, value: parseFloat(value) }
-      }
-     );
-     return data;
-  }
-
 const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => {
   const theme: any = useTheme();
   const router = useRouter();
@@ -117,6 +94,7 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
   const [price, setPrice] = useState(parseFloat(getCurrentPairPrice(pairData[symbol])));
   const [realTimePriceList, setRealTimePriceList] = useState<any>(DEFAULT_ASSETS_CURRENT_PRICE);
   const [shouldChangePriceColor, setShouldChangePriceColor] = useState<boolean>(false);
+  const [priceChange, setPriceChange] = useState<PriceChange | null>(null);
   const [isPositive, setPositive] = useState<boolean>(false);
 
   const onMouseEnter = ({ isTooltipActive, activePayload }) => {
@@ -143,14 +121,6 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
     updatePrice();
   };
 
-  const checkPositivePrice = (price: string, realTimePrice: string, pairPrice: string) => {
-    if (realTimePrice) {
-      return parseFloat(price) > parseFloat(realTimePrice); 
-    }
-    else {
-      return parseFloat(price) > parseFloat(pairPrice); 
-    }
-  }
 
   const updatePairData = (price: string, key: string) => {
      const pair = {...allPairsData[key]};
@@ -164,8 +134,17 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
      }
   }
 
+  const calculateAndSetPriceChange = (pairData, realTimePrice) => {
+    const currentPrice = realTimePrice ? realTimePrice :  getCurrentPairPrice(pairData);
+    const dayOldPrice = pairData?.historicalData[1]?.[`${pairData.tokenKey}Price`];
+    const change = parseFloat(currentPrice) - parseFloat(dayOldPrice);
+    const percentChange = change / parseFloat(dayOldPrice)* 100;
+    setPriceChange({change, percentChange});
+  }
+
   useEffect(() => {
     setData(pairData[symbol]);
+    calculateAndSetPriceChange(pairData[symbol], realTimePriceList[symbol])
     updatePrice();
   }, [symbol]);
 
@@ -181,14 +160,16 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
         Object.keys(assets).map((key: string) => {
           if(assets?.[key]?.poolAddress === messageData?.data?.contract && messageData.chain_id === "columbus-4"){
             const price = parseFloat(getPrice(messageData?.data?.pool)).toFixed(4);
+            const newRealTimePrice = {...realTimePriceList, [key]: price};
             if(symbol === key)  {
               const pair = allPairsData[key];
               const isPositive = checkPositivePrice(price, realTimePriceList[key], pair?.historicalData[0][`${pair?.tokenKey}Price`] );
               setPositive(isPositive);
               setShouldChangePriceColor(true);
+              calculateAndSetPriceChange(pair, price);
               setPrice(parseFloat(price));
           }
-          setRealTimePriceList({...realTimePriceList, [key]: price});
+          setRealTimePriceList(newRealTimePrice);
           updatePairData(price, key);
         }
         })
@@ -219,6 +200,7 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
           url={data.url}
           isPositive={isPositive}
           shouldChangePriceColor={shouldChangePriceColor}
+          priceChange={priceChange}
         />
         <ChartContainer>
           <ResponsiveContainer width={'100%'} height={263}>

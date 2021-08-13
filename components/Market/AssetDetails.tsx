@@ -30,10 +30,11 @@ interface Props {
   shouldChangePriceColor: boolean;
   price: number;
   name: string;
-  url?: string
+  url?: string;
+  priceChange: PriceChange
 }
 
-export const AssetDetails: React.FC<Props> = ({price, name, url, isPositive, shouldChangePriceColor }) => {
+export const AssetDetails: React.FC<Props> = ({price, name, url, isPositive, shouldChangePriceColor, priceChange }) => {
   return(
     <NamePriceContainer>
       <StyledName href={url} target="_blank">
@@ -44,7 +45,7 @@ export const AssetDetails: React.FC<Props> = ({price, name, url, isPositive, sho
       price={price} 
       isPositive={isPositive} 
       shouldChangePriceColor={shouldChangePriceColor} />
-      <PriceChange priceChange={{change: '-7.88', percentChange: '3.2'}}/>
+      <PriceChange priceChange={priceChange}/>
     </NamePriceContainer>
   )
 }

@@ -22,24 +22,24 @@ const StyledText = styled(Text)`
   })})
 `;
 
-interface PriceChange {
-    change: string;
-    percentChange: string;
-}
-
 interface Props {
     priceChange: PriceChange
 }
 
 export const PriceChange: React.FC<Props> = ({priceChange}) => {
 
-const isPositive = parseFloat(priceChange.change) > 0 ? true : false;
+
+if(!priceChange) {
+    return <> </>;
+}
+    
+const isPositive = priceChange.change > 0 ? true : false;
 
   return (
     <Container isPositive={isPositive}>
-         {isPositive ? <ArrowUpIcon /> : <ArrowDownIcon /> }
-         <StyledText>${priceChange.change}</StyledText>
-         <StyledText>({priceChange.percentChange}%)</StyledText>
+        {isPositive ? <ArrowUpIcon /> : <ArrowDownIcon /> }
+         <StyledText>${Math.abs(priceChange.change).toFixed(3)}</StyledText>
+         <StyledText>({Math.abs(priceChange.percentChange).toFixed(2)}%)</StyledText>
     </Container>
   );
 };
