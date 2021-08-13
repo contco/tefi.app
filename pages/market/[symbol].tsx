@@ -46,7 +46,6 @@ const TV_SYMBOLS = {
 const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
 `;
 
 const Container = styled.div`
@@ -54,7 +53,6 @@ const Container = styled.div`
   flex: 1;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 `;
 
 const ChartContainer = styled.p`
