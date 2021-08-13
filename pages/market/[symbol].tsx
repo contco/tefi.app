@@ -8,9 +8,11 @@ import { GetStaticPaths } from 'next';
 import Header from '../../components/Header';
 import { assets, DEFAULT_ASSETS_CURRENT_PRICE } from '../../constants/assets';
 import { NewOpenIcon } from '../../components/Icons';
-import { TERRA_OBSERVER_URL, TERRA_SWAP_GRAPHQL_URL } from '../../constants';
+import { LIGHT_THEME, TERRA_OBSERVER_URL, TERRA_SWAP_GRAPHQL_URL } from '../../constants';
 import { format, subYears } from 'date-fns';
 import { getPrice } from '../api/commons';
+import TradingViewWidget, { Themes } from 'react-tradingview-widget';
+import Image from 'next/image';
 
 const MINE_START_TIMESTAMP = 1625144400;
 
@@ -35,10 +37,15 @@ const TERRA_SWAP_QUERY = gql`
   }
 `;
 
+const TV_SYMBOLS = {
+  luna: 'KUCOIN:LUNAUST',
+  anc: 'KUCOIN:ANCUST',
+  mir: 'KUCOIN:MIRUST',
+};
+
 const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
 `;
 
 const Container = styled.div`
@@ -46,14 +53,17 @@ const Container = styled.div`
   flex: 1;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 `;
 
 const ChartContainer = styled.p`
   width: 55%;
+  height: 60vh;
   @media (max-width: 768px) {
     width: 85%;
+    height: 50vh;
   }
+  display: flex;
+  align-items: center;
 `;
 
 const StyledName = styled.a`
@@ -85,11 +95,12 @@ const StyledDate = styled.p`
   })}
 `;
 
-const NamePriceContainer = styled.div`
+const NamePriceContainer: any = styled.div`
   width: 55%;
   @media (max-width: 768px) {
     width: 85%;
   }
+  margin-bottom: ${(props: any) => (props.useTV ? '30px' : 0)};
 `;
 
 const SymbolsContainer = styled.div`
@@ -110,26 +121,57 @@ const SymbolContainer: any = styled.div`
   cursor: pointer;
 `;
 
+const ImageContainer: any = styled.div`
+  background-color: ${(props: any) => (props.useTV ? 'black' : 'white')};
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    background-color: ${(props: any) => (props.useTV ? 'black' : '#f5f5f5')};
+    width: 52px;
+    height: 52px;
+    border-radius: 26px;
+  }
+  border: ${(props: any) => `1px solid ${props.theme.colors.secondary}`};
+`;
+
+const NameTopBar = styled.div`
+  height: 53px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 const renderTooltip = ({ payload }) => {
   const date = payload[0]?.payload?.date;
   return <StyledDate>{date}</StyledDate>;
 };
 
-const NamePrice = ({ price, name, url }) => {
+const NamePrice = ({ price, name, url, setUseTV, useTV }) => {
   const theme: any = useTheme();
   return (
-    <NamePriceContainer>
-      <StyledName href={url} target="_blank">
-        {name} <NewOpenIcon />
-      </StyledName>
-      <div
-        style={{
-          height: '30px',
-          display: 'flex',
-        }}
-      >
-        <StyledPrice>{`$${price}`}</StyledPrice>
-      </div>
+    <NamePriceContainer useTV={useTV}>
+      <NameTopBar>
+        <StyledName href={url} target="_blank">
+          {name} <NewOpenIcon />
+        </StyledName>
+        <ImageContainer onClick={() => setUseTV((prev) => !prev)} useTV={useTV}>
+          <Image width="30" height="16" src={useTV ? '/tv-white.png' : '/tv.png'} alt="Picture of the author" />
+        </ImageContainer>
+      </NameTopBar>
+      {!useTV && (
+        <div
+          style={{
+            height: '30px',
+            display: 'flex',
+          }}
+        >
+          <StyledPrice>{`$${price}`}</StyledPrice>
+        </div>
+      )}
     </NamePriceContainer>
   );
 };
@@ -178,6 +220,7 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
   const [data, setData]: any = useState(pairData?.[symbol]);
   const [price, setPrice] = useState(parseFloat(getCurrentPairPrice(pairData[symbol])));
   const [realTimePriceList, setRealTimePriceList] = useState<any>(DEFAULT_ASSETS_CURRENT_PRICE);
+  const [useTV, setUseTV] = useState<boolean>(false);
 
   const onMouseEnter = ({ isTooltipActive, activePayload }) => {
     if (isTooltipActive) setPrice(activePayload[0]?.payload.value);
@@ -270,30 +313,41 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
       </Head>
       <Header theme={currentTheme} changeTheme={changeTheme} hideCharts />
       <Container>
-        <NamePrice price={price} name={data.name} url={data.url} />
+        <NamePrice price={price} name={data.name} url={data.url} setUseTV={setUseTV} useTV={useTV} />
         <ChartContainer>
-          <ResponsiveContainer width={'100%'} height={263}>
-            <LineChart
-              data={formatChartData(data?.historicalData, data?.tokenKey, symbol)}
-              onMouseEnter={onMouseEnter}
-              onMouseMove={onMouseMove}
-              onMouseLeave={onMouseLeave}
-            >
-              <Line type="linear" dataKey="value" dot={false} stroke={theme.colors.secondary} strokeWidth={1.66} />
-              <Tooltip
-                cursor={{ stroke: theme.colors.secondary, strokeWidth: 1 }}
-                contentStyle={{ backgroundColor: 'red' }}
-                content={renderTooltip}
-                isAnimationActive={false}
-                position={{ y: -20 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
+          {useTV ? (
+            <TradingViewWidget
+              symbol={TV_SYMBOLS[symbol]}
+              theme={currentTheme === LIGHT_THEME ? Themes.LIGHT : Themes.DARK}
+              autosize
+            />
+          ) : (
+            <ResponsiveContainer width={'100%'} height={263}>
+              <LineChart
+                data={formatChartData(data?.historicalData, data?.tokenKey, symbol)}
+                onMouseEnter={onMouseEnter}
+                onMouseMove={onMouseMove}
+                onMouseLeave={onMouseLeave}
+              >
+                <Line type="linear" dataKey="value" dot={false} stroke={theme.colors.secondary} strokeWidth={1.66} />
+                <Tooltip
+                  cursor={{ stroke: theme.colors.secondary, strokeWidth: 1 }}
+                  content={renderTooltip}
+                  isAnimationActive={false}
+                  position={{ y: -20 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          )}
         </ChartContainer>
         <SymbolsContainer>
-          {Object.keys(assets).map((keyName) => (
-            <Symbol key={keyName} keyName={keyName} symbol={assets[keyName].symbol} />
-          ))}
+          {Object.keys(assets).map((keyName) =>
+            useTV ? (
+              TV_SYMBOLS[keyName] && <Symbol key={keyName} keyName={keyName} symbol={assets[keyName].symbol} />
+            ) : (
+              <Symbol key={keyName} keyName={keyName} symbol={assets[keyName].symbol} />
+            ),
+          )}
         </SymbolsContainer>
       </Container>
     </MainContainer>
