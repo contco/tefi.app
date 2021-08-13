@@ -38,6 +38,7 @@ type Props = {
   refreshing?: boolean;
   hideCharts?: boolean;
 };
+
 const Header: React.FC<Props> = ({ theme, changeTheme, address, addressType, onRefresh, refreshing, hideCharts }) => {
   const [slicedAddress, setSlicedAddress] = useState<string | null>(null);
   const [isVisible, setVisible] = useState<boolean>(false);
@@ -86,15 +87,6 @@ const Header: React.FC<Props> = ({ theme, changeTheme, address, addressType, onR
         </StyledTitle>
       </LeftSection>
       <RightSection>
-        {
-        isMobile ?  
-         <HoverContainer onClick={onMenuClick}>
-           <StyledMenuIcon />
-         </HoverContainer>
-        :
-        ( 
-        <>
-        {!hideCharts && <ChartsIcon onClick={() => router.push('/market')} />}
         {slicedAddress ? (
           <WalletContainer >
             <WalletCopyContainer onClick={onCopyClick} >
@@ -104,16 +96,10 @@ const Header: React.FC<Props> = ({ theme, changeTheme, address, addressType, onR
             <StyledAddressText>{slicedAddress}</StyledAddressText>
             <CloseIcon onClick={onDisconnect} />
           </WalletContainer>
-        ) : (
-          ''
-        )}
-        <SwitchContainer>
-          {theme === LIGHT_THEME ? <LightSwitchIcon onClick={changeTheme} /> : <DarkSwitchIcon onClick={changeTheme} />}
-        </SwitchContainer>
-        {onRefresh && (!refreshing ? <RefreshIcon onClick={onRefresh} /> : <AnimatedRefresh />)}
-        </>
-        )
-      }
+        ) : null }
+        <HoverContainer onClick={onMenuClick}>
+           <StyledMenuIcon />
+         </HoverContainer>
       </RightSection>
     </Container>
     <Menu 
@@ -121,10 +107,8 @@ const Header: React.FC<Props> = ({ theme, changeTheme, address, addressType, onR
       changeTheme={changeTheme}
       isVisible={displayMenu}
       setVisibility={setDisplayMenu}
-      copyVisible={isVisible}
-      address={slicedAddress}
-      onCopyClick={onCopyClick}
-      onDisconnect={onDisconnect}
+      onRefresh={onRefresh}
+      refreshing={refreshing}
     />
     </>
   );

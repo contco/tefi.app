@@ -4,17 +4,14 @@ import css from '@styled-system/css';
 import {Flex, Box} from "@contco/core-ui";
 import useOutsideClickListener from "../../utils/useOutsideClickListener";
 import { 
-    WalletContainer,
-    WalletCopyContainer,
-    WalletCopyTooltip,
-    StyledAddressText,
-    WalletIcon,
-    CloseIcon,
     HoverContainer,
     SwitchContainer,
     LightSwitchIcon,
     DarkSwitchIcon,
+    AnimatedRefresh,
+    RefreshIcon
 } from './style';
+
 import CHARTS_ICON from '../../public/charts.svg';
 import { LIGHT_THEME } from '../../constants';
 
@@ -44,15 +41,6 @@ const MenuContainer = styled(Flex)`
    })}
 `;
 
-const MobileWallet = styled(Flex)`
-  ${css({
-      width:'100%',
-      justifyContent:'center',
-      alignItems: 'center',
-      py: 2,
-  })}
-`
-
 const ThemeIconContainer = styled(Flex)`
   ${css({
       justifyContent:'flex-end',
@@ -70,8 +58,8 @@ const Section = styled(Flex)`
 `;
 
 const TopSection = styled(Section)`
-  ${props => css({
-      height: props.address ? 84 : 120,
+  ${css({
+      height: 120,
   })}
 `;
 
@@ -112,16 +100,14 @@ ${css({
 
 interface Props {
     isVisible?: boolean;
-    copyVisible?: boolean;
+    refreshing: boolean;
     theme: string;
-    address: string;
     setVisibility: (visibility: boolean) => void;
     changeTheme: () => void;
-    onCopyClick: () => void;
-    onDisconnect: () => void;
+    onRefresh?: () => void;
 }
 
-const Menu: React.FC<Props> = ({isVisible = false, copyVisible = false, setVisibility, address, onCopyClick, onDisconnect, theme, changeTheme}) => {
+const Menu: React.FC<Props> = ({isVisible = false, setVisibility, theme, changeTheme, onRefresh, refreshing}) => {
 
     const MenuRef = React.useRef<HTMLDivElement | null>(null);
 
@@ -144,24 +130,11 @@ const Menu: React.FC<Props> = ({isVisible = false, copyVisible = false, setVisib
         <Parent>
         <MenuContainer ref={MenuRef} isLight={theme === LIGHT_THEME} isVisible={isVisible}>
         <Box>
-        <MobileWallet>
-            {address ? (
-                <WalletContainer >
-                    <WalletCopyContainer onClick={onCopyClick} >
-                        <WalletIcon/>
-                        <WalletCopyTooltip isVisible={copyVisible}>Copied!</WalletCopyTooltip>
-                    </WalletCopyContainer>
-                    <StyledAddressText>{address}</StyledAddressText>
-                    <CloseIcon onClick={onDisconnect} />
-                </WalletContainer>
-        ) : 
-          null
-        }
-        </MobileWallet>
-        <TopSection address={address} height={100}>
+        <TopSection height={100}>
             <HoverContainer onClick={() => onLinkClick('/market')}>
                 <ChartsIcon/>
             </HoverContainer>
+            {onRefresh && (!refreshing ? <RefreshIcon onClick={onRefresh} /> : <AnimatedRefresh />)}
         </TopSection>
         <Divider />
         <BottomSection>
