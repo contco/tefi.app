@@ -30,8 +30,18 @@ const StyledPrice = styled.p`
     color: props.theme.colors.secondary,
     fontSize: 20,
     fontWeight: 600,
-    bg:'green'
+    bg:'green',
+    mb: 0
   })}
+`;
+
+const PriceContainer = styled.div`
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* justify-content: space-between; */
+  /* align-items: center; */
+  /* background-color: red; */
+  /* height: 30px; */
 `;
 
 
@@ -77,14 +87,14 @@ export const AssetDetails: React.FC<Props> = ({price, name, url, useTV, onSwitch
         <NewOpenIcon />
     </StyledName>
     <ImageContainer onClick={onSwitchTV} useTV={useTV}>
-          <Image width="30" height="16" src={useTV ? '/tv-white.png' : '/tv.png'} alt="Picture of the author" />
-        </ImageContainer>
+      <Image width="30" height="16" src={useTV ? '/tv-white.png' : '/tv.png'} alt="Picture of the author" />
+    </ImageContainer>
     </NameTopBar>
     {!useTV && (
-      <>
-         <StyledPrice>{`$${price}`}</StyledPrice>
-         <PriceChange priceChange={priceChange}/>
-         </>
+        <PriceContainer>
+          <StyledPrice>{`$${price}`}</StyledPrice>
+          <PriceChange priceChange={priceChange}/>
+         </PriceContainer>
       )}
     </NamePriceContainer>
   )
