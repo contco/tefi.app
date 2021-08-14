@@ -26,7 +26,8 @@ const InneContainer = styled(Flex)`
     height: 360,
   })}
   flex-direction: column;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
 `;
 
 const MenuContainer = styled(Flex)`
