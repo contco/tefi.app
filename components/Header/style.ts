@@ -11,6 +11,7 @@ import REFRESH_ICON from '../../public/refresh.svg';
 import REFRESHING_ICON from '../../public/refreshing.svg';
 import CHARTS_ICON from '../../public/charts.svg';
 import MENU_ICON from '../../public/icons/circle-menu.svg';
+import DASHBOARD_ICON from '../../public/space_dashboard.svg';
 
 
 export const Container = styled(Flex)`
@@ -159,7 +160,7 @@ ${props => css({
 export const SwitchContainer = styled(Flex)`
   ${props => css({
   color: props.theme.colors.secondary,
-  minWidth: [30, null, 40],
+  // minWidth: [10, null, 20],
   justifyContent: 'center',
   alignItems: 'center',
 
@@ -222,6 +223,13 @@ ${css({
   color: 'secondary',
   mr: [2, null, null, 4],
 })}
+  &:hover {
+    opacity: 0.7;
+  }
+`;
+
+export const DashboardIcon = styled(DASHBOARD_ICON)`
+  color: secondary;
   &:hover {
     opacity: 0.7;
   }

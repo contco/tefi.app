@@ -33,19 +33,12 @@ type Props = {
   hideCharts?: boolean;
 };
 
-const Header: React.FC<Props> = ({ theme, changeTheme, address, addressType, onRefresh, refreshing, hideCharts }) => {
-  const [slicedAddress, setSlicedAddress] = useState<string | null>(null);
+const Header: React.FC<Props> = ({ theme, changeTheme, address, addressType, onRefresh, refreshing }) => {
   const [isVisible, setVisible] = useState<boolean>(false);
   const [displayMenu, setDisplayMenu] = useState<boolean>(false);
 
-  useEffect(() => {
-    if(address) {
-      setSlicedAddress(`${address?.slice(0, 6) + '....' + address?.slice(address?.length - 6, address?.length)}`);
-    }
-    else {
-      setSlicedAddress(null);
-    }
-  }, [address])
+  const slicedAddress =
+    address && `${address?.slice(0, 6) + '....' + address?.slice(address?.length - 6, address?.length)}`;
 
   const onCopyClick = () => {
     setVisible(true);
@@ -66,44 +59,43 @@ const Header: React.FC<Props> = ({ theme, changeTheme, address, addressType, onR
     }
   };
 
-  const onMenuClick  = () => {
-    if(!displayMenu) {
+  const onMenuClick = () => {
+    if (!displayMenu) {
       setDisplayMenu(true);
     }
-
-  }
+  };
   return (
     <>
-    <Container>
-      <LeftSection>
-        <StyledTitle onClick={() => router.push('/')}>
-          Tefi<span>App</span>
-        </StyledTitle>
-      </LeftSection>
-      <RightSection>
-        {slicedAddress ? (
-          <WalletContainer >
-            <WalletCopyContainer onClick={onCopyClick} >
-              <WalletIcon/>
-              <WalletCopyTooltip isVisible={isVisible}>Copied!</WalletCopyTooltip>
-            </WalletCopyContainer>
-            <StyledAddressText>{slicedAddress}</StyledAddressText>
-            <CloseIcon onClick={onDisconnect} />
-          </WalletContainer>
-        ) : null }
-        <HoverContainer isActive={displayMenu} onClick={onMenuClick}>
-           <StyledMenuIcon />
-         </HoverContainer>
-      </RightSection>
-    </Container>
-    <Menu 
-      theme={theme} 
-      changeTheme={changeTheme}
-      isVisible={displayMenu}
-      setVisibility={setDisplayMenu}
-      onRefresh={onRefresh}
-      refreshing={refreshing}
-    />
+      <Container>
+        <LeftSection>
+          <StyledTitle onClick={() => router.push('/')}>
+            Tefi<span>App</span>
+          </StyledTitle>
+        </LeftSection>
+        <RightSection>
+          {slicedAddress ? (
+            <WalletContainer>
+              <WalletCopyContainer onClick={onCopyClick}>
+                <WalletIcon />
+                <WalletCopyTooltip isVisible={isVisible}>Copied!</WalletCopyTooltip>
+              </WalletCopyContainer>
+              <StyledAddressText>{slicedAddress}</StyledAddressText>
+              <CloseIcon onClick={onDisconnect} />
+            </WalletContainer>
+          ) : null}
+          <HoverContainer isActive={displayMenu} onClick={onMenuClick}>
+            <StyledMenuIcon />
+          </HoverContainer>
+        </RightSection>
+      </Container>
+      <Menu
+        theme={theme}
+        changeTheme={changeTheme}
+        isVisible={displayMenu}
+        setVisibility={setDisplayMenu}
+        onRefresh={onRefresh}
+        refreshing={refreshing}
+      />
     </>
   );
 };

@@ -9,7 +9,8 @@ import {
     LightSwitchIcon,
     DarkSwitchIcon,
     AnimatedRefresh,
-    RefreshIcon
+    RefreshIcon,
+    DashboardIcon
 } from './style';
 
 import CHARTS_ICON from '../../public/charts.svg';
@@ -33,13 +34,14 @@ const MenuContainer = styled(Flex)`
        justifyContent:'space-between', 
        ml:'auto',
        bg:'background',
-       height: 280,
+       height: 300,
        width:220,
        zIndex: props.isVisible ? 2 : -1,
        visibility: props.isVisible ? 'visible' : 'hidden',
        boxShadow: props.theme.boxShadow,
-       
    })}
+   border: 1px solid #f2f2f2;
+   border-radius: 6px;
 `;
 
 const ThemeIconContainer = styled(Flex)`
@@ -61,7 +63,7 @@ const Section = styled(Flex)`
 const TopSection = styled(Section)`
   ${css({
       height: 120,
-      pt:2,
+      pt:3,
 
   })}
 `;
@@ -70,17 +72,16 @@ const BottomSection = styled(Section)`
   ${css({
       height: 80,
       flexDirection: 'column',
+      pt:3,
   })}
 `;
 const Divider = styled(Box)`
   ${css({
-      boxSizing:'border-box',
-      minHeight: 2,
+      minHeight: 1,
       width: 'auto',
-      bg: 'focused',
       my: 2,
-      mx:2,
   })}
+  border: 0.5px solid #f2f2f2
 `;
 
 const ChartsIcon = styled(CHARTS_ICON)``;
@@ -93,6 +94,9 @@ const StyledHover = styled(HoverContainer)`
 const SectionRow = styled(Flex)`
  align-items: center;
  height: 40px;
+ ${css({
+      mb: 2
+  })}
 `;
 
 interface Props {
@@ -129,15 +133,12 @@ const Menu: React.FC<Props> = ({isVisible = false, setVisibility, theme, changeT
         <Box>
         <TopSection>
             <SectionRow>
+            <StyledHover onClick={() => onLinkClick('/dashboard')}>
+                <DashboardIcon/>
+            </StyledHover>
             <StyledHover onClick={() => onLinkClick('/market')}>
                 <ChartsIcon/>
             </StyledHover>
-            {onRefresh && (!refreshing ? 
-            (
-            <StyledHover>
-                <RefreshIcon onClick={onRefresh} />
-            </StyledHover> 
-            ) : <AnimatedRefresh />)}
             </SectionRow>
         </TopSection>
         <Divider />
@@ -165,6 +166,7 @@ const Menu: React.FC<Props> = ({isVisible = false, setVisibility, theme, changeT
         </Box>
         <ThemeIconContainer>
         <SwitchContainer>
+          {onRefresh && (!refreshing ? <RefreshIcon onClick={onRefresh} /> : <AnimatedRefresh />)}
           {theme === LIGHT_THEME ? <LightSwitchIcon onClick={changeTheme} /> : <DarkSwitchIcon onClick={changeTheme} />}
         </SwitchContainer>
         </ThemeIconContainer>
