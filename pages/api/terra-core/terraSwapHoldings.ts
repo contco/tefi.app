@@ -31,7 +31,7 @@ export const fetchTerraSwapHoldings = async (address: string, lunaUstPrice?: str
                     price = item.isLunaPair ? convertPrice(poolPrice, lunaUstPrice) : poolPrice;
                 }
                 else {
-                    price = bEthInfo.data.beth_price
+                    price = bEthInfo?.data?.beth_price
                 }
                 const blunaBlanace = div(balance, UNIT);
                 const value = times(blunaBlanace, price);
