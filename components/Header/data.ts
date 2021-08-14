@@ -23,7 +23,7 @@ export const PROTOCOL_LINKS = [
         name: "Mirror"
     },
     {
-        src: "/logos/ANC.png",
+        src: "/logos/anc.png",
         url: "https://app.anchorprotocol.com/",
         name: "Anchor"
     },
