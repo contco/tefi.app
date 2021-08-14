@@ -34,7 +34,7 @@ export const PROTOCOL_LINKS = [
     },
     {
         src: "/logos/spec.png",
-        url: "https://terra.spec.finance/",
+        url: "https://terra.spectrum.finance/",
         name: "Spectrum"
     },
     {
