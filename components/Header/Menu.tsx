@@ -58,7 +58,7 @@ export const BottomContainer = styled(Flex)`
 `;
 
 const Divider = styled.div`
-  border: 1px solid #f2f2f2;
+  border-top: 1px solid #f2f2f2;
 `;
 
 interface Props {
