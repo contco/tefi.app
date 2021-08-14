@@ -9,21 +9,21 @@ import { useRouter } from 'next/router';
 import { LIGHT_THEME } from '../../constants';
 import Section from './Section';
 
-import { INTERNAL_LINKS, PROTOCOL_LINKS } from './data';
+import { INTERNAL_LINKS, PROTOCOL_LINKS, UPCOMING_PROTOCOL_LINKS } from './data';
 
 const Parent = styled(Box)`
   ${css({
     position: 'absolute',
     top: 60,
     right: 14,
-    minHeight: 300,
-    width: 220,
+    minHeight: 369,
+    width: 270,
   })}
 `;
 
 const InneContainer = styled(Flex)`
   ${css({
-    height: 300,
+    height: 360,
   })}
   flex-direction: column;
   overflow: scroll;
@@ -36,8 +36,8 @@ const MenuContainer = styled(Flex)`
       flexDirection: 'column',
       justifyContent: 'space-between',
       bg: 'background',
-      height: 333,
-      width: 220,
+      height: 369,
+      width: 270,
       zIndex: props.isVisible ? 2 : -1,
       visibility: props.isVisible ? 'visible' : 'hidden',
       boxShadow: props.theme.boxShadow,
@@ -47,6 +47,7 @@ const MenuContainer = styled(Flex)`
 `;
 
 export const BottomContainer = styled(Flex)`
+  border-top: 1px solid #f2f2f2;
   ${(props) =>
     css({
       color: props.theme.colors.secondary,
@@ -107,6 +108,8 @@ const Menu: React.FC<Props> = ({
           <Section data={INTERNAL_LINKS} onItemClick={onInternalLinkClick} />
           <Divider />
           <Section data={PROTOCOL_LINKS} onItemClick={onLinkClick} />
+          <Divider />
+          <Section data={UPCOMING_PROTOCOL_LINKS} onItemClick={onLinkClick} />
         </InneContainer>
         <BottomContainer>
           {onRefresh && (!refreshing ? <RefreshIcon onClick={onRefresh} /> : <AnimatedRefresh />)}

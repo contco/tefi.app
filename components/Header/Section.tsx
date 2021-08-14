@@ -9,15 +9,28 @@ const Container = styled.div`
   })}
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 0.5rem;
+  gap: 1rem 0;
 `;
 
-const StyledHover = styled(HoverContainer)`
-  ${css({
-    mx: '14px',
-    color: 'secondary',
-  })}
-  place-self: center;
+const StyledHover = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  ${(props: any) =>
+    css({
+      mx: '14px',
+      color: 'secondary',
+      borderRadius: '5px',
+      transition: 'all ease-in 0.3s',
+      cursor: 'pointer',
+      bg: props.isActive ? 'focused' : 'transparent',
+      '&:hover': {
+        bg: 'focused',
+      },
+      pt: 2,
+    })}
+  place-self: stretch;
 `;
 
 interface Props {
@@ -28,10 +41,11 @@ interface Props {
 const Section: React.FC<Props> = ({ data, onItemClick }) => {
   return (
     <Container>
-      {data.map(({ component: Component, src, alt, url }) => (
+      {data.map(({ component: Component, src, alt, url, name }) => (
         <StyledHover onClick={() => onItemClick(url)}>
           {Component && <Component />}
           {src && <img src={src} alt={alt} height={26} width={26} />}
+          {name && <p style={{ fontSize: '9px', placeSelf: 'center' }}>{name}</p>}
         </StyledHover>
       ))}
     </Container>
