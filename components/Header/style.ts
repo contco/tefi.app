@@ -159,12 +159,12 @@ ${props => css({
 `;
 export const SwitchContainer = styled(Flex)`
   ${props => css({
-  color: props.theme.colors.secondary,
-  // minWidth: [10, null, 20],
-  justifyContent: 'center',
-  alignItems: 'center',
-
-})}
+    color: props.theme.colors.secondary,
+    // minWidth: [10, null, 20],
+    justifyContent: 'center',
+    alignItems: 'center',
+  })}
+  background-color: red;
 `;
 export const LightSwitchIcon = styled(LIGHT_SWITCH_ICON)`
 ${css({
@@ -216,13 +216,7 @@ export const AnimatedRefresh = styled(REFRESHING_ICON)`
 `;
 
 export const ChartsIcon = styled(CHARTS_ICON)`
-${css({
-  transition: 'opacity 0.3s',
-  cursor: 'pointer',
-  ml: 3,
-  color: 'secondary',
-  mr: [2, null, null, 4],
-})}
+  color: secondary;
   &:hover {
     opacity: 0.7;
   }
