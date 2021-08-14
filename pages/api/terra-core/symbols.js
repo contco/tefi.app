@@ -54,6 +54,14 @@ export const SWAP_TOKENS = [
         isLunaPair: false,
         token_addr: "terra1ez46kxtulsdv07538fh5ra5xj8l68mu8eg24vr",
         pool_addr: "terra1pn20mcwnmeyxf68vpt3cyel3n57qm9mp289jta"
+    },
+    {
+        name: "Bonded ETH",
+        symbol: "bETH",
+        isNative: false,
+        isLunaPair: false,
+        token_addr: "terra1dzhzukyezv0etz22ud940z7adyv7xgcjkahuun",
+        pool_addr: "terra1pn20mcwnmeyxf68vpt3cyel3n57qm9mp289jta"
     }
 ];
 
