@@ -21,4 +21,7 @@ module.exports = withPWA({
 
     return config;
   },
+  images: {
+    domains: ['storage.googleapis.com'],
+  },
 });

@@ -75,8 +75,8 @@ const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAsse
   };
 
   const getLunaStakedTotal = () => {
-    const total = core?.total?.stakedSum;
-    return parseFloat(total) ?? 0;
+    const total = parseFloat(core?.total?.stakedSum) + parseFloat(core?.total?.unstakedSum);
+    return total ?? 0;
   };
 
   const getCollateralValue = () => {

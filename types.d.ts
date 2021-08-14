@@ -56,11 +56,13 @@ interface LunaStaking {
   rewardsValue: string;
   totalValue: string;
   validator: string;
+  state: string;
 }
 
 interface CoreTotal {
   assetsSum: string;
   stakedSum: string;
+  unstakedSum: string;
 }
 
 interface Reward {
@@ -284,4 +286,9 @@ interface Assets {
   pylon?: PylonAccount;
   spectrum: SpectrumAccount
   loterra: LoterraAccount,
+}
+
+interface PriceChange {
+  change: number;
+  percentChange: number;
 }
