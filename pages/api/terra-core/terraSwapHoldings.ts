@@ -33,10 +33,10 @@ export const fetchTerraSwapHoldings = async (address: string, lunaUstPrice?: str
                 else {
                     price = bEthInfo?.data?.beth_price
                 }
-                const blunaBlanace = div(balance, UNIT);
-                const value = times(blunaBlanace, price);
+                const bondedBalance = div(balance, UNIT);
+                const value = times(bondedBalance, price);
                 terraSwapHoldingsSum = plus(terraSwapHoldingsSum, value);
-                terraSwapHoldings.push({ name: item.name, symbol: item.symbol, value, balance: blunaBlanace, price });
+                terraSwapHoldings.push({ name: item.name, symbol: item.symbol, value, balance: bondedBalance, price });
             }
             return item;
         });
