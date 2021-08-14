@@ -12,6 +12,7 @@ import {
     RefreshIcon,
     DashboardIcon
 } from './style';
+import { useRouter } from 'next/router';
 
 import CHARTS_ICON from '../../public/charts.svg';
 import Mirror from '../../public/icons/mirror.svg';
@@ -109,7 +110,7 @@ interface Props {
 }
 
 const Menu: React.FC<Props> = ({isVisible = false, setVisibility, theme, changeTheme, onRefresh, refreshing}) => {
-
+    const router = useRouter();
     const MenuRef = React.useRef<HTMLDivElement | null>(null);
 
     const onOutsideClick =  React.useCallback(() => {
@@ -128,13 +129,7 @@ const Menu: React.FC<Props> = ({isVisible = false, setVisibility, theme, changeT
     }
 
     const onInternalLinkClick = (url: string) => {
-        setTimeout(() => {
-            if ("standalone" in window.navigator) {
-                window.open(url);
-            } else {              
-                window.open(url, '_blank')
-            }
-        }, 300);
+        setTimeout(() => router.push(url), 300);
     }
 
     return (
