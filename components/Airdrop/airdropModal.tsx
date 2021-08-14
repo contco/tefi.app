@@ -81,7 +81,7 @@ export const AirdropModal: React.FC<Props> = ({showModal, setModalVisible, amoun
             <FeeText>${getTxFee()}</FeeText>
           </Section>
           <ButtonWrap>
-            <ClaimButton onClick={onClaimClick}>{!loading ? "Claim" : "Loading ..."}</ClaimButton>
+            <ClaimButton disabled onClick={() => null}>{"coming soon"}</ClaimButton>
           </ButtonWrap>
         </ModalBox>
       </Modal>
