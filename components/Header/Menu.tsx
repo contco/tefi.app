@@ -127,16 +127,26 @@ const Menu: React.FC<Props> = ({isVisible = false, setVisibility, theme, changeT
         setTimeout(() => window.open(url, '_blank'), 300);
     }
 
+    const onInternalLinkClick = (url: string) => {
+        setTimeout(() => {
+            if ("standalone" in window.navigator) {
+                window.open(url);
+            } else {              
+                window.open(url, '_blank')
+            }
+        }, 300);
+    }
+
     return (
         <Parent>
         <MenuContainer ref={MenuRef} isLight={theme === LIGHT_THEME} isVisible={isVisible}>
         <Box>
         <TopSection>
             <SectionRow>
-            <StyledHover onClick={() => onLinkClick('/dashboard')}>
+            <StyledHover onClick={() => onInternalLinkClick('/dashboard')}>
                 <DashboardIcon/>
             </StyledHover>
-            <StyledHover onClick={() => onLinkClick('/market')}>
+            <StyledHover onClick={() => onInternalLinkClick('/market')}>
                 <ChartsIcon/>
             </StyledHover>
             </SectionRow>
