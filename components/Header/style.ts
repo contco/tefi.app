@@ -10,6 +10,9 @@ import TEFI_LOGO from '../../public/tefi.svg';
 import REFRESH_ICON from '../../public/refresh.svg';
 import REFRESHING_ICON from '../../public/refreshing.svg';
 import CHARTS_ICON from '../../public/charts.svg';
+import MENU_ICON from '../../public/icons/circle-menu.svg';
+import DASHBOARD_ICON from '../../public/space_dashboard.svg';
+
 
 export const Container = styled(Flex)`
 ${props => css({
@@ -20,7 +23,7 @@ ${props => css({
   alignItems: 'center',
   position: 'sticky',
   top: 0,
-  zIndex: '100'
+  zIndex: 1
 })}
 `;
 
@@ -71,13 +74,13 @@ export const WalletCopyTooltip = styled(Flex)`
   position: absolute;
   width: 44px;
   height: 20px;
-  background-color: green;
   top: 30px;
   left: 0px;
   font-size: 8px;
   justify-content: center;
   align-items: center;
   border-radius: 25px;
+  z-index: 3;
   opacity: ${props => props.isVisible ? 1 : 0};
   ${css({
   bg: '#555',
@@ -143,7 +146,7 @@ ${props => css({
   height: 35,
   borderRadius: 50,
   border: `solid 2px ${props.theme.colors.secondary}`,
-  mr: [1, null, null, 3],
+  mr: [2, 2, null, 4],
   cursor: 'pointer',
   justifyContent: 'space-between',
   alignItems: 'center',
@@ -157,7 +160,7 @@ ${props => css({
 export const SwitchContainer = styled(Flex)`
   ${props => css({
   color: props.theme.colors.secondary,
-  minWidth: [30, null, 40],
+  // minWidth: [10, null, 20],
   justifyContent: 'center',
   alignItems: 'center',
 
@@ -188,7 +191,6 @@ ${css({
   color: 'secondary',
   transition: 'opacity 0.3s',
   cursor: 'pointer',
-  ml: 3,
 })}
   &:hover {
     opacity: 0.7;
@@ -207,8 +209,7 @@ const rotate = keyframes`
 
 export const AnimatedRefresh = styled(REFRESHING_ICON)`
   animation: ${rotate} 2s infinite;
-  ${(props) =>
-    css({
+  ${css({
       color: 'secondary',
       ml: 3,
     })}
@@ -225,4 +226,35 @@ ${css({
   &:hover {
     opacity: 0.7;
   }
+`;
+
+export const DashboardIcon = styled(DASHBOARD_ICON)`
+  color: secondary;
+  &:hover {
+    opacity: 0.7;
+  }
+`;
+
+
+export const HoverContainer = styled(Flex)`
+  ${props => css({
+    p:2,
+    justifyContent:'center',
+    alignItems:'center',
+    maxWidth: 'fit-content',
+    height: 'max-content',
+    borderRadius: '50%',
+    transition: 'all ease-in 0.3s',
+    cursor: 'pointer',
+    bg: props.isActive ? 'focused' : 'transparent',
+    '&:hover': {
+        bg: 'focused',
+    }
+  })}
+`;
+
+export const StyledMenuIcon = styled(MENU_ICON)`
+  ${css({
+      color:'secondary',
+  })}
 `;
