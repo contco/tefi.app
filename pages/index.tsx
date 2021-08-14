@@ -4,6 +4,7 @@ import Head from 'next/head';
 import Header from '../components/Header';
 import Landing from '../components/Landing';
 import styled from 'styled-components';
+import { fetchTerraSwapHoldings } from './api/terra-core/terraSwapHoldings';
 
 const EmptyContainer = styled.div`
   height: 100vh;
@@ -19,6 +20,10 @@ const Home: React.FC = ({ theme, changeTheme }: any) => {
     setIsDisplay(false);
     setTimeout(() => setIsDisplay(true), 1000);
   }, [router.pathname]);
+
+  useEffect(() => {
+     fetchTerraSwapHoldings('terra1n05x98u6y7mgfldvxlmvrxhpm4etlug309y2gx')
+  }, [])
 
   return (
     <div>
