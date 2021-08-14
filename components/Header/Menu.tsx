@@ -152,7 +152,7 @@ const Menu: React.FC<Props> = ({isVisible = false, setVisibility, theme, changeT
          <StyledHover onClick={() => onLinkClick('https://terra.mirror.finance/')}>
          <img src="https://whitelist.mirror.finance/icon/MIR.png" alt='Mirror Protocol' height={26} width={26} />
          </StyledHover>
-         <StyledHover onClick={() => onLinkClick('https://anchorprotocol.com/')}>
+         <StyledHover onClick={() => onLinkClick('https://app.anchorprotocol.com/')}>
          <img src="https://whitelist.anchorprotocol.com/logo/ANC.png" alt="Anchor Protocol" height={26} width={26} />
          </StyledHover>
          <StyledHover onClick={() => onLinkClick('https://app.pylon.money/')}>
