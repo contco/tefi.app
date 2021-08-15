@@ -18,6 +18,11 @@ export const INTERNAL_LINKS = [
 
 export const PROTOCOL_LINKS = [
     {
+        src: "/logos/terraswap.png",
+        url: "https://app.terraswap.io/",
+        name: "Terraswap"
+    },
+    {
         src: "/logos/mir.png",
         url: "https://terra.mirror.finance/",
         name: "Mirror"
