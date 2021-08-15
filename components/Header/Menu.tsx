@@ -12,12 +12,13 @@ import Section from './Section';
 import { INTERNAL_LINKS, PROTOCOL_LINKS, UPCOMING_PROTOCOL_LINKS } from './data';
 
 const Parent = styled(Box)`
-  ${css({
+  ${(props) => css({
     position: 'absolute',
     top: 60,
     right: 14,
     minHeight: 369,
     width: 270,
+    visibility: props.isVisible ? 'visible' : 'hidden',
   })}
 `;
 
@@ -40,7 +41,6 @@ const MenuContainer = styled(Flex)`
       height: 369,
       width: 270,
       zIndex: props.isVisible ? 2 : -1,
-      visibility: props.isVisible ? 'visible' : 'hidden',
       boxShadow: props.theme.boxShadow,
     })}
   border: 1px solid #f2f2f2;
@@ -103,7 +103,7 @@ const Menu: React.FC<Props> = ({
   };
 
   return (
-    <Parent>
+    <Parent isVisible={isVisible}>
       <MenuContainer ref={MenuRef} isLight={theme === LIGHT_THEME} isVisible={isVisible}>
         <InneContainer>
           <Section data={INTERNAL_LINKS} onItemClick={onInternalLinkClick} />

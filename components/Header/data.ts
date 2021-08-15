@@ -72,7 +72,7 @@ export const UPCOMING_PROTOCOL_LINKS = [
     },
     {
         src: "/loop.png",
-        url: "https://terra.mirror.finance/",
+        url: "https://loop.markets/",
         name: "Loop"
     },
     {
