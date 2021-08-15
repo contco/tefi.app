@@ -72,7 +72,7 @@ export const UPCOMING_PROTOCOL_LINKS = [
     },
     {
         src: "/loop.png",
-        url: "https://gateway.pylon.money/tokens/loop",
+        url: "https://loop.markets/",
         name: "Loop"
     },
     {
