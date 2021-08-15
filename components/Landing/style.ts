@@ -211,6 +211,7 @@ export const Footer = styled(Box)`
 
 
 export const TelegramIcon = styled(TELEGRAM_ICON)`
+cursor: pointer;
   ${css({
     color:'secondary',
     marginRight: '20px'
@@ -218,6 +219,7 @@ export const TelegramIcon = styled(TELEGRAM_ICON)`
   `
 
   export const TwitterIcon = styled(TWITTER_ICON)`
+  cursor: pointer;
   ${css({
       marginRight: '15px',
       color:'secondary'
