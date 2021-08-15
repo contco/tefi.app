@@ -10,7 +10,12 @@ const EmptyContainer = styled.div`
   width: 100vh;
   background-color: ${(props) => props.theme.colors.background};
 `;
-
+const Footer = styled.div`
+  height: 10vh;
+  width: "100%";
+  background-color: red;
+  // background-color: ${(props) => props.theme.colors.background};
+`;
 const Home: React.FC = ({ theme, changeTheme }: any) => {
   const [isDisplay, setIsDisplay] = useState<boolean>(false);
   const router = useRouter();
@@ -33,6 +38,7 @@ const Home: React.FC = ({ theme, changeTheme }: any) => {
             <Header theme={theme} changeTheme={changeTheme} />
           </div>
           <Landing />
+        
         </div>
       )}
     </div>

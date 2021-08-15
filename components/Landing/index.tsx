@@ -14,6 +14,10 @@ import {
   ModalSection,
   WarningText,
   Row,
+  Footer,
+  TelegramIcon,
+  TwitterIcon
+  
 } from './style';
 import { isMobile } from 'react-device-detect';
 import useWallet from '../../lib/useWallet';
@@ -21,6 +25,8 @@ import { AccAddress } from '@terra-money/terra.js';
 import { Modal } from '@contco/core-ui';
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link'
+
 
 import { ADDRESS_KEY, WalletConnectType } from '../../constants';
 
@@ -88,7 +94,17 @@ const Landing: React.FC = () => {
             </AddressSubmit>
           </Row>
         </AddressContainer>
+        <Footer>
+        <Link href="https://twitter.com/tefiapp?lang=en">
+        <TwitterIcon/>
+        </Link>
+        <Link href="https://t.co/1EpMGxZKe5?amp=1">
+        <TelegramIcon/>
+        </Link>
+        </Footer>
+
       </Container>
+
       { !isMobile ?
       <Modal isOpen={showModel} onClose={() => setModelVisible(false)}>
         <ModalBox>
@@ -101,7 +117,6 @@ const Landing: React.FC = () => {
       </Modal>
       :
       null
-
 
        } </>
   );

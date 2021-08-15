@@ -1,6 +1,10 @@
 import { Flex, Text, Button, Input, Box } from '@contco/core-ui';
 import css from '@styled-system/css';
 import styled from 'styled-components';
+import TELEGRAM_ICON from '../../public/icons/telegram.svg';
+import TWITTER_ICON from '../../public/icons/twitter.svg';
+
+
 
 export const Container = styled(Flex)`
   flex-direction: column;
@@ -191,3 +195,32 @@ export const Row = styled(Box)`
     minHeight: ["auto", null, null, 100, null],
   })}
 `; 
+export const Footer = styled(Box)`
+
+  
+  height: 40px;
+  width: 100px;
+  align-self: center;
+  width: "100%";
+  bottom: 5%;
+  position: absolute;  
+  right: 2%;
+  flex-direction: row;
+
+`;
+
+
+export const TelegramIcon = styled(TELEGRAM_ICON)`
+  ${css({
+    color:'secondary',
+    marginRight: '20px'
+  })}
+  `
+
+  export const TwitterIcon = styled(TWITTER_ICON)`
+  ${css({
+      marginRight: '15px',
+      color:'secondary'
+
+})}
+  `
