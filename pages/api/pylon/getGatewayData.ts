@@ -1,15 +1,13 @@
-import axios from "axios";
-import { div, plus, sum } from "../../../utils/math";
+import { div, plus } from "../../../utils/math";
 import { fetchData, wasmStoreRequest } from "../commons";
 import { UNIT , times} from "../mirror/utils";
 import { PYLON_API_ENDPOINT } from "./constants";
 
-
 const getUserProjectsData = async (projects: any, address: string) => {
  if(projects) {
     const userProjectsDataPromise = projects.map( async (project: any) => {
-      const userProjectPromise =  axios.get(PYLON_API_ENDPOINT + `launchpad/v1/projects/${project.symbol}/status/${address}`);
-      const projectTokenOverviewPromise =  axios.get(PYLON_API_ENDPOINT + `${project.symbol}/v1/overview`);
+      const userProjectPromise =  fetchData(PYLON_API_ENDPOINT + `launchpad/v1/projects/${project.symbol}/status/${address}`);
+      const projectTokenOverviewPromise =  fetchData(PYLON_API_ENDPOINT + `${project.symbol}/v1/overview`);
       const [userProjectData, projectTokenOverview] = await Promise.all([userProjectPromise, projectTokenOverviewPromise]);
       const {priceInUst} = projectTokenOverview.data;
       return {project: userProjectData?.data, price: priceInUst};
