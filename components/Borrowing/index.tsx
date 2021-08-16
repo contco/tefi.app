@@ -17,12 +17,31 @@ const CSS_NET_APR = (props) =>
 
 const StyledPercentage = Styled(Flex)`
  ${css({
-   justifyContent: ['flex-start', null, null,null, null, 'center'],
+   justifyContent: ['flex-start', null, null, null, null, 'center'],
    py: [20, 30, null, 80],
    px: [20, 40, null, 60],
-   ml: [55, 30,'5px',null, 15, '0px']
+   ml: [55, 30, '5px', null, 15, '0px'],
  })}
 `;
+
+const COLLATERAL_CONTRACTS = {
+  terra1dzhzukyezv0etz22ud940z7adyv7xgcjkahuun: {
+    name: 'bETH',
+    priceKey: 'bEthPrice',
+  },
+  terra1kc87mu460fwkqte29rquh4hc20m54fxwtsx7gp: {
+    name: 'bLUNA',
+    priceKey: 'lunaprice',
+  },
+};
+
+const getCollateralValue = (borrow) => {
+  let totalValue = 0;
+  borrow.collaterals.forEach((item) => {
+    totalValue += (parseFloat(item?.balance) / 1000000) * parseFloat(item?.price);
+  });
+  return totalValue;
+};
 
 export interface BorrowingProps {
   ancAssets: AccountAnc;
@@ -30,9 +49,7 @@ export interface BorrowingProps {
 
 const Borrowing: React.SFC<BorrowingProps> = ({ ancAssets }) => {
   const borrow: BorrowData = ancAssets.debt;
-  const collateralValue = borrow.collaterals
-    ? ((parseFloat(borrow?.collaterals[0]?.balance) / 1000000) * parseFloat(borrow.lunaprice)).toString()
-    : '0';
+  const collateralValue = getCollateralValue(borrow).toString();
 
   if (!borrow?.collaterals) return <></>;
 
