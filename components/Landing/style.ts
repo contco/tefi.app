@@ -209,8 +209,8 @@ export const Footer = styled(Box)`
 `;
 
 export const TelegramIcon = styled(TELEGRAM_ICON)`
-  cursor: pointer;
-  background-color: 'red';
+
+margin-top: 4px;
 
   ${css({
     color: 'secondary',
@@ -218,9 +218,7 @@ export const TelegramIcon = styled(TELEGRAM_ICON)`
 `;
 
 export const TwitterIcon = styled(TWITTER_ICON)`
-  // :hover {
-  //   transform: scale(1.5);
-  // }  cursor: pointer;
+margin-top: 4px;
   ${css({
     color: 'secondary',
   })}
@@ -229,11 +227,11 @@ export const TwitterIcon = styled(TWITTER_ICON)`
 export const HoverContainer = styled(Flex)`
   ${(props) =>
     css({
-      p: 2,
+      p: 3,
       justifyContent: 'center',
       alignItems: 'center',
-      maxWidth: 'fit-content',
-      height: 'max-content',
+      width: 40,
+      height: 40,
       borderRadius: '50%',
       float: 'left',
       transition: 'all ease-in 0.3s',
