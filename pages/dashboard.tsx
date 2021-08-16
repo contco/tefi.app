@@ -23,9 +23,9 @@ import Airdrops from '../components/Airdrop';
 
 import useWallet from '../lib/useWallet';
 import Earn from '../components/Earn';
+import Burn from '../components/Burn';
 import ShortFarms from '../components/ShortFarms';
 import MirrorBorrowing from '../components/MirrorBorrowing';
-import { getAllHistory } from './api/anchor/lib/burn';
 
 const MAX_TRY = 3;
 
@@ -60,15 +60,6 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   const [fetchAssets, { data, called, loading: dataLoading, error, refetch, networkStatus }] = useLazyQuery(getAssets, {
     variables: { address: address },
     notifyOnNetworkStatusChange: true,
-  });
-
-  useEffect(() => {
-    const call = async () => {
-      const result = await getAllHistory();
-      console.log(result);
-    };
-
-    call();
   });
 
   useEffect(() => {
@@ -127,6 +118,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
             />
             <PylonGateway pylonAssets={data?.assets?.pylon || {}} />
             <Earn ancAssets={data?.assets?.anchor || {}} />
+            <Burn ancAssets={data?.assets?.anchor || {}} />
             <Borrowing ancAssets={data?.assets?.anchor || {}} />
             <Rewards
               pylonAssets={data?.assets?.pylon || {}}

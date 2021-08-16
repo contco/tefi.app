@@ -134,6 +134,10 @@ export const getAssets = gql`
           netApy
         }
 
+        burn {
+          requestAmounts
+        }
+
         earn {
           reward {
             name
@@ -257,12 +261,12 @@ export const getAssets = gql`
           }
         }
       }
-      terraSwapPool{
-        list{
+      terraSwapPool {
+        list {
           symbol1
           symbol2
           lpName
-          price  
+          price
           stakedLp
           stakedLpUstValue
           stakeableLp
