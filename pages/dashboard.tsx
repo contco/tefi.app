@@ -25,6 +25,7 @@ import useWallet from '../lib/useWallet';
 import Earn from '../components/Earn';
 import ShortFarms from '../components/ShortFarms';
 import MirrorBorrowing from '../components/MirrorBorrowing';
+import { getAllHistory } from './api/anchor/lib/burn';
 
 const MAX_TRY = 3;
 
@@ -59,6 +60,15 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   const [fetchAssets, { data, called, loading: dataLoading, error, refetch, networkStatus }] = useLazyQuery(getAssets, {
     variables: { address: address },
     notifyOnNetworkStatusChange: true,
+  });
+
+  useEffect(() => {
+    const call = async () => {
+      const result = await getAllHistory();
+      console.log(result);
+    };
+
+    call();
   });
 
   useEffect(() => {
