@@ -24,17 +24,6 @@ const StyledPercentage = Styled(Flex)`
  })}
 `;
 
-const COLLATERAL_CONTRACTS = {
-  terra1dzhzukyezv0etz22ud940z7adyv7xgcjkahuun: {
-    name: 'bETH',
-    priceKey: 'bEthPrice',
-  },
-  terra1kc87mu460fwkqte29rquh4hc20m54fxwtsx7gp: {
-    name: 'bLUNA',
-    priceKey: 'lunaprice',
-  },
-};
-
 const getCollateralValue = (borrow) => {
   let totalValue = 0;
   borrow.collaterals.forEach((item) => {
