@@ -85,6 +85,11 @@ export const AddressContainer = styled(Flex)`
   })}
 `;
 
+
+export const Link = styled.a`
+  
+`;
+
 export const AddressInput = styled(Input)`
   border-radius: 9px;
   border: none;
