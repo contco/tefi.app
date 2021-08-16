@@ -36,10 +36,10 @@ const updatePoolList = (data: any,  poolList) => {
 
 const getLoopPoolData = async (project, address) =>{
   let poolsData = []
-  const totalAmount = "1000000000000000";
   const preSetPrice = "0.035";
+  const timestamp = Math.floor(Date.now() / 1000);
   const query_blance = {balance_of:{owner:address}};
-  const query_reward = {claimable_reward:{owner:address,timestamp:Date.now()}};
+  const query_reward = {claimable_reward:{owner:address,timestamp}};
   let depositeSum = 0;
   let rewardsSum = 0;
   try {
@@ -47,7 +47,7 @@ const getLoopPoolData = async (project, address) =>{
         const balanceRequest = await wasmStoreRequest(p.contract,query_blance);
         const balance = balanceRequest?.amount / UNIT;
         const rewardsRequest = await wasmStoreRequest(p.contract, query_reward);
-        const rewards = div(rewardsRequest.amount, totalAmount);
+        const rewards = div(rewardsRequest.amount, UNIT);
         const rewardsValue = times(rewards, preSetPrice);
         depositeSum += balance; 
         rewardsSum += parseFloat(rewardsValue);
