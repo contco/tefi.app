@@ -26,7 +26,7 @@ const StyledPercentage = Styled(Flex)`
 
 const getCollateralValue = (borrow) => {
   let totalValue = 0;
-  borrow.collaterals.forEach((item) => {
+  borrow?.collaterals?.forEach((item) => {
     totalValue += (parseFloat(item?.balance) / 1000000) * parseFloat(item?.price);
   });
   return totalValue;
