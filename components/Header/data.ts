@@ -66,9 +66,9 @@ export const UPCOMING_PROTOCOL_LINKS = [
         name: "Astroport"
     },
     {
-        src: "/logos/val.png",
-        url: "https://twitter.com/valkyrie_money",
-        name: "Valkyrie"
+        src: "/logos/prism.png",
+        url: "https://twitter.com/prism_protocol",
+        name: "Prism"
     },
     {
         src: "/loop.png",
@@ -76,9 +76,34 @@ export const UPCOMING_PROTOCOL_LINKS = [
         name: "Loop"
     },
     {
+        src: "/logos/orion.png",
+        url: "https://orion.money",
+        name: "Orion"
+    },
+    {
+        src: "/logos/starterra.png",
+        url: "https://starterra.io",
+        name: "StarTerra"
+    },
+    {
         src: "/twd.png",
         url: "https://terraoffice.world",
         name: "Terraoffice"
+    },
+    {
+        src: "/logos/angel.png",
+        url: "https://twitter.com/angelprotocol",
+        name: "Angel"
+    },
+    {
+        src: "/logos/val.png",
+        url: "https://twitter.com/valkyrie_money",
+        name: "Valkyrie"
+    },
+    {
+        src: "/logos/spar.png",
+        url: "https://spar.finance",
+        name: "Spar"
     },
     {
         src: "/logos/harp.png",
@@ -96,9 +121,34 @@ export const UPCOMING_PROTOCOL_LINKS = [
         name: "Apollo"
     },
     {
+        src: "/logos/neptune.png",
+        url: "https://twitter.com/neptune_finance",
+        name: "Neptune"
+    },
+    {
         src: "/logos/talis.png",
         url: "https://talis.art",
         name: "Talis"
+    },
+    {
+        src: "/logos/preserver.png",
+        url: "https://twitter.com/preserver_tefi",
+        name: "Preserver"
+    },
+    {
+        src: "/logos/edge.png",
+        url: "https://twitter.com/EdgeProtocol",
+        name: "Edge"
+    },
+    {
+        src: "/logos/ink.png",
+        url: "https://inkprotocol.finance",
+        name: "INK"
+    },
+    {
+        src: "/logos/betterra.png",
+        url: "http://betterra.money",
+        name: "BetTerra"
     },
 ];
 
