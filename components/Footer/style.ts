@@ -9,15 +9,17 @@ export const Link = styled.a`
 `;
 
 
-export const Footer = styled(Box)`
+export const Wrapper = styled(Box)`
   height: 38px;
-  width: 88px;
   align-self: center;
   width: '100%';
-  bottom: 1%;
+  bottom: 1.3%;
   position: absolute;
   right: 0;
   flex-direction: row;
+  padding-right: 16px;
+  
+
 `;
 
 export const TelegramIcon = styled(TELEGRAM_ICON)`
@@ -39,7 +41,6 @@ margin-top: 4px;
 export const HoverContainer = styled(Flex)`
   ${(props) =>
     css({
-      p: 3,
       justifyContent: 'center',
       alignItems: 'center',
       width: 40,

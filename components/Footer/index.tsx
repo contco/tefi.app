@@ -1,20 +1,28 @@
-import { Footer, TelegramIcon, TwitterIcon, HoverContainer, Link } from './style';
+import { Wrapper, TelegramIcon, TwitterIcon, HoverContainer, Link } from './style';
 
-const footer = () => {
+const data = [
+  {
+    component: <TelegramIcon />,
+    uri: 'https://t.co/1EpMGxZKe5?amp=1',
+  },
+  {
+    component: <TwitterIcon />,
+    uri: 'https://twitter.com/tefiapp',
+  },
+];
+
+const Footer = () => {
   return (
-  <Footer>
-    <HoverContainer>
-      <Link target="_blank" href="https://twitter.com/tefiapp?lang=en">
-        <TwitterIcon />
-      </Link>
-    </HoverContainer>
-    <HoverContainer>
-      <Link target="_blank" href="https://t.co/1EpMGxZKe5?amp=1">
-        <TelegramIcon />
-      </Link>
-    </HoverContainer>
-  </Footer>
-  )
+    <Wrapper>
+      {data.map((item, index) => (
+        <HoverContainer key={index}>
+          <Link target="_blank" href={item.uri}>
+            {item.component}
+          </Link>
+        </HoverContainer>
+      ))}
+    </Wrapper>
+  );
 };
 
-export default footer;
+export default Footer;
