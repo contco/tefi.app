@@ -79,12 +79,6 @@ const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAsse
     return total ?? 0;
   };
 
-  // const getCollateralValue = () => {
-  //   return ancAssets?.debt?.collaterals
-  //     ? (parseFloat(ancAssets?.debt?.collaterals[0]?.balance) / 1000000) * parseFloat(ancAssets?.debt?.lunaprice)
-  //     : 0;
-  // };
-
   const getCollateralValue = () => {
     let totalValue = 0;
     ancAssets?.debt?.collaterals.forEach((item) => {
