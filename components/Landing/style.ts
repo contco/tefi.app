@@ -1,5 +1,6 @@
 import { Flex, Text, Button, Input, Box } from '@contco/core-ui';
 import css from '@styled-system/css';
+import { Dirent } from 'node:fs';
 import styled from 'styled-components';
 import TELEGRAM_ICON from '../../public/icons/telegram.svg';
 import TWITTER_ICON from '../../public/icons/twitter.svg';
@@ -199,10 +200,10 @@ export const Footer = styled(Box)`
 
   
   height: 38px;
-  width: 80px;
+  width: 88px;
   align-self: center;
   width: "100%";
-  bottom: 0%;
+  bottom: 1%;
   position: absolute;  
   right: 0;
   flex-direction: row;
@@ -212,21 +213,40 @@ export const Footer = styled(Box)`
 
 export const TelegramIcon = styled(TELEGRAM_ICON)`
 cursor: pointer;
-:hover {
-  transform: scale(1.5); 
-} 
+background-color: 'red';
+
   ${css({
     color:'secondary',
   })}
   `
 
   export const TwitterIcon = styled(TWITTER_ICON)`
-  :hover {
-    transform: scale(1.5); 
-  }  cursor: pointer;
+  // :hover {
+  //   transform: scale(1.5); 
+  // }  cursor: pointer;
   ${css({
-      marginRight: '20px',
       color:'secondary'
 
 })}
   `
+
+
+  export const HoverContainer = styled(Flex)`
+  ${props => css({
+    p:2,
+    justifyContent:'center',
+    alignItems:'center',
+    maxWidth: 'fit-content',
+    height: 'max-content',
+    borderRadius: '50%',
+    float: 'left',
+    transition: 'all ease-in 0.3s',
+    cursor: 'pointer',
+    bg: props.isActive ? 'focused' : 'transparent',
+    '&:hover': {
+        bg: 'focused',
+    }
+  })}
+`;
+
+

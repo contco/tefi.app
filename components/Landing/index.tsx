@@ -16,8 +16,8 @@ import {
   Row,
   Footer,
   TelegramIcon,
-  TwitterIcon
-  
+  TwitterIcon,
+  HoverContainer
 } from './style';
 import { isMobile } from 'react-device-detect';
 import useWallet from '../../lib/useWallet';
@@ -95,14 +95,17 @@ const Landing: React.FC = () => {
           </Row>
         </AddressContainer>
         <Footer>
+        <HoverContainer>
         <Link href="https://twitter.com/tefiapp?lang=en">
         <TwitterIcon/>
         </Link>
+        </HoverContainer>
+        <HoverContainer>
         <Link href="https://t.co/1EpMGxZKe5?amp=1">
-        <TelegramIcon/>
+          <TelegramIcon/>
         </Link>
+        </HoverContainer>
         </Footer>
-
       </Container>
 
       { !isMobile ?
