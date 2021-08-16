@@ -7,9 +7,14 @@ import { getPrice } from '../../terra-core/core';
 import { LUNA_DENOM } from '../../terra-core/symbols';
 import axios from 'axios';
 import { ancPriceQuery } from './ancPrice';
+import { fetchData } from '../../commons';
 
 const LCDURL = 'https://lcd.terra.dev/';
 const name = 'UST Borrow';
+
+const BASSETS_INFO = 'https://api.anchorprotocol.com/api/v1/bassets/';
+
+const bETHContract = 'terra1dzhzukyezv0etz22ud940z7adyv7xgcjkahuun'
 
 export const REWARDS_CLAIMABLE_UST_BORROW_REWARDS_QUERY = `
   query (
@@ -80,6 +85,20 @@ export const BORROW_RATE_QUERY = `
     },
 `;
 
+export const GET_COLLATERALS_QUERY = `
+  query (
+    $overseerContract: String!
+    $getCollateralsQuery: String!
+  ) {
+    overseerCollaterals: WasmContractsContractAddressStore(
+      ContractAddress: $overseerContract
+      QueryMsg: $getCollateralsQuery
+    ) {
+      Result
+    }
+  }
+`;
+
 export const getBorrowLimit = async ({ address }: any) => {
   const result = await anchor.borrow.getBorrowLimit({ market: MARKET_DENOMS.UUSD, address });
   return result;
@@ -91,8 +110,37 @@ export const getBorrowedValue = async ({ address }: any) => {
 };
 
 export const getCollaterals = async ({ address }: any) => {
-  const result = await anchor.borrow.getCollaterals({ market: MARKET_DENOMS.UUSD, address });
-  return result;
+  const rawData = await mantleFetch(
+    GET_COLLATERALS_QUERY,
+    {
+      overseerContract: ContractAddresses['overseer'],
+      getCollateralsQuery: JSON.stringify({
+        collaterals: {
+          borrower: address,
+        },
+      }),
+    },
+    `${DEFAULT_MANTLE_ENDPOINTS['mainnet']}/?borrow--borrower`,
+  );
+  const result = JSON.parse(rawData?.overseerCollaterals?.Result)
+
+  const bEthRequest = await fetchData(BASSETS_INFO + 'beth');
+  const bEthPrice = bEthRequest?.data?.beth_price;
+
+  const bLUNARequest = await fetchData(BASSETS_INFO + 'bluna');
+  const bLUNAPrice = bLUNARequest?.data?.bLuna_price;
+
+  if (result?.collaterals.length)
+    return result.collaterals.map((item) => {
+      const collateral = item[0];
+      return {
+        collateral,
+        balance: item[1],
+        price: collateral == bETHContract ? bEthPrice : bLUNAPrice
+      }
+    });
+
+  return []
 };
 
 export const rewardsClaimableUstBorrowRewardsQuery = async (mantleEndpoint, address) => {
@@ -154,47 +202,56 @@ export const getBorrowRate = async () => {
 
   return rate;
 };
-
 export default async (address) => {
   try {
-  const [borrowLimit, borrowedValue, collaterals, allRewards, rewards, lunaPrice, borrowRate, {ancPrice}] = await Promise.all([getBorrowLimit({ address }), getBorrowedValue({ address }), getCollaterals({ address }), borrowAPYQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']), rewardsClaimableUstBorrowRewardsQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet'], address), getPrice(LUNA_DENOM), getBorrowRate(), ancPriceQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']) ]);
-  const percentage = (parseFloat(borrowedValue) / parseFloat(borrowLimit)) * 100 * 0.6;
-  const distributionAPY = allRewards?.borrowerDistributionAPYs[0]?.DistributionAPY;
-  const borrowApy = borrowRate?.data?.result?.rate * blocksPerYear;
-  const netApy = (parseFloat(distributionAPY) - borrowApy).toString();
+    const [borrowLimit, borrowedValue, collaterals, allRewards, rewards, lunaPrice, borrowRate, { ancPrice }] = await Promise.all([
+      getBorrowLimit({ address }),
+      getBorrowedValue({ address }),
+      getCollaterals({ address }),
+      borrowAPYQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']),
+      rewardsClaimableUstBorrowRewardsQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet'], address),
+      getPrice(LUNA_DENOM),
+      getBorrowRate(),
+      ancPriceQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet'])
+    ]);
+    const percentage = (parseFloat(borrowedValue) / parseFloat(borrowLimit)) * 100 * 0.6;
+    const distributionAPY = allRewards?.borrowerDistributionAPYs[0]?.DistributionAPY;
+    const borrowApy = borrowRate?.data?.result?.rate * blocksPerYear;
+    const netApy = (parseFloat(distributionAPY) - borrowApy).toString();
 
-  const result = {
-    reward: {
-      name,
-      apy: formatRate(distributionAPY),
-      reward: formatUSTWithPostfixUnits(demicrofy(rewards?.borrowerInfo?.pending_rewards)),
-    },
-    limit: borrowLimit,
-    value: borrowedValue,
-    collaterals: collaterals && collaterals[0] ? collaterals : null,
-    percentage: percentage.toString(),
-    lunaprice: lunaPrice,
-    ancprice: ancPrice.ANCPrice,
-    netApy: formatRate(netApy),
-  };
+    const result = {
+      reward: {
+        name,
+        apy: formatRate(distributionAPY),
+        reward: formatUSTWithPostfixUnits(demicrofy(rewards?.borrowerInfo?.pending_rewards)),
+      },
+      limit: borrowLimit,
+      value: borrowedValue,
+      collaterals: collaterals && collaterals[0] ? collaterals : null,
+      percentage: percentage.toString(),
+      lunaprice: lunaPrice,
+      ancprice: ancPrice.ANCPrice,
+      netApy: formatRate(netApy),
+    };
 
-  return result;
- }
- catch(err){
-   const result = {
-    reward: {
-      name,
-      apy: '0',
-      reward: '0',
-    },
-    limit: '0',
-    value: '0',
-    collaterals:  null,
-    percentage: '0',
-    lunaprice: '0',
-    ancprice: '0',
-    netApy: '0',
-  };
-  return result;
- }
+    return result;
+  }
+  catch (err) {
+    const result = {
+      reward: {
+        name,
+        apy: '0',
+        reward: '0',
+      },
+      limit: '0',
+      value: '0',
+      collaterals: null,
+      percentage: '0',
+      lunaprice: '0',
+      ancprice: '0',
+      netApy: '0',
+      bEthPrice: '0',
+    };
+    return result;
+  }
 };
