@@ -198,11 +198,11 @@ export const Row = styled(Box)`
 export const Footer = styled(Box)`
 
   
-  height: 40px;
-  width: 100px;
+  height: 38px;
+  width: 80px;
   align-self: center;
   width: "100%";
-  bottom: 1%;
+  bottom: 0%;
   position: absolute;  
   right: 0;
   flex-direction: row;
@@ -217,7 +217,6 @@ cursor: pointer;
 } 
   ${css({
     color:'secondary',
-    marginRight: '20px'
   })}
   `
 
