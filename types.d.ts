@@ -108,8 +108,23 @@ interface EarnData {
   reward?: Reward;
 }
 
+interface Amount {
+  amount: string;
+  amountValue: string;
+}
+interface Time {
+  requestedTime: string;
+  claimableTime: string;
+}
+
+interface RequestData {
+  amount: Amount;
+  time: Time;
+}
+
 interface BurnData {
-  requestAmounts: Array<string>;
+  requestData: Array<RequestData>;
+  withdrawableAmount: string;
 }
 
 interface Total {

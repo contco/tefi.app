@@ -1,6 +1,17 @@
 import { convertToFloatValue } from '../../utils/convertFloat';
-import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText } from '../dashboardStyles';
+import {
+  Wrapper,
+  Row,
+  HeadingWrapper,
+  Heading,
+  Title,
+  StyledText,
+  SubText,
+  StyledTextContainer,
+  SimpleText,
+} from '../dashboardStyles';
 import { BurnTitle } from '../../constants';
+import { Box, Flex } from '@contco/core-ui';
 
 const HEADING_TEXT = `Anchor Burn`;
 
@@ -11,12 +22,24 @@ export interface BurnProps {
 const Earn: React.FC<BurnProps> = ({ ancAssets }) => {
   const burn: BurnData = ancAssets?.burn;
 
-  if (burn?.requestAmounts.length <= 0) return <></>;
+  const withdrawableAmount = burn.withdrawableAmount;
+
+  if (burn?.requestData.length <= 0) return <></>;
+
+  const getTotalBurnValue = () => {
+    const totalValue = burn?.requestData.reduce((a, data) => a + parseFloat(data?.amount?.amountValue), 0);
+    return totalValue.toFixed(3);
+  };
 
   const getBurnData = () => {
-    return burn?.requestAmounts.map((amount: string, index) => (
+    return burn?.requestData.map((data: RequestData, index) => (
       <Row key={index}>
-        <StyledText>{convertToFloatValue(amount)} bLUNA</StyledText>
+        <Box>
+          <StyledText>{convertToFloatValue(data.amount.amount)} bLUNA</StyledText>
+          <SubText>${convertToFloatValue(data.amount.amountValue)}</SubText>
+        </Box>
+        <StyledText>{data.time.requestedTime || 'Pending'}</StyledText>
+        <StyledText>{data.time.claimableTime || 'Pending'}</StyledText>
       </Row>
     ));
   };
@@ -25,7 +48,20 @@ const Earn: React.FC<BurnProps> = ({ ancAssets }) => {
     <Wrapper>
       <HeadingWrapper>
         <Heading>{HEADING_TEXT}</Heading>
-        <StyledText>${0}</StyledText>
+        <Flex>
+          <StyledTextContainer>
+            <SimpleText>
+              <b>Total:</b> &nbsp;
+            </SimpleText>
+            <SimpleText>${getTotalBurnValue()}</SimpleText>
+          </StyledTextContainer>
+          <StyledTextContainer>
+            <SimpleText>
+              <b>Withdrawable Amount:</b> &nbsp;
+            </SimpleText>
+            <SimpleText>{withdrawableAmount} bLUNA</SimpleText>
+          </StyledTextContainer>
+        </Flex>
       </HeadingWrapper>
       <Row>
         {BurnTitle.map((t, index) => (

@@ -85,8 +85,24 @@ const typeDefs = gql`
     anchorHoldingsSum: String!
   }
 
+  type Amount {
+    amount: String
+    amountValue: String
+  }
+
+  type Time {
+    requestedTime: String
+    claimableTime: String
+  }
+
+  type RequestData {
+    amount: Amount
+    time: Time
+  }
+
   type BurnData {
-    requestAmounts: [String]
+    requestData: [RequestData]
+    withdrawableAmount: String
   }
 
   type AccountANC {

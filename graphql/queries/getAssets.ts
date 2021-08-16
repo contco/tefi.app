@@ -133,9 +133,18 @@ export const getAssets = gql`
           ancprice
           netApy
         }
-
         burn {
-          requestAmounts
+          requestData {
+            amount {
+              amount
+              amountValue
+            }
+            time {
+              requestedTime
+              claimableTime
+            }
+          }
+          withdrawableAmount
         }
 
         earn {
