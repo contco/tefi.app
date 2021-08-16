@@ -70,7 +70,7 @@ const getProjectPoolData = (userProjects: any, launchpadProjects: any) => {
   const gatewayPoolData = userProjects.reduce((poolList, userData, index) => {
      if(userData && userData?.project?.depositLogs?.length !== 0) {
         let pool = [...poolList];
-        userData?.project?.length && userData?.project?.depositLogs.forEach((deposit: any) => {
+        userData?.project?.depositLogs.length && userData?.project?.depositLogs.forEach((deposit: any) => {
           const poolDetails = launchpadProjects[index]?.pools.find(pool => pool.id === deposit?.pool?.id); 
           const poolName = launchpadProjects[index]?.symbol+ " " +poolDetails?.name;
           const rewardReleaseDate = deposit?.pool?.cliffFinishesAt;
