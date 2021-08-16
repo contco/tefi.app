@@ -202,9 +202,9 @@ export const Footer = styled(Box)`
   width: 100px;
   align-self: center;
   width: "100%";
-  bottom: 5%;
+  bottom: 1%;
   position: absolute;  
-  right: 2%;
+  right: 0;
   flex-direction: row;
  
 `;
@@ -226,7 +226,7 @@ cursor: pointer;
     transform: scale(1.5); 
   }  cursor: pointer;
   ${css({
-      marginRight: '15px',
+      marginRight: '20px',
       color:'secondary'
 
 })}
