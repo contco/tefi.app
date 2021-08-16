@@ -125,6 +125,7 @@ export const getAssets = gql`
           collaterals {
             balance
             collateral
+            price
           }
           value
           percentage

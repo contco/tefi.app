@@ -10,7 +10,7 @@ const fetchBalance = async (address: string) => {
     const balance = await anchor.anchorToken.getBalance(address);
     return balance;
   }
-  catch(err){
+  catch (err) {
     return '0';
   }
 }
@@ -20,7 +20,7 @@ const fetchPrice = async () => {
     const price = anchor.anchorToken.getANCPrice();
     return price;
   }
-  catch(err){    
+  catch (err) {
     return '0';
   }
 }

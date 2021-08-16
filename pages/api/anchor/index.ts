@@ -31,6 +31,7 @@ const typeDefs = gql`
   type UserCollateral {
     collateral: String
     balance: String
+    price: String
   }
 
   type BorrowData {
