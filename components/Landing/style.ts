@@ -206,12 +206,15 @@ export const Footer = styled(Box)`
   position: absolute;  
   right: 2%;
   flex-direction: row;
-
+ 
 `;
 
 
 export const TelegramIcon = styled(TELEGRAM_ICON)`
 cursor: pointer;
+:hover {
+  transform: scale(1.5); 
+} 
   ${css({
     color:'secondary',
     marginRight: '20px'
@@ -219,7 +222,9 @@ cursor: pointer;
   `
 
   export const TwitterIcon = styled(TWITTER_ICON)`
-  cursor: pointer;
+  :hover {
+    transform: scale(1.5); 
+  }  cursor: pointer;
   ${css({
       marginRight: '15px',
       color:'secondary'
