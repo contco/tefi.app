@@ -88,6 +88,7 @@ interface UserCollateral {
   __typename?: 'UserCollateral';
   collateral?: string;
   balance?: string;
+  price?: string;
 }
 
 interface BorrowData {
