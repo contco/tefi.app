@@ -26,11 +26,6 @@ const Earn: React.FC<BurnProps> = ({ ancAssets }) => {
 
   if (burn?.requestData.length <= 0) return <></>;
 
-  const getTotalBurnValue = () => {
-    const totalValue = burn?.requestData.reduce((a, data) => a + parseFloat(data?.amount?.amountValue), 0);
-    return totalValue.toFixed(3);
-  };
-
   const getBurnData = () => {
     return burn?.requestData.map((data: RequestData, index) => (
       <Row key={index}>
@@ -53,7 +48,7 @@ const Earn: React.FC<BurnProps> = ({ ancAssets }) => {
             <SimpleText>
               <b>Total:</b> &nbsp;
             </SimpleText>
-            <SimpleText>${getTotalBurnValue()}</SimpleText>
+            <SimpleText>${convertToFloatValue(burn?.totalBurnAmountValue)}</SimpleText>
           </StyledTextContainer>
           <StyledTextContainer>
             <SimpleText>

@@ -103,6 +103,8 @@ const typeDefs = gql`
   type BurnData {
     requestData: [RequestData]
     withdrawableAmount: String
+	totalBurnAmount: String
+	totalBurnAmountValue: String
   }
 
   type AccountANC {

@@ -125,6 +125,8 @@ interface RequestData {
 interface BurnData {
   requestData: Array<RequestData>;
   withdrawableAmount: string;
+  totalBurnAmount: string;
+  totalBurnAmountValue: string;
 }
 
 interface Total {

@@ -79,6 +79,7 @@ export const getWithdrawableRequest = async (address: string) => {
         }),
       );
     }
+
     const withdrawableAmount = JSON.parse(withdrawables?.data?.data.withdrawableUnbonded?.Result)?.withdrawable;
 
     return {
@@ -96,8 +97,13 @@ export const getWithdrawableRequest = async (address: string) => {
 export default async (address) => {
   const { requestHistories, withdrawableAmount } = await getWithdrawableRequest(address);
 
+  const totalBurnAmount = requestHistories.reduce((a, data) => a + parseFloat(data?.amount?.amount), 0).toString();
+  const totalBurnAmountValue = requestHistories.reduce((a, data) => a + parseFloat(data?.amount?.amountValue), 0).toString();
+
   return {
     requestData: requestHistories,
     withdrawableAmount,
+	totalBurnAmount,
+	totalBurnAmountValue
   };
 };
