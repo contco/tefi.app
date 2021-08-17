@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import css from '@styled-system/css';
 import { Text } from '@contco/core-ui';
-
+import LazyImage from '../LazyImage';
 
 const OvalShap = styled.div<BubbleProps>`
   ${({ size, color }) => css({
@@ -16,7 +16,7 @@ const OvalShap = styled.div<BubbleProps>`
 }
 `;
 
-const StyleImage = styled.img<BubbleProps>`
+const StyleImage = styled(LazyImage)<BubbleProps>`
   ${({ size }) => css({
   borderRadius: '50%',
   width: [(80 / 3) * size, null, null, 84 / 3 * size, 90 / 3 * size, 110 / 3 * size, 120 / 3 * size, null, 130 / 3 * size, (150 / 3) * size],

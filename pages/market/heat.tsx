@@ -4,7 +4,7 @@ import { GetStaticPaths } from 'next';
 import { request } from 'graphql-request';
 import Header from '../../components/Header';
 import Bubble from '../../components/Bubble';
-import data from '../../components/Bubble/dummy.json';
+import data from '../../components/Bubble/images.json';
 import { assets} from '../../constants/assets';
 import { TERRA_SWAP_GRAPHQL_URL } from '../../constants';
 import { getTokenKey } from '../../helpers/market';
