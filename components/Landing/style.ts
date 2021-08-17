@@ -1,6 +1,5 @@
 import { Flex, Text, Button, Input, Box } from '@contco/core-ui';
 import css from '@styled-system/css';
-import { Dirent } from 'node:fs';
 import styled from 'styled-components';
 
 export const Container = styled(Flex)`
