@@ -1,12 +1,13 @@
-import axios from "axios";
+import { div, plus } from "../../../utils/math";
+import { fetchData, wasmStoreRequest } from "../commons";
+import { UNIT , times} from "../mirror/utils";
 import { PYLON_API_ENDPOINT } from "./constants";
-
 
 const getUserProjectsData = async (projects: any, address: string) => {
  if(projects) {
     const userProjectsDataPromise = projects.map( async (project: any) => {
-      const userProjectPromise =  axios.get(PYLON_API_ENDPOINT + `launchpad/v1/projects/${project.symbol}/status/${address}`);
-      const projectTokenOverviewPromise =  axios.get(PYLON_API_ENDPOINT + `${project.symbol}/v1/overview`);
+      const userProjectPromise =  fetchData(PYLON_API_ENDPOINT + `launchpad/v1/projects/${project.symbol}/status/${address}`);
+      const projectTokenOverviewPromise =  fetchData(PYLON_API_ENDPOINT + `${project.symbol}/v1/overview`);
       const [userProjectData, projectTokenOverview] = await Promise.all([userProjectPromise, projectTokenOverviewPromise]);
       const {priceInUst} = projectTokenOverview.data;
       return {project: userProjectData?.data, price: priceInUst};
@@ -33,13 +34,43 @@ const updatePoolList = (data: any,  poolList) => {
     }
 }
 
+const getLoopPoolData = async (project, address) =>{
+  let poolsData = []
+  const preSetPrice = "0.035";
+  const timestamp = Math.floor(Date.now() / 1000);
+  const query_blance = {balance_of:{owner:address}};
+  const query_reward = {claimable_reward:{owner:address,timestamp}};
+  let depositeSum = 0;
+  let rewardsSum = 0;
+  try {
+      const task = project.pools.map(async p =>{
+        const balanceRequest = await wasmStoreRequest(p.contract,query_blance);
+        const balance = balanceRequest?.amount / UNIT;
+        const rewardsRequest = await wasmStoreRequest(p.contract, query_reward);
+        const rewards = div(rewardsRequest.amount, UNIT);
+        const rewardsValue = times(rewards, preSetPrice);
+        depositeSum += balance; 
+        rewardsSum += parseFloat(rewardsValue);
+        if(balance !== 0){
+          poolsData.push({symbol:project.symbol, apy:"0", poolName:'LOOP '+p.name, depositLogs: [],totalDeposit:balance.toString(), rewards, rewardsValue}); 
+        }
+      return task;
+    })
+    await Promise.all(task)
+    return {poolsData, depositeSum: depositeSum.toString() , rewardsSum:rewardsSum.toString()};
+  } catch (error) {
+    return {poolsData:[], depositeSum:"0", rewardsSum:"0"};
+  }
+
+}
+
 const getProjectPoolData = (userProjects: any, launchpadProjects: any) => {
     let gatewayRewardsSum = 0;
     let gatewayDepositsSum = 0;
   const gatewayPoolData = userProjects.reduce((poolList, userData, index) => {
      if(userData && userData?.project?.depositLogs?.length !== 0) {
         let pool = [...poolList];
-       userData?.project?.depositLogs.forEach((deposit: any) => {
+        userData?.project?.depositLogs?.length && userData?.project?.depositLogs.forEach((deposit: any) => {
           const poolDetails = launchpadProjects[index]?.pools.find(pool => pool.id === deposit?.pool?.id); 
           const poolName = launchpadProjects[index]?.symbol+ " " +poolDetails?.name;
           const rewardReleaseDate = deposit?.pool?.cliffFinishesAt;
@@ -65,11 +96,16 @@ const getProjectPoolData = (userProjects: any, launchpadProjects: any) => {
 
 export const getGatewayData = async (address: string) => {
   try {
-    const launchpadProjects = await axios.get(PYLON_API_ENDPOINT + `launchpad/v1/projects/`);
+    const launchpadProjects = await fetchData(PYLON_API_ENDPOINT + `launchpad/v1/projects/`);
+    const loopPoolContracts = await fetchData(PYLON_API_ENDPOINT + `gateway/v1/projects/loop/`);
+    const loopPoolRequest =  await getLoopPoolData(loopPoolContracts?.data?.project, address);
     const userProjectsData = await getUserProjectsData(launchpadProjects?.data?.projects, address);
     if(userProjectsData) {
-    const projectPoolData = getProjectPoolData(userProjectsData, launchpadProjects?.data?.projects);
-    return projectPoolData;
+      const projectPoolData = getProjectPoolData(userProjectsData, launchpadProjects?.data?.projects);
+      const gatewayPoolData = [...projectPoolData?.gatewayPoolData ,...loopPoolRequest?.poolsData];
+      const gatewayDepositsSum = plus(projectPoolData.gatewayDepositsSum,loopPoolRequest.depositeSum);
+      const gatewayRewardsSum = plus(projectPoolData.gatewayRewardsSum,loopPoolRequest.rewardsSum);
+      return { gatewayPoolData, gatewayDepositsSum , gatewayRewardsSum};
     }
     return { gatewayPoolData: [], gatewayDepositsSum: '0', gatewayRewardsSum: '0'};
   }

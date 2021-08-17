@@ -6,6 +6,7 @@ module.exports = withPWA({
     SERVER_END_POINT: process.env.SERVER_END_POINT,
   },
   pwa: {
+    disable: process.env.NODE_ENV === 'development',
     dest: 'public',
     runtimeCaching,
   },
@@ -19,5 +20,8 @@ module.exports = withPWA({
     });
 
     return config;
+  },
+  images: {
+    domains: ['storage.googleapis.com'],
   },
 });

@@ -22,7 +22,9 @@ export const lightTheme = {
     modalBackground: '#ffffff',
     connectborder: 'solid 1px #0221ba',
     title: '#000',
+    focused: '#f1f1f1'
   },
+  boxShadow: '0 1px 10px 0 rgba(225, 221, 221, 0.5)',
   opacity: {
     logo: `0.25`,
   },
@@ -47,7 +49,9 @@ export const darkTheme = {
     modalBackground: '#1a1a1a',
     connectborder: '1px solid #fff',
     title: '#ffffff',
+    focused: '#75768d',
   },
+  boxShadow: '0 1px 4px 0 rgba(66, 66, 68, 0.5)',
   opacity: {
     logo: `0.40`,
   },
