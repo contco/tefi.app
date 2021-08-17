@@ -136,7 +136,8 @@ export const getCollaterals = async ({ address }: any) => {
       return {
         collateral,
         balance: item[1],
-        price: collateral == bETHContract ? bEthPrice : bLUNAPrice
+        price: collateral == bETHContract ? bEthPrice : bLUNAPrice,
+        symbol: collateral == bETHContract ? "bEth" : "bLuna"
       }
     });
 

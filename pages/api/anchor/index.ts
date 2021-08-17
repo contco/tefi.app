@@ -32,6 +32,7 @@ const typeDefs = gql`
     collateral: String
     balance: String
     price: String
+    symbol: String
   }
 
   type BorrowData {
