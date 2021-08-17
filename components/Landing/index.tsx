@@ -14,6 +14,7 @@ import {
   ModalSection,
   WarningText,
   Row,
+  
 } from './style';
 import { isMobile } from 'react-device-detect';
 import useWallet from '../../lib/useWallet';
@@ -21,6 +22,7 @@ import { AccAddress } from '@terra-money/terra.js';
 import { Modal } from '@contco/core-ui';
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
+import Footer from '../Footer';
 
 import { ADDRESS_KEY, WalletConnectType } from '../../constants';
 
@@ -88,7 +90,9 @@ const Landing: React.FC = () => {
             </AddressSubmit>
           </Row>
         </AddressContainer>
+        <Footer/>
       </Container>
+
       { !isMobile ?
       <Modal isOpen={showModel} onClose={() => setModelVisible(false)}>
         <ModalBox>
@@ -101,7 +105,6 @@ const Landing: React.FC = () => {
       </Modal>
       :
       null
-
 
        } </>
   );
