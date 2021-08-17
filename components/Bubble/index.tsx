@@ -5,16 +5,11 @@ import { Text } from '@contco/core-ui';
 
 
 const OvalShap = styled.div<BubbleProps>`
-  ${({ size, position, color }) => css({
+  ${({ size, color }) => css({
   borderRadius: '50%',
   width: [80 * size, null, null, 84 * size, 90 * size, 110 * size, 120 * size, null, 130 * size, 150 * size],
   height: [80 * size, null, null, 84 * size, 90 * size, 110 * size, 120 * size, null, 130 * size, 150 * size],
   background: color,
-  position: 'absolute',
-  top: position?.top || 0,
-  bottom: position?.bottom || 0,
-  right: position?.right || 0,
-  left: position?.left || 0,
 })}
 &:hover {
   border:3px solid ${({ theme }) => theme.colors.secondary} 
@@ -55,19 +50,11 @@ const StyleText = styled(Text)`
 })}
 `;
 
-type Position = {
-  top?: string,
-  bottom?: string,
-  right?: string,
-  left?: string
-}
-
 export type BubbleProps = {
   price: string,
   symbol?: string,
   imageUrl: string,
   size: number,
-  position: Position,
   color: string
 }
 
