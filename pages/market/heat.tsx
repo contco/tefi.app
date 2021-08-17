@@ -54,7 +54,8 @@ const HeatBubble: React.FC = ({ theme, changeTheme, pairData }: any) => {
 
     const bubbleSize = (percentage) => {
         const defaultSize = 900;
-        const size = (parseFloat(percentage)/defaultSize) * 100;
+        const positivePer = parseFloat(percentage) > 0? parseFloat(percentage):parseFloat(percentage) * -1 ;
+        const size = (positivePer/defaultSize) * 100;
         return size;
     }
 

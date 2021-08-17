@@ -27,7 +27,7 @@ const StyleImage = styled(LazyImage)<BubbleProps>`
   marginRight: '-50%',
   transform: 'translate(-50%, -50%)',
   background: '#ffffff',
-  padding: [0.5, null, 1],
+  border:`${5*size}px solid #ffff`,
 })}
 `;
 
