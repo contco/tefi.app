@@ -15,7 +15,7 @@ export const MarketTitles = ['Total Market Value', 'Total Assets', 'Total Borrow
 export const AssetsTitle = ['Ticker', 'Name', 'Balance', 'Price', 'Value'];
 
 //Anchor Borrowing
-export const BorrowingTitle = ['bEth Collateral', 'bLuna Collateral', 'Collateral Value', 'Borrowed Value', 'Net APR'];
+export const BorrowingTitle = ['Collateral List', 'Collateral Value', 'Borrowed Value', 'Net APR'];
 
 //Pools
 export const PoolsTitle = ['Name', 'Staked', 'Stakeable', 'Value'];

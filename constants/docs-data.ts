@@ -122,9 +122,13 @@ export const CODE_EXAMPLE = `{
               reward
             }
             collaterals {
-              balance
               collateral
+              balance
+              price
+              value:
+              symbol
             }
+            totalCollateralValue
             value
             percentage
             lunaprice

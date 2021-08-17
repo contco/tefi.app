@@ -126,8 +126,10 @@ export const getAssets = gql`
             balance
             collateral
             price
+            value
             symbol
           }
+          totalCollateralValue
           value
           percentage
           lunaprice

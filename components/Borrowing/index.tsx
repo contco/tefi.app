@@ -24,43 +24,13 @@ const StyledPercentage = Styled(Flex)`
  })}
 `;
 
-const getCollateralValue = (borrow) => {
-  let totalValue = 0;
-  let bEthValue = 0;
-  let bLunaValue = 0;
-  let bEthPrice = 0;
-  let bLunaPrice = 0;
-  let bEthSymbol = null;
-  let bLunaSymbol = null;
-  borrow?.collaterals?.length && borrow?.collaterals?.forEach((item) => {
-
-    totalValue += (parseFloat(item?.balance) / 1000000) * parseFloat(item?.price);
-    if(item?.symbol === "bEth"){
-      bEthSymbol = item?.symbol;
-      bEthPrice = (parseFloat(item?.balance) / 1000000) * parseFloat(item?.price) || 0;
-      bEthValue  = parseFloat(item?.balance) / 1000000 || 0;
-    }else if(item?.symbol === "bLuna"){
-      bLunaSymbol = item?.symbol;
-      bLunaPrice = (parseFloat(item?.balance) / 1000000) * parseFloat(item?.price) || 0;
-      bLunaValue  = parseFloat(item?.balance) / 1000000 || 0;
-    }
-  });
-  return {totalValue,bEthPrice,bEthValue,bLunaPrice,bLunaValue,bEthSymbol,bLunaSymbol};
-};
-
 export interface BorrowingProps {
   ancAssets: AccountAnc;
 }
 
 const Borrowing: React.SFC<BorrowingProps> = ({ ancAssets }) => {
   const borrow: BorrowData = ancAssets.debt;
-  const collateralValue = getCollateralValue(borrow)?.totalValue?.toString();
-  const bEthValue = getCollateralValue(borrow)?.bEthValue?.toString();
-  const bLunaValue = getCollateralValue(borrow)?.bLunaValue?.toString();
-  const bEthPrice = getCollateralValue(borrow)?.bEthPrice?.toString();
-  const bLunaPrice = getCollateralValue(borrow)?.bLunaPrice?.toString();
-  const bEthSymbol = getCollateralValue(borrow)?.bEthSymbol;
-  const bLunaSymbol = getCollateralValue(borrow)?.bLunaSymbol;
+
 
   if (!borrow?.collaterals) return <></>;
 
@@ -77,15 +47,26 @@ const Borrowing: React.SFC<BorrowingProps> = ({ ancAssets }) => {
       </Row>
 
       <Row>
-      <div>
-          <StyledText> {convertToFloatValue(bEthValue)} {bEthSymbol}</StyledText>
-          <SubText>${convertToFloatValue(bEthPrice)}</SubText>
-          </div>
           <div>
-          <StyledText> {convertToFloatValue(bLunaValue)} {bLunaSymbol}</StyledText>
-          <SubText>${convertToFloatValue(bLunaPrice)}</SubText>
+            { borrow.collaterals.map((item)=>{
+             if(item.symbol === 'bEth'){
+             return(
+                <>
+                <StyledText> {convertToFloatValue(item.balance)} {item.symbol}</StyledText>
+                <SubText>${convertToFloatValue(item.value)}</SubText>
+                <br></br>
+                </>)
+                }else if(item.symbol === 'bLuna'){
+                  return (
+                    <>
+                <StyledText> {convertToFloatValue(item.balance)} {item.symbol}</StyledText>
+                <SubText>${convertToFloatValue(item.value)}</SubText>
+                </>
+                  )
+                }
+            })}
           </div>
-        <StyledText> ${convertToFloatValue(collateralValue)}</StyledText>
+        <StyledText> ${convertToFloatValue(borrow?.totalCollateralValue)}</StyledText>
         <StyledText> ${convertToFloatValue(borrow?.value)}</StyledText>
         <StyledText css={CSS_NET_APR}> {convertToFloatValue(borrow?.netApy)}%</StyledText>
       </Row>
