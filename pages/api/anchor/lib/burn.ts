@@ -17,69 +17,80 @@ const ALL_HISTORY_QUERY = (number) =>
 const valueConversion = (value) => value / UNIT;
 
 export const getAllHistory = async (requestNumber: number) => {
-  const history = await axios.get(URL + '?bond--withdraw-history', {
-    params: {
-      query: ALL_HISTORY_QUERY(requestNumber),
-      variables: {},
-    },
-  });
+  try {
+    const history = await axios.get(URL + '?bond--withdraw-history', {
+      params: {
+        query: ALL_HISTORY_QUERY(requestNumber),
+        variables: {},
+      },
+    });
 
-  const histories = JSON.parse(history?.data?.data?.allHistory?.Result).history;
+    const histories = JSON.parse(history?.data?.data?.allHistory?.Result).history;
 
-  if (histories.length > 0) {
-    const exchangeRate = histories[0].applied_exchange_rate;
-    const requestedTime = secondsToDate(histories[0].time);
-    const unbondingPeriod = JSON.parse(history?.data?.data?.parameters?.Result)?.unbonding_period;
-    const claimableTime = secondsToDate(histories[0].time + unbondingPeriod);
+    if (histories.length > 0) {
+      const exchangeRate = histories[0].applied_exchange_rate;
+      const requestedTime = secondsToDate(histories[0].time);
+      const unbondingPeriod = JSON.parse(history?.data?.data?.parameters?.Result)?.unbonding_period;
+      const claimableTime = secondsToDate(histories[0].time + unbondingPeriod);
 
-    return {
-      exchangeRate,
-      requestedTime,
-      claimableTime,
-    };
-  } else {
+      return {
+        exchangeRate,
+        requestedTime,
+        claimableTime,
+      };
+    } else {
+      return {};
+    }
+  } catch (err) {
     return {};
   }
 };
 
 export const getWithdrawableRequest = async (address: string) => {
-  const withdrawables = await axios.get(URL + '?bond--withdrawable-requests', {
-    params: {
-      query: WITHDRAWABLE_REQUEST_QUERY(address),
-      variables: {},
-    },
-  });
+  try {
+    const withdrawables = await axios.get(URL + '?bond--withdrawable-requests', {
+      params: {
+        query: WITHDRAWABLE_REQUEST_QUERY(address),
+        variables: {},
+      },
+    });
 
-  const requests = JSON.parse(withdrawables.data?.data?.unbondedRequests.Result).requests;
-  let requestHistories = [];
-  if (requests.length > 0) {
-    requestHistories = await Promise.all(
-      requests.map(async (request) => {
-        const amount = valueConversion(request[1]).toString();
-        const history = await getAllHistory(request[0]);
-        const bLUNARequest = await fetchData(BASSETS_INFO + 'bluna');
-        const bLunaPrice = bLUNARequest?.data?.bLuna_price;
-        const totalValue = parseFloat(amount) * parseFloat(bLunaPrice);
+    const requests = JSON.parse(withdrawables.data?.data?.unbondedRequests.Result).requests;
+    let requestHistories = [];
+    if (requests.length > 0) {
+      requestHistories = await Promise.all(
+        requests.map(async (request) => {
+          const amount = valueConversion(request[1]).toString();
+          const history = await getAllHistory(request[0]);
+          const bLUNARequest = await fetchData(BASSETS_INFO + 'bluna');
+          const bLunaPrice = bLUNARequest?.data?.bLuna_price;
+          const totalValue = parseFloat(amount) * parseFloat(bLunaPrice);
 
-        return {
-          amount: {
-            amount,
-            amountValue: totalValue.toString(),
-          },
-          time: {
-            requestedTime: history?.requestedTime,
-            claimableTime: history?.claimableTime,
-          },
-        };
-      }),
-    );
+          return {
+            amount: {
+              amount,
+              amountValue: totalValue.toString(),
+            },
+            time: {
+              requestedTime: history?.requestedTime,
+              claimableTime: history?.claimableTime,
+            },
+          };
+        }),
+      );
+    }
+    const withdrawableAmount = JSON.parse(withdrawables?.data?.data.withdrawableUnbonded?.Result)?.withdrawable;
+
+    return {
+      requestHistories,
+      withdrawableAmount: valueConversion(withdrawableAmount).toString(),
+    };
+  } catch (err) {
+    return {
+      requestHistories: [],
+      withdrawableAmount: '0',
+    };
   }
-  const withdrawableAmount = JSON.parse(withdrawables?.data?.data.withdrawableUnbonded?.Result)?.withdrawable;
-
-  return {
-    requestHistories,
-    withdrawableAmount: valueConversion(withdrawableAmount).toString(),
-  };
 };
 
 export default async (address) => {
