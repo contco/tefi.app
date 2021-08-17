@@ -2,7 +2,7 @@ export default {
   openGraph: {
     url: 'https://www.tefi.app/',
     type: 'website',
-    title: 'TefiApp | Your portal to TeFi test',
+    title: 'TefiApp | Your portal to TeFi',
     description: '',
     images: [
       {
