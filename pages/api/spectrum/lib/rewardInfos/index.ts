@@ -12,6 +12,11 @@ export const getSpecRewardInfos = async (address, height) => {
     return specRewards?.data?.result?.reward_infos;
 }
 
+export const getPylonRewardInfos = async (address, height) => {
+  const pylonRewards =  await axios.get(LCD_URL + `wasm/contracts/${contracts.pylonFarm}/store?query_msg=%7B%22reward_info%22:%7B%22staker_addr%22:%22${address}%22,%22height%22:${height}%7D%7D`);
+  return pylonRewards?.data?.result?.reward_infos;
+}
+
 const formatRewardInfos = (rewards) => {
   const rewards_infos = {};
   rewards.forEach((item) => {
@@ -24,6 +29,7 @@ const formatRewardInfos = (rewards) => {
 export const getRewardInfos = async (address, height) => {
   const mirrorRewardInfos = await getMirrorRewardInfos(address,height);
   const specRewardInfos = await getSpecRewardInfos(address, height);
-  const rewardInfos = formatRewardInfos([...mirrorRewardInfos, ...specRewardInfos]);
+  const pylonRewardInfos = await getPylonRewardInfos(address, height);
+  const rewardInfos = formatRewardInfos([...mirrorRewardInfos, ...specRewardInfos, ...pylonRewardInfos]);
   return rewardInfos;
 };

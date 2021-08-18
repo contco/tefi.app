@@ -237,8 +237,8 @@ interface SpecFarms {
   farm: string;
   stakedSpec: string;
   stakedSpecValue: string;
-  stakedMir: string;
-  stakedMirValue: string;
+  tokenRewardsStaked: string;
+  tokenRewardsStakedValue: string;
   apy: string;
 }
 

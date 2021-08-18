@@ -18,3 +18,16 @@ export const getPairPool = async(contract: string) => {
     });
    return pairPool?.result;
 }
+
+export const createPairStats = (poolApr, token, poolInfos, govWeight, totalWeight, govStats) => {
+  const poolInfo = poolInfos[token];
+  const stat = {
+    poolApr,
+    poolApy: (poolApr / 365 + 1) ** 365 - 1,
+    farmApr: govStats.statistic.govAPR,
+    tvl: '0',
+    multiplier: poolInfo ? govWeight * poolInfo.weight / totalWeight : 0,
+    vaultFee: 0,
+  };
+  return stat;
+}

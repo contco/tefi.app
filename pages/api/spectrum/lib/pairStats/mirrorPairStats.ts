@@ -2,7 +2,7 @@ import axios from "axios";
 import { request, gql } from 'graphql-request';
 import { LCD_URL } from "../../../utils";
 import { contracts } from "../contracts";
-import { fromEntries, getPairPool } from "../utils";
+import { fromEntries, getPairPool, createPairStats } from "../utils";
 import networks from "../../../../../utils/networks";
 import BigNumber from 'bignumber.js';
 
@@ -49,18 +49,6 @@ const getRewardInfos = async () =>  {
     return rewardInfos?.result;
 }
 
-const createPairStats = (poolApr, token, poolInfos, govWeight, totalWeight, govStats) => {
-    const poolInfo = poolInfos[token];
-    const stat = {
-      poolApr,
-      poolApy: (poolApr / 365 + 1) ** 365 - 1,
-      farmApr: govStats.statistic.govAPR,
-      tvl: '0',
-      multiplier: poolInfo ? govWeight * poolInfo.weight / totalWeight : 0,
-      vaultFee: 0,
-    };
-    return stat;
-}
 
 const getPairs = (assetStats: any, poolInfo, govWeight, totalWeight, govStats) => {
     const pairs = {}; 

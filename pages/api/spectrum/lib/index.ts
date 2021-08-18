@@ -68,11 +68,10 @@ const fetchData = async (address: string) => {
 }
 
 export const getAccount = async (address: string) => {
-  const height  = await getLatestBlockHeight();
   const [userSpec, specPool, specBalance] = await fetchData(address);
   const specPrice =  specPool ? getSpecPrice(specPool) : '0';
 
-  const {farms, farmsTotal,rewardsTotal, govApr} = await getFarmInfos(address, height, specPrice);
+  const {farms, farmsTotal,rewardsTotal, govApr} = await getFarmInfos(address, specPrice);
   const holdings = getHoldings(specBalance ,specPrice);
   const specGov = getSpecGov(userSpec, specPrice, govApr)
   const holdingsTotal = specBalance === '0' ? '0' : holdings[0].value;

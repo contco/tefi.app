@@ -286,8 +286,8 @@ export const getAssets = gql`
           farm
           stakedSpec
           stakedSpecValue
-          stakedMir
-          stakedMirValue
+          tokenRewardsStaked
+          tokenRewardsStakedValue
           apy
         }
         specGov {

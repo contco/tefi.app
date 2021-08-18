@@ -6,17 +6,10 @@ import { getPairStats } from "./pairStats";
 import { getRewardInfos } from "./rewardInfos";
 import { getGovConfig, getGovState, getGovVaults } from "./gov";
 import { calculateFarmInfos } from "./calculateFarmInfo";
+import { getLatestBlockHeight} from "../../utils";
 
-
-const getPoolInfos = async () => {
-  const mirrorPoolPromise = axios.get(LCD_URL + `wasm/contracts/${contracts.mirrorFarm}/store`, {
-    params: {
-      query_msg: JSON.stringify({
-        pools: {}
-      })
-    },
-  });
-  const specPoolPromise = axios.get(LCD_URL + `wasm/contracts/${contracts.specFarm}/store`, {
+const fetchSpecFarmInfo = async (pool_addr: string) => {
+  const { data } = await axios.get(LCD_URL + `wasm/contracts/${pool_addr}/store`, {
     params: {
       query_msg: JSON.stringify({
         pools: {}
@@ -24,24 +17,45 @@ const getPoolInfos = async () => {
     },
   });
 
-  const [mirrorPool, specPool] = await Promise.all([mirrorPoolPromise, specPoolPromise]);
+  return data?.result;
+};
+
+
+export const getPoolInfos = async () => {
+  const mirrorPoolPromise = fetchSpecFarmInfo(contracts.mirrorFarm);
+  const specPoolPromise = fetchSpecFarmInfo(contracts.specFarm);
+  const anchorPoolPromise = fetchSpecFarmInfo(contracts.anchorFarm)
+  const pylonPoolPromise = fetchSpecFarmInfo(contracts.pylonFarm);
+
+  const [mirrorPool, specPool, anchorPool, pylonPool] = await Promise.all([mirrorPoolPromise, specPoolPromise, anchorPoolPromise,pylonPoolPromise ]);
 
 
   const poolInfo = {};
   const mirrorPoolInfo = {};
   const specPoolInfo = {};
+  const anchorPoolInfo = {};
+  const pylonPoolInfo = {};
 
-  specPool?.data?.result?.pools.forEach((pool) => {
+  specPool?.pools.forEach((pool) => {
     poolInfo[pool?.asset_token] = Object.assign(pool, { farm: "Spectrum" });
     specPoolInfo[pool?.asset_token] = Object.assign(pool, { farm: "Spectrum" });
   });
 
-  mirrorPool?.data?.result?.pools.forEach((pool) => {
+  mirrorPool.pools.forEach((pool) => {
     poolInfo[pool?.asset_token] = Object.assign(pool, { farm: "Mirror" });
     mirrorPoolInfo[pool?.asset_token] = Object.assign(pool, { farm: "Mirror" });
-  })
+  });
 
-  return { poolInfo, mirrorPoolInfo, specPoolInfo };
+  anchorPool.pools.forEach((pool) => {
+    poolInfo[pool?.asset_token] = Object.assign(pool, { farm: "Anchor" });
+    anchorPoolInfo[pool?.asset_token] = Object.assign(pool, { farm: "Anchor" });
+  });
+
+  pylonPool.pools.forEach((pool) => {
+    poolInfo[pool?.asset_token] = Object.assign(pool, { farm: "Pylon" });
+    pylonPoolInfo[pool?.asset_token] = Object.assign(pool, { farm: "Pylon" });
+  });
+  return { poolInfo, mirrorPoolInfo, specPoolInfo, anchorPoolInfo, pylonPoolInfo};
 
 }
 
@@ -100,13 +114,16 @@ const fetchFarmData = async (height, address, poolInfo) => {
   return result;
 }
 
-export const getFarmInfos = async (address: string, height: number, specPrice: string) => {
+export const getFarmInfos = async (address: string, specPrice: string) => {
   try {
-  const { poolInfo, mirrorPoolInfo, specPoolInfo } = await getPoolInfos();
+  const { poolInfo, mirrorPoolInfo, specPoolInfo , anchorPoolInfo, pylonPoolInfo} = await getPoolInfos();
+  const height = await getLatestBlockHeight();
+
   const [pairInfo, govConfig, govVaults, govState, coinInfos, pairRewardInfos] = await fetchFarmData(height, address, poolInfo);
-  const pairStats = await getPairStats(height, specPrice, mirrorPoolInfo, specPoolInfo, pairInfo, govConfig, govVaults, govState);
+  const pairStats = await getPairStats(height, specPrice, mirrorPoolInfo, specPoolInfo, pairInfo, govConfig, govVaults, govState, anchorPoolInfo, pylonPoolInfo);
   const poolResponses = await getPoolResponses(pairInfo);
-  const { farmInfos, farmsTotal, rewardsTotal } = calculateFarmInfos(poolInfo, pairStats, pairRewardInfos, coinInfos, poolResponses, specPrice);
+
+  const { farmInfos, farmsTotal, rewardsTotal } = calculateFarmInfos(poolInfo, pairStats, pairRewardInfos, coinInfos, poolResponses);
   return { farms: farmInfos, farmsTotal, rewardsTotal, govApr: pairStats.govApr };
   }
   catch(err){

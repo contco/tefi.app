@@ -1,13 +1,15 @@
 import { getMirrorPairStats } from "./mirrorPairStats";
 import { getSpecPairStats } from "./specPairStats";
+import { getPylonPairStats } from "./pylonPairStats";
 import { plus, times } from "../../../../../utils/math";
 import { HEIGHT_PER_YEAR } from "../utils";
 
 
-export const getPairStats = async (height, specPrice, mirrorPoolInfo, specPoolInfo, pairInfo, govConfig, govVaults, govState) => {
+export const getPairStats = async (height, specPrice, mirrorPoolInfo, specPoolInfo, pairInfo, govConfig, govVaults, govState, anchorPoolInfo, pylonPoolInfo) => {
     const mirrorStats = await getMirrorPairStats(mirrorPoolInfo, pairInfo, govConfig, govVaults);
     const specStats = await getSpecPairStats(specPoolInfo, pairInfo, govVaults);
-    const pairStats: any = {...mirrorStats, ...specStats};
+    const pylonStats = await getPylonPairStats(height, pylonPoolInfo, pairInfo, govVaults, govConfig);
+    const pairStats: any = {...mirrorStats, ...specStats, ...pylonStats};
     const pairStatKeys = Object.keys(pairStats);
     const totalWeight = pairStatKeys.map(key => pairStats[key].multiplier).reduce((a, b) => a + b, 0);
     const specPerHeight = govConfig.mint_end > height ? govConfig.mint_per_block : '0';
