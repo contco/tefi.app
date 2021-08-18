@@ -197,7 +197,7 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
       <Head>
         <title>TefiApp - Markets</title>
       </Head>
-      <Header theme={currentTheme} changeTheme={changeTheme} hideCharts isBubble />
+      <Header theme={currentTheme} changeTheme={changeTheme} />
       <Container>
         <AssetDetails
           price={price}
