@@ -11,8 +11,12 @@ const OvalShap = styled.div<BubbleProps>`
   height: [80 * size, null, null, 84 * size, 90 * size, 110 * size, 120 * size, null, 130 * size, 150 * size],
   background: color,
 })}
+will-change: transform;
+transition: transform 250ms;
+
 &:hover {
-  border:3px solid ${({ theme }) => theme.colors.secondary} 
+    transition: transform 250ms;
+    transform: translateY(-20px);
 }
 `;
 
