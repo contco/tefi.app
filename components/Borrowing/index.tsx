@@ -48,23 +48,13 @@ const Borrowing: React.SFC<BorrowingProps> = ({ ancAssets }) => {
 
       <Row>
           <div>
-            { borrow.collaterals.map((item)=>{
-             if(item.symbol === 'bEth'){
-             return(
+            { borrow.collaterals.map((item, index)=>(
                 <>
                 <StyledText> {convertToFloatValue(item.balance)} {item.symbol}</StyledText>
                 <SubText>${convertToFloatValue(item.value)}</SubText>
-                <br></br>
-                </>)
-                }else if(item.symbol === 'bLuna'){
-                  return (
-                    <>
-                <StyledText> {convertToFloatValue(item.balance)} {item.symbol}</StyledText>
-                <SubText>${convertToFloatValue(item.value)}</SubText>
+                {index < borrow.collaterals.length - 1 ? <br></br> : null }
                 </>
-                  )
-                }
-            })}
+            ))}
           </div>
         <StyledText> ${convertToFloatValue(borrow?.totalCollateralValue)}</StyledText>
         <StyledText> ${convertToFloatValue(borrow?.value)}</StyledText>
