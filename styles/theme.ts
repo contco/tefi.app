@@ -23,8 +23,8 @@ export const lightTheme = {
     connectborder: 'solid 1px #0221ba',
     title: '#000',
     focused: '#f1f1f1',
-    bubblePositive:'#95fa84',
-    bubbleNegative:'#d24a4a'
+    bubblePositive:'#00FF7F',
+    bubbleNegative:'#D22B2B'
   },
   boxShadow: '0 1px 10px 0 rgba(225, 221, 221, 0.5)',
   opacity: {
