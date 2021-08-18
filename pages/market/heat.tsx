@@ -1,6 +1,5 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Head from 'next/head';
-import { GetStaticPaths } from 'next';
 import { request } from 'graphql-request';
 import Header from '../../components/Header';
 import Bubble from '../../components/Bubble';
@@ -42,7 +41,6 @@ const BubblesRow = styled(Flex)`
 `;
 
 const HeatBubble: React.FC = ({ theme, changeTheme, pairData }: any) => {
-
     const priceChange = (singalPairData) =>{
         const dayCurrentPrice = singalPairData?.historicalData[0]?.[`${singalPairData.tokenKey}Price`];
         const dayOldPrice = singalPairData?.historicalData[1]?.[`${singalPairData.tokenKey}Price`];
@@ -53,10 +51,13 @@ const HeatBubble: React.FC = ({ theme, changeTheme, pairData }: any) => {
     }
 
     const bubbleSize = (percentage) => {
-        const defaultSize = 900;
-        const positivePer = parseFloat(percentage) > 0? parseFloat(percentage):parseFloat(percentage) * -1 ;
-        const size = (positivePer/defaultSize) * 100;
-        return size;
+      const defaultSize = 500;
+      const positivePer = parseFloat(percentage) > 0? parseFloat(percentage):parseFloat(percentage) * -1 ;
+      let size = Number(((positivePer/defaultSize) * 100).toFixed(1));
+      if(size < 0.2){
+        size = size + 0.2
+      }
+      return size;
     }
 
     const BubbleMap = () => {
@@ -91,7 +92,7 @@ const HeatBubble: React.FC = ({ theme, changeTheme, pairData }: any) => {
     );
 };
 
-export async function getStaticProps() {
+export async function getServerSideProps(_) {
   
     const poolAddresses = Object.keys(assets).map((keyName) => assets[keyName].poolAddress);
     const toDate = new Date();
@@ -114,15 +115,7 @@ export async function getStaticProps() {
       props: {
         pairData: data,
       },
-      revalidate: 5,
     };
   }
-  
-  export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
-    return {
-      paths: [],
-      fallback: 'blocking',
-    };
-  };
 
 export default HeatBubble;
