@@ -125,7 +125,7 @@ export const CODE_EXAMPLE = `{
               collateral
               balance
               price
-              value:
+              value
               symbol
             }
             totalCollateralValue
