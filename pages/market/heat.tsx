@@ -13,10 +13,6 @@ import css from '@styled-system/css';
 import styled from 'styled-components';
 import { Flex } from '@contco/core-ui';
 
-const NEGATIVE_COLOR = '#d24a4a';
-const POSTIVE_COLOR = '#95fa84';
-
-
 const Container = styled(Flex)`
   ${css({
     flexDirection: 'column',
@@ -68,7 +64,7 @@ const HeatBubble: React.FC = ({ theme, changeTheme, pairData }: any) => {
             <Bubble 
                 key={a.symbol} 
                 price={priceChange(pairData[a.symbol]) +'%'} 
-                color={parseFloat(priceChange(pairData[a.symbol])) > 0? POSTIVE_COLOR : NEGATIVE_COLOR} 
+                isPostive={parseFloat(priceChange(pairData[a.symbol])) > 0? true : false} 
                 size={bubbleSize(priceChange(pairData[a.symbol]))}
                 {...a} />
        </div>

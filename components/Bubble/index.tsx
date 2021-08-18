@@ -5,11 +5,11 @@ import { Text } from '@contco/core-ui';
 import LazyImage from '../LazyImage';
 
 const OvalShap = styled.div<BubbleProps>`
-  ${({ size, color }) => css({
+  ${({ size, isPostive, theme }) => css({
   borderRadius: '50%',
   width: [80 * size, null, null, 84 * size, 90 * size, 110 * size, 120 * size, null, 130 * size, 150 * size],
   height: [80 * size, null, null, 84 * size, 90 * size, 110 * size, 120 * size, null, 130 * size, 150 * size],
-  background: color,
+  background: `${isPostive? theme.colors.bubblePositive : theme.colors.bubbleNegative}`,
 })}
 will-change: transform;
 transition: transform 250ms;
@@ -59,7 +59,7 @@ export type BubbleProps = {
   symbol?: string,
   imageUrl: string,
   size: number,
-  color: string
+  isPostive: boolean
 }
 
 
