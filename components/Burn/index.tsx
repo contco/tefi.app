@@ -13,7 +13,7 @@ import {
 import { BurnTitle } from '../../constants';
 import { Box, Flex } from '@contco/core-ui';
 
-const HEADING_TEXT = `Anchor Burn`;
+const HEADING_TEXT = `Anchor Bond`;
 
 export interface BurnProps {
   ancAssets: AccountAnc;
