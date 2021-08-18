@@ -1,26 +1,26 @@
 [
     {
         "symbol": "mir",
-        "imageUrl": "https://storage.googleapis.com/tefi-app/MIR.svg"
+        "imageUrl": "/logos/mir.png"
     },
     {
         "symbol": "luna",
-        "imageUrl": "https://storage.googleapis.com/tefi-app/Luna.png"
+        "imageUrl": "/logos/luna.png"
     },
     {
         "symbol": "lota",
-        "imageUrl": "https://storage.googleapis.com/tefi-app/LOTA.png"
+        "imageUrl": "/logos/lota.png"
     },
     {
         "symbol": "mine",
-        "imageUrl": "https://storage.googleapis.com/tefi-app/MINE.png"
+        "imageUrl": "/logos/mine.png"
     },
     {
         "symbol": "anc",
-        "imageUrl": "https://storage.googleapis.com/tefi-app/ANC.png"
+        "imageUrl": "/logos/anc.png"
     },
     {
         "symbol": "spec",
-        "imageUrl": "https://storage.googleapis.com/tefi-app/SPEC.png"
+        "imageUrl": "/logos/spec-pink.png"
     }
 ]

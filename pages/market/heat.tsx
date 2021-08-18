@@ -13,7 +13,6 @@ import css from '@styled-system/css';
 import styled from 'styled-components';
 import { Flex } from '@contco/core-ui';
 
-
 const NEGATIVE_COLOR = '#d24a4a';
 const POSTIVE_COLOR = '#95fa84';
 
@@ -46,7 +45,7 @@ const HeatBubble: React.FC = ({ theme, changeTheme, pairData }: any) => {
         const dayOldPrice = singalPairData?.historicalData[1]?.[`${singalPairData.tokenKey}Price`];
         const change = parseFloat(dayCurrentPrice) - parseFloat(dayOldPrice);
         const percentChange = change / parseFloat(dayOldPrice)* 100;
-        const roundOf = Math.abs(percentChange).toFixed(2);
+        const roundOf = Math.round(percentChange).toFixed(2);
         return roundOf;
     }
 
@@ -57,17 +56,22 @@ const HeatBubble: React.FC = ({ theme, changeTheme, pairData }: any) => {
       if(size < 0.2){
         size = size + 0.2
       }
+      if(size > 2.5){
+        size = 2.5
+      }
       return size;
     }
 
     const BubbleMap = () => {
        const result = data.map((a: any) => (
+         <div className=''>
             <Bubble 
                 key={a.symbol} 
                 price={priceChange(pairData[a.symbol]) +'%'} 
                 color={parseFloat(priceChange(pairData[a.symbol])) > 0? POSTIVE_COLOR : NEGATIVE_COLOR} 
                 size={bubbleSize(priceChange(pairData[a.symbol]))}
                 {...a} />
+       </div>
        ))
         return result
     }
