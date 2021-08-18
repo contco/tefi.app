@@ -24,7 +24,6 @@ const Container = styled(Flex)`
   })}
 `;
 
-
 const BubblesRow = styled(Flex)`
   ${css({
     margin:'auto',
@@ -41,8 +40,15 @@ const HeatBubble: React.FC = ({ theme, changeTheme, pairData }: any) => {
         const dayOldPrice = singalPairData?.historicalData[1]?.[`${singalPairData.tokenKey}Price`];
         const change = parseFloat(dayCurrentPrice) - parseFloat(dayOldPrice);
         const percentChange = change / parseFloat(dayOldPrice)* 100;
-        const roundOf = Math.round(percentChange).toFixed(2);
-        return roundOf;
+        const roundOff = Math.abs(percentChange).toFixed(2);
+        let signedPercentage = '1'; 
+        if(percentChange < 0){
+          signedPercentage = (parseFloat(roundOff) * -1).toFixed(2);
+        }
+        else {
+          signedPercentage = roundOff;
+        }
+        return signedPercentage;
     }
 
     const bubbleSize = (percentage) => {
