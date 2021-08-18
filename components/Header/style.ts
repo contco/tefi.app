@@ -10,6 +10,7 @@ import TEFI_LOGO from '../../public/tefi.svg';
 import REFRESH_ICON from '../../public/refresh.svg';
 import REFRESHING_ICON from '../../public/refreshing.svg';
 import CHARTS_ICON from '../../public/charts.svg';
+import Bubble_ICON from '../../public/bubble.svg';
 import MENU_ICON from '../../public/icons/circle-menu.svg';
 import DASHBOARD_ICON from '../../public/space_dashboard.svg';
 
@@ -217,6 +218,14 @@ export const AnimatedRefresh = styled(REFRESHING_ICON)`
 
 export const ChartsIcon = styled(CHARTS_ICON)`
   color: secondary;
+  &:hover {
+    opacity: 0.7;
+  }
+`;
+export const BubbleIcon = styled(Bubble_ICON)`
+${css({
+  color: 'secondary',
+})}
   &:hover {
     opacity: 0.7;
   }
