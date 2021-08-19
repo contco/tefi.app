@@ -45,6 +45,10 @@ const AlertProvider: React.FC<Props> = ({ children }) => {
         }
   }, []);
 
+  const updateLocalStorageState = (newAlerts: Alerts) => {
+    localStorage.setItem(ALERT_KEY, JSON.stringify(newAlerts));
+  };
+
   useEffect(() => {
    Object.keys(realTimePriceList).map((key: string) => {
       if(realTimePriceList[key] < alerts[key]?.price  && alerts[key]?.priceDirection !== PriceDirection.down) {
@@ -59,7 +63,9 @@ const AlertProvider: React.FC<Props> = ({ children }) => {
             draggable: true,
             progress: undefined,
             });
-         setAlerts({...alerts, [key]: {...alerts[key], priceDirection: PriceDirection.down}});
+         const newAlerts = {...alerts, [key]: {...alerts[key], priceDirection: PriceDirection.down}};
+         setAlerts(newAlerts);
+         updateLocalStorageState(newAlerts);
       }
       else if (realTimePriceList[key] > alerts[key]?.price && alerts[key]?.priceDirection !== PriceDirection.up) {
         const symbol = key.toUpperCase();
@@ -73,7 +79,9 @@ const AlertProvider: React.FC<Props> = ({ children }) => {
             draggable: true,
             progress: undefined,
             });
-            setAlerts({...alerts, [key]: {...alerts[key], priceDirection: PriceDirection.up}});
+        const newAlerts = {...alerts, [key]: {...alerts[key], priceDirection: PriceDirection.up}};
+        setAlerts(newAlerts);
+        updateLocalStorageState(newAlerts);
       }
    })
 
@@ -113,15 +121,15 @@ const AlertProvider: React.FC<Props> = ({ children }) => {
     currentPrice = realTimePriceList[symbol] ? realTimePriceList[symbol] : currentPrice;
     const currentDirection = +currentPrice > +price ? PriceDirection.up : PriceDirection.down;
     const newAlerts = {...alerts, [symbol]: {price, priceDirection: currentDirection}};
-    setAlerts(newAlerts);
-    localStorage.setItem(ALERT_KEY, JSON.stringify(newAlerts));
+    updateLocalStorageState(newAlerts);
+   
   }
 
   const cancelAlert = (symbol: string) => {
     const newAlerts = {...alerts};
     delete newAlerts[symbol];
     setAlerts(newAlerts);
-    localStorage.setItem(ALERT_KEY, JSON.stringify(newAlerts));
+    updateLocalStorageState(newAlerts);
   }
 
   return (
