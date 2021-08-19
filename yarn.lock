@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@anchor-protocol/anchor.js@1.0.1", "@anchor-protocol/anchor.js@^1.0.1":
+"@anchor-protocol/anchor.js@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@anchor-protocol/anchor.js/-/anchor.js-1.0.1.tgz#9410e60a646a7684ee47330dfe4cdcab96bfba51"
   integrity sha512-O/+GTXP0dQgrZOslGDQnWZfzcAnCkPbMDVWO1kR18VM9bdFVXMTAZobK0tlr8ge+SC4t0TX4tSEFDh56fpskvw==

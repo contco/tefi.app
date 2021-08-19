@@ -1,5 +1,6 @@
 import axios from "axios";
 import { LCD_URL } from "../../utils";
+import { wasmStoreRequest } from "../../commons";
 
 export const BLOCK_TIME = 6500;
 export const HEIGHT_PER_YEAR = 365 * 24 * 60 * 60 * 1000 / BLOCK_TIME;
@@ -19,15 +20,33 @@ export const getPairPool = async(contract: string) => {
    return pairPool?.result;
 }
 
-export const createPairStats = (poolApr, token, poolInfos, govWeight, totalWeight, govStats) => {
+export const createPairStats = (poolApr, token, poolInfos, govWeight, totalWeight, farmApr) => {
   const poolInfo = poolInfos[token];
   const stat = {
     poolApr,
     poolApy: (poolApr / 365 + 1) ** 365 - 1,
-    farmApr: govStats.statistic.govAPR,
+    farmApr,
     tvl: '0',
     multiplier: poolInfo ? govWeight * poolInfo.weight / totalWeight : 0,
     vaultFee: 0,
   };
   return stat;
+}
+
+export const getFarmConfig = (contract_addr: string) => {
+  const query_msg = { config: {}};
+  const result = wasmStoreRequest(contract_addr, query_msg);
+  return result;
+}
+
+export const getRewardInfos = async (height: string, query_contract: string, staking_contract: string) =>  {
+  const query_msg = {   
+    staker_info: {
+      block_height: +height, 
+      staker: query_contract,
+    }
+};
+
+const result = wasmStoreRequest(staking_contract, query_msg);
+return result
 }

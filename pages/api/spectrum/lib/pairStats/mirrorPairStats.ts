@@ -2,7 +2,7 @@ import axios from "axios";
 import { request, gql } from 'graphql-request';
 import { LCD_URL } from "../../../utils";
 import { contracts } from "../contracts";
-import { fromEntries, getPairPool, createPairStats } from "../utils";
+import { fromEntries, getPairPool, createPairStats, getFarmConfig } from "../utils";
 import networks from "../../../../../utils/networks";
 import BigNumber from 'bignumber.js';
 
@@ -25,16 +25,6 @@ query assets {
   }
 `;
 
-const getFarmConfig = async () => {
-    const {data: farmConfig} =  await axios.get(LCD_URL + `wasm/contracts/${contracts.mirrorFarm}/store`, {
-        params: {
-          query_msg: JSON.stringify({
-            config: {}
-          })
-       },
-    });
-   return farmConfig?.result;
-}
 
 const getRewardInfos = async () =>  {
     const {data: rewardInfos} =  await axios.get(LCD_URL + `wasm/contracts/${contracts.mirrorStaking}/store`, {
@@ -50,11 +40,11 @@ const getRewardInfos = async () =>  {
 }
 
 
-const getPairs = (assetStats: any, poolInfo, govWeight, totalWeight, govStats) => {
+const getPairs = (assetStats: any, poolInfo, govWeight, totalWeight, farmApr) => {
     const pairs = {}; 
     for(const asset of assetStats?.assets) {
       const poolApr = +(asset.statistic.apr?.long || 0);
-      pairs[asset?.token] = createPairStats(poolApr, asset.token, poolInfo, govWeight, totalWeight, govStats);
+      pairs[asset?.token] = createPairStats(poolApr, asset.token, poolInfo, govWeight, totalWeight, farmApr);
     }
     return pairs;
 }
@@ -63,13 +53,13 @@ export const getMirrorPairStats = async (pool, poolPairs, govConfig, govVaults) 
     const rewardInfos = await getRewardInfos();
     const govStats = await request(networks.mainnet.stats, GOV_STAT_QUERY, {network: 'TERRA'});
     const assetStats = await request(networks.mainnet.stats, ASSET_STATS_QUERY);
-    const farmConfig = await getFarmConfig();
+    const farmConfig = await getFarmConfig(contracts.mirrorFarm);
     const poolInfos = fromEntries(Object.entries(pool));
     const totalWeight = Object.values(poolInfos).reduce((a, b: any) => a + b.weight, 0);
     const govWeight = govVaults.vaults.find(vault => vault.address === contracts.mirrorFarm)?.weight || 0;
     const communityFeeRate = +farmConfig.community_fee * (1 - +govConfig.warchest_ratio);
-     
-    const pairStats = getPairs(assetStats, poolInfos , govWeight, totalWeight, govStats);
+    const farmApr = (govStats.statistic.govAPR || 0 );
+    const pairStats = getPairs(assetStats, poolInfos , govWeight, totalWeight, farmApr);
 
 
     const pairStatsTasks= rewardInfos.reward_infos.map(async(item: any) => {
