@@ -89,12 +89,13 @@ const Symbol = ({ keyName, symbol }) => {
 };
 
 const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => {
+  const [allPairsData, setAllPairsData] = useState<any>(pairData);
+
   if (!Object.keys(pairData).length) return <Header theme={currentTheme} changeTheme={changeTheme} />;
 
   const theme: any = useTheme();
   const router = useRouter();
   const symbol = router.query.symbol as string;
-  const [allPairsData, setAllPairsData] = useState<any>(pairData);
   const [data, setData]: any = useState(pairData?.[symbol]);
   const [price, setPrice] = useState(parseFloat(getCurrentPairPrice(pairData[symbol])));
   const [realTimePriceList, setRealTimePriceList] = useState<any>(DEFAULT_ASSETS_CURRENT_PRICE);
