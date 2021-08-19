@@ -1,3 +1,6 @@
+
+
+
 export default {
   openGraph: {
     url: 'https://www.tefi.app/',
@@ -22,7 +25,7 @@ export default {
 
 export const DOCS_SEO = {
   canonical: 'https://www.tefi.app/api',
-  description: "A powerful GraphQL API that unifies all Terra Protocols. Build cool dashboards or bots to the moon",
+  description: "All Terra Protocols are unified by a powerful GraphQL API. More people can create amazing dashboards or bots to enable them to reach the moon.",
   title: 'Tefi App Doc  Your portal to TeFi ',
   openGraph: {
     url: 'https://www.tefi.app/api',
@@ -48,10 +51,10 @@ export const DOCS_SEO = {
 
 export const DashboardSEO = {
   canonical: 'https://www.tefi.app/dashboard',
-  description: " A simple dashboard for Terra. Manage all your assets in one place. LUNA UST MIR ANC MINE ",
+  description: "Terra's dashboard is simple. Manage all of your assets in one place. MINE LUNA UST MIR ANC and other tokens can be found on the dashboard.",
   title: 'TefiApp - Your portal to Tefi',
   openGraph: {
-    url: 'https://www.tefi.app/api',
+    url: 'https://www.tefi.app/dashboard',
     type: 'website',
     Lang: 'English',
     images: [
@@ -67,5 +70,31 @@ export const DashboardSEO = {
     handle: '@tefiapp',
     site: '@tefiapp',
     cardType: 'summary_large_image',
+  },  
+};
+
+
+
+export const landingSEO = {
+  canonical: 'https://www.tefi.app/',
+  description: "Terra's dashboard is simple. Manage all of your assets in one place. MINE LUNA UST MIR ANC and other tokens can be found on the dashboard.",
+  title: 'TefiApp - Connect your wallet to access tefi dashboard',
+  openGraph: {
+    url: 'https://www.tefi.app/',
+    type: 'website',
+    Lang: 'English',
+    images: [
+      {
+        url: 'https://storage.googleapis.com/tefi-app/tefi-app-api-preview.png',
+        width: 800,
+        height: 600,
+        alt: 'tefi-api-prewiew',
+      },
+    ],
   },
+  twitter: {
+    handle: '@tefiapp',
+    site: '@tefiapp',
+    cardType: 'summary_large_image',
+  },  
 };

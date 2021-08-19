@@ -23,6 +23,8 @@ import { Modal } from '@contco/core-ui';
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import Footer from '../Footer';
+import { NextSeo } from 'next-seo';
+import { landingSEO } from '../../next-seo.config';
 
 import { ADDRESS_KEY, WalletConnectType } from '../../constants';
 
@@ -63,6 +65,7 @@ const Landing: React.FC = () => {
   return (
     <>
       <Container>
+      <NextSeo {...landingSEO} />
         <Title>
           Your portal to
           <Tefi>&nbsp;TeFi</Tefi>
