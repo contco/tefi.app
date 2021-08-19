@@ -1,0 +1,124 @@
+
+
+
+
+
+type EarnInviteCodes {
+  id: ID!
+  invite_code: String! @search(by:[term ])
+}
+
+type rewards 
+@generate(
+    query: {
+        get: true,
+        query: true,
+    },
+    mutation: {
+        add:true,
+        update:true,
+    },
+    subscription: true
+	)  {
+  id:ID! 
+  currency: String!
+  quantity: Int!
+  status:String
+}
+
+type InvitationCode 	
+	@generate(
+    query: {
+        get: true,
+        query: true,
+        aggregate: true
+    },
+    mutation: {
+        add: true,
+        update:true,
+        delete: true
+    },
+      subscription: true
+    
+	)  {
+  
+ 
+  addedDate: DateTime! 
+  code: String! @search(by: [hash,regexp,term])
+  rewardStatus: String
+}
+
+
+type AdressCode {
+  code: String!
+  address: String!
+}
+
+enum ContentType {
+  Picture
+  Video
+}
+
+type CourseContent {
+  id: ID!
+  type: ContentType! @search
+  order: Int! @search
+  url: String! 
+}
+
+type Course {
+  id: ID!
+  title: String! @search (by: [term, hash, regexp])
+  author: String @search (by: [term, hash, regexp])
+  description: String! @search (by: [term, hash, fulltext, regexp])
+  coverPicture: String!
+  content: [CourseContent!]! 
+  publishedDate: DateTime! @search
+}
+
+type TokenPriceData {
+  id: ID!
+  symbol: String! @search
+  price: Float! 
+  timestamp: DateTime! @search
+  timeframe: String! @search
+}
+
+type TokenPriceDetails {
+  symbol: String! @search @id 
+  marketCap: Float
+  dailyChange: Float!
+  tokenAddress: String @search (by: [ hash])
+  price: Float!
+}
+
+type TerraKnownAddress {
+  address: String! @search @id
+}
+
+
+type TerraAccountAssets {
+  address: String! @search
+  timestamp: DateTime @search
+  timeframe: String @search
+  totalMarketValue: String
+  totalAssets: String
+  totalBorrowing: String
+}
+
+type PriceChange {
+  id: ID!
+  currentPrice: String!
+  dayOldPrice: String!
+}
+
+type AssetsPriceChange {
+  id:ID!
+  luna: PriceChange
+  anc:  PriceChange
+  mir:  PriceChange
+  mine: PriceChange
+  spec: PriceChange
+  lota: PriceChange
+  
+}

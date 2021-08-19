@@ -20,6 +20,9 @@ import { NetworkStatus, useLazyQuery } from '@apollo/client';
 import { getAssets } from '../graphql/queries/getAssets';
 import { ADDRESS_KEY, LOCAL_ADDRESS_TYPE, WALLET_ADDRESS_TYPE } from '../constants';
 import Airdrops from '../components/Airdrop';
+import { NextSeo } from 'next-seo';
+import { DashboardSEO } from '../next-seo.config';
+
 
 import useWallet from '../lib/useWallet';
 import Earn from '../components/Earn';
@@ -81,8 +84,9 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
 
   return (
     <div>
+      <NextSeo {...DashboardSEO} />
       <Head>
-        <title>Tefi App | Dashboard</title>
+        <title>TefiApp - Your portal to Tefi</title>
       </Head>
       <div>
         <Header
