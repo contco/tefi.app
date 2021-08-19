@@ -30,7 +30,6 @@ export const DOCS_SEO = {
   openGraph: {
     url: 'https://www.tefi.app/api',
     type: 'website',
-    Lang: 'English',
     images: [
       {
         url: 'https://storage.googleapis.com/tefi-app/tefi-app-api-preview.png',
@@ -55,7 +54,6 @@ export const DashboardSEO = {
   openGraph: {
     url: 'https://www.tefi.app/dashboard',
     type: 'website',
-    Lang: 'English',
     images: [
       {
         url: 'https://storage.googleapis.com/tefi-app/tefi-app-api-preview.png',
@@ -81,7 +79,6 @@ export const landingSEO = {
   openGraph: {
     url: 'https://www.tefi.app/',
     type: 'website',
-    Lang: 'English',
     images: [
       {
         url: 'https://storage.googleapis.com/tefi-app/tefi-app-api-preview.png',
@@ -105,7 +102,6 @@ export const MarketSEO = {
   openGraph: {
     url: 'https://www.tefi.app/market',
     type: 'website',
-    Lang: 'English',
     images: [
       {
         url: 'https://storage.googleapis.com/tefi-app/tefi-app-api-preview.png',
