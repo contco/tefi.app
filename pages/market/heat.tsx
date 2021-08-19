@@ -23,9 +23,6 @@ const Container = styled(Flex)`
     height: '90vh',
   })}
   width: 90%;
-  @media (max-width: 768px) {
-    width: 90%;
-  }
 `;
 
 const MainContainer = styled.div`
