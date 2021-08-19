@@ -107,13 +107,10 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
       const updatedData = await fecthPairData();
       Object.keys(updatedData).length && setAllPairsData(updatedData);
       calculateAndSetPriceChange(updatedData[symbol], realTimePriceList[symbol]);
+      setPrice(parseFloat(getCurrentPairPrice(updatedData[symbol])));
     };
     updatePriceInit();
   }, []);
-
-  useEffect(() => {
-    updatePrice();
-  }, [allPairsData]);
 
   const onMouseEnter = ({ isTooltipActive, activePayload }) => {
     if (isTooltipActive) setPrice(activePayload[0]?.payload.value);
