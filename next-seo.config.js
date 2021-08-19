@@ -30,7 +30,6 @@ export const DOCS_SEO = {
   openGraph: {
     url: 'https://www.tefi.app/api',
     type: 'website',
-    description: '',
     Lang: 'English',
     images: [
       {
@@ -101,10 +100,10 @@ export const landingSEO = {
 
 
 export const MarketSEO = {
-  canonical: 'https://www.tefi.app/market/luna',
+  canonical: 'https://www.tefi.app/market',
   description: "TefiApp cryptocurrency market - The simplest way to keep up with the latest terra token prices, market cap, token price charts, and 24 hour change. ",
   openGraph: {
-    url: 'https://www.tefi.app/market/luna',
+    url: 'https://www.tefi.app/market',
     type: 'website',
     Lang: 'English',
     images: [
