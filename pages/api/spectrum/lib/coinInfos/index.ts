@@ -20,6 +20,7 @@ export const getCoinInfos = async (poolInfo: any) => {
     coinInfos[key] = coinInfo?.symbol;
     return coinInfo;
   });
+
   await Promise.all(tasks);
   return coinInfos;
 }

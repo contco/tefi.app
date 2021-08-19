@@ -1,5 +1,4 @@
 import { contracts } from "./contracts";
-import { getLatestBlockHeight } from "../../utils";
 import { getFarmInfos } from "./farmInfo";
 import { div, times } from "../../../../utils/math";
 import { UNIT } from "../../mirror/utils";
@@ -63,16 +62,16 @@ const fetchData = async (address: string) => {
   const userSpecPromise =  getUserSpecInfo(address);
   const specPoolPromise =  getSpecPool();
   const specBalancePromise =  getUserBalance(address);
-  const result  = await Promise.all([userSpecPromise, specPoolPromise, specBalancePromise]);
+  const farmDataPromise =  getFarmInfos(address);
+  const result  = await Promise.all([userSpecPromise, specPoolPromise, specBalancePromise, farmDataPromise]);
   return result;
 }
 
 export const getAccount = async (address: string) => {
-  const height  = await getLatestBlockHeight();
-  const [userSpec, specPool, specBalance] = await fetchData(address);
+  const [userSpec, specPool, specBalance, farmData] = await fetchData(address);
   const specPrice =  specPool ? getSpecPrice(specPool) : '0';
 
-  const {farms, farmsTotal,rewardsTotal, govApr} = await getFarmInfos(address, height, specPrice);
+  const {farms, farmsTotal,rewardsTotal, govApr} = farmData;
   const holdings = getHoldings(specBalance ,specPrice);
   const specGov = getSpecGov(userSpec, specPrice, govApr)
   const holdingsTotal = specBalance === '0' ? '0' : holdings[0].value;
