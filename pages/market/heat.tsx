@@ -18,10 +18,20 @@ const Container = styled(Flex)`
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingTop: 1,
+    paddingTop: 4,
     boxSizing: 'border-box',
-    height: [400, 480, 520, 600, null, 860, '90vh'],
+    height: '90vh',
   })}
+  width: 80%;
+  @media (max-width: 768px) {
+    width: 90%;
+  }
+`;
+
+const MainContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const BubblesRow = styled(Flex)`
@@ -76,21 +86,19 @@ const HeatBubble: React.FC = ({ theme, changeTheme, pairData }: any) => {
     const fecthData = async () => {
       try {
         const d = await getData();
-        setData(formatData(d))
+        setData(formatData(d));
       } catch (error) {}
     };
     fecthData();
   }, []);
 
   return (
-    <div>
+    <>
       <Head>
         <title>Tefi App - Bubble</title>
       </Head>
-      <div>
-        <div>
-          <Header theme={theme} changeTheme={changeTheme} />
-        </div>
+      <Header theme={theme} changeTheme={changeTheme} />
+      <MainContainer>
         <Container>
           <BubblesRow>
             {data.map(({ symbol, change, isPositive, size, imageUrl }: any) => (
@@ -98,8 +106,8 @@ const HeatBubble: React.FC = ({ theme, changeTheme, pairData }: any) => {
             ))}
           </BubblesRow>
         </Container>
-      </div>
-    </div>
+      </MainContainer>
+    </>
   );
 };
 
