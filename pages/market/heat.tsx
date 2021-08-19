@@ -74,7 +74,7 @@ const formatData = (pairData) => {
 const HeatBubble: React.FC = ({ theme, changeTheme, pairData }: any) => {
   const [data, setData] = useState(formatData(pairData));
 
-  if (!Object.keys(pairData).length) return <Header theme={theme} changeTheme={changeTheme} />;
+  if (!Object.keys(data).length) return <Header theme={theme} changeTheme={changeTheme} />;
 
   useEffect(() => {
     const fecthData = async () => {

@@ -91,7 +91,7 @@ const Symbol = ({ keyName, symbol }) => {
 const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => {
   const [allPairsData, setAllPairsData] = useState<any>(pairData);
 
-  if (!Object.keys(pairData).length) return <Header theme={currentTheme} changeTheme={changeTheme} />;
+  if (!Object.keys(allPairsData).length) return <Header theme={currentTheme} changeTheme={changeTheme} />;
 
   const theme: any = useTheme();
   const router = useRouter();
