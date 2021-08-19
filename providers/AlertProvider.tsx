@@ -6,9 +6,11 @@ import { getPrice } from '../pages/api/commons';
 import { assets } from '../constants/assets';
 
 const ALERT_KEY = 'alerts';
+
 interface AlertContextProps{
     alerts: Alerts;
     setPriceAlert: (symbol: string, price: string, currentPrice: string) => void;
+    cancelAlert: (symbol: string) => void;
 }
 interface Props {
   children: ReactNode;
@@ -28,6 +30,7 @@ interface Alerts {
 const AlertContext = createContext<AlertContextProps>({
     alerts: null,
     setPriceAlert: () => null,
+    cancelAlert: () => {},
 });
 
 const AlertProvider: React.FC<Props> = ({ children }) => {
@@ -89,7 +92,7 @@ const AlertProvider: React.FC<Props> = ({ children }) => {
         Object.keys(assets).map((key: string) => {
           if (assets?.[key]?.poolAddress === messageData?.data?.contract && messageData.chain_id === 'columbus-4') {
             const price = parseFloat(getPrice(messageData?.data?.pool)).toFixed(4);
-            const newRealTimePrice = {...realTimePriceList, [key]: price, luna: '29.92'};
+            const newRealTimePrice = {...realTimePriceList, [key]: price};
             setRealTimePriceList(newRealTimePrice);
           }
         })
@@ -109,13 +112,20 @@ const AlertProvider: React.FC<Props> = ({ children }) => {
   const setPriceAlert = (symbol: string, price: string, currentPrice: string) => {
     currentPrice = realTimePriceList[symbol] ? realTimePriceList[symbol] : currentPrice;
     const currentDirection = +currentPrice > +price ? PriceDirection.up : PriceDirection.down;
-     const newAlerts = {...alerts, [symbol]: {price, priceDirection: currentDirection}};
-     localStorage.setItem(ALERT_KEY, JSON.stringify(newAlerts));
-     setAlerts(newAlerts);
+    const newAlerts = {...alerts, [symbol]: {price, priceDirection: currentDirection}};
+    setAlerts(newAlerts);
+    localStorage.setItem(ALERT_KEY, JSON.stringify(newAlerts));
+  }
+
+  const cancelAlert = (symbol: string) => {
+    const newAlerts = {...alerts};
+    delete newAlerts[symbol];
+    setAlerts(newAlerts);
+    localStorage.setItem(ALERT_KEY, JSON.stringify(newAlerts));
   }
 
   return (
-    <AlertContext.Provider value={{alerts, setPriceAlert}}>
+    <AlertContext.Provider value={{alerts, setPriceAlert, cancelAlert}}>
       {children}
       <ToastContainer />
     </AlertContext.Provider>
