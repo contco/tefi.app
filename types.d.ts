@@ -239,6 +239,7 @@ interface SpecFarms {
   stakedSpecValue: string;
   tokenRewardsStaked: string;
   tokenRewardsStakedValue: string;
+  tokenRewardsStakedSymbol: string;
   apy: string;
 }
 

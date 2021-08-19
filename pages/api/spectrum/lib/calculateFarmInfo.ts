@@ -4,6 +4,7 @@ import { UNIT } from "../../mirror/utils";
 import { getLpValue } from "../../utils";
 import { getPrice } from "../../commons";
 import { coinSymbolList } from "./coinInfos/list";
+import { fi } from "date-fns/locale";
 
 export const getPoolValues = (lpBalance: number, lpValue: number, price: number) => {
     const stakedLpUstValue  = lpBalance * lpValue;
@@ -25,6 +26,35 @@ export const getPoolValues = (lpBalance: number, lpValue: number, price: number)
       .toString();
     }
   }
+
+const getStakedTokenSymbol = (farm: string) => {
+    let symbol = '';
+     switch(farm) {
+      case 'Mirror': 
+        symbol = 'MIR';
+        break;
+      case 'Anchor':
+        symbol = 'ANC';
+        break;
+      case 'Pylon':
+        symbol = 'MINE';
+        break;
+      default:
+        symbol = "SPEC";
+    }
+    return symbol;
+};
+
+const getStakedTokenPoolResponse = (poolResponses, farm) => {
+  if (farm === 'Mirror') {
+    return poolResponses[contracts.mirrorToken];
+  }
+  else if (farm === 'Pylon') {
+    return poolResponses[contracts.pylonToken];
+  }
+  else 
+    return poolResponses[contracts.anchorToken];
+}
 
 export const calculateFarmInfos = (poolInfo, pairStats, pairRewardInfos, poolResponses) => {
   const farmInfos = [];
@@ -48,13 +78,15 @@ export const calculateFarmInfos = (poolInfo, pairStats, pairRewardInfos, poolRes
       const lpValue = getLpValue(poolResponses[key], tokenPrice);
       const stakedLp = parseFloat(pairRewardInfos[key].bond_amount)/UNIT;
       const stakedSpec = parseFloat(pairRewardInfos[key]?.pending_spec_reward)/UNIT;
-      const stakedSpecValue = getStakedTokenValue(stakedSpec, poolResponses[contracts.specToken])
+      const stakedSpecValue = getStakedTokenValue(stakedSpec, poolResponses[contracts.specToken]);
+      const tokenRewardsStakedSymbol = getStakedTokenSymbol(poolInfo[key].farm);
       let tokenRewardsStaked = 0;
       let tokenRewardsStakedValue = '0';
 
       if (poolInfo[key].farm !== "Spectrum") {
         tokenRewardsStaked = parseFloat(pairRewardInfos[key]?.pending_farm_reward)/UNIT;
-        tokenRewardsStakedValue = getStakedTokenValue(tokenRewardsStaked, poolResponses[key]);
+        const poolResponse = getStakedTokenPoolResponse(poolResponses, poolInfo[key].farm);
+        tokenRewardsStakedValue = getStakedTokenValue(tokenRewardsStaked, poolResponse);
       }
       const poolValues = getPoolValues(stakedLp, lpValue, tokenPrice );
       farmsTotal = farmsTotal + parseFloat(poolValues.stakedLpUstValue) ;
@@ -71,6 +103,7 @@ export const calculateFarmInfos = (poolInfo, pairStats, pairRewardInfos, poolRes
         stakedSpecValue,
         tokenRewardsStaked: tokenRewardsStaked.toString(),
         tokenRewardsStakedValue,
+        tokenRewardsStakedSymbol,
         apy,
       };
       farmInfos.push(farmInfo);

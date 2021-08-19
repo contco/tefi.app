@@ -34,7 +34,7 @@ const Rewards: React.FC<RewardsProps> = ({ spectrum }) => {
             {farm?.farm !== "Spectrum" ? 
             (
             <div>
-                <StyledText> {convertToFloatValue(farm?.tokenRewardsStaked)} {farm?.symbol}</StyledText>
+                <StyledText> {convertToFloatValue(farm?.tokenRewardsStaked)} {farm?.tokenRewardsStakedSymbol}</StyledText>
                 <SubText> ${convertToFloatValue(farm?.tokenRewardsStakedValue)}</SubText>
             </div>
             )

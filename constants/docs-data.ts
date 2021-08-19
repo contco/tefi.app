@@ -286,6 +286,7 @@ export const CODE_EXAMPLE = `{
             stakedSpecValue
             tokenRewardsStaked
             tokenRewardsStakedValue
+            tokenRewardsStakedSymbol
             apy
           }
           specGov {

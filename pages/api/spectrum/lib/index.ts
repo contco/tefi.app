@@ -1,5 +1,4 @@
 import { contracts } from "./contracts";
-import { getLatestBlockHeight } from "../../utils";
 import { getFarmInfos } from "./farmInfo";
 import { div, times } from "../../../../utils/math";
 import { UNIT } from "../../mirror/utils";

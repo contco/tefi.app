@@ -288,6 +288,7 @@ export const getAssets = gql`
           stakedSpecValue
           tokenRewardsStaked
           tokenRewardsStakedValue
+          tokenRewardsStakedSymbol
           apy
         }
         specGov {
