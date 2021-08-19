@@ -196,9 +196,9 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
     <MainContainer>
       <NextSeo {...MarketSEO} />
       <Head>
-        <title> TefiApp - Market | Coin Prices, Market Cap, 24 Hour Change</title>
-      </Head> 
-      <Header theme={currentTheme} changeTheme={changeTheme} hideCharts />
+      <title> TefiApp - Market | Coin Prices, Market Cap, 24 Hour Change</title>
+      </Head>
+      <Header theme={currentTheme} changeTheme={changeTheme} />
       <Container>
         <AssetDetails
           price={price}

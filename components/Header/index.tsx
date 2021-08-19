@@ -21,7 +21,6 @@ import {
 import useWallet from '../../lib/useWallet';
 
 import { WALLET_ADDRESS_TYPE, LOCAL_ADDRESS_TYPE, ADDRESS_KEY } from '../../constants';
-import { useEffect } from 'react';
 
 type Props = {
   theme: string;
@@ -30,7 +29,6 @@ type Props = {
   addressType?: string;
   onRefresh?: () => void;
   refreshing?: boolean;
-  hideCharts?: boolean;
 };
 
 const Header: React.FC<Props> = ({ theme, changeTheme, address, addressType, onRefresh, refreshing }) => {

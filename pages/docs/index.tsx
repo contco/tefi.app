@@ -72,7 +72,7 @@ const Docs: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
     <>
       <MainContainer>
         <NextSeo {...DOCS_SEO} />
-        <Header theme={currentTheme} changeTheme={changeTheme} hideCharts />
+        <Header theme={currentTheme} changeTheme={changeTheme} />
         <Container>
           <TextContainer>
             <Title>Tefi API</Title>
