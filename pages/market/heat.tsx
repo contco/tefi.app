@@ -18,11 +18,11 @@ const Container = styled(Flex)`
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingTop: 4,
+    paddingTop: '3vh',
     boxSizing: 'border-box',
     height: '90vh',
   })}
-  width: 80%;
+  width: 90%;
   @media (max-width: 768px) {
     width: 90%;
   }
