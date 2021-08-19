@@ -6,6 +6,7 @@ import { useApollo } from '../lib/apolloClient';
 import { ThemeProvider } from 'styled-components';
 import WalletConnectProvider from '../providers/WalletConnectProvider';
 import RedirectProvider from '../providers/RedirectProvider';
+import AlertProvider from '../providers/AlertProvider';
 import Head from 'next/head';
 import { DefaultSeo } from 'next-seo';
 import SEO from '../next-seo.config';
@@ -45,7 +46,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           <GlobalStyles />
           <WalletConnectProvider>
             <RedirectProvider>
-              <Component {...pageProps} theme={theme} changeTheme={changeTheme} />
+              <AlertProvider>
+                <Component {...pageProps} theme={theme} changeTheme={changeTheme} />
+              </AlertProvider>
             </RedirectProvider>
           </WalletConnectProvider>
         </ThemeProvider>

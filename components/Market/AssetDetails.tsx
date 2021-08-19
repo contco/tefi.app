@@ -121,7 +121,7 @@ export const AssetDetails: React.FC<Props> = ({price, name, url, useTV, onSwitch
           <PriceChange priceChange={priceChange}/>
          </PriceContainer>
       )}
-    <AlertSelect symbol={name} showAlertModal={showAlertModal} setAlertModalVisible={setAlertModalVisible} />
+    <AlertSelect name={name} currentPrice={`${price}`} showAlertModal={showAlertModal} setAlertModalVisible={setAlertModalVisible} />
     </NamePriceContainer>
   )
 }
