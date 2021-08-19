@@ -18,7 +18,7 @@ export const INTERNAL_LINKS = [
     {
         component: BubbleIcon,
         url: "/market/heat",
-        name: "Bubble"
+        name: "Bubbles"
     }
 ];
 
