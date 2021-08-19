@@ -284,8 +284,8 @@ export const CODE_EXAMPLE = `{
             farm
             stakedSpec
             stakedSpecValue
-            stakedMir
-            stakedMirValue
+            tokenRewardsStaked
+            tokenRewardsStakedValue
             apy
           }
           specGov {
