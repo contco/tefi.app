@@ -3,6 +3,7 @@ import BigNumber from "bignumber.js";
 import { UNIT } from "../../mirror/utils";
 import { getLpValue } from "../../utils";
 import { getPrice } from "../../commons";
+import { coinSymbolList } from "./coinInfos/list";
 
 export const getPoolValues = (lpBalance: number, lpValue: number, price: number) => {
     const stakedLpUstValue  = lpBalance * lpValue;
@@ -25,7 +26,7 @@ export const getPoolValues = (lpBalance: number, lpValue: number, price: number)
     }
   }
 
-export const calculateFarmInfos = (poolInfo, pairStats, pairRewardInfos, coinInfos, poolResponses) => {
+export const calculateFarmInfos = (poolInfo, pairStats, pairRewardInfos, poolResponses) => {
   const farmInfos = [];
   let farmsTotal = 0;
   let rewardsTotal = 0;
@@ -59,8 +60,8 @@ export const calculateFarmInfos = (poolInfo, pairStats, pairRewardInfos, coinInf
       farmsTotal = farmsTotal + parseFloat(poolValues.stakedLpUstValue) ;
       rewardsTotal = rewardsTotal + parseFloat(tokenRewardsStakedValue) + parseFloat(stakedSpecValue);
       const farmInfo = {
-        symbol: coinInfos[key],
-        lpName: `${coinInfos[key]}-UST LP`,
+        symbol: coinSymbolList[key],
+        lpName: `${coinSymbolList[key]}-UST LP`,
         stakedLp: stakedLp.toString(),
         stakedLpUstValue: poolValues.stakedLpUstValue,
         tokenStaked: poolValues.tokenStaked,

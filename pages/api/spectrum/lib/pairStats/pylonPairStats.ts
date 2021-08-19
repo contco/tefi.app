@@ -5,6 +5,14 @@ import { PYLON_API_ENDPOINT } from "../../../pylon/constants";
 import BigNumber from 'bignumber.js';
 
 
+export const getPylonPairStatsData = async (height) => {
+    const rewardInfoPromise = getRewardInfos(height, contracts.pylonFarm, contracts.pylonStaking);
+    const farmConfigPromise =  getFarmConfig(contracts.pylonFarm);
+    const pylonApyPromise = getPylonApy();
+    const [rewardInfo, farmConfig, pylonApy] = await Promise.all([rewardInfoPromise, farmConfigPromise, pylonApyPromise]);
+    return {rewardInfo, farmConfig, ...pylonApy};
+}
+
 const getPylonApy = async () => {
   const [govData ,lpData] = await Promise.all([fetchData(PYLON_API_ENDPOINT+'governance/v1/overview'), fetchData(PYLON_API_ENDPOINT+'liquidity/v1/overview')]);
   const govApy =  govData?.data?.apy ? govData?.data?.apy.toString() : '0';
@@ -12,10 +20,8 @@ const getPylonApy = async () => {
   return {govApy, lpApy};
 }
 
-export const getPylonPairStats = async (height, poolInfos, govVaults, govConfig, terraSwapPoolResponses ) => {
-    const rewardInfo = await getRewardInfos(height, contracts.pylonFarm, contracts.pylonStaking);
-    const farmConfig = await getFarmConfig(contracts.pylonFarm);
-    const {govApy, lpApy} = await getPylonApy();
+export const calculatePylonPairStats = (pylonStatsData, poolInfos, govVaults, govConfig, terraSwapPoolResponses ) => {
+    const {rewardInfo, farmConfig, govApy, lpApy} = pylonStatsData;
     const terraSwapPool = terraSwapPoolResponses[contracts.pylonToken];
     const poolApr = +(lpApy || 0);
 

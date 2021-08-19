@@ -1,13 +1,14 @@
 import axios from "axios";
 import { LCD_URL } from "../../utils";
-import { getCoinInfos } from "./coinInfos";
 import { contracts } from "./contracts";
 import { getPairStats } from "./pairStats";
 import { getRewardInfos } from "./rewardInfos";
+import { getPairStatsData } from "./pairStats/getPairStats";
 import { getGovConfig, getGovState, getGovVaults } from "./gov";
 import { calculateFarmInfos } from "./calculateFarmInfo";
 import { getLatestBlockHeight} from "../../utils";
 import { getPrice } from "../../commons";
+import { pairInfoList } from "./pairInfoList";
 
 const fetchSpecFarmInfo = async (pool_addr: string) => {
   const { data } = await axios.get(LCD_URL + `wasm/contracts/${pool_addr}/store`, {
@@ -95,40 +96,35 @@ const fetchPoolResponseData = async (address: string) => {
   return data?.result;
 }
 
-const getPoolResponses = async (pairInfo) => {
+const getPoolResponses = async () => {
   const poolResponses = {};
-  const tasks = Object.keys(pairInfo).map(async (key) => {
-    const data = await fetchPoolResponseData(pairInfo[key].contract_addr);
+  const tasks = Object.keys(pairInfoList).map(async (key) => {
+    const data = await fetchPoolResponseData(pairInfoList[key].contract_addr);
     poolResponses[key] = data;
   });
   await Promise.all(tasks);
   return poolResponses;
 }
 
-const fetchFarmData = async (height, address, poolInfo) => {
-  const pairInfo = getPairsInfo(poolInfo);
-  const govConfig = getGovConfig();
-  const govVaults = getGovVaults();
+const fetchFarmData = async (height, address) => {
   const govState = getGovState(height);
-  const coinInfos = getCoinInfos(poolInfo);
   const pairRewardInfos = getRewardInfos(address, height);
-  const result = await Promise.all([pairInfo, govConfig, govVaults, govState, coinInfos, pairRewardInfos]);
+  const pairStatsData = getPairStatsData(height);
+  const result = await Promise.all([govState, pairRewardInfos, pairStatsData]);
   return result;
 }
 
 export const getFarmInfos = async (address: string) => {
   try {
-  const [poolData, height] = await Promise.all([getPoolInfos(), getLatestBlockHeight()]);
-  
+  const [poolData, height, terraSwapPoolResponses, govConfig, govVaults] = await Promise.all([getPoolInfos(), getLatestBlockHeight(), getPoolResponses(), getGovConfig(), getGovVaults()]);
   const { poolInfo, mirrorPoolInfo, specPoolInfo, pylonPoolInfo, anchorPoolInfo} = poolData;
 
-  const [pairInfo, govConfig, govVaults, govState, coinInfos, pairRewardInfos] = await fetchFarmData(height, address, poolInfo);
-  const terraSwapPoolResponses = await getPoolResponses(pairInfo);
+  const [govState, pairRewardInfos, pairStatsData] = await fetchFarmData(height, address);
+  
   const specPrice = getPrice(terraSwapPoolResponses[contracts.specToken]);
-  const pairStats = await getPairStats(height, specPrice, mirrorPoolInfo, specPoolInfo, pairInfo, govConfig, govVaults, govState, pylonPoolInfo, anchorPoolInfo, terraSwapPoolResponses);
+  const pairStats =  getPairStats(height, pairStatsData, specPrice, mirrorPoolInfo, specPoolInfo, govConfig, govVaults, govState, pylonPoolInfo, anchorPoolInfo, terraSwapPoolResponses);
 
-
-  const { farmInfos, farmsTotal, rewardsTotal } = calculateFarmInfos(poolInfo, pairStats, pairRewardInfos, coinInfos, terraSwapPoolResponses);
+  const { farmInfos, farmsTotal, rewardsTotal } = calculateFarmInfos(poolInfo, pairStats, pairRewardInfos, terraSwapPoolResponses);
   return { farms: farmInfos, farmsTotal, rewardsTotal, govApr: pairStats.govApr };
   }
   catch(err){

@@ -5,10 +5,16 @@ import BigNumber from 'bignumber.js';
 
 const ANCHOR_MANTLE = 'https://mantle.anchorprotocol.com';
 
-export const getAnchorPairStats = async (height, poolInfos, govVaults, govConfig, terraSwapPoolResponses) => {
-    const rewardInfo = await getRewardInfos(height, contracts.anchorFarm, contracts.anchorStaking);
-    const farmConfig = await getFarmConfig(contracts.anchorFarm);
-    const anchorApyStats = await borrowAPYQuery(ANCHOR_MANTLE);
+export const getAnchorPairStatsData = async (height) => {
+    const rewardInfoPromise = getRewardInfos(height, contracts.anchorFarm, contracts.anchorStaking);
+    const farmConfigPromise =  getFarmConfig(contracts.anchorFarm);
+    const anchorApyStatsPromise = borrowAPYQuery(ANCHOR_MANTLE);
+    const [rewardInfo, farmConfig, anchorApyStats] = await Promise.all([rewardInfoPromise, farmConfigPromise, anchorApyStatsPromise]);
+    return {rewardInfo, farmConfig, anchorApyStats};
+}
+
+export const calculateAnchorPairStats =  (anchorPairStatsData, poolInfos, govVaults, govConfig, terraSwapPoolResponses) => {
+    const {rewardInfo, farmConfig, anchorApyStats} = anchorPairStatsData;
     const terraSwapPool = terraSwapPoolResponses[contracts.anchorToken];
     const totalWeight = Object.values(poolInfos).reduce((a, b: any) => a + b.weight, 0);
     const govWeight = govVaults.vaults.find(it => it.address === contracts.anchorFarm)?.weight || 0;
