@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { request } from 'graphql-request';
 import Header from '../../components/Header';
 import Bubble from '../../components/Bubble';
-import data from '../../components/Bubble/images.json';
+import BUBBLE_DATA from '../../components/Bubble/images.json';
 import { assets } from '../../constants/assets';
 import { TERRA_SWAP_GRAPHQL_URL } from '../../constants';
 import { getTokenKey } from '../../helpers/market';
@@ -20,7 +20,7 @@ const Container = styled(Flex)`
     justifyContent: 'space-between',
     paddingTop: 1,
     boxSizing: 'border-box',
-    height: [400, 480, 520, 600, null, 860, '100vh'],
+    height: [400, 480, 520, 600, null, 860, '90vh'],
   })}
 `;
 
@@ -51,12 +51,12 @@ const priceChange = (singalPairData) => {
 
 const formatData = (pairData) => {
   let highest = 0;
-  data.forEach(({ symbol }: any) => {
+  BUBBLE_DATA.forEach(({ symbol }: any) => {
     const change = Math.abs(parseFloat(priceChange(pairData[symbol])));
     highest = change > highest ? change : highest;
     console.log(change);
   });
-  return data.map((a: any) => {
+  return BUBBLE_DATA.map((a: any) => {
     const change = parseFloat(priceChange(pairData[a.symbol]));
     const changeP = Math.abs(change);
     const size = changeP / highest;
@@ -70,20 +70,17 @@ const formatData = (pairData) => {
 };
 
 const HeatBubble: React.FC = ({ theme, changeTheme, pairData }: any) => {
-  const bubbleSize = (percentage) => {
-    const defaultSize = 500;
-    const positivePer = parseFloat(percentage) > 0 ? parseFloat(percentage) : parseFloat(percentage) * -1;
-    let size = Number(((positivePer / defaultSize) * 100).toFixed(1));
-    if (size < 0.5) {
-      size = size + 0.5;
-    }
-    if (size > 2.5) {
-      size = 2.5;
-    }
-    return size;
-  };
+  const [data, setData] = useState(formatData(pairData));
 
-  const formatedData = formatData(pairData);
+  useEffect(() => {
+    const fecthData = async () => {
+      try {
+        const d = await getData();
+        setData(formatData(d))
+      } catch (error) {}
+    };
+    fecthData();
+  }, []);
 
   return (
     <div>
@@ -96,7 +93,7 @@ const HeatBubble: React.FC = ({ theme, changeTheme, pairData }: any) => {
         </div>
         <Container>
           <BubblesRow>
-            {formatedData.map(({ symbol, change, isPositive, size, imageUrl }: any) => (
+            {data.map(({ symbol, change, isPositive, size, imageUrl }: any) => (
               <Bubble key={symbol} price={change} isPostive={isPositive} size={size} imageUrl={imageUrl} />
             ))}
           </BubblesRow>
@@ -106,7 +103,7 @@ const HeatBubble: React.FC = ({ theme, changeTheme, pairData }: any) => {
   );
 };
 
-export async function getServerSideProps(_) {
+const getData = async () => {
   const poolAddresses = Object.keys(assets).map((keyName) => assets[keyName].poolAddress);
   const toDate = new Date();
   const fromDate = subYears(toDate, 1);
@@ -124,9 +121,13 @@ export async function getServerSideProps(_) {
     data[keyName] = { ...assets[keyName], ...pairs[index], tokenKey: getTokenKey(pairs[index], keyName) };
   });
 
+  return data;
+};
+
+export async function getServerSideProps(_) {
   return {
     props: {
-      pairData: data,
+      pairData: await getData(),
     },
   };
 }

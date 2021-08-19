@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import css from '@styled-system/css';
-import Image from 'next/image';
-import LazyImage from '../LazyImage';
 
 const OvalShap = styled.div<BubbleProps>`
   ${({ size, isPostive, theme }) =>
