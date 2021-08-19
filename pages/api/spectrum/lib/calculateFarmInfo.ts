@@ -85,8 +85,8 @@ export const calculateFarmInfos = (poolInfo, pairStats, pairRewardInfos, poolRes
 
       if (poolInfo[key].farm !== "Spectrum") {
         tokenRewardsStaked = parseFloat(pairRewardInfos[key]?.pending_farm_reward)/UNIT;
-        const poolResponse = getStakedTokenPoolResponse(poolResponses, poolInfo[key].farm);
-        tokenRewardsStakedValue = getStakedTokenValue(tokenRewardsStaked, poolResponse);
+        const stakedTokenPoolResponse = getStakedTokenPoolResponse(poolResponses, poolInfo[key].farm);
+        tokenRewardsStakedValue = getStakedTokenValue(tokenRewardsStaked, stakedTokenPoolResponse);
       }
       const poolValues = getPoolValues(stakedLp, lpValue, tokenPrice );
       farmsTotal = farmsTotal + parseFloat(poolValues.stakedLpUstValue) ;

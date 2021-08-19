@@ -60,8 +60,8 @@ const Rewards: React.FC<RewardsProps> = ({ spectrum }) => {
       <Row>
           <Title>Name</Title>
           <Title>APY</Title>
-          <Title>SPEC Staked</Title>
-          <Title>Token Staked</Title>
+          <Title>SPEC Rewards</Title>
+          <Title>Token Rewards</Title>
       </Row>
       {getFarmsRewards()}
     </Wrapper>
