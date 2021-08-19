@@ -54,7 +54,7 @@ const Earn: React.FC<BurnProps> = ({ ancAssets }) => {
             <SimpleText>
               <b>Withdrawable Amount:</b> &nbsp;
             </SimpleText>
-            <SimpleText>{withdrawableAmount} bLUNA</SimpleText>
+            <SimpleText>{withdrawableAmount} LUNA</SimpleText>
           </StyledTextContainer>
         </Flex>
       </HeadingWrapper>
