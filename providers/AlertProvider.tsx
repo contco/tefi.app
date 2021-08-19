@@ -30,7 +30,7 @@ interface Alerts {
 const AlertContext = createContext<AlertContextProps>({
     alerts: null,
     setPriceAlert: () => null,
-    cancelAlert: () => {},
+    cancelAlert: () => null,
 });
 
 const AlertProvider: React.FC<Props> = ({ children }) => {
