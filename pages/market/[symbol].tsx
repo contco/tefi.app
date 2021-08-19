@@ -105,9 +105,11 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
   useEffect(() => {
     const updatePriceInit = async () => {
       const updatedData = await fecthPairData();
-      Object.keys(updatedData).length && setAllPairsData(updatedData);
-      calculateAndSetPriceChange(updatedData[symbol], realTimePriceList[symbol]);
-      setPrice(parseFloat(getCurrentPairPrice(updatedData[symbol])));
+      if (Object.keys(updatedData).length) {
+        setAllPairsData(updatedData);
+        calculateAndSetPriceChange(updatedData[symbol], realTimePriceList[symbol]);
+        setPrice(parseFloat(getCurrentPairPrice(updatedData[symbol])));
+      }
     };
     updatePriceInit();
   }, []);
