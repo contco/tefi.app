@@ -9,6 +9,7 @@ import RedirectProvider from '../providers/RedirectProvider';
 import Head from 'next/head';
 import { DefaultSeo } from 'next-seo';
 import SEO from '../next-seo.config';
+import { Keywords } from '../constants';
 
 import { lightTheme, darkTheme } from '../styles/theme';
 import { LIGHT_THEME, DARK_THEME } from '../constants';
@@ -37,7 +38,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
     <Head>
-          <title>Tefi App</title>
+          <title>Tefi App </title>
+          <meta name="keywords" content={Keywords} data-shuvi-head="true"></meta>
+
     </Head>
       <DefaultSeo {...SEO} />
       <ApolloProvider client={apolloClient}>    

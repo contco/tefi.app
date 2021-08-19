@@ -14,7 +14,8 @@ import { getTokenKey, formatChartData, getCurrentPairPrice} from '../../helpers/
 import { subYears} from 'date-fns';
 import { getPrice } from '../api/commons';
 import TradingViewWidget, { Themes } from 'react-tradingview-widget';
-
+import { NextSeo } from 'next-seo';
+import { MarketSEO } from '../../next-seo.config';
 
 const TV_SYMBOLS = {
   luna: 'KUCOIN:LUNAUST',
@@ -191,12 +192,12 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
     if (!TV_SYMBOLS[symbol]) router.push('/market', undefined, { shallow: true });
     setUseTV((prev) => !prev);
   };
-
   return (
     <MainContainer>
+      <NextSeo {...MarketSEO} />
       <Head>
-        <title>TefiApp - Markets</title>
-      </Head>
+        <title> TefiApp - Market | Coin Prices, Market Cap, 24 Hour Change</title>
+      </Head> 
       <Header theme={currentTheme} changeTheme={changeTheme} hideCharts />
       <Container>
         <AssetDetails
