@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
-import { request } from 'graphql-request';
 import Header from '../../components/Header';
 import Bubble from '../../components/Bubble';
 import BUBBLE_DATA from '../../components/Bubble/images.json';
-import { assets } from '../../constants/assets';
-import { TERRA_SWAP_GRAPHQL_URL } from '../../constants';
-import { getTokenKey } from '../../helpers/market';
-import { GET_PAIRS_DATA } from '../../graphql/queries/getPairsData';
-import { subYears } from 'date-fns';
 import css from '@styled-system/css';
 import styled from 'styled-components';
 import { Flex } from '@contco/core-ui';
+import { fecthPairData } from '../../helpers/market/pairData';
 
 const Container = styled(Flex)`
   ${css({
@@ -79,11 +74,13 @@ const formatData = (pairData) => {
 const HeatBubble: React.FC = ({ theme, changeTheme, pairData }: any) => {
   const [data, setData] = useState(formatData(pairData));
 
+  if (!Object.keys(data).length) return <Header theme={theme} changeTheme={changeTheme} />;
+
   useEffect(() => {
     const fecthData = async () => {
       try {
-        const d = await getData();
-        setData(formatData(d));
+        const updatedData = await fecthPairData();
+        Object.keys(updatedData).length && setData(formatData(updatedData));
       } catch (error) {}
     };
     fecthData();
@@ -108,31 +105,10 @@ const HeatBubble: React.FC = ({ theme, changeTheme, pairData }: any) => {
   );
 };
 
-const getData = async () => {
-  const poolAddresses = Object.keys(assets).map((keyName) => assets[keyName].poolAddress);
-  const toDate = new Date();
-  const fromDate = subYears(toDate, 1);
-
-  const { pairs } = await request(TERRA_SWAP_GRAPHQL_URL, GET_PAIRS_DATA, {
-    from: fromDate.getTime() / 1000,
-    to: toDate.getTime() / 1000,
-    interval: 'DAY',
-    pairAddresses: poolAddresses,
-  });
-
-  const data: any = {};
-
-  Object.keys(assets).map((keyName: string, index: number) => {
-    data[keyName] = { ...assets[keyName], ...pairs[index], tokenKey: getTokenKey(pairs[index], keyName) };
-  });
-
-  return data;
-};
-
 export async function getServerSideProps(_) {
   return {
     props: {
-      pairData: await getData(),
+      pairData: await fecthPairData(),
     },
   };
 }
