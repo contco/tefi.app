@@ -33,6 +33,7 @@ const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAsse
     return totalCollateral.toString();
   };
 
+
   const getLunaStakingRewards = () => {
     let total = 0;
     for (const a in core.staking) {
@@ -96,6 +97,7 @@ const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAsse
     const shortLocked = getTotalForFarm(mirrorAssets?.mirrorShortFarm, 'locked_amount');
     const shortUnlocked = getTotalForFarm(mirrorAssets?.mirrorShortFarm, 'unlocked_amount');
     const shortCollateral = getCollateralTotal();
+	const ancBurnTotal = ancAssets?.burn?.totalBurnAmountValue;
 
     const total =
       parseFloat(spectrum?.spectrumTotal?.holdingsTotal) +
@@ -106,6 +108,7 @@ const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAsse
       parseFloat(shortLocked) +
       parseFloat(shortUnlocked) +
       parseFloat(shortCollateral) +
+	  parseFloat(ancBurnTotal) +
       getLunaStakedTotal() +
       getPoolTotal() +
       getGovStaked() +

@@ -131,7 +131,21 @@ export const CODE_EXAMPLE = `{
             ancprice
             netApy
           }
-  
+          burn {
+            requestData {
+              amount {
+                amount
+                amountValue
+              }
+              time {
+                requestedTime
+                claimableTime
+              }
+            } 
+            withdrawableAmount
+            totalBurnAmount
+            totalBurnAmountValue
+	}
           earn {
             reward {
               name
@@ -330,4 +344,4 @@ export const CODE_EXAMPLE = `{
           }
         }
       }
-  }`
+  }`;

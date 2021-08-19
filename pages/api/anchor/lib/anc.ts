@@ -3,27 +3,26 @@ import getDebt from './borrow';
 import getEarn from './earn';
 import { getAncPoolData } from './lp';
 import getGov from './gov';
+import getBurn from './burn';
 import { formatAirdrops, getAirdrops } from './airdrop';
 
 const fetchBalance = async (address: string) => {
   try {
     const balance = await anchor.anchorToken.getBalance(address);
     return balance;
-  }
-  catch (err) {
+  } catch (err) {
     return '0';
   }
-}
+};
 
 const fetchPrice = async () => {
   try {
     const price = anchor.anchorToken.getANCPrice();
     return price;
-  }
-  catch (err) {
+  } catch (err) {
     return '0';
   }
-}
+};
 
 const getAnchorHoldings = (balance: number, price: number) => {
   if (balance) {
@@ -44,6 +43,7 @@ export const getAccount = async (address: any) => {
   const poolRequest = getAncPoolData(address);
   const govRequest = getGov(address);
   const airdropRequest = getAirdrops(address);
+  const burnRequest = getBurn(address);
 
   const anchorData = await Promise.all([
     balanceRequest,
@@ -53,9 +53,10 @@ export const getAccount = async (address: any) => {
     poolRequest,
     govRequest,
     airdropRequest,
+    burnRequest,
   ]);
 
-  const [balance, price, debt, earn, pool, gov, airdropData] = anchorData;
+  const [balance, price, debt, earn, pool, gov, airdropData, burn] = anchorData;
   const { airdrops, airdropSum } = formatAirdrops(airdropData, price);
 
   const { poolData, anchorPoolSum, anchorRewardsSum } = pool;
@@ -101,6 +102,7 @@ export const getAccount = async (address: any) => {
     pool: poolData,
 
     gov: gov,
+    burn: burn,
     airdrops,
     total: {
       airdropSum,

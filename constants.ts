@@ -26,6 +26,9 @@ export const RewardsTitle = ['Name', 'Staked', 'APR', 'Reward'];
 //Earn
 export const EarnTitle = ['Total Deposit', 'APY'];
 
+//Burn
+export const BurnTitle = ['Amount', 'Request Time', 'Claimable Time'];
+
 //Mirror Borrowing
 export const MirrorBorrowTitle = ['Name', 'Price', 'Borrowed', 'Collateral', 'Collateral Ratio'];
 
