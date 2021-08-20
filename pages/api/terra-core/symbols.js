@@ -62,6 +62,14 @@ export const SWAP_TOKENS = [
         isLunaPair: false,
         token_addr: "terra1dzhzukyezv0etz22ud940z7adyv7xgcjkahuun",
         pool_addr: "terra1c0afrdc5253tkp5wt7rxhuj42xwyf2lcre0s7c"
+    },
+    {
+        name: "Altered",
+        symbol: "ALTE",
+        isNative: false,
+        isLunaPair: false,
+        token_addr: "terra15tztd7v9cmv0rhyh37g843j8vfuzp8kw0k5lqv",
+        pool_addr: "terra18adm0emn6j3pnc90ldechhun62y898xrdmfgfz"
     }
 ];
 
