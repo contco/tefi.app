@@ -12,14 +12,15 @@ import Section from './Section';
 import { INTERNAL_LINKS, PROTOCOL_LINKS, UPCOMING_PROTOCOL_LINKS } from './data';
 
 const Parent = styled(Box)`
-  ${(props) => css({
-    position: 'absolute',
-    top: 60,
-    right: 14,
-    minHeight: 369,
-    width: 270,
-    visibility: props.isVisible ? 'visible' : 'hidden',
-  })}
+  ${(props) =>
+    css({
+      position: 'absolute',
+      top: 60,
+      right: 14,
+      minHeight: 369,
+      width: 270,
+      visibility: props.isVisible ? 'visible' : 'hidden',
+    })}
 `;
 
 const InneContainer = styled(Flex)`
@@ -81,11 +82,17 @@ const Menu: React.FC<Props> = ({
 }: any) => {
   const router = useRouter();
   const MenuRef = React.useRef<HTMLDivElement | null>(null);
+  const InnerContainerRef = React.useRef<HTMLDivElement | null>(null);
+
+  const onClose = () => {
+    setVisibility(false);
+    InnerContainerRef && InnerContainerRef.current.scrollTo(0, 0);
+  };
 
   const onOutsideClick = React.useCallback(() => {
     setTimeout(() => {
       if (isVisible) {
-        setVisibility(false);
+        onClose();
       }
     }, 100);
   }, [setVisibility, isVisible]);
@@ -93,19 +100,19 @@ const Menu: React.FC<Props> = ({
   useOutsideClickListener(MenuRef, onOutsideClick);
 
   const onLinkClick = (url: string) => {
-    setVisibility(false);
+    onClose();
     setTimeout(() => window.open(url, '_blank'), 300);
   };
 
   const onInternalLinkClick = (url: string) => {
-    setVisibility(false);
+    onClose();
     setTimeout(() => router.push(url), 300);
   };
 
   return (
     <Parent isVisible={isVisible}>
       <MenuContainer ref={MenuRef} isLight={theme === LIGHT_THEME} isVisible={isVisible}>
-        <InneContainer>
+        <InneContainer ref={InnerContainerRef}>
           <Section data={INTERNAL_LINKS} onItemClick={onInternalLinkClick} />
           <Divider />
           <Section data={PROTOCOL_LINKS} onItemClick={onLinkClick} />
