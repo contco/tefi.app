@@ -133,6 +133,21 @@ export const getAssets = gql`
           ancprice
           netApy
         }
+        burn {
+          requestData {
+            amount {
+              amount
+              amountValue
+            }
+            time {
+              requestedTime
+              claimableTime
+            }
+          }
+          withdrawableAmount
+		  totalBurnAmount
+		  totalBurnAmountValue
+        }
 
         earn {
           reward {
@@ -257,12 +272,12 @@ export const getAssets = gql`
           }
         }
       }
-      terraSwapPool{
-        list{
+      terraSwapPool {
+        list {
           symbol1
           symbol2
           lpName
-          price  
+          price
           stakedLp
           stakedLpUstValue
           stakeableLp
@@ -286,8 +301,9 @@ export const getAssets = gql`
           farm
           stakedSpec
           stakedSpecValue
-          stakedMir
-          stakedMirValue
+          tokenRewardsStaked
+          tokenRewardsStakedValue
+          tokenRewardsStakedSymbol
           apy
         }
         specGov {

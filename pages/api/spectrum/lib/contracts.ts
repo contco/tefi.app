@@ -14,4 +14,12 @@
     specFarm: 'terra17hjvrkcwn3jk2qf69s5ldxx5rjccchu35assga',
     terraSwapFactory: 'terra1ulgw0td86nvs4wtpsc80thv6xelk76ut7a7apj',
     staker: 'terra1fxwelge6mf5l6z0rjpylzcfq9w9tw2q7tewaf5',
+    anchorGov: 'terra1f32xyep306hhcxxxf7mlyh0ucggc00rm2s9da5',
+    anchorStaking: 'terra1897an2xux840p9lrh6py3ryankc6mspw49xse3',
+    anchorToken: 'terra14z56l0fp2lsf86zy3hty2z47ezkhnthtr9yq76',
+    anchorFarm: 'terra1fqzczuddqsdml37a20pysjx5wk9dh4tdzu2mrw',
+    pylonGov: 'terra1xu8utj38xuw6mjwck4n97enmavlv852zkcvhgp',
+    pylonStaking: 'terra19nek85kaqrvzlxygw20jhy08h3ryjf5kg4ep3l',
+    pylonToken: 'terra1kcthelkax4j9x8d3ny6sdag0qmxxynl3qtcrpy',
+    pylonFarm: 'terra1r3675psl7s2fe0sfh0vut5z4hrywgyyfdrzg95',
  }

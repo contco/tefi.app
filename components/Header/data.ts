@@ -1,6 +1,7 @@
 import {
     DashboardIcon,
     ChartsIcon,
+    BubbleIcon
 } from './style';
 
 export const INTERNAL_LINKS = [
@@ -14,6 +15,11 @@ export const INTERNAL_LINKS = [
         url: "/market",
         name: "Market"
     },
+    {
+        component: BubbleIcon,
+        url: "/market/heat",
+        name: "Bubbles"
+    }
 ];
 
 export const PROTOCOL_LINKS = [

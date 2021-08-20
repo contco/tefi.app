@@ -18,13 +18,16 @@ export const AssetsTitle = ['Ticker', 'Name', 'Balance', 'Price', 'Value'];
 export const BorrowingTitle = ['Collateral Value', 'Borrowed Value', 'Net APR'];
 
 //Pools
-export const PoolsTitle = ['Name', 'Staked', 'Stakeable', 'Value'];
+export const PoolsTitle = ['Name', 'Staked', 'Liquid', 'Value'];
 
 //Rewards
 export const RewardsTitle = ['Name', 'Staked', 'APR', 'Reward'];
 
 //Earn
 export const EarnTitle = ['Total Deposit', 'APY'];
+
+//Burn
+export const BurnTitle = ['Amount', 'Request Time', 'Claimable Time'];
 
 //Mirror Borrowing
 export const MirrorBorrowTitle = ['Name', 'Price', 'Borrowed', 'Collateral', 'Collateral Ratio'];
@@ -42,3 +45,5 @@ export enum WalletConnectType {
   Extension,
   Mobile,
 }
+
+export const TEFI_PREVIEW_IMAGE = 'https://storage.googleapis.com/tefi-app/tefi-preview.png';

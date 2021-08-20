@@ -2,7 +2,7 @@ import axios from "axios";
 import { request, gql } from 'graphql-request';
 import { LCD_URL } from "../../../utils";
 import { contracts } from "../contracts";
-import { fromEntries, getPairPool } from "../utils";
+import { fromEntries, createPairStats, getFarmConfig } from "../utils";
 import networks from "../../../../../utils/networks";
 import BigNumber from 'bignumber.js';
 
@@ -25,16 +25,6 @@ query assets {
   }
 `;
 
-const getFarmConfig = async () => {
-    const {data: farmConfig} =  await axios.get(LCD_URL + `wasm/contracts/${contracts.mirrorFarm}/store`, {
-        params: {
-          query_msg: JSON.stringify({
-            config: {}
-          })
-       },
-    });
-   return farmConfig?.result;
-}
 
 const getRewardInfos = async () =>  {
     const {data: rewardInfos} =  await axios.get(LCD_URL + `wasm/contracts/${contracts.mirrorStaking}/store`, {
@@ -49,43 +39,38 @@ const getRewardInfos = async () =>  {
     return rewardInfos?.result;
 }
 
-const createPairStats = (poolApr, token, poolInfos, govWeight, totalWeight, govStats) => {
-    const poolInfo = poolInfos[token];
-    const stat = {
-      poolApr,
-      poolApy: (poolApr / 365 + 1) ** 365 - 1,
-      farmApr: govStats.statistic.govAPR,
-      tvl: '0',
-      multiplier: poolInfo ? govWeight * poolInfo.weight / totalWeight : 0,
-      vaultFee: 0,
-    };
-    return stat;
-}
 
-const getPairs = (assetStats: any, poolInfo, govWeight, totalWeight, govStats) => {
+const getPairs = (assetStats: any, poolInfo, govWeight, totalWeight, farmApr) => {
     const pairs = {}; 
     for(const asset of assetStats?.assets) {
       const poolApr = +(asset.statistic.apr?.long || 0);
-      pairs[asset?.token] = createPairStats(poolApr, asset.token, poolInfo, govWeight, totalWeight, govStats);
+      pairs[asset?.token] = createPairStats(poolApr, asset.token, poolInfo, govWeight, totalWeight, farmApr);
     }
     return pairs;
 }
 
-export const getMirrorPairStats = async (pool, poolPairs, govConfig, govVaults) => {
-    const rewardInfos = await getRewardInfos();
-    const govStats = await request(networks.mainnet.stats, GOV_STAT_QUERY, {network: 'TERRA'});
-    const assetStats = await request(networks.mainnet.stats, ASSET_STATS_QUERY);
-    const farmConfig = await getFarmConfig();
+export const getMirrorPairStatsData = async () => {
+  const rewardInfoPromise = getRewardInfos();
+  const farmConfigPromise = getFarmConfig(contracts.mirrorFarm);
+  const govStatsPromise = request(networks.mainnet.stats, GOV_STAT_QUERY, {network: 'TERRA'});
+  const assetStatsPromise =  request(networks.mainnet.stats, ASSET_STATS_QUERY);
+  const [rewardInfos, farmConfig, govStats, assetStats] = await Promise.all([rewardInfoPromise, farmConfigPromise, govStatsPromise, assetStatsPromise]);
+  return {rewardInfos, farmConfig, govStats, assetStats};
+}
+
+
+export const calculateMirrorPairStats =  (mirrorData, pool, govConfig, govVaults, terraSwapPoolResponses) => {
+    const {rewardInfos, farmConfig, govStats, assetStats} = mirrorData;
     const poolInfos = fromEntries(Object.entries(pool));
     const totalWeight = Object.values(poolInfos).reduce((a, b: any) => a + b.weight, 0);
     const govWeight = govVaults.vaults.find(vault => vault.address === contracts.mirrorFarm)?.weight || 0;
     const communityFeeRate = +farmConfig.community_fee * (1 - +govConfig.warchest_ratio);
-     
-    const pairStats = getPairs(assetStats, poolInfos , govWeight, totalWeight, govStats);
+    const farmApr = (govStats.statistic.govAPR || 0 );
+    const pairStats = getPairs(assetStats, poolInfos , govWeight, totalWeight, farmApr);
 
 
-    const pairStatsTasks= rewardInfos.reward_infos.map(async(item: any) => {
-     const pairPool = await getPairPool(poolPairs[item?.asset_token].contract_addr);
+    rewardInfos.reward_infos.forEach((item: any) => {
+     const pairPool = terraSwapPoolResponses[item?.asset_token];
      const uusd = pairPool.assets.find(a => a.info.native_token?.['denom'] === 'uusd');
       if (!uusd) {
         return;
@@ -103,6 +88,5 @@ export const getMirrorPairStats = async (pool, poolPairs, govConfig, govVaults) 
       return pairPool;
     });
 
-    await Promise.all(pairStatsTasks);
     return pairStats;
 };
