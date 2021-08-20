@@ -8,6 +8,8 @@ import { LUNA_DENOM } from '../../terra-core/symbols';
 import axios from 'axios';
 import { ancPriceQuery } from './ancPrice';
 import { fetchData } from '../../commons';
+import { UNIT } from '../../mirror/utils';
+import { collectFields } from 'graphql/execution/execute';
 
 const LCDURL = 'https://lcd.terra.dev/';
 const name = 'UST Borrow';
@@ -129,18 +131,25 @@ export const getCollaterals = async ({ address }: any) => {
 
   const bLUNARequest = await fetchData(BASSETS_INFO + 'bluna');
   const bLUNAPrice = bLUNARequest?.data?.bLuna_price;
-
-  if (result?.collaterals.length)
-    return result.collaterals.map((item) => {
+  let totalValue = 0;
+  if (result?.collaterals.length){
+    const resultCollateral = result.collaterals.map((item) => {
       const collateral = item[0];
+      const price = collateral == bETHContract ? bEthPrice : bLUNAPrice;
+      const balance = parseFloat(item[1])/UNIT || 0;
+      const value = (balance * parseFloat(price));
+      totalValue += value; 
       return {
         collateral,
-        balance: item[1],
-        price: collateral == bETHContract ? bEthPrice : bLUNAPrice
+        balance:balance.toString(),
+        price,
+        value:value.toString(),
+        symbol: collateral == bETHContract ? "bEth" : "bLuna"
       }
     });
-
-  return []
+    return {totalValue:totalValue.toString(),resultCollateral}
+  }
+  return {totalValue:"0",resultCollateral:[]}
 };
 
 export const rewardsClaimableUstBorrowRewardsQuery = async (mantleEndpoint, address) => {
@@ -204,7 +213,7 @@ export const getBorrowRate = async () => {
 };
 export default async (address) => {
   try {
-    const [borrowLimit, borrowedValue, collaterals, allRewards, rewards, lunaPrice, borrowRate, { ancPrice }] = await Promise.all([
+    const [borrowLimit, borrowedValue, collateralsData, allRewards, rewards, lunaPrice, borrowRate, { ancPrice }] = await Promise.all([
       getBorrowLimit({ address }),
       getBorrowedValue({ address }),
       getCollaterals({ address }),
@@ -218,7 +227,7 @@ export default async (address) => {
     const distributionAPY = allRewards?.borrowerDistributionAPYs[0]?.DistributionAPY;
     const borrowApy = borrowRate?.data?.result?.rate * blocksPerYear;
     const netApy = (parseFloat(distributionAPY) - borrowApy).toString();
-
+    const collaterals = collateralsData.resultCollateral.length > 0 ? collateralsData.resultCollateral : null;
     const result = {
       reward: {
         name,
@@ -227,7 +236,8 @@ export default async (address) => {
       },
       limit: borrowLimit,
       value: borrowedValue,
-      collaterals: collaterals && collaterals[0] ? collaterals : null,
+      collaterals,
+      totalCollateralValue: collateralsData.totalValue,
       percentage: percentage.toString(),
       lunaprice: lunaPrice,
       ancprice: ancPrice.ANCPrice,
@@ -246,6 +256,7 @@ export default async (address) => {
       limit: '0',
       value: '0',
       collaterals: null,
+      totalCollateralValue:"0",
       percentage: '0',
       lunaprice: '0',
       ancprice: '0',

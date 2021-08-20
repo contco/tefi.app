@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import Head from 'next/head';
 import { Line, LineChart, ResponsiveContainer, Tooltip } from 'recharts';
 import styled, { useTheme } from 'styled-components';
 import { GetStaticPaths } from 'next';
@@ -11,6 +10,8 @@ import { LIGHT_THEME, TERRA_OBSERVER_URL } from '../../constants';
 import { formatChartData, getCurrentPairPrice } from '../../helpers/market';
 import { getPrice } from '../api/commons';
 import TradingViewWidget, { Themes } from 'react-tradingview-widget';
+import { NextSeo } from 'next-seo';
+import { MarketSEO } from '../../next-seo.config';
 import { fecthPairData } from '../../helpers/market/pairData';
 
 const TV_SYMBOLS = {
@@ -200,12 +201,9 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
     if (!TV_SYMBOLS[symbol]) router.push('/market', undefined, { shallow: true });
     setUseTV((prev) => !prev);
   };
-
   return (
     <MainContainer>
-      <Head>
-        <title>TefiApp - Markets</title>
-      </Head>
+      <NextSeo {...MarketSEO} />
       <Header theme={currentTheme} changeTheme={changeTheme} />
       <Container>
         <AssetDetails

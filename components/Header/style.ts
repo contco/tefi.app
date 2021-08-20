@@ -261,3 +261,4 @@ export const StyledMenuIcon = styled(MENU_ICON)`
       color:'secondary',
   })}
 `;
+

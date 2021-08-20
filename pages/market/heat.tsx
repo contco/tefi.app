@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Head from 'next/head';
 import Header from '../../components/Header';
 import Bubble from '../../components/Bubble';
 import BUBBLE_DATA from '../../components/Bubble/images.json';
@@ -56,7 +55,6 @@ const formatData = (pairData) => {
   BUBBLE_DATA.forEach(({ symbol }: any) => {
     const change = Math.abs(parseFloat(priceChange(pairData[symbol])));
     highest = change > highest ? change : highest;
-    console.log(change);
   });
   return BUBBLE_DATA.map((a: any) => {
     const change = parseFloat(priceChange(pairData[a.symbol]));
@@ -88,9 +86,6 @@ const HeatBubble: React.FC = ({ theme, changeTheme, pairData }: any) => {
 
   return (
     <>
-      <Head>
-        <title>Tefi App - Bubble</title>
-      </Head>
       <Header theme={theme} changeTheme={changeTheme} />
       <MainContainer>
         <Container>

@@ -5,6 +5,9 @@ export const TERRA_MAIN_NET = { URL: 'https://lcd.terra.dev', chainID: 'columbus
 export const TERRA_OBSERVER_URL = 'wss://observer.terra.dev';
 export const TERRA_SWAP_GRAPHQL_URL = 'https://terraswap-graph.terra.dev/graphql';
 
+
+
+export const Keywords = "Luna , Terra Protocol, UST , MIR, Tefi, MINE, price, cryptocurrency,token , dashboard, crypto , crypto news ,	crypto market cap ,	 crypto prices , market ,  crypto market , wallet	"
 //temp
 export const IS_TEST = false;
 
@@ -15,7 +18,7 @@ export const MarketTitles = ['Total Market Value', 'Total Assets', 'Total Borrow
 export const AssetsTitle = ['Ticker', 'Name', 'Balance', 'Price', 'Value'];
 
 //Anchor Borrowing
-export const BorrowingTitle = ['Collateral Value', 'Borrowed Value', 'Net APR'];
+export const BorrowingTitle = ['Collateral List', 'Collateral Value', 'Borrowed Value', 'Net APR'];
 
 //Pools
 export const PoolsTitle = ['Name', 'Staked', 'Liquid', 'Value'];
