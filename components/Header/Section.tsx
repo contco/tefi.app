@@ -42,7 +42,7 @@ const Section: React.FC<Props> = ({ data, onItemClick }) => {
   return (
     <Container>
       {data.map(({ component: Component, src, alt, url, name }) => (
-        <StyledHover onClick={() => onItemClick(url)}>
+        <StyledHover key={name} onClick={() => onItemClick(url)}>
           {Component && <Component />}
           {src && <img src={src} alt={alt} height={26} width={26} />}
           {name && <p style={{ fontSize: '9px', placeSelf: 'center' }}>{name}</p>}

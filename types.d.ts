@@ -7,14 +7,14 @@ interface Holdings {
 }
 
 interface Gov {
-  name: string
-  symbol: string
-  staked: string
-  value: string
-  rewards: string
-  rewardsValue?: string
-  price: string
-  apr?: string
+  name: string;
+  symbol: string;
+  staked: string;
+  value: string;
+  rewards: string;
+  rewardsValue?: string;
+  price: string;
+  apr?: string;
   apy?: string;
 }
 
@@ -39,7 +39,7 @@ interface Pool {
 }
 
 interface Coin extends Holdings {
-  __typename?: "Coin";
+  __typename?: 'Coin';
 }
 
 interface Core {
@@ -81,7 +81,7 @@ interface Airdrops {
   name: string;
   symbol: string;
   proof: string | string[];
-  contract: string
+  contract: string;
 }
 
 interface UserCollateral {
@@ -111,6 +111,27 @@ interface EarnData {
   reward?: Reward;
 }
 
+interface Amount {
+  amount: string;
+  amountValue: string;
+}
+interface Time {
+  requestedTime: string;
+  claimableTime: string;
+}
+
+interface RequestData {
+  amount: Amount;
+  time: Time;
+}
+
+interface BurnData {
+  requestData: Array<RequestData>;
+  withdrawableAmount: string;
+  totalBurnAmount: string;
+  totalBurnAmountValue: string;
+}
+
 interface Total {
   __typename?: 'Total';
   airdropSum: string;
@@ -124,6 +145,7 @@ interface AccountAnc {
   assets?: Holdings[];
   debt?: BorrowData;
   earn?: EarnData;
+  burn?: BurnData;
   pool: Pool[];
   gov?: Gov;
   airdrops?: Array<Airdrops>;
@@ -240,8 +262,9 @@ interface SpecFarms {
   farm: string;
   stakedSpec: string;
   stakedSpecValue: string;
-  stakedMir: string;
-  stakedMirValue: string;
+  tokenRewardsStaked: string;
+  tokenRewardsStakedValue: string;
+  tokenRewardsStakedSymbol: string;
   apy: string;
 }
 
@@ -269,8 +292,8 @@ interface SpectrumAccount {
 
 interface loterraDraw {
   combinations: string;
-  drawTime: string
-  ticketCounts: string
+  drawTime: string;
+  ticketCounts: string;
   ticketPrice: string;
   jackpot: string;
 }
@@ -279,8 +302,8 @@ interface LotaGov extends Gov {
   rewardsValue: string;
 }
 interface LoterraAccount {
-  loterraDraw: LoterraDraw
-  lotaGov: LotaGov
+  loterraDraw: LoterraDraw;
+  lotaGov: LotaGov;
 }
 interface Assets {
   __typename?: 'Assets';
@@ -288,8 +311,8 @@ interface Assets {
   anchor?: AccountAnc;
   mirror?: MirrorAccount;
   pylon?: PylonAccount;
-  spectrum: SpectrumAccount
-  loterra: LoterraAccount,
+  spectrum: SpectrumAccount;
+  loterra: LoterraAccount;
 }
 
 interface PriceChange {

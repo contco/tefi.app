@@ -25,6 +25,7 @@ import { DashboardSEO } from '../next-seo.config';
 
 import useWallet from '../lib/useWallet';
 import Earn from '../components/Earn';
+import Burn from '../components/Burn';
 import ShortFarms from '../components/ShortFarms';
 import MirrorBorrowing from '../components/MirrorBorrowing';
 
@@ -117,6 +118,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
             />
             <PylonGateway pylonAssets={data?.assets?.pylon || {}} />
             <Earn ancAssets={data?.assets?.anchor || {}} />
+            <Burn ancAssets={data?.assets?.anchor || {}} />
             <Borrowing ancAssets={data?.assets?.anchor || {}} />
             <Rewards
               pylonAssets={data?.assets?.pylon || {}}

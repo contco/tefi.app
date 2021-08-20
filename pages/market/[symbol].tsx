@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { request } from 'graphql-request';
 import { Line, LineChart, ResponsiveContainer, Tooltip } from 'recharts';
 import styled, { useTheme } from 'styled-components';
 import { GetStaticPaths } from 'next';
 import Header from '../../components/Header';
 import { AssetDetails } from '../../components/Market/AssetDetails';
-import {GET_PAIRS_DATA} from '../../graphql/queries/getPairsData';
-import { assets, DEFAULT_ASSETS_CURRENT_PRICE} from '../../constants/assets';
-import { LIGHT_THEME, TERRA_OBSERVER_URL, TERRA_SWAP_GRAPHQL_URL } from '../../constants';
-import { getTokenKey, formatChartData, getCurrentPairPrice} from '../../helpers/market';
-import { subYears} from 'date-fns';
+import { assets, DEFAULT_ASSETS_CURRENT_PRICE } from '../../constants/assets';
+import { LIGHT_THEME, TERRA_OBSERVER_URL } from '../../constants';
+import { formatChartData, getCurrentPairPrice } from '../../helpers/market';
 import { getPrice } from '../api/commons';
 import TradingViewWidget, { Themes } from 'react-tradingview-widget';
 import { NextSeo } from 'next-seo';
 import { MarketSEO } from '../../next-seo.config';
+import { fecthPairData } from '../../helpers/market/pairData';
 
 const TV_SYMBOLS = {
   luna: 'KUCOIN:LUNAUST',
@@ -45,7 +43,6 @@ const ChartContainer = styled.p`
   align-items: center;
 `;
 
-
 const StyledDate = styled.p`
   ${(props) => ({
     color: props.theme.colors.secondary,
@@ -58,7 +55,7 @@ const SymbolsContainer: any = styled.div`
   width: 55%;
   display: flex;
   justify-content: space-between;
-  padding-top: ${(props: any) => props.useTV ? '30px' : '0px'};
+  padding-top: ${(props: any) => (props.useTV ? '30px' : '0px')};
   @media (max-width: 768px) {
     width: 85%;
   }
@@ -72,12 +69,10 @@ const SymbolContainer: any = styled.div`
   cursor: pointer;
 `;
 
-
 const renderTooltip = ({ payload }) => {
   const date = payload[0]?.payload?.date;
   return <StyledDate>{date}</StyledDate>;
 };
-
 
 const Symbol = ({ keyName, symbol }) => {
   const router = useRouter();
@@ -95,15 +90,30 @@ const Symbol = ({ keyName, symbol }) => {
 };
 
 const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => {
+  const [allPairsData, setAllPairsData] = useState<any>(pairData);
+
+  if (!Object.keys(allPairsData).length) return <Header theme={currentTheme} changeTheme={changeTheme} />;
+
   const theme: any = useTheme();
   const router = useRouter();
   const symbol = router.query.symbol as string;
-  const [allPairsData, setAllPairsData] = useState<any>(pairData);
   const [data, setData]: any = useState(pairData?.[symbol]);
   const [price, setPrice] = useState(parseFloat(getCurrentPairPrice(pairData[symbol])));
   const [realTimePriceList, setRealTimePriceList] = useState<any>(DEFAULT_ASSETS_CURRENT_PRICE);
   const [priceChange, setPriceChange] = useState<PriceChange | null>(null);
   const [useTV, setUseTV] = useState<boolean>(false);
+
+  useEffect(() => {
+    const updatePriceInit = async () => {
+      const updatedData = await fecthPairData();
+      if (Object.keys(updatedData).length) {
+        setAllPairsData(updatedData);
+        calculateAndSetPriceChange(updatedData[symbol], realTimePriceList[symbol]);
+        setPrice(parseFloat(getCurrentPairPrice(updatedData[symbol])));
+      }
+    };
+    updatePriceInit();
+  }, []);
 
   const onMouseEnter = ({ isTooltipActive, activePayload }) => {
     if (isTooltipActive) setPrice(activePayload[0]?.payload.value);
@@ -139,16 +149,16 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
   };
 
   const calculateAndSetPriceChange = (pairData, realTimePrice) => {
-    const currentPrice = realTimePrice ? realTimePrice :  getCurrentPairPrice(pairData);
+    const currentPrice = realTimePrice ? realTimePrice : getCurrentPairPrice(pairData);
     const dayOldPrice = pairData?.historicalData[1]?.[`${pairData.tokenKey}Price`];
     const change = parseFloat(currentPrice) - parseFloat(dayOldPrice);
-    const percentChange = change / parseFloat(dayOldPrice)* 100;
-    setPriceChange({change, percentChange});
-  }
+    const percentChange = (change / parseFloat(dayOldPrice)) * 100;
+    setPriceChange({ change, percentChange });
+  };
 
   useEffect(() => {
     setData(pairData[symbol]);
-    calculateAndSetPriceChange(pairData[symbol], realTimePriceList[symbol])
+    calculateAndSetPriceChange(pairData[symbol], realTimePriceList[symbol]);
     updatePrice();
   }, [symbol]);
 
@@ -164,17 +174,17 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
         Object.keys(assets).map((key: string) => {
           if (assets?.[key]?.poolAddress === messageData?.data?.contract && messageData.chain_id === 'columbus-4') {
             const price = parseFloat(getPrice(messageData?.data?.pool)).toFixed(4);
-            const newRealTimePrice = {...realTimePriceList, [key]: price};
-            if(symbol === key)  {
+            const newRealTimePrice = { ...realTimePriceList, [key]: price };
+            if (symbol === key) {
               const pair = allPairsData[key];
               calculateAndSetPriceChange(pair, price);
               setPrice(parseFloat(price));
-            };
+            }
             setRealTimePriceList(newRealTimePrice);
             updatePairData(price, key);
           }
-        })
-      }
+        });
+      };
 
       ws.onclose = function (_) {
         setTimeout(function () {
@@ -201,7 +211,7 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
           name={data.name}
           url={data.url}
           priceChange={priceChange}
-          onSwitchTV={onSwitchTV} 
+          onSwitchTV={onSwitchTV}
           useTV={useTV}
         />
         <ChartContainer>
@@ -255,26 +265,9 @@ export async function getStaticProps({ params: { symbol } }) {
       },
     };
 
-  const poolAddresses = Object.keys(assets).map((keyName) => assets[keyName].poolAddress);
-  const toDate = new Date();
-  const fromDate = subYears(toDate, 1);
-
-  const { pairs } = await request(TERRA_SWAP_GRAPHQL_URL, GET_PAIRS_DATA, {
-    from: fromDate.getTime() / 1000,
-    to: toDate.getTime() / 1000,
-    interval: 'DAY',
-    pairAddresses: poolAddresses,
-  });
-
-  const data: any = {};
-
-  Object.keys(assets).map((keyName: string, index: number) => {
-    data[keyName] = { ...assets[keyName], ...pairs[index], tokenKey: getTokenKey(pairs[index], keyName) };
-  });
-
   return {
     props: {
-      pairData: data,
+      pairData: await fecthPairData(),
     },
     revalidate: 5,
   };

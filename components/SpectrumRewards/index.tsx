@@ -31,11 +31,11 @@ const Rewards: React.FC<RewardsProps> = ({ spectrum }) => {
         </div>
 
         <div>
-            {farm?.farm === "Mirror" ? 
+            {farm?.farm !== "Spectrum" ? 
             (
             <div>
-                <StyledText> {convertToFloatValue(farm?.stakedMir)} MIR</StyledText>
-                <SubText> ${convertToFloatValue(farm?.stakedMirValue)}</SubText>
+                <StyledText> {convertToFloatValue(farm?.tokenRewardsStaked)} {farm?.tokenRewardsStakedSymbol}</StyledText>
+                <SubText> ${convertToFloatValue(farm?.tokenRewardsStakedValue)}</SubText>
             </div>
             )
             : 
@@ -60,8 +60,8 @@ const Rewards: React.FC<RewardsProps> = ({ spectrum }) => {
       <Row>
           <Title>Name</Title>
           <Title>APY</Title>
-          <Title>SPEC Staked</Title>
-          <Title>Token Staked</Title>
+          <Title>SPEC Rewards</Title>
+          <Title>Token Rewards</Title>
       </Row>
       {getFarmsRewards()}
     </Wrapper>

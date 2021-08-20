@@ -10,7 +10,7 @@ const typeDefs = gql`
     value: String!
     price: String!
   }
-  
+
   type Reward {
     name: String
     staked: String
@@ -56,15 +56,15 @@ const typeDefs = gql`
     symbol1: String!
     symbol2: String!
     lpName: String!
-    token1UnStaked:String!
-    token2UnStaked:String!
-    token1Staked:String!
-    token2Staked:String!
+    token1UnStaked: String!
+    token2UnStaked: String!
+    token1Staked: String!
+    token2Staked: String!
     stakedLp: String!
     stakedLpUstValue: String!
-    stakeableLp:String!
-    stakeableLpUstValue:String!
-    totalLpUstValue:String!
+    stakeableLp: String!
+    stakeableLpUstValue: String!
+    totalLpUstValue: String!
     rewards: String!
     rewardsValue: String!
     rewardsSymbol: String!
@@ -88,6 +88,28 @@ const typeDefs = gql`
     anchorHoldingsSum: String!
   }
 
+  type Amount {
+    amount: String
+    amountValue: String
+  }
+
+  type Time {
+    requestedTime: String
+    claimableTime: String
+  }
+
+  type RequestData {
+    amount: Amount
+    time: Time
+  }
+
+  type BurnData {
+    requestData: [RequestData]
+    withdrawableAmount: String
+	totalBurnAmount: String
+	totalBurnAmountValue: String
+  }
+
   type AccountANC {
     assets: [Token!]
     debt: BorrowData
@@ -95,6 +117,7 @@ const typeDefs = gql`
     pool: [LPData!]
     gov: GovData
     airdrops: [Airdrops!]
+    burn: BurnData
     total: Total
     totalReward: String
   }

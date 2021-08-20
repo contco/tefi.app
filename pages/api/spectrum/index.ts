@@ -22,8 +22,9 @@ const typeDefs = gql`
     farm: String!
     stakedSpec: String!
     stakedSpecValue: String!
-    stakedMir: String!
-    stakedMirValue: String!
+    tokenRewardsStakedSymbol: String!
+    tokenRewardsStaked: String!
+    tokenRewardsStakedValue: String!
     apy: String!
   }
   

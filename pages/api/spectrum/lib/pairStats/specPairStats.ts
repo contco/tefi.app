@@ -1,18 +1,17 @@
-import { fromEntries, getPairPool } from "../utils";
+import { fromEntries } from "../utils";
 import { contracts } from "../contracts";
 import BigNumber from "bignumber.js";
 
-export const getSpecPairStats = async (pool, pairInfos, govVaults) => { 
+export const calculateSpecPairStats = (pool, govVaults, terraSwapPoolResponses) => { 
     const poolInfos: any = fromEntries(Object.entries(pool));
     const totalWeight: any = Object.values(poolInfos).reduce((a:any, b:any) => a + b.weight, 0);
     const govWeight = govVaults.vaults.find(item => item.address === contracts.specFarm)?.weight || 0;
    
     const pairStats = {};
    
-    const tasks = Object.keys(poolInfos).map(async (key) => {
-        const pairInfo = pairInfos[key];
+    Object.keys(poolInfos).forEach((key) => {
         const poolInfo = poolInfos[key];
-        const pairPool = await getPairPool(pairInfo.contract_addr); 
+        const pairPool = terraSwapPoolResponses[key]; 
         const uusd = pairPool.assets.find(a => a.info.native_token?.['denom'] === 'uusd');
         if (!uusd) {
             return;
@@ -31,6 +30,5 @@ export const getSpecPairStats = async (pool, pairInfos, govVaults) => {
             vaultFee: 0,
         };
    });
-   await Promise.all(tasks);
    return pairStats;
 }

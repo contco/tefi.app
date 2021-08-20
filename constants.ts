@@ -21,13 +21,16 @@ export const AssetsTitle = ['Ticker', 'Name', 'Balance', 'Price', 'Value'];
 export const BorrowingTitle = ['Collateral List', 'Collateral Value', 'Borrowed Value', 'Net APR'];
 
 //Pools
-export const PoolsTitle = ['Name', 'Staked', 'Stakeable', 'Value'];
+export const PoolsTitle = ['Name', 'Staked', 'Liquid', 'Value'];
 
 //Rewards
 export const RewardsTitle = ['Name', 'Staked', 'APR', 'Reward'];
 
 //Earn
 export const EarnTitle = ['Total Deposit', 'APY'];
+
+//Burn
+export const BurnTitle = ['Amount', 'Request Time', 'Claimable Time'];
 
 //Mirror Borrowing
 export const MirrorBorrowTitle = ['Name', 'Price', 'Borrowed', 'Collateral', 'Collateral Ratio'];
