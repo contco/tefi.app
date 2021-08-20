@@ -314,5 +314,5 @@ interface Assets {
 
 interface PriceChange {
   change: number;
-  percentChange: number;
+  percentChange: string;
 }

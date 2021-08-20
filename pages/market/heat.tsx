@@ -56,7 +56,6 @@ const formatData = (pairData) => {
   BUBBLE_DATA.forEach(({ symbol }: any) => {
     const change = Math.abs(parseFloat(priceChange(pairData[symbol])));
     highest = change > highest ? change : highest;
-    console.log(change);
   });
   return BUBBLE_DATA.map((a: any) => {
     const change = parseFloat(priceChange(pairData[a.symbol]));

@@ -1,7 +1,8 @@
 import React, { ReactNode, createContext, useState, useEffect } from 'react';
-import { TERRA_OBSERVER_URL } from '../constants';
-import { getPrice } from '../pages/api/commons';
-import { assets } from '../constants/assets';
+import { TERRA_OBSERVER_URL } from '../../constants';
+import { getPrice } from '../../pages/api/commons';
+import { assets } from '../../constants/assets';
+import {fetchPairData, updateAssetPriceData} from './helpers';
 
 interface Prices {
   [key : string] : string;
@@ -9,6 +10,8 @@ interface Prices {
 
 interface ContextProps{
     realTimePrices: Prices;
+    assetPriceData: any;
+    assetsLoading: boolean;
 }
 interface Props {
   children: ReactNode;
@@ -16,11 +19,24 @@ interface Props {
 
 const AssetPriceContext = createContext<ContextProps>({
   realTimePrices: null,
+  assetPriceData: null,
+  assetsLoading: false,
 });
 
 const AssetPriceProvider: React.FC<Props> = ({ children }) => {
 
   const [realTimePrices, setRealTimePrices] = useState<Prices>({});
+  const [assetsLoading, setAssetsLoading] = useState<boolean>(true);
+  const [assetPriceData, setAssetPriceData] = useState(null); 
+
+  useEffect(() => {
+    const getAssetsData = async () => {
+      const data = await fetchPairData();
+      setAssetPriceData(data);
+      setAssetsLoading(false);
+    } 
+    getAssetsData();
+  }, []);
 
   useEffect(() => {
     const ws = new WebSocket(TERRA_OBSERVER_URL);
@@ -35,8 +51,13 @@ const AssetPriceProvider: React.FC<Props> = ({ children }) => {
         Object.keys(assets).map((key: string) => {
           if (assets?.[key]?.poolAddress === messageData?.data?.contract && messageData.chain_id === 'columbus-4') {
             const price = parseFloat(getPrice(messageData?.data?.pool)).toFixed(4);
+           console.log(price, key);
             const newRealTimePrice = {...realTimePrices, [key]: price};
             setRealTimePrices(newRealTimePrice);
+            if(assetPriceData) {
+            const newAssetPriceData = updateAssetPriceData(price, key, assetPriceData);
+            setAssetPriceData(newAssetPriceData);
+            }
           }
         })
       }
@@ -51,9 +72,9 @@ const AssetPriceProvider: React.FC<Props> = ({ children }) => {
 
     return () => ws.close();
   }, [realTimePrices]);
- 
+
   return (
-    <AssetPriceContext.Provider value={{realTimePrices}}>
+    <AssetPriceContext.Provider value={{assetsLoading, realTimePrices, assetPriceData}}>
       {children}
     </AssetPriceContext.Provider>
   );
