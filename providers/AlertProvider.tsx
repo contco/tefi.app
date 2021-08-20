@@ -1,9 +1,7 @@
 import React, { ReactNode, createContext, useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { TERRA_OBSERVER_URL } from '../constants';
-import { getPrice } from '../pages/api/commons';
-import { assets } from '../constants/assets';
+import { useObserverContext } from './TerraObserverProvider';
 
 const ALERT_KEY = 'alerts';
 
@@ -35,9 +33,10 @@ const AlertContext = createContext<AlertContextProps>({
 
 const AlertProvider: React.FC<Props> = ({ children }) => {
   const [alerts, setAlerts] = useState<Alerts>({});
-  const [realTimePriceList, setRealTimePriceList] = useState({});
   const audio = new Audio('/sounds/alert.wav');
-  
+
+  const {realTimePrices} = useObserverContext();
+
   useEffect(() => {
         const alerts = JSON.parse(localStorage.getItem(ALERT_KEY));
         if(alerts) {
@@ -50,8 +49,8 @@ const AlertProvider: React.FC<Props> = ({ children }) => {
   };
 
   useEffect(() => {
-   Object.keys(realTimePriceList).map((key: string) => {
-      if(realTimePriceList[key] < alerts[key]?.price  && alerts[key]?.priceDirection !== PriceDirection.down) {
+   Object.keys(realTimePrices).map((key: string) => {
+      if(realTimePrices[key] < alerts[key]?.price  && alerts[key]?.priceDirection !== PriceDirection.down) {
         const symbol = key.toUpperCase();
         audio.play()
         toast.error(`${symbol} Crossing ${alerts[key].price} `, {
@@ -67,7 +66,7 @@ const AlertProvider: React.FC<Props> = ({ children }) => {
          setAlerts(newAlerts);
          updateLocalStorageState(newAlerts);
       }
-      else if (realTimePriceList[key] > alerts[key]?.price && alerts[key]?.priceDirection !== PriceDirection.up) {
+      else if (realTimePrices[key] > alerts[key]?.price && alerts[key]?.priceDirection !== PriceDirection.up) {
         const symbol = key.toUpperCase();
         audio.play();
         toast.success(`${symbol} Crossing ${alerts[key].price} `, {
@@ -85,40 +84,10 @@ const AlertProvider: React.FC<Props> = ({ children }) => {
       }
    })
 
-  }, [realTimePriceList]);
-
-  useEffect(() => {
-    const ws = new WebSocket(TERRA_OBSERVER_URL);
-
-    const connectWithTerraObserver = () => {
-      ws.onopen = function () {
-        ws.send(JSON.stringify({ subscribe: 'ts_pool', chain_id: 'columbus-4' }));
-      };
-
-      ws.onmessage = function (message) {
-        const messageData = JSON.parse(message?.data);
-        Object.keys(assets).map((key: string) => {
-          if (assets?.[key]?.poolAddress === messageData?.data?.contract && messageData.chain_id === 'columbus-4') {
-            const price = parseFloat(getPrice(messageData?.data?.pool)).toFixed(4);
-            const newRealTimePrice = {...realTimePriceList, [key]: price};
-            setRealTimePriceList(newRealTimePrice);
-          }
-        })
-      }
-
-      ws.onclose = function (_) {
-        setTimeout(function () {
-          connectWithTerraObserver();
-        }, 1000);
-      };
-    };
-    connectWithTerraObserver();
-
-    return () => ws.close();
-  }, [realTimePriceList]);
+  }, [realTimePrices]);
 
   const setPriceAlert = (symbol: string, price: string, currentPrice: string) => {
-    currentPrice = realTimePriceList[symbol] ? realTimePriceList[symbol] : currentPrice;
+    currentPrice = realTimePrices[symbol] ? realTimePrices[symbol] : currentPrice;
     const currentDirection = +currentPrice > +price ? PriceDirection.up : PriceDirection.down;
     const newAlerts = {...alerts, [symbol]: {price, priceDirection: currentDirection}};
     updateLocalStorageState(newAlerts);
