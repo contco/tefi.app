@@ -1,3 +1,4 @@
+import BUBBLE_DATA from '../../components/Bubble/images.json';
 import {format} from 'date-fns';
 
 const MINE_START_TIMESTAMP = 1625144400;
@@ -18,4 +19,23 @@ export const formatChartData = (historicalData, tokenKey: string, symbol: string
        );
        return data;
 }
+
+export const formatHeatData = (pairData) => {
+  let highest = 0;
+  BUBBLE_DATA.forEach(({ symbol }: any) => {
+    const change = Math.abs(parseFloat(pairData[symbol].percentChange));
+    highest = change > highest ? change : highest;
+  });
+  return BUBBLE_DATA.map((a: any) => {
+    const change = parseFloat(pairData[a.symbol].percentChange);
+    const changeP = Math.abs(change);
+    const size = changeP / highest;
+    return {
+      change: `${change}%`,
+      size,
+      isPositive: change > 0,
+      ...a,
+    };
+  });
+};
 

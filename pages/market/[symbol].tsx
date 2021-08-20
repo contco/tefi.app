@@ -97,7 +97,7 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
   const [useTV, setUseTV] = useState<boolean>(false);
   const [currentAsset, setCurrentAsset] = useState(pairData[symbol]);
 
-  const {assetPriceData, assetsLoading} = useAssetPriceContext();
+  const {assetPriceData} = useAssetPriceContext();
 
 
   useEffect(() => {
