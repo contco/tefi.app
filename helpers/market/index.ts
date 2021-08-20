@@ -1,16 +1,7 @@
-import { assets } from "../../constants/assets";
+import BUBBLE_DATA from '../../components/Bubble/images.json';
 import {format} from 'date-fns';
 
 const MINE_START_TIMESTAMP = 1625144400;
-
-export const getTokenKey = (pairData, keyName: string) => {
-    if(pairData?.token0?.symbol === assets[keyName].terraSwapSymbol){
-      return 'token0';
-    }
-    else {
-      return 'token1';
-    }
-  }
   
 export const formatChartData = (historicalData, tokenKey: string, symbol: string) => {
     let data = [...historicalData];
@@ -29,16 +20,21 @@ export const formatChartData = (historicalData, tokenKey: string, symbol: string
        return data;
 }
 
-export const getCurrentPairPrice = (pairData) => {
-    const price = pairData?.historicalData[0]?.[`${pairData.tokenKey}Price`];
-    return parseFloat(price).toFixed(4);
-}
-  
-export const checkPositivePrice = (price: string, realTimePrice: string, pairPrice: string) => {
-    if (realTimePrice) {
-      return parseFloat(price) > parseFloat(realTimePrice); 
-    }
-    else {
-      return parseFloat(price) > parseFloat(pairPrice); 
-    }
-  }
+export const formatHeatData = (pairData) => {
+  let highest = 0;
+  BUBBLE_DATA.forEach(({ symbol }: any) => {
+    const change = Math.abs(parseFloat(pairData[symbol].percentChange));
+    highest = change > highest ? change : highest;
+  });
+  return BUBBLE_DATA.map((a: any) => {
+    const change = parseFloat(pairData[a.symbol].percentChange);
+    const changeP = Math.abs(change);
+    const size = changeP / highest;
+    return {
+      change: `${change}%`,
+      size,
+      isPositive: change > 0,
+      ...a,
+    };
+  });
+};
