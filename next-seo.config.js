@@ -5,14 +5,14 @@ export default {
   openGraph: {
     url: 'https://www.tefi.app/',
     type: 'website',
-    title: 'TefiApp | Your portal to TeFi',
-    description: "Terra's dashboard is simple. Manage all of your assets in one place. MINE LUNA UST MIR ANC and other tokens can be found on the dashboard.",
+    title: 'TefiApp - Your portal to Tefi',
+    description: "A simple dashboard for Terra. Manage all your assets in one place. LUNA UST MIR ANC MINE",
     images: [
       {
         url: 'https://storage.googleapis.com/tefi-app/tefi-preview.png',
         width: 800,
         height: 600,
-        alt: 'tefi-prewiew',
+        alt: 'Tefi App Preview',
       },
     ],
   },
@@ -26,7 +26,7 @@ export default {
 export const DOCS_SEO = {
   canonical: 'https://www.tefi.app/api',
   description: "All Terra Protocols are unified by a powerful GraphQL API. More people can create amazing dashboards or bots to enable them to reach the moon.",
-  title: 'Tefi App Doc  Your portal to TeFi ',
+  title: 'Doc TefiApp - Your portal to Tefi ',
   openGraph: {
     url: 'https://www.tefi.app/api',
     type: 'website',
@@ -35,7 +35,7 @@ export const DOCS_SEO = {
         url: 'https://storage.googleapis.com/tefi-app/tefi-app-api-preview.png',
         width: 800,
         height: 600,
-        alt: 'tefi-api-prewiew',
+        alt: 'Tefi App Preview',
       },
     ],
   },
@@ -49,7 +49,7 @@ export const DOCS_SEO = {
 
 export const DashboardSEO = {
   canonical: 'https://www.tefi.app/dashboard',
-  description: "Terra's dashboard is simple. Manage all of your assets in one place. MINE LUNA UST MIR ANC and other tokens can be found on the dashboard.",
+  description: "A simple dashboard for Terra. Manage all your assets in one place. LUNA UST MIR ANC MINE",
   title: 'TefiApp - Your portal to Tefi',
   openGraph: {
     url: 'https://www.tefi.app/dashboard',
@@ -59,7 +59,7 @@ export const DashboardSEO = {
         url: 'https://storage.googleapis.com/tefi-app/tefi-app-api-preview.png',
         width: 800,
         height: 600,
-        alt: 'tefi-api-prewiew',
+        alt: 'Tefi App Preview',
       },
     ],
   },
@@ -74,8 +74,8 @@ export const DashboardSEO = {
 
 export const landingSEO = {
   canonical: 'https://www.tefi.app/',
-  description: "Terra's dashboard is simple. Manage all of your assets in one place. MINE LUNA UST MIR ANC and other tokens can be found on the dashboard.",
-  title: 'TefiApp - Use your wallet to get access to the Tefi dashboard.',
+  description: "A simple dashboard for Terra. Manage all your assets in one place. LUNA UST MIR ANC MINE",
+  title: 'TefiApp - Your portal to Tefi',
   openGraph: {
     url: 'https://www.tefi.app/',
     type: 'website',
@@ -84,7 +84,7 @@ export const landingSEO = {
         url: 'https://storage.googleapis.com/tefi-app/tefi-app-api-preview.png',
         width: 800,
         height: 600,
-        alt: 'tefi-api-prewiew',
+        alt: 'Tefi App Preview',
       },
     ],
   },
@@ -99,6 +99,7 @@ export const landingSEO = {
 export const MarketSEO = {
   canonical: 'https://www.tefi.app/market',
   description: "TefiApp cryptocurrency market - The simplest way to keep up with the latest terra token prices, market cap, token price charts, and 24 hour change. ",
+  title: 'TefiApp - Your portal to Tefi',
   openGraph: {
     url: 'https://www.tefi.app/market',
     type: 'website',
@@ -107,7 +108,7 @@ export const MarketSEO = {
         url: 'https://storage.googleapis.com/tefi-app/tefi-app-api-preview.png',
         width: 800,
         height: 600,
-        alt: 'tefi-api-prewiew',
+        alt: 'Tefi App Preview',
       },
     ],
   },
