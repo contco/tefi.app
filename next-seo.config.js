@@ -79,7 +79,7 @@ export const landingSEO = {
     type: 'website',
     images: [
       {
-        url: 'https://storage.googleapis.com/tefi-app/tefi-app-api-preview.png',
+        url: 'https://storage.googleapis.com/tefi-app/tefi-preview.png',
         width: 800,
         height: 600,
         alt: 'Tefi App Preview',
@@ -103,7 +103,7 @@ export const MarketSEO = {
     type: 'website',
     images: [
       {
-        url: 'https://storage.googleapis.com/tefi-app/tefi-app-preview.png',
+        url: 'https://storage.googleapis.com/tefi-app/tefi-preview.png',
         width: 800,
         height: 600,
         alt: 'Tefi App Preview',
