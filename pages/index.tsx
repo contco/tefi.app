@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import Head from 'next/head';
 import Header from '../components/Header';
 import Landing from '../components/Landing';
 import styled from 'styled-components';
@@ -22,9 +21,6 @@ const Home: React.FC = ({ theme, changeTheme }: any) => {
 
   return (
     <div>
-      <Head>
-        <title>Tefi App</title>
-      </Head>
       {!isDisplay ? (
         <EmptyContainer />
       ) : (

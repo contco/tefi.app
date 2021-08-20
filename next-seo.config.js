@@ -1,12 +1,10 @@
-
-
-
 export default {
+  canonical: 'https://www.tefi.app',
+  title: 'TefiApp - Your portal to Tefi',
+  description: "A simple dashboard for Terra. Manage all your assets in one place. LUNA UST MIR ANC MINE",
   openGraph: {
     url: 'https://www.tefi.app/',
     type: 'website',
-    title: 'TefiApp - Your portal to Tefi',
-    description: "A simple dashboard for Terra. Manage all your assets in one place. LUNA UST MIR ANC MINE",
     images: [
       {
         url: 'https://storage.googleapis.com/tefi-app/tefi-preview.png',

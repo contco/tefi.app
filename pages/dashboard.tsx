@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Head from 'next/head';
 import css from '@styled-system/css';
 import Styled from 'styled-components';
 import { Box } from '@contco/core-ui';
@@ -85,9 +84,6 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   return (
     <div>
       <NextSeo {...DashboardSEO} />
-      <Head>
-        <title>TefiApp - Your portal to Tefi</title>
-      </Head>
       <div>
         <Header
           onRefresh={loading ? null : () => refetch()}

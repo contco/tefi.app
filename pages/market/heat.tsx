@@ -1,5 +1,4 @@
-import React, {useState} from 'react';
-import Head from 'next/head';
+import React from 'react';
 import { request } from 'graphql-request';
 import Header from '../../components/Header';
 import Bubble from '../../components/Bubble';
@@ -66,9 +65,8 @@ const HeatBubble: React.FC = ({ theme, changeTheme, pairData }: any) => {
 
     const BubbleMap = () => {
        const result = data.map((a: any) => (
-         <div className=''>
+         <div key={a.symbol} className=''>
             <Bubble 
-                key={a.symbol} 
                 price={priceChange(pairData[a.symbol]) +'%'} 
                 isPostive={parseFloat(priceChange(pairData[a.symbol])) > 0? true : false} 
                 size={bubbleSize(priceChange(pairData[a.symbol]))}
@@ -79,10 +77,6 @@ const HeatBubble: React.FC = ({ theme, changeTheme, pairData }: any) => {
     }
     
     return (
-        <div>
-            <Head>
-                <title>Tefi App - Bubble</title>
-            </Head>
             <div>
                 <div>
                     <Header theme={theme} changeTheme={changeTheme} />
@@ -93,8 +87,6 @@ const HeatBubble: React.FC = ({ theme, changeTheme, pairData }: any) => {
                 </BubblesRow>
                 </Container>                
             </div>
-
-        </div>
     );
 };
 

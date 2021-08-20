@@ -1,5 +1,6 @@
 import Document, { DocumentContext, Html, Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
+import { Keywords } from '../constants';
 
 export default class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -31,6 +32,7 @@ export default class MyDocument extends Document {
       <Html lang="en">
         <Head>
           <meta name="apple-mobile-web-app-capable" content="yes" />
+          <meta name="keywords" content={Keywords} data-shuvi-head="true"></meta>
           <link rel="manifest" href="/manifest.json" />
           <link href="/favicon-16x16.png" rel="icon" type="image/png" sizes="16x16" />
           <link href="/favicon-32x32.png" rel="icon" type="image/png" sizes="32x32" />
