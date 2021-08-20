@@ -1,137 +1,66 @@
+import { useState } from 'react';
 import Header from '../../components/Header';
 import Head from 'next/head';
-import styled, { keyframes } from 'styled-components';
-import css from '@styled-system/css';
-import { Flex, Box, Text } from '@contco/core-ui';
+import { Text } from '@contco/core-ui';
+import {
+  MainContainer,
+  Container,
+  Supply,
+  Symbol,
+  TextContainer,
+  FireBox,
+  Flame,
+  FlameBase,
+  TimePeriods,
+  Time,
+} from './styles';
 
-const MainContainer = styled(Flex)`
-  justify-content: center;
-  align-items: center;
-  ${css({
-    height: ['calc(100vh - 130px)'],
-  })}
-`;
+const assetSupply = {
+  symbol: 'LUNAS',
+  current: '2100',
+  hour: '2300',
+  day: '1800',
+  week: '2500',
+  month: '2000',
+};
 
-const Container = styled(Box)`
-  align-items: center;
-  justify-content: center;
-`;
+const timePeriodData = [
+  {
+    period: 'HOUR',
+    value: assetSupply.hour,
+  },
+  {
+    period: 'DAY',
+    value: assetSupply.day,
+  },
+  {
+    period: 'WEEK',
+    value: assetSupply.week,
+  },
+  {
+    period: 'MONTH',
+    value: assetSupply.month,
+  },
+];
 
-const TextContainer = styled(Flex)`
-  justify-content: center;
-  align-items: flex-end;
-`;
-
-const Supply = styled(Text)`
-  font-weight: 500;
-  text-align: center;
-  ${css({
-    fontSize: [11],
-    letterSpacing: ['3px'],
-    color: 'secondary',
-  })}
-`;
-
-const Symbol = styled(Text)`
-  font-weight: 500;
-  text-align: center;
-
-  ${css({
-    fontSize: [3],
-    letterSpacing: ['1px'],
-    color: 'secondary',
-  })}
-`;
-
-const FireBox = styled(Box)`
-  padding-top: 35%;
-  padding-bottom: 35%;
-`;
-
-const FlameAnimation = keyframes`
-	0%,
-  100% {
-    opacity: 0;
-    transform: translate3d(0, 0, 0) scale(0.75) rotate(0) scale(1);
-  }
-  25% {
-    opacity: 0.35;
-    transform: translate3d(0, -10%, 0) scale(1) rotate(-3deg) scale(1.05);
-  }
-  50% {
-    opacity: 0.35;
-    transform: translate3d(0, -4%, 0) scale(1) rotate(3deg) scale(1.1);
-  }
-  75% {
-    opacity: 0.35;
-    transform: translate3d(0, -20%, 0) scale(1) rotate(-3deg) scale(1.05);
-  }
-  99% {
-    opacity: 0;
-    transform: translate3d(0, -50%, 0) scale(0.8) rotate(0) scale(1);
-  }
-`;
-
-const FlameBase = styled.span`
-  position: absolute;
-  text-align: center;
-  left: 1%;
-  right: 1%;
-  z-index: 2;
-  opacity: 0.8;
-  ${css({
-    fontSize: ['160px'],
-  })};
-`;
-
-const Flame = styled.span`
-  position: absolute;
-  text-align: center;
-  left: 1%;
-  right: 1%;
-  z-index: 2;
-  animation-name: ${FlameAnimation};
-  animation-duration: 2.5s;
-  animation-iteration-count: infinite;
-  transform: translate3d(0, 15px, 0) scale(0.75) rotate(0);
-  animation-timing-function: ease-in;
-  opacity: 0;
-  z-index: 1;
-
-  &:nth-child(2) {
-    animation-delay: 0.5s;
-  }
-
-  &:nth-child(3) {
-    animation-delay: 1s;
-  }
-
-  ${css({
-    fontSize: ['160px'],
-  })}
-`;
-
-const TimePeriods = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: ${(props: any) => (props.useTV ? '30px' : '0px')};
-
-  ${css({
-		px: ['20%'],
-    paddingTop: ['60%'],
-  })}
-`;
-
-const Time = styled.div`
-  padding-bottom: 13px;
-  font-weight: 500;
-  border-bottom: ${(props: any) => (props.selected ? `3px solid ${props.theme.colors.secondary}` : 'node')};
-  color: ${(props: any) => props.theme.colors.secondary};
-  cursor: pointer;
-`;
+const ICE_EMOJI = '❄️';
+const FIRE_EMOJI = '🔥';
 
 const AssetSupply: React.FC = ({ theme, changeTheme }: any) => {
+  const [currentTimePeriod, setCurrentTimePeriod] = useState(timePeriodData[0]);
+
+  const changePeriod = (e) => {
+    e.preventDefault();
+    const newCurrentPeriod = timePeriodData.filter((period) => period.period === e.target.innerText)[0];
+    setCurrentTimePeriod(newCurrentPeriod);
+  };
+
+  const getEmoji = () => {
+    if (parseFloat(assetSupply.current) < parseFloat(currentTimePeriod.value)) {
+      return FIRE_EMOJI;
+    } else return ICE_EMOJI;
+  };
+
   return (
     <>
       <Head>
@@ -141,20 +70,23 @@ const AssetSupply: React.FC = ({ theme, changeTheme }: any) => {
       <MainContainer>
         <Container>
           <TextContainer>
-            <Supply>2034</Supply>
-            <Symbol>LUNAS</Symbol>
+            <Supply>{currentTimePeriod.value}</Supply>
+            <Symbol>{assetSupply.symbol}</Symbol>
           </TextContainer>
           <FireBox>
             <Text>
-              <FlameBase>🔥</FlameBase>
-              <Flame>🔥</Flame>
-              <Flame>🔥</Flame>
-              <Flame>🔥</Flame>
+              <FlameBase>{getEmoji()}</FlameBase>
+              <Flame>{getEmoji()}</Flame>
+              <Flame>{getEmoji()}</Flame>
+              <Flame>{getEmoji()}</Flame>
             </Text>
           </FireBox>
           <TimePeriods>
-            <Time>HOUR</Time>
-            <Time>DAY</Time>
+            {timePeriodData.map((time, index) => (
+              <Time key={index} selected={time.period === currentTimePeriod.period} onClick={changePeriod}>
+                {time.period}
+              </Time>
+            ))}
           </TimePeriods>
         </Container>
       </MainContainer>
