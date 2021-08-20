@@ -1,8 +1,13 @@
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
-import {Box} from "@contco/core-ui";
-import { NewOpenIcon } from '../Icons';
-import { PriceChange } from './PriceChange';
+import {useRouter} from 'next/router';
 import Image from 'next/image';
+import css from "@styled-system/css";
+import {Box, Flex} from "@contco/core-ui";
+import { useAlertContext } from '../../providers/AlertProvider';
+import { NewOpenIcon, AlertIcon} from '../Icons';
+import { PriceChange } from './PriceChange';
+import {AlertSelect} from './AlertSelect';
 
 const NamePriceContainer = styled(Box)`
 width: 55%;
@@ -53,6 +58,7 @@ const ImageContainer: any = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
   &:hover {
     background-color: ${(props: any) => (props.useTV ? 'black' : '#f5f5f5')};
     width: 52px;
@@ -60,6 +66,9 @@ const ImageContainer: any = styled.div`
     border-radius: 26px;
   }
   border: ${(props: any) => `1px solid ${props.theme.colors.secondary}`};
+  ${css({
+    mx:2,
+  })}
 `;
 
 const NameTopBar = styled.div`
@@ -67,6 +76,21 @@ const NameTopBar = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+
+const ActionContainer = styled(Flex)`
+  align-items: center;
+`;
+
+const AlertContainer = styled(ImageContainer)`
+  position: relative;
+`;
+
+const StyledAlert = styled(AlertIcon)`
+ ${props => css({
+   color: props.isActive ? '#e67e22' : '#0221ba',
+   transform: 'scale(1.1)',
+ })}
 `;
 
 interface Props {
@@ -79,16 +103,40 @@ interface Props {
 }
 
 export const AssetDetails: React.FC<Props> = ({price, name, url, useTV, onSwitchTV, priceChange }) => {
+
+  const [showAlertModal, setAlertModalVisible] = useState<boolean>(false);
+  const [isAlertActive, setIsAlertActive] = useState<boolean>(true);
+  const router = useRouter();
+
+  const {alerts} = useAlertContext();
+
+
+  useEffect(() => { 
+    const symbol = router.query.symbol as string;
+    if(alerts[symbol]) {
+      setIsAlertActive(true);
+    }
+    else if(!alerts[symbol] && isAlertActive) {
+      setIsAlertActive(false);
+    }
+       
+  }, [alerts, router.query.symbol]);
+  
   return(
     <NamePriceContainer useTV={useTV}>
     <NameTopBar>
       <StyledName href={url} target="_blank">
         {name} 
         <NewOpenIcon />
-    </StyledName>
-    <ImageContainer onClick={onSwitchTV} useTV={useTV}>
-      <Image width="30" height="16" src={useTV ? '/tv-white.png' : '/tv.png'} alt="Picture of the author" />
-    </ImageContainer>
+      </StyledName>
+      <ActionContainer>
+        <ImageContainer onClick={onSwitchTV} useTV={useTV}>
+          <Image width="30" height="16" src={useTV ? '/tv-white.png' : '/tv.png'} alt="Picture of the author" />
+        </ImageContainer>
+        <AlertContainer onClick={() => setAlertModalVisible(true)}>
+          <StyledAlert isActive={isAlertActive} />
+        </AlertContainer>
+      </ActionContainer>
     </NameTopBar>
     {!useTV && (
         <PriceContainer>
@@ -96,6 +144,7 @@ export const AssetDetails: React.FC<Props> = ({price, name, url, useTV, onSwitch
           <PriceChange priceChange={priceChange}/>
          </PriceContainer>
       )}
+    <AlertSelect isActive={isAlertActive} currentPrice={`${price}`} showAlertModal={showAlertModal} setAlertModalVisible={setAlertModalVisible} />
     </NamePriceContainer>
   )
 }

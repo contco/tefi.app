@@ -7,6 +7,7 @@ import { ThemeProvider } from 'styled-components';
 import WalletConnectProvider from '../providers/WalletConnectProvider';
 import RedirectProvider from '../providers/RedirectProvider';
 import AssetPriceProvider from '../providers/AssetPriceProvider';
+import AlertProvider from '../providers/AlertProvider';
 import { DefaultSeo } from 'next-seo';
 import SEO from '../next-seo.config';
 
@@ -43,7 +44,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           <WalletConnectProvider>
             <RedirectProvider>
               <AssetPriceProvider>
-                <Component {...pageProps} theme={theme} changeTheme={changeTheme} />
+                <AlertProvider>
+                  <Component {...pageProps} theme={theme} changeTheme={changeTheme} />
+                </AlertProvider>
               </AssetPriceProvider>
             </RedirectProvider>
           </WalletConnectProvider>
