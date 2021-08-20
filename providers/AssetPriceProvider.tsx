@@ -14,11 +14,11 @@ interface Props {
   children: ReactNode;
 }
 
-const ObserverContext = createContext<ContextProps>({
+const AssetPriceContext = createContext<ContextProps>({
   realTimePrices: null,
 });
 
-const TerraObserverProvider: React.FC<Props> = ({ children }) => {
+const AssetPriceProvider: React.FC<Props> = ({ children }) => {
 
   const [realTimePrices, setRealTimePrices] = useState<Prices>({});
 
@@ -53,19 +53,19 @@ const TerraObserverProvider: React.FC<Props> = ({ children }) => {
   }, [realTimePrices]);
  
   return (
-    <ObserverContext.Provider value={{realTimePrices}}>
+    <AssetPriceContext.Provider value={{realTimePrices}}>
       {children}
-    </ObserverContext.Provider>
+    </AssetPriceContext.Provider>
   );
 };
 
-export default TerraObserverProvider;
+export default AssetPriceProvider;
 
 
-export function useObserverContext(): ContextProps {
-    const context = React.useContext(ObserverContext);
+export function useAssetPriceContext(): ContextProps {
+    const context = React.useContext(AssetPriceContext);
     if (context === undefined) {
-      throw new Error('userObserverContext must be used within an TerraObserverProvider');
+      throw new Error('userAssetPriceContext must be used within an AssetPriceProvider');
     }
     return context;
   }

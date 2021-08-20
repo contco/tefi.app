@@ -1,7 +1,7 @@
 import React, { ReactNode, createContext, useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useObserverContext } from './TerraObserverProvider';
+import { useAssetPriceContext } from './AssetPriceProvider';
 
 const ALERT_KEY = 'alerts';
 
@@ -35,7 +35,7 @@ const AlertProvider: React.FC<Props> = ({ children }) => {
   const [alerts, setAlerts] = useState<Alerts>({});
   const audio = new Audio('/sounds/alert.wav');
 
-  const {realTimePrices} = useObserverContext();
+  const {realTimePrices} = useAssetPriceContext();
 
   useEffect(() => {
         const alerts = JSON.parse(localStorage.getItem(ALERT_KEY));
