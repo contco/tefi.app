@@ -12,6 +12,11 @@ const MainContainer = styled(Flex)`
   })}
 `;
 
+const Container = styled(Box)`
+  align-items: center;
+  justify-content: center;
+`;
+
 const TextContainer = styled(Flex)`
   justify-content: center;
   align-items: flex-end;
@@ -19,8 +24,9 @@ const TextContainer = styled(Flex)`
 
 const Supply = styled(Text)`
   font-weight: 500;
+  text-align: center;
   ${css({
-    fontSize: [10],
+    fontSize: [11],
     letterSpacing: ['3px'],
     color: 'secondary',
   })}
@@ -28,17 +34,18 @@ const Supply = styled(Text)`
 
 const Symbol = styled(Text)`
   font-weight: 500;
+  text-align: center;
+
   ${css({
-    fontSize: [2],
+    fontSize: [3],
     letterSpacing: ['1px'],
     color: 'secondary',
   })}
 `;
 
 const FireBox = styled(Box)`
-	padding-top: 20%;
-  position: relative;
-  display: inline-block;
+  padding-top: 35%;
+  padding-bottom: 35%;
 `;
 
 const FlameAnimation = keyframes`
@@ -67,20 +74,22 @@ const FlameAnimation = keyframes`
 
 const FlameBase = styled.span`
   position: absolute;
-  transform-origin: 70% 70%;
+  text-align: center;
+  left: 1%;
+  right: 1%;
   z-index: 2;
-  display: inline-block;
   opacity: 0.8;
   ${css({
-    fontSize: ['120px'],
+    fontSize: ['160px'],
   })};
 `;
 
 const Flame = styled.span`
   position: absolute;
-  transform-origin: 70% 70%;
+  text-align: center;
+  left: 1%;
+  right: 1%;
   z-index: 2;
-  display: inline-block;
   animation-name: ${FlameAnimation};
   animation-duration: 2.5s;
   animation-iteration-count: infinite;
@@ -98,8 +107,28 @@ const Flame = styled.span`
   }
 
   ${css({
-    fontSize: ['120px'],
+    fontSize: ['160px'],
   })}
+`;
+
+const TimePeriods = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: ${(props: any) => (props.useTV ? '30px' : '0px')};
+
+  ${css({
+		px: ['20%'],
+    paddingTop: ['60%'],
+  })}
+`;
+
+const Time = styled.div`
+  padding-bottom: 13px;
+  font-weight: 500;
+  border-bottom: ${(props: any) => (props.selected ? `3px solid ${props.theme.colors.secondary}` : 'node')};
+  color: ${(props: any) => props.theme.colors.secondary};
+  cursor: pointer;
 `;
 
 const AssetSupply: React.FC = ({ theme, changeTheme }: any) => {
@@ -110,20 +139,24 @@ const AssetSupply: React.FC = ({ theme, changeTheme }: any) => {
       </Head>
       <Header theme={theme} changeTheme={changeTheme} />
       <MainContainer>
-        <Box>
+        <Container>
           <TextContainer>
             <Supply>2034</Supply>
             <Symbol>LUNAS</Symbol>
           </TextContainer>
           <FireBox>
-            <p>
+            <Text>
               <FlameBase>🔥</FlameBase>
               <Flame>🔥</Flame>
               <Flame>🔥</Flame>
               <Flame>🔥</Flame>
-            </p>
+            </Text>
           </FireBox>
-        </Box>
+          <TimePeriods>
+            <Time>HOUR</Time>
+            <Time>DAY</Time>
+          </TimePeriods>
+        </Container>
       </MainContainer>
     </>
   );
