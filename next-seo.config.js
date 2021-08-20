@@ -1,7 +1,7 @@
 export default {
   canonical: 'https://www.tefi.app',
   title: 'TefiApp - Your portal to Tefi',
-  description: "A simple dashboard for Terra. Manage all your assets in one place. LUNA UST MIR ANC MINE",
+  description: "A simple dashboard for Terra LUNA. Manage all your assets in one place.",
   openGraph: {
     url: 'https://www.tefi.app/',
     type: 'website',
@@ -23,7 +23,7 @@ export default {
 
 export const DOCS_SEO = {
   canonical: 'https://www.tefi.app/api',
-  description: "All Terra Protocols are unified by a powerful GraphQL API. More people can create amazing dashboards or bots to enable them to reach the moon.",
+  description: "A powerful GraphQL api for the Terra blockchain.",
   title: 'Doc TefiApp - Your portal to Tefi ',
   openGraph: {
     url: 'https://www.tefi.app/api',
@@ -47,7 +47,7 @@ export const DOCS_SEO = {
 
 export const DashboardSEO = {
   canonical: 'https://www.tefi.app/dashboard',
-  description: "A simple dashboard for Terra. Manage all your assets in one place. LUNA UST MIR ANC MINE",
+  description: "A simple dashboard for Terra LUNA. Manage all your assets in one place.",
   title: 'TefiApp - Your portal to Tefi',
   openGraph: {
     url: 'https://www.tefi.app/dashboard',
@@ -72,7 +72,7 @@ export const DashboardSEO = {
 
 export const landingSEO = {
   canonical: 'https://www.tefi.app/',
-  description: "A simple dashboard for Terra. Manage all your assets in one place. LUNA UST MIR ANC MINE",
+  description: "A simple dashboard for Terra LUNA. Manage all your assets in one place.",
   title: 'TefiApp - Your portal to Tefi',
   openGraph: {
     url: 'https://www.tefi.app/',
@@ -96,14 +96,14 @@ export const landingSEO = {
 
 export const MarketSEO = {
   canonical: 'https://www.tefi.app/market',
-  description: "TefiApp cryptocurrency market - The simplest way to keep up with the latest terra token prices, market cap, token price charts, and 24 hour change. ",
-  title: 'TefiApp - Your portal to Tefi',
+  description: "Interactive charts and data for all Terra protocol.",
+  title: 'TefiApp - Market',
   openGraph: {
     url: 'https://www.tefi.app/market',
     type: 'website',
     images: [
       {
-        url: 'https://storage.googleapis.com/tefi-app/tefi-app-api-preview.png',
+        url: 'https://storage.googleapis.com/tefi-app/tefi-app-preview.png',
         width: 800,
         height: 600,
         alt: 'Tefi App Preview',
