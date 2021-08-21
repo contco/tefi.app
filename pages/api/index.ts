@@ -1,5 +1,11 @@
+import {NextApiRequest, NextApiResponse} from 'next';
 import { ApolloServer } from 'apollo-server-micro';
 import { ApolloGateway } from '@apollo/gateway';
+import {cors, runMiddleware} from './lib';
+
+
+
+
 
 const SERVER_END_POINT = process.env.SERVER_ENDPOINT;
 
@@ -14,14 +20,23 @@ const gateway = new ApolloGateway({
     ],
 });
 
-const apolloServer = new ApolloServer({ gateway, subscriptions: false, playground: true, introspection: true });
+const apolloServer = new ApolloServer({ gateway, subscriptions: false, playground: true, introspection: true});
 
 export const config = {
     api: {
         bodyParser: false,
     },
+
 }
 
-export default apolloServer.createHandler({
-    path: '/api',
-})
+async function handler(req: NextApiRequest, res: NextApiResponse) {
+
+    await runMiddleware(req, res, cors);
+
+    return apolloServer.createHandler({
+        path: '/api',
+    })(req,res);
+
+}
+  
+export default handler;
