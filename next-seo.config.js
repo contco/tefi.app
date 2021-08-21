@@ -7,7 +7,7 @@ export default {
     type: 'website',
     images: [
       {
-        url: 'https://storage.googleapis.com/tefi-app/tefi-preview.png',
+        url: 'https://tefi.app/previews/app-preview.png',
         width: 800,
         height: 600,
         alt: 'Tefi App Preview',
@@ -30,7 +30,7 @@ export const DOCS_SEO = {
     type: 'website',
     images: [
       {
-        url: 'https://storage.googleapis.com/tefi-app/tefi-app-api-preview.png',
+        url: 'https://tefi.app/previews/api-preview.png',
         width: 800,
         height: 600,
         alt: 'Tefi App Preview',
@@ -54,7 +54,7 @@ export const DashboardSEO = {
     type: 'website',
     images: [
       {
-        url: 'https://storage.googleapis.com/tefi-app/tefi-app-api-preview.png',
+        url: 'https://tefi.app/previews/api-preview.png',
         width: 800,
         height: 600,
         alt: 'Tefi App Preview',
@@ -79,7 +79,7 @@ export const landingSEO = {
     type: 'website',
     images: [
       {
-        url: 'https://storage.googleapis.com/tefi-app/tefi-preview.png',
+        url: 'https://tefi.app/previews/app-preview.png',
         width: 800,
         height: 600,
         alt: 'Tefi App Preview',
@@ -103,7 +103,7 @@ export const MarketSEO = {
     type: 'website',
     images: [
       {
-        url: 'https://storage.googleapis.com/tefi-app/tefi-preview.png',
+        url: 'https://tefi.app/previews/app-preview.png',
         width: 800,
         height: 600,
         alt: 'Tefi App Preview',
