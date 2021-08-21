@@ -34,7 +34,7 @@ export const PriceChange: React.FC<Props> = ({ priceChange }) => {
     <Container isPositive={isPositive}>
       {isPositive ? <ArrowUpIcon /> : <ArrowDownIcon />}
       <StyledText>${Math.abs(priceChange.change).toFixed(3)}</StyledText>
-      <StyledText>({Math.abs(priceChange.percentChange).toFixed(2)}%)</StyledText>
+      <StyledText>({Math.abs(parseFloat(priceChange.percentChange)).toFixed(2)}%)</StyledText>
     </Container>
   );
 };

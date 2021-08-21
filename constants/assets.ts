@@ -19,7 +19,7 @@ export const assets = {
         pair: 'MIR-UST',
         name: 'Mirror Protocol',
         symbol: 'MIR',
-        terraSwapSymbol: 'ANC',
+        terraSwapSymbol: 'MIR',
         poolAddress: 'terra1amv303y8kzxuegvurh0gug2xe9wkgj65enq2ux',
         url: 'https://terra.mirror.finance/',
     },
