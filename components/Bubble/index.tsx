@@ -32,14 +32,6 @@ const OvalShap = styled.div<BubbleProps>`
       ],
       background: `${isPostive ? theme.colors.bubblePositive : theme.colors.bubbleNegative}`,
     })}
-  will-change: transform;
-  transition: transform 250ms;
-
-  &:hover {
-    transition: transform 250ms;
-    transform: translateY(-20px);
-  }
-
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -61,7 +53,14 @@ const StyleText = styled.p`
     })}
 `;
 
-const Container = styled.div``;
+const Container = styled.div`
+  will-change: transform;
+  transition: transform 250ms;
+  &:hover {
+    transition: transform 250ms;
+    transform: translateY(-20px);
+  }
+`;
 
 export type BubbleProps = {
   price: string;
