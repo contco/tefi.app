@@ -6,7 +6,7 @@ export const MainContainer = styled(Flex)`
   justify-content: center;
   align-items: center;
   ${css({
-    height: ['calc(100vh - 70px)'],
+    height: ['calc(100vh - 80px)'],
   })}
 `;
 
@@ -24,7 +24,7 @@ export const Supply = styled(Text)`
   font-weight: 500;
   text-align: center;
   ${css({
-    fontSize: [11],
+    fontSize: [9, null, 11],
     letterSpacing: ['3px'],
     color: 'secondary',
   })}
@@ -35,14 +35,14 @@ export const Symbol = styled(Text)`
   text-align: center;
 
   ${css({
-    fontSize: [3],
+    fontSize: [2, 3],
     letterSpacing: ['1px'],
     color: 'secondary',
   })}
 `;
 
 export const FireBox = styled(Box)`
-  padding-top: 25%;
+  padding-top: 30%;
   padding-bottom: 35%;
 `;
 
@@ -78,20 +78,20 @@ export const FlameBase = styled.span`
   z-index: 2;
   opacity: 0.8;
   ${css({
-    fontSize: ['160px'],
+    fontSize: ['100px', null, '160px'],
   })};
 `;
 
 export const Flame = styled.span`
   position: absolute;
   text-align: center;
-  left: 1%;
-  right: 1%;
+  left: 20%;
+  right: 20%;
   z-index: 2;
   animation-name: ${FlameAnimation};
   animation-duration: 2s;
   animation-iteration-count: infinite;
-  transform: translate3d(0, 15px, 0) scale(0.75) rotate(0);
+  transform: translate3d(0, 10px, 0) scale(0.75) rotate(0);
   animation-timing-function: ease-in;
   opacity: 0;
   z-index: 1;
@@ -105,7 +105,7 @@ export const Flame = styled.span`
   }
 
   ${css({
-    fontSize: ['160px'],
+    fontSize: ['100px', null, '160px'],
   })}
 `;
 
@@ -123,6 +123,7 @@ export const Time = styled<any>(Box)`
   border-bottom: ${(props: any) => (props.selected ? `3px solid ${props.theme.colors.secondary}` : 'node')};
   cursor: pointer;
   ${css({
+    fontSize: [0, null, 2],
     color: 'secondary',
   })}
 `;
