@@ -54,10 +54,7 @@ export const AlertSelect: React.FC<Props> = ({currentPrice, showAlertModal, setA
 
    const onSubmitClick = () => {
     setAlertModalVisible(false);
-    if(priceInput && priceInput !== '')  {
-        setPriceAlert(tokenSymbol, priceInput, currentPrice);
-				setPriceInput('0');
-    }
+   
    }
 
 	 const onCancel = () => {

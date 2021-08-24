@@ -1,13 +1,13 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import {useRouter} from 'next/router';
+
 import Image from 'next/image';
 import css from "@styled-system/css";
 import {Box, Flex} from "@contco/core-ui";
-import { useAlertContext } from '../../providers/AlertProvider';
-import { NewOpenIcon, AlertIcon} from '../Icons';
+
+import { NewOpenIcon} from '../Icons';
 import { PriceChange } from './PriceChange';
-import {AlertSelect} from './AlertSelect';
+import PriceAlert from './PriceAlert';
 
 const NamePriceContainer = styled(Box)`
 width: 55%;
@@ -82,16 +82,6 @@ const ActionContainer = styled(Flex)`
   align-items: center;
 `;
 
-const AlertContainer = styled(ImageContainer)`
-  position: relative;
-`;
-
-const StyledAlert = styled(AlertIcon)`
- ${props => css({
-   color: props.isActive ? '#e67e22' : '#0221ba',
-   transform: 'scale(1.1)',
- })}
-`;
 
 interface Props {
   price: number;
@@ -103,24 +93,6 @@ interface Props {
 }
 
 export const AssetDetails: React.FC<Props> = ({price, name, url, useTV, onSwitchTV, priceChange }) => {
-
-  const [showAlertModal, setAlertModalVisible] = useState<boolean>(false);
-  const [isAlertActive, setIsAlertActive] = useState<boolean>(true);
-  const router = useRouter();
-
-  const {alerts} = useAlertContext();
-
-
-  useEffect(() => { 
-    const symbol = router.query.symbol as string;
-    if(alerts[symbol]) {
-      setIsAlertActive(true);
-    }
-    else if(!alerts[symbol] && isAlertActive) {
-      setIsAlertActive(false);
-    }
-       
-  }, [alerts, router.query.symbol]);
   
   return(
     <NamePriceContainer useTV={useTV}>
@@ -133,9 +105,7 @@ export const AssetDetails: React.FC<Props> = ({price, name, url, useTV, onSwitch
         <ImageContainer onClick={onSwitchTV} useTV={useTV}>
           <Image width="30" height="16" src={useTV ? '/tv-white.png' : '/tv.png'} alt="Picture of the author" />
         </ImageContainer>
-        <AlertContainer onClick={() => setAlertModalVisible(true)}>
-          <StyledAlert isActive={isAlertActive} />
-        </AlertContainer>
+          <PriceAlert currentPrice={`${price}`} />
       </ActionContainer>
     </NameTopBar>
     {!useTV && (
@@ -144,7 +114,6 @@ export const AssetDetails: React.FC<Props> = ({price, name, url, useTV, onSwitch
           <PriceChange priceChange={priceChange}/>
          </PriceContainer>
       )}
-    <AlertSelect isActive={isAlertActive} currentPrice={`${price}`} showAlertModal={showAlertModal} setAlertModalVisible={setAlertModalVisible} />
-    </NamePriceContainer>
+   </NamePriceContainer>
   )
 }

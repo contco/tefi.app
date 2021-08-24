@@ -143,3 +143,22 @@ export const CSS_APR = (props) =>
     }
   })}
 `;
+
+export const StyledInput = Styled.input`
+  ${css({
+    backgroundColor: 'lightBackground',
+    border: 'none',
+    width: 160, 
+    height: 20,
+    borderRadius: 10,
+    outline: 'none',
+    color: '#0221ba',
+    fontSize: '8px',
+    px:2,
+    textTransform: "uppercase",
+    '&::placeholder': {
+      color: '#0221ba',
+      fontSize: '8px',
+    }
+  })}
+`;
