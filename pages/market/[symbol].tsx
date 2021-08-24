@@ -13,6 +13,9 @@ import { NextSeo } from 'next-seo';
 import { MarketSEO } from '../../next-seo.config';
 import { fetchPairData } from '../../providers/AssetPriceProvider/helpers/pairData';
 import { useAssetPriceContext } from '../../providers/AssetPriceProvider'
+import { formatNavigationData } from '../../helpers/market';
+import css from '@styled-system/css';
+import { Flex } from '@contco/core-ui';
 
 const TV_SYMBOLS = {
   luna: 'KUCOIN:LUNAUST',
@@ -34,7 +37,7 @@ const Container = styled.div`
 
 const ChartContainer = styled.p`
   width: 55%;
-  height: 60vh;
+  height: 50vh;
   @media (max-width: 768px) {
     width: 85%;
     height: 50vh;
@@ -51,22 +54,54 @@ const StyledDate = styled.p`
   })}
 `;
 
-const SymbolsContainer: any = styled.div`
-  width: 55%;
-  display: flex;
+const ChartNavigationContainer: any = styled(Flex)`
+  width: 56%;
   justify-content: space-between;
-  padding-top: ${(props: any) => (props.useTV ? '30px' : '0px')};
+  padding-top: ${(props: any) => (props.useTV ? '40px' : '0px')};
   @media (max-width: 768px) {
-    width: 85%;
+    width: 95%;
   }
+  overflow-y: auto;
+  
 `;
 
-const SymbolContainer: any = styled.div`
-  padding-bottom: 13px;
-  font-weight: 500;
-  border-bottom: ${(props: any) => (props.selected ? `3px solid ${props.theme.colors.secondary}` : 'node')};
-  color: ${(props: any) => props.theme.colors.secondary};
-  cursor: pointer;
+const ChartIconCards: any = styled(Flex)`
+${(props :any) =>
+  css({
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems:'center',
+    textAlign:'center',
+    bg: props.selected? props.theme.colors.activeState : 'background',
+    height: 105,
+    width:70,
+    padding:2,
+    borderRadius:'8px',
+    boxShadow: props.theme.boxShadow,
+    color:props.theme.colors.secondary,
+    fontWeight:500,
+    cursor:'pointer',
+    mx:'10px',
+  })}
+`;
+
+const StyleImage = styled.img`
+  width: 40px;
+  height: 40px;
+`;
+
+const StylePrice = styled.div`
+${css({
+    fontSize:'12px',
+    color:'detailsText'
+  })}
+`;
+
+const StylePriceChange = styled.div<any>`
+${({isPositive})=>css({
+    fontSize:'10px',
+    color:isPositive ? '#6ed14b' : '#ff2400',
+  })}
 `;
 
 const renderTooltip = ({ payload }) => {
@@ -74,30 +109,39 @@ const renderTooltip = ({ payload }) => {
   return <StyledDate>{date}</StyledDate>;
 };
 
-const Symbol = ({ keyName, symbol }) => {
+const Symbol = ({ keyName, symbol,imageUrl , currentPrice ,change, isPositive}) => {
   const router = useRouter();
-
   return (
-    <SymbolContainer
+    <ChartIconCards
       onClick={() => {
         router.push(`/market/${keyName}`, undefined, { shallow: true });
       }}
       selected={router.query.symbol == keyName}
     >
-      {symbol}
-    </SymbolContainer>
+      <div>
+        {symbol.toUpperCase()}
+      </div>
+      <StyleImage src={imageUrl}/>
+      <StylePrice>
+        {currentPrice}
+      </StylePrice>
+      <StylePriceChange isPositive={isPositive}>
+        {change}
+      </StylePriceChange>
+    </ChartIconCards>
   );
 };
 
 const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => {
   const theme: any = useTheme();
   const router = useRouter();
+  const {assetPriceData} = useAssetPriceContext();
   const symbol = router.query.symbol as string;
   const [price, setPrice] = useState(parseFloat((pairData[symbol]).currentPrice));;
   const [useTV, setUseTV] = useState<boolean>(false);
   const [currentAsset, setCurrentAsset] = useState(pairData[symbol]);
+  const [navigationData, setNavigationData] = useState(formatNavigationData(pairData))
 
-  const {assetPriceData} = useAssetPriceContext();
 
   
   useEffect(() => {
@@ -105,6 +149,10 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
       setPrice(parseFloat(assetPriceData[symbol]?.currentPrice));
       setCurrentAsset(assetPriceData[symbol]);
     }
+    if(assetPriceData) {
+      setNavigationData(formatNavigationData(assetPriceData));
+    }
+    
   }, [assetPriceData]);
 
   useEffect(() => {
@@ -178,15 +226,16 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
             </ResponsiveContainer>
           )}
         </ChartContainer>
-        <SymbolsContainer useTV={useTV}>
-          {Object.keys(assets).map((keyName) =>
+        <ChartNavigationContainer useTV={useTV}>
+          {Object.keys(navigationData).map((index) =>
             useTV ? (
-              TV_SYMBOLS[keyName] && <Symbol key={keyName} keyName={keyName} symbol={assets[keyName].symbol} />
+              TV_SYMBOLS[navigationData[index].symbol] && 
+              <Symbol key={index} keyName={navigationData[index].symbol} {...navigationData[index]}  />
             ) : (
-              <Symbol key={keyName} keyName={keyName} symbol={assets[keyName].symbol} />
+              <Symbol key={index} keyName={navigationData[index].symbol} {...navigationData[index]}  />
             ),
           )}
-        </SymbolsContainer>
+        </ChartNavigationContainer>
       </Container>
     </MainContainer>
   );

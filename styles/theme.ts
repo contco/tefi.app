@@ -24,7 +24,8 @@ export const lightTheme = {
     title: '#000',
     focused: '#f1f1f1',
     bubblePositive:'#00FF7F',
-    bubbleNegative:'#D22B2B'
+    bubbleNegative:'#D22B2B',
+    activeState:'#9e9e9e21',
   },
   boxShadow: '0 1px 10px 0 rgba(225, 221, 221, 0.5)',
   opacity: {
@@ -53,7 +54,8 @@ export const darkTheme = {
     title: '#ffffff',
     focused: '#75768d',
     bubblePositive:'#95fa84',
-    bubbleNegative:'#d24a4a'
+    bubbleNegative:'#d24a4a',
+    activeState:'#1d1f2f',
   },
   boxShadow: '0 1px 4px 0 rgba(66, 66, 68, 0.5)',
   opacity: {

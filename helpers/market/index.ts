@@ -38,3 +38,16 @@ export const formatHeatData = (pairData) => {
     };
   });
 };
+
+export const formatNavigationData = (pairData) => {
+  return BUBBLE_DATA.map((a: any) => {
+    const change = pairData[a.symbol].priceChange.toFixed(2);
+    const currentPrice = parseFloat(pairData[a.symbol].currentPrice);
+    return {
+      change: `${change> 0? '+'+change: change}`,
+      isPositive: change > 0,
+      currentPrice:currentPrice,
+      ...a,
+    };
+  });
+};
