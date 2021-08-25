@@ -13,38 +13,28 @@ import {
   Time,
 } from './styles';
 
-const assetSupply = {
-  symbol: 'LUNAS',
-  current: '2100',
-  hour: '2300',
-  day: '1800',
-  week: '2500',
-  month: '2000',
-};
-
-const timePeriodData = [
-  {
-    period: 'HOUR',
-    value: assetSupply.hour,
-  },
-  {
-    period: 'DAY',
-    value: assetSupply.day,
-  },
-  {
-    period: 'WEEK',
-    value: assetSupply.week,
-  },
-  {
-    period: 'MONTH',
-    value: assetSupply.month,
-  },
-];
-
 const ICE_EMOJI = '❄️';
 const FIRE_EMOJI = '🔥';
 
-const AssetSupply: React.FC = () => {
+const AssetSupply: React.FC = ({ assetSupply }: any) => {
+  const timePeriodData = [
+    {
+      period: 'HOUR',
+      value: assetSupply[0].hour,
+    },
+    {
+      period: 'DAY',
+      value: assetSupply[0].day,
+    },
+    {
+      period: 'WEEK',
+      value: assetSupply[0].week,
+    },
+    {
+      period: 'MONTH',
+      value: assetSupply[0].month,
+    },
+  ];
   const [currentTimePeriod, setCurrentTimePeriod] = useState(timePeriodData[0]);
 
   const changePeriod = (e) => {
@@ -54,7 +44,7 @@ const AssetSupply: React.FC = () => {
   };
 
   const getEmoji = () => {
-    if (parseFloat(assetSupply.current) < parseFloat(currentTimePeriod.value)) {
+    if (parseFloat(assetSupply.current) > parseFloat(currentTimePeriod.value)) {
       return FIRE_EMOJI;
     } else return ICE_EMOJI;
   };
