@@ -24,7 +24,7 @@ export const Supply = styled(Text)`
   font-weight: 500;
   text-align: center;
   ${css({
-    fontSize: [9, null, 11],
+    fontSize: [4, 6, null, 9, null, null, 11],
     letterSpacing: ['3px'],
     color: 'secondary',
   })}
@@ -42,8 +42,9 @@ export const Symbol = styled(Text)`
 `;
 
 export const FireBox = styled(Box)`
-  padding-top: 30%;
-  padding-bottom: 35%;
+  ${css({
+   paddingTop: ['80px', null, '100px'],
+  })}
 `;
 
 const FlameAnimation = keyframes`
@@ -113,7 +114,8 @@ export const TimePeriods = styled(Flex)`
   align-items: center;
   justify-content: space-between;
   ${css({
-    paddingTop: ['60%'],
+    width: ['90vw', '85vw', null, '65vw', null, null, null, null, null, '40vw'],
+    paddingTop: ['200px', null, '300px'],
   })}
 `;
 

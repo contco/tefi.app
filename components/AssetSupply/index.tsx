@@ -12,27 +12,39 @@ import {
   TimePeriods,
   Time,
 } from './styles';
+import { convertToFloatValue } from '../../utils/convertFloat';
 
 const ICE_EMOJI = '❄️';
 const FIRE_EMOJI = '🔥';
 
-const AssetSupply: React.FC = ({ assetSupply }: any) => {
+export interface SupplyProps {
+  current: string;
+  day: string;
+  hour: string;
+  month: string;
+  symbol: string;
+  week: string;
+}
+
+const AssetSupply: React.FC<{ assetSupply: [SupplyProps] }> = ({ assetSupply }) => {
+  const valueConversion = (value) => convertToFloatValue((value / 1000000).toString());
+
   const timePeriodData = [
     {
       period: 'HOUR',
-      value: assetSupply[0].hour,
+      value: valueConversion(assetSupply[0].hour),
     },
     {
       period: 'DAY',
-      value: assetSupply[0].day,
+      value: valueConversion(assetSupply[0].day),
     },
     {
       period: 'WEEK',
-      value: assetSupply[0].week,
+      value: valueConversion(assetSupply[0].week),
     },
     {
       period: 'MONTH',
-      value: assetSupply[0].month,
+      value: valueConversion(assetSupply[0].month),
     },
   ];
   const [currentTimePeriod, setCurrentTimePeriod] = useState(timePeriodData[0]);
@@ -44,34 +56,36 @@ const AssetSupply: React.FC = ({ assetSupply }: any) => {
   };
 
   const getEmoji = () => {
-    if (parseFloat(assetSupply.current) > parseFloat(currentTimePeriod.value)) {
+    if (parseFloat(assetSupply[0].current) > currentTimePeriod.value) {
       return FIRE_EMOJI;
     } else return ICE_EMOJI;
   };
   return (
-    <MainContainer>
-      <Container>
-        <TextContainer>
-          <Supply>{currentTimePeriod.value}</Supply>
-          <Symbol>{assetSupply.symbol}</Symbol>
-        </TextContainer>
-        <FireBox>
-          <Text>
-            <FlameBase>{getEmoji()}</FlameBase>
-            <Flame>{getEmoji()}</Flame>
-            <Flame>{getEmoji()}</Flame>
-            <Flame>{getEmoji()}</Flame>
-          </Text>
-        </FireBox>
-        <TimePeriods>
-          {timePeriodData.map((time, index) => (
-            <Time key={index} selected={time.period === currentTimePeriod.period} onClick={changePeriod}>
-              {time.period}
-            </Time>
-          ))}
-        </TimePeriods>
-      </Container>
-    </MainContainer>
+    <Container>
+      <MainContainer>
+        <Container>
+          <TextContainer>
+            <Supply>{currentTimePeriod.value}</Supply>
+            <Symbol>{assetSupply[0].symbol === 'uluna' ? 'LUNAS' : 'UST'}</Symbol>
+          </TextContainer>
+          <FireBox>
+            <Text>
+              <FlameBase>{getEmoji()}</FlameBase>
+              <Flame>{getEmoji()}</Flame>
+              <Flame>{getEmoji()}</Flame>
+              <Flame>{getEmoji()}</Flame>
+            </Text>
+          </FireBox>
+          <TimePeriods>
+            {timePeriodData.map((time, index) => (
+              <Time key={index} selected={time.period === currentTimePeriod.period} onClick={changePeriod}>
+                {time.period}
+              </Time>
+            ))}
+          </TimePeriods>
+        </Container>
+      </MainContainer>
+    </Container>
   );
 };
 
