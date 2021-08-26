@@ -1,12 +1,25 @@
 import React from 'react';
 import styled from 'styled-components';
+import css from '@styled-system/css';
 
-const Container = styled.div``;
+const Container = styled.div`
+  border: 1px solid #f2f2f2;
+  ${css({
+    mt: 3,
+    p: 3,
+  })}
+`;
 
-const Post: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
+const Address = styled.p`
+  font-size: 15px;
+  color: blue;
+`;
+
+const Post = ({ data: { text, address } }: any) => {
   return (
     <Container>
-      <p>Post</p>
+      <Address>{address}</Address>
+      <p>{text}</p>
     </Container>
   );
 };
