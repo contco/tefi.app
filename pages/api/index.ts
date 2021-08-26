@@ -1,7 +1,7 @@
-import {NextApiRequest, NextApiResponse} from 'next';
+import { NextApiRequest, NextApiResponse } from 'next';
 import { ApolloServer } from 'apollo-server-micro';
 import { ApolloGateway } from '@apollo/gateway';
-import {cors, runMiddleware} from './lib';
+import { cors, runMiddleware } from './lib';
 
 
 
@@ -16,11 +16,11 @@ const gateway = new ApolloGateway({
         { name: 'mirror', url: `${SERVER_END_POINT}/mirror` },
         { name: 'pylon', url: `${SERVER_END_POINT}/pylon` },
         { name: 'spectrum', url: `${SERVER_END_POINT}/spectrum` },
-        { name: 'loterra', url: `${SERVER_END_POINT}/loterra` }
+        { name: 'loterra', url: `${SERVER_END_POINT}/loterra` },
     ],
 });
 
-const apolloServer = new ApolloServer({ gateway, subscriptions: false, playground: true, introspection: true});
+const apolloServer = new ApolloServer({ gateway, subscriptions: false, playground: true, introspection: true });
 
 export const config = {
     api: {
@@ -35,8 +35,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     return apolloServer.createHandler({
         path: '/api',
-    })(req,res);
+    })(req, res);
 
 }
-  
+
 export default handler;
