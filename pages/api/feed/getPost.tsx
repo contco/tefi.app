@@ -25,7 +25,7 @@ const formatPostData = (data) => {
     return posts;
 }
 
-export const getPost = async (address:string) => {
+export const getPost = async () => {
   const query = `https://fcd.terra.dev/v1/txs?offset=0&limit=100&account=${ADDRESS}`;
   const postRequest = await fetchData(query)
   const filteredData =  filterPost(postRequest.data);

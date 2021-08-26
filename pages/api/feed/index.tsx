@@ -24,8 +24,8 @@ extend type Assets @key(fields: "address") {
 
 const resolvers = {
     Assets: {
-        feed(assets) {
-          return getPost(assets.address);
+        feed() {
+          return getPost();
         },
       },
 
