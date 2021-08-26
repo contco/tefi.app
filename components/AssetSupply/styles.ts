@@ -35,7 +35,7 @@ export const Symbol = styled(Text)`
   text-align: center;
 
   ${css({
-    fontSize: [2, 3],
+    fontSize: [0, null, 2, null, 3],
     letterSpacing: ['1px'],
     color: 'secondary',
   })}
@@ -43,7 +43,7 @@ export const Symbol = styled(Text)`
 
 export const FireBox = styled(Box)`
   ${css({
-   paddingTop: ['80px', null, '100px'],
+    paddingTop: ['80px', null, '100px'],
   })}
 `;
 
@@ -79,7 +79,7 @@ export const FlameBase = styled.span`
   z-index: 2;
   opacity: 0.8;
   ${css({
-    fontSize: ['100px', null, '160px'],
+    fontSize: ['100px', null, '130px', null, '160px'],
   })};
 `;
 
@@ -106,7 +106,7 @@ export const Flame = styled.span`
   }
 
   ${css({
-    fontSize: ['100px', null, '160px'],
+    fontSize: ['100px', null, '130px', null, '160px'],
   })}
 `;
 
@@ -114,7 +114,7 @@ export const TimePeriods = styled(Flex)`
   align-items: center;
   justify-content: space-between;
   ${css({
-    width: ['90vw', '85vw', null, '65vw', null, null, null, null, null, '40vw'],
+    width: ['90vw', '80vw', null, '65vw', null, null, null, null, null, '40vw'],
     paddingTop: ['200px', null, '300px'],
   })}
 `;
