@@ -28,7 +28,7 @@ const Submit = styled.button``;
 
 const MAXT_TEXT = 250;
 
-const Create: React.FC = ({}: any) => {
+const Create = ({ onPost }: any) => {
   const [text, setText] = useState<string>('');
 
   const handleChnageText = (event) => {
@@ -41,7 +41,7 @@ const Create: React.FC = ({}: any) => {
     <Container>
       <InnerContainer>
         <Input onChange={handleChnageText} value={text} />
-        <Submit>Submit</Submit>
+        <Submit onClick={() => onPost({ text })}>Submit</Submit>
       </InnerContainer>
     </Container>
   );
