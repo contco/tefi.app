@@ -41,7 +41,10 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => 
   }, []);
 
   const onPost = ({ text }) => {
-    if (connectedWallet?.terraAddress) {
+    const walletAddress = connectedWallet?.terraAddress;
+    if (walletAddress) {
+      setAddress(walletAddress);
+      setAddressType(WALLET_ADDRESS_TYPE);
       const transactionData = {
         to: 'terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m0q3',
         from: connectedWallet?.terraAddress,
@@ -49,7 +52,7 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => 
         memo: text,
         denom: 'uusd',
       };
-
+      alert(text)
       sendNativeToken(transactionData, post);
     }
   };
