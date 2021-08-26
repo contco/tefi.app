@@ -4,7 +4,7 @@ import { getPost } from './getPost';
 
 const typeDefs = gql`
 
-  type post {
+  type Post {
       from_address: String!
       to_address: String!
       block: String!
@@ -12,20 +12,22 @@ const typeDefs = gql`
       txhash: String!
       timestamp:String!
   }
- type feed {
-     posts:[posts!]
+ type Posts {
+     posts:[Post!]
  }
-  type Query {
-        feed(): feed
-    }
+ 
+extend type Assets @key(fields: "address") {
+    address: String! @external
+    feed: Posts
+  }
 `;
 
 const resolvers = {
-  Feed: {
-    feed() {
-      return getPost();
-    }
-  },
+    Assets: {
+        feed(assets) {
+          return getPost(assets.address);
+        },
+      },
 
 };
 
