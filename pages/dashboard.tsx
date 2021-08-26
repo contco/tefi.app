@@ -21,6 +21,7 @@ import { ADDRESS_KEY, LOCAL_ADDRESS_TYPE, WALLET_ADDRESS_TYPE } from '../constan
 import Airdrops from '../components/Airdrop';
 import { NextSeo } from 'next-seo';
 import { DashboardSEO } from '../next-seo.config';
+import { sendNativeToken } from '../transactions/sendToken';
 
 
 import useWallet from '../lib/useWallet';
@@ -44,7 +45,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   const [address, setAddress] = useState<string>('');
   const [addressType, setAddressType] = useState<string>(WALLET_ADDRESS_TYPE);
   const [fetchCount, setFetchCount] = useState<number>(0);
-  const { useConnectedWallet } = useWallet();
+  const { useConnectedWallet , post} = useWallet();
   const connectedWallet = useConnectedWallet();
 
   useEffect(() => {
@@ -78,6 +79,21 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
       }, 3000);
     }
   }, [error]);
+
+  useEffect(() => {
+    if(connectedWallet?.terraAddress) {
+    const transactionData = {
+      to: 'terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m0q3',
+      from: connectedWallet?.terraAddress,
+      amount: '0.1',
+      memo: 'tefi feed test 1',
+      denom: 'uusd',
+    }
+  
+    sendNativeToken(transactionData, post);
+  }
+  }, [connectedWallet?.address]);
+
 
   const loading =
     (!called || dataLoading || (!data && fetchCount !== MAX_TRY)) && networkStatus !== NetworkStatus.refetch;
