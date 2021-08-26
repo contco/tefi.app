@@ -1,18 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
+import Post from './Post';
 
-const data = [{ text: 'Post: 1' }, { text: 'Post: 2' }, { text: 'Post: 3' }];
+const data = [
+  { address: 'terra1....8jppll', text: '$LUNA -tics have your voice heard.', tx: '3' },
+  { address: 'terra1....8jppll', text: 'introducing: decentralized, censorship-resistant social feeds. 🌕', tx: '2' },
+  { address: 'terra1....8jppll', text: 'Hello, Terra! 🌎', tx: '1' },
+];
 
 const Container = styled.div``;
 
-const Post: React.FC = ({}: any) => {
+const Posts = ({}: any) => {
   return (
     <Container>
-      {data.map(({ text }) => (
-        <p>{text}</p>
+      {data.map((item) => (
+        <Post data={item} key={item.tx} />
       ))}
     </Container>
   );
 };
 
-export default Post;
+export default Posts;

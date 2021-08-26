@@ -1,17 +1,48 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import css from '@styled-system/css';
 
-const Container = styled.div``;
+const Container = styled.div`
+  border: 1px solid #f2f2f2;
+  ${css({
+    p: 3,
+  })}
+`;
 
-const Input = styled.input``;
+const InnerContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  ${css({})}
+`;
+
+const Input = styled.textarea`
+  resize: none;
+  width: 100%;
+  height: 60px;
+  ${css({
+    mr: 2,
+    p: 2,
+  })}
+`;
 const Submit = styled.button``;
 
-const Create: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
+const MAXT_TEXT = 250;
+
+const Create: React.FC = ({}: any) => {
+  const [text, setText] = useState<string>('');
+
+  const handleChnageText = (event) => {
+    const { value } = event.target;
+    const newText = value.slice(0, MAXT_TEXT);
+    setText(newText);
+  };
+
   return (
     <Container>
-      <p>Create Post</p>
-      <Input />
-      <Submit>Submit</Submit>
+      <InnerContainer>
+        <Input onChange={handleChnageText} value={text} />
+        <Submit>Submit</Submit>
+      </InnerContainer>
     </Container>
   );
 };
