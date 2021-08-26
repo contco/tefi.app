@@ -48,7 +48,7 @@ export const sendNativeToken = async (data: SendTokenTransactionData, post) => {
     	const msgs =  [ new MsgSend(from, to, {[denom]: amountInLamports})]
     	const tax = await calculateTax(amountInLamports.toString());
 		const gasPrice = await getGasPrice();
-		const feeResult  = await calculateFee(data.from, msgs, tax, gasPrice, undefined, memo);
+		const feeResult  = await calculateFee(data.from, msgs, tax, gasPrice, denom, memo);
 		if(feeResult.error) {
 			return feeResult;
 		}
