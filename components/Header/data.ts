@@ -156,5 +156,31 @@ export const UPCOMING_PROTOCOL_LINKS = [
         url: "http://betterra.money",
         name: "BetTerra"
     },
+    {
+        src: "/logos/vega.png",
+        url: "https://vega.xyz/",
+        name: "Vega"
+    },      
+    {
+        src: "/logos/levana.png",
+        url: "https://twitter.com/Levana_protocol",
+        name: "Levana"
+    },
+    {
+        src: "/logos/tsunami.png",
+        url: "https://twitter.com/TsunamiProtocol",
+        name: "Tsunami"
+    },
+    {
+        src: "/logos/artemis.png",
+        url: "https://twitter.com/ArtemisDAO",
+        name: "Artemis"
+    },
+    {
+        src: "/logos/andromeda.png",
+        url: "https://twitter.com/AndromedaProt",
+        name: "Andromeda"
+    }
+    
 ];
 
