@@ -16,7 +16,8 @@ const gateway = new ApolloGateway({
         { name: 'mirror', url: `${SERVER_END_POINT}/mirror` },
         { name: 'pylon', url: `${SERVER_END_POINT}/pylon` },
         { name: 'spectrum', url: `${SERVER_END_POINT}/spectrum` },
-        { name: 'loterra', url: `${SERVER_END_POINT}/loterra` }
+        { name: 'loterra', url: `${SERVER_END_POINT}/loterra` },
+        { name: 'feed', url: `${SERVER_END_POINT}/feed` }
     ],
 });
 

@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Header from '../components/Header';
 import Landing from '../components/Landing';
 import styled from 'styled-components';
+import { getPost } from './api/feed/getPost';
 
 const EmptyContainer = styled.div`
   height: 100vh;
@@ -19,6 +20,9 @@ const Home: React.FC = ({ theme, changeTheme }: any) => {
     setTimeout(() => setIsDisplay(true), 1000);
   }, [router.pathname]);
 
+  useEffect(() => {
+   getPost();
+  }, [])
 
   return (
     <div>
