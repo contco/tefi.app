@@ -41,7 +41,7 @@ export const getPost = async () => {
   const postRequest = await fetchData(query);
   const filteredData = filterPost(postRequest.data);
   const posts = formatPostData(filteredData);
-  return { posts };
+  return posts;
 };
 
 export default async function handler(req, res) {
