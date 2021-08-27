@@ -12,7 +12,6 @@ import { sendNativeToken } from '../../transactions/sendToken';
 import { getPost } from '../api/feed/posts';
 import ConnectModal from '../../components/ConnectModal';
 import { WalletConnectType } from '../../constants';
-import { useInterval } from '../../utils/useInterval';
 
 const Container = styled(Box)`
   display: flex;
@@ -62,6 +61,7 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts }: any) => {
   const [feedPosts, setFeedPosts] = useState<any>(null);
   const { onConnect, useConnectedWallet, post } = useWallet();
   const connectedWallet = useConnectedWallet();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (posts) {
@@ -69,10 +69,12 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts }: any) => {
     }
   }, []);
 
-  useInterval(async () => {
+  const refetchPosts = async () => {
+    setLoading(true);
     const latestPosts = await getPost();
-    setFeedPosts(latestPosts);
-  }, 10000);
+    setLoading(false);
+    latestPosts.length && setFeedPosts(latestPosts);
+  };
 
   useEffect(() => {
     const walletAddress = connectedWallet?.terraAddress;
@@ -107,7 +109,7 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts }: any) => {
       };
       const result = await sendNativeToken(transactionData, post);
       console.log('result', result);
-      
+
       if (!result.error) {
         setFeedPosts([newFeedPost, ...feedPosts]);
       }
@@ -122,7 +124,14 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts }: any) => {
 
   return (
     <>
-      <Header theme={currentTheme} changeTheme={changeTheme} addressType={addressType} address={address} />
+      <Header
+        theme={currentTheme}
+        changeTheme={changeTheme}
+        addressType={addressType}
+        address={address}
+        onRefresh={refetchPosts}
+        refreshing={loading}
+      />
       <Container>
         <InnerContainer>
           <TopSection>
