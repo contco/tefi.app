@@ -16,7 +16,7 @@ import { isMobile } from 'react-device-detect';
 import useWallet from '../../lib/useWallet';
 import { AccAddress } from '@terra-money/terra.js';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import Footer from '../Footer';
 import ConnectModal from '../ConnectModal';
@@ -29,8 +29,16 @@ const Landing: React.FC = () => {
   const [address, setAddress] = useState<string>(null);
   const [showModal, setModalVisible] = useState<boolean>(false);
 
+  const [mobile, setMobile] = useState<boolean>(false);
+
   const { onConnect, useConnectedWallet } = useWallet();
   const connectedWallet = useConnectedWallet();
+
+  useEffect(() => {
+     setMobile(isMobile);
+  }, [isMobile]);
+
+
 
   const handleAddress = (e: any) => {
     e.preventDefault();
@@ -69,7 +77,7 @@ const Landing: React.FC = () => {
         </Title>
 
         <ConnectButton
-          onClick={isMobile ? () => onTypeSelect(WalletConnectType.Mobile) : () => setModalVisible(!showModal)}
+          onClick={mobile ? () => onTypeSelect(WalletConnectType.Mobile) : () => setModalVisible(!showModal)}
         >
           {connectedWallet?.terraAddress ? (
             <ConnectText>Connected</ConnectText>

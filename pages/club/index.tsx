@@ -65,6 +65,12 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts }: any) => {
   const { onConnect, useConnectedWallet, post } = useWallet();
   const connectedWallet = useConnectedWallet();
   const [loading, setLoading] = useState(false);
+  const [mobile, setMobile] = useState<boolean>(false);
+
+  useEffect(() => {
+     setMobile(isMobile);
+  }, [isMobile]);
+
 
   useEffect(() => {
     if (posts) {
@@ -138,7 +144,7 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts }: any) => {
           <TopSection>
             {!address ? (
               <ConnectButton
-                onClick={isMobile ? () => onTypeSelect(WalletConnectType.Mobile) : () => setModalVisible(!showModal)}
+                onClick={mobile ? () => onTypeSelect(WalletConnectType.Mobile) : () => setModalVisible(!showModal)}
               >
                 Connect Wallet
               </ConnectButton>
