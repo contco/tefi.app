@@ -8,6 +8,7 @@ import Header from '../../components/Header';
 import { WALLET_ADDRESS_TYPE } from '../../constants';
 import useWallet from '../../lib/useWallet';
 import { sendNativeToken } from '../../transactions/sendToken';
+import { getPost } from '../api/feed/posts';
 
 const MainContainer = styled(Box)`
   display: flex;
@@ -42,7 +43,7 @@ const ConnectButton = styled(Flex)`
   
 `;
 
-const Feeds: React.FC = ({ theme: currentTheme, changeTheme }: any) => {
+const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts }: any) => {
   const [address, setAddress] = useState<string>();
   const [addressType, setAddressType] = useState<string>();
   const { useConnectedWallet, post } = useWallet();
@@ -68,7 +69,7 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme }: any) => {
         memo: text,
         denom: 'uusd',
       };
-      alert(text)
+      alert(text);
       sendNativeToken(transactionData, post);
     }
   };
@@ -85,11 +86,20 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme }: any) => {
           <Create onPost={onPost} />
           } 
         </Box>   
-         <Posts />
+         <Posts data={posts}/>
         </InnerContainer>
       </MainContainer>
     </>
   );
 };
+
+export async function getServerSideProps() {
+  const posts = await getPost();
+  return {
+    props: {
+      posts,
+    },
+  };
+}
 
 export default Feeds;

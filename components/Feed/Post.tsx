@@ -15,11 +15,11 @@ const Address = styled.p`
   color: blue;
 `;
 
-const Post = ({ data: { text, address } }: any) => {
+const Post = ({ data: { memo, from_address: address } }: any) => {
   return (
     <Container>
       <Address>{address}</Address>
-      <p>{text}</p>
+      <p>{memo}</p>
     </Container>
   );
 };
