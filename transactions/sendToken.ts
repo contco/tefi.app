@@ -60,8 +60,7 @@ export const sendNativeToken = async (data: SendTokenTransactionData, post) => {
 				gasPrices,
 				fee: feeResult.fee,
 			}
-    		const result = await post(txOptions);
-			
+    		const result =  await post(txOptions);
 			return result;
 		}
     }
