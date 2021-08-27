@@ -66,19 +66,32 @@ const Post = ({ data: { memo, from_address: address, block,  timestamp} }: any) 
   const slicedAddress =
     address && `${address?.slice(0, 6) + '....' + address?.slice(address?.length - 6, address?.length)}`;
 
-  const date =  timestamp ? new Date(timestamp) : new Date();
 
+
+  const displayTimestamp = () => {
+    if(!timestamp) {
+      return <DateText>pending</DateText>
+    }
+    else {
+      const date =  new Date(timestamp);
+      return (
+        <DateText>
+        {format(date, 'd/MM/y')} &nbsp; &nbsp; {format(date, 'h:mm a')}
+        </DateText>
+      );
+    }
+  }
   return (
     <Container>
        <TopSection>
           <StyledText>{slicedAddress}</StyledText>
-          <StyledText>{new Intl.NumberFormat().format(block ?? '0')}</StyledText>
+          <StyledText>{block ? new Intl.NumberFormat().format(block) : 'pending'}</StyledText>
       </TopSection>
       <MemoSection>
         <MemoText>{memo}</MemoText>
       </MemoSection>
         <BottomSection>
-          <DateText>{format(date, 'd/MM/y')} &nbsp; &nbsp; {format(date, 'h:mm a')}</DateText>
+         {displayTimestamp()}
         </BottomSection>
     </Container>
   );
