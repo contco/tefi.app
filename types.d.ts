@@ -319,3 +319,18 @@ interface PriceChange {
   change: number;
   percentChange: string;
 }
+
+interface txData {
+  memo: string;
+  block: string;
+  txhash: string;
+  timestamp: string;
+  from_address: string;
+  to_address: string;
+}
+
+
+interface ErrorResult {
+  error: boolean;
+  msg: string;
+}

@@ -101,8 +101,10 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts }: any) => {
       else {
         setTimeout( async () => {
         const txHash = result?.result?.txhash;
-        const txPost = await fetchTx(txHash);
-        setFeedPosts([txPost,...feedPosts]);
+        const txPost: any = await fetchTx(txHash);
+        if(!txPost?.error) {
+          setFeedPosts([txPost,...feedPosts]);
+        }
         }, 7000);
       }
     }

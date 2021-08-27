@@ -3,7 +3,7 @@ import axios from 'axios';
 const TEST_TX_FETCH_URL = 'https://tequila-fcd.terra.dev/v1/tx/';
 const TX_FETCH_URL = 'https://fcd.terra.dev/v1/tx/';
 
-export const formatTxData = (txResult: any) => {
+export const formatTxData: (a: any) => txData = (txResult: any) => {
     return {
         memo: txResult?.tx?.value?.memo,
         block: txResult?.height,
