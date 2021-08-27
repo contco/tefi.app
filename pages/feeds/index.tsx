@@ -10,18 +10,26 @@ import useWallet from '../../lib/useWallet';
 import { sendNativeToken } from '../../transactions/sendToken';
 import { getPost } from '../api/feed/posts';
 
-const MainContainer = styled(Box)`
+const Container = styled(Box)`
   display: flex;
   flex-direction: column;
   align-items: center; 
-  background-color: green;
 `;
 
-const InnerContainer = styled(MainContainer)`
+const InnerContainer = styled(Container)`
   ${css({
-    width: ['90%', null, null, null, 700,  800],
+    width: ['90%', null, null, null, 700, 800],
   })}
-`
+`;
+
+const TopSection = styled(Container)`
+  ${css({
+    width: '100%',
+    mt: [60, null, null, 80],
+    mb: [60,null, null, 134],
+  })}
+
+`;
 
 const ConnectButton = styled(Flex)`
  ${css({
@@ -77,18 +85,18 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts }: any) => {
   return (
     <>
       <Header theme={currentTheme} changeTheme={changeTheme} addressType={addressType} address={address} />
-      <MainContainer>
+      <Container>
       <InnerContainer>
-        <Box mt={40} mb={104}>
-          {!address ? 
+        <TopSection>
+          {address ? 
             <ConnectButton>Connect Wallet</ConnectButton>
           :     
           <Create onPost={onPost} />
           } 
-        </Box>   
+        </TopSection>   
          <Posts data={posts}/>
         </InnerContainer>
-      </MainContainer>
+      </Container>
     </>
   );
 };
