@@ -128,8 +128,6 @@ const getTextLength = (text) => {
     let encodedArr = encoded.split('%');
     let length = encodedArr.length;
     length = encodedArr[0].length ? length : length - 1;
-    console.log('length', length);
-
     actualLength = length + actualLength;
   });
 
