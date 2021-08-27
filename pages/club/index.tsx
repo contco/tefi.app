@@ -13,6 +13,9 @@ import { getPost } from '../api/feed/posts';
 import ConnectModal from '../../components/ConnectModal';
 import { WalletConnectType } from '../../constants';
 
+const ADDRESS = 'terra1lpccq0w9e36nlzhx3m6t8pphx8ncavslyul29g';
+const SEND_AMOUNT = '0.1';
+
 const Container = styled(Box)`
   display: flex;
   flex-direction: column;
@@ -93,14 +96,14 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts }: any) => {
       setAddress(walletAddress);
       setAddressType(WALLET_ADDRESS_TYPE);
       const transactionData = {
-        to: 'terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m0q3',
+        to: ADDRESS,
         from: connectedWallet?.terraAddress,
-        amount: '0.1',
+        amount: SEND_AMOUNT,
         memo: text,
         denom: 'uusd',
       };
       const newFeedPost: txData = {
-        to_address: 'terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m0q3',
+        to_address: ADDRESS,
         from_address: connectedWallet?.terraAddress,
         memo: text,
         block: null,
@@ -108,8 +111,6 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts }: any) => {
         timestamp: null,
       };
       const result = await sendNativeToken(transactionData, post);
-      console.log('result', result);
-
       if (!result.error) {
         setFeedPosts([newFeedPost, ...feedPosts]);
       }

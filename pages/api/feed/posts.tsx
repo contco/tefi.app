@@ -1,7 +1,7 @@
 import { fetchData } from '../commons';
 import { UNIT } from '../mirror/utils';
 import { formatTxData } from '../../../transactions/fetchTx';
-const ADDRESS = 'terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m0q3';
+const ADDRESS = 'terra1lpccq0w9e36nlzhx3m6t8pphx8ncavslyul29g';
 const FILTER_POST_UST = '0.1';
 
 const checkValidPost = (post) => {

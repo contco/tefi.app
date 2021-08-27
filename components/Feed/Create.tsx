@@ -154,7 +154,10 @@ const Create = ({ onPost }: any) => {
     setLoading(true);
     const { error } = await onPost({ text });
     setLoading(false);
-    if (!error) setText('');
+    if (!error) {
+      setText('');
+      setTextLength(0);
+    }
   };
 
   return (
