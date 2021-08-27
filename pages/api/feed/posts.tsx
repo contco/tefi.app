@@ -1,8 +1,8 @@
 import { fetchData } from '../commons';
 import { UNIT } from '../mirror/utils';
 import { formatTxData } from '../../../transactions/fetchTx';
-const ADDRESS = process.env.ADDRESS;
-const FILTER_POST_UST = process.env.FILTER_POST_UST;
+const ADDRESS = 'terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m0q3';
+const FILTER_POST_UST = '0.1';
 
 const checkValidPost = (post) => {
   if(post?.tx?.value?.memo && post?.tx?.value?.msg[0].type == 'bank/MsgSend' && post?.tx?.value?.msg[0]?.value.amount[0].denom =='uusd' && (post?.tx?.value?.msg[0]?.value.amount[0].amount/UNIT) >= parseFloat(FILTER_POST_UST)){
@@ -29,11 +29,11 @@ const filterAndFormatPost = (data) => {
 export const getPost = async () => {
   const query = `https://fcd.terra.dev/v1/txs?offset=0&limit=100&account=${ADDRESS}`;
   const postRequest = await fetchData(query);
-  const posts = filterAndFormatPost(postRequest.data);
+  const posts = postRequest?.data && filterAndFormatPost(postRequest?.data);
   return posts;
 };
 
 export default async function handler(req, res) {
   const posts = await getPost();
-  res.status(200).json(posts);
+  res.status(200).json(posts || []);
 }
