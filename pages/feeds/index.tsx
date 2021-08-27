@@ -12,7 +12,7 @@ import { sendNativeToken } from '../../transactions/sendToken';
 import { getPost } from '../api/feed/posts';
 import ConnectModal from '../../components/ConnectModal';
 import { WalletConnectType } from '../../constants';
-import { fetchTx } from '../../transactions/fetchTx';
+import { useInterval } from '../../utils/useInterval';
 
 const Container = styled(Box)`
   display: flex;
@@ -71,6 +71,12 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts }: any) => {
      }
   }, []);
 
+
+  useInterval(async () => {
+    const latestPosts = await getPost();
+    setFeedPosts(latestPosts);
+  }, 10000);
+
   useEffect(() => {
     const walletAddress = connectedWallet?.terraAddress;
      if(walletAddress) {
@@ -96,19 +102,18 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts }: any) => {
         memo: text,
         denom: 'uusd',
       };
-      const result = await sendNativeToken(transactionData, post);
-      if(result?.error) {
-        alert(result?.msg);
-      }
-      else {
-        setTimeout( async () => {
-        const txHash = result?.result?.txhash;
-        const txPost: any = await fetchTx(txHash);
-        if(!txPost?.error) {
-          setFeedPosts([txPost,...feedPosts]);
-        }
-        }, 7000);
-      }
+      const newFeedPost: txData = {
+        to_address: 'terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m0q3',
+        from_address: connectedWallet?.terraAddress,
+        memo: text,
+        block: null, 
+        txhash: null,
+        timestamp: null,
+      };
+     const result = await sendNativeToken(transactionData, post);
+     if(!result.error) {
+        setFeedPosts([newFeedPost ,...feedPosts]);
+     }
     }
   };
 
