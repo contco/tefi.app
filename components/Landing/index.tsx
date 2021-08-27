@@ -70,7 +70,7 @@ const Landing: React.FC = () => {
   return (
     <>
       <Container>
-      <NextSeo {...landingSEO} />
+        <NextSeo {...landingSEO} />
         <Title>
           Your portal to
           <Tefi>&nbsp;TeFi</Tefi>
@@ -98,7 +98,7 @@ const Landing: React.FC = () => {
             </AddressSubmit>
           </Row>
         </AddressContainer>
-        <Footer/>
+        {!isMobile && <Footer />}
       </Container>
       <ConnectModal showModal={showModal} setModalVisible={setModalVisible}/> 
     </>
