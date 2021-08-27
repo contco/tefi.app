@@ -13,6 +13,7 @@ import CHARTS_ICON from '../../public/charts.svg';
 import Bubble_ICON from '../../public/bubble.svg';
 import MENU_ICON from '../../public/icons/circle-menu.svg';
 import DASHBOARD_ICON from '../../public/space_dashboard.svg';
+import FEED_ICON from '../../public/icons/circle.svg';
 
 
 export const Container = styled(Flex)`
@@ -237,6 +238,15 @@ export const DashboardIcon = styled(DASHBOARD_ICON)`
     opacity: 0.7;
   }
 `;
+
+
+export const FeedIcon = styled(FEED_ICON)`
+  color: secondary;
+  &:hover {
+    opacity: 0.7;
+  }
+`;
+
 
 
 export const HoverContainer = styled(Flex)`

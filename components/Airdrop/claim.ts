@@ -1,24 +1,10 @@
-import { times, plus} from "../../utils/math";
+import { times} from "../../utils/math";
 import { UNIT } from "../../pages/api/mirror/utils";
-import { MsgExecuteContract, StdFee, Msg,} from "@terra-money/terra.js";
-import useFee from '../../utils/useFee';
+import { MsgExecuteContract} from "@terra-money/terra.js";
+import { getTxOptions } from "../../transactions/getTxOptions";
 
 const BATCH_LIMIT = 15;
 
-const getTxOptions =  (msgs: Msg[]) => {
-   const { gas, gasPrice, amount } = useFee(msgs.length);
-   const gasPrices =  `${gasPrice}uusd`;
-   const tax = '0';
-   const fee = new StdFee(gas, { uusd: plus(amount, tax) });
-    const txOptions = {
-        msgs,
-        memo: undefined,
-        gasPrices,
-        fee,
-        purgeQueue: true,
-    };
-    return txOptions;
-}
 
 const generateTxOptions = (airdrops: Airdrops[], address: string) => {
     const airdropBatches = [];

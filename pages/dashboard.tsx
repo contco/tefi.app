@@ -44,7 +44,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   const [address, setAddress] = useState<string>('');
   const [addressType, setAddressType] = useState<string>(WALLET_ADDRESS_TYPE);
   const [fetchCount, setFetchCount] = useState<number>(0);
-  const { useConnectedWallet } = useWallet();
+  const { useConnectedWallet} = useWallet();
   const connectedWallet = useConnectedWallet();
 
   useEffect(() => {
