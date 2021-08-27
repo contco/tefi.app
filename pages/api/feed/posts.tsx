@@ -1,50 +1,39 @@
 import { fetchData } from '../commons';
 import { UNIT } from '../mirror/utils';
-const ADDRESS = process.env.ADDRESS;
-const FILTER_POST_UST = process.env.FILTER_POST_UST;
+import { formatTxData } from '../../../transactions/fetchTx';
+const ADDRESS = 'terra1lpccq0w9e36nlzhx3m6t8pphx8ncavslyul29g';
+const FILTER_POST_UST = '0.1';
 
-const filterPost = (data) => {
+const checkValidPost = (post) => {
+  if(post?.tx?.value?.memo && post?.tx?.value?.msg[0].type == 'bank/MsgSend' && post?.tx?.value?.msg[0]?.value.amount[0].denom =='uusd' && (post?.tx?.value?.msg[0]?.value.amount[0].amount/UNIT) >= parseFloat(FILTER_POST_UST)){
+    return true;
+  }
+  return false;
+}
+
+const filterAndFormatPost = (data) => {
   const transactions = data.txs;
-  const filterted = [];
-  transactions.map((a) => {
-    if (
-      a?.tx?.value?.msg[0].type == 'bank/MsgSend' &&
-      a?.tx?.value?.msg[0]?.value.amount[0].denom == 'uusd' &&
-      a?.tx?.value?.msg[0]?.value.amount[0].amount / UNIT >= parseFloat(FILTER_POST_UST)
-    ) {
-      filterted.push(a);
+  const result = transactions.reduce((postList, post) => {
+    const isValid = checkValidPost(post);
+    if (isValid){
+      const postData  = formatTxData(post);
+      postList = [...postList, postData];
+      return postList;
     }
-  });
-  return filterted;
+    return postList;
+  }, []);
+  return result;
 };
 
-const formatPostData = (data) => {
-  const posts = [];
-  data.map((a) => {
-    const memo = a?.tx?.value?.memo;
-    if (memo) {
-      posts.push({
-        memo,
-        block: a?.height,
-        txhash: a?.txhash,
-        timestamp: a?.timestamp,
-        from_address: a?.tx?.value?.msg[0]?.value.from_address,
-        to_address: a?.tx?.value?.msg[0]?.value.to_address,
-      });
-    }
-  });
-  return posts;
-};
 
 export const getPost = async () => {
   const query = `https://fcd.terra.dev/v1/txs?offset=0&limit=100&account=${ADDRESS}`;
   const postRequest = await fetchData(query);
-  const filteredData = filterPost(postRequest.data);
-  const posts = formatPostData(filteredData);
+  const posts = postRequest?.data && filterAndFormatPost(postRequest?.data);
   return posts;
 };
 
 export default async function handler(req, res) {
   const posts = await getPost();
-  res.status(200).json(posts);
+  res.status(200).json(posts || []);
 }

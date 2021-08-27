@@ -7,11 +7,6 @@ import {
 
 export const INTERNAL_LINKS = [
     {
-        component: FeedIcon,
-        url: "/feeds",
-        name: "Feeds"
-    },
-    {
         component: DashboardIcon,
         url: "/dashboard",
         name: "Dashboard"
@@ -25,7 +20,12 @@ export const INTERNAL_LINKS = [
         component: BubbleIcon,
         url: "/market/heat",
         name: "Bubbles"
-    }
+    },
+    {
+        component: FeedIcon,
+        url: "/club",
+        name: "Club"
+    },
 ];
 
 export const PROTOCOL_LINKS = [

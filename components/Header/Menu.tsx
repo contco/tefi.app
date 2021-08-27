@@ -86,7 +86,7 @@ const Menu: React.FC<Props> = ({
 
   const onClose = () => {
     setVisibility(false);
-    InnerContainerRef && InnerContainerRef.current.scrollTo(0, 0);
+    InnerContainerRef && InnerContainerRef?.current?.scrollTo(0, 0);
   };
 
   const onOutsideClick = React.useCallback(() => {
