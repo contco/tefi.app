@@ -69,7 +69,7 @@ const Post = ({ data: { memo, from_address: address, block,  timestamp} }: any) 
     <Container>
        <TopSection>
           <StyledText>{slicedAddress}</StyledText>
-          <StyledText>{new Intl.NumberFormat().format(block)}</StyledText>
+          <StyledText>{new Intl.NumberFormat().format(block ?? '0')}</StyledText>
       </TopSection>
       <MemoSection>
         <MemoText>{memo}</MemoText>

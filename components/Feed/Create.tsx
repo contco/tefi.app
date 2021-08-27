@@ -102,13 +102,17 @@ const Create = ({ onPost }: any) => {
     setText(newText);
   };
 
+  const onSubmit = () => {
+    onPost({ text });
+    setText('');
+  }
   return (
     <Container>
       <Input placeholder={INPUT_PLACEHOLDER} ref={inputRef} onChange={handleChangeText} value={text} />
       <CharText>{text.length} / 250</CharText>
       <BottomContainer>
           <AmountText>0.1 UST</AmountText>
-          <Submit onClick={() => onPost({ text })}>Submit</Submit>
+          <Submit onClick={onSubmit}>Submit</Submit>
       </BottomContainer>
     </Container>
   );

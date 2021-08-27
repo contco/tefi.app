@@ -66,6 +66,6 @@ export const sendNativeToken = async (data: SendTokenTransactionData, post) => {
 		}
     }
   catch(err){
-		throw new Error(err.message);
+		return {error: true, msg: 'Error Sending Native Token Transaction'};
   }
 }

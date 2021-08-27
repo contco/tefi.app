@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import css from '@styled-system/css';
 import { Flex, Box} from '@contco/core-ui';
+import { isMobile } from 'react-device-detect';
 import Create from '../../components/Feed/Create';
 import Posts from '../../components/Feed/Posts';
 import Header from '../../components/Header';
@@ -9,6 +10,9 @@ import { WALLET_ADDRESS_TYPE } from '../../constants';
 import useWallet from '../../lib/useWallet';
 import { sendNativeToken } from '../../transactions/sendToken';
 import { getPost } from '../api/feed/posts';
+import ConnectModal from '../../components/ConnectModal';
+import { WalletConnectType } from '../../constants';
+import { fetchTx } from '../../transactions/fetchTx';
 
 const Container = styled(Box)`
   display: flex;
@@ -54,8 +58,16 @@ const ConnectButton = styled(Flex)`
 const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts }: any) => {
   const [address, setAddress] = useState<string>();
   const [addressType, setAddressType] = useState<string>();
-  const { useConnectedWallet, post } = useWallet();
+  const [showModal, setModalVisible] = useState<boolean>(false);
+  const [feedPosts, setFeedPosts] = useState<any>(null);
+  const { onConnect, useConnectedWallet, post } = useWallet();
   const connectedWallet = useConnectedWallet();
+
+  useEffect(() => {
+     if(posts){
+       setFeedPosts(posts);
+     }
+  }, []);
 
   useEffect(() => {
     const walletAddress = connectedWallet?.terraAddress;
@@ -63,9 +75,14 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts }: any) => {
       setAddress(walletAddress);
       setAddressType(WALLET_ADDRESS_TYPE);
     }
-  }, []);
+    else {
+      setAddress(null);
+      setAddressType(null);
+    }
+  }, [connectedWallet?.terraAddress]);
 
-  const onPost = ({ text }) => {
+
+  const onPost = async ({ text }) => {
     const walletAddress = connectedWallet?.terraAddress;
     if (walletAddress) {
       setAddress(walletAddress);
@@ -77,9 +94,24 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts }: any) => {
         memo: text,
         denom: 'uusd',
       };
-      alert(text);
-      sendNativeToken(transactionData, post);
+      const result = await sendNativeToken(transactionData, post);
+      if(result?.error) {
+        alert(result?.msg);
+      }
+      else {
+        setTimeout( async () => {
+        const txHash = result?.result?.txhash;
+        const txPost = await fetchTx(txHash);
+        setFeedPosts([txPost,...feedPosts]);
+        }, 7000);
+      }
     }
+  };
+
+
+  const onTypeSelect = (type: WalletConnectType) => {
+    onConnect(type);
+    setModalVisible(false);
   };
 
   return (
@@ -88,14 +120,15 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts }: any) => {
       <Container>
       <InnerContainer>
         <TopSection>
-          {address ? 
-            <ConnectButton>Connect Wallet</ConnectButton>
+          {!address ? 
+            <ConnectButton onClick={isMobile ? () => onTypeSelect(WalletConnectType.Mobile) : () => setModalVisible(!showModal)}>Connect Wallet</ConnectButton>
           :     
           <Create onPost={onPost} />
           } 
         </TopSection>   
-         <Posts data={posts}/>
+         <Posts data={feedPosts}/>
         </InnerContainer>
+        <ConnectModal showModal={showModal} setModalVisible={setModalVisible}/> 
       </Container>
     </>
   );
