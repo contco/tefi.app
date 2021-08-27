@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Head from 'next/head';
 import styled from 'styled-components';
 import css from '@styled-system/css';
 import { Flex, Box } from '@contco/core-ui';
@@ -125,6 +126,9 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts }: any) => {
 
   return (
     <>
+      <Head>
+        <title>Tefi App - Club</title>
+      </Head>
       <Header
         theme={currentTheme}
         changeTheme={changeTheme}
