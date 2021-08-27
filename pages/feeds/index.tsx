@@ -1,40 +1,56 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import css from '@styled-system/css';
+import { Flex, Box} from '@contco/core-ui';
 import Create from '../../components/Feed/Create';
 import Posts from '../../components/Feed/Posts';
 import Header from '../../components/Header';
-import { ADDRESS_KEY, LOCAL_ADDRESS_TYPE, WALLET_ADDRESS_TYPE } from '../../constants';
+import { WALLET_ADDRESS_TYPE } from '../../constants';
 import useWallet from '../../lib/useWallet';
 import { sendNativeToken } from '../../transactions/sendToken';
 
-const MainContainer = styled.div`
+const MainContainer = styled(Box)`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; 
+  background-color: green;
 `;
 
-const InnerContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+const InnerContainer = styled(MainContainer)`
   ${css({
-    width: ['90%', '90%', '90%', null, '50%'],
+    width: ['90%', null, null, null, 700,  800],
   })}
+`
+
+const ConnectButton = styled(Flex)`
+ ${css({
+   py: 3,
+   width: 240,
+   borderRadius: 25,
+   bg:'secondary',
+   color: 'primary',
+   justifyContent: 'center',
+   cursor: 'pointer',
+   transition: 'all 0.3s ease-out',
+   fontWeight: 500,
+   fontSize: 2,
+   letterSpacing: 1,
+   '&:hover': {
+     opacity: 0.8,
+   }
+ })}
+  
 `;
 
-const Feeds: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
+const Feeds: React.FC = ({ theme: currentTheme, changeTheme }: any) => {
   const [address, setAddress] = useState<string>();
   const [addressType, setAddressType] = useState<string>();
   const { useConnectedWallet, post } = useWallet();
   const connectedWallet = useConnectedWallet();
 
   useEffect(() => {
-    const localAddress = localStorage.getItem(ADDRESS_KEY);
     const walletAddress = connectedWallet?.terraAddress;
-    if (localAddress) {
-      setAddress(localAddress);
-      setAddressType(LOCAL_ADDRESS_TYPE);
-    } else if (walletAddress) {
+     if(walletAddress) {
       setAddress(walletAddress);
       setAddressType(WALLET_ADDRESS_TYPE);
     }
@@ -61,13 +77,15 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => 
     <>
       <Header theme={currentTheme} changeTheme={changeTheme} addressType={addressType} address={address} />
       <MainContainer>
-        <InnerContainer>
-          <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-            <p>{`address: ${address}`}</p>
-            <p>{`addressType: ${addressType}`}</p>
-          </div>
+      <InnerContainer>
+        <Box mt={40} mb={104}>
+          {!address ? 
+            <ConnectButton>Connect Wallet</ConnectButton>
+          :     
           <Create onPost={onPost} />
-          <Posts />
+          } 
+        </Box>   
+         <Posts />
         </InnerContainer>
       </MainContainer>
     </>

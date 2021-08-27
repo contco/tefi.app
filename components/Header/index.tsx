@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { isMobile } from 'react-device-detect';
-import { LIGHT_THEME } from '../../constants';
 import Menu from './Menu';
 import {
   Container,
