@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import css from '@styled-system/css';
 import { isMobile } from 'react-device-detect';
@@ -55,6 +55,13 @@ interface Props {
 
 const ConnectModal: React.FC<Props> = ({showModal, setModalVisible}) => {
 
+  const [mobile, setMobile] = useState<boolean>(false);
+
+  useEffect(() => {
+    setMobile(isMobile);
+ }, [isMobile]);
+
+
   const { onConnect } = useWallet();
 
   const onTypeSelect = (type: WalletConnectType) => {
@@ -62,7 +69,7 @@ const ConnectModal: React.FC<Props> = ({showModal, setModalVisible}) => {
     setModalVisible(false);
   };
 
-  if (isMobile) {
+  if (mobile) {
     return <> </>;  
   }
 
