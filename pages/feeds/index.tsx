@@ -18,6 +18,7 @@ const Container = styled(Box)`
   display: flex;
   flex-direction: column;
   align-items: center; 
+  overflow-x: hidden;
 `;
 
 const InnerContainer = styled(Container)`
