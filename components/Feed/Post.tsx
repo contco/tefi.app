@@ -57,6 +57,8 @@ const MemoSection = styled(Flex)`
   ${css({
     height: 'calc(100% - 80px)',
     py: 4,
+    wordWrap: 'break-word',
+
   })}
 `;
 const Post = ({ data: { memo, from_address: address, block,  timestamp} }: any) => {
@@ -65,7 +67,7 @@ const Post = ({ data: { memo, from_address: address, block,  timestamp} }: any) 
     address && `${address?.slice(0, 6) + '....' + address?.slice(address?.length - 6, address?.length)}`;
 
   const date =  timestamp ? new Date(timestamp) : new Date();
-  
+
   return (
     <Container>
        <TopSection>
