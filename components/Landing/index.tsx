@@ -14,7 +14,6 @@ import {
   ModalSection,
   WarningText,
   Row,
-  
 } from './style';
 import { isMobile } from 'react-device-detect';
 import useWallet from '../../lib/useWallet';
@@ -65,7 +64,7 @@ const Landing: React.FC = () => {
   return (
     <>
       <Container>
-      <NextSeo {...landingSEO} />
+        <NextSeo {...landingSEO} />
         <Title>
           Your portal to
           <Tefi>&nbsp;TeFi</Tefi>
@@ -93,23 +92,20 @@ const Landing: React.FC = () => {
             </AddressSubmit>
           </Row>
         </AddressContainer>
-        <Footer/>
+        {!isMobile && <Footer />}
       </Container>
-
-      { !isMobile ?
-      <Modal isOpen={showModel} onClose={() => setModelVisible(false)}>
-        <ModalBox>
-          <ModalTitle>Connect To A Wallet</ModalTitle>
-          <ModalSection onClick={() => onTypeSelect(WalletConnectType.Extension)}>
-            Terra Wallet (Extension)
-          </ModalSection>
-          <ModalSection onClick={() => onTypeSelect(WalletConnectType.Mobile)}>Terra Wallet (Mobile)</ModalSection>
-        </ModalBox>
-      </Modal>
-      :
-      null
-
-       } </>
+      {!isMobile ? (
+        <Modal isOpen={showModel} onClose={() => setModelVisible(false)}>
+          <ModalBox>
+            <ModalTitle>Connect To A Wallet</ModalTitle>
+            <ModalSection onClick={() => onTypeSelect(WalletConnectType.Extension)}>
+              Terra Wallet (Extension)
+            </ModalSection>
+            <ModalSection onClick={() => onTypeSelect(WalletConnectType.Mobile)}>Terra Wallet (Mobile)</ModalSection>
+          </ModalBox>
+        </Modal>
+      ) : null}{' '}
+    </>
   );
 };
 
