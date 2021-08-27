@@ -24,6 +24,7 @@ const Container = styled(Box)`
 const InnerContainer = styled(Container)`
   ${css({
     width: ['90%', null, null, null, 700, 800],
+    px: 2,
   })}
 `;
 
@@ -31,7 +32,7 @@ const TopSection = styled(Container)`
   ${css({
     width: '100%',
     mt: [60, null, null, 80],
-    mb: [60,null, null, 134],
+    mb: [60,null, null, 99],
   })}
 
 `;

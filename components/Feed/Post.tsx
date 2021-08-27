@@ -7,17 +7,14 @@ import {format} from 'date-fns';
 const Container = styled.div`
   width: 100%;
   ${props => css({
-    height: [250],
-    mt: 3,
+    height: [200, null, null, 200, null,  250],
     mb: [40, null, null, 60, null,  80],
     px: 4,
     bg: 'background',
     borderRadius: 20,
-    boxShadow: props.theme.boxShadow,
-    border: '1px solid #f2f2f2',
+    boxShadow: props.theme.postShadow,
   })}
 `;
-
 
 const StyledText = styled(Text)`
   ${css({
@@ -29,7 +26,7 @@ const StyledText = styled(Text)`
 
 const MemoText = styled(StyledText)`
 ${css({
-  color: 'text3',
+  color: 'postPrimary',
 })}
 `;
 

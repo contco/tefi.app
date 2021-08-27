@@ -2,15 +2,17 @@ import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import css from '@styled-system/css';
 import {Flex, Box, Text} from '@contco/core-ui';
+import { lineHeight } from 'styled-system';
 
 const INPUT_PLACEHOLDER = 'Start Typing..';
 
 const Container = styled(Box)`
   ${css({
     width: '100%',
-    height: [250],
-    bg: 'lightBackground',
+    height: [200, null, null, 200, null,  250],
+    bg: 'postBg',
     position: 'relative',
+    borderRadius: 20,
   })}
 `;
 
@@ -18,28 +20,34 @@ const Container = styled(Box)`
 const Input = styled.textarea`
   resize: none;
   outline: 0px;
-  height: 100%;
-  width: 100%;
+  height: 70%;
+  line-height: 20px;
+  width: 93%;
   ${css({
     mr: 2,
-    px: [3, null, 5],
-    py: [4, null, 5],
+    mt: 3,
+    mx: [3, null, 5],
+    py: 3,
     pr: [4, null, 9],
     border: 0,
-    bg: 'lightBackground',
-    color: '#0e0e0e',
+    bg: 'rgba(0,0,0,0)',
+    color: 'postPrimary',
     fontSize: [0, null, 2],
     letterSpacing: 1,
     "&::placeholder": {
-      color: '#0e0e0e',
+      color: 'postPrimary',
       fontSize: [0, null, 2],
-    }
+    },
   })}
+  &::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+  }
 `;
 
 const StyledText = styled(Text)`
   ${css({
-    color: '#0221ba',
+    color: 'postPrimary',
     fontSize: 0,
     fontWeight: 500,
   })}
@@ -76,8 +84,8 @@ const Submit = styled(Flex)`
    borderRadius: 25,
    width: [80, null, 120],
    height: [40],
-   bg:'#0221ba',
-   color: 'white',
+   bg:'postButtonBg',
+   color: 'postSecondry',
    cursor: 'pointer',
    transition: 'all 0.3s ease-out',
    fontWeight: 500,
