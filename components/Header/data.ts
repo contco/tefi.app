@@ -163,7 +163,7 @@ export const UPCOMING_PROTOCOL_LINKS = [
     },      
     {
         src: "/logos/levana.png",
-        url: "https://twitter.com/Levana_protocol",
+        url: "https://levana.finance/",
         name: "Levana"
     },
     {
@@ -173,12 +173,12 @@ export const UPCOMING_PROTOCOL_LINKS = [
     },
     {
         src: "/logos/artemis.png",
-        url: "https://twitter.com/ArtemisDAO",
+        url: "https://artemistoken.space/",
         name: "Artemis"
     },
     {
         src: "/logos/andromeda.png",
-        url: "https://twitter.com/AndromedaProt",
+        url: "https://andromedaprotocol.io/",
         name: "Andromeda"
     }
     
