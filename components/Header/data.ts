@@ -1,10 +1,16 @@
 import {
     DashboardIcon,
     ChartsIcon,
-    BubbleIcon
+    BubbleIcon,
+    FeedIcon
 } from './style';
 
 export const INTERNAL_LINKS = [
+    {
+        component: FeedIcon,
+        url: "/feeds",
+        name: "Feeds"
+    },
     {
         component: DashboardIcon,
         url: "/dashboard",
