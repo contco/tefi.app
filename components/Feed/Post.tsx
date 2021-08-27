@@ -64,7 +64,8 @@ const Post = ({ data: { memo, from_address: address, block,  timestamp} }: any) 
   const slicedAddress =
     address && `${address?.slice(0, 6) + '....' + address?.slice(address?.length - 6, address?.length)}`;
 
-  const date = new Date(timestamp);
+  const date =  timestamp ? new Date(timestamp) : new Date();
+  
   return (
     <Container>
        <TopSection>
@@ -75,7 +76,7 @@ const Post = ({ data: { memo, from_address: address, block,  timestamp} }: any) 
         <MemoText>{memo}</MemoText>
       </MemoSection>
         <BottomSection>
-          <DateText>{format(date, 'd/MM/y')} &nbsp; &nbsp; {format(date, 'h:m a')}</DateText>
+          <DateText>{format(date, 'd/MM/y')} &nbsp; &nbsp; {format(date, 'h:mm a')}</DateText>
         </BottomSection>
     </Container>
   );
