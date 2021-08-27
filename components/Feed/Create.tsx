@@ -107,31 +107,60 @@ const Loader = styled.div`
     css({
       borderTop: `2px solid ${props.theme.colors.postSecondry}`,
     })}
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 `;
 
 const MAXT_TEXT = 250;
 
+const getTextLength = (text) => {
+  const textArr = Array.from(text);
+  let actualLength = 0;
+
+  textArr.map((item: any) => {
+    const encoded = encodeURI(item);
+    let encodedArr = encoded.split('%');
+    let length = encodedArr.length;
+    length = encodedArr[0].length ? length : length - 1;
+    console.log('length', length);
+
+    actualLength = length + actualLength;
+  });
+
+  return actualLength;
+};
+
 const Create = ({ onPost }: any) => {
   const [text, setText] = useState<string>('');
+  const [textLength, setTextLength] = useState(0);
   const [loading, setLoading] = useState<boolean>(false);
   const inputRef = useRef();
 
   const handleChangeText = (event) => {
     const { value } = event.target;
-    const newText = value.slice(0, MAXT_TEXT);
-    setText(newText);
+    const newLen = getTextLength(value);
+    if (newLen > MAXT_TEXT) return;
+    setTextLength(newLen);
+    setText(value);
   };
 
   const onSubmit = async () => {
     setLoading(true);
-    await onPost({ text });
+    const { error } = await onPost({ text });
     setLoading(false);
-    setText('');
+    if (!error) setText('');
   };
+
   return (
     <Container>
       <Input placeholder={INPUT_PLACEHOLDER} ref={inputRef} onChange={handleChangeText} value={text} />
-      <CharText>{text.length} / 250</CharText>
+      <CharText>{`${textLength} / ${MAXT_TEXT}`}</CharText>
       <BottomContainer>
         <AmountText>0.1 UST</AmountText>
         <Submit disabled={!text.length} onClick={onSubmit}>

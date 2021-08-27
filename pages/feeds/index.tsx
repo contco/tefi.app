@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import css from '@styled-system/css';
-import { Flex, Box} from '@contco/core-ui';
+import { Flex, Box } from '@contco/core-ui';
 import { isMobile } from 'react-device-detect';
 import Create from '../../components/Feed/Create';
 import Posts from '../../components/Feed/Posts';
@@ -17,7 +17,7 @@ import { useInterval } from '../../utils/useInterval';
 const Container = styled(Box)`
   display: flex;
   flex-direction: column;
-  align-items: center; 
+  align-items: center;
   overflow-x: hidden;
 `;
 
@@ -32,29 +32,27 @@ const TopSection = styled(Container)`
   ${css({
     width: '100%',
     mt: [60, null, null, 80],
-    mb: [60,null, null, 99],
+    mb: [60, null, null, 99],
   })}
-
 `;
 
 const ConnectButton = styled(Flex)`
- ${css({
-   py: 3,
-   width: 240,
-   borderRadius: 25,
-   bg:'secondary',
-   color: 'primary',
-   justifyContent: 'center',
-   cursor: 'pointer',
-   transition: 'all 0.3s ease-out',
-   fontWeight: 500,
-   fontSize: 2,
-   letterSpacing: 1,
-   '&:hover': {
-     opacity: 0.8,
-   }
- })}
-  
+  ${css({
+    py: 3,
+    width: 240,
+    borderRadius: 25,
+    bg: 'secondary',
+    color: 'primary',
+    justifyContent: 'center',
+    cursor: 'pointer',
+    transition: 'all 0.3s ease-out',
+    fontWeight: 500,
+    fontSize: 2,
+    letterSpacing: 1,
+    '&:hover': {
+      opacity: 0.8,
+    },
+  })}
 `;
 
 const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts }: any) => {
@@ -66,11 +64,10 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts }: any) => {
   const connectedWallet = useConnectedWallet();
 
   useEffect(() => {
-     if(posts){
-       setFeedPosts(posts);
-     }
+    if (posts) {
+      setFeedPosts(posts);
+    }
   }, []);
-
 
   useInterval(async () => {
     const latestPosts = await getPost();
@@ -79,16 +76,14 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts }: any) => {
 
   useEffect(() => {
     const walletAddress = connectedWallet?.terraAddress;
-     if(walletAddress) {
+    if (walletAddress) {
       setAddress(walletAddress);
       setAddressType(WALLET_ADDRESS_TYPE);
-    }
-    else {
+    } else {
       setAddress(null);
       setAddressType(null);
     }
   }, [connectedWallet?.terraAddress]);
-
 
   const onPost = async ({ text }) => {
     const walletAddress = connectedWallet?.terraAddress;
@@ -106,17 +101,19 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts }: any) => {
         to_address: 'terra15s0q4u4cpvsxgyygm7wy70q9tq0nnr8fg0m0q3',
         from_address: connectedWallet?.terraAddress,
         memo: text,
-        block: null, 
+        block: null,
         txhash: null,
         timestamp: null,
       };
-     const result = await sendNativeToken(transactionData, post);
-     if(!result.error) {
-        setFeedPosts([newFeedPost ,...feedPosts]);
-     }
+      const result = await sendNativeToken(transactionData, post);
+      console.log('result', result);
+      
+      if (!result.error) {
+        setFeedPosts([newFeedPost, ...feedPosts]);
+      }
+      return result;
     }
   };
-
 
   const onTypeSelect = (type: WalletConnectType) => {
     onConnect(type);
@@ -127,17 +124,21 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts }: any) => {
     <>
       <Header theme={currentTheme} changeTheme={changeTheme} addressType={addressType} address={address} />
       <Container>
-      <InnerContainer>
-        <TopSection>
-          {!address ? 
-            <ConnectButton onClick={isMobile ? () => onTypeSelect(WalletConnectType.Mobile) : () => setModalVisible(!showModal)}>Connect Wallet</ConnectButton>
-          :     
-          <Create onPost={onPost} />
-          } 
-        </TopSection>   
-         <Posts data={feedPosts}/>
+        <InnerContainer>
+          <TopSection>
+            {!address ? (
+              <ConnectButton
+                onClick={isMobile ? () => onTypeSelect(WalletConnectType.Mobile) : () => setModalVisible(!showModal)}
+              >
+                Connect Wallet
+              </ConnectButton>
+            ) : (
+              <Create onPost={onPost} />
+            )}
+          </TopSection>
+          <Posts data={feedPosts} />
         </InnerContainer>
-        <ConnectModal showModal={showModal} setModalVisible={setModalVisible}/> 
+        <ConnectModal showModal={showModal} setModalVisible={setModalVisible} />
       </Container>
     </>
   );
