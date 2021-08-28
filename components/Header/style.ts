@@ -151,7 +151,7 @@ ${props => css({
   border: `solid 2px ${props.theme.colors.secondary}`,
   mr: [2, 2, null, 4],
   cursor: 'pointer',
-  justifyContent: 'space-around',
+  justifyContent: 'space-between',
   alignItems: 'center',
   textAlign: 'center',
   p: 1,
