@@ -1,11 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import css from '@styled-system/css';
-import { isMobile } from 'react-device-detect';
 import { Flex, Box, Text, Modal } from '@contco/core-ui';
 import { WalletConnectType } from '../../constants';
 import useWallet from '../../lib/useWallet';
-
+import { useDeviceDetect } from '../../contexts';
 
 export const ModalBox = styled(Box)`
   ${css({
@@ -55,12 +54,7 @@ interface Props {
 
 const ConnectModal: React.FC<Props> = ({showModal, setModalVisible}) => {
 
-  const [mobile, setMobile] = useState<boolean>(false);
-
-  useEffect(() => {
-    setMobile(isMobile);
- }, [isMobile]);
-
+  const {isMobile} = useDeviceDetect();
 
   const { onConnect } = useWallet();
 
@@ -69,7 +63,7 @@ const ConnectModal: React.FC<Props> = ({showModal, setModalVisible}) => {
     setModalVisible(false);
   };
 
-  if (mobile) {
+  if (isMobile) {
     return <> </>;  
   }
 
