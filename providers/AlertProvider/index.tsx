@@ -54,9 +54,9 @@ const AlertProvider: React.FC<Props> = ({ children }) => {
   const displayPriceNotification = (price, symbol) => {
      if (Notification.permission === 'granted') {
       audio.play();
-      const img = window.location.origin + '/tefi.jpg';
+      const image = window.location.origin + '/tefi.jpg';
       const text = `${symbol} Crossing ${price}`;
-      const notification = new Notification('Tefi Price Alert', { body: text, icon: img });
+      const notification = new Notification('Tefi Price Alert', { body: text , image});
       notification.onclick = () => {
           window.focus();
           if(router.query.symbol !== symbol){
@@ -84,7 +84,7 @@ const AlertProvider: React.FC<Props> = ({ children }) => {
       }
    })
 
-  }, [realTimePrices]);
+  }, [realTimePrices, alerts]);
 
   const setPriceAlert = async (symbol: string, price: string, currentPrice: string) => {
     currentPrice = realTimePrices[symbol] ? realTimePrices[symbol] : currentPrice;

@@ -153,12 +153,12 @@ export const StyledInput = Styled.input`
     borderRadius: 10,
     outline: 'none',
     color: '#0221ba',
-    fontSize: '8px',
+    fontSize: 0,
     px:2,
     textTransform: "uppercase",
     '&::placeholder': {
       color: '#0221ba',
-      fontSize: '8px',
+      fontSize: '10px',
     }
   })}
 `;
