@@ -25,6 +25,7 @@ const StyledText = styled(Text)`
 `;
 
 const MemoText = styled(StyledText)`
+line-height: 20px;
 ${css({
   color: 'postPrimary',
 })}
