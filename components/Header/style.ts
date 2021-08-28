@@ -117,10 +117,11 @@ transition: all 0.3s ease-in;
 })}
 `;
 export const CloseIcon = styled(CLOSE_ICON)`
-${css({
+${props => css({
   transform: ['scale(0.5)', null, null, null, 'scale(0.5)'],
   width: 30,
-  color: 'secondary'
+  color: 'secondary',
+  visibility: props.showIcon ? 'visible' : 'hidden',
 })}
 transition: all 0.3s ease-in;
   &:hover {
@@ -150,7 +151,7 @@ ${props => css({
   border: `solid 2px ${props.theme.colors.secondary}`,
   mr: [2, 2, null, 4],
   cursor: 'pointer',
-  justifyContent: 'space-between',
+  justifyContent: 'space-around',
   alignItems: 'center',
   textAlign: 'center',
   p: 1,
