@@ -3,7 +3,6 @@ import Head from 'next/head';
 import styled from 'styled-components';
 import css from '@styled-system/css';
 import { Flex, Box } from '@contco/core-ui';
-import { isMobile } from 'react-device-detect';
 import Create from '../../components/Feed/Create';
 import Posts from '../../components/Feed/Posts';
 import Header from '../../components/Header';
@@ -15,6 +14,7 @@ import ConnectModal from '../../components/ConnectModal';
 import { WalletConnectType } from '../../constants';
 import { throttle, difference } from 'lodash';
 import { LoadingIcon } from '../../components/Icons';
+import { useDeviceDetect } from '../../contexts';
 
 
 const ADDRESS = 'terra1lpccq0w9e36nlzhx3m6t8pphx8ncavslyul29g';
@@ -99,10 +99,7 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts, next }: any)
     _setIsInfiniteLoading(loading);
   }
 
-  useEffect(() => {
-     setMobile(isMobile);
-  }, [isMobile]);
-
+  const {isMobile} = useDeviceDetect();
 
   useEffect(() => {
     if (posts) {
@@ -213,7 +210,7 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts, next }: any)
           <TopSection>
             {!address ? (
               <ConnectButton
-                onClick={mobile ? () => onTypeSelect(WalletConnectType.Mobile) : () => setModalVisible(!showModal)}
+                onClick={isMobile ? () => onTypeSelect(WalletConnectType.Mobile) : () => setModalVisible(!showModal)}
               >
                 Connect Wallet
               </ConnectButton>
