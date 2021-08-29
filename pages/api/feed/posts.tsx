@@ -16,7 +16,7 @@ const filterAndFormatPost = (data) => {
   const result = transactions.reduce((postList, post) => {
     const isValid = checkValidPost(post);
     if (isValid){
-      const postData  = formatTxData(post);
+      const postData = formatTxData(post);
       postList = [...postList, postData];
       return postList;
     }
@@ -26,11 +26,12 @@ const filterAndFormatPost = (data) => {
 };
 
 
-export const getPost = async () => {
-  const query = `https://fcd.terra.dev/v1/txs?offset=0&limit=100&account=${ADDRESS}`;
+export const getPost = async (offset = 0, limit = 50) => {
+  const query = `https://fcd.terra.dev/v1/txs?offset=${offset}&limit=${limit}&account=${ADDRESS}`;
   const postRequest = await fetchData(query);
+  const next = postRequest?.data?.next ?? false;
   const posts = postRequest?.data && filterAndFormatPost(postRequest?.data);
-  return posts;
+  return {posts, next};
 };
 
 export default async function handler(req, res) {
