@@ -107,8 +107,8 @@ export default async (address) => {
   const { stakedData, singleLPValue, stakableLP, token1UnStaked, token2UnStaked } = await getLPData(address);
   const totalStakedLP = stakedData?.reduce((a, staked) => a + parseFloat(staked?.stakedLP), 0);
   const totalStakedLPValue = singleLPValue * totalStakedLP;
-  const totalReward = stakedData?.reduce((a, staked) => a + parseFloat(staked?.reward), 0);
-  const totalRewardValue = stakedData?.reduce((a, staked) => a + parseFloat(staked?.stakedLP), 0);
+  const totalReward = stakedData?.reduce((a, staked) => a + parseFloat(staked?.rewards), 0);
+  const totalRewardValue = stakedData?.reduce((a, staked) => a + parseFloat(staked?.rewardsValue), 0);
 
   return {
     stakedData,
