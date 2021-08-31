@@ -61,7 +61,7 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets,
       const value = parseFloat(item?.totalLpUstValue);
       const apr = parseFloat(item?.apr);
       if (value && apr) {
-        const daily = (apr / 36500) * value;
+        const daily = (apr / 365) * value;
         const monthly = daily * 30;
         const yearly = (apr / 100) * value;
 
