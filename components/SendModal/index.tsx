@@ -4,6 +4,7 @@ import css from '@styled-system/css';
 import { Modal } from '@contco/core-ui';
 import { InputModal } from './InputModal';
 import {WaitingModal} from './WaitingModal';
+import { BroadcastModal } from './BroadcastModal';
 
 const StyledModal = styled(Modal)`
   ${css({
@@ -30,7 +31,7 @@ const SendModal: React.FC<Props> = ({showModal, setModalVisible}) => {
   return(
     <StyledModal isOpen={showModal} onClose={() => setModalVisible(false)}>
       { modalState === ModalState.initial  ?
-        <InputModal /> : <WaitingModal />
+        <InputModal /> : <BroadcastModal />
       }
     </StyledModal> 
   );
