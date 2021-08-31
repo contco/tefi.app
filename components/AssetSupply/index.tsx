@@ -27,7 +27,7 @@ export interface SupplyProps {
 }
 
 const AssetSupply: React.FC<{ assetSupply: [SupplyProps] }> = ({ assetSupply }) => {
-  const valueConversion = (value) => convertToFloatValue((value / 1000000).toString());
+  const valueConversion = (value) => value / 1000000;
 
   const timePeriodData = [
     {
@@ -56,16 +56,20 @@ const AssetSupply: React.FC<{ assetSupply: [SupplyProps] }> = ({ assetSupply }) 
   };
 
   const getEmoji = () => {
-    if (parseFloat(assetSupply[0].current) > currentTimePeriod.value) {
-      return FIRE_EMOJI;
-    } else return ICE_EMOJI;
+    if (valueConversion(assetSupply[0].current.toString()) > currentTimePeriod.value) {
+      return ICE_EMOJI;
+    } else return FIRE_EMOJI;
   };
+
+  const getSupply = () =>
+    convertToFloatValue((valueConversion(assetSupply[0].current.toString()) - currentTimePeriod.value).toString());
+
   return (
     <Container>
       <MainContainer>
         <Container>
           <TextContainer>
-            <Supply>{currentTimePeriod.value}</Supply>
+            <Supply>{getSupply()}</Supply>
             <Symbol>{assetSupply[0].symbol === 'uluna' ? 'LUNAS' : 'UST'}</Symbol>
           </TextContainer>
           <FireBox>
