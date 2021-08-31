@@ -11,10 +11,9 @@ const getLoopPoolData = async (projects, address) =>{
   const query_reward = {claimable_reward:{owner:address,timestamp}};
   let depositeSum = 0;
   let rewardsSum = 0;
-  let task;
   try {
-  projects.forEach( async (item,count) => {
-    task = projects[count].pools.map(async p =>{
+    const task = projects.map( async (item,count) => {
+        const poolTask = projects[count].pools.map(async p =>{
         const balanceRequest = await wasmStoreRequest(p.contract,query_blance);
         const balance = balanceRequest?.amount / UNIT;
         const rewardsRequest = await wasmStoreRequest(p.contract, query_reward);
@@ -28,12 +27,15 @@ const getLoopPoolData = async (projects, address) =>{
         if(balance !== 0){
           gatewayPoolData.push({symbol:projects[count].symbol, apy:"0", poolName:`${projects[count].symbol} `+p.name, depositLogs,totalDeposit:balance.toString(), rewards, rewardsValue}); 
         }
-        return task;
-      })  
+        return p;
+      }) 
+      await Promise.all(poolTask);
+      return item; 
     })
     await Promise.all(task);
     return {gatewayPoolData, gatewayDepositsSum: depositeSum.toString() , gatewayRewardsSum:rewardsSum.toString()};  
-  } catch (error) {
+  } 
+  catch (error) {
     return {gatewayPoolData:[], gatewayDepositsSum:"0", gatewayRewardsSum:"0"};
   }
 }
