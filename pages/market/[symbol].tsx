@@ -67,6 +67,16 @@ const SymbolContainer: any = styled.div`
   border-bottom: ${(props: any) => (props.selected ? `3px solid ${props.theme.colors.secondary}` : 'node')};
   color: ${(props: any) => props.theme.colors.secondary};
   cursor: pointer;
+  @media (max-width: 600px) {
+    padding-bottom: 10px;
+    font-weight: 500;
+    font-size: 12px;
+  }
+  @media (max-width: 320px) {
+    padding-bottom: 9px;
+    font-weight: 500;
+    font-size: 10px;
+  }
 `;
 
 const renderTooltip = ({ payload }) => {
