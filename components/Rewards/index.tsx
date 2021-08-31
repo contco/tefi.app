@@ -72,8 +72,6 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets,
     });
 
     govData?.map((item: Gov) => {
-      console.log('assets', item);
-
       const value = parseFloat(item?.value);
       const apr = parseFloat(item?.apr || item?.apy);
       if (value && apr) {
@@ -81,13 +79,27 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets,
         const monthly = daily * 30;
         const yearly = (apr / 100) * value;
 
-        console.log(daily, monthly, yearly);
-
         dailyTotal += daily;
         monthlyTotal += monthly;
         yearlyTotal += yearly;
       }
     });
+
+    const anchorBorrowValue = parseFloat(ancAssets?.debt?.value);
+    const anchorBorrowApr = parseFloat(borrowRewards?.apy);
+
+    if (anchorBorrowValue && anchorBorrowApr) {
+      const daily = (anchorBorrowApr / 36500) * anchorBorrowValue;
+      const monthly = daily * 30;
+      const yearly = (anchorBorrowApr / 100) * anchorBorrowValue;
+
+      dailyTotal += daily;
+      monthlyTotal += monthly;
+      yearlyTotal += yearly;
+    }
+
+    console.log('borrowRewards?.name', anchorBorrowApr);
+    
 
     return {
       Claimable: getRewardsTotal(),
