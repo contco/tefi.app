@@ -14,6 +14,7 @@ import Bubble_ICON from '../../public/bubble.svg';
 import MENU_ICON from '../../public/icons/circle-menu.svg';
 import DASHBOARD_ICON from '../../public/space_dashboard.svg';
 import FEED_ICON from '../../public/icons/circle.svg';
+import SUPPLY_ICON from '../../public/icons/local_fire_department_black_24dp.svg';
 
 
 export const Container = styled(Flex)`
@@ -163,7 +164,6 @@ ${props => css({
 export const SwitchContainer = styled(Flex)`
   ${props => css({
     color: props.theme.colors.secondary,
-    // minWidth: [10, null, 20],
     justifyContent: 'center',
     alignItems: 'center',
   })}
@@ -235,6 +235,13 @@ ${css({
 
 export const DashboardIcon = styled(DASHBOARD_ICON)`
   color: secondary;
+  &:hover {
+    opacity: 0.7;
+  }
+`;
+
+export const SupplyIcon = styled(SUPPLY_ICON)`
+  fill: ${props => props.theme.colors.secondary};
   &:hover {
     opacity: 0.7;
   }

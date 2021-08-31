@@ -2,7 +2,8 @@ import {
     DashboardIcon,
     ChartsIcon,
     BubbleIcon,
-    FeedIcon
+    FeedIcon,
+		SupplyIcon
 } from './style';
 
 export const INTERNAL_LINKS = [
@@ -26,6 +27,11 @@ export const INTERNAL_LINKS = [
         url: "/club",
         name: "Club"
     },
+		{
+			component: SupplyIcon,
+			url:"/supply",
+			name: "Supply"
+		}
 ];
 
 export const PROTOCOL_LINKS = [
