@@ -97,7 +97,6 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets,
       monthlyTotal += monthly;
       yearlyTotal += yearly;
     }
-    
 
     return {
       Claimable: getRewardsTotal(),
