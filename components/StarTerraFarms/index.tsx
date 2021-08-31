@@ -1,34 +1,30 @@
-import { StarTerraFarmTitle} from '../../constants';
+import { StarTerraFarmTitle } from '../../constants';
 import { convertToFloatValue } from '../../utils/convertFloat';
 import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, HoverText } from '../dashboardStyles';
 
 const HEADING_TEXT = `StarTerra Farms`;
 
-export interface PoolsProps {
-  starterra: any;
+export interface StarProps {
+  starterra: StarTerraAccount;
 }
 
-const StarTerraFarms: React.FC<PoolsProps> = ({ starterra }) => {
-  // const getFarmsTotal = () => {
-  //   return convertToFloatValue(spectrum?.spectrumTotal?.farmsTotal);
-  // };
-
-  // const getFarms = () => {
-  //   return spectrum.farms.map((farm: SpecFarms, index) => (
-  //     <Row key={index}>
-  //       <StyledText fontWeight={500}> {farm?.lpName}</StyledText>
-  //       <StyledText> {farm?.farm}</StyledText>
-  //       <StyledText isChildren={true}>
-  //         {convertToFloatValue(farm?.stakedLp)} LP
-  //         <HoverText>
-  //           {convertToFloatValue(farm?.tokenStaked)} {farm?.symbol} <br />
-  //           {convertToFloatValue(farm?.ustStaked)} {'UST'}
-  //         </HoverText>
-  //       </StyledText>
-  //       <StyledText> ${convertToFloatValue(farm?.stakedLpUstValue)}</StyledText>
-  //     </Row>
-  //   ));
-  // };
+const StarTerraFarms: React.FC<StarProps> = ({ starterra }) => {
+  const getFarms = () => {
+    return starterra.stakedData.map((data: StarStakedData, index) => (
+      <Row key={index}>
+        <StyledText fontWeight={500}> {data?.lpname}</StyledText>
+        <StyledText> {data?.faction}</StyledText>
+        <StyledText isChildren={true}>
+          {convertToFloatValue(data?.stakedLP)} LP
+          <HoverText>
+            {convertToFloatValue(data?.token2Staked)} {starterra?.symbol1} <br />
+            {convertToFloatValue(data?.token1Staked)} {starterra?.symbol2}
+          </HoverText>
+        </StyledText>
+        <StyledText> ${convertToFloatValue(data?.stakedLPUstValue)}</StyledText>
+      </Row>
+    ));
+  };
 
   if (!starterra?.stakedData || starterra?.stakedData.length === 0) {
     return <> </>;
@@ -45,7 +41,7 @@ const StarTerraFarms: React.FC<PoolsProps> = ({ starterra }) => {
           <Title key={index}>{t}</Title>
         ))}
       </Row>
-      {/* {getFarms()} */}
+      {getFarms()}
     </Wrapper>
   );
 };

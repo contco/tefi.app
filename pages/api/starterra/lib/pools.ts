@@ -66,18 +66,21 @@ export const getLPData = async (address: string) => {
       stakingContracts.map(async (contract) => {
         const starPoolData = await fetchStarPoolResponseData(address, contract.contract);
         const stakedLP = valueConversion(starPoolData.data.result.bond_amount);
+        const stakedLpUstValue = stakedLP * singleLPValue;
         const stakedToken1 = (stakedLP / 2) * singleLPValue;
         const stakedToken2 = stakedToken1 / parseFloat(sttPrice);
         const reward = valueConversion(starPoolData.data.result.pending_reward);
         const rewardValue = reward * parseFloat(sttPrice);
 
         return {
-          name: contract.name,
+          lpname: 'STT-UST',
+          faction: contract.name,
           stakedLP: stakedLP.toString(),
-          sttStaked: stakedToken2.toString(),
-          ustStaked: stakedToken1.toString(),
-          reward: reward.toString(),
-          rewardValue: rewardValue.toString(),
+          stakedLPUstValue: stakedLpUstValue.toString(),
+          token1Staked: stakedToken1.toString(),
+          token2Staked: stakedToken2.toString(),
+          rewards: reward.toString(),
+          rewardsValue: rewardValue.toString(),
         };
       }),
     );
@@ -86,21 +89,22 @@ export const getLPData = async (address: string) => {
       stakedData: stakedData,
       singleLPValue: singleLPValue,
       stakableLP: stakableLP.toString(),
-      sttStakable: stakableToken2.toString(),
-      ustStakable: stakableToken1.toString(),
+      token1UnStaked: stakableToken1.toString(),
+      token2UnStaked: stakableToken2.toString(),
     };
   } catch (err) {
     return {
       stakedData: null,
+      singleLPValue: 0,
       stakableLP: '0',
-      sttStakable: '0',
-      ustStakable: '0',
+      token1UnStaked: '0',
+      token2UnStaked: '0',
     };
   }
 };
 
 export default async (address) => {
-  const { stakedData, singleLPValue, stakableLP, sttStakable, ustStakable } = await getLPData(address);
+  const { stakedData, singleLPValue, stakableLP, token1UnStaked, token2UnStaked } = await getLPData(address);
   const totalStakedLP = stakedData?.reduce((a, staked) => a + parseFloat(staked?.stakedLP), 0);
   const totalStakedLPValue = singleLPValue * totalStakedLP;
   const totalReward = stakedData?.reduce((a, staked) => a + parseFloat(staked?.reward), 0);
@@ -109,11 +113,13 @@ export default async (address) => {
   return {
     stakedData,
     stakableLP,
-    sttStakable,
-    ustStakable,
+    symbol1: 'STT',
+    symbol2: 'UST',
+    token1UnStaked,
+    token2UnStaked,
     totalStakedLP: totalStakedLP?.toString(),
-    totalStakedLPValue: totalStakedLPValue?.toString(),
-    totalReward: totalReward?.toString(),
-    totalRewardValue: totalRewardValue?.toString(),
+    totalStakedLPUstValue: totalStakedLPValue?.toString(),
+    totalRewards: totalReward?.toString(),
+    totalRewardsValue: totalRewardValue?.toString(),
   };
 };

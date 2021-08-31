@@ -1,34 +1,30 @@
-import { StarTerraRewardTitle} from '../../constants';
+import { StarTerraRewardTitle } from '../../constants';
 import { convertToFloatValue } from '../../utils/convertFloat';
-import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, HoverText } from '../dashboardStyles';
+import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, SubText } from '../dashboardStyles';
+import { Box } from '@contco/core-ui';
 
-const HEADING_TEXT = `StarTerra Farms`;
+const HEADING_TEXT = `StarTerra Rewards`;
 
 export interface PoolsProps {
   starterra: any;
 }
 
 const StarTerraRewards: React.FC<PoolsProps> = ({ starterra }) => {
-  // const getFarmsTotal = () => {
-  //   return convertToFloatValue(spectrum?.spectrumTotal?.farmsTotal);
-  // };
-
-  // const getFarms = () => {
-  //   return spectrum.farms.map((farm: SpecFarms, index) => (
-  //     <Row key={index}>
-  //       <StyledText fontWeight={500}> {farm?.lpName}</StyledText>
-  //       <StyledText> {farm?.farm}</StyledText>
-  //       <StyledText isChildren={true}>
-  //         {convertToFloatValue(farm?.stakedLp)} LP
-  //         <HoverText>
-  //           {convertToFloatValue(farm?.tokenStaked)} {farm?.symbol} <br />
-  //           {convertToFloatValue(farm?.ustStaked)} {'UST'}
-  //         </HoverText>
-  //       </StyledText>
-  //       <StyledText> ${convertToFloatValue(farm?.stakedLpUstValue)}</StyledText>
-  //     </Row>
-  //   ));
-  // };
+  const getRewards = () => {
+    return starterra.stakedData.map((data: StarStakedData, index) => (
+      <Row key={index}>
+        <StyledText fontWeight={500}> {data?.lpname}</StyledText>
+        <StyledText> {data?.faction}</StyledText>
+        <StyledText>{convertToFloatValue('0')}%</StyledText>
+        <Box>
+          <StyledText>
+            {convertToFloatValue(data?.rewards)} {starterra.symbol1}
+          </StyledText>
+          <SubText>${convertToFloatValue(data?.rewardsValue)}</SubText>
+        </Box>
+      </Row>
+    ));
+  };
 
   if (!starterra?.stakedData || starterra?.stakedData.length === 0) {
     return <> </>;
@@ -45,7 +41,7 @@ const StarTerraRewards: React.FC<PoolsProps> = ({ starterra }) => {
           <Title key={index}>{t}</Title>
         ))}
       </Row>
-      {/* {getFarms()} */}
+      {getRewards()}
     </Wrapper>
   );
 };

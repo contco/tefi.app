@@ -352,20 +352,24 @@ export const getAssets = gql`
       }
       starterra {
         stakedData {
-          name
+          lpname
+          faction
           stakedLP
-          sttStaked
-          ustStaked
-          reward
-          rewardValue
+          stakedLPUstValue
+          token1Staked
+          token2Staked
+          rewards
+          rewardsValue
         }
         stakableLP
-        sttStakable
-        ustStakable
+        symbol1
+        symbol2
+        token1UnStaked
+        token2UnStaked
         totalStakedLP
-        totalStakedLPValue
-        totalReward
-        totalRewardValue
+        totalStakedLpUstValue
+        totalRewards
+        totalRewardsValue
       }
     }
   }
