@@ -89,7 +89,7 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets,
     const anchorBorrowApr = parseFloat(borrowRewards?.apy);
 
     if (anchorBorrowValue && anchorBorrowApr) {
-      const daily = (anchorBorrowApr / 36500) * anchorBorrowValue;
+      const daily = (anchorBorrowApr / 365) * anchorBorrowValue;
       const monthly = daily * 30;
       const yearly = (anchorBorrowApr / 100) * anchorBorrowValue;
 
