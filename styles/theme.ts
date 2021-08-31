@@ -10,6 +10,7 @@ export const lightTheme = {
   lineHeights,
   colors: {
     background: '#ffffff',
+    background2: '#f4f6f8',
     primary: '#ffffff',
     secondary: '#0221ba',
     text3: '#000',
@@ -47,6 +48,7 @@ export const darkTheme = {
   lineHeights,
   colors: {
     background: '#202235',
+    background2: '#f4f6f8',
     primary: '#0221ba',
     secondary: '#ffffff',
     text3: '#bdc3c7',
