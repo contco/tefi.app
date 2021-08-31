@@ -38,10 +38,7 @@ export const MirrorBorrowTitle = ['Name', 'Price', 'Borrowed', 'Collateral', 'Co
 export const ShortTitle = ['Name', 'Shorted', 'Locked UST', 'Unlocked UST', 'Reward'];
 
 //StarTerra Farm
-export const StarTerraFarmTitle = ['Name', 'Faction', 'Staked', 'Value'];
-
-//StarTerra Reward
-export const StarTerraRewardTitle = ['Name', 'Faction', 'APR', 'Reward'];
+export const StarTerraFarmTitle = ['Name', 'Faction', 'Staked', 'Value', 'Reward'];
 
 //LocalStorage
 

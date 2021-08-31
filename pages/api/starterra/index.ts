@@ -6,8 +6,8 @@ const typeDefs = gql`
   type StarStakedData {
     lpname: String!
 		faction: String!
-    stakedLP: String!
-		stakedLPUstValue: String!
+    stakedLp: String!
+		stakedLpUstValue: String!
     token1Staked: String!
     token2Staked: String!
     rewards: String!
@@ -18,10 +18,10 @@ const typeDefs = gql`
     stakedData: [StarStakedData]
 		symbol1: String
 		symbol2: String
-    stakableLP: String
+    stakableLp: String
     token1UnStaked: String
     token2UnStaked: String
-    totalStakedLP: String
+    totalStakedLp: String
     totalStakedLpUstValue: String
     totalRewards: String
     totalRewardsValue: String

@@ -56,47 +56,49 @@ export const getLPData = async (address: string) => {
     });
 
     const poolData = await getPoolData();
-    const singleLPValue = (parseFloat(poolData.result.assets[0].amount) / parseFloat(poolData.result.total_share)) * 2;
+    const singleLpValue = (parseFloat(poolData.result.assets[0].amount) / parseFloat(poolData.result.total_share)) * 2;
     const sttPrice = await getPrice(poolData.result);
-    const stakableLP = valueConversion(data.result.balance);
-    const stakableToken1 = (stakableLP / 2) * singleLPValue;
+    const stakableLp = valueConversion(data.result.balance);
+    const stakableToken1 = (stakableLp / 2) * singleLpValue;
     const stakableToken2 = stakableToken1 / parseFloat(sttPrice);
 
     const stakedData = await Promise.all(
       stakingContracts.map(async (contract) => {
         const starPoolData = await fetchStarPoolResponseData(address, contract.contract);
-        const stakedLP = valueConversion(starPoolData.data.result.bond_amount);
-        const stakedLpUstValue = stakedLP * singleLPValue;
-        const stakedToken1 = (stakedLP / 2) * singleLPValue;
+        const stakedLp = valueConversion(starPoolData.data.result.bond_amount);
+        const stakedLpUstValue = stakedLp * singleLpValue;
+        const stakedToken1 = (stakedLp / 2) * singleLpValue;
         const stakedToken2 = stakedToken1 / parseFloat(sttPrice);
         const reward = valueConversion(starPoolData.data.result.pending_reward);
         const rewardValue = reward * parseFloat(sttPrice);
 
-        return {
-          lpname: 'STT-UST',
-          faction: contract.name,
-          stakedLP: stakedLP.toString(),
-          stakedLPUstValue: stakedLpUstValue.toString(),
-          token1Staked: stakedToken1.toString(),
-          token2Staked: stakedToken2.toString(),
-          rewards: reward.toString(),
-          rewardsValue: rewardValue.toString(),
-        };
+        if (stakedLp > 0) {
+          return {
+            lpname: 'STT-UST',
+            faction: contract.name,
+            stakedLp: stakedLp.toString(),
+            stakedLpUstValue: stakedLpUstValue.toString(),
+            token1Staked: stakedToken1.toString(),
+            token2Staked: stakedToken2.toString(),
+            rewards: reward.toString(),
+            rewardsValue: rewardValue.toString(),
+          };
+        }
       }),
     );
 
     return {
-      stakedData: stakedData,
-      singleLPValue: singleLPValue,
-      stakableLP: stakableLP.toString(),
+      stakedData: stakedData.filter((data) => data != null),
+      singleLpValue: singleLpValue,
+      stakableLp: stakableLp.toString(),
       token1UnStaked: stakableToken1.toString(),
       token2UnStaked: stakableToken2.toString(),
     };
   } catch (err) {
     return {
       stakedData: null,
-      singleLPValue: 0,
-      stakableLP: '0',
+      singleLpValue: 0,
+      stakableLp: '0',
       token1UnStaked: '0',
       token2UnStaked: '0',
     };
@@ -104,21 +106,21 @@ export const getLPData = async (address: string) => {
 };
 
 export default async (address) => {
-  const { stakedData, singleLPValue, stakableLP, token1UnStaked, token2UnStaked } = await getLPData(address);
-  const totalStakedLP = stakedData?.reduce((a, staked) => a + parseFloat(staked?.stakedLP), 0);
-  const totalStakedLPValue = singleLPValue * totalStakedLP;
+  const { stakedData, singleLpValue, stakableLp, token1UnStaked, token2UnStaked } = await getLPData(address);
+  const totalStakedLp = stakedData?.reduce((a, staked) => a + parseFloat(staked?.stakedLp), 0);
+  const totalStakedLpValue = singleLpValue * totalStakedLp;
   const totalReward = stakedData?.reduce((a, staked) => a + parseFloat(staked?.rewards), 0);
   const totalRewardValue = stakedData?.reduce((a, staked) => a + parseFloat(staked?.rewardsValue), 0);
 
   return {
     stakedData,
-    stakableLP,
+    stakableLp,
     symbol1: 'STT',
     symbol2: 'UST',
     token1UnStaked,
     token2UnStaked,
-    totalStakedLP: totalStakedLP?.toString(),
-    totalStakedLPUstValue: totalStakedLPValue?.toString(),
+    totalStakedLp: totalStakedLp?.toString(),
+    totalStakedLpUstValue: totalStakedLpValue?.toString(),
     totalRewards: totalReward?.toString(),
     totalRewardsValue: totalRewardValue?.toString(),
   };

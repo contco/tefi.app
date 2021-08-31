@@ -354,19 +354,19 @@ export const getAssets = gql`
         stakedData {
           lpname
           faction
-          stakedLP
-          stakedLPUstValue
+          stakedLp
+          stakedLpUstValue
           token1Staked
           token2Staked
           rewards
           rewardsValue
         }
-        stakableLP
+        stakableLp
         symbol1
         symbol2
         token1UnStaked
         token2UnStaked
-        totalStakedLP
+        totalStakedLp
         totalStakedLpUstValue
         totalRewards
         totalRewardsValue

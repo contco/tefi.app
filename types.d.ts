@@ -337,8 +337,8 @@ interface ErrorResult {
 interface StarStakedData {
   lpname: string;
   faction: string;
-  stakedLP: string;
-	stakedLPUstValue: string;
+  stakedLp: string;
+	stakedLpUstValue: string;
   token1Staked: string;
   token2Staked: string;
   rewards: string;
@@ -349,10 +349,10 @@ interface StarTerraAccount {
   stakedData: StarStakedData[];
   symbol1: string;
   symbol2: string;
-  stakableLP: string;
+  stakableLp: string;
   token1UnStaked: string;
   token2UnStaked: string;
-  totalStakedLP: string;
+  totalStakedLp: string;
   totalStakedLpUstValue: string;
   totalRewards: string;
   totalRewardsValue: string;
