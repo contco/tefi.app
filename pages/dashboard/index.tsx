@@ -27,6 +27,8 @@ import Earn from '../../components/Earn';
 import Burn from '../../components/Burn';
 import ShortFarms from '../../components/ShortFarms';
 import MirrorBorrowing from '../../components/MirrorBorrowing';
+import StarTerraFarms from '../../components/StarTerraFarms';
+import StarTerraRewards from '../../components/StarTerraRewards';
 
 const MAX_TRY = 3;
 
@@ -136,6 +138,8 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
             <ShortFarms mirrorAssets={data?.assets?.mirror || {}} />
             <SpectrumFarms spectrum={data?.assets?.spectrum} />
             <SpectrumRewards spectrum={data?.assets?.spectrum} />
+            <StarTerraFarms starterra={data?.assets?.starterra} />
+            <StarTerraRewards starterra={data?.assets?.starterra} />
             <Loterra loterra={data?.assets?.loterra} />
             <LunaStaking core={data?.assets.core || {}} />
             <Airdrops
