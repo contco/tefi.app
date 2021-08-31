@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getLastSyncedHeight } from '../../anchor/lib/utils';
 import { getPrice } from '../../commons';
 import { LCD_URL } from '../../utils';
 import { contracts } from './contracts';
@@ -28,13 +29,12 @@ export const getPoolData = async () => {
 };
 
 export const fetchStarPoolResponseData = async (address: string, contract: string) => {
-  const time = Math.round(new Date().getTime() / 1000);
+  const lastSyncedHeight = await getLastSyncedHeight();
+
   try {
     const result = await axios.get(
       LCD_URL +
-        `wasm/contracts/${contract}/store?query_msg=%7B%22staker_info%22:%7B%22staker%22:%22${address}%22,%22block_time%22:${Math.round(
-          time,
-        )}%7D%7D`,
+        `wasm/contracts/${contract}/store?query_msg=%7B%22staker_info%22:%7B%22staker%22:%22${address}%22,%22block_time%22:${lastSyncedHeight}%7D%7D`,
     );
 
     return result;
@@ -68,7 +68,7 @@ export const getLPData = async (address: string) => {
         const stakedLP = valueConversion(starPoolData.data.result.bond_amount);
         const stakedToken1 = (stakedLP / 2) * singleLPValue;
         const stakedToken2 = stakedToken1 / parseFloat(sttPrice);
-        const reward = valueConversion(starPoolData.data.result.bond_amount);
+        const reward = valueConversion(starPoolData.data.result.pending_reward);
         const rewardValue = reward * parseFloat(sttPrice);
 
         return {

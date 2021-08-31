@@ -148,8 +148,8 @@ export const getAssets = gql`
             }
           }
           withdrawableAmount
-		  totalBurnAmount
-		  totalBurnAmountValue
+          totalBurnAmount
+          totalBurnAmountValue
         }
 
         earn {
@@ -349,6 +349,23 @@ export const getAssets = gql`
           apr
           price
         }
+      }
+      starterra {
+        stakedData {
+          name
+          stakedLP
+          sttStaked
+          ustStaked
+          reward
+          rewardValue
+        }
+        stakableLP
+        sttStakable
+        ustStakable
+        totalStakedLP
+        totalStakedLPValue
+        totalReward
+        totalRewardValue
       }
     }
   }

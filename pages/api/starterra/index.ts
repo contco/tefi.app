@@ -4,22 +4,23 @@ import getAccount from './lib/pools';
 
 const typeDefs = gql`
   type StarStakedData {
-    name: String
-    stakedLP: String
-    sttStaked: String
-    ustStaked: String
-    reward: String
+    name: String!
+    stakedLP: String!
+    sttStaked: String!
+    ustStaked: String!
+    reward: String!
+    rewardValue: String!
   }
 
   type StarTerraAccount {
     stakedData: [StarStakedData]
-    stakableLP: String
-    sttStakable: String
-    ustStakable: String
-    totalStakedLP: String
-    totalStakedLPValue: String
-    totalReward: String
-    totalRewardValue: String
+    stakableLP: String!
+    sttStakable: String!
+    ustStakable: String!
+    totalStakedLP: String!
+    totalStakedLPValue: String!
+    totalReward: String!
+    totalRewardValue: String!
   }
 
   extend type Assets @key(fields: "address") {
