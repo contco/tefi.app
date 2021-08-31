@@ -5,8 +5,22 @@ import ArrowUpIcon from '../public/icons/arrow-up.svg';
 import ArrowDownIcon from '../public/icons/arrow-down.svg';
 import CircleIcon from '../public/icons/circle.svg';
 import LoadingIcon from '../public/icons/loading.svg';
+import HourGlassIcon from '../public/icons/hourglass.svg';
+import DeniedIcon from '../public/icons/denied.svg';
+import CheckCircleIcon from '../public/icons/checkcircle.svg';
 import TELEGRAM_ICON from '../public/icons/telegram.svg';
 import TWITTER_ICON from '../public/icons/twitter.svg';
 
 export const NewOpenIcon = styled(OPEN_NEW_ICON)``;
-export {ArrowDownIcon, ArrowUpIcon, CircleIcon, LoadingIcon, TELEGRAM_ICON , TWITTER_ICON};
+export 
+{ 
+    ArrowDownIcon,
+    ArrowUpIcon,
+    CircleIcon,
+    LoadingIcon,
+    HourGlassIcon,
+    DeniedIcon,
+    CheckCircleIcon,
+    TELEGRAM_ICON,
+    TWITTER_ICON
+};

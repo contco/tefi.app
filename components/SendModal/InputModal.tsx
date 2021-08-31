@@ -100,11 +100,12 @@ const ButtonContainer = styled(Box)`
  })}
 `;
 
+
 export const InputModal = () => {
   return (
-  <ModalBox>
-    <ModalTitle>Send</ModalTitle>
-    <InputSection>
+    <ModalBox>
+      <ModalTitle>Send</ModalTitle>
+      <InputSection>
         <InputContainer>
           <InputLabel>Send To</InputLabel>
           <Input type='text' placeholder="Address" />

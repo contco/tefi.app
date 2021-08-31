@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import css from '@styled-system/css';
 import { Modal } from '@contco/core-ui';
 import { InputModal } from './InputModal';
+import {WaitingModal} from './WaitingModal';
 
 const StyledModal = styled(Modal)`
   ${css({
@@ -17,19 +18,19 @@ interface Props {
 
 enum ModalState {
   initial,
-  submission,
+  waiting,
   broadcasted,
-  sucess,
+  success,
   denied
 }
 
 const SendModal: React.FC<Props> = ({showModal, setModalVisible}) => {
-  const [modalState, setModalState] = useState(ModalState.initial);
+  const [modalState, setModalState] = useState(ModalState.waiting);
 
   return(
     <StyledModal isOpen={showModal} onClose={() => setModalVisible(false)}>
       { modalState === ModalState.initial  ?
-        <InputModal /> : null
+        <InputModal /> : <WaitingModal />
       }
     </StyledModal> 
   );
