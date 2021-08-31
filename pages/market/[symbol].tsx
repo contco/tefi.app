@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import Head from 'next/head';
 import { Line, LineChart, ResponsiveContainer, Tooltip } from 'recharts';
 import styled, { useTheme } from 'styled-components';
 import { GetStaticPaths } from 'next';
 import Header from '../../components/Header';
 import { AssetDetails } from '../../components/Market/AssetDetails';
-import { assets, DEFAULT_ASSETS_CURRENT_PRICE } from '../../constants/assets';
-import { LIGHT_THEME, TERRA_OBSERVER_URL } from '../../constants';
-import { formatChartData, getCurrentPairPrice } from '../../helpers/market';
-import { getPrice } from '../api/commons';
+import { assets } from '../../constants/assets';
+import { LIGHT_THEME } from '../../constants';
+import { formatChartData } from '../../helpers/market';
 import TradingViewWidget, { Themes } from 'react-tradingview-widget';
-import { fecthPairData } from '../../helpers/market/pairData';
+import { NextSeo } from 'next-seo';
+import { MarketSEO } from '../../next-seo.config';
+import { fetchPairData } from '../../providers/AssetPriceProvider/helpers/pairData';
+import { useAssetPriceContext } from '../../providers/AssetPriceProvider'
 
 const TV_SYMBOLS = {
   luna: 'KUCOIN:LUNAUST',
@@ -89,30 +90,33 @@ const Symbol = ({ keyName, symbol }) => {
 };
 
 const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => {
-  const [allPairsData, setAllPairsData] = useState<any>(pairData);
-
-  if (!Object.keys(allPairsData).length) return <Header theme={currentTheme} changeTheme={changeTheme} />;
-
   const theme: any = useTheme();
   const router = useRouter();
   const symbol = router.query.symbol as string;
-  const [data, setData]: any = useState(pairData?.[symbol]);
-  const [price, setPrice] = useState(parseFloat(getCurrentPairPrice(pairData[symbol])));
-  const [realTimePriceList, setRealTimePriceList] = useState<any>(DEFAULT_ASSETS_CURRENT_PRICE);
-  const [priceChange, setPriceChange] = useState<PriceChange | null>(null);
+  const [price, setPrice] = useState(parseFloat((pairData[symbol]).currentPrice));;
   const [useTV, setUseTV] = useState<boolean>(false);
+  const [currentAsset, setCurrentAsset] = useState(pairData[symbol]);
+
+  const {assetPriceData} = useAssetPriceContext();
+
+  
+  useEffect(() => {
+    if(assetPriceData?.[symbol]) {
+      setPrice(parseFloat(assetPriceData[symbol]?.currentPrice));
+      setCurrentAsset(assetPriceData[symbol]);
+    }
+  }, [assetPriceData]);
 
   useEffect(() => {
-    const updatePriceInit = async () => {
-      const updatedData = await fecthPairData();
-      if (Object.keys(updatedData).length) {
-        setAllPairsData(updatedData);
-        calculateAndSetPriceChange(updatedData[symbol], realTimePriceList[symbol]);
-        setPrice(parseFloat(getCurrentPairPrice(updatedData[symbol])));
-      }
-    };
-    updatePriceInit();
-  }, []);
+     if(assetPriceData) {
+       setPrice(assetPriceData[symbol]?.currentPrice);
+       setCurrentAsset(assetPriceData[symbol])
+     }
+     else {
+      setPrice(pairData[symbol]?.currentPrice);
+      setCurrentAsset(pairData[symbol])
+     }
+  }, [symbol]);
 
   const onMouseEnter = ({ isTooltipActive, activePayload }) => {
     if (isTooltipActive) setPrice(activePayload[0]?.payload.value);
@@ -122,79 +126,11 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
     if (isTooltipActive) setPrice(activePayload[0]?.payload.value);
   };
 
-  const updatePrice = () => {
-    if (realTimePriceList[symbol]) {
-      setPrice(parseFloat(realTimePriceList[symbol]));
-    } else {
-      const price = getCurrentPairPrice(pairData[symbol]);
-      setPrice(parseFloat(price));
-    }
-  };
 
   const onMouseLeave = () => {
-    updatePrice();
+    setPrice(currentAsset?.currentPrice);
   };
 
-  const updatePairData = (price: string, key: string) => {
-    const pair = { ...allPairsData[key] };
-    const newHistoricalData = [...pair?.historicalData];
-    newHistoricalData[0][`${pair?.tokenKey}Price`] = price;
-
-    const updatedPair = { ...pair, historicalData: newHistoricalData };
-    setAllPairsData({ ...allPairsData, [key]: updatedPair });
-    if (symbol === key) {
-      setData(updatedPair);
-    }
-  };
-
-  const calculateAndSetPriceChange = (pairData, realTimePrice) => {
-    const currentPrice = realTimePrice ? realTimePrice : getCurrentPairPrice(pairData);
-    const dayOldPrice = pairData?.historicalData[1]?.[`${pairData.tokenKey}Price`];
-    const change = parseFloat(currentPrice) - parseFloat(dayOldPrice);
-    const percentChange = (change / parseFloat(dayOldPrice)) * 100;
-    setPriceChange({ change, percentChange });
-  };
-
-  useEffect(() => {
-    setData(pairData[symbol]);
-    calculateAndSetPriceChange(pairData[symbol], realTimePriceList[symbol]);
-    updatePrice();
-  }, [symbol]);
-
-  useEffect(() => {
-    const ws = new WebSocket(TERRA_OBSERVER_URL);
-    const connectWithTerraObserver = () => {
-      ws.onopen = function () {
-        ws.send(JSON.stringify({ subscribe: 'ts_pool', chain_id: 'columbus-4' }));
-      };
-
-      ws.onmessage = function (message) {
-        const messageData = JSON.parse(message?.data);
-        Object.keys(assets).map((key: string) => {
-          if (assets?.[key]?.poolAddress === messageData?.data?.contract && messageData.chain_id === 'columbus-4') {
-            const price = parseFloat(getPrice(messageData?.data?.pool)).toFixed(4);
-            const newRealTimePrice = { ...realTimePriceList, [key]: price };
-            if (symbol === key) {
-              const pair = allPairsData[key];
-              calculateAndSetPriceChange(pair, price);
-              setPrice(parseFloat(price));
-            }
-            setRealTimePriceList(newRealTimePrice);
-            updatePairData(price, key);
-          }
-        });
-      };
-
-      ws.onclose = function (_) {
-        setTimeout(function () {
-          connectWithTerraObserver();
-        }, 1000);
-      };
-    };
-    connectWithTerraObserver();
-
-    return () => ws.close();
-  }, [realTimePriceList, symbol]);
 
   const onSwitchTV = () => {
     if (!TV_SYMBOLS[symbol]) router.push('/market', undefined, { shallow: true });
@@ -203,16 +139,14 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
 
   return (
     <MainContainer>
-      <Head>
-        <title>TefiApp - Markets</title>
-      </Head>
+      <NextSeo {...MarketSEO} />
       <Header theme={currentTheme} changeTheme={changeTheme} />
       <Container>
-        <AssetDetails
+      <AssetDetails
           price={price}
-          name={data.name}
-          url={data.url}
-          priceChange={priceChange}
+          name={currentAsset.name}
+          url={currentAsset.url}
+          priceChange={{change: currentAsset.priceChange, percentChange: currentAsset.percentChange}}
           onSwitchTV={onSwitchTV}
           useTV={useTV}
         />
@@ -228,7 +162,7 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
           ) : (
             <ResponsiveContainer width={'100%'} height={263}>
               <LineChart
-                data={formatChartData(data?.historicalData, data?.tokenKey, symbol)}
+               data={formatChartData(currentAsset?.historicalData, currentAsset?.tokenKey, symbol)}
                 onMouseEnter={onMouseEnter}
                 onMouseMove={onMouseMove}
                 onMouseLeave={onMouseLeave}
@@ -269,7 +203,7 @@ export async function getStaticProps({ params: { symbol } }) {
 
   return {
     props: {
-      pairData: await fecthPairData(),
+      pairData: await fetchPairData(),
     },
     revalidate: 5,
   };

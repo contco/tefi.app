@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Header from '../../components/Header';
 import Bubble from '../../components/Bubble';
-import BUBBLE_DATA from '../../components/Bubble/images.json';
 import css from '@styled-system/css';
 import styled from 'styled-components';
 import { Flex } from '@contco/core-ui';
-import { fecthPairData } from '../../helpers/market/pairData';
+import { formatHeatData } from '../../helpers/market';
+import {fetchPairData } from '../../providers/AssetPriceProvider/helpers/pairData';
+import { useAssetPriceContext } from '../../providers/AssetPriceProvider';
 
 const Container = styled(Flex)`
   ${css({
@@ -36,55 +37,18 @@ const BubblesRow = styled(Flex)`
   })}
 `;
 
-const priceChange = (singalPairData) => {
-  const dayCurrentPrice = singalPairData?.historicalData[0]?.[`${singalPairData.tokenKey}Price`];
-  const dayOldPrice = singalPairData?.historicalData[1]?.[`${singalPairData.tokenKey}Price`];
-  const change = parseFloat(dayCurrentPrice) - parseFloat(dayOldPrice);
-  const percentChange = (change / parseFloat(dayOldPrice)) * 100;
-  const roundOff = Math.abs(percentChange).toFixed(2);
-  let signedPercentage = '1';
-  if (percentChange < 0) {
-    signedPercentage = (parseFloat(roundOff) * -1).toFixed(2);
-  } else {
-    signedPercentage = roundOff;
-  }
-  return signedPercentage;
-};
-
-const formatData = (pairData) => {
-  let highest = 0;
-  BUBBLE_DATA.forEach(({ symbol }: any) => {
-    const change = Math.abs(parseFloat(priceChange(pairData[symbol])));
-    highest = change > highest ? change : highest;
-    console.log(change);
-  });
-  return BUBBLE_DATA.map((a: any) => {
-    const change = parseFloat(priceChange(pairData[a.symbol]));
-    const changeP = Math.abs(change);
-    const size = changeP / highest;
-    return {
-      change: `${change}%`,
-      size,
-      isPositive: change > 0,
-      ...a,
-    };
-  });
-};
 
 const HeatBubble: React.FC = ({ theme, changeTheme, pairData }: any) => {
-  const [data, setData] = useState(formatData(pairData));
-
-  if (!Object.keys(data).length) return <Header theme={theme} changeTheme={changeTheme} />;
+  const [data, setData] = useState(formatHeatData(pairData));
+  const {assetPriceData} = useAssetPriceContext();
 
   useEffect(() => {
-    const fecthData = async () => {
-      try {
-        const updatedData = await fecthPairData();
-        Object.keys(updatedData).length && setData(formatData(updatedData));
-      } catch (error) {}
-    };
-    fecthData();
-  }, []);
+    if(assetPriceData) {
+      setData(formatHeatData(assetPriceData));
+    }
+  }, [assetPriceData]);
+
+  if (!Object.keys(data).length) return <Header theme={theme} changeTheme={changeTheme} />;
 
   return (
     <>
@@ -108,7 +72,7 @@ const HeatBubble: React.FC = ({ theme, changeTheme, pairData }: any) => {
 export async function getServerSideProps(_) {
   return {
     props: {
-      pairData: await fecthPairData(),
+      pairData: await fetchPairData(),
     },
   };
 }

@@ -747,5 +747,20 @@
         "decimals": 6,
         "total_supply": "",
         "contract_addr": "terra1jvewsf7922dm47wr872crumps7ktxd7srwcgte"
+    },
+    {
+        "name": "ALTE - UST LP",
+        "symbol": "ALTE",
+        "decimals": 6,
+        "total_supply": "",
+        "contract_addr": "terra1x3musrr03tl3dy9xhagm6r5nthwwxgx0hezc79"
+    },
+    {
+        "name": "STT - UST LP",
+        "symbol": "STT",
+        "decimals": 6,
+        "total_supply": "",
+        "contract_addr": "terra1uwhf02zuaw7grj6gjs7pxt5vuwm79y87ct5p70"
     }
+    
 ]

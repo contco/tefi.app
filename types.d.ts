@@ -89,6 +89,8 @@ interface UserCollateral {
   collateral?: string;
   balance?: string;
   price?: string;
+  value?:string;
+  symbol:string;
 }
 
 interface BorrowData {
@@ -97,6 +99,7 @@ interface BorrowData {
   limit: string;
   value?: string;
   collaterals: Array<UserCollateral>;
+  totalCollateralValue:string;
   percentage: string;
   lunaprice: string;
   ancprice: string;
@@ -314,5 +317,20 @@ interface Assets {
 
 interface PriceChange {
   change: number;
-  percentChange: number;
+  percentChange: string;
+}
+
+interface txData {
+  memo: string;
+  block: string;
+  txhash: string;
+  timestamp: string;
+  from_address: string;
+  to_address: string;
+}
+
+
+interface ErrorResult {
+  error: boolean;
+  msg: string;
 }

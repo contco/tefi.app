@@ -14,9 +14,7 @@ const convertPrice = (poolPrice: string, price: string) => {
 export const fetchTerraSwapHoldings = async (address: string, lunaUstPrice?: string) => {
     try {
         const bEthRequest = await fetchData(BASSETS_INFO + 'beth');
-        const [bEthInfo] = await Promise.all([
-            bEthRequest,
-          ]);
+        const [bEthInfo] = await Promise.all([bEthRequest]);
           
         const terraSwapHoldings = [];
         let terraSwapHoldingsSum = '0';
@@ -24,6 +22,7 @@ export const fetchTerraSwapHoldings = async (address: string, lunaUstPrice?: str
             const balancePromise = getUserTokenBalance(address, item.token_addr);
             const poolPromise = getPoolInfo(item?.pool_addr);
             const [balance, poolInfo] = await Promise.all([balancePromise, poolPromise]);
+
             if (balance !== "0") {
                 const poolPrice = getPrice(poolInfo);
                 let price = ''

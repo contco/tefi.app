@@ -4,9 +4,7 @@ import GlobalStyles from '../styles/global';
 import { ApolloProvider } from '@apollo/client';
 import { useApollo } from '../lib/apolloClient';
 import { ThemeProvider } from 'styled-components';
-import WalletConnectProvider from '../providers/WalletConnectProvider';
-import RedirectProvider from '../providers/RedirectProvider';
-import Head from 'next/head';
+import { WalletConnectProvider, RedirectProvider, AssetPriceProvider, DeviceDetectProvider } from '../providers';
 import { DefaultSeo } from 'next-seo';
 import SEO from '../next-seo.config';
 
@@ -36,16 +34,17 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <>
-    <Head>
-          <title>Tefi App</title>
-    </Head>
       <DefaultSeo {...SEO} />
       <ApolloProvider client={apolloClient}>    
         <ThemeProvider theme={theme === LIGHT_THEME ? lightTheme : darkTheme}>
           <GlobalStyles />
           <WalletConnectProvider>
             <RedirectProvider>
-              <Component {...pageProps} theme={theme} changeTheme={changeTheme} />
+              <AssetPriceProvider>
+                <DeviceDetectProvider>
+                  <Component {...pageProps} theme={theme} changeTheme={changeTheme} />
+                </DeviceDetectProvider>
+              </AssetPriceProvider>
             </RedirectProvider>
           </WalletConnectProvider>
         </ThemeProvider>

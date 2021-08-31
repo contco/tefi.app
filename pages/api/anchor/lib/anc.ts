@@ -75,21 +75,7 @@ export const getAccount = async (address: any) => {
 
   const result = {
     assets: anchorHoldings,
-    debt: {
-      reward: {
-        name: debt.reward.name,
-        apy: debt.reward.apy,
-        reward: debt.reward.reward,
-      },
-
-      limit: debt.limit,
-      collaterals: debt.collaterals,
-      value: debt.value,
-      percentage: debt.percentage,
-      lunaprice: debt.lunaprice,
-      ancprice: debt.ancprice,
-      netApy: debt.netApy,
-    },
+    debt,
 
     earn: {
       reward: {

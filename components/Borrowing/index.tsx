@@ -1,6 +1,6 @@
 import css from '@styled-system/css';
 import { BorrowingTitle } from '../../constants';
-import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText } from '../dashboardStyles';
+import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, SubText } from '../dashboardStyles';
 import { Flex } from '@contco/core-ui';
 import Styled from 'styled-components';
 import PercentageBar from '../PercentageBar';
@@ -24,21 +24,13 @@ const StyledPercentage = Styled(Flex)`
  })}
 `;
 
-const getCollateralValue = (borrow) => {
-  let totalValue = 0;
-  borrow?.collaterals?.length && borrow?.collaterals?.forEach((item) => {
-    totalValue += (parseFloat(item?.balance) / 1000000) * parseFloat(item?.price);
-  });
-  return totalValue;
-};
-
 export interface BorrowingProps {
   ancAssets: AccountAnc;
 }
 
 const Borrowing: React.SFC<BorrowingProps> = ({ ancAssets }) => {
   const borrow: BorrowData = ancAssets.debt;
-  const collateralValue = getCollateralValue(borrow).toString();
+
 
   if (!borrow?.collaterals) return <></>;
 
@@ -55,7 +47,16 @@ const Borrowing: React.SFC<BorrowingProps> = ({ ancAssets }) => {
       </Row>
 
       <Row>
-        <StyledText> ${convertToFloatValue(collateralValue)}</StyledText>
+          <div>
+            { borrow.collaterals.map((item, index)=>(
+                <>
+                <StyledText> {convertToFloatValue(item.balance)} {item.symbol}</StyledText>
+                <SubText>${convertToFloatValue(item.value)}</SubText>
+                {index < borrow.collaterals.length - 1 ? <br></br> : null }
+                </>
+            ))}
+          </div>
+        <StyledText> ${convertToFloatValue(borrow?.totalCollateralValue)}</StyledText>
         <StyledText> ${convertToFloatValue(borrow?.value)}</StyledText>
         <StyledText css={CSS_NET_APR}> {convertToFloatValue(borrow?.netApy)}%</StyledText>
       </Row>
