@@ -6,7 +6,7 @@ import { PYLON_API_ENDPOINT } from "./constants";
 const getUserProjectsData = async (projects: any, address: string) => {
  if(projects) {
     const userProjectsDataPromise = projects.map( async (project: any) => {
-      const userProjectPromise =  fetchData(PYLON_API_ENDPOINT + `launchpad/v1/projects/${project.symbol}/status/${address}`);
+      const userProjectPromise =  fetchData(PYLON_API_ENDPOINT + `gateway/v1/projects/${project.symbol}/status/${address}`);
       const projectTokenOverviewPromise =  fetchData(PYLON_API_ENDPOINT + `${project.symbol}/v1/overview`);
       const [userProjectData, projectTokenOverview] = await Promise.all([userProjectPromise, projectTokenOverviewPromise]);
       const {priceInUst} = projectTokenOverview.data;
@@ -34,7 +34,8 @@ const updatePoolList = (data: any,  poolList) => {
     }
 }
 
-const getLoopPoolData = async (project, address) =>{
+const getLoopPoolData = async (projects, address) =>{
+  console.log('project', projects)
   let poolsData = []
   const preSetPrice = "0.035";
   const timestamp = Math.floor(Date.now() / 1000);
@@ -42,22 +43,29 @@ const getLoopPoolData = async (project, address) =>{
   const query_reward = {claimable_reward:{owner:address,timestamp}};
   let depositeSum = 0;
   let rewardsSum = 0;
+  let task;
   try {
-      const task = project.pools.map(async p =>{
+  projects.forEach( async (item,count) => {
+    task = projects[count].pools.map(async p =>{
         const balanceRequest = await wasmStoreRequest(p.contract,query_blance);
         const balance = balanceRequest?.amount / UNIT;
         const rewardsRequest = await wasmStoreRequest(p.contract, query_reward);
         const rewards = div(rewardsRequest.amount, UNIT);
         const rewardsValue = times(rewards, preSetPrice);
-        depositeSum += balance; 
-        rewardsSum += parseFloat(rewardsValue);
+        depositeSum = depositeSum + balance; 
+        rewardsSum = rewardsSum + parseFloat(rewardsValue);
+        const userProjectRequest:any =  await fetchData(PYLON_API_ENDPOINT + `gateway/v1/projects/${projects[count].symbol}/status/${address}`);
+        const depositLogs = []
+        userProjectRequest?.data.depositLogs?.map(a => depositLogs.push({deposit:(a?.amountInUst.toString() ?? "0"), depositDate:a.depositedAt, depositReleaseDate:"0", rewardReleaseDate:"0"}));
+        console.log('userProjectRequest', userProjectRequest)
         if(balance !== 0){
-          poolsData.push({symbol:project.symbol, apy:"0", poolName:'LOOP '+p.name, depositLogs: [],totalDeposit:balance.toString(), rewards, rewardsValue}); 
+          poolsData.push({symbol:projects[count].symbol, apy:"0", poolName:`${projects[count].symbol} `+p.name, depositLogs,totalDeposit:balance.toString(), rewards, rewardsValue}); 
         }
-      return task;
+        return task;
+      })  
     })
-    await Promise.all(task)
-    return {poolsData, depositeSum: depositeSum.toString() , rewardsSum:rewardsSum.toString()};
+    await Promise.all(task);
+    return {poolsData, depositeSum: depositeSum.toString() , rewardsSum:rewardsSum.toString()};  
   } catch (error) {
     return {poolsData:[], depositeSum:"0", rewardsSum:"0"};
   }
@@ -97,9 +105,11 @@ const getProjectPoolData = (userProjects: any, launchpadProjects: any) => {
 export const getGatewayData = async (address: string) => {
   try {
     const launchpadProjects = await fetchData(PYLON_API_ENDPOINT + `launchpad/v1/projects/`);
-    const loopPoolContracts = await fetchData(PYLON_API_ENDPOINT + `gateway/v1/projects/loop/`);
-    const loopPoolRequest =  await getLoopPoolData(loopPoolContracts?.data?.project, address);
+    const loopPoolContracts = await fetchData(PYLON_API_ENDPOINT + `gateway/v1/projects/`);
+    const loopPoolRequest =  await getLoopPoolData(loopPoolContracts?.data?.projects, address);
     const userProjectsData = await getUserProjectsData(launchpadProjects?.data?.projects, address);
+    console.log('loopPoolRequest', loopPoolRequest)
+
     if(userProjectsData) {
       const projectPoolData = getProjectPoolData(userProjectsData, launchpadProjects?.data?.projects);
       const gatewayPoolData = [...projectPoolData?.gatewayPoolData ,...loopPoolRequest?.poolsData];
