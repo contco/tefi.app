@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback} from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
 import css from '@styled-system/css';
 import { Flex, Box } from '@contco/core-ui';
-import { isMobile } from 'react-device-detect';
 import Create from '../../components/Feed/Create';
 import Posts from '../../components/Feed/Posts';
 import Header from '../../components/Header';
@@ -13,6 +12,10 @@ import { sendNativeToken } from '../../transactions/sendToken';
 import { getPost } from '../api/feed/posts';
 import ConnectModal from '../../components/ConnectModal';
 import { WalletConnectType } from '../../constants';
+import { throttle, difference } from 'lodash';
+import { LoadingIcon } from '../../components/Icons';
+import { useDeviceDetect } from '../../contexts';
+
 
 const ADDRESS = 'terra1lpccq0w9e36nlzhx3m6t8pphx8ncavslyul29g';
 const SEND_AMOUNT = '0.1';
@@ -58,20 +61,45 @@ const ConnectButton = styled(Flex)`
   })}
 `;
 
-const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts }: any) => {
+const StyledLoading = styled(LoadingIcon)`
+  ${css({
+    my: 4,
+    color: 'secondary'
+  })}
+`;
+
+const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts, next }: any) => {
   const [address, setAddress] = useState<string>();
   const [addressType, setAddressType] = useState<string>();
   const [showModal, setModalVisible] = useState<boolean>(false);
-  const [feedPosts, setFeedPosts] = useState<any>(null);
+  const [latestFeeds, setLatestFeeds] = useState(posts);
+  const [feedPosts, _setFeedPosts] = useState<any>(null);
   const { onConnect, useConnectedWallet, post } = useWallet();
   const connectedWallet = useConnectedWallet();
   const [loading, setLoading] = useState(false);
   const [mobile, setMobile] = useState<boolean>(false);
+  const [nextOffset, _setNextOffset] = useState<boolean | number> (next); 
+  const [isInfiniteLoading, _setIsInfiniteLoading] = useState<boolean>(false);
+  const nextOffsetRef = React.useRef(nextOffset);
+  const isInfiniteLoadingRef = React.useRef(false);
+  const feedPostsRef = React.useRef(null);
 
-  useEffect(() => {
-     setMobile(isMobile);
-  }, [isMobile]);
+  const setFeedPosts = (posts: any) => {
+    feedPostsRef.current = posts;
+    _setFeedPosts(posts);
+  }
 
+  const setNextOffset = (next: number | boolean) => {
+    nextOffsetRef.current = next;
+    _setNextOffset(next);
+  }
+
+  const setIsInfiniteLoading = (loading: boolean) => {
+    isInfiniteLoadingRef.current = loading;
+    _setIsInfiniteLoading(loading);
+  }
+
+  const {isMobile} = useDeviceDetect();
 
   useEffect(() => {
     if (posts) {
@@ -79,10 +107,15 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts }: any) => {
     }
   }, []);
 
-  const refetchPosts = async () => {
+  const refetchLatestPosts = async () => {
     setLoading(true);
-    const latestPosts = await getPost();
+    const {posts: latestPosts} = await getPost();
     setLoading(false);
+    setLatestFeeds(latestPosts);
+    if(latestPosts.length && feedPosts.length) {
+      const newlyAddedPosts = difference(latestPosts, feedPosts);
+      setFeedPosts([...newlyAddedPosts, ...feedPosts]);
+    }
     latestPosts.length && setFeedPosts(latestPosts);
   };
 
@@ -96,6 +129,36 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts }: any) => {
       setAddressType(null);
     }
   }, [connectedWallet?.terraAddress]);
+
+  const fetchMoreFeeds = async () => {  
+    if(nextOffsetRef.current && !isInfiniteLoadingRef.current) {
+      setIsInfiniteLoading(true);
+      const offset = nextOffsetRef.current as number;
+      const {posts, next} = await getPost(offset);
+      setNextOffset(next);
+      setFeedPosts([...feedPostsRef.current, ...posts]);
+      setIsInfiniteLoading(false);
+    }
+  };
+
+  const withThrottleFeedScroll = useCallback(
+    throttle(() => {
+        fetchMoreFeeds();
+    }, 500),
+    [nextOffset],
+  );
+
+  useEffect(() => {
+    const onScroll = () => {
+        const totalHeight = document.documentElement.scrollHeight * 0.75;
+        const currentScrollHeight = document.documentElement.scrollTop + window.innerHeight;
+        if(currentScrollHeight >= totalHeight) {
+         withThrottleFeedScroll();
+        }
+    }
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const onPost = async ({ text }) => {
     const walletAddress = connectedWallet?.terraAddress;
@@ -129,7 +192,6 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts }: any) => {
     onConnect(type);
     setModalVisible(false);
   };
-
   return (
     <>
       <Head>
@@ -140,7 +202,7 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts }: any) => {
         changeTheme={changeTheme}
         addressType={addressType}
         address={address}
-        onRefresh={refetchPosts}
+        onRefresh={refetchLatestPosts}
         refreshing={loading}
       />
       <Container>
@@ -148,7 +210,7 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts }: any) => {
           <TopSection>
             {!address ? (
               <ConnectButton
-                onClick={mobile ? () => onTypeSelect(WalletConnectType.Mobile) : () => setModalVisible(!showModal)}
+                onClick={isMobile ? () => onTypeSelect(WalletConnectType.Mobile) : () => setModalVisible(!showModal)}
               >
                 Connect Wallet
               </ConnectButton>
@@ -159,16 +221,18 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts }: any) => {
           <Posts data={feedPosts} />
         </InnerContainer>
         <ConnectModal showModal={showModal} setModalVisible={setModalVisible} />
+       {isInfiniteLoading ? <StyledLoading />: null }
       </Container>
     </>
   );
 };
 
 export async function getServerSideProps() {
-  const posts = await getPost();
+  const {posts, next} = await getPost();
   return {
     props: {
       posts,
+      next
     },
   };
 }
