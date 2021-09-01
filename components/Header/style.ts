@@ -13,6 +13,7 @@ import CHARTS_ICON from '../../public/charts.svg';
 import Bubble_ICON from '../../public/bubble.svg';
 import MENU_ICON from '../../public/icons/circle-menu.svg';
 import DASHBOARD_ICON from '../../public/space_dashboard.svg';
+import FEED_ICON from '../../public/icons/circle.svg';
 
 
 export const Container = styled(Flex)`
@@ -116,10 +117,11 @@ transition: all 0.3s ease-in;
 })}
 `;
 export const CloseIcon = styled(CLOSE_ICON)`
-${css({
+${props => css({
   transform: ['scale(0.5)', null, null, null, 'scale(0.5)'],
   width: 30,
-  color: 'secondary'
+  color: 'secondary',
+  visibility: props.showIcon ? 'visible' : 'hidden',
 })}
 transition: all 0.3s ease-in;
   &:hover {
@@ -237,6 +239,15 @@ export const DashboardIcon = styled(DASHBOARD_ICON)`
     opacity: 0.7;
   }
 `;
+
+
+export const FeedIcon = styled(FEED_ICON)`
+  color: secondary;
+  &:hover {
+    opacity: 0.7;
+  }
+`;
+
 
 
 export const HoverContainer = styled(Flex)`

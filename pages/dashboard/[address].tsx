@@ -1,33 +1,32 @@
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import css from '@styled-system/css';
 import Styled from 'styled-components';
 import { Box } from '@contco/core-ui';
-import Loading from '../components/Loading';
-import EmptyComponent from '../components/EmptyComponent';
-import Header from '../components/Header';
-import Assets from '../components/Asset';
-import LunaStaking from '../components/LunaStaking';
-import MarketValue from '../components/MarketValue';
-import Borrowing from '../components/Borrowing';
-import PylonGateway from '../components/PylonGateway';
-import Pools from '../components/Pools';
-import SpectrumFarms from '../components/SpectrumFarms';
-import SpectrumRewards from '../components/SpectrumRewards';
-import Rewards from '../components/Rewards';
-import Loterra from '../components/ؒLoterra';
+import { AccAddress } from '@terra-money/terra.js';
 import { NetworkStatus, useLazyQuery } from '@apollo/client';
-import { getAssets } from '../graphql/queries/getAssets';
-import { ADDRESS_KEY, LOCAL_ADDRESS_TYPE, WALLET_ADDRESS_TYPE } from '../constants';
-import Airdrops from '../components/Airdrop';
+import Loading from '../../components/Loading';
+import EmptyComponent from '../../components/EmptyComponent';
+import Header from '../../components/Header';
+import Assets from '../../components/Asset';
+import LunaStaking from '../../components/LunaStaking';
+import MarketValue from '../../components/MarketValue';
+import Borrowing from '../../components/Borrowing';
+import PylonGateway from '../../components/PylonGateway';
+import Pools from '../../components/Pools';
+import SpectrumFarms from '../../components/SpectrumFarms';
+import SpectrumRewards from '../../components/SpectrumRewards';
+import Rewards from '../../components/Rewards';
+import Loterra from '../../components/ؒLoterra';
+import { getAssets } from '../../graphql/queries/getAssets';
+import Airdrops from '../../components/Airdrop';
 import { NextSeo } from 'next-seo';
-import { DashboardSEO } from '../next-seo.config';
-
-
-import useWallet from '../lib/useWallet';
-import Earn from '../components/Earn';
-import Burn from '../components/Burn';
-import ShortFarms from '../components/ShortFarms';
-import MirrorBorrowing from '../components/MirrorBorrowing';
+import { DashboardSEO } from '../../next-seo.config';
+import Earn from '../../components/Earn';
+import Burn from '../../components/Burn';
+import ShortFarms from '../../components/ShortFarms';
+import MirrorBorrowing from '../../components/MirrorBorrowing';
+import isValid from 'date-fns/isValid';
 
 const MAX_TRY = 3;
 
@@ -41,23 +40,10 @@ ${css({
 `;
 
 const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
-  const [address, setAddress] = useState<string>('');
-  const [addressType, setAddressType] = useState<string>(WALLET_ADDRESS_TYPE);
   const [fetchCount, setFetchCount] = useState<number>(0);
-  const { useConnectedWallet } = useWallet();
-  const connectedWallet = useConnectedWallet();
-
-  useEffect(() => {
-    const localAddress = localStorage.getItem(ADDRESS_KEY);
-    const walletAddress = connectedWallet?.terraAddress;
-    if (localAddress) {
-      setAddress(localAddress);
-      setAddressType(LOCAL_ADDRESS_TYPE);
-    } else if (walletAddress) {
-      setAddress(walletAddress);
-      setAddressType(WALLET_ADDRESS_TYPE);
-    }
-  }, []);
+  const router = useRouter();
+  const address = router?.query?.address as string;
+  const isValidAddress = AccAddress.validate(address);
 
   const [fetchAssets, { data, called, loading: dataLoading, error, refetch, networkStatus }] = useLazyQuery(getAssets, {
     variables: { address: address },
@@ -65,10 +51,11 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   });
 
   useEffect(() => {
-    if (address) {
+    if (address && isValidAddress) {
       fetchAssets({ variables: { address } });
     }
-  }, [address]);
+  }, [address, isValidAddress]);
+
 
   useEffect(() => {
     if (error && fetchCount !== MAX_TRY) {
@@ -79,8 +66,18 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     }
   }, [error]);
 
-  const loading =
-    (!called || dataLoading || (!data && fetchCount !== MAX_TRY)) && networkStatus !== NetworkStatus.refetch;
+  const getErrorMessage = () => {
+      if(error) {
+          return 'Oops! Error Fetching Assets';
+      }
+      else if (!isValidAddress) {
+          return 'Terra Address is not valid';
+      }
+      return null;
+  }
+
+  const loading = isValidAddress ?
+    (!called || dataLoading || (!data && fetchCount !== MAX_TRY)) && networkStatus !== NetworkStatus.refetch : false;
 
   return (
     <div>
@@ -91,13 +88,14 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
           refreshing={networkStatus == NetworkStatus.refetch}
           theme={theme}
           changeTheme={changeTheme}
-          addressType={addressType}
-          address={address}
+          addressType={''}
+          address={isValidAddress ? address : ''}
+          isViewOnly={true}
         />
         {loading ? (
           <Loading />
-        ) : !data || data?.length === 0 ? (
-          <EmptyComponent msg={error ? 'Oops! Error Fetching Assets' : null} />
+        ) :  !isValidAddress || !data || data?.length === 0 ? (
+          <EmptyComponent msg={getErrorMessage()} />
         ) : (
           <Body>
             <MarketValue
@@ -140,6 +138,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
             <Loterra loterra={data?.assets?.loterra} />
             <LunaStaking core={data?.assets.core || {}} />
             <Airdrops
+              isViewOnly={true}
               pylonAssets={data?.assets?.pylon || {}}
               mirrorAssets={data?.assets?.mirror || {}}
               anchorAssets={data?.assets?.anchor}

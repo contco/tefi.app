@@ -19,7 +19,6 @@ const Home: React.FC = ({ theme, changeTheme }: any) => {
     setTimeout(() => setIsDisplay(true), 1000);
   }, [router.pathname]);
 
-
   return (
     <div>
       {!isDisplay ? (

@@ -54,7 +54,7 @@ const AssetPriceProvider: React.FC<Props> = ({ children }) => {
             const newRealTimePrice = {...realTimePrices, [key]: price};
             setRealTimePrices(newRealTimePrice);
             if(assetPriceData) {
-            let newAssetPriceData = updateAssetPriceData(price, key, assetPriceData);
+            const newAssetPriceData = updateAssetPriceData(price, key, assetPriceData);
             setAssetPriceData(newAssetPriceData);
             }
           }

@@ -12,9 +12,10 @@ export interface AirdropsProps {
     mirrorAssets: MirrorAccount,
     anchorAssets: AccountAnc,
     pylonAssets: PylonAccount,
+    isViewOnly?: boolean;
 };
 
-const Airdrops: React.FC<AirdropsProps> = ({mirrorAssets, anchorAssets, pylonAssets}) => {
+const Airdrops: React.FC<AirdropsProps> = ({mirrorAssets, anchorAssets, pylonAssets, isViewOnly = false}) => {
     const [airdrops ,setAirdrops] = useState([]);
     const [airdropSum, setAirdropSum] = useState<string>('0');
     const [showModal, setModalVisible] = useState<boolean>(false);
@@ -66,7 +67,7 @@ const Airdrops: React.FC<AirdropsProps> = ({mirrorAssets, anchorAssets, pylonAss
                         ${airdropSum}
                     </StyledText>
                 </Box>
-              {airdrops.length > 0  ? <ClaimButton onClick={() => setModalVisible(true)}>Claim All </ClaimButton> : null}
+              {airdrops.length > 0 && !isViewOnly  ? <ClaimButton onClick={() => setModalVisible(true)}>Claim All </ClaimButton> : null}
             </AirdropHeading>
             <Row>
               <Title>Name</Title>
