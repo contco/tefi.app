@@ -3,9 +3,26 @@ import { fetchData, wasmStoreRequest } from "../commons";
 import { UNIT , times} from "../mirror/utils";
 import { PYLON_API_ENDPOINT } from "./constants";
 
+const getTokenPrice = async (symbol) => {
+  let price;
+  const mineOverviewPromise = await fetchData(PYLON_API_ENDPOINT + 'mine/v1/overview');
+  const minePrice = mineOverviewPromise.data.priceInUst;
+  const loopPrice = "0.035";
+  const twdPrice = "0.01";
+  if(symbol ==='MINE') {
+    price = minePrice
+  }
+  else if(symbol ==='LOOP'){
+      price = loopPrice;
+  }
+  else {
+    price = twdPrice;
+  }
+  return price;
+}
+
 const getLoopPoolData = async (projects, address) =>{
   let gatewayPoolData = []
-  const preSetPrice = "0.035";
   const timestamp = Math.floor(Date.now() / 1000);
   const query_blance = {balance_of:{owner:address}};
   const query_reward = {claimable_reward:{owner:address,timestamp}};
@@ -18,7 +35,8 @@ const getLoopPoolData = async (projects, address) =>{
         const balance = balanceRequest?.amount / UNIT;
         const rewardsRequest = await wasmStoreRequest(p.contract, query_reward);
         const rewards = div(rewardsRequest.amount, UNIT);
-        const rewardsValue = times(rewards, preSetPrice);
+        const price = await getTokenPrice(projects[count].symbol);
+        const rewardsValue = times(rewards, price);
         depositeSum = depositeSum + balance; 
         rewardsSum = rewardsSum + parseFloat(rewardsValue);
         const userProjectRequest:any =  await fetchData(PYLON_API_ENDPOINT + `gateway/v1/projects/${projects[count].symbol}/status/${address}`);
