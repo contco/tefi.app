@@ -5,7 +5,7 @@ import { Modal } from '@contco/core-ui';
 import { InputModal } from './InputModal';
 import {WaitingModal} from './WaitingModal';
 import { BroadcastModal } from './BroadcastModal';
-
+import { CompleteModal, Status } from './CompleteModal';
 const StyledModal = styled(Modal)`
   ${css({
     bg: 'background',
@@ -26,12 +26,16 @@ enum ModalState {
 }
 
 const SendModal: React.FC<Props> = ({showModal, setModalVisible}) => {
-  const [modalState, setModalState] = useState(ModalState.waiting);
+  const [modalState, setModalState] = useState(ModalState.initial);
+
+  const onClose = () => {
+    setModalVisible(false);
+  }
 
   return(
     <StyledModal isOpen={showModal} onClose={() => setModalVisible(false)}>
       { modalState === ModalState.initial  ?
-        <InputModal /> : <BroadcastModal />
+        <InputModal /> : <WaitingModal onClose={onClose} />
       }
     </StyledModal> 
   );
