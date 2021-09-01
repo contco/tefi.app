@@ -558,5 +558,21 @@
         ],
         "liquidity_token": "terra1x3musrr03tl3dy9xhagm6r5nthwwxgx0hezc79",
         "contract_addr": "terra18adm0emn6j3pnc90ldechhun62y898xrdmfgfz"
+      },
+      {
+        "asset_infos": [
+          {
+            "token": {
+              "contract_addr": "terra1dk3g53js3034x4v5c3vavhj2738une880yu6kx"
+            }
+          },
+          {
+            "token": {
+              "contract_addr": "terra1dzhzukyezv0etz22ud940z7adyv7xgcjkahuun"
+            }
+          }
+        ],
+        "liquidity_token": "terra1l8jgxd9uv430rdt2u58h4h7kdfxsle4w6w2ecq",
+        "contract_addr": "terra1c5swgtnuunpf75klq5uztynurazuwqf0mmmcyy"
       }
 ]

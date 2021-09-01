@@ -754,6 +754,13 @@
         "decimals": 6,
         "total_supply": "",
         "contract_addr": "terra1x3musrr03tl3dy9xhagm6r5nthwwxgx0hezc79"
+    },
+    {
+        "name": "mETH - bETH LP",
+        "symbol": "BETH",
+        "decimals": 6,
+        "total_supply": "",
+        "contract_addr": "terra1l8jgxd9uv430rdt2u58h4h7kdfxsle4w6w2ecq"
     }
     
 ]
