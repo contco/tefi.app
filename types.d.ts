@@ -334,3 +334,8 @@ interface ErrorResult {
   error: boolean;
   msg: string;
 }
+
+interface ModalDisplayState {
+  isVisible: boolean;
+  setVisible: (state: boolean) => void;
+}

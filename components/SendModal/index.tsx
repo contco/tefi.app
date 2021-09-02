@@ -6,16 +6,13 @@ import { InputModal } from './InputModal';
 import {WaitingModal} from './WaitingModal';
 import { BroadcastModal } from './BroadcastModal';
 import { CompleteModal, Status } from './CompleteModal';
+
 const StyledModal = styled(Modal)`
   ${css({
     bg: 'background',
     borderRadius: 10,
   })}
 `;
-interface Props {
-  showModal: boolean;
-  setModalVisible: (state : boolean) => void;
-}
 
 enum ModalState {
   initial,
@@ -31,12 +28,12 @@ interface SendInput {
   memo: string;
 }
 
-const SendModal: React.FC<Props> = ({showModal, setModalVisible}) => {
+const SendModal: React.FC<ModalDisplayState> = ({isVisible, setVisible}) => {
   const [modalState, setModalState] = useState(ModalState.initial);
   const [input, setInput] = useState<SendInput>({address: '', amount: '', memo: ''});
 
   const onClose = () => {
-    setModalVisible(false);
+    setVisible(false);
   }
 
   const onSend = () => {
@@ -44,7 +41,7 @@ const SendModal: React.FC<Props> = ({showModal, setModalVisible}) => {
   }
 
   return(
-    <StyledModal isOpen={showModal} onClose={() => setModalVisible(false)}>
+    <StyledModal isOpen={isVisible} onClose={() => setVisible(false)}>
       { modalState === ModalState.initial  ?
         <InputModal onSend={onSend} input={input} setInput={setInput}/> : <WaitingModal onClose={onClose} />
       }
