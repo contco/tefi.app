@@ -26,7 +26,6 @@ import Earn from '../../components/Earn';
 import Burn from '../../components/Burn';
 import ShortFarms from '../../components/ShortFarms';
 import MirrorBorrowing from '../../components/MirrorBorrowing';
-import isValid from 'date-fns/isValid';
 
 const MAX_TRY = 3;
 
