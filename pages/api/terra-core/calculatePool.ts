@@ -1,7 +1,7 @@
 import axios from "axios";
 import { UNIT } from "../mirror/utils";
 import { getLpValue } from "../utils";
-import { times, plus } from "../../../utils/math"
+import { times } from "../../../utils/math"
 import pairs from './constants/pairs.json'
 import tokens from './constants/mainnet-tokens.json';
 import { UUSD_DENOM } from "./symbols";
@@ -45,9 +45,15 @@ const getPoolSymbol = async (poolresponse, isLuna = false) => {
     });
     if (tokenContract && !isLuna) {
         coinInfo = await getTokenData(tokenContract)
-        lpName = coinInfo?.symbol + '-UST LP';
-        symbol1 = 'UST'
-        symbol2 = coinInfo?.symbol;
+        if(coinInfo?.symbol === "BETH"){
+            lpName = coinInfo?.symbol + '-METH LP';
+            symbol1 = 'METH'
+            symbol2 = coinInfo?.symbol;
+        }else{
+            lpName = coinInfo?.symbol + '-UST LP';
+            symbol1 = 'UST'
+            symbol2 = coinInfo?.symbol;
+        }
     }
     else {
         if (liqContract) {
