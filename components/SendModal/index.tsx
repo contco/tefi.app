@@ -25,17 +25,28 @@ enum ModalState {
   denied
 }
 
+interface SendInput {
+  address: string;
+  amount: string;
+  memo: string;
+}
+
 const SendModal: React.FC<Props> = ({showModal, setModalVisible}) => {
   const [modalState, setModalState] = useState(ModalState.initial);
+  const [input, setInput] = useState<SendInput>({address: '', amount: '', memo: ''});
 
   const onClose = () => {
     setModalVisible(false);
   }
 
+  const onSend = () => {
+    console.log('send tokens');
+  }
+
   return(
     <StyledModal isOpen={showModal} onClose={() => setModalVisible(false)}>
       { modalState === ModalState.initial  ?
-        <InputModal /> : <WaitingModal onClose={onClose} />
+        <InputModal onSend={onSend} input={input} setInput={setInput}/> : <WaitingModal onClose={onClose} />
       }
     </StyledModal> 
   );
