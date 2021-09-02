@@ -4,14 +4,13 @@ import {
   Heading,
   HeadingWrapper,
   Row,
-  StyledTextContainer,
-  SimpleText,
   StyledText,
   SubText,
   Title,
   Wrapper,
 } from '../dashboardStyles';
-import { Box, Flex } from '@contco/core-ui';
+import Header from '../../components/DashboardComponents/Header';
+import { Box } from '@contco/core-ui';
 
 const HEADING_TEXT = 'Mirror Short Farms';
 
@@ -60,26 +59,13 @@ const ShortFarms: React.FC<ShortFarmProps> = ({ mirrorAssets }) => {
     <Wrapper>
       <HeadingWrapper>
         <Heading>{HEADING_TEXT}</Heading>
-        <Flex>
-          <StyledTextContainer>
-            <SimpleText>
-              <b>Reward:</b> &nbsp;
-            </SimpleText>
-            <SimpleText>{convertToFloatValue(getTotalForFarm(short, 'reward'))} MIR</SimpleText>
-          </StyledTextContainer>
-          <StyledTextContainer>
-            <SimpleText>
-              <b>Locked:</b> &nbsp;
-            </SimpleText>
-            <SimpleText>{convertToFloatValue(getTotalForFarm(short, 'locked_amount'))} UST</SimpleText>
-          </StyledTextContainer>
-          <StyledTextContainer>
-            <SimpleText>
-              <b>Unlocked:</b> &nbsp;
-            </SimpleText>
-            <SimpleText>{convertToFloatValue(getTotalForFarm(short, 'unlocked_amount'))} UST</SimpleText>
-          </StyledTextContainer>
-        </Flex>
+        <Header
+          data={[
+            { name: 'Reward', value: convertToFloatValue(getTotalForFarm(short, 'reward')) + ' MIR' },
+            { name: 'Locked', value: convertToFloatValue(getTotalForFarm(short, 'locked_amount')) + ' UST' },
+            { name: 'Unlocked', value: convertToFloatValue(getTotalForFarm(short, 'unlocked_amount')) + ' UST' },
+          ]}
+        />
       </HeadingWrapper>
       <Row>
         {ShortTitle.map((t, index) => (

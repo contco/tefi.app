@@ -9,12 +9,11 @@ import {
   HoverText,
   SubText,
   CSS_APR,
-  StyledTextContainer,
-  SimpleText,
 } from '../dashboardStyles';
+import Header from '../../components/DashboardComponents/Header';
 import { times } from '../../pages/api/mirror/utils';
 import { convertToFloatValue } from '../../utils/convertFloat';
-import { Box, Flex } from '@contco/core-ui';
+import { Box } from '@contco/core-ui';
 
 const HEADING_TEXT = `Rewards`;
 export interface RewardsProps {
@@ -172,21 +171,18 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets,
   };
 
   const estimate = rewardEstimates();
+  const headerData = Object.keys(estimate).map((key) => {
+    return {
+      name: key,
+      value: '$' + convertToFloatValue(estimate[key]),
+    };
+  });
 
   return (
     <Wrapper>
       <HeadingWrapper>
         <Heading>{HEADING_TEXT}</Heading>
-        <Flex>
-          {Object.keys(estimate).map((key, index) => (
-            <StyledTextContainer key={index}>
-              <SimpleText>
-                <b>{key}:</b> &nbsp;
-              </SimpleText>
-              <SimpleText>${convertToFloatValue(estimate[key])}</SimpleText>
-            </StyledTextContainer>
-          ))}
-        </Flex>
+        <Header data={headerData} />
       </HeadingWrapper>
       <Row>
         {RewardsTitle.map((t, index) => (

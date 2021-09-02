@@ -1,18 +1,8 @@
 import { StarTerraFarmTitle } from '../../constants';
 import { convertToFloatValue } from '../../utils/convertFloat';
-import {
-  Wrapper,
-  Row,
-  HeadingWrapper,
-  Heading,
-  Title,
-  StyledText,
-  HoverText,
-  SubText,
-  StyledTextContainer,
-  SimpleText,
-} from '../dashboardStyles';
-import { Box, Flex } from '@contco/core-ui';
+import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, HoverText, SubText } from '../dashboardStyles';
+import Header from '../../components/DashboardComponents/Header';
+import { Box } from '@contco/core-ui';
 
 const HEADING_TEXT = `StarTerra Farms`;
 
@@ -52,20 +42,12 @@ const StarTerraFarms: React.FC<StarProps> = ({ starterra }) => {
     <Wrapper>
       <HeadingWrapper>
         <Heading>{HEADING_TEXT}</Heading>
-        <Flex>
-          <StyledTextContainer>
-            <SimpleText>
-              <b>Total Staked Value:</b> &nbsp;
-            </SimpleText>
-            <SimpleText>{convertToFloatValue(starterra?.totalStakedLpUstValue) + ' UST'}</SimpleText>
-          </StyledTextContainer>
-          <StyledTextContainer>
-            <SimpleText>
-              <b>Total Rewards Value:</b> &nbsp;
-            </SimpleText>
-            <SimpleText>{convertToFloatValue(starterra?.totalRewardsValue) + ' UST'}</SimpleText>
-          </StyledTextContainer>
-        </Flex>
+        <Header
+          data={[
+            { name: 'Total Staked Value', value: convertToFloatValue(starterra?.totalStakedLpUstValue) + ' UST' },
+            { name: 'Total Reward Value', value: convertToFloatValue(starterra?.totalRewardsValue) + ' UST' },
+          ]}
+        />
       </HeadingWrapper>
       <Row>
         {StarTerraFarmTitle.map((t, index) => (

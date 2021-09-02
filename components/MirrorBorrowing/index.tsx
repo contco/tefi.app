@@ -1,6 +1,16 @@
 import { MirrorBorrowTitle } from '../../constants';
-import { Heading, HeadingWrapper, Row, StyledTextContainer, SimpleText, StyledText, Title, Wrapper, CSS_APR, SubText } from '../dashboardStyles';
-import { Box, Flex } from '@contco/core-ui';
+import {
+  Heading,
+  HeadingWrapper,
+  Row,
+  StyledText,
+  Title,
+  Wrapper,
+  CSS_APR,
+  SubText,
+} from '../dashboardStyles';
+import { Box } from '@contco/core-ui';
+import Header from '../../components/DashboardComponents/Header';
 import { convertToFloatValue } from '../../utils/convertFloat';
 
 const HEADING_TEXT = 'Mirror Borrow';
@@ -64,24 +74,12 @@ const ShortFarms: React.FC<ShortFarmProps> = ({ mirrorAssets }) => {
     <Wrapper>
       <HeadingWrapper>
         <Heading>{HEADING_TEXT}</Heading>
-        <Flex>
-          <StyledTextContainer>
-            <SimpleText>
-            <b>Borrowed:</b> &nbsp;
-            </SimpleText>
-          <SimpleText>
-          {convertToFloatValue(getBorrowedTotal()) + ' UST'}
-          </SimpleText>
-          </StyledTextContainer>
-          <StyledTextContainer>
-          <SimpleText>
-            <b>Collateral:</b> &nbsp;
-            </SimpleText>
-          <SimpleText>
-            {convertToFloatValue(getCollateralTotal())} UST
-          </SimpleText>
-          </StyledTextContainer>
-        </Flex>
+        <Header
+          data={[
+            { name: 'Borrowed', value: convertToFloatValue(getBorrowedTotal()) + ' UST' },
+            { name: 'Collateral', value: convertToFloatValue(getCollateralTotal()) + ' UST' },
+          ]}
+        />
       </HeadingWrapper>
       <Row>
         {MirrorBorrowTitle.map((t, index) => (

@@ -1,6 +1,6 @@
-import { Wrapper, Row, HeadingWrapper, Heading, Title, SubText, StyledText, SimpleText, StyledTextContainer } from '../dashboardStyles';
+import { Wrapper, Row, HeadingWrapper, Heading, Title, SubText, StyledText } from '../dashboardStyles';
 import { convertToFloatValue } from '../../utils/convertFloat';
-import { Flex } from '@contco/core-ui';
+import Header from '../../components/DashboardComponents/Header';
 
 const TITLES_LIST = ['Validator', 'Balance', 'Rewards', 'Value', 'State'];
 const HEADING_TEXT = `Luna Staking`;
@@ -14,11 +14,11 @@ const Assets: React.FC<AssetsProps> = ({ core }: AssetsProps) => {
     const total = core?.total?.stakedSum;
     return convertToFloatValue(total.toString()) ?? '0';
   };
-  
-  const getUnStakedTotal = ()=> {
-     const total = core?.total?.unstakedSum;
+
+  const getUnStakedTotal = () => {
+    const total = core?.total?.unstakedSum;
     return convertToFloatValue(total.toString()) ?? '0';
-  }
+  };
 
   if (!core?.staking || core.staking.length === 0) {
     return <> </>;
@@ -28,24 +28,12 @@ const Assets: React.FC<AssetsProps> = ({ core }: AssetsProps) => {
     <Wrapper>
       <HeadingWrapper>
         <Heading>{HEADING_TEXT}</Heading>
-         <Flex>
-          <StyledTextContainer>
-            <SimpleText>
-            <b>Staked Total:</b> &nbsp;
-            </SimpleText>
-          <SimpleText>
-          ${getStakedTotal()}
-          </SimpleText>
-          </StyledTextContainer>
-          <StyledTextContainer>
-          <SimpleText>
-            <b>Unstaked Total:</b> &nbsp;
-            </SimpleText>
-          <SimpleText>
-            ${getUnStakedTotal()}
-          </SimpleText>
-          </StyledTextContainer>
-        </Flex>
+        <Header
+          data={[
+            { name: 'Staked Total', value: '$' + getStakedTotal() },
+            { name: 'Unstaked Total', value: '$' + getUnStakedTotal() },
+          ]}
+        />
       </HeadingWrapper>
       <Row>
         {TITLES_LIST.map((item) => (

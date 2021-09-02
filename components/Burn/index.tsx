@@ -1,17 +1,8 @@
 import { convertToFloatValue } from '../../utils/convertFloat';
-import {
-  Wrapper,
-  Row,
-  HeadingWrapper,
-  Heading,
-  Title,
-  StyledText,
-  SubText,
-  StyledTextContainer,
-  SimpleText,
-} from '../dashboardStyles';
+import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, SubText } from '../dashboardStyles';
+import Header from '../../components/DashboardComponents/Header';
 import { BurnTitle } from '../../constants';
-import { Box, Flex } from '@contco/core-ui';
+import { Box } from '@contco/core-ui';
 
 const HEADING_TEXT = `Anchor Bond`;
 
@@ -43,20 +34,15 @@ const Earn: React.FC<BurnProps> = ({ ancAssets }) => {
     <Wrapper>
       <HeadingWrapper>
         <Heading>{HEADING_TEXT}</Heading>
-        <Flex>
-          <StyledTextContainer>
-            <SimpleText>
-              <b>Total:</b> &nbsp;
-            </SimpleText>
-            <SimpleText>${convertToFloatValue(burn?.totalBurnAmountValue)}</SimpleText>
-          </StyledTextContainer>
-          <StyledTextContainer>
-            <SimpleText>
-              <b>Withdrawable Amount:</b> &nbsp;
-            </SimpleText>
-            <SimpleText>{withdrawableAmount} LUNA</SimpleText>
-          </StyledTextContainer>
-        </Flex>
+        <Header
+          data={[
+            { name: 'Total', value: '$' + convertToFloatValue(burn?.totalBurnAmountValue) },
+            {
+              name: 'Withdrawable Amount',
+              value: withdrawableAmount + ' LUNA',
+            },
+          ]}
+        />
       </HeadingWrapper>
       <Row>
         {BurnTitle.map((t, index) => (
