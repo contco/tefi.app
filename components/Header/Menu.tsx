@@ -105,15 +105,17 @@ const Menu: React.FC<Props> = ({
   };
 
   const onInternalLinkClick = (url: string) => {
-    onClose();
-    setTimeout(() => router.push(url), 300);
+    if(url) {
+      onClose();
+      setTimeout(() => router.push(url), 300);
+    }
   };
 
   return (
     <Parent isVisible={isVisible}>
       <MenuContainer ref={MenuRef} isLight={theme === LIGHT_THEME} isVisible={isVisible}>
         <InneContainer ref={InnerContainerRef}>
-          <Section data={INTERNAL_LINKS} onItemClick={onInternalLinkClick} />
+          <Section className='internalSection' data={INTERNAL_LINKS} onItemClick={onInternalLinkClick} />
           <Divider />
           <Section data={PROTOCOL_LINKS} onItemClick={onLinkClick} />
           <Divider />

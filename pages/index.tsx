@@ -30,7 +30,7 @@ const Home: React.FC = ({ theme, changeTheme }: any) => {
             <Header theme={theme} changeTheme={changeTheme} />
           </div>
           <Landing />
-         <SendModal showModal={true} setModalVisible={() => console.log('hello')} />
+         <SendModal showModal={false} setModalVisible={() => console.log('hello')} />
         </div>
       )}
     </div>
