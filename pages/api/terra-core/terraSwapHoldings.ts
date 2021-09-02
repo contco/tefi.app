@@ -35,7 +35,7 @@ export const fetchTerraSwapHoldings = async (address: string, lunaUstPrice?: str
                 const bondedBalance = div(balance, UNIT);
                 const value = times(bondedBalance, price);
                 terraSwapHoldingsSum = plus(terraSwapHoldingsSum, value);
-                terraSwapHoldings.push({ name: item.name, symbol: item.symbol, value, balance: bondedBalance, price });
+                terraSwapHoldings.push({ name: item.name, symbol: item.symbol, contract: item.token_addr, value, balance: bondedBalance, price });
             }
             return item;
         });

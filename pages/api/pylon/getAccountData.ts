@@ -22,7 +22,7 @@ const getPylonHoldings = (price: number, accountDetails: any) => {
     if (accountDetails && accountDetails?.data?.mineBalance) {
         const { mineBalance } = accountDetails.data;
         const value = (mineBalance * price).toString();
-        return { pylonHoldingsSum: value.toString(), pylonHoldings: [{ symbol: PYLON_TOKEN_SYMBOL, name: PYLON_TOKEN_NAME, balance: mineBalance.toString(), value, price: price.toString() }] };
+        return { pylonHoldingsSum: value.toString(), pylonHoldings: [{ symbol: PYLON_TOKEN_SYMBOL, name: PYLON_TOKEN_NAME, contract: contracts.token, balance: mineBalance.toString(), value, price: price.toString() }] };
     }
     return { pylonHoldingsSum: '0', pylonHoldings: [] };
 };

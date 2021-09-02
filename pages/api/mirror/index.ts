@@ -28,6 +28,7 @@ const typeDefs = gql`
     balance: String!
     value: String!
     price: String!
+    contract: String!
   }
 
   type MirrorTotal {

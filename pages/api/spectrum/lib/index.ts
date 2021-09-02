@@ -53,7 +53,7 @@ const getHoldings = (balance, price) => {
   if (balance !== '0') {
     const specBalance = (parseFloat(balance) / UNIT).toString(); 
     const value = times(specBalance, price);
-    return [{name: 'Spectrum', symbol: 'SPEC',balance: specBalance, price, value}]
+    return [{name: 'Spectrum', symbol: 'SPEC', contract: contracts.specToken ,balance: specBalance, price, value}]
   }
   return [];
 }
