@@ -22,12 +22,12 @@ import Airdrops from '../../components/Airdrop';
 import { NextSeo } from 'next-seo';
 import { DashboardSEO } from '../../next-seo.config';
 
-
 import useWallet from '../../lib/useWallet';
 import Earn from '../../components/Earn';
 import Burn from '../../components/Burn';
 import ShortFarms from '../../components/ShortFarms';
 import MirrorBorrowing from '../../components/MirrorBorrowing';
+import StarTerraFarms from '../../components/StarTerraFarms';
 
 const MAX_TRY = 3;
 
@@ -44,7 +44,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   const [address, setAddress] = useState<string>('');
   const [addressType, setAddressType] = useState<string>(WALLET_ADDRESS_TYPE);
   const [fetchCount, setFetchCount] = useState<number>(0);
-  const { useConnectedWallet} = useWallet();
+  const { useConnectedWallet } = useWallet();
   const connectedWallet = useConnectedWallet();
 
   useEffect(() => {
@@ -108,6 +108,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
               spectrum={data?.assets?.spectrum}
               loterra={data?.assets?.loterra}
               terraSwapAssets={data?.assets?.terraSwapPool}
+							starterra={data?.assets?.starterra}
             />
             <Assets
               mirrorAssets={data?.assets?.mirror || {}}
@@ -137,6 +138,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
             <ShortFarms mirrorAssets={data?.assets?.mirror || {}} />
             <SpectrumFarms spectrum={data?.assets?.spectrum} />
             <SpectrumRewards spectrum={data?.assets?.spectrum} />
+            <StarTerraFarms starterra={data?.assets?.starterra} />
             <Loterra loterra={data?.assets?.loterra} />
             <LunaStaking core={data?.assets.core || {}} />
             <Airdrops

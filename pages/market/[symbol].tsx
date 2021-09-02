@@ -99,6 +99,7 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
 
   const {assetPriceData} = useAssetPriceContext();
 
+
   
   useEffect(() => {
     if(assetPriceData?.[symbol]) {
