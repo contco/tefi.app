@@ -1,8 +1,11 @@
-import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText } from '../dashboardStyles';
+import { Wrapper, Row, HeadingWrapper, Heading, StyledText } from '../dashboardStyles';
 import {Box} from "@contco/core-ui";
 import {useTimer} from "react-timer-hook";
 import { convertToFloatValue } from '../../utils/convertFloat';
+import TitleContainer from '../DashboardComponents/TitleContainer';
 const HEADING_TEXT = `LoTerra`;
+
+const LoTerraTitles = ['User Combinations', 'Tickets Sold', 'Draw End Time', 'Latest Jackpot'];
 
 export interface Props {
   loterra: LoterraAccount;
@@ -38,12 +41,7 @@ const Loterra: React.FC<Props> = ({ loterra }) => {
       <HeadingWrapper>
         <Heading>{HEADING_TEXT}</Heading>
       </HeadingWrapper>
-      <Row>
-          <Title>User Combinations</Title>
-          <Title>Tickets Sold</Title>
-          <Title>Draw End Time</Title>
-          <Title>Latest Jackpot</Title>
-      </Row>
+			<TitleContainer titles={LoTerraTitles}/>
       {getLotteryDraws()}
     </Wrapper>
   );

@@ -1,16 +1,9 @@
 import { ShortTitle } from '../../constants';
 import { convertToFloatValue } from '../../utils/convertFloat';
-import {
-  Heading,
-  HeadingWrapper,
-  Row,
-  StyledText,
-  SubText,
-  Title,
-  Wrapper,
-} from '../dashboardStyles';
+import { Heading, HeadingWrapper, Row, StyledText, SubText, Wrapper } from '../dashboardStyles';
 import Header from '../../components/DashboardComponents/Header';
 import { Box } from '@contco/core-ui';
+import TitleContainer from '../DashboardComponents/TitleContainer';
 
 const HEADING_TEXT = 'Mirror Short Farms';
 
@@ -67,11 +60,7 @@ const ShortFarms: React.FC<ShortFarmProps> = ({ mirrorAssets }) => {
           ]}
         />
       </HeadingWrapper>
-      <Row>
-        {ShortTitle.map((t, index) => (
-          <Title key={index}>{t}</Title>
-        ))}
-      </Row>
+      <TitleContainer titles={ShortTitle} />
       {getShorts()}
     </Wrapper>
   );

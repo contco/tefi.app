@@ -1,6 +1,7 @@
 import { PoolsTitle } from '../../constants';
 import { convertToFloatValue } from '../../utils/convertFloat';
-import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, HoverText } from '../dashboardStyles';
+import TitleContainer from '../DashboardComponents/TitleContainer';
+import { Wrapper, Row, HeadingWrapper, Heading, StyledText, HoverText } from '../dashboardStyles';
 
 const HEADING_TEXT = `Pools`;
 
@@ -64,11 +65,7 @@ const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets, pylonAssets, ter
         <Heading>{HEADING_TEXT}</Heading>
         <StyledText>${getPoolTotal()}</StyledText>
       </HeadingWrapper>
-      <Row>
-        {PoolsTitle.map((t, index) => (
-          <Title key={index}>{t}</Title>
-        ))}
-      </Row>
+      <TitleContainer titles={PoolsTitle} />
       {getPool()}
     </Wrapper>
   );

@@ -1,19 +1,10 @@
 import { RewardsTitle } from '../../constants';
-import {
-  Wrapper,
-  Row,
-  HeadingWrapper,
-  Heading,
-  Title,
-  StyledText,
-  HoverText,
-  SubText,
-  CSS_APR,
-} from '../dashboardStyles';
+import { Wrapper, Row, HeadingWrapper, Heading, StyledText, HoverText, SubText, CSS_APR } from '../dashboardStyles';
 import Header from '../../components/DashboardComponents/Header';
 import { times } from '../../pages/api/mirror/utils';
 import { convertToFloatValue } from '../../utils/convertFloat';
 import { Box } from '@contco/core-ui';
+import TitleContainer from '../DashboardComponents/TitleContainer';
 
 const HEADING_TEXT = `Rewards`;
 export interface RewardsProps {
@@ -184,11 +175,7 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets,
         <Heading>{HEADING_TEXT}</Heading>
         <Header data={headerData} />
       </HeadingWrapper>
-      <Row>
-        {RewardsTitle.map((t, index) => (
-          <Title key={index}>{t}</Title>
-        ))}
-      </Row>
+      <TitleContainer titles={RewardsTitle} />
       {getPool()}
       {parseFloat(ancAssets.debt?.value) > 0 ? (
         <Row>

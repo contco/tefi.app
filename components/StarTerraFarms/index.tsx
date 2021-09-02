@@ -1,8 +1,9 @@
 import { StarTerraFarmTitle } from '../../constants';
 import { convertToFloatValue } from '../../utils/convertFloat';
-import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, HoverText, SubText } from '../dashboardStyles';
+import { Wrapper, Row, HeadingWrapper, Heading, StyledText, HoverText, SubText } from '../dashboardStyles';
 import Header from '../../components/DashboardComponents/Header';
 import { Box } from '@contco/core-ui';
+import TitleContainer from '../DashboardComponents/TitleContainer';
 
 const HEADING_TEXT = `StarTerra Farms`;
 
@@ -49,11 +50,7 @@ const StarTerraFarms: React.FC<StarProps> = ({ starterra }) => {
           ]}
         />
       </HeadingWrapper>
-      <Row>
-        {StarTerraFarmTitle.map((t, index) => (
-          <Title key={index}>{t}</Title>
-        ))}
-      </Row>
+      <TitleContainer titles={StarTerraFarmTitle} />
       {getFarms()}
     </Wrapper>
   );

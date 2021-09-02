@@ -1,8 +1,9 @@
 import { convertToFloatValue } from '../../utils/convertFloat';
-import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, SubText } from '../dashboardStyles';
+import { Wrapper, Row, HeadingWrapper, Heading, StyledText, SubText } from '../dashboardStyles';
 import Header from '../../components/DashboardComponents/Header';
 import { BurnTitle } from '../../constants';
 import { Box } from '@contco/core-ui';
+import TitleContainer from '../DashboardComponents/TitleContainer';
 
 const HEADING_TEXT = `Anchor Bond`;
 
@@ -44,11 +45,7 @@ const Earn: React.FC<BurnProps> = ({ ancAssets }) => {
           ]}
         />
       </HeadingWrapper>
-      <Row>
-        {BurnTitle.map((t, index) => (
-          <Title key={index}>{t}</Title>
-        ))}
-      </Row>
+      <TitleContainer titles={BurnTitle} />
       {getBurnData()}
     </Wrapper>
   );

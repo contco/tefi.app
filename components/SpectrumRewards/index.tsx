@@ -1,9 +1,12 @@
 
-import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, SubText, CSS_APR } from '../dashboardStyles';
+import { Wrapper, Row, HeadingWrapper, Heading, StyledText, SubText, CSS_APR } from '../dashboardStyles';
 import { times } from '../../pages/api/mirror/utils';
 import { convertToFloatValue } from '../../utils/convertFloat';
+import TitleContainer from '../DashboardComponents/TitleContainer';
 
 const HEADING_TEXT = `Spectrum Rewards`;
+
+const SpecRewardTitles = ['Name', 'APY', 'SPEC Rewards', 'Total Rewards']
 
 export interface RewardsProps {
   spectrum: SpectrumAccount
@@ -57,12 +60,7 @@ const Rewards: React.FC<RewardsProps> = ({ spectrum }) => {
         <Heading>{HEADING_TEXT}</Heading>
         <StyledText>${getRewardsTotal()}</StyledText>
       </HeadingWrapper>
-      <Row>
-          <Title>Name</Title>
-          <Title>APY</Title>
-          <Title>SPEC Rewards</Title>
-          <Title>Token Rewards</Title>
-      </Row>
+      <TitleContainer titles={SpecRewardTitles}/>
       {getFarmsRewards()}
     </Wrapper>
   );

@@ -1,6 +1,7 @@
-import { Wrapper, Row, HeadingWrapper, Heading, Title, SubText, StyledText } from '../dashboardStyles';
+import { Wrapper, Row, HeadingWrapper, Heading, SubText, StyledText } from '../dashboardStyles';
 import { convertToFloatValue } from '../../utils/convertFloat';
 import Header from '../../components/DashboardComponents/Header';
+import TitleContainer from '../DashboardComponents/TitleContainer';
 
 const TITLES_LIST = ['Validator', 'Balance', 'Rewards', 'Value', 'State'];
 const HEADING_TEXT = `Luna Staking`;
@@ -35,11 +36,7 @@ const Assets: React.FC<AssetsProps> = ({ core }: AssetsProps) => {
           ]}
         />
       </HeadingWrapper>
-      <Row>
-        {TITLES_LIST.map((item) => (
-          <Title key={item}>{item}</Title>
-        ))}
-      </Row>
+      <TitleContainer titles={TITLES_LIST} />
       {core?.staking.map((asset: LunaStaking) => (
         <Row key={asset?.validator}>
           <StyledText fontWeight={500}> {asset.validator}</StyledText>

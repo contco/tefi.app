@@ -1,13 +1,14 @@
 import {useState, useEffect} from "react";
-import { Wrapper, Row, AirdropHeading, Heading, Title, StyledText, ClaimButton } from "../dashboardStyles";
+import { Wrapper, Row, AirdropHeading, Heading, StyledText, ClaimButton } from "../dashboardStyles";
 import {Box} from "@contco/core-ui";
 import {AirdropModal} from "./airdropModal";
 import { convertToFloatValue } from "../../utils/convertFloat";
 import {claimAirdrops} from "./claim";
 import useWallet  from "../../lib/useWallet";
+import TitleContainer from "../DashboardComponents/TitleContainer";
 const HEADING_TEXT = `Airdrops`
 
-
+const AirdropTitles = ['Name', 'Round', 'Reward', 'Title']
 export interface AirdropsProps {
     mirrorAssets: MirrorAccount,
     anchorAssets: AccountAnc,
@@ -69,12 +70,7 @@ const Airdrops: React.FC<AirdropsProps> = ({mirrorAssets, anchorAssets, pylonAss
                 </Box>
               {airdrops.length > 0 && !isViewOnly  ? <ClaimButton onClick={() => setModalVisible(true)}>Claim All </ClaimButton> : null}
             </AirdropHeading>
-            <Row>
-              <Title>Name</Title>
-              <Title>Round</Title>
-              <Title>Reward</Title>
-              <Title>Value</Title>
-            </Row>
+						<TitleContainer titles={AirdropTitles}/>
             {airdrops.map((assets:Airdrops, index: number) =>
                 <Row key={index}>
                     <StyledText fontWeight={500}> {assets?.name}</StyledText>

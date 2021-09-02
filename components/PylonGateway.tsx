@@ -1,8 +1,10 @@
-import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, SubText} from './dashboardStyles';
+import { Wrapper, Row, HeadingWrapper, Heading, StyledText, SubText} from './dashboardStyles';
 import { convertToFloatValue } from '../utils/convertFloat';
 import {useState, useEffect } from 'react';
+import TitleContainer from './DashboardComponents/TitleContainer';
 const HEADING_TEXT = `Pylon Gateway`;
 
+const PylonTitles = ['Pool Name', 'Deposit', 'Rewards'];
 interface Props {
   pylonAssets: PylonAccount
 }
@@ -35,11 +37,7 @@ const PylonGateway: React.FC<Props> = ({ pylonAssets }: Props) => {
         <Heading>{HEADING_TEXT}</Heading>
         <StyledText>${getGatewayTotal()}</StyledText>
       </HeadingWrapper>
-      <Row>
-          <Title> Pool Name</Title>
-          <Title> Deposit</Title>
-          <Title> Rewards</Title>
-      </Row>
+      <TitleContainer titles={PylonTitles}/>
       {gatewayData.map((asset: PylonGateway) => (
         <Row key={asset.poolName}>
           <StyledText fontWeight={500}> {asset.poolName}</StyledText>

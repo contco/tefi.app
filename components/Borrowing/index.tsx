@@ -1,10 +1,11 @@
 import css from '@styled-system/css';
 import { BorrowingTitle } from '../../constants';
-import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, SubText } from '../dashboardStyles';
+import { Wrapper, Row, HeadingWrapper, Heading, StyledText, SubText } from '../dashboardStyles';
 import { Flex } from '@contco/core-ui';
 import Styled from 'styled-components';
 import PercentageBar from '../PercentageBar';
 import { convertToFloatValue } from '../../utils/convertFloat';
+import TitleContainer from '../DashboardComponents/TitleContainer';
 
 const HEADING_TEXT = `Anchor Borrow`;
 
@@ -40,12 +41,7 @@ const Borrowing: React.SFC<BorrowingProps> = ({ ancAssets }) => {
         <Heading>{HEADING_TEXT}</Heading>
         <StyledText>${convertToFloatValue(borrow?.value)}</StyledText>
       </HeadingWrapper>
-      <Row>
-        {BorrowingTitle.map((t, index) => (
-          <Title key={index}>{t}</Title>
-        ))}
-      </Row>
-
+      <TitleContainer titles={BorrowingTitle}/>
       <Row>
           <div>
             { borrow.collaterals.map((item, index)=>(

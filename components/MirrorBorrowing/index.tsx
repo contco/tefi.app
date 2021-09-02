@@ -1,17 +1,9 @@
 import { MirrorBorrowTitle } from '../../constants';
-import {
-  Heading,
-  HeadingWrapper,
-  Row,
-  StyledText,
-  Title,
-  Wrapper,
-  CSS_APR,
-  SubText,
-} from '../dashboardStyles';
+import { Heading, HeadingWrapper, Row, StyledText, Wrapper, CSS_APR, SubText } from '../dashboardStyles';
 import { Box } from '@contco/core-ui';
 import Header from '../../components/DashboardComponents/Header';
 import { convertToFloatValue } from '../../utils/convertFloat';
+import TitleContainer from '../DashboardComponents/TitleContainer';
 
 const HEADING_TEXT = 'Mirror Borrow';
 
@@ -81,11 +73,7 @@ const ShortFarms: React.FC<ShortFarmProps> = ({ mirrorAssets }) => {
           ]}
         />
       </HeadingWrapper>
-      <Row>
-        {MirrorBorrowTitle.map((t, index) => (
-          <Title key={index}>{t}</Title>
-        ))}
-      </Row>
+      <TitleContainer titles={MirrorBorrowTitle} />
       {getMirBorrow()}
     </Wrapper>
   );

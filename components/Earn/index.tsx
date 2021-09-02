@@ -2,7 +2,8 @@ import React from 'react';
 import { css } from 'styled-components';
 import { EarnTitle } from '../../constants';
 import { convertToFloatValue } from '../../utils/convertFloat';
-import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText } from '../dashboardStyles';
+import TitleContainer from '../DashboardComponents/TitleContainer';
+import { Wrapper, Row, HeadingWrapper, Heading, StyledText } from '../dashboardStyles';
 
 const HEADING_TEXT = `Anchor Earn`;
 
@@ -31,11 +32,7 @@ const Earn: React.FC<EarnProps> = ({ ancAssets }) => {
         <Heading>{HEADING_TEXT}</Heading>
         <StyledText>${convertToFloatValue(earn?.reward?.staked) || 0}</StyledText>
       </HeadingWrapper>
-      <Row>
-        {EarnTitle.map((t, index) => (
-          <Title key={index}>{t}</Title>
-        ))}
-      </Row>
+      <TitleContainer titles={EarnTitle} />
 
       <Row>
         <StyledText>{convertToFloatValue(earn?.reward?.staked)} UST</StyledText>

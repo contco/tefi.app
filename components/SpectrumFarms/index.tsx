@@ -1,8 +1,10 @@
 import { convertToFloatValue } from '../../utils/convertFloat';
-import { Wrapper, Row,HeadingWrapper, Heading, Title, StyledText,HoverText } from '../dashboardStyles';
+import TitleContainer from '../DashboardComponents/TitleContainer';
+import { Wrapper, Row,HeadingWrapper, Heading, StyledText, HoverText } from '../dashboardStyles';
 
 const HEADING_TEXT = `Spectrum Farms`;
 
+const SpecFarmTitles = ['Name', 'Farm', 'Balance', 'Value'];
 export interface PoolsProps {
     spectrum: SpectrumAccount
 }
@@ -33,19 +35,13 @@ const Pools: React.FC<PoolsProps> = ({ spectrum }) => {
     return <> </>;
   } 
 
-
   return (
     <Wrapper>
       <HeadingWrapper>
         <Heading>{HEADING_TEXT}</Heading>
         <StyledText>${getFarmsTotal()}</StyledText>
       </HeadingWrapper>
-      <Row>
-          <Title>Name</Title>
-          <Title>Farm</Title>
-          <Title>Balance</Title>
-          <Title>Value</Title>
-      </Row>
+      <TitleContainer titles={SpecFarmTitles} />
       {getFarms()}
     </Wrapper>
   );

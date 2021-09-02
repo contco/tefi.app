@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link'
 import { AssetsTitle } from '../../constants';
-import { CheckBox, Wrapper, Row, HeadingWrapper, Heading, Title, StyledText } from '../dashboardStyles';
+import { CheckBox, Wrapper, Row, HeadingWrapper, Heading, StyledText } from '../dashboardStyles';
 import { convertToFloatValue } from '../../utils/convertFloat';
 import { plus } from '../../pages/api/mirror/utils';
 import { Flex } from '@contco/core-ui';
 import { assets } from '../../constants/assets';
 import { NewOpenIcon } from '../Icons';
+import TitleContainer from '../DashboardComponents/TitleContainer';
 
 const HEADING_TEXT = `Assets`;
 const HIDE_KEY = "hide_small";
@@ -67,11 +68,7 @@ const Assets: React.FC<AssetsProps> = ({ mirrorAssets, ancAssets, core, pylonAss
           </Flex>
         </Flex>
       </HeadingWrapper>
-      <Row>
-        {AssetsTitle.map((t, index) => (
-          <Title key={index}>{t}</Title>
-        ))}
-      </Row>
+			<TitleContainer titles={AssetsTitle}/>
       {holdings.map((asset: Holdings) => (
         <Row key={asset.symbol}>
           <StyledText
