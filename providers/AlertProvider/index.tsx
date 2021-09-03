@@ -55,12 +55,13 @@ const AlertProvider: React.FC<Props> = ({ children }) => {
      if (Notification.permission === 'granted') {
       audio.play();
       const image = window.location.origin + '/tefi.jpg';
-      const text = `${symbol} Crossing ${price}`;
+      const text = `${symbol.toUpperCase()} Crossing ${price}`;
       const notification = new Notification('Tefi Price Alert', { body: text , image});
+      const url = '/market/' + symbol;
       notification.onclick = () => {
           window.focus();
           if(router.query.symbol !== symbol){
-           router.push('/market/' + symbol);
+           router.push(url);
           }
       }
     }
@@ -69,15 +70,13 @@ const AlertProvider: React.FC<Props> = ({ children }) => {
   useEffect(() => {
    Object.keys(realTimePrices).map((key: string) => {
       if(+realTimePrices[key] < +alerts[key]?.price  && alerts[key]?.priceDirection !== PriceDirection.down) {
-        const symbol = key.toUpperCase();
-        displayPriceNotification(alerts[key].price, symbol);
+        displayPriceNotification(alerts[key].price, key);
         const newAlerts = {...alerts, [key]: {...alerts[key], priceDirection: PriceDirection.down}};
         setAlerts(newAlerts);
         updateLocalStorageState(newAlerts);
       }
       else if (+realTimePrices[key] > +alerts[key]?.price && alerts[key]?.priceDirection !== PriceDirection.up) {
-        const symbol = key.toUpperCase();
-        displayPriceNotification(alerts[key].price, symbol);
+        displayPriceNotification(alerts[key].price, key);
         const newAlerts = {...alerts, [key]: {...alerts[key], priceDirection: PriceDirection.up}};
         setAlerts(newAlerts);
         updateLocalStorageState(newAlerts);
