@@ -47,6 +47,14 @@ export const assets = {
         poolAddress: 'terra1pn20mcwnmeyxf68vpt3cyel3n57qm9mp289jta',
         url: 'https://loterra.io/',
     },
+    alte: {
+        pair:'ALTE-UST',
+        name: "Altered",
+        symbol: "ALTE",
+        terraSwapSymbol: 'ALTE',
+        poolAddress: "terra18adm0emn6j3pnc90ldechhun62y898xrdmfgfz",
+        url: 'https://app.alteredprotocol.com/'
+    }
 };
 
 export const DEFAULT_ASSETS_CURRENT_PRICE = {
@@ -56,4 +64,5 @@ export const DEFAULT_ASSETS_CURRENT_PRICE = {
   mine: null, 
   spec: null, 
   lota: null,
+  alte: null,
 } 

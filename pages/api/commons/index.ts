@@ -48,7 +48,7 @@ export const getPrice = (poolResponse) => {
 }
 
 export const isLunaPair = (poolResponse) => {
-  if (poolResponse?.assets[0]?.info?.native_token?.denom === 'uusd' || poolResponse?.assets[1]?.info?.native_token?.denom === 'uusd') {
+  if ((poolResponse?.assets[0]?.info?.native_token?.denom === 'uusd' || poolResponse?.assets[1]?.info?.native_token?.denom === 'uusd') || (poolResponse?.assets[0]?.info?.native_token?.denom === undefined && poolResponse?.assets[1]?.info?.native_token?.denom === undefined )) {
     return false;
   }
   else {

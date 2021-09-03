@@ -4,6 +4,8 @@ const runtimeCaching = require('next-pwa/cache');
 module.exports = withPWA({
   env: {
     SERVER_END_POINT: process.env.SERVER_END_POINT,
+    ADDRESS: process.env.ADDRESS,
+    FILTER_POST_UST: process.env.FILTER_POST_UST,
   },
   pwa: {
     disable: process.env.NODE_ENV === 'development',

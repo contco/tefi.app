@@ -89,8 +89,8 @@ interface UserCollateral {
   collateral?: string;
   balance?: string;
   price?: string;
-  value?:string;
-  symbol:string;
+  value?: string;
+  symbol: string;
 }
 
 interface BorrowData {
@@ -99,7 +99,7 @@ interface BorrowData {
   limit: string;
   value?: string;
   collaterals: Array<UserCollateral>;
-  totalCollateralValue:string;
+  totalCollateralValue: string;
   percentage: string;
   lunaprice: string;
   ancprice: string;
@@ -318,4 +318,42 @@ interface Assets {
 interface PriceChange {
   change: number;
   percentChange: string;
+}
+
+interface txData {
+  memo: string;
+  block: string;
+  txhash: string;
+  timestamp: string;
+  from_address: string;
+  to_address: string;
+}
+
+interface ErrorResult {
+  error: boolean;
+  msg: string;
+}
+
+interface StarStakedData {
+  lpname: string;
+  faction: string;
+  stakedLp: string;
+	stakedLpUstValue: string;
+  token1Staked: string;
+  token2Staked: string;
+  rewards: string;
+  rewardsValue: string;
+}
+
+interface StarTerraAccount {
+  stakedData: StarStakedData[];
+  symbol1: string;
+  symbol2: string;
+  stakableLp: string;
+  token1UnStaked: string;
+  token2UnStaked: string;
+  totalStakedLp: string;
+  totalStakedLpUstValue: string;
+  totalRewards: string;
+  totalRewardsValue: string;
 }
