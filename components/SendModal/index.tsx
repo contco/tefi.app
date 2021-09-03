@@ -6,6 +6,8 @@ import { InputModal } from './InputModal';
 import {WaitingModal} from './WaitingModal';
 import { BroadcastModal } from './BroadcastModal';
 import { CompleteModal, Status } from './CompleteModal';
+import { sendNativeToken } from '../../transactions/sendToken';
+import useWallet from '../../lib/useWallet';
 
 const StyledModal = styled(Modal)`
   ${css({
@@ -22,29 +24,57 @@ enum ModalState {
   denied
 }
 
-interface SendInput {
-  address: string;
-  amount: string;
-  memo: string;
-}
 
 const SendModal: React.FC<ModalDisplayState> = ({isVisible, setVisible}) => {
   const [modalState, setModalState] = useState(ModalState.initial);
-  const [input, setInput] = useState<SendInput>({address: '', amount: '', memo: ''});
+  const [txHash, setTxHash] = useState('332...2332');
 
   const onClose = () => {
+    setModalState(ModalState.initial);
     setVisible(false);
   }
 
-  const onSend = () => {
-    console.log('send tokens');
+  const {post } = useWallet();
+
+
+  const onSend = async (data: any) => {
+    setModalState(ModalState.waiting);
+    if(data.denom) {
+      const result = await sendNativeToken(data, post);
+      if(result.success) {
+        setModalState(ModalState.broadcasted);
+        setTxHash(result?.result?.txhash);
+      }
+      if(result.error) {
+         if(result.msg === "User Denied") {
+           setModalState(ModalState.denied);
+         }
+         else {
+           setModalState(ModalState.initial);
+           alert('Error Sending Transaction');
+         }
+
+      }
+    }
   }
+
+  const showModalState = () => {
+    if(modalState === ModalState.waiting) {
+      return <WaitingModal onClose={onClose} />
+    }
+    else if (modalState === ModalState.broadcasted) {
+      return <BroadcastModal txHash={txHash} />
+    }
+    else if (modalState === ModalState.success || modalState === ModalState.denied) {
+      return <CompleteModal onClose={onClose} txHash={txHash} status={modalState === ModalState.success ? Status.complete : Status.denied} />
+    }
+    else return <InputModal onSend={onSend}/>;
+  }
+
 
   return(
     <StyledModal isOpen={isVisible} onClose={() => setVisible(false)}>
-      { modalState === ModalState.initial  ?
-        <InputModal onSend={onSend} input={input} setInput={setInput}/> : <WaitingModal onClose={onClose} />
-      }
+      {showModalState()}
     </StyledModal> 
   );
 }

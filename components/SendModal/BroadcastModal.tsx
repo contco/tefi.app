@@ -7,7 +7,7 @@ import { ModalSmall, ContentContainer, IconContainer, Title, SmallText } from '.
 const TITLE_TEXT = 'Waiting For Receipt...';
 const MESSAGE_TEXT = 'Transaction broadcasted. There is no need to send another unitl it has been complete.';
 
-export const BroadcastModal = () => {
+export const BroadcastModal = ({txHash}) => {
   return (
     <ModalSmall>
      <ContentContainer>
@@ -19,7 +19,7 @@ export const BroadcastModal = () => {
             <SmallText textAlign='center'>{MESSAGE_TEXT}</SmallText>
         </Box>
       </ContentContainer>
-      <TxHash txHash={'234....4343'}/>
+      <TxHash txHash={txHash}/>
   </ModalSmall>
   );
 }

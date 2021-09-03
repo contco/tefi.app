@@ -64,29 +64,38 @@ ${css({
     }
 })}
 `;
+interface Props {
+    assets: [Holdings];
+    selectedAsset: Holdings;
+    setAsset: (asset: Holdings) => void;
+}
 
-const list = [{id: '1', symbol: 'UST'}, {id:'2', symbol: 'MINE'}, {id: '3', symbol: 'mTWTR'}, {id: '4', symbol: 'ANC'}];
-
-export const CurrencySelect: React.FC = () => {
+export const CurrencySelect: React.FC<Props> = ({assets, selectedAsset, setAsset}) => {
     const [displayMenu, setDisplayMenu] = useState<boolean>(true);
-    const [selectedCurrency, setSelectedCurrency] = useState('UST');
     const selectRef = useRef();
 
     useOutsideClickListener(selectRef, () => {
         setDisplayMenu(false);
     });
 
-    const onItemSelect = (currency) => {
-        setSelectedCurrency(currency.symbol);
+    const onItemSelect = (currency: Holdings) => {
+        setAsset(currency);
+    }
+
+    const getSelectedCurrency = () => { 
+     if (selectedAsset) {
+         return selectedAsset?.symbol?.length > 4 ? selectedAsset?.symbol.substr(0, 4) : selectedAsset.symbol;
+     }
+     return 'Select';
     }
 
   return (
       <Container ref={selectRef} onClick={() => setDisplayMenu(!displayMenu)}>
-          <ContainerLabel>{selectedCurrency.length > 4 ? selectedCurrency.substr(0, 4) : selectedCurrency}</ContainerLabel>
+          <ContainerLabel>{getSelectedCurrency()}</ContainerLabel>
           <StyledArrowDownIcon/>
           <CurrencyMenu isVisible={displayMenu}>
-              {list.map(item => (
-                <CurrencyItem onClick={() => onItemSelect(item)} key={item.id}>{item.symbol}</CurrencyItem>
+              {assets.map(item => (
+                <CurrencyItem onClick={() => onItemSelect(item)} key={item.contract || item.denom}>{item.symbol}</CurrencyItem>
               ))}
           </CurrencyMenu>
       </Container>

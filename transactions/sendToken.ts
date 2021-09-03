@@ -4,6 +4,7 @@ import { FCD_URL } from '../pages/api/utils';
 import { UNIT } from '../pages/api/mirror/utils';
 import BigNumber from 'bignumber.js';
 import { calculateFee } from './calculateFee';
+import { plus } from '../utils/math';
 
 const TREASURY_URL = 'https://fcd.terra.dev/treasury/';
 
@@ -66,5 +67,25 @@ export const sendNativeToken = async (data: SendTokenTransactionData, post) => {
 	}
 	catch ({ message }) {
 		return { error: true, msg: message };
+	}
+}
+
+export const simulateSendTokenTx = async (data: SendTokenTransactionData ) => {
+    try{
+	const { to, from, amount, memo, denom } = data;
+	if(denom) {
+		const amountInLamports = (+amount * +UNIT);
+		const msgs = [new MsgSend(from, to, { [denom]: amountInLamports })]
+		const tax = await calculateTax(amountInLamports.toString(), denom);
+		const gasPrice = await getGasPrice(denom);
+		const {estimatedFee} = await calculateFee(data.from, msgs, tax, gasPrice, denom, memo);
+		const feeInLamports = plus(estimatedFee, tax);
+		const fee = (+feeInLamports / +UNIT).toString() ;
+		return {fee, feeInLamports, error: false};
+	}
+		return {fee: '0', feeInLamports:'0', error: false};
+    }
+	catch(err){
+		return {error: true, fee: '0', feeInLamports: '0'};
 	}
 }

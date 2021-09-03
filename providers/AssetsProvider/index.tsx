@@ -59,7 +59,7 @@ const AssetsProvider: React.FC<Props> = ({ children }) => {
   const loading =
     (!called || dataLoading || (!data && fetchCount !== MAX_TRY)) && networkStatus !== NetworkStatus.refetch;
   
-    const assets = data ? [data?.assets?.core?.coins, ...data?.assets?.anchor?.assets,  ...data?.assets?.mirror?.mirrorHoldings, ...data?.assets?.pylon?.pylonHoldings, ...data?.assets?.spectrum?.specHoldings] : [];
+  const assets = data ? [...data?.assets?.core?.coins, ...data?.assets?.anchor?.assets,  ...data?.assets?.mirror?.mirrorHoldings, ...data?.assets?.pylon?.pylonHoldings, ...data?.assets?.spectrum?.specHoldings] : [];
 
   return (
     <AssetContext.Provider value={{assets, loading, error, refetch}}>

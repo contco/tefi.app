@@ -1,11 +1,19 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import css from '@styled-system/css';
 import { Box, Flex, Text, } from '@contco/core-ui';
 import { CurrencySelect } from './CurrencySelect';
 import { ButtonRound } from '../UIComponents';
 import { AccAddress } from '@terra-money/terra.js';
+import { useAssetContext } from '../../contexts';
+import { SmallText } from './common';
+import { convertToFloatValue } from '../../utils/convertFloat';
+import { useEffect } from 'react';
+import { simulateSendTokenTx } from '../../transactions/sendToken';
+import useWallet from '../../lib/useWallet';
 
+const DEFAULT_INPUT_STATE = {address: '', amount: '', memo: ''};
+const DEFAULT_TX_STATE = '---';
 
 export const ModalBox = styled(Box)`
   ${css({
@@ -96,6 +104,13 @@ const AmountInput = styled(Input)`
   })}
 `;
 
+const BalanceContainer = styled(Flex)`
+  ${css({
+    justifyContent: 'flex-end',
+    pt: 1,
+  })}
+`;
+
 const FeeSection = styled(Flex)`
   ${css({
     width: ['calc(80vw - 40px)', null, null, 480],
@@ -103,14 +118,6 @@ const FeeSection = styled(Flex)`
     justifyContent: 'space-between',
     mb: 4,
   })}
-`;
-
-const FeeText = styled(Text)`
-${css({
-  color: 'secondary',
-  fontSize: 0,
-  letterSpacing: 1,
-})}
 `;
 
 const ButtonContainer = styled(Box)`
@@ -121,9 +128,38 @@ const ButtonContainer = styled(Box)`
  })}
 `;
 
-export const InputModal = ({input, setInput, onSend}) => {
+interface SendInput {
+  address: string;
+  amount: string;
+  memo: string;
+}
 
- 
+export const InputModal = ({onSend}) => {
+  const {assets} = useAssetContext();
+  const [input, setInput] = useState<SendInput>(DEFAULT_INPUT_STATE);
+  const [selectedAsset, setAsset] = useState<Holdings | null>(null);
+  const [txFee, setTxFee] = useState<string>(DEFAULT_TX_STATE);
+  const [isTxCalculated, setIsTxCalculated] = useState(false);
+  const [simulationLoading, setSimulationLoading] = useState(false);
+
+  const {useConnectedWallet} = useWallet();
+
+  const connectedWallet = useConnectedWallet();
+  const walletAddress = connectedWallet?.terraAddress;
+
+  useEffect(() => {
+    if(!selectedAsset  && assets.length > 0) {
+      setAsset(assets[0]);
+    }
+  }, [assets])
+  
+  const resetTxState = () =>{
+    if(isTxCalculated) {
+      setIsTxCalculated(false);
+      setTxFee(DEFAULT_TX_STATE)
+    }
+  }
+
   const onChange = (e: any) => {
     let value =  e.target.value;
     const key = e.target.name;
@@ -132,17 +168,55 @@ export const InputModal = ({input, setInput, onSend}) => {
       }
 
     setInput({...input, [key]: value});
+    resetTxState();
   }
 
   const isValidAddress = AccAddress.validate(input.address);
  
-  const isSendDisabled = !isValidAddress || input.address.trim() === '' || input.amount.trim() === '';
+  const isInvalidInput =  !isValidAddress || input.address.trim() === '' || input.amount.trim() === '';
+  const isSendDisabled = simulationLoading || !isTxCalculated;
+  const onAssetSelect = (asset: Holdings ) => {
+    setAsset(asset);
+    resetTxState();
+  }
   
-  const onSendClick = () => {
-    if(!isSendDisabled) {
-      onSend();
+  const getDisabledState = () => {
+    if(simulationLoading)  {
+      return true;
+    }
+   else if(!isTxCalculated ) {
+      if(isInvalidInput) {
+        return true;
+      }
+      return false;
+    }
+    else if (isSendDisabled) {
+      return true;
+    }
+    return false;
+  }
+   
+  const onSendClick = async () => {
+    if(!getDisabledState()) {
+      if(!isTxCalculated) {
+        setSimulationLoading(true);
+        const data = {to: input.address, from: walletAddress, amount: input.amount, memo: input.memo, denom: selectedAsset?.denom, tokenContract: selectedAsset?.contract };
+        const result = await simulateSendTokenTx(data);
+        if(!result.error) { 
+          setTxFee(`${result.fee} ${selectedAsset.symbol}`);
+          setIsTxCalculated(true);
+        }
+        setSimulationLoading(false);
+      }
+      else {
+        const data = {to: input.address, from: walletAddress, amount: input.amount, memo: input.memo, denom: selectedAsset?.denom, tokenContract: selectedAsset?.contract };
+        resetTxState();
+        setInput(DEFAULT_INPUT_STATE);
+        onSend(data);
+      }
     }
   }
+
   return (
     <ModalBox>
       <ModalTitle>Send</ModalTitle>
@@ -154,9 +228,12 @@ export const InputModal = ({input, setInput, onSend}) => {
         <InputContainer>
           <InputLabel>Amount</InputLabel>
           <AmountBox>
-            <CurrencySelect />
+            <CurrencySelect assets={assets} selectedAsset={selectedAsset} setAsset={onAssetSelect}/>
             <AmountInput value={input.amount} onChange={onChange} name='amount' min= '0' type='number' />
           </AmountBox>
+          <BalanceContainer>
+            <SmallText>Balance: {selectedAsset  ? convertToFloatValue(selectedAsset?.balance) : '0.00'}</SmallText>
+          </BalanceContainer>
         </InputContainer>
         <InputContainer>
           <InputLabel>Memo (Optional)</InputLabel>
@@ -164,11 +241,11 @@ export const InputModal = ({input, setInput, onSend}) => {
         </InputContainer>
       </InputSection>
       <FeeSection>
-        <FeeText fontWeight={500}>TxFee</FeeText>
-        <FeeText>23.45</FeeText>
+        <SmallText fontWeight={500}>TxFee</SmallText>
+        <SmallText>{simulationLoading ? 'Simulating...' : `${txFee}`}</SmallText>
       </FeeSection>
       <ButtonContainer>
-        <ButtonRound onClick={onSendClick} disabled={isSendDisabled}>Send</ButtonRound>
+        <ButtonRound onClick={onSendClick} disabled={getDisabledState()}>{isTxCalculated ? 'Send' : 'Next'}</ButtonRound>
       </ButtonContainer>
   </ModalBox>
   );
