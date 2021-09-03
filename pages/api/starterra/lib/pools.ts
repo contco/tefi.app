@@ -56,7 +56,7 @@ export const getLPData = async (address: string) => {
     });
 
     const poolData = await getPoolData();
-    const singleLpValue = (parseFloat(poolData.result.assets[0].amount) / parseFloat(poolData.result.total_share)) * 2;
+    const singleLpValue = (parseFloat(poolData.result.assets[1].amount) / parseFloat(poolData.result.total_share)) * 2;
     const sttPrice = await getPrice(poolData.result);
     const stakableLp = valueConversion(data.result.balance);
     const stakableToken1 = (stakableLp / 2) * singleLpValue;
