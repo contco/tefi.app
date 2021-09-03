@@ -32,11 +32,27 @@
       "status": "LISTED"
     },
     {
+      "symbol": "mAMD",
+      "name": "Advanced Micro Devices, Inc.",
+      "token": "terra18ej5nsuu867fkx4tuy2aglpvqjrkcrjjslap3z",
+      "pair": "terra18cxcwv0theanknfztzww8ft9pzfgkmf2xrqy23",
+      "lpToken": "terra1m8mr9u3su46ezxwf7z7xnvm0jsapl2jd8vgefh",
+      "status": "LISTED"
+    },
+    {
       "symbol": "mAMZN",
       "name": "Amazon.com, Inc.",
       "token": "terra165nd2qmrtszehcfrntlplzern7zl4ahtlhd5t2",
       "pair": "terra1vkvmvnmex90wanque26mjvay2mdtf0rz57fm6d",
       "lpToken": "terra1q7m2qsj3nzlz5ng25z5q5w5qcqldclfe3ljup9",
+      "status": "LISTED"
+    },
+    {
+      "symbol": "mARKK",
+      "name": "ARK Innovation ETF",
+      "token": "terra1qqfx5jph0rsmkur2zgzyqnfucra45rtjae5vh6",
+      "pair": "terra1a5cc08jt5knh0yx64pg6dtym4c4l8t63rhlag3",
+      "lpToken": "terra1veqh8yc55mhw0ttjr5h6g9a6r9nylmrc0nzhr7",
       "status": "LISTED"
     },
     {
@@ -61,6 +77,14 @@
       "token": "terra18wayjpyq28gd970qzgjfmsjj7dmgdk039duhph",
       "pair": "terra1h7t2yq00rxs8a78nyrnhlvp0ewu8vnfnx5efsl",
       "lpToken": "terra1ktckr8v7judrr6wkwv476pwsv8mht0zqzw2t0h",
+      "status": "LISTED"
+    },
+    {
+      "symbol": "mDOT",
+      "name": "Polkadot",
+      "token": "terra19ya4jpvjvvtggepvmmj6ftmwly3p7way0tt08r",
+      "pair": "terra17rvtq0mjagh37kcmm4lmpz95ukxwhcrrltgnvc",
+      "lpToken": "terra1p60datmmf25wgssguv65ltds3z6ea3me74nm2e",
       "status": "LISTED"
     },
     {
@@ -120,12 +144,12 @@
       "status": "LISTED"
     },
     {
-      "symbol": "mIAU",
-      "name": "iShares Gold Trust",
-      "token": "terra15hp9pr8y4qsvqvxf3m4xeptlk7l8h60634gqec",
-      "pair": "terra1q2cg4sauyedt8syvarc8hcajw6u94ah40yp342",
-      "lpToken": "terra1jl4vkz3fllvj6fchnj2trrm9argtqxq6335ews",
-      "status": "DELISTED"
+      "symbol": "mHOOD",
+      "name": "Robinhood Markets, Inc.",
+      "token": "terra18yqdfzfhnguerz9du5mnvxsh5kxlknqhcxzjfr",
+      "pair": "terra1lr6rglgd50xxzqe6l5axaqp9d5ae3xf69z3qna",
+      "lpToken": "terra1s0dgcsdy9kgunnf3gnwl40uwy9rxtmc39mhy2m",
+      "status": "LISTED"
     },
     {
       "symbol": "mMSFT",
@@ -168,6 +192,14 @@
       "status": "LISTED"
     },
     {
+      "symbol": "mSQ",
+      "name": "Square, Inc.",
+      "token": "terra1u43zu5amjlsgty5j64445fr9yglhm53m576ugh",
+      "pair": "terra1u3pknaazmmudfwxsclcfg3zy74s3zd3anc5m52",
+      "lpToken": "terra1mv3pgkzs4krcennqj442jscg6jv84cejrs50n2",
+      "status": "LISTED"
+    },
+    {
       "symbol": "mTSLA",
       "name": "Tesla, Inc.",
       "token": "terra14y5affaarufk3uscy2vr6pe6w6zqf2wpjzn5sh",
@@ -197,22 +229,6 @@
       "token": "terra19cmt6vzvhnnnfsmccaaxzy2uaj06zjktu6yzjx",
       "pair": "terra1krny2jc0tpkzeqfmswm7ss8smtddxqm3mxxsjm",
       "lpToken": "terra1ekd58y58vq4gmxlzpc27dwuhw7wmms928ftuep",
-      "status": "LISTED"
-    },
-    {
-      "symbol": "mVIXY",
-      "name": "ProShares VIX Short-Term Futures ETF",
-      "token": "terra1zp3a6q6q4953cz376906g5qfmxnlg77hx3te45",
-      "pair": "terra1yngadscckdtd68nzw5r5va36jccjmmasm7klpp",
-      "lpToken": "terra1cmrl4txa7cwd7cygpp4yzu7xu8g7c772els2y8",
-      "status": "DELISTED"
-    },
-    {
-      "symbol": "mDOT",
-      "name": "Polkadot",
-      "token": "terra19ya4jpvjvvtggepvmmj6ftmwly3p7way0tt08r",
-      "pair": "terra17rvtq0mjagh37kcmm4lmpz95ukxwhcrrltgnvc",
-      "lpToken": "terra1p60datmmf25wgssguv65ltds3z6ea3me74nm2e",
       "status": "LISTED"
     }
   ]
