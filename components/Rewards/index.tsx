@@ -1,10 +1,12 @@
 import { RewardsTitle } from '../../constants';
-import { Wrapper, Row, HeadingWrapper, Heading, StyledText, HoverText, SubText, CSS_APR } from '../dashboardStyles';
+import { Wrapper, Row, HeadingWrapper, Heading, StyledText, SubText, CSS_APR } from '../dashboardStyles';
 import Header from '../../components/DashboardComponents/Header';
 import { times } from '../../pages/api/mirror/utils';
 import { convertToFloatValue } from '../../utils/convertFloat';
 import { Box } from '@contco/core-ui';
 import TitleContainer from '../DashboardComponents/TitleContainer';
+import LpContainer from '../DashboardComponents/LpContainer';
+import AssetContainer from '../DashboardComponents/AssetContainer';
 
 const HEADING_TEXT = `Rewards`;
 export interface RewardsProps {
@@ -101,24 +103,19 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets,
       return pool.map((assets: Pool, index: number) => (
         <Row key={index}>
           <StyledText fontWeight="500">{assets?.lpName}</StyledText>
-          <StyledText isChildren={true}>
-            {' '}
-            {convertToFloatValue(assets?.stakedLp)} LP
-            <HoverText>
-              {convertToFloatValue(assets?.token2Staked)} {assets?.symbol2} <br />
-              {convertToFloatValue(assets?.token1Staked)} {assets?.symbol1}
-            </HoverText>
-          </StyledText>
+          <LpContainer
+            lp={convertToFloatValue(assets?.stakedLp) + ' LP'}
+            token1={convertToFloatValue(assets?.token2Staked) + ' ' + assets?.symbol2}
+            token2={convertToFloatValue(assets?.token1Staked) + ' ' + assets?.symbol1}
+          />
           <div>
             <StyledText css={CSS_APR}> {assets?.apy ? formatApr(assets?.apy) : formatApr(assets?.apr)}%</StyledText>
             {assets?.apy ? <SubText> (APY)</SubText> : null}
           </div>
-          <div>
-            <StyledText>
-              {convertToFloatValue(assets?.rewards)} {assets?.rewardsSymbol}
-            </StyledText>
-            <SubText>${convertToFloatValue(assets?.rewardsValue)}</SubText>
-          </div>
+          <AssetContainer
+            token={convertToFloatValue(assets?.rewards) + ' ' + assets?.rewardsSymbol}
+            tokenValue={'$' + convertToFloatValue(assets?.rewardsValue)}
+          />
         </Row>
       ));
     }
@@ -130,12 +127,10 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets,
       return (
         <Row key={govItem.name}>
           <StyledText fontWeight="500"> {govItem.name}</StyledText>
-          <Box>
-            <StyledText>
-              {convertToFloatValue(govItem.staked)} {govItem.symbol}
-            </StyledText>
-            <SubText>${convertToFloatValue(govItem.value)}</SubText>
-          </Box>
+          <AssetContainer
+            token={convertToFloatValue(govItem.staked) + ' ' + govItem.symbol}
+            tokenValue={'$' + convertToFloatValue(govItem.value)}
+          />
           <div>
             <StyledText css={CSS_APR}>
               {' '}
@@ -144,12 +139,10 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets,
             {govItem?.apy ? <SubText> (APY)</SubText> : null}
           </div>
           {govItem.symbol === 'LOTA' ? (
-            <div>
-              <StyledText>
-                {convertToFloatValue(govItem?.rewards)} {govItem.symbol}
-              </StyledText>
-              <SubText>${convertToFloatValue(govItem?.rewardsValue)}</SubText>
-            </div>
+            <AssetContainer
+              token={convertToFloatValue(govItem?.rewards) + ' ' + govItem.symbol}
+              tokenValue={'$' + convertToFloatValue(govItem?.rewardsValue)}
+            />
           ) : (
             <StyledText>
               Automatically <br />

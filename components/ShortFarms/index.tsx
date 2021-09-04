@@ -4,6 +4,7 @@ import { Heading, HeadingWrapper, Row, StyledText, SubText, Wrapper } from '../d
 import Header from '../../components/DashboardComponents/Header';
 import { Box } from '@contco/core-ui';
 import TitleContainer from '../DashboardComponents/TitleContainer';
+import AssetContainer from '../DashboardComponents/AssetContainer';
 
 const HEADING_TEXT = 'Mirror Short Farms';
 
@@ -36,10 +37,10 @@ const ShortFarms: React.FC<ShortFarmProps> = ({ mirrorAssets }) => {
           <SubText>{assets?.lockedInfo?.unlock_time}</SubText>
         </Box>
         <StyledText>{convertToFloatValue(assets?.lockedInfo?.unlocked_amount)} UST</StyledText>
-        <Box>
-          <StyledText>{convertToFloatValue(assets?.lockedInfo?.reward)} MIR</StyledText>
-          <SubText>{convertToFloatValue(assets?.lockedInfo?.rewardValue)} UST</SubText>
-        </Box>
+        <AssetContainer
+          token={convertToFloatValue(assets?.lockedInfo?.reward) + ' MIR'}
+          tokenValue={convertToFloatValue(assets?.lockedInfo?.rewardValue) + ' UST'}
+        />
       </Row>
     ));
   };

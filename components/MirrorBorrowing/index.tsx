@@ -1,9 +1,9 @@
 import { MirrorBorrowTitle } from '../../constants';
-import { Heading, HeadingWrapper, Row, StyledText, Wrapper, CSS_APR, SubText } from '../dashboardStyles';
-import { Box } from '@contco/core-ui';
+import { Heading, HeadingWrapper, Row, StyledText, Wrapper, CSS_APR } from '../dashboardStyles';
 import Header from '../../components/DashboardComponents/Header';
 import { convertToFloatValue } from '../../utils/convertFloat';
 import TitleContainer from '../DashboardComponents/TitleContainer';
+import AssetContainer from '../DashboardComponents/AssetContainer';
 
 const HEADING_TEXT = 'Mirror Borrow';
 
@@ -37,22 +37,18 @@ const ShortFarms: React.FC<ShortFarmProps> = ({ mirrorAssets }) => {
       <Row key={index}>
         <StyledText fontWeight={500}> {assets?.assetInfo?.name}</StyledText>
         <StyledText>{convertToFloatValue(assets?.assetInfo?.price)} UST</StyledText>
-        <Box>
-          <StyledText>
-            {convertToFloatValue(assets?.borrowInfo.amount)} {assets?.assetInfo?.symbol}
-          </StyledText>
-          <SubText>{convertToFloatValue(assets?.borrowInfo?.amountValue)} UST</SubText>
-        </Box>
-        <Box>
-          <StyledText>
-            {convertToFloatValue(assets?.collateralInfo?.collateral)} {assets?.collateralInfo?.csymbol}
-          </StyledText>
-          <SubText>
-            {assets?.collateralInfo?.csymbol === 'UST'
+        <AssetContainer
+          token={convertToFloatValue(assets?.borrowInfo.amount) + ' ' + assets?.assetInfo?.symbol}
+          tokenValue={convertToFloatValue(assets?.borrowInfo.amountValue) + ' UST'}
+        />
+        <AssetContainer
+          token={convertToFloatValue(assets?.collateralInfo?.collateral) + ' ' + assets?.collateralInfo?.csymbol}
+          tokenValue={
+            assets?.collateralInfo?.csymbol === 'UST'
               ? null
-              : convertToFloatValue(assets?.collateralInfo?.collateralValue) + ' UST'}
-          </SubText>
-        </Box>
+              : convertToFloatValue(assets?.collateralInfo?.collateralValue) + ' UST'
+          }
+        />
         <StyledText css={CSS_APR}>{parseFloat(assets?.collateralInfo?.collateralRatio).toFixed(2)}%</StyledText>
       </Row>
     ));

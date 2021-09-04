@@ -1,9 +1,9 @@
 import { convertToFloatValue } from '../../utils/convertFloat';
-import { Wrapper, Row, HeadingWrapper, Heading, StyledText, SubText } from '../dashboardStyles';
+import { Wrapper, Row, HeadingWrapper, Heading, StyledText } from '../dashboardStyles';
 import Header from '../../components/DashboardComponents/Header';
 import { BurnTitle } from '../../constants';
-import { Box } from '@contco/core-ui';
 import TitleContainer from '../DashboardComponents/TitleContainer';
+import AssetContainer from '../DashboardComponents/AssetContainer';
 
 const HEADING_TEXT = `Anchor Bond`;
 
@@ -21,10 +21,10 @@ const Earn: React.FC<BurnProps> = ({ ancAssets }) => {
   const getBurnData = () => {
     return burn?.requestData.map((data: RequestData, index) => (
       <Row key={index}>
-        <Box>
-          <StyledText>{convertToFloatValue(data.amount.amount)} bLUNA</StyledText>
-          <SubText>${convertToFloatValue(data.amount.amountValue)}</SubText>
-        </Box>
+        <AssetContainer
+          token={convertToFloatValue(data.amount.amount) + ' bLUNA'}
+          tokenValue={'$' + convertToFloatValue(data.amount.amountValue)}
+        />
         <StyledText>{data.time.requestedTime || 'Pending'}</StyledText>
         <StyledText>{data.time.claimableTime || 'Pending'}</StyledText>
       </Row>

@@ -1,12 +1,13 @@
 import { convertToFloatValue } from '../../utils/convertFloat';
+import LpContainer from '../DashboardComponents/LpContainer';
 import TitleContainer from '../DashboardComponents/TitleContainer';
-import { Wrapper, Row,HeadingWrapper, Heading, StyledText, HoverText } from '../dashboardStyles';
+import { Wrapper, Row, HeadingWrapper, Heading, StyledText } from '../dashboardStyles';
 
 const HEADING_TEXT = `Spectrum Farms`;
 
 const SpecFarmTitles = ['Name', 'Farm', 'Balance', 'Value'];
 export interface PoolsProps {
-    spectrum: SpectrumAccount
+  spectrum: SpectrumAccount;
 }
 
 const Pools: React.FC<PoolsProps> = ({ spectrum }) => {
@@ -19,21 +20,19 @@ const Pools: React.FC<PoolsProps> = ({ spectrum }) => {
       <Row key={index}>
         <StyledText fontWeight={500}> {farm?.lpName}</StyledText>
         <StyledText> {farm?.farm}</StyledText>
-        <StyledText isChildren={true}>
-          {convertToFloatValue(farm?.stakedLp)} LP
-          <HoverText>
-            {convertToFloatValue(farm?.tokenStaked)} {farm?.symbol} <br />
-            {convertToFloatValue(farm?.ustStaked)} {'UST'}
-          </HoverText>
-        </StyledText>
+        <LpContainer
+          lp={convertToFloatValue(farm?.stakedLp) + ' LP'}
+          token1={convertToFloatValue(farm?.tokenStaked) + ' ' + farm?.symbol}
+          token2={convertToFloatValue(farm?.ustStaked) + ' UST'}
+        />
         <StyledText> ${convertToFloatValue(farm?.stakedLpUstValue)}</StyledText>
       </Row>
     ));
   };
 
-  if (!spectrum?.farms || spectrum?.farms.length === 0 ) {
+  if (!spectrum?.farms || spectrum?.farms.length === 0) {
     return <> </>;
-  } 
+  }
 
   return (
     <Wrapper>

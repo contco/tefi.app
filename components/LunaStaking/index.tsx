@@ -1,7 +1,8 @@
-import { Wrapper, Row, HeadingWrapper, Heading, SubText, StyledText } from '../dashboardStyles';
+import { Wrapper, Row, HeadingWrapper, Heading, StyledText } from '../dashboardStyles';
 import { convertToFloatValue } from '../../utils/convertFloat';
 import Header from '../../components/DashboardComponents/Header';
 import TitleContainer from '../DashboardComponents/TitleContainer';
+import AssetContainer from '../DashboardComponents/AssetContainer';
 
 const TITLES_LIST = ['Validator', 'Balance', 'Rewards', 'Value', 'State'];
 const HEADING_TEXT = `Luna Staking`;
@@ -40,15 +41,15 @@ const Assets: React.FC<AssetsProps> = ({ core }: AssetsProps) => {
       {core?.staking.map((asset: LunaStaking) => (
         <Row key={asset?.validator}>
           <StyledText fontWeight={500}> {asset.validator}</StyledText>
-          <div>
-            <StyledText>{convertToFloatValue(asset.balance)} Luna</StyledText>
-            <SubText>${convertToFloatValue(asset.stakedValue)}</SubText>
-          </div>
+          <AssetContainer
+            token={convertToFloatValue(asset.balance) + ' Luna'}
+            tokenValue={'$' + convertToFloatValue(asset.stakedValue)}
+          />
           {asset.state === 'Delegated' ? (
-            <div>
-              <StyledText> {convertToFloatValue(asset.rewards)} Luna</StyledText>
-              <SubText>${convertToFloatValue(asset.rewardsValue)}</SubText>
-            </div>
+            <AssetContainer
+              token={convertToFloatValue(asset.rewards) + ' Luna'}
+              tokenValue={'$' + convertToFloatValue(asset.rewardsValue)}
+            />
           ) : (
             <StyledText>-</StyledText>
           )}

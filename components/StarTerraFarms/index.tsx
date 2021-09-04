@@ -1,9 +1,10 @@
 import { StarTerraFarmTitle } from '../../constants';
 import { convertToFloatValue } from '../../utils/convertFloat';
-import { Wrapper, Row, HeadingWrapper, Heading, StyledText, HoverText, SubText } from '../dashboardStyles';
+import { Wrapper, Row, HeadingWrapper, Heading, StyledText } from '../dashboardStyles';
 import Header from '../../components/DashboardComponents/Header';
-import { Box } from '@contco/core-ui';
 import TitleContainer from '../DashboardComponents/TitleContainer';
+import AssetContainer from '../DashboardComponents/AssetContainer';
+import LpContainer from '../DashboardComponents/LpContainer';
 
 const HEADING_TEXT = `StarTerra Farms`;
 
@@ -17,20 +18,16 @@ const StarTerraFarms: React.FC<StarProps> = ({ starterra }) => {
       <Row key={index}>
         <StyledText fontWeight={500}> {data?.lpname}</StyledText>
         <StyledText> {data?.faction}</StyledText>
-        <StyledText isChildren={true}>
-          {convertToFloatValue(data?.stakedLp)} LP
-          <HoverText>
-            {convertToFloatValue(data?.token2Staked)} {starterra?.symbol1} <br />
-            {convertToFloatValue(data?.token1Staked)} {starterra?.symbol2}
-          </HoverText>
-        </StyledText>
+        <LpContainer
+          lp={convertToFloatValue(data?.stakedLp) + ' LP'}
+          token1={convertToFloatValue(data?.token2Staked) + ' ' + starterra?.symbol1}
+          token2={convertToFloatValue(data?.token1Staked) + ' ' + starterra?.symbol2}
+        />
         <StyledText> ${convertToFloatValue(data?.stakedLpUstValue)}</StyledText>
-        <Box>
-          <StyledText>
-            {convertToFloatValue(data?.rewards)} {starterra.symbol1}
-          </StyledText>
-          <SubText>${convertToFloatValue(data?.rewardsValue)}</SubText>
-        </Box>
+        <AssetContainer
+          token={convertToFloatValue(data?.rewards) + ' ' + starterra.symbol1}
+          tokenValue={'$' + convertToFloatValue(data?.rewardsValue)}
+        />
       </Row>
     ));
   };
