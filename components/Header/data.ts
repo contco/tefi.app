@@ -77,6 +77,9 @@ export const TOOLS_LINKS = [
         url: "https://bridge.terra.money/",
         name: "Bridge"
     },
+];
+
+export const COMMUNITY_TOOLS_LINKS = [
     {
         src: "/logos/et.png",
         url: "https://finder.extraterrestrial.money",
