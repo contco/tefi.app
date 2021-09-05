@@ -61,6 +61,44 @@ export const PROTOCOL_LINKS = [
     },
 ];
 
+export const TOOLS_LINKS = [
+    {
+        src: "/logos/station.png",
+        url: "https://station.terra.money/",
+        name: "Station"
+    },
+    {
+        src: "/logos/finder.png",
+        url: "https://finder.terra.money/",
+        name: "Finder"
+    },
+    {
+        src: "/logos/bridge.png",
+        url: "https://bridge.terra.money/",
+        name: "Bridge"
+    },
+    {
+        src: "/logos/et.png",
+        url: "https://finder.extraterrestrial.money",
+        name: "ET Finder"
+    },
+    {
+        src: "/logos/smartstake.png",
+        url: "https://terra.smartstake.io/",
+        name: "Smart Stake"
+    },
+    {
+        src: "/logos/alpac4.png",
+        url: "https://alpac4.com/TerraSwapDashboard",
+        name: "Alpac4"
+    },
+    {
+        src: "/logos/coinhall.png",
+        url: "https://coinhall.org/",
+        name: "Coin Hall"
+    },
+];
+
 export const UPCOMING_PROTOCOL_LINKS = [
     {
         src: "/logos/mars.png",
