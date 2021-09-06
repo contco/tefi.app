@@ -59,6 +59,11 @@ export const PROTOCOL_LINKS = [
         url: "https://loterra.io/",
         name: "LoTerra"
     },
+    {
+        src: "/logos/starterra.png",
+        url: "https://starterra.io",
+        name: "StarTerra"
+    },
 ];
 
 export const TOOLS_LINKS = [
@@ -134,14 +139,9 @@ export const UPCOMING_PROTOCOL_LINKS = [
         name: "Orion"
     },
     {
-        src: "/logos/starterra.png",
-        url: "https://starterra.io",
-        name: "StarTerra"
-    },
-    {
         src: "/twd.png",
         url: "https://terraoffice.world",
-        name: "Terraoffice"
+        name: "Terra Office"
     },
     {
         src: "/logos/angel.png",
