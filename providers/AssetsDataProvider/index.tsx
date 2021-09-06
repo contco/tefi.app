@@ -2,6 +2,7 @@ import React, { ReactNode, createContext, useState, useEffect } from 'react';
 import useWallet from '../../lib/useWallet';
 import { useLazyQuery, NetworkStatus } from '@apollo/client';
 import { getAssets } from '../../graphql/queries/getAssets';
+import { getAnchorBondData, getAnchorEarnData, getLunaStakingData, getMirrorShortFarmData } from './helpers';
 
 const MAX_TRY = 3;
 
@@ -61,14 +62,17 @@ const AssetsDataProvider: React.FC<Props> = ({ children }) => {
 
   const assets = data
     ? {
-        core: data?.assets?.core,
-        anchor: data?.assets?.anchor,
-        mirror: data?.assets?.mirror,
-        pylon: data?.assets?.pylon,
-        spectrum: data?.assets?.spectrum,
-        loterra: data?.assets?.loterra,
-        terraSwap: data?.assets?.terraSwapPool,
-        starterra: data?.assets?.starterra,
+        anchorEarn: getAnchorEarnData(data?.assets?.anchor?.earn),
+        anchorBond: getAnchorBondData(data?.assets?.anchor?.burn),
+        lunaStaking: getLunaStakingData(data?.assets?.core),
+        mirrorShortFarm: getMirrorShortFarmData(data?.assets?.mirror?.mirrorShortFarm),
+        // core: data?.assets?.core,
+        // mirror: data?.assets?.mirror,
+        // pylon: data?.assets?.pylon,
+        // spectrum: data?.assets?.spectrum,
+        // loterra: data?.assets?.loterra,
+        // terraSwap: data?.assets?.terraSwapPool,
+        // starterra: data?.assets?.starterra,
       }
     : {};
 
