@@ -28,6 +28,7 @@ import Burn from '../../components/Burn';
 import ShortFarms from '../../components/ShortFarms';
 import MirrorBorrowing from '../../components/MirrorBorrowing';
 import StarTerraFarms from '../../components/StarTerraFarms';
+import { useAssetsDataContext } from '../../contexts';
 
 const MAX_TRY = 3;
 
@@ -82,6 +83,10 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   const loading =
     (!called || dataLoading || (!data && fetchCount !== MAX_TRY)) && networkStatus !== NetworkStatus.refetch;
 
+  const { assets } = useAssetsDataContext();
+
+  if (!loading) console.log(assets);
+
   return (
     <div>
       <NextSeo {...DashboardSEO} />
@@ -108,7 +113,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
               spectrum={data?.assets?.spectrum}
               loterra={data?.assets?.loterra}
               terraSwapAssets={data?.assets?.terraSwapPool}
-							starterra={data?.assets?.starterra}
+              starterra={data?.assets?.starterra}
             />
             <Assets
               mirrorAssets={data?.assets?.mirror || {}}
