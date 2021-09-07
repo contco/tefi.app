@@ -195,7 +195,7 @@ export const InputModal = ({onSend}) => {
       }
       else if (isTxCalculated && !simulationLoading) {
         if(selectedAsset?.denom) {
-          if ((input.amount+txFee) > selectedAsset?.balance) {
+          if ((parseFloat(input.amount) + parseFloat(txFee)) > parseFloat(selectedAsset?.balance)) {
             return {error: true, msg: TAX_ERROR};
           }
         }
