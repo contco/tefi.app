@@ -47,14 +47,14 @@ export const TransactionContainer = Styled(Flex)`
 export const TypeText = Styled(SimpleText)`
     ${css({
        fontWeight:'bold',
-       fontSize: 18,
+       fontSize: ['12px', null, null, null, '15px', null, null, '16px'],
     })}
 `;
 
 export const DateText = Styled(SimpleText)`
     ${css({
        fontWeight:'bold',
-       fontSize: 15,
+       fontSize: ['12px', null, null, null, null, null, null, '12px'],
        textAlign:'right'
     })}
 `;
@@ -62,6 +62,6 @@ export const DateText = Styled(SimpleText)`
 export const DetailText = Styled(Text)`
     ${css({
       color:'subHeading',
-      fontSize:1,
+       fontSize: ['11px', null, null, null, '12px', null, null, null],
     })}
 `;
