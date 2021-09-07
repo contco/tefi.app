@@ -1,10 +1,16 @@
 import { StyledText, Row, CSS_APR, SubText } from '../dashboardStyles';
 import AssetContainer from './AssetContainer';
 import LpContainer from './LpContainer';
+import Link from 'next/link';
+import { assets } from '../../constants/assets';
+import { NewOpenIcon } from '../Icons';
 
 interface Props {
   data: any;
 }
+
+const LINK_ICON_WIDTH = 16;
+const LINK_ICON_HEIGHT = 12;
 
 const Section: React.FC<Props> = ({ data }) => {
   return data.map((items: any, index) => {
@@ -21,6 +27,19 @@ const Section: React.FC<Props> = ({ data }) => {
             return (
               <StyledText key={index} css={CSS_APR}>
                 {Object.values(item)[0]}
+              </StyledText>
+            );
+          } else if (Object.keys(item)[0] === 'url') {
+            const symbol: any = Object.values(item)[0];
+            return (
+              <StyledText fontWeight={500} isURL={assets[symbol.toLowerCase()]}>
+                <Link href={assets[symbol.toLowerCase()] ? `/market/${symbol.toLowerCase()}/` : '#'}>
+                  <a target="_blank">{symbol}</a>
+                </Link>
+
+                {assets[symbol.toLowerCase()] && (
+                  <NewOpenIcon visibility="hidden" width={LINK_ICON_WIDTH} height={LINK_ICON_HEIGHT} />
+                )}
               </StyledText>
             );
           } else if (Object.keys(item)[0] === 'balance' || Object.keys(item)[0] === 'reward') {

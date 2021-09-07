@@ -104,7 +104,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
           <EmptyComponent msg={error ? 'Oops! Error Fetching Assets' : null} />
         ) : (
           <Body>
-            {/* <Section data={assets?.starterra?.data} /> */}
+            {/* <Section data={assets?.rewards?.data} /> */}
             <MarketValue
               core={data?.assets.core || {}}
               pylonAssets={data?.assets?.pylon || {}}

@@ -7,4 +7,7 @@ export { getPylonGatewayData } from './pylonGateway';
 export { getAnchorBorrowData } from './anchorBorrow';
 export { getSpecFarmData } from './specFarm';
 export { getSpecRewardData } from './specReward';
-export { getStarterraFarms} from './starterraFarms'
+export { getStarterraFarms } from './starterraFarms';
+export { getAssetData } from './assets';
+export { getPoolData } from './pools';
+export { getRewardData} from './rewards'

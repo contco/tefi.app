@@ -6,10 +6,13 @@ import {
   getAnchorBondData,
   getAnchorBorrowData,
   getAnchorEarnData,
+  getAssetData,
   getLunaStakingData,
   getMirrorBorrowData,
   getMirrorShortFarmData,
+  getPoolData,
   getPylonGatewayData,
+  getRewardData,
   getSpecFarmData,
   getSpecRewardData,
   getStarterraFarms,
@@ -83,6 +86,26 @@ const AssetsDataProvider: React.FC<Props> = ({ children }) => {
         specFarm: getSpecFarmData(data?.assets?.spectrum),
         specReward: getSpecRewardData(data?.assets?.spectrum),
         starterra: getStarterraFarms(data?.assets?.starterra),
+        assets: getAssetData(
+          data?.assets?.anchor,
+          data?.assets?.mirror,
+          data?.assets?.pylon,
+          data?.assets?.core,
+          data?.assets?.spectrum,
+        ),
+        pools: getPoolData(
+          data?.assets?.anchor,
+          data?.assets?.mirror,
+          data?.assets?.pylon,
+          data?.assets?.terraSwapPool,
+        ),
+        rewards: getRewardData(
+          data?.assets?.anchor,
+          data?.assets?.mirror,
+          data?.assets?.pylon,
+          data?.assets?.spectrum,
+          data?.assets?.loterra,
+        ),
       }
     : {};
 
