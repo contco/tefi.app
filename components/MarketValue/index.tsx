@@ -15,9 +15,10 @@ export interface AssetsProps {
   spectrum: SpectrumAccount;
   loterra: LoterraAccount;
   terraSwapAssets: terrSwapAccount;
+	starterra: StarTerraAccount;
 }
 
-const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAssets, spectrum, loterra, terraSwapAssets }) => {
+const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAssets, spectrum, loterra, terraSwapAssets, starterra }) => {
   const getBorrowedTotal = () => {
     const short = mirrorAssets?.mirrorShortFarm;
     const totalBorrowed = short.reduce((a, shortAsset) => a + parseFloat(shortAsset?.borrowInfo?.amountValue), 0);
@@ -49,7 +50,8 @@ const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAsse
       parseFloat(ancAssets?.total?.anchorPoolSum) +
       parseFloat(spectrum?.spectrumTotal?.farmsTotal) +
       parseFloat(pylonAssets?.pylonSum?.pylonPoolSum) + 
-      parseFloat(terraSwapAssets.total);
+      parseFloat(terraSwapAssets.total) +
+			parseFloat(starterra?.totalStakedLpUstValue)
     return total ?? 0;
   };
 
@@ -138,6 +140,7 @@ const Total: React.FC<AssetsProps> = ({ ancAssets, mirrorAssets, core, pylonAsse
       parseFloat(ancAssets?.totalReward) +
       parseFloat(shortReward) +
       parseFloat(loterraRewardsTotal) +
+			parseFloat(starterra?.totalRewardsValue) +
       getLunaStakingRewards() +
       getAirdropTotal();
 

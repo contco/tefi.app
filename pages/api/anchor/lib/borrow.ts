@@ -9,7 +9,6 @@ import axios from 'axios';
 import { ancPriceQuery } from './ancPrice';
 import { fetchData } from '../../commons';
 import { UNIT } from '../../mirror/utils';
-import { collectFields } from 'graphql/execution/execute';
 
 const LCDURL = 'https://lcd.terra.dev/';
 const name = 'UST Borrow';

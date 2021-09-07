@@ -26,6 +26,7 @@ import Earn from '../../components/Earn';
 import Burn from '../../components/Burn';
 import ShortFarms from '../../components/ShortFarms';
 import MirrorBorrowing from '../../components/MirrorBorrowing';
+import StarTerraFarms from '../../components/StarTerraFarms';
 
 const MAX_TRY = 3;
 
@@ -55,7 +56,6 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     }
   }, [address, isValidAddress]);
 
-
   useEffect(() => {
     if (error && fetchCount !== MAX_TRY) {
       setFetchCount(fetchCount + 1);
@@ -66,17 +66,17 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   }, [error]);
 
   const getErrorMessage = () => {
-      if(error) {
-          return 'Oops! Error Fetching Assets';
-      }
-      else if (!isValidAddress) {
-          return 'Terra Address is not valid';
-      }
-      return null;
-  }
+    if (error) {
+      return 'Oops! Error Fetching Assets';
+    } else if (!isValidAddress) {
+      return 'Terra Address is not valid';
+    }
+    return null;
+  };
 
-  const loading = isValidAddress ?
-    (!called || dataLoading || (!data && fetchCount !== MAX_TRY)) && networkStatus !== NetworkStatus.refetch : false;
+  const loading = isValidAddress
+    ? (!called || dataLoading || (!data && fetchCount !== MAX_TRY)) && networkStatus !== NetworkStatus.refetch
+    : false;
 
   return (
     <div>
@@ -93,7 +93,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
         />
         {loading ? (
           <Loading />
-        ) :  !isValidAddress || !data || data?.length === 0 ? (
+        ) : !isValidAddress || !data || data?.length === 0 ? (
           <EmptyComponent msg={getErrorMessage()} />
         ) : (
           <Body>
@@ -105,6 +105,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
               spectrum={data?.assets?.spectrum}
               loterra={data?.assets?.loterra}
               terraSwapAssets={data?.assets?.terraSwapPool}
+							starterra={data?.assets?.starterra}
             />
             <Assets
               mirrorAssets={data?.assets?.mirror || {}}
@@ -134,6 +135,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
             <ShortFarms mirrorAssets={data?.assets?.mirror || {}} />
             <SpectrumFarms spectrum={data?.assets?.spectrum} />
             <SpectrumRewards spectrum={data?.assets?.spectrum} />
+            <StarTerraFarms starterra={data?.assets?.starterra} />
             <Loterra loterra={data?.assets?.loterra} />
             <LunaStaking core={data?.assets.core || {}} />
             <Airdrops

@@ -98,12 +98,14 @@ export default async (address) => {
   const { requestHistories, withdrawableAmount } = await getWithdrawableRequest(address);
 
   const totalBurnAmount = requestHistories.reduce((a, data) => a + parseFloat(data?.amount?.amount), 0).toString();
-  const totalBurnAmountValue = requestHistories.reduce((a, data) => a + parseFloat(data?.amount?.amountValue), 0).toString();
+  const totalBurnAmountValue = requestHistories
+    .reduce((a, data) => a + parseFloat(data?.amount?.amountValue), 0)
+    .toString();
 
   return {
     requestData: requestHistories,
     withdrawableAmount,
-	totalBurnAmount,
-	totalBurnAmountValue
+    totalBurnAmount,
+    totalBurnAmountValue,
   };
 };
