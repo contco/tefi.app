@@ -172,7 +172,7 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts, next }: any)
         memo: text,
         denom: 'uusd',
       };
-      const newFeedPost: txData = {
+      const newFeedPost: postData = {
         to_address: ADDRESS,
         from_address: connectedWallet?.terraAddress,
         memo: text,

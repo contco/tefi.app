@@ -1,6 +1,6 @@
 import { fetchData } from '../commons';
 import { UNIT } from '../mirror/utils';
-import { formatTxData } from '../../../transactions/fetchTx';
+import { formatPostData } from '../../../transactions/fetchTx';
 const ADDRESS = 'terra1lpccq0w9e36nlzhx3m6t8pphx8ncavslyul29g';
 const FILTER_POST_UST = '0.1';
 
@@ -16,7 +16,7 @@ const filterAndFormatPost = (data) => {
   const result = transactions.reduce((postList, post) => {
     const isValid = checkValidPost(post);
     if (isValid){
-      const postData = formatTxData(post);
+      const postData = formatPostData(post);
       postList = [...postList, postData];
       return postList;
     }

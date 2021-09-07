@@ -320,13 +320,19 @@ interface PriceChange {
   percentChange: string;
 }
 
-interface txData {
+interface postData {
   memo: string;
   block: string;
   txhash: string;
   timestamp: string;
   from_address: string;
   to_address: string;
+}
+interface txData {
+  memo: string;
+  block: string;
+  txhash: string;
+  timestamp: string;
 }
 
 interface ErrorResult {

@@ -3,7 +3,7 @@ import axios from 'axios';
 const TEST_TX_FETCH_URL = 'https://tequila-fcd.terra.dev/v1/tx/';
 const TX_FETCH_URL = 'https://fcd.terra.dev/v1/tx/';
 
-export const formatTxData: (a: any) => txData = (txResult: any) => {
+export const formatPostData: (a: any) => postData = (txResult: any) => {
     return {
         memo: txResult?.tx?.value?.memo,
         block: txResult?.height,
@@ -12,6 +12,14 @@ export const formatTxData: (a: any) => txData = (txResult: any) => {
         from_address: txResult?.tx?.value?.msg[0]?.value.from_address,
         to_address: txResult?.tx?.value?.msg[0]?.value.to_address,
     };
+}
+export const formatTxData: (a: any) => txData = (txResult: any) => {
+  return {
+      memo: txResult?.tx?.value?.memo,
+      block: txResult?.height,
+      txhash: txResult?.txhash,
+      timestamp: txResult?.timestamp,
+  };
 }
 
 export const fetchTx = async (txHash: string, network ='mainnet') => { 
