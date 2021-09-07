@@ -52,12 +52,19 @@ const StyledDate = styled.p`
 `;
 
 const SymbolsContainer: any = styled.div`
-  width: 55%;
+  width: 60%;
   display: flex;
   justify-content: space-between;
   padding-top: ${(props: any) => (props.useTV ? '30px' : '0px')};
+  overflow: auto;
+  min-height: 60px;
   @media (max-width: 768px) {
     width: 85%;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  ::-webkit-scrollbar { 
+    display: none; 
   }
 `;
 
@@ -67,15 +74,20 @@ const SymbolContainer: any = styled.div`
   border-bottom: ${(props: any) => (props.selected ? `3px solid ${props.theme.colors.secondary}` : 'node')};
   color: ${(props: any) => props.theme.colors.secondary};
   cursor: pointer;
-  @media (max-width: 600px) {
+  text-align: center;
+  min-width: 56px;
+  height: max-content;
+  @media (max-width: 580px) {
     padding-bottom: 10px;
     font-weight: 500;
     font-size: 12px;
+    min-width: 50px;
   }
-  @media (max-width: 320px) {
+  @media (max-width: 440px) {
     padding-bottom: 9px;
     font-weight: 500;
     font-size: 10px;
+    min-width: 40px;
   }
 `;
 
