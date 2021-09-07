@@ -1,5 +1,5 @@
-import { Wrapper, Row, AirdropHeading, Heading, Title, StyledText, ClaimButton } from "../dashboardStyles";
-import { TransactionHeading, OvalShape, OvalContainer, TransactionContainer } from './style';
+import { Wrapper, Row, AirdropHeading, Heading, Title, StyledText, ClaimButton, SimpleText } from "../dashboardStyles";
+import { TransactionHeading, OvalShape, OvalContainer, TransactionContainer, TypeText, DateText, DetailText } from './style';
 import {Flex,Box} from "@contco/core-ui";
 const HEADING_TEXT = `Transaction History`
 import transactions from './dummy.json';
@@ -27,14 +27,12 @@ const Transaction: React.FC<TransactionProps> = () => {
             {transactions.map(a => 
                 <TransactionContainer key={a.type}>
                     <Flex justifyContent='space-between'>
-                        <StyledText>{a.type}</StyledText>
-                        <StyledText textAlign='right'>{a.date}</StyledText>
+                        <TypeText>{a.type}</TypeText>
+                        <DateText>{a.date}</DateText>
                     </Flex>
                     <Box>
-                        <StyledText css={`${css({
-                                            width: [200, null, 350, null, null, 500],
-                                            })}`} > {a.description} 
-                        </StyledText>
+                        <DetailText > {a.description} 
+                        </DetailText>
                     </Box>
                 </TransactionContainer>
             )}

@@ -1,6 +1,8 @@
 import { Box,Flex , Text} from '@contco/core-ui';
 import css from '@styled-system/css';
 import Styled from 'styled-components';
+import { Wrapper, Row, AirdropHeading, Heading, Title, StyledText, ClaimButton, SimpleText } from "../dashboardStyles";
+
 
 export const TransactionHeading = Styled(Flex)`
 ${css({
@@ -33,15 +35,33 @@ export const TransactionContainer = Styled(Flex)`
         width:'100%',
         height:100,
         borderRadius:5,
-        border:'2px solid red',
-        p:1,
+        p:2,
+        mt:3,
+        cursor:'pointer'
     })}
+    &:hover {
+      box-shadow:${(props) => props.theme.boxShadow};
+    }
 `;
 
-export const TypeText = Styled(Text)`
+export const TypeText = Styled(SimpleText)`
     ${css({
        fontWeight:'bold',
+       fontSize: 18,
     })}
 `;
 
+export const DateText = Styled(SimpleText)`
+    ${css({
+       fontWeight:'bold',
+       fontSize: 15,
+       textAlign:'right'
+    })}
+`;
 
+export const DetailText = Styled(Text)`
+    ${css({
+      color:'subHeading',
+      fontSize:1,
+    })}
+`;
