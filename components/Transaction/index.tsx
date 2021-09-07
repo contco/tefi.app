@@ -24,6 +24,7 @@ const Transaction: React.FC<TransactionProps> = () => {
                 )}
                 </OvalContainer>
             </TransactionHeading>
+            <Box mt={6}>
             {transactions.map(a => 
                 <TransactionContainer key={a.type}>
                     <Flex justifyContent='space-between'>
@@ -36,6 +37,7 @@ const Transaction: React.FC<TransactionProps> = () => {
                     </Box>
                 </TransactionContainer>
             )}
+            </Box>
             
         </Wrapper>
     );
