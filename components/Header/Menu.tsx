@@ -5,9 +5,11 @@ import { Flex, Box } from '@contco/core-ui';
 import useOutsideClickListener from '../../utils/useOutsideClickListener';
 import { LightSwitchIcon, DarkSwitchIcon, AnimatedRefresh, RefreshIcon } from './style';
 import { useRouter } from 'next/router';
+import { useModalContext } from '../../contexts';
 
 import { LIGHT_THEME } from '../../constants';
 import Section from './Section';
+
 
 import { INTERNAL_LINKS, PROTOCOL_LINKS, UPCOMING_PROTOCOL_LINKS } from './data';
 
@@ -84,6 +86,8 @@ const Menu: React.FC<Props> = ({
   const MenuRef = React.useRef<HTMLDivElement | null>(null);
   const InnerContainerRef = React.useRef<HTMLDivElement | null>(null);
 
+  const {sendModal} = useModalContext();
+
   const onClose = () => {
     setVisibility(false);
     InnerContainerRef && InnerContainerRef?.current?.scrollTo(0, 0);
@@ -106,14 +110,19 @@ const Menu: React.FC<Props> = ({
 
   const onInternalLinkClick = (url: string) => {
     onClose();
-    setTimeout(() => router.push(url), 300);
+    if(url) {
+      setTimeout(() => router.push(url), 300);
+    }
+    else {
+      sendModal.setVisible(true);
+    }
   };
 
   return (
     <Parent isVisible={isVisible}>
       <MenuContainer ref={MenuRef} isLight={theme === LIGHT_THEME} isVisible={isVisible}>
         <InneContainer ref={InnerContainerRef}>
-          <Section data={INTERNAL_LINKS} onItemClick={onInternalLinkClick} />
+          <Section className='internalSection' data={INTERNAL_LINKS} onItemClick={onInternalLinkClick} />
           <Divider />
           <Section data={PROTOCOL_LINKS} onItemClick={onLinkClick} />
           <Divider />

@@ -92,7 +92,7 @@ export const getAccountData = async (address: string) => {
     if (tokenBalance && tokenBalance[listing.token]?.balance !== '0') {
       const holdingsData = getHoldingsData(tokenBalance, priceResult, listing.token);
       mirrorHoldingsSum = plus(mirrorHoldingsSum, holdingsData.value);
-      mirrorHoldings.push({ symbol: listing.symbol, name: listing.name, price: priceResult, ...holdingsData });
+      mirrorHoldings.push({ symbol: listing.symbol, name: listing.name, contract: listing.token, price: priceResult, ...holdingsData });
     }
     if (stakingPool && pairsList && stakingRewards) {
       const pairPool =

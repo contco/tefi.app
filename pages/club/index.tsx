@@ -77,7 +77,6 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts, next }: any)
   const { onConnect, useConnectedWallet, post } = useWallet();
   const connectedWallet = useConnectedWallet();
   const [loading, setLoading] = useState(false);
-  const [mobile, setMobile] = useState<boolean>(false);
   const [nextOffset, _setNextOffset] = useState<boolean | number> (next); 
   const [isInfiniteLoading, _setIsInfiniteLoading] = useState<boolean>(false);
   const nextOffsetRef = React.useRef(nextOffset);
@@ -113,7 +112,7 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts, next }: any)
     setLoading(false);
     setLatestFeeds(latestPosts);
     if(latestPosts.length && feedPosts.length) {
-      const newlyAddedPosts = difference(latestPosts, feedPosts);
+      const newlyAddedPosts = difference(latestPosts, latestFeeds);
       setFeedPosts([...newlyAddedPosts, ...feedPosts]);
     }
     latestPosts.length && setFeedPosts(latestPosts);

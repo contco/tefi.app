@@ -1,7 +1,6 @@
 import React from 'react';
 import css from '@styled-system/css';
 import styled from 'styled-components';
-import { HoverContainer } from './style';
 
 const Container = styled.div`
   ${css({
@@ -10,6 +9,14 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 1rem 0;
+  &.internalSection {
+   svg {
+    color: secondary;
+    &:hover {
+      opacity: 0.7;
+    }
+   }
+  }
 `;
 
 const StyledHover = styled.div`
@@ -36,11 +43,12 @@ const StyledHover = styled.div`
 interface Props {
   data: any;
   onItemClick: any;
+  className?: string;
 }
 
-const Section: React.FC<Props> = ({ data, onItemClick }) => {
+const Section: React.FC<Props> = ({ data, onItemClick, className }) => {
   return (
-    <Container>
+    <Container className={className}>
       {data.map(({ component: Component, src, alt, url, name }) => (
         <StyledHover key={name} onClick={() => onItemClick(url)}>
           {Component && <Component />}
