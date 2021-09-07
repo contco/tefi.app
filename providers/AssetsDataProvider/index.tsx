@@ -2,7 +2,18 @@ import React, { ReactNode, createContext, useState, useEffect } from 'react';
 import useWallet from '../../lib/useWallet';
 import { useLazyQuery, NetworkStatus } from '@apollo/client';
 import { getAssets } from '../../graphql/queries/getAssets';
-import { getAnchorBondData, getAnchorEarnData, getLunaStakingData, getMirrorShortFarmData } from './helpers';
+import {
+  getAnchorBondData,
+  getAnchorBorrowData,
+  getAnchorEarnData,
+  getLunaStakingData,
+  getMirrorBorrowData,
+  getMirrorShortFarmData,
+  getPylonGatewayData,
+  getSpecFarmData,
+  getSpecRewardData,
+  getStarterraFarms,
+} from './helpers';
 
 const MAX_TRY = 3;
 
@@ -10,7 +21,7 @@ interface ContextProps {
   assets: any;
   error: any;
   refetch: any;
-  loading: any;
+  loader: any;
 }
 
 interface Props {
@@ -21,7 +32,7 @@ const AssetContext = createContext<ContextProps>({
   assets: null,
   error: false,
   refetch: null,
-  loading: false,
+  loader: false,
 });
 
 const AssetsDataProvider: React.FC<Props> = ({ children }) => {
@@ -57,26 +68,25 @@ const AssetsDataProvider: React.FC<Props> = ({ children }) => {
     }
   }, [error]);
 
-  const loading =
+  const loader =
     (!called || dataLoading || (!data && fetchCount !== MAX_TRY)) && networkStatus !== NetworkStatus.refetch;
 
   const assets = data
     ? {
         anchorEarn: getAnchorEarnData(data?.assets?.anchor?.earn),
         anchorBond: getAnchorBondData(data?.assets?.anchor?.burn),
+        anchorBorrow: getAnchorBorrowData(data?.assets?.anchor?.debt),
         lunaStaking: getLunaStakingData(data?.assets?.core),
         mirrorShortFarm: getMirrorShortFarmData(data?.assets?.mirror?.mirrorShortFarm),
-        // core: data?.assets?.core,
-        // mirror: data?.assets?.mirror,
-        // pylon: data?.assets?.pylon,
-        // spectrum: data?.assets?.spectrum,
-        // loterra: data?.assets?.loterra,
-        // terraSwap: data?.assets?.terraSwapPool,
-        // starterra: data?.assets?.starterra,
+        mirrorBorrow: getMirrorBorrowData(data?.assets?.mirror?.mirrorShortFarm),
+        pylonGateway: getPylonGatewayData(data?.assets?.pylon),
+        specFarm: getSpecFarmData(data?.assets?.spectrum),
+        specReward: getSpecRewardData(data?.assets?.spectrum),
+        starterra: getStarterraFarms(data?.assets?.starterra),
       }
     : {};
 
-  return <AssetContext.Provider value={{ assets, loading, error, refetch }}>{children}</AssetContext.Provider>;
+  return <AssetContext.Provider value={{ assets, loader, error, refetch }}>{children}</AssetContext.Provider>;
 };
 
 export default AssetsDataProvider;

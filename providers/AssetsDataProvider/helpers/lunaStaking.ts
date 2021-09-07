@@ -30,7 +30,7 @@ export const getLunaStakingData = (core) => {
         },
       },
       {
-        value: asset.totalValue,
+        value: '$' + convertToFloatValue(asset.totalValue),
       },
       {
         state: asset.state,

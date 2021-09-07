@@ -1,0 +1,32 @@
+import { convertToFloatValue } from '../../../utils/convertFloat';
+
+export const getAnchorBorrowData = (borrow) => {
+  if (!borrow?.collaterals) return {};
+
+  const collaterals = borrow.collaterals.map((item) => {
+    return {
+      token: convertToFloatValue(item.balance) + ' ' + item.symbol,
+      tokenValue: '$' + convertToFloatValue(item.value),
+    };
+  });
+
+  return {
+    titles: ['Collateral List', 'Collateral Value', 'Borrowed Value', 'Net APR'],
+    data: [
+      [
+        { collateralList: collaterals },
+        {
+          collateralValue: '$' + convertToFloatValue(borrow?.totalCollateralValue),
+        },
+        {
+          borrowedValue: '$' + convertToFloatValue(borrow?.value),
+        },
+        {
+          apy: convertToFloatValue(borrow?.netApy) + '%',
+        },
+      ],
+    ],
+    percentage: parseFloat(parseFloat(borrow?.percentage).toFixed(2)),
+    total: '$' + convertToFloatValue(borrow?.value),
+  };
+};
