@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { MsgSend } from "@terra-money/terra.js";
+import { MsgSend, MsgExecuteContract} from "@terra-money/terra.js";
 import { FCD_URL } from '../pages/api/utils';
 import { UNIT } from '../pages/api/mirror/utils';
 import BigNumber from 'bignumber.js';
@@ -16,7 +16,7 @@ interface SendTokenTransactionData {
 	memo?: string;
 	denom?: string;
 	amount: string;
-	tokenContract?: string
+	contract?: string
 }
 
 const fetchCapital = async (denom = DEFAULT_DENOM) => {
@@ -42,14 +42,19 @@ const getGasPrice = async (denom = DEFAULT_DENOM) => {
 
 
 
-export const sendNativeToken = async (data: SendTokenTransactionData, post) => {
+export const sendToken = async (data: SendTokenTransactionData, post) => {
 	try {
-		const { to, from, amount, memo, denom } = data;
+		const { to, from, amount, memo, denom, contract } = data;
 		const amountInLamports = (+amount * +UNIT);
-		const msgs = [new MsgSend(from, to, { [denom]: amountInLamports })]
-		const tax = await calculateTax(amountInLamports.toString());
-		const gasPrice = await getGasPrice();
-		const feeResult = await calculateFee(data.from, msgs, tax, gasPrice, denom, memo);
+		const msgs = denom ? [new MsgSend(from, to, { [denom]: amountInLamports })] :  [
+			new MsgExecuteContract(from, contract, {
+			  transfer: { recipient: to, amount: amountInLamports.toString() },
+			}),
+		  ];
+		const tax = denom ? await calculateTax(amountInLamports.toString()) : '0'; 
+		const feeDenom = denom ?? DEFAULT_DENOM;
+		const gasPrice = await getGasPrice(feeDenom);
+		const feeResult = await calculateFee(data.from, msgs, tax, gasPrice, feeDenom, memo);
 		if (feeResult.error) {
 			return feeResult;
 		}
@@ -72,18 +77,18 @@ export const sendNativeToken = async (data: SendTokenTransactionData, post) => {
 
 export const simulateSendTokenTx = async (data: SendTokenTransactionData ) => {
     try{
-	const { to, from, amount, memo, denom } = data;
-	if(denom) {
+	    const { to, from, amount, memo, denom, contract } = data;
 		const amountInLamports = (+amount * +UNIT);
-		const msgs = [new MsgSend(from, to, { [denom]: amountInLamports })]
-		const tax = await calculateTax(amountInLamports.toString(), denom);
-		const gasPrice = await getGasPrice(denom);
-		const {estimatedFee} = await calculateFee(data.from, msgs, tax, gasPrice, denom, memo);
-		const feeInLamports = plus(estimatedFee, tax);
-		const fee = (+feeInLamports / +UNIT).toString() ;
+		const msgs = denom ?  [new MsgSend(from, to, { [denom]: amountInLamports })] : [new MsgExecuteContract(from, contract, {
+            transfer: { recipient: to, amount: amountInLamports.toString() },
+        })]; 
+		const tax = denom ? await calculateTax(amountInLamports.toString(), denom) : '0';
+		const feeDenom = denom ?? DEFAULT_DENOM;
+		const gasPrice = await getGasPrice(feeDenom);
+		const {estimatedFee} = await calculateFee(data.from, msgs, tax, gasPrice, feeDenom, memo);
+		const feeInLamports = plus(estimatedFee, tax); 
+		const fee = (+feeInLamports / +UNIT).toString();
 		return {fee, feeInLamports, error: false};
-	}
-		return {fee: '0', feeInLamports:'0', error: false};
     }
 	catch(err){
 		return {error: true, fee: '0', feeInLamports: '0'};
