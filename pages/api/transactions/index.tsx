@@ -1,18 +1,27 @@
 import { fetchData } from '../commons';
 import { formatTxData } from '../../../transactions/fetchTx';
 
+const checkFailure = (trans) => {
+  if(trans?.code === 5){
+    return true;
+  }
+  return false;
+}
 
 const filterAndFormatPost = (data) => {
   const transactions = data.txs;
-  const result = transactions.reduce((list, post) => {
-      const transactionData = formatTxData(post);
+  const result = transactions.reduce((list, trans) => {
+    const isFail = checkFailure(trans);
+    if(!isFail){
+      const transactionData = formatTxData(trans);
       list = [...list, transactionData];
       return list;
+    }   
+    return list;
   }, []);
   console.log(result)
   return result;
 };
-
 
 export const getTransaction = async (address,offset = 0, limit = 50) => {
   const query = `https://fcd.terra.dev/v1/txs?offset=${offset}&limit=${limit}&account=${address}`;
