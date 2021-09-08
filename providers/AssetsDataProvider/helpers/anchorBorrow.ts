@@ -10,6 +10,8 @@ export const getAnchorBorrowData = (borrow) => {
     };
   });
 
+  if (!borrow?.collaterals) return {};
+
   return {
     titles: ['Collateral List', 'Collateral Value', 'Borrowed Value', 'Net APR'],
     data: [

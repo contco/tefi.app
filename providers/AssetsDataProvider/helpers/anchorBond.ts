@@ -18,6 +18,8 @@ export const getAnchorBondData = (burn) => {
     ];
   });
 
+  if (burn?.requestData.length <= 0) return {};
+
   return {
     titles: ['Amount', 'Request Time', 'Claimable Time'],
     data: data,

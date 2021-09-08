@@ -28,6 +28,10 @@ export const getPylonGatewayData = (pylon) => {
     ];
   });
 
+  if (!gatewayData || gatewayData.length === 0) {
+    return {};
+  }
+
   return {
     titles: ['Pool Name', 'Deposit', 'Rewards'],
     data: data,

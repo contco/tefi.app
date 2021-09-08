@@ -36,6 +36,10 @@ export const getMirrorShortFarmData = (short) => {
     ];
   });
 
+  if (!short || short.length === 0) {
+    return {};
+  }
+
   return {
     titles: ['Name', 'Shorted', 'Locked UST', 'Unlocked UST', 'Reward'],
     data: data,

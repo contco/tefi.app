@@ -45,6 +45,10 @@ export const getMirrorBorrowData = (borrow) => {
     ];
   });
 
+  if (!borrow || borrow.length === 0) {
+    return {};
+  }
+
   return {
     titles: ['Name', 'Price', 'Borrowed', 'Collateral', 'Collateral Ratio'],
     data: data,

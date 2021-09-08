@@ -38,6 +38,10 @@ export const getLunaStakingData = (core) => {
     ];
   });
 
+  if (!core?.staking || core.staking.length === 0) {
+    return {};
+  }
+
   return {
     titles: ['Validator', 'Balance', 'Rewards', 'Value', 'State'],
     data: data,
