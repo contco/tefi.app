@@ -10,4 +10,6 @@ export { getSpecRewardData } from './specReward';
 export { getStarterraFarms } from './starterraFarms';
 export { getAssetData } from './assets';
 export { getPoolData } from './pools';
-export { getRewardData} from './rewards'
+export { getRewardData } from './rewards';
+export { getAirdropsData } from './airdrops';
+export { getLoterraData } from './loterra';

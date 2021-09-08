@@ -29,7 +29,7 @@ import ShortFarms from '../../components/ShortFarms';
 import MirrorBorrowing from '../../components/MirrorBorrowing';
 import StarTerraFarms from '../../components/StarTerraFarms';
 import { useAssetsDataContext } from '../../contexts';
-// import Section from '../../components/DashboardComponents/Section';
+import Section from '../../components/DashboardComponents/Section';
 
 const MAX_TRY = 3;
 
@@ -104,7 +104,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
           <EmptyComponent msg={error ? 'Oops! Error Fetching Assets' : null} />
         ) : (
           <Body>
-            {/* <Section data={assets?.rewards?.data} /> */}
+            <Section data={assets?.loterra?.data} />
             <MarketValue
               core={data?.assets.core || {}}
               pylonAssets={data?.assets?.pylon || {}}

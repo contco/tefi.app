@@ -3,10 +3,12 @@ import useWallet from '../../lib/useWallet';
 import { useLazyQuery, NetworkStatus } from '@apollo/client';
 import { getAssets } from '../../graphql/queries/getAssets';
 import {
+  getAirdropsData,
   getAnchorBondData,
   getAnchorBorrowData,
   getAnchorEarnData,
   getAssetData,
+  getLoterraData,
   getLunaStakingData,
   getMirrorBorrowData,
   getMirrorShortFarmData,
@@ -106,6 +108,8 @@ const AssetsDataProvider: React.FC<Props> = ({ children }) => {
           data?.assets?.spectrum,
           data?.assets?.loterra,
         ),
+        airdrops: getAirdropsData(data?.assets?.anchor, data?.assets?.mirror, data?.assets?.pylon),
+        loterra: getLoterraData(data?.assets?.loterra),
       }
     : {};
 

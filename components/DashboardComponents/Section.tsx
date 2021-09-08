@@ -13,6 +13,9 @@ const LINK_ICON_WIDTH = 16;
 const LINK_ICON_HEIGHT = 12;
 
 const Section: React.FC<Props> = ({ data }) => {
+  if (!data || data.length === 0) {
+    return null;
+  }
   return data.map((items: any, index) => {
     return (
       <Row key={index}>
@@ -57,6 +60,9 @@ const Section: React.FC<Props> = ({ data }) => {
                 {index < collaterals.length - 1 ? <br></br> : null}
               </div>
             ));
+          } else if (Object.keys(item)[0] === 'drawTime') {
+            const timestamp: any = Object.values(item)[0];
+            return <StyledText>{timestamp}</StyledText>;
           } else return <StyledText key={index}>{Object.values(item)[0]}</StyledText>;
         })}
       </Row>
