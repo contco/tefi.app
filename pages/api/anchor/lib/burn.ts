@@ -6,8 +6,8 @@ import { secondsToDate, UNIT } from '../../mirror/utils';
 const URL = 'https://mantle.anchorprotocol.com/';
 const BASSETS_INFO = 'https://api.anchorprotocol.com/api/v1/bassets/';
 
-const WITHDRAWABLE_REQUEST_QUERY = (address) =>
-  `{\n  withdrawableUnbonded: WasmContractsContractAddressStore(\n    ContractAddress: \"terra1mtwph2juhj0rvjz7dy92gvl6xvukaxu8rfv8ts\"\n    QueryMsg: \"{\\\"withdrawable_unbonded\\\":{\\\"block_time\\\":1629097083,\\\"address\\\":\\\"${address}\\\"}}\"\n  ) {\n    Result\n  }\n  unbondedRequests: WasmContractsContractAddressStore(\n    ContractAddress: \"terra1mtwph2juhj0rvjz7dy92gvl6xvukaxu8rfv8ts\"\n    QueryMsg: \"{\\\"unbond_requests\\\":{\\\"address\\\":\\\"${address}\\\"}}\"\n  ) {\n    Result\n  }\n}\n`;
+const WITHDRAWABLE_REQUEST_QUERY = (address, blockTime) =>
+  `{\n  withdrawableUnbonded: WasmContractsContractAddressStore(\n    ContractAddress: \"terra1mtwph2juhj0rvjz7dy92gvl6xvukaxu8rfv8ts\"\n    QueryMsg: \"{\\\"withdrawable_unbonded\\\":{\\\"block_time\\\":${blockTime},\\\"address\\\":\\\"${address}\\\"}}\"\n  ) {\n    Result\n  }\n  unbondedRequests: WasmContractsContractAddressStore(\n    ContractAddress: \"terra1mtwph2juhj0rvjz7dy92gvl6xvukaxu8rfv8ts\"\n    QueryMsg: \"{\\\"unbond_requests\\\":{\\\"address\\\":\\\"${address}\\\"}}\"\n  ) {\n    Result\n  }\n}\n`;
 
 const ALL_HISTORY_QUERY = (number) =>
   `{\n  allHistory: WasmContractsContractAddressStore(\n    ContractAddress: "terra1mtwph2juhj0rvjz7dy92gvl6xvukaxu8rfv8ts"\n    QueryMsg: "{\\"all_history\\":{\\"start_from\\":${
@@ -26,12 +26,13 @@ export const getAllHistory = async (requestNumber: number) => {
     });
 
     const histories = JSON.parse(history?.data?.data?.allHistory?.Result).history;
-
+    const blockTime = Math.floor(new Date().getTime() / 1000);
     if (histories.length > 0) {
       const exchangeRate = histories[0].applied_exchange_rate;
       const requestedTime = secondsToDate(histories[0].time);
       const unbondingPeriod = JSON.parse(history?.data?.data?.parameters?.Result)?.unbonding_period;
-      const claimableTime = secondsToDate(histories[0].time + unbondingPeriod);
+      const claimableTime =
+        histories[0].time + unbondingPeriod > blockTime ? secondsToDate(histories[0].time + unbondingPeriod) : '-';
 
       return {
         exchangeRate,
@@ -47,10 +48,11 @@ export const getAllHistory = async (requestNumber: number) => {
 };
 
 export const getWithdrawableRequest = async (address: string) => {
+  const blockTime = Math.floor(new Date().getTime() / 1000);
   try {
     const withdrawables = await axios.get(URL + '?bond--withdrawable-requests', {
       params: {
-        query: WITHDRAWABLE_REQUEST_QUERY(address),
+        query: WITHDRAWABLE_REQUEST_QUERY(address, blockTime),
         variables: {},
       },
     });
@@ -83,7 +85,7 @@ export const getWithdrawableRequest = async (address: string) => {
     const withdrawableAmount = JSON.parse(withdrawables?.data?.data.withdrawableUnbonded?.Result)?.withdrawable;
 
     return {
-      requestHistories,
+      requestHistories: requestHistories.filter((history) => history.time.claimableTime !== '-'),
       withdrawableAmount: valueConversion(withdrawableAmount).toString(),
     };
   } catch (err) {
