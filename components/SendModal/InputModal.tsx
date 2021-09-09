@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useMemo} from 'react';
 import styled from 'styled-components';
 import css from '@styled-system/css';
 import { Box, Flex, Text, } from '@contco/core-ui';
@@ -7,14 +7,15 @@ import { ButtonRound } from '../UIComponents';
 import { AccAddress } from '@terra-money/terra.js';
 import { useAssetContext } from '../../contexts';
 import { SmallText } from './common';
-import { convertToFloatValue } from '../../utils/convertFloat';
 import { useEffect } from 'react';
 import { simulateSendTokenTx } from '../../transactions/sendToken';
 import useWallet from '../../lib/useWallet';
 
 const DEFAULT_INPUT_STATE = {address: '', amount: '', memo: ''};
 const DEFAULT_TX_STATE = '---';
-
+const AMOUNT_ERROR = 'Amount should be less than balance';
+const TAX_ERROR = 'Balance not enough to pay fee';
+const AMOUNT_DECIMAL_ERROR = 'Amount must be within 6 decimal points';
 export const ModalBox = styled(Box)`
   ${css({
     height: [530, null, 550, 600],
@@ -106,8 +107,16 @@ const AmountInput = styled(Input)`
 
 const BalanceContainer = styled(Flex)`
   ${css({
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     pt: 1,
+  })}
+`;
+
+const MsgText = styled(SmallText)`
+  ${css({
+    color: '#e74c3c', 
+    pr: 2,
+    width: '70%',
   })}
 `;
 
@@ -135,13 +144,12 @@ interface SendInput {
 }
 
 export const InputModal = ({onSend}) => {
-  const {assets} = useAssetContext();
+  const {assets, loading} = useAssetContext();
   const [input, setInput] = useState<SendInput>(DEFAULT_INPUT_STATE);
   const [selectedAsset, setAsset] = useState<Holdings | null>(null);
   const [txFee, setTxFee] = useState<string>(DEFAULT_TX_STATE);
   const [isTxCalculated, setIsTxCalculated] = useState(false);
   const [simulationLoading, setSimulationLoading] = useState(false);
-
   const {useConnectedWallet} = useWallet();
 
   const connectedWallet = useConnectedWallet();
@@ -164,17 +172,41 @@ export const InputModal = ({onSend}) => {
     let value =  e.target.value;
     const key = e.target.name;
     if(key === 'amount' ) {
-        value =  value === ''  ? value :  `${Math.abs(value)}`;
-      }
-
+       if(value !== '' && Math.sign(value) === -1) {
+         value = (value * -1).toString();
+       }
+    }
     setInput({...input, [key]: value});
     resetTxState();
   }
 
   const isValidAddress = AccAddress.validate(input.address);
+
+  const amountError = useMemo(() => {
+    if (input.amount !== '') {
+      if(!isTxCalculated) {
+        const lengthError = input.amount.split('.')[1] ? !(input.amount.split('.')[1]?.length <= 6) : false;
+        if (lengthError) {  
+        return {error: true, msg: AMOUNT_DECIMAL_ERROR};
+        }
+        if(+input.amount >= +selectedAsset?.balance) {
+          return{error: true, msg: AMOUNT_ERROR};
+        }
+      }
+      else if (isTxCalculated && !simulationLoading) {
+        if(selectedAsset?.denom) {
+          if ((parseFloat(input.amount) + parseFloat(txFee)) > parseFloat(selectedAsset?.balance)) {
+            return {error: true, msg: TAX_ERROR};
+          }
+        }
+        
+      }
+    }
+    return {error: false, msg: ''};
+  }, [input.amount, txFee, isTxCalculated, simulationLoading, selectedAsset?.balance])
  
-  const isInvalidInput =  !isValidAddress || input.address.trim() === '' || input.amount.trim() === '';
-  const isSendDisabled = simulationLoading || !isTxCalculated;
+  const isInvalidInput =  amountError.error || !isValidAddress || input.address.trim() === '' || input.amount.trim() === '';
+  const isSendDisabled =  amountError.error || simulationLoading || !isTxCalculated;
   const onAssetSelect = (asset: Holdings ) => {
     setAsset(asset);
     resetTxState();
@@ -200,16 +232,16 @@ export const InputModal = ({onSend}) => {
     if(!getDisabledState()) {
       if(!isTxCalculated) {
         setSimulationLoading(true);
-        const data = {to: input.address, from: walletAddress, amount: input.amount, memo: input.memo, denom: selectedAsset?.denom, tokenContract: selectedAsset?.contract };
+        const data = {to: input.address, from: walletAddress, amount: input.amount, memo: input.memo, denom: selectedAsset?.denom, contract: selectedAsset?.contract };
         const result = await simulateSendTokenTx(data);
         if(!result.error) { 
-          setTxFee(`${result.fee} ${selectedAsset.symbol}`);
+          setTxFee(result.fee);
           setIsTxCalculated(true);
         }
         setSimulationLoading(false);
       }
       else {
-        const data = {to: input.address, from: walletAddress, amount: input.amount, memo: input.memo, denom: selectedAsset?.denom, tokenContract: selectedAsset?.contract };
+        const data = {to: input.address, from: walletAddress, amount: input.amount, memo: input.memo, denom: selectedAsset?.denom, contract: selectedAsset?.contract };
         resetTxState();
         setInput(DEFAULT_INPUT_STATE);
         onSend(data);
@@ -217,6 +249,14 @@ export const InputModal = ({onSend}) => {
     }
   }
 
+  const showTxSymbol = () => {
+    if(!isTxCalculated) {
+      return '';
+    }
+    else {
+      return selectedAsset?.denom ? selectedAsset?.symbol : 'UST';
+    }
+  }
   return (
     <ModalBox>
       <ModalTitle>Send</ModalTitle>
@@ -227,12 +267,13 @@ export const InputModal = ({onSend}) => {
         </InputContainer>
         <InputContainer>
           <InputLabel>Amount</InputLabel>
-          <AmountBox>
-            <CurrencySelect assets={assets} selectedAsset={selectedAsset} setAsset={onAssetSelect}/>
+          <AmountBox error={amountError.error}>
+            <CurrencySelect loading={loading}assets={assets} selectedAsset={selectedAsset} setAsset={onAssetSelect}/>
             <AmountInput value={input.amount} onChange={onChange} name='amount' min= '0' type='number' />
           </AmountBox>
           <BalanceContainer>
-            <SmallText>Balance: {selectedAsset  ? convertToFloatValue(selectedAsset?.balance) : '0.00'}</SmallText>
+            <MsgText>{amountError.msg}</MsgText>
+            <SmallText>Balance: {selectedAsset  ? selectedAsset?.balance : '0.00'}</SmallText>
           </BalanceContainer>
         </InputContainer>
         <InputContainer>
@@ -242,7 +283,7 @@ export const InputModal = ({onSend}) => {
       </InputSection>
       <FeeSection>
         <SmallText fontWeight={500}>TxFee</SmallText>
-        <SmallText>{simulationLoading ? 'Simulating...' : `${txFee}`}</SmallText>
+        <SmallText>{simulationLoading ? 'Simulating...' : `${txFee} ${showTxSymbol()}`}</SmallText>
       </FeeSection>
       <ButtonContainer>
         <ButtonRound onClick={onSendClick} disabled={getDisabledState()}>{isTxCalculated ? 'Send' : 'Next'}</ButtonRound>

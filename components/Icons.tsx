@@ -8,6 +8,8 @@ import LoadingIcon from '../public/icons/loading.svg';
 import HourGlassIcon from '../public/icons/hourglass.svg';
 import DeniedIcon from '../public/icons/denied.svg';
 import CheckCircleIcon from '../public/icons/checkcircle.svg';
+import DisconnectIcon from '../public/icons/disconnect.svg';
+import ErrorIcon from '../public/icons/error.svg';
 import TELEGRAM_ICON from '../public/icons/telegram.svg';
 import TWITTER_ICON from '../public/icons/twitter.svg';
 
@@ -30,6 +32,8 @@ export
     HourGlassIcon,
     DeniedIcon,
     CheckCircleIcon,
+    DisconnectIcon,
+    ErrorIcon,
     TELEGRAM_ICON,
     TWITTER_ICON,
     DASHBOARD_ICON,

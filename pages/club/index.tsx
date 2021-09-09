@@ -8,7 +8,7 @@ import Posts from '../../components/Feed/Posts';
 import Header from '../../components/Header';
 import { WALLET_ADDRESS_TYPE } from '../../constants';
 import useWallet from '../../lib/useWallet';
-import { sendNativeToken } from '../../transactions/sendToken';
+import { sendToken } from '../../transactions/sendToken';
 import { getPost } from '../api/feed/posts';
 import ConnectModal from '../../components/ConnectModal';
 import { WalletConnectType } from '../../constants';
@@ -72,7 +72,6 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts, next }: any)
   const [address, setAddress] = useState<string>();
   const [addressType, setAddressType] = useState<string>();
   const [showModal, setModalVisible] = useState<boolean>(false);
-  const [latestFeeds, setLatestFeeds] = useState(posts);
   const [feedPosts, _setFeedPosts] = useState<any>(null);
   const { onConnect, useConnectedWallet, post } = useWallet();
   const connectedWallet = useConnectedWallet();
@@ -110,12 +109,10 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts, next }: any)
     setLoading(true);
     const {posts: latestPosts} = await getPost();
     setLoading(false);
-    setLatestFeeds(latestPosts);
     if(latestPosts.length && feedPosts.length) {
-      const newlyAddedPosts = difference(latestPosts, latestFeeds);
+      const newlyAddedPosts = difference(latestPosts, feedPosts);
       setFeedPosts([...newlyAddedPosts, ...feedPosts]);
     }
-    latestPosts.length && setFeedPosts(latestPosts);
   };
 
   useEffect(() => {
@@ -179,7 +176,7 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts, next }: any)
         txhash: null,
         timestamp: null,
       };
-      const result = await sendNativeToken(transactionData, post);
+      const result = await sendToken(transactionData, post);
       if (!result.error) {
         setFeedPosts([newFeedPost, ...feedPosts]);
       }

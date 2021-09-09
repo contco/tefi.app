@@ -1,41 +1,23 @@
 import React from 'react';
-import { CheckCircleIcon, DeniedIcon } from '../Icons';
+import { CheckCircleIcon, DeniedIcon, ErrorIcon } from '../Icons';
 import { TxHash } from './TxHash';
 import { ModalButton } from './ModalButton';
-import {ModalSmall ,ContentContainer, IconContainer, Title } from './common';
+import {ModalSmall ,ContentContainer, IconContainer, Title} from './common';
+import { ModalState } from '.';
 
 const COMPLETE_TEXT = 'Complete!';
 const DENIED_TEXT = 'User Denied';
-
-export enum Status {
-    complete,
-    denied
-}
+const ERROR_TEXT = 'Failed!';
 
 interface Props {
-    status: Status,
+    status: ModalState,
     txHash?: string,
     onClose: () => void;
 }
 
 export const CompleteModal: React.FC<Props> = ({status, txHash, onClose}) => {
 
-  if (status === Status.complete) {
-    return (
-      <ModalSmall>
-        <ContentContainer>
-          <IconContainer>
-            <CheckCircleIcon />
-          </IconContainer>
-          <Title>{COMPLETE_TEXT}</Title>
-        </ContentContainer>
-        <TxHash isSmallSize txHash={txHash} /> 
-        <ModalButton isSmallSize onClick={onClose}  title='OK' />
-      </ModalSmall>
-    );
-  }
-
-  else {
+  if (status === ModalState.denied) {
     return (
       <ModalSmall>
         <ContentContainer>
@@ -48,4 +30,17 @@ export const CompleteModal: React.FC<Props> = ({status, txHash, onClose}) => {
       </ModalSmall>
     );
   }
-}
+
+  return (
+      <ModalSmall>
+        <ContentContainer>
+          <IconContainer>
+            {status === ModalState.success ? <CheckCircleIcon /> : <ErrorIcon/>}
+          </IconContainer>
+          <Title>{status === ModalState.success ? COMPLETE_TEXT : ERROR_TEXT}</Title>
+        </ContentContainer>
+        <TxHash isSmallSize txHash={txHash} /> 
+        <ModalButton isSmallSize onClick={onClose}  title='OK' />
+      </ModalSmall>
+    );
+  }

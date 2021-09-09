@@ -2,7 +2,7 @@ import React, {useState, useRef} from 'react';
 import styled from 'styled-components';
 import css from "@styled-system/css";
 import { Flex, Text } from '@contco/core-ui';
-import { ArrowDownIcon } from '../Icons';
+import { ArrowDownIcon, LoadingIcon } from '../Icons';
 import useOutsideClickListener from '../../utils/useOutsideClickListener';
 
 const Container = styled(Flex)`
@@ -64,13 +64,23 @@ ${css({
     }
 })}
 `;
+
+const LoadingContainer = styled(Flex)`
+  ${css({
+    height: '100%',
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  })}
+`
 interface Props {
     assets: [Holdings];
     selectedAsset: Holdings;
     setAsset: (asset: Holdings) => void;
+    loading: boolean;
 }
 
-export const CurrencySelect: React.FC<Props> = ({assets, selectedAsset, setAsset}) => {
+export const CurrencySelect: React.FC<Props> = ({assets, selectedAsset, setAsset, loading}) => {
     const [displayMenu, setDisplayMenu] = useState<boolean>(true);
     const selectRef = useRef();
 
@@ -94,9 +104,15 @@ export const CurrencySelect: React.FC<Props> = ({assets, selectedAsset, setAsset
           <ContainerLabel>{getSelectedCurrency()}</ContainerLabel>
           <StyledArrowDownIcon/>
           <CurrencyMenu isVisible={displayMenu}>
-              {assets.map(item => (
+            {loading ? 
+            <LoadingContainer>
+              <LoadingIcon />
+            </LoadingContainer>
+            : 
+              assets.map(item => (
                 <CurrencyItem onClick={() => onItemSelect(item)} key={item.contract || item.denom}>{item.symbol}</CurrencyItem>
-              ))}
+              ))
+              }
           </CurrencyMenu>
       </Container>
 
