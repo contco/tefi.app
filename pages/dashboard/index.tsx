@@ -21,7 +21,6 @@ import { ADDRESS_KEY, LOCAL_ADDRESS_TYPE, WALLET_ADDRESS_TYPE } from '../../cons
 import Airdrops from '../../components/Airdrop';
 import { NextSeo } from 'next-seo';
 import { DashboardSEO } from '../../next-seo.config';
-
 import useWallet from '../../lib/useWallet';
 import Earn from '../../components/Earn';
 import Burn from '../../components/Burn';
@@ -29,7 +28,6 @@ import ShortFarms from '../../components/ShortFarms';
 import MirrorBorrowing from '../../components/MirrorBorrowing';
 import StarTerraFarms from '../../components/StarTerraFarms';
 import { useAssetsDataContext } from '../../contexts';
-import Section from '../../components/DashboardComponents/Section';
 
 const MAX_TRY = 3;
 
@@ -104,7 +102,6 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
           <EmptyComponent msg={error ? 'Oops! Error Fetching Assets' : null} />
         ) : (
           <Body>
-            <Section data={assets?.loterra?.data} />
             <MarketValue
               core={data?.assets.core || {}}
               pylonAssets={data?.assets?.pylon || {}}
@@ -122,10 +119,10 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
               pylonAssets={data?.assets?.pylon || {}}
               spectrum={data?.assets?.spectrum}
             />
-            <PylonGateway pylonAssets={data?.assets?.pylon || {}} />
-            <Earn ancAssets={data?.assets?.anchor || {}} />
-            <Burn ancAssets={data?.assets?.anchor || {}} />
-            <Borrowing ancAssets={data?.assets?.anchor || {}} />
+            <PylonGateway pylon={assets?.pylon || {}} />
+            <Earn earn={assets?.anchorEarn || {}} />
+            <Burn burn={assets?.anchorBond || {}} />
+            <Borrowing borrow={assets?.anchorBorrow || {}} />
             <Rewards
               pylonAssets={data?.assets?.pylon || {}}
               mirrorAssets={data?.assets?.mirror || {}}
@@ -139,11 +136,11 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
               ancAssets={data?.assets?.anchor || {}}
               terraSwapAssets={data?.assets?.terraSwapPool}
             />
-            <MirrorBorrowing mirrorAssets={data?.assets?.mirror || {}} />
-            <ShortFarms mirrorAssets={data?.assets?.mirror || {}} />
-            <SpectrumFarms spectrum={data?.assets?.spectrum} />
-            <SpectrumRewards spectrum={data?.assets?.spectrum} />
-            <StarTerraFarms starterra={data?.assets?.starterra} />
+            <MirrorBorrowing borrow={assets?.mirrorBorrow || {}} />
+            <ShortFarms short={assets?.mirrorShortFarm || {}} />
+            <SpectrumFarms farm={assets?.specFarm} />
+						<SpectrumRewards reward={assets?.specReward} />
+            <StarTerraFarms farm={assets?.starterraFarms} />
             <Loterra loterra={data?.assets?.loterra} />
             <LunaStaking core={data?.assets.core || {}} />
             <Airdrops

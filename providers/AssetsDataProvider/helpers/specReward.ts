@@ -35,9 +35,6 @@ export const getSpecRewardData = (spectrum) => {
           tokenValue: '$' + convertToFloatValue(farm?.stakedSpecValue),
         },
       },
-      {
-        reward: '$' + convertToFloatValue(farm?.stakedLpUstValue),
-      },
       totalReward,
     ];
   });

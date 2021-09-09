@@ -84,10 +84,10 @@ const AssetsDataProvider: React.FC<Props> = ({ children }) => {
         lunaStaking: getLunaStakingData(data?.assets?.core),
         mirrorShortFarm: getMirrorShortFarmData(data?.assets?.mirror?.mirrorShortFarm),
         mirrorBorrow: getMirrorBorrowData(data?.assets?.mirror?.mirrorShortFarm),
-        pylonGateway: getPylonGatewayData(data?.assets?.pylon),
+        pylon: getPylonGatewayData(data?.assets?.pylon),
         specFarm: getSpecFarmData(data?.assets?.spectrum),
         specReward: getSpecRewardData(data?.assets?.spectrum),
-        starterra: getStarterraFarms(data?.assets?.starterra),
+        starterraFarms: getStarterraFarms(data?.assets?.starterra),
         assets: getAssetData(
           data?.assets?.anchor,
           data?.assets?.mirror,

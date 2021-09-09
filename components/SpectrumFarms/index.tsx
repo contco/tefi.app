@@ -1,49 +1,27 @@
-import { convertToFloatValue } from '../../utils/convertFloat';
-import LpContainer from '../DashboardComponents/LpContainer';
 import TitleContainer from '../DashboardComponents/TitleContainer';
-import { Wrapper, Row, HeadingWrapper, Heading, StyledText } from '../dashboardStyles';
+import { Wrapper, HeadingWrapper, Heading } from '../dashboardStyles';
+import Header from '../DashboardComponents/Header';
+import Section from '../DashboardComponents/Section';
 
 const HEADING_TEXT = `Spectrum Farms`;
 
-const SpecFarmTitles = ['Name', 'Farm', 'Balance', 'Value'];
-export interface PoolsProps {
-  spectrum: SpectrumAccount;
+export interface SpectrumProps {
+  farm: any;
 }
 
-const Pools: React.FC<PoolsProps> = ({ spectrum }) => {
-  const getFarmsTotal = () => {
-    return convertToFloatValue(spectrum?.spectrumTotal?.farmsTotal);
-  };
-
-  const getFarms = () => {
-    return spectrum.farms.map((farm: SpecFarms, index) => (
-      <Row key={index}>
-        <StyledText fontWeight={500}> {farm?.lpName}</StyledText>
-        <StyledText> {farm?.farm}</StyledText>
-        <LpContainer
-          lp={convertToFloatValue(farm?.stakedLp) + ' LP'}
-          token1={convertToFloatValue(farm?.tokenStaked) + ' ' + farm?.symbol}
-          token2={convertToFloatValue(farm?.ustStaked) + ' UST'}
-        />
-        <StyledText> ${convertToFloatValue(farm?.stakedLpUstValue)}</StyledText>
-      </Row>
-    ));
-  };
-
-  if (!spectrum?.farms || spectrum?.farms.length === 0) {
-    return <> </>;
-  }
+const SpectrumFarms: React.FC<SpectrumProps> = ({ farm }) => {
+  if (JSON.stringify(farm) === '{}') return <></>;
 
   return (
     <Wrapper>
       <HeadingWrapper>
         <Heading>{HEADING_TEXT}</Heading>
-        <StyledText>${getFarmsTotal()}</StyledText>
+        <Header data={farm.total} />
       </HeadingWrapper>
-      <TitleContainer titles={SpecFarmTitles} />
-      {getFarms()}
+      <TitleContainer titles={farm.titles} />
+      <Section data={farm.data} />
     </Wrapper>
   );
 };
 
-export default Pools;
+export default SpectrumFarms;

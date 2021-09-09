@@ -1,5 +1,5 @@
 import { Flex } from '@contco/core-ui';
-import { StyledTextContainer, SimpleText } from '../dashboardStyles';
+import { StyledTextContainer, SimpleText, StyledText } from '../dashboardStyles';
 
 interface Data {
   name: string;
@@ -7,20 +7,23 @@ interface Data {
 }
 
 interface Props {
-  data: Data[];
+  data: Data[] | string;
 }
 
-const Header: React.FC<Props> = ({ data }) => (
-  <Flex>
-    {data.map((d, index) => (
-      <StyledTextContainer key={index}>
-        <SimpleText>
-          <b>{d.name}: </b> &nbsp;
-        </SimpleText>
-        <SimpleText>{d.value}</SimpleText>
-      </StyledTextContainer>
-    ))}
-  </Flex>
-);
+const Header: React.FC<Props> = ({ data }) => {
+  if (typeof data === 'string') return <StyledText>{data}</StyledText>;
+  return (
+    <Flex>
+      {data.map((d, index) => (
+        <StyledTextContainer key={index}>
+          <SimpleText>
+            <b>{d.name}: </b> &nbsp;
+          </SimpleText>
+          <SimpleText>{d.value}</SimpleText>
+        </StyledTextContainer>
+      ))}
+    </Flex>
+  );
+};
 
 export default Header;
