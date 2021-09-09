@@ -112,42 +112,21 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
               terraSwapAssets={data?.assets?.terraSwapPool}
               starterra={data?.assets?.starterra}
             />
-            <Assets
-              mirrorAssets={data?.assets?.mirror || {}}
-              core={data?.assets.core}
-              ancAssets={data?.assets?.anchor || {}}
-              pylonAssets={data?.assets?.pylon || {}}
-              spectrum={data?.assets?.spectrum}
-            />
+            <Assets assets={assets.assets} />
             <PylonGateway pylon={assets?.pylon || {}} />
             <Earn earn={assets?.anchorEarn || {}} />
             <Burn burn={assets?.anchorBond || {}} />
             <Borrowing borrow={assets?.anchorBorrow || {}} />
-            <Rewards
-              pylonAssets={data?.assets?.pylon || {}}
-              mirrorAssets={data?.assets?.mirror || {}}
-              ancAssets={data?.assets?.anchor || {}}
-              spectrum={data?.assets?.spectrum}
-              loterra={data?.assets?.loterra}
-            />
-            <Pools
-              pylonAssets={data?.assets?.pylon || {}}
-              mirrorAssets={data?.assets?.mirror || {}}
-              ancAssets={data?.assets?.anchor || {}}
-              terraSwapAssets={data?.assets?.terraSwapPool}
-            />
+            <Rewards rewards={assets.rewards} />
+            <Pools pools={assets.pools} />
             <MirrorBorrowing borrow={assets?.mirrorBorrow || {}} />
             <ShortFarms short={assets?.mirrorShortFarm || {}} />
             <SpectrumFarms farm={assets?.specFarm} />
-						<SpectrumRewards reward={assets?.specReward} />
+            <SpectrumRewards reward={assets?.specReward} />
             <StarTerraFarms farm={assets?.starterraFarms} />
-            <Loterra loterra={data?.assets?.loterra} />
-            <LunaStaking core={data?.assets.core || {}} />
-            <Airdrops
-              pylonAssets={data?.assets?.pylon || {}}
-              mirrorAssets={data?.assets?.mirror || {}}
-              anchorAssets={data?.assets?.anchor}
-            />
+            <Loterra loterra={assets?.loterra} />
+            <LunaStaking staking={assets.lunaStaking || {}} />
+            <Airdrops airdrops={assets.airdrops} />
           </Body>
         )}
       </div>

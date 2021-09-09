@@ -1,6 +1,5 @@
 import { Flex } from '@contco/core-ui';
 import { StyledTextContainer, SimpleText, StyledText } from '../dashboardStyles';
-
 interface Data {
   name: string;
   value: string;
@@ -12,6 +11,7 @@ interface Props {
 
 const Header: React.FC<Props> = ({ data }) => {
   if (typeof data === 'string') return <StyledText>{data}</StyledText>;
+
   return (
     <Flex>
       {data.map((d, index) => (

@@ -35,6 +35,6 @@ export const getPylonGatewayData = (pylon) => {
   return {
     titles: ['Pool Name', 'Deposit', 'Rewards'],
     data: data,
-    total: getGatewayTotal(),
+    total: '$' + getGatewayTotal(),
   };
 };

@@ -25,6 +25,7 @@ export const getAssetData = (anchor, mirror, pylon, core, spectrum) => {
     ...anchor?.assets,
   ];
   const sortedHoldings = holdings.sort((a: any, b: any) => b.value - a.value);
+  const largerHoldings = sortedHoldings.filter((asset: Holdings) => parseFloat(asset?.value) >= 1);
 
   const data = sortedHoldings.map((asset: Holdings) => {
     const symbol = assets[asset.symbol.toLowerCase()] ? { url: asset.symbol } : { name: asset.symbol };
@@ -38,9 +39,21 @@ export const getAssetData = (anchor, mirror, pylon, core, spectrum) => {
     ];
   });
 
+  const largeData = largerHoldings.map((asset: Holdings) => {
+    const symbol = assets[asset.symbol.toLowerCase()] ? { url: asset.symbol } : { name: asset.symbol };
+    return [
+      symbol,
+      { name: asset.name },
+      { value: convertToFloatValue(asset.balance) },
+      { price: '$' + convertToFloatValue(asset.price) },
+      { value: '$' + convertToFloatValue(asset.value) },
+    ];
+  });
+
   return {
     titles: ['Ticker', 'Name', 'Balance', 'Price', 'Value'],
     data: data,
-    total: getAssetsTotal(),
+    largeData: largeData,
+    total: '$' + getAssetsTotal(),
   };
 };
