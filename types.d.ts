@@ -128,6 +128,7 @@ interface RequestData {
 interface BurnData {
   requestData: Array<RequestData>;
   withdrawableAmount: string;
+  withdrawableValue: string;
   totalBurnAmount: string;
   totalBurnAmountValue: string;
 }
@@ -338,7 +339,7 @@ interface StarStakedData {
   lpname: string;
   faction: string;
   stakedLp: string;
-	stakedLpUstValue: string;
+  stakedLpUstValue: string;
   token1Staked: string;
   token2Staked: string;
   rewards: string;
