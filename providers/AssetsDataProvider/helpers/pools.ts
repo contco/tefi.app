@@ -8,7 +8,7 @@ export const getPoolData = (anchor, mirror, pylon, terraSwap) => {
       parseFloat(mirror?.total?.mirrorPoolSum) +
       parseFloat(anchor?.total?.anchorPoolSum) +
       parseFloat(terraSwap.total);
-    return convertToFloatValue(total.toString()) ?? '0';
+    return total.toString() ?? '0';
   };
 
   const pool = [...pylon?.pylonPool, ...mirror?.mirrorStaking, ...anchor.pool, ...terraSwap.list].sort(
@@ -47,6 +47,7 @@ export const getPoolData = (anchor, mirror, pylon, terraSwap) => {
   return {
     titles: ['Name', 'Staked', 'Liquid', 'Value'],
     data: data,
-    total: '$' + getPoolTotal(),
+    total: '$' + convertToFloatValue(getPoolTotal()),
+    totalValue: parseFloat(getPoolTotal()),
   };
 };

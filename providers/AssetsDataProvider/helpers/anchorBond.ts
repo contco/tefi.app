@@ -30,5 +30,6 @@ export const getAnchorBondData = (burn) => {
         value: burn.withdrawableAmount + ' LUNA',
       },
     ],
+		totalValue: parseFloat(burn?.totalBurnAmountValue)
   };
 };

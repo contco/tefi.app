@@ -27,5 +27,6 @@ export const getAirdropsData = (anchor, mirror, pylon) => {
     titles: ['Name', 'Round', 'Reward', 'Value'],
     data: data,
     total: '$' + getAirdropTotal(),
+		totalValue: parseFloat(getAirdropTotal()),
   };
 };

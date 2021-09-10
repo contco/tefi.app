@@ -11,5 +11,6 @@ export const getAnchorEarnData = (earn) => {
       ],
     ],
     total: '$' + convertToFloatValue(earn?.reward?.staked),
+    totalValue: parseFloat(earn?.reward?.staked),
   };
 };

@@ -14,7 +14,7 @@ export const getAssetData = (anchor, mirror, pylon, core, spectrum) => {
       parseFloat(plus(mirrorTotal, coreTotal)) +
       parseFloat(anchorTotal) +
       parseFloat(pylonHoldingsSum);
-    return convertToFloatValue(total.toString()) ?? '0';
+    return total.toString() ?? '0';
   };
 
   const holdings = [
@@ -54,6 +54,7 @@ export const getAssetData = (anchor, mirror, pylon, core, spectrum) => {
     titles: ['Ticker', 'Name', 'Balance', 'Price', 'Value'],
     data: data,
     largeData: largeData,
-    total: '$' + getAssetsTotal(),
+    total: '$' + convertToFloatValue(getAssetsTotal()),
+		totalValue: parseFloat(getAssetsTotal())
   };
 };

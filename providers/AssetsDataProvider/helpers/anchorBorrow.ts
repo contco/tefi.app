@@ -30,5 +30,7 @@ export const getAnchorBorrowData = (borrow) => {
     ],
     percentage: parseFloat(parseFloat(borrow?.percentage).toFixed(2)),
     total: '$' + convertToFloatValue(borrow?.value),
+    totalValue: parseFloat(borrow?.totalCollateralValue) + parseFloat(borrow?.value),
+    totalBorrow: parseFloat(borrow?.value),
   };
 };
