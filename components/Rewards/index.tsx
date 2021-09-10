@@ -14,7 +14,7 @@ const Rewards: React.FC<RewardsProps> = ({ rewards }) => {
     <Wrapper>
       <HeadingWrapper>
         <Heading>{HEADING_TEXT}</Heading>
-        <Header data={rewards.total} />
+        <Header data={rewards?.total || '0'} />
       </HeadingWrapper>
       <TitleContainer titles={rewards.titles} />
       <Section data={rewards.data} />

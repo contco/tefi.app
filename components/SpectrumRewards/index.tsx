@@ -3,7 +3,7 @@ import { Wrapper, HeadingWrapper, Heading } from '../dashboardStyles';
 import Header from '../DashboardComponents/Header';
 import Section from '../DashboardComponents/Section';
 
-const HEADING_TEXT = `Spectrum Farms`;
+const HEADING_TEXT = `Spectrum Rewards`;
 
 export interface SpectrumProps {
   reward: any;

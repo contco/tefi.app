@@ -137,7 +137,7 @@ export const getRewardData = (anchor, mirror, pylon, spectrum, loterra) => {
               tokenValue: '$' + convertToFloatValue(govItem?.rewardsValue),
             },
           }
-        : { value: 'Automatically \n re-staked' };
+        : { value: 'Automatically re-staked' };
     return [
       {
         name: govItem.name,
@@ -164,7 +164,7 @@ export const getRewardData = (anchor, mirror, pylon, spectrum, loterra) => {
   });
 
   return {
-    titles: ['Name', 'Staked', 'Liquid', 'Value'],
+    titles: ['Name', 'Staked', 'APR', 'Reward'],
     data: [...poolData, ...borrowData, ...govData],
     total: headerData,
   };

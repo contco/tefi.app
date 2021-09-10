@@ -25,8 +25,8 @@ const Airdrops: React.FC<AirdropsProps> = ({ airdrops, isViewOnly = false }) => 
   const connectedWallet = useConnectedWallet();
 
   useEffect(() => {
-    setDrops(airdrops.data);
-    setAirdropSum(airdrops.total);
+    setDrops(airdrops?.data);
+    setAirdropSum(airdrops?.total || '0');
   }, []);
 
   const onClaimAirdrop = async () => {

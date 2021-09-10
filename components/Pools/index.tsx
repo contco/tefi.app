@@ -14,12 +14,12 @@ const Pools: React.FC<PoolsProps> = ({ pools }) => {
     <Wrapper>
       <HeadingWrapper>
         <Heading>{HEADING_TEXT}</Heading>
-        <Header data={pools.total} />
+        <Header data={pools?.total || '0'} />
       </HeadingWrapper>
       <TitleContainer titles={pools.titles} />
       <Section data={pools.data} />
     </Wrapper>
-  );
+  ); 
 };
 
 export default Pools;

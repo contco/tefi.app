@@ -53,13 +53,17 @@ const Section: React.FC<Props> = ({ data }) => {
             return <LpContainer lp={lpData.lp} token1={lpData.token1} token2={lpData.token2} />;
           } else if (Object.keys(item)[0] === 'collateralList') {
             const collaterals: any = Object.values(item)[0];
-            return collaterals.map((item, index) => (
-              <div key={index}>
-                <StyledText>{item.token}</StyledText>
-                <SubText>{item.tokenValue}</SubText>
-                {index < collaterals.length - 1 ? <br></br> : null}
+            return (
+              <div>
+                {collaterals.map((item, index) => (
+                  <div key={index}>
+                    <StyledText>{item.token}</StyledText>
+                    <SubText>{item.tokenValue}</SubText>
+                    {index < collaterals.length - 1 ? <br></br> : null}
+                  </div>
+                ))}
               </div>
-            ));
+            );
           } else if (Object.keys(item)[0] === 'drawTime') {
             const timestamp: any = Object.values(item)[0];
             return <StyledText>{timestamp}</StyledText>;

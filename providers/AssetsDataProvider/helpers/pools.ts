@@ -47,6 +47,6 @@ export const getPoolData = (anchor, mirror, pylon, terraSwap) => {
   return {
     titles: ['Name', 'Staked', 'Liquid', 'Value'],
     data: data,
-    total: getPoolTotal(),
+    total: '$' + getPoolTotal(),
   };
 };

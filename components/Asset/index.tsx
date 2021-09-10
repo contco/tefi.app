@@ -35,7 +35,7 @@ const Assets: React.FC<AssetsProps> = ({ assets }: AssetsProps) => {
       <HeadingWrapper>
         <Heading>{HEADING_TEXT}</Heading>
         <Flex alignItems="flex-end">
-          <Header data={assets.total} />
+          <Header data={assets?.total || '0'} />
           <Flex justifyContent="center" alignItems="center">
             <CheckBox type="checkbox" onChange={handleChange} checked={hideSmall} />
             <StyledText pt={1}>Hide small balances</StyledText>
