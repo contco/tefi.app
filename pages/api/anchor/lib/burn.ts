@@ -2,6 +2,8 @@
 import axios from 'axios';
 import { fetchData } from '../../commons';
 import { secondsToDate, UNIT } from '../../mirror/utils';
+import { getPrice } from '../../terra-core/core';
+import { LUNA_DENOM } from '../../terra-core/symbols';
 
 const URL = 'https://mantle.anchorprotocol.com/';
 const BASSETS_INFO = 'https://api.anchorprotocol.com/api/v1/bassets/';
@@ -82,22 +84,26 @@ export const getWithdrawableRequest = async (address: string) => {
       );
     }
 
+    const lunaPrice = await getPrice(LUNA_DENOM);
     const withdrawableAmount = JSON.parse(withdrawables?.data?.data.withdrawableUnbonded?.Result)?.withdrawable;
+    const withdrawableValue = valueConversion(withdrawableAmount) * parseFloat(lunaPrice);
 
     return {
       requestHistories: requestHistories.filter((history) => history.time.claimableTime !== '-'),
       withdrawableAmount: valueConversion(withdrawableAmount).toString(),
+      withdrawableValue: withdrawableValue.toString(),
     };
   } catch (err) {
     return {
       requestHistories: [],
       withdrawableAmount: '0',
+      withdrawableValue: '0',
     };
   }
 };
 
 export default async (address) => {
-  const { requestHistories, withdrawableAmount } = await getWithdrawableRequest(address);
+  const { requestHistories, withdrawableAmount, withdrawableValue } = await getWithdrawableRequest(address);
 
   const totalBurnAmount = requestHistories.reduce((a, data) => a + parseFloat(data?.amount?.amount), 0).toString();
   const totalBurnAmountValue = requestHistories
@@ -107,6 +113,7 @@ export default async (address) => {
   return {
     requestData: requestHistories,
     withdrawableAmount,
+		withdrawableValue,
     totalBurnAmount,
     totalBurnAmountValue,
   };

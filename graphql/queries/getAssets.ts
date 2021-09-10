@@ -148,6 +148,7 @@ export const getAssets = gql`
             }
           }
           withdrawableAmount
+					withdrawableValue
           totalBurnAmount
           totalBurnAmountValue
         }
