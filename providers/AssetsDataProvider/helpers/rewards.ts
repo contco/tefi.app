@@ -20,6 +20,16 @@ export const getRewardData = (anchor, mirror, pylon, spectrum, loterra) => {
     return total.toString() ?? '0';
   };
 
+  const getGovStaked = () => {
+    const ancGov = parseFloat(anchor?.gov?.value ?? '0');
+    const mirrorGov = parseFloat(mirror?.gov?.value ?? '0');
+    const pylonGov = parseFloat(pylon?.gov?.value ?? '0');
+    const specGov = parseFloat(spectrum?.specGov?.value ?? '0');
+    const lotaGov = parseFloat(loterra?.lotaGov?.value ?? '0');
+    const govStaked = mirrorGov + ancGov + pylonGov + specGov + lotaGov;
+    return govStaked;
+  };
+
   const pool = [...pylon?.pylonPool, ...mirror?.mirrorStaking, ...anchor.pool].sort(
     (a, b) => b.rewardsValue - a.rewardsValue,
   );
@@ -168,5 +178,6 @@ export const getRewardData = (anchor, mirror, pylon, spectrum, loterra) => {
     data: [...poolData, ...borrowData, ...govData],
     total: headerData,
     totalReward: parseFloat(getRewardsTotal()),
+    totalGov: getGovStaked(),
   };
 };

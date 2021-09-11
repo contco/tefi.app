@@ -56,5 +56,7 @@ export const getMirrorBorrowData = (borrow) => {
       { name: 'Borrowed', value: convertToFloatValue(getBorrowedTotal()) + ' UST' },
       { name: 'Collateral', value: convertToFloatValue(getCollateralTotal()) + ' UST' },
     ],
+    totalValue: parseFloat(getCollateralTotal()),
+    totalBorrow: parseFloat(getBorrowedTotal()),
   };
 };

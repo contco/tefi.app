@@ -3,7 +3,7 @@ import { times } from '../../../utils/math';
 
 export const getSpecRewardData = (spectrum) => {
   const getRewardsTotal = () => {
-    return convertToFloatValue(spectrum?.spectrumTotal?.rewardsTotal) ?? 0;
+    return spectrum?.spectrumTotal?.rewardsTotal ?? '0';
   };
 
   const formatApr = (apr = '0') => {
@@ -46,6 +46,7 @@ export const getSpecRewardData = (spectrum) => {
   return {
     titles: ['Name', 'APY', 'SPEC Rewards', 'Total Rewards'],
     data: data,
-    total: '$' + getRewardsTotal(),
+    total: '$' + convertToFloatValue(getRewardsTotal()),
+    totalReward: parseFloat(getRewardsTotal()),
   };
 };

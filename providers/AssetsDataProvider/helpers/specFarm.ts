@@ -2,7 +2,7 @@ import { convertToFloatValue } from '../../../utils/convertFloat';
 
 export const getSpecFarmData = (spectrum) => {
   const getFarmsTotal = () => {
-    return convertToFloatValue(spectrum?.spectrumTotal?.farmsTotal);
+    return spectrum?.spectrumTotal?.farmsTotal.toString();
   };
 
   const data = spectrum.farms.map((farm: SpecFarms) => {
@@ -29,6 +29,7 @@ export const getSpecFarmData = (spectrum) => {
   return {
     titles: ['Name', 'Farm', 'Balance', 'Value'],
     data: data,
-    total: '$' + getFarmsTotal(),
+    total: '$' + convertToFloatValue(getFarmsTotal()),
+    totalValue: parseFloat(getFarmsTotal()),
   };
 };

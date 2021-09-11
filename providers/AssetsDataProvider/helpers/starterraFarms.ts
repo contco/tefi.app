@@ -35,5 +35,7 @@ export const getStarterraFarms = (starterra) => {
       { name: 'Total Staked Value', value: convertToFloatValue(starterra?.totalStakedLpUstValue) + ' UST' },
       { name: 'Total Reward Value', value: convertToFloatValue(starterra?.totalRewardsValue) + ' UST' },
     ],
+    totalValue: parseFloat(starterra?.totalStakedLpUstValue),
+    totalReward: parseFloat(starterra?.totalRewardsValue),
   };
 };

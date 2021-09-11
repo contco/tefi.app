@@ -101,14 +101,23 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
         ) : (
           <Body>
             <MarketValue
-              core={data?.assets.core || {}}
-              pylonAssets={data?.assets?.pylon || {}}
-              mirrorAssets={data?.assets?.mirror || {}}
-              ancAssets={data?.assets?.anchor || {}}
-              spectrum={data?.assets?.spectrum}
-              loterra={data?.assets?.loterra}
-              terraSwapAssets={data?.assets?.terraSwapPool}
-              starterra={data?.assets?.starterra}
+              allData={[
+                assets.assets,
+                assets?.pylon,
+                assets?.anchorEarn,
+                assets?.anchorBond,
+                assets?.anchorBorrow,
+                assets.rewards,
+                assets.pools,
+                assets?.mirrorBorrow,
+                assets?.mirrorShortFarm,
+                assets?.specFarm,
+                assets?.specReward,
+                assets?.starterraFarms,
+                assets?.loterra,
+                assets.lunaStaking,
+                assets.airdrops,
+              ]}
             />
             <Assets assets={assets.assets} />
             <PylonGateway pylon={assets?.pylon || {}} />
