@@ -1,7 +1,7 @@
 import { getAnchorAccount } from "../pages/api/anchor/lib/anc";
 import { getMirrorAccount } from "../pages/api/mirror/getAccountData";
 import { getLoterraAccount } from "../pages/api/loterra/lib";
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { getPylonAccount } from "../pages/api/pylon/getAccountData";
 import { getTerraCoreAccount } from "../pages/api/terra-core/core";
 import { getStarTerraAccount } from "../pages/api/starterra/lib/pools";

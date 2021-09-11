@@ -15,8 +15,6 @@ import SpectrumFarms from '../../components/SpectrumFarms';
 import SpectrumRewards from '../../components/SpectrumRewards';
 import Rewards from '../../components/Rewards';
 import Loterra from '../../components/ؒLoterra';
-import { NetworkStatus, useLazyQuery } from '@apollo/client';
-import { getAssets } from '../../graphql/queries/getAssets';
 import { ADDRESS_KEY, LOCAL_ADDRESS_TYPE, WALLET_ADDRESS_TYPE } from '../../constants';
 import Airdrops from '../../components/Airdrop';
 import { NextSeo } from 'next-seo';
@@ -69,7 +67,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
       }, 3000);
     }
   }, [error]);
-  
+
   return (
     <div>
       <NextSeo {...DashboardSEO} />
