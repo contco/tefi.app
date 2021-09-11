@@ -27,6 +27,7 @@ import Burn from '../../components/Burn';
 import ShortFarms from '../../components/ShortFarms';
 import MirrorBorrowing from '../../components/MirrorBorrowing';
 import StarTerraFarms from '../../components/StarTerraFarms';
+import useAccounts from '../../utils/useAccounts';
 
 const MAX_TRY = 3;
 
@@ -44,17 +45,8 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   const router = useRouter();
   const address = router?.query?.address as string;
   const isValidAddress = AccAddress.validate(address);
-
-  const [fetchAssets, { data, called, loading: dataLoading, error, refetch, networkStatus }] = useLazyQuery(getAssets, {
-    variables: { address: address },
-    notifyOnNetworkStatusChange: true,
-  });
-
-  useEffect(() => {
-    if (address && isValidAddress) {
-      fetchAssets({ variables: { address } });
-    }
-  }, [address, isValidAddress]);
+  
+  const {data, loading, error, refetch, refreshing} = useAccounts(address);
 
   useEffect(() => {
     if (error && fetchCount !== MAX_TRY) {
@@ -74,17 +66,13 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     return null;
   };
 
-  const loading = isValidAddress
-    ? (!called || dataLoading || (!data && fetchCount !== MAX_TRY)) && networkStatus !== NetworkStatus.refetch
-    : false;
-
   return (
     <div>
       <NextSeo {...DashboardSEO} />
       <div>
         <Header
           onRefresh={loading ? null : () => refetch()}
-          refreshing={networkStatus == NetworkStatus.refetch}
+          refreshing={refreshing}
           theme={theme}
           changeTheme={changeTheme}
           addressType={''}
