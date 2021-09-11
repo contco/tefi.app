@@ -28,6 +28,7 @@ import Burn from '../../components/Burn';
 import ShortFarms from '../../components/ShortFarms';
 import MirrorBorrowing from '../../components/MirrorBorrowing';
 import StarTerraFarms from '../../components/StarTerraFarms';
+import useAccounts from '../../utils/useAccounts';
 
 const MAX_TRY = 3;
 
@@ -58,15 +59,15 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
       setAddressType(WALLET_ADDRESS_TYPE);
     }
   }, []);
-
-  const [fetchAssets, { data, called, loading: dataLoading, error, refetch, networkStatus }] = useLazyQuery(getAssets, {
+ const {data, loading} = useAccounts(address);
+  const [fetchAssets, { called, loading: dataLoading, error, refetch, networkStatus }] = useLazyQuery(getAssets, {
     variables: { address: address },
     notifyOnNetworkStatusChange: true,
   });
 
   useEffect(() => {
     if (address) {
-      fetchAssets({ variables: { address } });
+      //fetchAssets({ variables: { address } });
     }
   }, [address]);
 
@@ -79,8 +80,8 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     }
   }, [error]);
 
-  const loading =
-    (!called || dataLoading || (!data && fetchCount !== MAX_TRY)) && networkStatus !== NetworkStatus.refetch;
+  // const loading =
+  //   (!called || dataLoading || (!data && fetchCount !== MAX_TRY)) && networkStatus !== NetworkStatus.refetch;
 
   return (
     <div>
