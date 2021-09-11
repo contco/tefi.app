@@ -18,7 +18,35 @@ export const getPoolData = (anchor, mirror, pylon, terraSwap) => {
       (parseFloat(a.stakeableLpUstValue) + parseFloat(a.stakedLpUstValue)),
   );
 
+  const largePool = pool.filter((a: Pool) => parseFloat(a.stakeableLpUstValue) + parseFloat(a.stakedLpUstValue) >= 1);
+
   const data = pool.map((assets: Pool) => {
+    const staked =
+      assets?.stakedLp !== '0'
+        ? {
+            lpData: {
+              lp: convertToFloatValue(assets?.stakedLp) + ' LP',
+              token1: convertToFloatValue(assets?.token2Staked) + ' ' + assets?.symbol2,
+              token2: convertToFloatValue(assets?.token1Staked) + ' ' + assets.symbol1,
+            },
+          }
+        : { value: '-' };
+
+    const liquid =
+      assets?.stakeableLp !== '0'
+        ? {
+            lpData: {
+              lp: convertToFloatValue(assets?.stakeableLp) + ' LP',
+              token1: convertToFloatValue(assets?.token2UnStaked) + ' ' + assets?.symbol2,
+              token2: convertToFloatValue(assets?.token1UnStaked) + ' ' + assets.symbol1,
+            },
+          }
+        : { value: '-' };
+
+    return [{ name: assets.lpName }, staked, liquid, { value: '$' + convertToFloatValue(assets?.totalLpUstValue) }];
+  });
+
+  const largeData = largePool.map((assets: Pool) => {
     const staked =
       assets?.stakedLp !== '0'
         ? {
@@ -47,6 +75,7 @@ export const getPoolData = (anchor, mirror, pylon, terraSwap) => {
   return {
     titles: ['Name', 'Staked', 'Liquid', 'Value'],
     data: data,
+    largeData: largeData,
     total: '$' + convertToFloatValue(getPoolTotal()),
     totalValue: parseFloat(getPoolTotal()),
   };

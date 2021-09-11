@@ -84,7 +84,7 @@ const getLpValue = (liquidityInfo: any, minePrice: number) => {
     return lpValue;
 }
 
-export const getAccountData = async (address: string) => {
+export const getPylonAccount = async (address: string) => {
     try {
         const [mineOverview, getAccountDetails, mineStakingData, minePoolData, governanceOverview, liquidityOverview, airdropData, pylonGateway] = await fetchPylonData(address);
         if (mineOverview) {

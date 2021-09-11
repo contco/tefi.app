@@ -15,8 +15,6 @@ import SpectrumFarms from '../../components/SpectrumFarms';
 import SpectrumRewards from '../../components/SpectrumRewards';
 import Rewards from '../../components/Rewards';
 import Loterra from '../../components/ؒLoterra';
-import { NetworkStatus, useLazyQuery } from '@apollo/client';
-import { getAssets } from '../../graphql/queries/getAssets';
 import { ADDRESS_KEY, LOCAL_ADDRESS_TYPE, WALLET_ADDRESS_TYPE } from '../../constants';
 import Airdrops from '../../components/Airdrop';
 import { NextSeo } from 'next-seo';
@@ -59,16 +57,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     }
   }, []);
 
-  const [fetchAssets, { data, called, loading: dataLoading, error, refetch, networkStatus }] = useLazyQuery(getAssets, {
-    variables: { address: address },
-    notifyOnNetworkStatusChange: true,
-  });
-
-  useEffect(() => {
-    if (address) {
-      fetchAssets({ variables: { address } });
-    }
-  }, [address]);
+  const { assets, loading, error, refetch, refreshing } = useAssetsDataContext();
 
   useEffect(() => {
     if (error && fetchCount !== MAX_TRY) {
@@ -79,26 +68,21 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     }
   }, [error]);
 
-  const loading =
-    (!called || dataLoading || (!data && fetchCount !== MAX_TRY)) && networkStatus !== NetworkStatus.refetch;
-
-  const { loader, assets } = useAssetsDataContext();
-
   return (
     <div>
       <NextSeo {...DashboardSEO} />
       <div>
         <Header
           onRefresh={loading ? null : () => refetch()}
-          refreshing={networkStatus == NetworkStatus.refetch}
+          refreshing={refreshing}
           theme={theme}
           changeTheme={changeTheme}
           addressType={addressType}
           address={address}
         />
-        {loading || loader ? (
+        {loading ? (
           <Loading />
-        ) : !data || data?.length === 0 ? (
+        ) : !assets || JSON.stringify(assets) === '{}' ? (
           <EmptyComponent msg={error ? 'Oops! Error Fetching Assets' : null} />
         ) : (
           <Body>

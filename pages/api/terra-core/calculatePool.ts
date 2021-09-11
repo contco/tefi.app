@@ -59,8 +59,9 @@ const getPoolSymbol = async (poolresponse, isLuna = false) => {
         if (liqContract) {
             tokens.map(token => {
                 if (token.contract_addr === liqContract) {
-                    lpName = token.symbol + '-LUNA LP';
-                    symbol1 = 'LUNA'
+                    const symbol = token.symbol !== 'LUNA'? 'LUNA' : 'UST';
+                    lpName = token.symbol + `-${symbol} LP`;
+                    symbol1 = symbol
                     symbol2 = token.symbol;
                 }
             })

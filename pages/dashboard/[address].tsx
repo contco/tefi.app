@@ -4,7 +4,6 @@ import css from '@styled-system/css';
 import Styled from 'styled-components';
 import { Box } from '@contco/core-ui';
 import { AccAddress } from '@terra-money/terra.js';
-import { NetworkStatus, useLazyQuery } from '@apollo/client';
 import Loading from '../../components/Loading';
 import EmptyComponent from '../../components/EmptyComponent';
 import Header from '../../components/Header';
@@ -18,7 +17,6 @@ import SpectrumFarms from '../../components/SpectrumFarms';
 import SpectrumRewards from '../../components/SpectrumRewards';
 import Rewards from '../../components/Rewards';
 import Loterra from '../../components/ؒLoterra';
-import { getAssets } from '../../graphql/queries/getAssets';
 import Airdrops from '../../components/Airdrop';
 import { NextSeo } from 'next-seo';
 import { DashboardSEO } from '../../next-seo.config';
@@ -46,16 +44,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   const address = router?.query?.address as string;
   const isValidAddress = AccAddress.validate(address);
 
-  const [fetchAssets, { data, called, loading: dataLoading, error, refetch, networkStatus }] = useLazyQuery(getAssets, {
-    variables: { address: address },
-    notifyOnNetworkStatusChange: true,
-  });
-
-  useEffect(() => {
-    if (address && isValidAddress) {
-      fetchAssets({ variables: { address } });
-    }
-  }, [address, isValidAddress]);
+  const { assets, loading, error, refetch, refreshing } = useAssetsDataContext();
 
   useEffect(() => {
     if (error && fetchCount !== MAX_TRY) {
@@ -75,28 +64,22 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     return null;
   };
 
-  const loading = isValidAddress
-    ? (!called || dataLoading || (!data && fetchCount !== MAX_TRY)) && networkStatus !== NetworkStatus.refetch
-    : false;
-
-  const { loader, assets } = useAssetsDataContext();
-
   return (
     <div>
       <NextSeo {...DashboardSEO} />
       <div>
         <Header
           onRefresh={loading ? null : () => refetch()}
-          refreshing={networkStatus == NetworkStatus.refetch}
+          refreshing={refreshing}
           theme={theme}
           changeTheme={changeTheme}
           addressType={''}
           address={isValidAddress ? address : ''}
           isViewOnly={true}
         />
-        {loading || loader ? (
+        {loading ? (
           <Loading />
-        ) : !isValidAddress || !data || data?.length === 0 ? (
+        ) : !isValidAddress || !assets || JSON.stringify(assets) === '{}' ? (
           <EmptyComponent msg={getErrorMessage()} />
         ) : (
           <Body>

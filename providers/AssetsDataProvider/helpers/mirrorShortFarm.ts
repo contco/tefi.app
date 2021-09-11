@@ -48,7 +48,8 @@ export const getMirrorShortFarmData = (short) => {
       { name: 'Locked', value: convertToFloatValue(getTotalForFarm(short, 'locked_amount')) + ' UST' },
       { name: 'Unlocked', value: convertToFloatValue(getTotalForFarm(short, 'unlocked_amount')) + ' UST' },
     ],
-    totalReward: parseFloat(getTotalForFarm(short, 'locked_amount')),
-    totalValue: parseFloat(getTotalForFarm(short, 'unlocked_amount')) + parseFloat(getTotalForFarm(short, 'reward')),
+    totalReward: parseFloat(getTotalForFarm(short, 'rewardValue')),
+    totalValue:
+      parseFloat(getTotalForFarm(short, 'locked_amount')) + parseFloat(getTotalForFarm(short, 'unlocked_amount')),
   };
 };

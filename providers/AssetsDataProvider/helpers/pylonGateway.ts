@@ -37,5 +37,6 @@ export const getPylonGatewayData = (pylon) => {
     data: data,
     total: '$' + convertToFloatValue(getGatewayTotal()),
     totalValue: parseFloat(getGatewayTotal()),
+    totalReward: parseFloat(pylon.pylonSum.gatewayRewardsSum),
   };
 };

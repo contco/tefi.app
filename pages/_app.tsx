@@ -8,6 +8,7 @@ import {
   WalletConnectProvider,
   RedirectProvider,
   AssetPriceProvider,
+  AlertProvider,
   DeviceDetectProvider,
   AssetsDataProvider,
 } from '../providers';
@@ -49,7 +50,9 @@ function MyApp({ Component, pageProps }: AppProps) {
               <AssetPriceProvider>
                 <DeviceDetectProvider>
                   <AssetsDataProvider>
-                    <Component {...pageProps} theme={theme} changeTheme={changeTheme} />
+                    <AlertProvider>
+                      <Component {...pageProps} theme={theme} changeTheme={changeTheme} />
+                    </AlertProvider>
                   </AssetsDataProvider>
                 </DeviceDetectProvider>
               </AssetPriceProvider>
