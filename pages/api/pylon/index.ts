@@ -1,6 +1,6 @@
 import { ApolloServer, gql } from 'apollo-server-micro';
 import { buildFederatedSchema } from '@apollo/federation';
-import { getAccountData } from "./getAccountData";
+import { getPylonAccount } from "./getAccountData";
 
 const typeDefs = gql`
 
@@ -98,7 +98,7 @@ const typeDefs = gql`
 const resolvers = {
   Assets: {
     pylon(assets) {
-      return getAccountData(assets.address);
+      return getPylonAccount(assets.address);
     }
   },
 

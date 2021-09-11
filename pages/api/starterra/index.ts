@@ -1,6 +1,6 @@
 import { ApolloServer, gql } from 'apollo-server-micro';
 import { buildFederatedSchema } from '@apollo/federation';
-import getAccount from './lib/pools';
+import {getStarTerraAccount} from './lib/pools';
 
 const typeDefs = gql`
   type StarStakedData {
@@ -36,7 +36,7 @@ const typeDefs = gql`
 const resolvers = {
   Assets: {
     starterra(assets) {
-      return getAccount(assets.address);
+      return getStarTerraAccount(assets.address);
     },
   },
 };

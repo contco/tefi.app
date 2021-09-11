@@ -105,7 +105,7 @@ export const getLPData = async (address: string) => {
   }
 };
 
-export default async (address) => {
+export const getStarTerraAccount = async (address) => {
   const { stakedData, singleLpValue, stakableLp, token1UnStaked, token2UnStaked } = await getLPData(address);
   const totalStakedLp = stakedData?.reduce((a, staked) => a + parseFloat(staked?.stakedLp), 0);
   const totalStakedLpValue = singleLpValue * totalStakedLp;
