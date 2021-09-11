@@ -59,17 +59,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
       setAddressType(WALLET_ADDRESS_TYPE);
     }
   }, []);
- const {data, loading} = useAccounts(address);
-  const [fetchAssets, { called, loading: dataLoading, error, refetch, networkStatus }] = useLazyQuery(getAssets, {
-    variables: { address: address },
-    notifyOnNetworkStatusChange: true,
-  });
-
-  useEffect(() => {
-    if (address) {
-      //fetchAssets({ variables: { address } });
-    }
-  }, [address]);
+ const {data, loading, error, refetch, refreshing} = useAccounts(address);
 
   useEffect(() => {
     if (error && fetchCount !== MAX_TRY) {
@@ -79,17 +69,14 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
       }, 3000);
     }
   }, [error]);
-
-  // const loading =
-  //   (!called || dataLoading || (!data && fetchCount !== MAX_TRY)) && networkStatus !== NetworkStatus.refetch;
-
+  
   return (
     <div>
       <NextSeo {...DashboardSEO} />
       <div>
         <Header
           onRefresh={loading ? null : () => refetch()}
-          refreshing={networkStatus == NetworkStatus.refetch}
+          refreshing={refreshing}
           theme={theme}
           changeTheme={changeTheme}
           addressType={addressType}
