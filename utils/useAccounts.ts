@@ -44,6 +44,10 @@ const useAccounts = (address:string) => {
     }, [data])
     useEffect(() => {
       if(address){
+				setLoading(true);
+				setData(null);
+				setError(null);
+				setRefreshing(null);
         fetch();
     }
  }, [address])

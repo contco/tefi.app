@@ -28,16 +28,16 @@ const AssetsDataProvider: React.FC<Props> = ({ children }) => {
   const [address, setAddress] = useState<string>('');
   const { useConnectedWallet } = useWallet();
   const connectedWallet = useConnectedWallet();
+	const localAddress = localStorage.getItem(ADDRESS_KEY);
 
   useEffect(() => {
-    const localAddress = localStorage.getItem(ADDRESS_KEY);
     const walletAddress = connectedWallet?.terraAddress;
     if (localAddress) {
       setAddress(localAddress);
     } else if (walletAddress) {
       setAddress(walletAddress);
     }
-  }, [address, connectedWallet]);
+  }, [localAddress, connectedWallet]);
 
   const { data, loading, error, refetch, refreshing } = useAccounts(address);
 
