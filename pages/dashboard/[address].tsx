@@ -25,7 +25,8 @@ import Burn from '../../components/Burn';
 import ShortFarms from '../../components/ShortFarms';
 import MirrorBorrowing from '../../components/MirrorBorrowing';
 import StarTerraFarms from '../../components/StarTerraFarms';
-import { useAssetsDataContext } from '../../contexts';
+import useAccounts from '../../utils/useAccounts';
+import { assignData } from '../../providers/AssetsDataProvider/assignData';
 
 const MAX_TRY = 3;
 
@@ -44,7 +45,9 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   const address = router?.query?.address as string;
   const isValidAddress = AccAddress.validate(address);
 
-  const { assets, loading, error, refetch, refreshing } = useAssetsDataContext();
+  const { data, loading, error, refetch, refreshing } = useAccounts(address);
+
+  const assets = assignData(data);
 
   useEffect(() => {
     if (error && fetchCount !== MAX_TRY) {

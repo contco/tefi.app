@@ -55,7 +55,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
       setAddress(walletAddress);
       setAddressType(WALLET_ADDRESS_TYPE);
     }
-  }, []);
+  }, [address, setAddress]);
 
   const { assets, loading, error, refetch, refreshing } = useAssetsDataContext();
 

@@ -1,24 +1,8 @@
 import React, { ReactNode, createContext, useState, useEffect } from 'react';
+import { ADDRESS_KEY } from '../../constants';
 import useWallet from '../../lib/useWallet';
-
-import {
-  getAirdropsData,
-  getAnchorBondData,
-  getAnchorBorrowData,
-  getAnchorEarnData,
-  getAssetData,
-  getLoterraData,
-  getLunaStakingData,
-  getMirrorBorrowData,
-  getMirrorShortFarmData,
-  getPoolData,
-  getPylonGatewayData,
-  getRewardData,
-  getSpecFarmData,
-  getSpecRewardData,
-  getStarterraFarms,
-} from './helpers';
 import useAccounts from '../../utils/useAccounts';
+import { assignData } from './assignData';
 
 interface ContextProps {
   assets: any;
@@ -46,50 +30,18 @@ const AssetsDataProvider: React.FC<Props> = ({ children }) => {
   const connectedWallet = useConnectedWallet();
 
   useEffect(() => {
+    const localAddress = localStorage.getItem(ADDRESS_KEY);
     const walletAddress = connectedWallet?.terraAddress;
-    if (walletAddress) {
+    if (localAddress) {
+      setAddress(localAddress);
+    } else if (walletAddress) {
       setAddress(walletAddress);
     }
-  }, [connectedWallet?.terraAddress]);
+  }, []);
 
   const { data, loading, error, refetch, refreshing } = useAccounts(address);
 
-  const assets = data
-    ? {
-        anchorEarn: getAnchorEarnData(data?.assets?.anchor?.earn),
-        anchorBond: getAnchorBondData(data?.assets?.anchor?.burn),
-        anchorBorrow: getAnchorBorrowData(data?.assets?.anchor?.debt),
-        lunaStaking: getLunaStakingData(data?.assets?.core),
-        mirrorShortFarm: getMirrorShortFarmData(data?.assets?.mirror?.mirrorShortFarm),
-        mirrorBorrow: getMirrorBorrowData(data?.assets?.mirror?.mirrorShortFarm),
-        pylon: getPylonGatewayData(data?.assets?.pylon),
-        specFarm: getSpecFarmData(data?.assets?.spectrum),
-        specReward: getSpecRewardData(data?.assets?.spectrum),
-        starterraFarms: getStarterraFarms(data?.assets?.starterra),
-        assets: getAssetData(
-          data?.assets?.anchor,
-          data?.assets?.mirror,
-          data?.assets?.pylon,
-          data?.assets?.core,
-          data?.assets?.spectrum,
-        ),
-        pools: getPoolData(
-          data?.assets?.anchor,
-          data?.assets?.mirror,
-          data?.assets?.pylon,
-          data?.assets?.terraSwapPool,
-        ),
-        rewards: getRewardData(
-          data?.assets?.anchor,
-          data?.assets?.mirror,
-          data?.assets?.pylon,
-          data?.assets?.spectrum,
-          data?.assets?.loterra,
-        ),
-        airdrops: getAirdropsData(data?.assets?.anchor, data?.assets?.mirror, data?.assets?.pylon),
-        loterra: getLoterraData(data?.assets?.loterra),
-      }
-    : {};
+  const assets = assignData(data);
 
   return (
     <AssetContext.Provider value={{ assets, loading, error, refetch, refreshing }}>{children}</AssetContext.Provider>
