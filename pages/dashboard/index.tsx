@@ -88,38 +88,38 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
           <Body>
             <MarketValue
               allData={[
-                assets.assets,
+                assets?.assets,
                 assets?.pylon,
                 assets?.anchorEarn,
                 assets?.anchorBond,
                 assets?.anchorBorrow,
-                assets.rewards,
-                assets.pools,
+                assets?.rewards,
+                assets?.pools,
                 assets?.mirrorBorrow,
                 assets?.mirrorShortFarm,
                 assets?.specFarm,
                 assets?.specReward,
                 assets?.starterraFarms,
                 assets?.loterra,
-                assets.lunaStaking,
-                assets.airdrops,
+                assets?.lunaStaking,
+                assets?.airdrops,
               ]}
             />
-            <Assets assets={assets.assets} />
+            <Assets assets={assets?.assets} />
             <PylonGateway pylon={assets?.pylon || {}} />
             <Earn earn={assets?.anchorEarn || {}} />
             <Burn burn={assets?.anchorBond || {}} />
             <Borrowing borrow={assets?.anchorBorrow || {}} />
-            <Rewards rewards={assets.rewards} />
-            <Pools pools={assets.pools} />
+            <Rewards rewards={assets?.rewards} />
+            <Pools pools={assets?.pools} />
             <MirrorBorrowing borrow={assets?.mirrorBorrow || {}} />
             <ShortFarms short={assets?.mirrorShortFarm || {}} />
             <SpectrumFarms farm={assets?.specFarm} />
             <SpectrumRewards reward={assets?.specReward} />
             <StarTerraFarms farm={assets?.starterraFarms} />
             <Loterra loterra={assets?.loterra} />
-            <LunaStaking staking={assets.lunaStaking || {}} />
-            <Airdrops airdrops={assets.airdrops} />
+            <LunaStaking staking={assets?.lunaStaking || {}} />
+            <Airdrops airdrops={assets?.airdrops} />
           </Body>
         )}
       </div>

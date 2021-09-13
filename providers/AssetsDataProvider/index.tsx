@@ -37,7 +37,7 @@ const AssetsDataProvider: React.FC<Props> = ({ children }) => {
     } else if (walletAddress) {
       setAddress(walletAddress);
     }
-  }, []);
+  }, [address, connectedWallet]);
 
   const { data, loading, error, refetch, refreshing } = useAccounts(address);
 
