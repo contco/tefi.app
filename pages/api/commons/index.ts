@@ -5,7 +5,6 @@ import { div } from "../../../utils/math";
 export { wasmStoreRequest } from "./wasm";
 export {fetchData} from "./fetchData";
 
-
 export const getUserTokenBalance = async (address: string, token_addr: string) => {
   const { data } = await axios.get(LCD_URL + `wasm/contracts/${token_addr}/store`, {
     params: {
