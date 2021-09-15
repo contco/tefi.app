@@ -28,7 +28,7 @@ export const getSpecRewardData = (spectrum) => {
 
     return [
       { name: farm.lpName },
-      { apy: formatApr(farm.apy) + '%' },
+      { apr: formatApr(farm.apy) + '%' },
       {
         reward: {
           token: convertToFloatValue(farm?.stakedSpec) + ' SPEC',

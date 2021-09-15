@@ -7,7 +7,7 @@ export const getAnchorEarnData = (earn) => {
     data: [
       [
         { deposit: '$' + convertToFloatValue(earn?.reward?.staked) },
-        { apy: convertToFloatValue(earn?.reward?.apy) + '%' },
+        { apr: convertToFloatValue(earn?.reward?.apy) + '%' },
       ],
     ],
     total: '$' + convertToFloatValue(earn?.reward?.staked),

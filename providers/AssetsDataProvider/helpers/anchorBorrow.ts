@@ -24,7 +24,7 @@ export const getAnchorBorrowData = (borrow) => {
           borrowedValue: '$' + convertToFloatValue(borrow?.value),
         },
         {
-          apy: convertToFloatValue(borrow?.netApy) + '%',
+          apr: convertToFloatValue(borrow?.netApy) + '%',
         },
       ],
     ],

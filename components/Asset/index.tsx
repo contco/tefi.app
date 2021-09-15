@@ -15,12 +15,13 @@ export interface AssetsProps {
 }
 
 const Assets: React.FC<AssetsProps> = ({ assets }: AssetsProps) => {
-  const [data, setData] = useState(assets.data);
+  const [data, setData] = useState([]);
   const [hideSmall, setHideSmall] = useState(false);
 
   useEffect(() => {
     const localHideSmallState = localStorage.getItem(HIDE_KEY);
     setHideSmall(localHideSmallState === HIDDEN_STATE);
+    setData(localHideSmallState === HIDDEN_STATE ? assets?.largeData : assets.data);
   }, []);
 
   const handleChange = (e: any) => {

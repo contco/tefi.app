@@ -26,11 +26,20 @@ const Section: React.FC<Props> = ({ data }) => {
                 {Object.values(item)[0]}
               </StyledText>
             );
-          } else if (Object.keys(item)[0] === 'apy' || Object.keys(item)[0] === 'ratio') {
+          } else if (Object.keys(item)[0] === 'apr' || Object.keys(item)[0] === 'ratio') {
             return (
               <StyledText key={index} css={CSS_APR}>
                 {Object.values(item)[0]}
               </StyledText>
+            );
+          } else if (Object.keys(item)[0] === 'apy') {
+            return (
+              <div>
+                <StyledText key={index} css={CSS_APR}>
+                  {Object.values(item)[0]}
+                </StyledText>
+                <SubText> (APY)</SubText>
+              </div>
             );
           } else if (Object.keys(item)[0] === 'url') {
             const symbol: any = Object.values(item)[0];

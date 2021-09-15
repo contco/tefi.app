@@ -1,5 +1,5 @@
 import TitleContainer from '../DashboardComponents/TitleContainer';
-import { Wrapper, HeadingWrapper, Heading, CheckBox, StyledText} from '../dashboardStyles';
+import { Wrapper, HeadingWrapper, Heading, CheckBox, StyledText } from '../dashboardStyles';
 import Header from '../DashboardComponents/Header';
 import Section from '../DashboardComponents/Section';
 import { useEffect, useState } from 'react';
@@ -15,12 +15,13 @@ export interface PoolsProps {
 }
 
 const Pools: React.FC<PoolsProps> = ({ pools }) => {
-  const [data, setData] = useState(pools.data);
+  const [data, setData] = useState([]);
   const [hideSmall, setHideSmall] = useState(false);
 
   useEffect(() => {
     const localHideSmallState = localStorage.getItem(HIDE_KEY);
     setHideSmall(localHideSmallState === HIDDEN_STATE);
+    setData(localHideSmallState === HIDDEN_STATE ? pools?.largeData : pools.data);
   }, []);
 
   const handleChange = (e: any) => {
@@ -34,7 +35,7 @@ const Pools: React.FC<PoolsProps> = ({ pools }) => {
     <Wrapper>
       <HeadingWrapper>
         <Heading>{HEADING_TEXT}</Heading>
-         <Flex alignItems="flex-end">
+        <Flex alignItems="flex-end">
           <Header data={pools?.total || '0'} />
           <Flex justifyContent="center" alignItems="center">
             <CheckBox type="checkbox" onChange={handleChange} checked={hideSmall} />

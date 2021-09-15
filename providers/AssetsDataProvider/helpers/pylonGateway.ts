@@ -35,7 +35,10 @@ export const getPylonGatewayData = (pylon) => {
   return {
     titles: ['Pool Name', 'Deposit', 'Rewards'],
     data: data,
-    total: '$' + convertToFloatValue(getGatewayTotal()),
+    total: [
+      { name: 'Total', value: '$' + convertToFloatValue(getGatewayTotal()) },
+      { name: 'Rewards', value: '$' + convertToFloatValue(pylon.pylonSum.gatewayRewardsSum) },
+    ],
     totalValue: parseFloat(getGatewayTotal()),
     totalReward: parseFloat(pylon.pylonSum.gatewayRewardsSum),
   };

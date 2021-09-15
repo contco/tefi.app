@@ -23,7 +23,7 @@ export const getLunaStakingData = (core) => {
   const data = core.staking.map((asset: LunaStaking) => {
     return [
       {
-        validator: asset.validator,
+        name: asset.validator,
       },
       {
         balance: {

@@ -95,6 +95,7 @@ export const getRewardData = (anchor, mirror, pylon, spectrum, loterra) => {
   const poolData =
     pool && pool.length > 0
       ? pool.map((assets: Pool) => {
+          const ap = assets?.apy ? { apy: formatApr(assets.apy) + '%' } : { apr: formatApr(assets.apr) + '%' };
           return [
             { name: assets?.lpName },
             {
@@ -104,7 +105,7 @@ export const getRewardData = (anchor, mirror, pylon, spectrum, loterra) => {
                 token2: convertToFloatValue(assets?.token1Staked) + ' ' + assets?.symbol1,
               },
             },
-            { apy: assets?.apy ? formatApr(assets?.apy) : formatApr(assets?.apr) + '%' },
+            ap,
             {
               reward: {
                 token: convertToFloatValue(assets?.rewards) + ' ' + assets?.rewardsSymbol,
@@ -124,7 +125,7 @@ export const getRewardData = (anchor, mirror, pylon, spectrum, loterra) => {
         value: 'N/A',
       },
       {
-        apy: borrowRewards?.apy + '%',
+        apr: borrowRewards?.apy + '%',
       },
       {
         reward: {
@@ -148,6 +149,7 @@ export const getRewardData = (anchor, mirror, pylon, spectrum, loterra) => {
             },
           }
         : { value: 'Automatically re-staked' };
+    const ap = govItem?.apy ? { apy: convertToFloatValue(govItem.apy) + '%' } : { apr: convertToFloatValue(govItem.apr) + '%' };
     return [
       {
         name: govItem.name,
@@ -158,9 +160,7 @@ export const getRewardData = (anchor, mirror, pylon, spectrum, loterra) => {
           tokenValue: '$' + convertToFloatValue(govItem.value),
         },
       },
-      {
-        apy: govItem?.apy ? convertToFloatValue(govItem?.apy) : convertToFloatValue(govItem?.apr) + '%',
-      },
+      ap,
       govReward,
     ];
   });
