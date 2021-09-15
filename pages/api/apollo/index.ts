@@ -41,5 +41,5 @@ export const config = {
 };
 
 export default apolloServer.createHandler({
-  path: '/api/apolloDao',
+  path: '/api/apollo',
 });

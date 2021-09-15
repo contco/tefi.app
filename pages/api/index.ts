@@ -14,7 +14,7 @@ const gateway = new ApolloGateway({
     { name: 'spectrum', url: `${SERVER_END_POINT}/spectrum` },
     { name: 'loterra', url: `${SERVER_END_POINT}/loterra` },
     { name: 'starterra', url: `${SERVER_END_POINT}/starterra` },
-    { name: 'starterra', url: `${SERVER_END_POINT}/apolloDao` },
+    { name: 'apollo', url: `${SERVER_END_POINT}/apollo` },
   ],
 });
 

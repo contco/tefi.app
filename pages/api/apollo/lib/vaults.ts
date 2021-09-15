@@ -104,7 +104,6 @@ export const fetchVaultsData = async (address: string) => {
   const [vaultDetails, userVaults] = await  Promise.all([getVaultDetails(), getUserVaults(address)]);
   const poolResponses = await getPoolResponses(vaultDetails, userVaults);
   const vaultsData = calculateVaultData(userVaults, poolResponses);
-  console.log(vaultsData)
   return vaultsData
   }
   catch(err) {
