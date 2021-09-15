@@ -13,16 +13,19 @@ const useAccounts = (address:string) => {
     const [data,setData] = useState(null);
     const [error, setError] = useState(null);
     const [refreshing, setRefreshing]= useState(false);
+    
     const fetch = async ()  => {
       try {
-        const anchor = await getAnchorAccount(address);
-        const mirror = await getMirrorAccount(address);
-        const loterra =await getLoterraAccount(address); 
-        const pylon =await getPylonAccount(address);
-        const spectrum =await getSpectrumAccount(address);
-        const starterra =await getStarTerraAccount(address)
-        const core =await getTerraCoreAccount({ args: { address: address } });
-        const apollo = await getApolloDaoAccount(address);
+        const anchorPromise =  getAnchorAccount(address);
+        const mirrorPromise =  getMirrorAccount(address);
+        const loterraPromise = getLoterraAccount(address); 
+        const pylonPromise = getPylonAccount(address);
+        const spectrumPromise = getSpectrumAccount(address);
+        const starterraPromise = getStarTerraAccount(address)
+        const corePromise = getTerraCoreAccount({ args: { address: address } });
+        const apolloPromise =  getApolloDaoAccount(address);
+        const [anchor, mirror, loterra, pylon, spectrum, starterra, core, apollo] = await Promise.all([anchorPromise, mirrorPromise, loterraPromise, pylonPromise, spectrumPromise, starterraPromise, corePromise, apolloPromise ]);
+        
   
         if(anchor && mirror && loterra && pylon && spectrum && starterra && core && apollo){
           setData({assets:{...core,mirror, anchor, loterra, spectrum, starterra, pylon, apollo}})
@@ -46,6 +49,10 @@ const useAccounts = (address:string) => {
     }, [data])
     useEffect(() => {
       if(address){
+				setLoading(true);
+				setData(null);
+				setError(null);
+				setRefreshing(null);
         fetch();
     }
  }, [address])

@@ -29,10 +29,10 @@ const Landing: React.FC = () => {
   const [address, setAddress] = useState<string>(null);
   const [showModal, setModalVisible] = useState<boolean>(false);
 
-  const {isMobile} = useDeviceDetect();
+  const { isMobile } = useDeviceDetect();
   const { onConnect, useConnectedWallet } = useWallet();
   const connectedWallet = useConnectedWallet();
- 
+
   const handleAddress = (e: any) => {
     e.preventDefault();
     setAddress(e.target.value);
@@ -93,7 +93,7 @@ const Landing: React.FC = () => {
         </AddressContainer>
         {!isMobile && <Footer />}
       </Container>
-      <ConnectModal showModal={showModal} setModalVisible={setModalVisible}/> 
+      <ConnectModal showModal={showModal} setModalVisible={setModalVisible} />
     </>
   );
 };
