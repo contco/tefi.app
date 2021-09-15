@@ -25,6 +25,7 @@ import Burn from '../../components/Burn';
 import ShortFarms from '../../components/ShortFarms';
 import MirrorBorrowing from '../../components/MirrorBorrowing';
 import StarTerraFarms from '../../components/StarTerraFarms';
+import ApolloVaults from '../../components/ApolloVaults';
 import useAccounts from '../../utils/useAccounts';
 
 const MAX_TRY = 3;
@@ -92,6 +93,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
               loterra={data?.assets?.loterra}
               terraSwapAssets={data?.assets?.terraSwapPool}
 							starterra={data?.assets?.starterra}
+              apolloAssets= {data?.assets?.apollo}
             />
             <Assets
               mirrorAssets={data?.assets?.mirror || {}}
@@ -117,6 +119,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
               ancAssets={data?.assets?.anchor || {}}
               terraSwapAssets={data?.assets?.terraSwapPool}
             />
+            <ApolloVaults apolloAssets= {data?.assets?.apollo} /> 
             <MirrorBorrowing mirrorAssets={data?.assets?.mirror || {}} />
             <ShortFarms mirrorAssets={data?.assets?.mirror || {}} />
             <SpectrumFarms spectrum={data?.assets?.spectrum} />

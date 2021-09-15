@@ -9,6 +9,8 @@ const typeDefs = gql`
     lpName: String!
     stakedLp: String!
     stakedLpUstValue: String!
+    token1Staked: String!
+    token2Staked: String!
   }
 
   type ApolloDaoAccount {

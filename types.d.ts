@@ -358,3 +358,18 @@ interface StarTerraAccount {
   totalRewards: string;
   totalRewardsValue: string;
 }
+
+interface ApolloVault {
+  symbol1: string;
+  symbol2: string;
+  lpName: string;
+  stakedLp: string;
+  stakedLpUstValue: string;
+  token1Staked: string;
+  token2Staked: string;
+}
+
+interface ApolloAccount  {
+  vaults: ApolloVault[];
+  total: string;
+}

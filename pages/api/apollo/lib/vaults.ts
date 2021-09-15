@@ -88,11 +88,13 @@ const calculateVaultData = (userVaults, poolResponses) => {
   const vaultData = userVaults.map((userVault : any, index: number) => {
     const tokenPrice = getPrice(poolResponses[index]);
     const lpValue = getLpValue(poolResponses[index], parseFloat(tokenPrice));
-    const stakedLp = parseFloat(userVault.base_token_balance) / UNIT;
+    const stakedLp = parseFloat(userVault.base_token_balance)/ UNIT;
     const stakedLpUstValue = lpValue * stakedLp;
+    const token1Staked = (stakedLpUstValue/ 2 );
+    const token2Staked = token1Staked / parseFloat(tokenPrice);
     const poolSymbols = getPoolSymbol(poolResponses[index]);
     vaultTotal  = stakedLpUstValue + vaultTotal;
-    return {stakedLp: stakedLp.toString(), stakedLpUstValue: stakedLpUstValue.toString(), ...poolSymbols};
+    return {stakedLp: stakedLp.toString(), token1Staked, token2Staked, stakedLpUstValue: stakedLpUstValue.toString(), ...poolSymbols};
   });
 
   return {vaultData, vaultTotal: vaultTotal.toString()};
@@ -102,6 +104,7 @@ export const fetchVaultsData = async (address: string) => {
   const [vaultDetails, userVaults] = await  Promise.all([getVaultDetails(), getUserVaults(address)]);
   const poolResponses = await getPoolResponses(vaultDetails, userVaults);
   const vaultsData = calculateVaultData(userVaults, poolResponses);
+  console.log(vaultsData)
   return vaultsData
   }
   catch(err) {
