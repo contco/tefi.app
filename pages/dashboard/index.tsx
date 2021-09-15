@@ -26,6 +26,7 @@ import ShortFarms from '../../components/ShortFarms';
 import MirrorBorrowing from '../../components/MirrorBorrowing';
 import StarTerraFarms from '../../components/StarTerraFarms';
 import { useAssetsDataContext } from '../../contexts';
+import ApolloVaults from '../../components/ApolloVaults';
 
 const MAX_TRY = 3;
 
@@ -58,6 +59,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   }, [address, setAddress]);
 
   const { assets, loading, error, refetch, refreshing } = useAssetsDataContext();
+
 
   useEffect(() => {
     if (error && fetchCount !== MAX_TRY) {
@@ -103,6 +105,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
                 assets?.loterra,
                 assets?.lunaStaking,
                 assets?.airdrops,
+                assets?.apollo
               ]}
             />
             <Assets assets={assets?.assets} />
@@ -112,6 +115,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
             <Borrowing borrow={assets?.anchorBorrow || {}} />
             <Rewards rewards={assets?.rewards} />
             <Pools pools={assets?.pools} />
+            <ApolloVaults apolloAssets= {assets?.apollo} />
             <MirrorBorrowing borrow={assets?.mirrorBorrow || {}} />
             <ShortFarms short={assets?.mirrorShortFarm || {}} />
             <SpectrumFarms farm={assets?.specFarm} />

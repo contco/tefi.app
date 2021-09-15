@@ -6,24 +6,29 @@ import { getPylonAccount } from "../pages/api/pylon/getAccountData";
 import { getTerraCoreAccount } from "../pages/api/terra-core/core";
 import { getStarTerraAccount } from "../pages/api/starterra/lib/pools";
 import { getSpectrumAccount } from "../pages/api/spectrum/lib";
+import { getApolloDaoAccount } from "../pages/api/apollo/lib";
 
 const useAccounts = (address:string) => {
     const [loading, setLoading] = useState(true);
     const [data,setData] = useState(null);
     const [error, setError] = useState(null);
     const [refreshing, setRefreshing]= useState(false);
+    
     const fetch = async ()  => {
       try {
-        const anchor = await getAnchorAccount(address);
-        const mirror = await getMirrorAccount(address);
-        const loterra =await getLoterraAccount(address); 
-        const pylon =await getPylonAccount(address);
-        const spectrum =await getSpectrumAccount(address);
-        const starterra =await getStarTerraAccount(address)
-        const core =await getTerraCoreAccount({ args: { address: address } });
+        const anchorPromise =  getAnchorAccount(address);
+        const mirrorPromise =  getMirrorAccount(address);
+        const loterraPromise = getLoterraAccount(address); 
+        const pylonPromise = getPylonAccount(address);
+        const spectrumPromise = getSpectrumAccount(address);
+        const starterraPromise = getStarTerraAccount(address)
+        const corePromise = getTerraCoreAccount({ args: { address: address } });
+        const apolloPromise =  getApolloDaoAccount(address);
+        const [anchor, mirror, loterra, pylon, spectrum, starterra, core, apollo] = await Promise.all([anchorPromise, mirrorPromise, loterraPromise, pylonPromise, spectrumPromise, starterraPromise, corePromise, apolloPromise ]);
+        
   
-        if(anchor && mirror && loterra && pylon && spectrum && starterra && core){
-          setData({assets:{...core,mirror, anchor, loterra, spectrum, starterra,pylon}})
+        if(anchor && mirror && loterra && pylon && spectrum && starterra && core && apollo){
+          setData({assets:{...core,mirror, anchor, loterra, spectrum, starterra, pylon, apollo}})
         }
       } catch (error) {
         setError(error);

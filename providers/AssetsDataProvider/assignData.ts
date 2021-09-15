@@ -14,6 +14,7 @@ import {
   getSpecFarmData,
   getSpecRewardData,
   getStarterraFarms,
+  getApolloVaultData
 } from './helpers';
 
 export const assignData = (data) =>
@@ -51,5 +52,6 @@ export const assignData = (data) =>
         ),
         airdrops: getAirdropsData(data?.assets?.anchor, data?.assets?.mirror, data?.assets?.pylon),
         loterra: getLoterraData(data?.assets?.loterra),
+        apollo: getApolloVaultData(data?.assets?.apollo)
       }
     : {};

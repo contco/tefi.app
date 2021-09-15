@@ -11,7 +11,7 @@ import { getTokenData } from "../spectrum/lib/coinInfos";
 
 export const getPoolValues = (lpBalance: number, lpValue: number, price: number, isLuna = false, lunaPrice?: number) => {
     let token1UnStaked = null
-    let token1Staked = "0", token2Staked = "0", stakedLpUstValue = "0";
+    const token1Staked = "0", token2Staked = "0", stakedLpUstValue = "0";
     const stakeableLpUstValue = lpBalance * lpValue;
     const totalLpUstValue = (stakeableLpUstValue).toString();
 
@@ -26,7 +26,7 @@ export const getPoolValues = (lpBalance: number, lpValue: number, price: number,
     return { stakedLpUstValue, stakeableLpUstValue: stakeableLpUstValue.toString(), totalLpUstValue, token1UnStaked, token1Staked, token2UnStaked: token2UnStaked.toString(), token2Staked };
 }
 
-const getPoolSymbol = async (poolresponse, isLuna = false) => {
+export const getPoolSymbol = async (poolresponse, isLuna = false) => {
     let tokenContract = ''
     let coinInfo;
     let symbol1 = ''
@@ -71,7 +71,7 @@ const getPoolSymbol = async (poolresponse, isLuna = false) => {
 }
 
 export const calculatePoolData = async (poolResponses, userPoolBalances) => {
-    let poolsData = [];
+    const poolsData = [];
     let total = 0;
     const pricesRequest = await axios.get(FCD_URL + "dashboard");
     const lunaPrice = pricesRequest?.data?.prices[UUSD_DENOM];
