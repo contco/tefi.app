@@ -510,5 +510,21 @@ export const pairInfoList = {
     ],
     contract_addr: "terra1lr6rglgd50xxzqe6l5axaqp9d5ae3xf69z3qna",
     liquidity_token: "terra1s0dgcsdy9kgunnf3gnwl40uwy9rxtmc39mhy2m",
-  }
+  },
+  terra13xujxcrc9dqft4p9a8ls0w3j0xnzm6y2uvve8n:{
+      asset_infos: [
+        {
+          token: {
+            contract_addr: "terra13xujxcrc9dqft4p9a8ls0w3j0xnzm6y2uvve8n"
+          }
+        },
+        {
+          native_token: {
+            denom: "uusd"
+          }
+        }
+      ],
+      liquidity_token: "terra1uwhf02zuaw7grj6gjs7pxt5vuwm79y87ct5p70",
+      contract_addr: "terra19pg6d7rrndg4z4t0jhcd7z9nhl3p5ygqttxjll"
+    },
 };
