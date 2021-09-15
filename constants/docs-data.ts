@@ -370,4 +370,16 @@ export const CODE_EXAMPLE = `{
           totalRewardsValue
         }
       }
+      apolloDao {
+        vaults {
+          symbol1
+          symbol2
+          lpName
+          token1Staked
+          token2Staked
+          stakedLp
+          stakedLpUstValue
+        }
+        total
+      }
   }`;
