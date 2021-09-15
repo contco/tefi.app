@@ -1,4 +1,20 @@
 export const pairInfoList = {
+  terra13xujxcrc9dqft4p9a8ls0w3j0xnzm6y2uvve8n: {
+    asset_infos: [
+      {
+        native_token: {
+          denom: "uusd",
+        },
+      },
+      {
+        token: {
+          contract_addr: "terra13xujxcrc9dqft4p9a8ls0w3j0xnzm6y2uvve8n",
+        },
+      },
+    ],
+    contract_addr: "terra19pg6d7rrndg4z4t0jhcd7z9nhl3p5ygqttxjll",
+    liquidity_token: "terra1uwhf02zuaw7grj6gjs7pxt5vuwm79y87ct5p70",
+  },
   terra1m6j6j9gw728n82k78s0j9kq8l5p6ne0xcc820p: {
     asset_infos: [
       {
