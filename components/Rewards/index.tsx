@@ -1,5 +1,15 @@
 import { RewardsTitle } from '../../constants';
-import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText, HoverText, SubText, CSS_APR } from '../dashboardStyles';
+import {
+  Wrapper,
+  Row,
+  HeadingWrapper,
+  Heading,
+  Title,
+  StyledText,
+  HoverText,
+  SubText,
+  CSS_APR,
+} from '../dashboardStyles';
 import { times } from '../../pages/api/mirror/utils';
 import { convertToFloatValue } from '../../utils/convertFloat';
 import { Box } from '@contco/core-ui';
@@ -10,7 +20,7 @@ export interface RewardsProps {
   mirrorAssets: MirrorAccount;
   pylonAssets: PylonAccount;
   spectrum: SpectrumAccount;
-  loterra: LoterraAccount
+  loterra: LoterraAccount;
 }
 
 const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets, spectrum, loterra }) => {
@@ -22,12 +32,8 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets,
     const mirrorTotal = mirrorAssets?.total?.mirrorPoolRewardsSum;
     const pylonPoolTotal = pylonAssets?.pylonSum?.pylonPoolRewardsSum;
     const loterraRewards = loterra?.lotaGov?.rewardsValue ?? '0';
-    const total = (
-      parseFloat(mirrorTotal) +
-      parseFloat(ancTotal) +
-      parseFloat(pylonPoolTotal) +
-      parseFloat(loterraRewards)
-    );
+    const total =
+      parseFloat(mirrorTotal) + parseFloat(ancTotal) + parseFloat(pylonPoolTotal) + parseFloat(loterraRewards);
     return convertToFloatValue(total.toString()) ?? 0;
   };
 
@@ -37,7 +43,8 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets,
   };
 
   const getPool = () => {
-    const pool = [...pylonAssets?.pylonPool, ...mirrorAssets?.mirrorStaking, ...ancAssets.pool].sort(
+
+    const pool = [...pylonAssets?.pylonPool, ...mirrorAssets?.mirrorStaking, ...ancAssets.pool ].sort(
       (a, b) => b.rewardsValue - a.rewardsValue,
     );
     if (pool && pool.length > 0) {
@@ -53,7 +60,7 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets,
             </HoverText>
           </StyledText>
           <div>
-            <StyledText css={CSS_APR}> {assets?.apy ? formatApr(assets?.apy) : formatApr(assets?.apr) }%</StyledText>
+            <StyledText css={CSS_APR}> {assets?.apy ? formatApr(assets?.apy) : formatApr(assets?.apr)}%</StyledText>
             {assets?.apy ? <SubText> (APY)</SubText> : null}
           </div>
           <div>
@@ -69,7 +76,9 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets,
   };
 
   const displayGovData = () => {
-    const govData = [pylonAssets?.gov, spectrum?.specGov, mirrorAssets?.gov, ancAssets?.gov, loterra?.lotaGov].filter(item => item != null).sort((a, b) => parseFloat(b.value) - parseFloat(a.value));
+    const govData = [pylonAssets?.gov, spectrum?.specGov, mirrorAssets?.gov, ancAssets?.gov, loterra?.lotaGov]
+      .filter((item) => item != null)
+      .sort((a, b) => parseFloat(b.value) - parseFloat(a.value));
     return govData?.map((govItem: Gov) => {
       return (
         <Row key={govItem.name}>
@@ -78,34 +87,32 @@ const Rewards: React.FC<RewardsProps> = ({ ancAssets, mirrorAssets, pylonAssets,
             <StyledText>
               {convertToFloatValue(govItem.staked)} {govItem.symbol}
             </StyledText>
-            <SubText>
-              ${convertToFloatValue(govItem.value)}
-            </SubText>
+            <SubText>${convertToFloatValue(govItem.value)}</SubText>
           </Box>
           <div>
-            <StyledText css={CSS_APR}> {govItem?.apy ? convertToFloatValue(govItem?.apy) : convertToFloatValue(govItem?.apr)}%</StyledText>
+            <StyledText css={CSS_APR}>
+              {' '}
+              {govItem?.apy ? convertToFloatValue(govItem?.apy) : convertToFloatValue(govItem?.apr)}%
+            </StyledText>
             {govItem?.apy ? <SubText> (APY)</SubText> : null}
           </div>
-          {govItem.symbol === "LOTA" ?
-            (
-              <div>
-                <StyledText>
-                  {convertToFloatValue(govItem?.rewards)} {govItem.symbol}
-                </StyledText>
-                <SubText>${convertToFloatValue(govItem?.rewardsValue)}</SubText>
-              </div>
-            )
-            :
+          {govItem.symbol === 'LOTA' ? (
+            <div>
+              <StyledText>
+                {convertToFloatValue(govItem?.rewards)} {govItem.symbol}
+              </StyledText>
+              <SubText>${convertToFloatValue(govItem?.rewardsValue)}</SubText>
+            </div>
+          ) : (
             <StyledText>
               Automatically <br />
               re-staked
             </StyledText>
-          }
+          )}
         </Row>
-      )
-    })
-
-  }
+      );
+    });
+  };
   return (
     <Wrapper>
       <HeadingWrapper>

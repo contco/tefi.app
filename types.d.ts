@@ -160,6 +160,12 @@ interface MirrorTotal {
   mirrorAirdropSum: string;
 }
 
+interface loterraTotal {
+  loterraHoldingsSum: string;
+  loterraPoolRewardsSum: string;
+  loterraPoolSum: string;
+  loterraAirdropSum: string;
+}
 interface AssetInfo {
   idx: string;
   name: string;
@@ -304,6 +310,8 @@ interface LotaGov extends Gov {
 interface LoterraAccount {
   loterraDraw: LoterraDraw;
   lotaGov: LotaGov;
+  total: loterraTotal;
+  loterraStaking: Pool[];
 }
 interface Assets {
   __typename?: 'Assets';

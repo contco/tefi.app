@@ -9,22 +9,27 @@ export interface PoolsProps {
   ancAssets: AccountAnc;
   pylonAssets: PylonAccount;
   terraSwapAssets: terrSwapAccount;
+  loterraAssets: LoterraAccount;
 }
 
 const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets, pylonAssets, terraSwapAssets }) => {
   const getPoolTotal = () => {
     const pylonPoolTotal = pylonAssets?.pylonSum?.pylonPoolSum;
-    const total = (
+    const total =
       parseFloat(pylonPoolTotal) +
       parseFloat(mirrorAssets?.total?.mirrorPoolSum) +
       parseFloat(ancAssets?.total?.anchorPoolSum) +
-      parseFloat(terraSwapAssets.total)
-    )
+      parseFloat(terraSwapAssets.total);
     return convertToFloatValue(total.toString()) ?? '0';
   };
 
   const getPool = () => {
-    const pool = [...pylonAssets?.pylonPool, ...mirrorAssets?.mirrorStaking, ...ancAssets.pool, ...terraSwapAssets.list].sort(
+    const pool = [
+      ...pylonAssets?.pylonPool,
+      ...mirrorAssets?.mirrorStaking,
+      ...ancAssets.pool,
+      ...terraSwapAssets.list,
+    ].sort(
       (a, b) =>
         parseFloat(b.stakeableLpUstValue) +
         parseFloat(b.stakedLpUstValue) -
@@ -33,7 +38,7 @@ const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets, pylonAssets, ter
     return pool.map((assets: Pool, index) => (
       <Row key={index}>
         <StyledText fontWeight={500}> {assets?.lpName}</StyledText>
-        {assets?.stakedLp !== "0" ?
+        {assets?.stakedLp !== '0' ? (
           <StyledText isChildren={true}>
             {convertToFloatValue(assets?.stakedLp)} LP
             <HoverText>
@@ -41,18 +46,20 @@ const Pools: React.FC<PoolsProps> = ({ mirrorAssets, ancAssets, pylonAssets, ter
               {convertToFloatValue(assets?.token1Staked)} {assets.symbol1}
             </HoverText>
           </StyledText>
-          : <StyledText>-</StyledText>}
-        {assets?.stakeableLp !== "0" ?
+        ) : (
+          <StyledText>-</StyledText>
+        )}
+        {assets?.stakeableLp !== '0' ? (
           <StyledText isChildren={true}>
             {convertToFloatValue(assets?.stakeableLp)} LP
             <HoverText>
               {convertToFloatValue(assets?.token2UnStaked)} {assets?.symbol2} <br />
               {convertToFloatValue(assets?.token1UnStaked)} {assets.symbol1}
             </HoverText>
-
           </StyledText>
-          : <StyledText>-</StyledText>
-        }
+        ) : (
+          <StyledText>-</StyledText>
+        )}
         <StyledText> ${convertToFloatValue(assets?.totalLpUstValue)}</StyledText>
       </Row>
     ));
