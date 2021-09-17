@@ -30,6 +30,7 @@ const Container = styled.div`
   flex: 1;
   flex-direction: column;
   align-items: center;
+  overflow-x: hidden;
 `;
 
 const ChartContainer = styled.p`
