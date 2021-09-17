@@ -32,7 +32,7 @@ const typeDefs = gql`
       price: String!
   }
 
-  type PoolTokens {
+  type LotaPool {
     symbol1: String!
     symbol2:String!
     lpName: String!
@@ -51,6 +51,7 @@ const typeDefs = gql`
   type LoterraAccount {
     loterraDraw: LoterraDraw
     lotaGov: LotaGov
+    lotaPool : LotaPool
   }
 
   extend type Assets @key(fields: "address") {
