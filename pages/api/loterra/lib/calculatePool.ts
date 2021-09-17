@@ -1,6 +1,6 @@
-import { getPoolInfo, getPrice, wasmStoreRequest } from '../../commons';
+import { getPoolInfo, getPrice, wasmStoreRequest , isLunaPair } from '../../commons';
 import { div, times, plus } from '../../../../utils/math';
-import { UNIT } from '../../mirror/utils';
+import { calcPairPrice, UNIT } from '../../mirror/utils';
 import { contracts } from './contracts';
 
 const getLotaRewards = (claims: any) => {
@@ -11,6 +11,10 @@ const getLotaRewards = (claims: any) => {
   }
   return '0';
 };
+
+
+
+
 
 export const getLoterraStaking = async (address: string) => {
   try {
@@ -81,48 +85,48 @@ export const getLoterraStaking = async (address: string) => {
       state_lp_staking,
     ]);
     console.log('>>>> Pool Info' , poolInfo)
-
-
     console.log('>>>> lpTokenInfo', lpTokenInfo);
     console.log('>>>> LPHolderAccruedRewardsInfo', LPHolderAccruedRewardsInfo);
     console.log('>>>> holderLPInfo', holderLPInfo);
     console.log('>>>>> state_lp_stakingInfo', state_lp_stakingInfo);
     console.log('>>>> claimsLpInfo', claimsLpInfo);
 
-    const lpName = 'LOTA Ust';
-    const symbol = 'LOTA';
-    const symbo2 = 'Ust';
+    if (holderInfo?.balance && holderInfo?.balance !== '0') {
+      const lpName = 'LOTA Ust';
+      const symbol = 'LOTA';
+      const symbo2 = 'Ust';
+      const price = getPrice(poolInfo);
 
-
-    if (poolInfo.total_share && state_lp_stakingInfo.total_balance){
-      const ratio = poolInfo.total_share / poolInfo.assets[0].amount
-      var inLota = state_lp_stakingInfo.total_balance / ratio
-      //console.log("state.poolInfo")
-      console.log(inLota )
-      var stakedLp =  div(inLota, UNIT)
-      console.log(">>> StakedLp",stakedLp)
-     }
+    
+        if (poolInfo.total_share && state_lp_stakingInfo.total_balance){
+            const ratio = poolInfo.total_share / poolInfo.assets[0].amount
+            var inLota = state_lp_stakingInfo.total_balance / ratio
+            //console.log("state.poolInfo")
+            //console.log(inLota / 1000000)
+           // return inLota / 1000000
+            inLota = inLota / 1000000
+            console.log(inLota)
+        }
     
 
-
-    if (holderInfo?.balance && holderInfo?.balance !== '0') {
-      const name = 'LOTA Gov';
-      const symbol = 'LOTA';
-      const lotaPrice = getPrice(poolInfo);
       const staked = div(holderInfo?.balance, UNIT);
-      const value = times(staked, lotaPrice);
+      const value = times(staked, price);
       const lotaRewards = getLotaRewards(claimInfo?.claims);
-      const lotaRewardsValue = times(lotaRewards, lotaPrice);
+      const lotaRewardsValue = times(lotaRewards, price);
       const ustRewards = holderInfo?.pending_rewards !== '0' ? div(holderInfo?.pending_rewards, UNIT) : '0';
-      const ustRewardsInLota = div(ustRewards, lotaPrice);
+      const ustRewardsInLota = div(ustRewards, price);
       const rewards = plus(lotaRewards, ustRewardsInLota);
       const rewardsValue = plus(lotaRewardsValue, ustRewards);
       const apr = '0';
-      const result = { name, symbol, staked, value, rewards, rewardsValue, apr, price: lotaPrice };
-      return result;
+      //const result = { name, symbol, staked, value, rewards, rewardsValue, apr, price: lotaPrice };
+      //return result;
     }
     return null;
   } catch (err) {
     return null;
   }
 };
+
+
+
+
