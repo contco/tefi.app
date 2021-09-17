@@ -83,7 +83,7 @@ const Landing: React.FC = () => {
         <AddressContainer>
           <Row>
             <AddressInput defaultValue={address} onChange={handleAddress} placeholder="Enter a Terra address" />
-            <WarningText>{getWarningText()}</WarningText>
+            <WarningText valid={validWalletAddress}>{getWarningText()}</WarningText>
           </Row>
           <Row>
             <AddressSubmit disabled={!validWalletAddress} onClick={onAddressSubmit}>
