@@ -62,14 +62,7 @@ export const getLoterraStaking = async (address: string) => {
     const claimsLp = wasmStoreRequest(contracts.loterraStakingLPAddress, claimsLpMsg);
     const state_lp_staking = wasmStoreRequest(contracts.loterraStakingLPAddress, state_lp_stakingMsg);
 
-
-     const getPoolValues = (
-      stakedlpBalance: number,
-      stakeableLpBalance: number,
-      lpValue: number,
-      price: number,
-
-    ) => {
+    const getPoolValues = (stakedlpBalance: number, stakeableLpBalance: number, lpValue: number, price: number) => {
       let token1UnStaked = null;
 
       const stakeableLpUstValue = stakeableLpBalance * lpValue;
@@ -87,10 +80,10 @@ export const getLoterraStaking = async (address: string) => {
         token1UnStaked: token1UnStaked.toString(),
         token1Staked: token1Staked.toString(),
         token2UnStaked: token2UnStaked.toString(),
-        token2Staked: token2Staked.toString()
+        token2Staked: token2Staked.toString(),
       };
     };
-    
+
     const [
       poolInfo,
       holderInfo,
@@ -110,7 +103,7 @@ export const getLoterraStaking = async (address: string) => {
       claimsLp,
       state_lp_staking,
     ]);
-    console.log('>>>> Pool Info' , poolInfo)
+    console.log('>>>> Pool Info', poolInfo);
     console.log('>>>> lpTokenInfo', lpTokenInfo);
     console.log('>>>> LPHolderAccruedRewardsInfo', LPHolderAccruedRewardsInfo);
     console.log('>>>> holderLPInfo', holderLPInfo);
@@ -122,14 +115,14 @@ export const getLoterraStaking = async (address: string) => {
     const symbo2 = 'UST';
 
     const lotaPrice = getPrice(poolInfo);
-    let lpValue = getLpValue(poolInfo , parseFloat(lotaPrice))
-    console.log("lpValue",lpValue)
-    let stakableLpBlnce = parseFloat(lpTokenInfo.balance) /  UNIT
-    let stakeLpBlnce = parseFloat(holderLPInfo.balance ) / UNIT
-    
-   let LpStakeInfo =  getPoolValues(stakeLpBlnce , stakableLpBlnce , lpValue , parseFloat(lotaPrice))
+    let lpValue = getLpValue(poolInfo, parseFloat(lotaPrice));
+    console.log('lpValue', lpValue);
+    let stakableLpBlnce = parseFloat(lpTokenInfo.balance) / UNIT;
+    let stakeLpBlnce = parseFloat(holderLPInfo.balance) / UNIT;
 
-   console.log("LpStakeInfo >>" , LpStakeInfo)
+    let LpStakeInfo = getPoolValues(stakeLpBlnce, stakableLpBlnce, lpValue, parseFloat(lotaPrice));
+
+    console.log('LpStakeInfo >>', LpStakeInfo);
 
     if (holderInfo?.balance && holderInfo?.balance !== '0') {
       const name = 'LOTA Gov';
