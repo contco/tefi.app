@@ -103,40 +103,39 @@ export const getLoterraStaking = async (address: string) => {
       claimsLp,
       state_lp_staking,
     ]);
-    console.log('>>>> Pool Info', poolInfo);
-    console.log('>>>> lpTokenInfo', lpTokenInfo);
-    console.log('>>>> LPHolderAccruedRewardsInfo', LPHolderAccruedRewardsInfo);
-    console.log('>>>> holderLPInfo', holderLPInfo);
-    console.log('>>>>> state_lp_stakingInfo', state_lp_stakingInfo);
-    console.log('>>>> claimsLpInfo', claimsLpInfo);
+    // console.log('>>>> Pool Info', poolInfo);
+    // console.log('>>>> lpTokenInfo', lpTokenInfo);
+    // console.log('>>>> LPHolderAccruedRewardsInfo', LPHolderAccruedRewardsInfo);
+    // console.log('>>>> holderLPInfo', holderLPInfo);
+    // console.log('>>>>> state_lp_stakingInfo', state_lp_stakingInfo);
+    // console.log('>>>> claimsLpInfo', claimsLpInfo);
 
     const lpName = 'LOTA-UST';
-    const symbol = 'LOTA';
-    const symbo2 = 'UST';
+    const symbol1 = 'LOTA';
+    const symbol2 = 'UST';
+    const price = getPrice(poolInfo);
+    let lpValue = getLpValue(poolInfo, parseFloat(price));
+    let stakeableLp = parseFloat(lpTokenInfo.balance) / UNIT;
+    let stakedLp = parseFloat(holderLPInfo.balance) / UNIT;
+    let LpStakeInfo : any = getPoolValues(stakedLp, stakeableLp, lpValue, parseFloat(price));
 
-    const lotaPrice = getPrice(poolInfo);
-    let lpValue = getLpValue(poolInfo, parseFloat(lotaPrice));
-    console.log('lpValue', lpValue);
-    let stakableLpBlnce = parseFloat(lpTokenInfo.balance) / UNIT;
-    let stakeLpBlnce = parseFloat(holderLPInfo.balance) / UNIT;
 
-    let LpStakeInfo = getPoolValues(stakeLpBlnce, stakableLpBlnce, lpValue, parseFloat(lotaPrice));
-
-    console.log('LpStakeInfo >>', LpStakeInfo);
+   
+   console.log({symbol1 , symbol2 ,lpName, lpValue , price , stakedLp , stakeableLp , ...LpStakeInfo} )
 
     if (holderInfo?.balance && holderInfo?.balance !== '0') {
       const name = 'LOTA Gov';
       const symbol = 'LOTA';
       const staked = div(holderInfo?.balance, UNIT);
-      const value = times(staked, lotaPrice);
+      const value = times(staked, price);
       const lotaRewards = getLotaRewards(claimInfo?.claims);
-      const lotaRewardsValue = times(lotaRewards, lotaPrice);
+      const lotaRewardsValue = times(lotaRewards, price);
       const ustRewards = holderInfo?.pending_rewards !== '0' ? div(holderInfo?.pending_rewards, UNIT) : '0';
-      const ustRewardsInLota = div(ustRewards, lotaPrice);
+      const ustRewardsInLota = div(ustRewards, price);
       const rewards = plus(lotaRewards, ustRewardsInLota);
       const rewardsValue = plus(lotaRewardsValue, ustRewards);
       const apr = '0';
-      const GovStaking = { name, symbol, staked, value, rewards, rewardsValue, apr, price: lotaPrice };
+      const GovStaking = { name, symbol, staked, value, rewards, rewardsValue, apr, price };
       return GovStaking;
     }
     return null;
