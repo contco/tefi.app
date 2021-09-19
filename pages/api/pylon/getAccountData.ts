@@ -1,7 +1,7 @@
 import { PYLON_API_ENDPOINT, PYLON_TOKEN_NAME, PYLON_TOKEN_SYMBOL, PYLON_UST_LP } from "./constants";
 import { getGatewayData } from "./getGatewayData";
 import { fetchData } from "../commons/index";
-import { contracts } from "./constants";
+import { getPylonAirdrops } from "./airdrops";
 
 const DEFAULT_PYLON_SUM = { pylonHoldingsSum: '0', pylonPoolSum: '0', pylonAirdropSum: '0', pylonPoolRewardsSum: '0', gatewayRewardsSum: '0', gatewayDepositsSum: '0' };
 
@@ -63,20 +63,6 @@ const getMinePoolInfo = (price: number, minePoolData, apy: number, lpValue: numb
     return { pylonPoolSum: '0', pylonPoolRewardsSum: '0', pylonPool: [] };
 };
 
-const getPylonAirdrops = (price: number, data: any) => {
-    if (data && data?.amount && data?.claimableAirdrops?.length > 0 ) {
-        const pylonAirdropSum  = (data?.amount * price).toString();
-        const pylonAirdrops = data.claimableAirdrops.map((airdrop) => {
-            const { airdropMineAmount, merkleProof, stage} = airdrop;
-            const  value = (airdropMineAmount * price).toString();
-            const result = { name: PYLON_TOKEN_NAME, symbol: PYLON_TOKEN_SYMBOL, quantity: airdropMineAmount.toString(), value: value, round: stage, proof: merkleProof, contract: contracts.airdrop};
-            return result;
-        });
-        return { pylonAirdropSum, pylonAirdrops };
-    }
-    return { pylonAirdropSum: '0', pylonAirdrops: [] };
-}
-
 const getLpValue = (liquidityInfo: any, minePrice: number) => {
     const { tokenReserve, ustReserve, totalShares } = liquidityInfo;
     const totalLpValue = (tokenReserve * minePrice) + ustReserve;
@@ -93,7 +79,7 @@ export const getPylonAccount = async (address: string) => {
             const { pylonHoldingsSum, pylonHoldings } = getPylonHoldings(priceInUst, getAccountDetails);
             const gov = getPylonGov(priceInUst, mineStakingData, governanceOverview?.data?.apy);
             const { pylonPoolSum, pylonPoolRewardsSum, pylonPool } = getMinePoolInfo(priceInUst, minePoolData, liquidityOverview?.data?.apy, lpValue);
-            const { pylonAirdropSum, pylonAirdrops } = getPylonAirdrops(priceInUst, airdropData?.data);
+            const { pylonAirdropSum, pylonAirdrops } = await getPylonAirdrops(address, priceInUst, airdropData?.data);
             const { gatewayPoolData, gatewayRewardsSum, gatewayDepositsSum } = pylonGateway;
             const pylonTotal = { pylonHoldingsSum, pylonPoolSum, pylonAirdropSum, pylonPoolRewardsSum, gatewayRewardsSum, gatewayDepositsSum };
             return { pylonHoldings, gov, pylonPool, pylonAirdrops, pylonSum: pylonTotal, pylonGateway: gatewayPoolData };
@@ -101,7 +87,7 @@ export const getPylonAccount = async (address: string) => {
 
         return { pylonHoldings: [], gov: null, pylonAirdrops: [], pylonGateway: [], pylonPool: [], pylonSum: DEFAULT_PYLON_SUM };
     }
-    catch(err) {
+    catch (err) {
         return { pylonHoldings: [], gov: null, pylonAirdrops: [], pylonGateway: [], pylonPool: [], pylonSum: DEFAULT_PYLON_SUM };
     }
 };
