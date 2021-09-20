@@ -11,6 +11,7 @@ interface ContextProps {
   refetch: any;
   loading: any;
   refreshing: any;
+  updateAccountData: any;
 }
 
 interface Props {
@@ -24,10 +25,12 @@ const AssetContext = createContext<ContextProps>({
   refetch: null,
   loading: false,
   refreshing: false,
+  updateAccountData: null,
 });
 
 const AssetsDataProvider: React.FC<Props> = ({ children }) => {
   const [address, setAddress] = useState<string>('');
+  const [accountData, setAccountData] = useState<any>(null);
   const { useConnectedWallet } = useWallet();
   const connectedWallet = useConnectedWallet();
 	const localAddress = localStorage.getItem(ADDRESS_KEY);
@@ -43,10 +46,27 @@ const AssetsDataProvider: React.FC<Props> = ({ children }) => {
 
   const { data, loading, error, refetch, refreshing } = useAccounts(address);
 
-  const assets = assignData(data);
+
+  useEffect(() => {
+    setAccountData(data);
+  }, [data])
+
+  const assets = React.useMemo(() => {
+    
+    if(accountData) {
+      const assetsData = assignData(accountData);
+      return assetsData;
+    }
+    return null;
+
+  }, [accountData]);
+
+  const updateAccountData = (newAccountData: any) => {
+    setAccountData(newAccountData);
+  }
 
   return (
-    <AssetContext.Provider value={{ assets, data, loading, error, refetch, refreshing }}>{children}</AssetContext.Provider>
+    <AssetContext.Provider value={{ assets, data: accountData, loading, error, refetch, refreshing, updateAccountData }}>{children}</AssetContext.Provider>
   );
 };
 

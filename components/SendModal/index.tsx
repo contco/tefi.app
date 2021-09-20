@@ -12,6 +12,9 @@ import useWallet from '../../lib/useWallet';
 import { useInterval } from '../../utils/useInterval';
 import { FCD_URL } from '../../pages/api/utils';
 import axios from 'axios';
+import { useAssetsDataContext } from '../../contexts';
+import {fetchAccountsData} from '../../utils/useAccounts';
+
 
 const POLLING_INTERVAL = 1000;
 
@@ -38,14 +41,33 @@ const SendModal: React.FC<ModalDisplayState> = ({isVisible, setVisible}) => {
   const [txHash, setTxHash] = useState('');
   const [isPollingTx, setIsPollingTx] = useState(false);
 
-  const onClose = () => {
-    setModalState(ModalState.initial);
-    setVisible(false);
-  }
+  const {updateAccountData} = useAssetsDataContext();
+
 
   const {useConnectedWallet, post } = useWallet();
   const connectedWallet = useConnectedWallet();
 
+  const onClose = () => {
+    if(connectedWallet?.terraAddress) {
+      setModalState(ModalState.initial);
+    }
+    else {
+      setModalState(ModalState.disconnected);
+    }
+    setVisible(false);
+  }
+
+  const updateAssetsData = async () => {
+    try {
+      const result = await fetchAccountsData(connectedWallet?.terraAddress);
+      const [anchor, mirror, loterra, pylon, spectrum, starterra, core, apollo] = result;
+      const updatedData = {assets: {...core,mirror, anchor, loterra, spectrum, starterra, pylon, apollo}};
+      updateAccountData(updatedData);
+    }
+    catch(err) {
+      console.warn('error updating account data', err);
+    }
+  }
 
   useEffect(() => {
     if(connectedWallet?.terraAddress) {
@@ -65,6 +87,7 @@ const SendModal: React.FC<ModalDisplayState> = ({isVisible, setVisible}) => {
          setModalState(ModalState.error);
        }
        else {
+         updateAssetsData();
          setModalState(ModalState.success);
        }
      }
@@ -79,13 +102,12 @@ const SendModal: React.FC<ModalDisplayState> = ({isVisible, setVisible}) => {
 
 
   const onSend = async (data: any) => {
-    setModalState(ModalState.waiting);
-      const {error, msg, txResult, deductedAmounts}: any = await sendToken(data, post);
-      console.log(deductedAmounts, txResult, msg, error);
+      setModalState(ModalState.waiting);
+      const {error, msg, txResult}: any = await sendToken(data, post);
       if(txResult.success) {
         setModalState(ModalState.broadcasted);
         setTxHash(txResult?.result?.txhash);
-        setIsPollingTx(true);
+        setIsPollingTx(true); 
         
       }
       if(error) {
@@ -118,7 +140,7 @@ const SendModal: React.FC<ModalDisplayState> = ({isVisible, setVisible}) => {
 
 
   return(
-    <StyledModal isOpen={isVisible} onClose={onClose}>
+    <StyledModal isOpen={isVisible} onClose={() => setVisible(false)}>
       {showModalState()}
     </StyledModal> 
   );
