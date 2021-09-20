@@ -82,8 +82,7 @@ export const getLoterraStaking = async (address: string) => {
       state_lp_staking,
     ]);
 
-    const lpInfo = getLpStakingInfo(poolInfo, lpTokenInfo, holderLPInfo);
-    console.log('object >>', lpInfo);
+    
 
     if (holderInfo?.balance && holderInfo?.balance !== '0') {
       const name = 'LOTA Gov';
@@ -98,8 +97,10 @@ export const getLoterraStaking = async (address: string) => {
       const rewards = plus(lotaRewards, ustRewardsInLota);
       const rewardsValue = plus(lotaRewardsValue, ustRewards);
       const apr = '0';
+      const lpStaking = getLpStakingInfo(poolInfo, lpTokenInfo, holderLPInfo);
+   // console.log('object >>', lpInfo);
       const GovStaking = { name, symbol, staked, value, rewards, rewardsValue, apr, price };
-      return GovStaking;
+      return {GovStaking , lpStaking};
     }
     return null;
   } catch (err) {

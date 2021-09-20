@@ -1,6 +1,6 @@
 import { ApolloServer, gql } from 'apollo-server-micro';
 import { buildFederatedSchema } from '@apollo/federation';
-import { getLoterraAccount } from "./lib";
+import { getLoterraAccount } from './lib';
 
 const typeDefs = gql`
   type SpecGov {
@@ -14,44 +14,44 @@ const typeDefs = gql`
   }
 
   type LoterraDraw {
-   combinations: String!
-   drawTime: String!
-   jackpot: String!
-   ticketPrice: String!
-   ticketCounts: String!
+    combinations: String!
+    drawTime: String!
+    jackpot: String!
+    ticketPrice: String!
+    ticketCounts: String!
   }
 
   type LotaGov {
-      name: String!
-      symbol: String!
-      staked: String!
-      value: String!
-      rewards: String!
-      rewardsValue: String!
-      apr: String!
-      price: String!
+    name: String!
+    symbol: String!
+    staked: String!
+    value: String!
+    rewards: String!
+    rewardsValue: String!
+    apr: String!
+    price: String!
   }
 
   type LotaPool {
     symbol1: String!
-    symbol2:String!
+    symbol2: String!
     lpName: String!
     price: String!
     stakedLp: String!
-    stakedLpUstValue:String!
+    stakedLpUstValue: String!
     stakeableLp: String!
-    stakeableLpUstValue:String!
-    token1UnStaked:String!
-    token1Staked:String!
-    token2UnStaked:String!
-    token2Staked:String!
-    totalLpUstValue:String!
-}
+    stakeableLpUstValue: String!
+    token1UnStaked: String!
+    token1Staked: String!
+    token2UnStaked: String!
+    token2Staked: String!
+    totalLpUstValue: String!
+  }
 
   type LoterraAccount {
     loterraDraw: LoterraDraw
     lotaGov: LotaGov
-    lotaPool : LotaPool
+    lotaPool: LotaPool
   }
 
   extend type Assets @key(fields: "address") {
@@ -64,9 +64,8 @@ const resolvers = {
   Assets: {
     loterra(assets) {
       return getLoterraAccount(assets.address);
-    }
+    },
   },
-
 };
 
 const apolloServer = new ApolloServer({ schema: buildFederatedSchema([{ typeDefs, resolvers }]) });
