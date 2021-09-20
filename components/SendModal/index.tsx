@@ -117,7 +117,7 @@ const SendModal: React.FC<ModalDisplayState> = ({isVisible, setVisible}) => {
 
 
   return(
-    <StyledModal isOpen={isVisible} onClose={() => setVisible(false)}>
+    <StyledModal isOpen={isVisible} onClose={onClose}>
       {showModalState()}
     </StyledModal> 
   );

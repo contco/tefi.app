@@ -7,6 +7,7 @@ import { assignData } from './assignData';
 interface ContextProps {
   assets: any;
   error: any;
+  data: any;
   refetch: any;
   loading: any;
   refreshing: any;
@@ -18,6 +19,7 @@ interface Props {
 
 const AssetContext = createContext<ContextProps>({
   assets: null,
+  data: null,
   error: false,
   refetch: null,
   loading: false,
@@ -44,7 +46,7 @@ const AssetsDataProvider: React.FC<Props> = ({ children }) => {
   const assets = assignData(data);
 
   return (
-    <AssetContext.Provider value={{ assets, loading, error, refetch, refreshing }}>{children}</AssetContext.Provider>
+    <AssetContext.Provider value={{ assets, data, loading, error, refetch, refreshing }}>{children}</AssetContext.Provider>
   );
 };
 

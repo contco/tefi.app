@@ -1,12 +1,13 @@
-import {StdFee, MsgSend, MsgExecuteContract} from "@terra-money/terra.js";
+import {MsgSend, MsgExecuteContract, Coins, StdFee} from "@terra-money/terra.js";
 import { simulateTx } from "./simulateTx";
-import { plus} from "../utils/math";
 
 
-export const calculateFee  = async (address: string, msgs: MsgSend[] | MsgExecuteContract[] , tax: string, gasPrice: string, denom: string, memo?: string) => {
+export const calculateFee  = async (address: string, msgs: MsgSend[] | MsgExecuteContract[] , tax: any, gasPrice: string, denom: string, memo?: string) => {
   try {
     const {estimatedFee, gas} = await simulateTx(address, msgs, gasPrice, denom, memo);
-    const fee = new StdFee(gas, { [denom]: plus(estimatedFee, tax)});
+    const gasFee = new Coins({ [denom]: estimatedFee});
+    const feeAmounts = tax ? gasFee.add(tax) : gasFee
+    const fee = new StdFee(gas, feeAmounts);
     return {fee, estimatedFee, gas};
   }
   catch(err){

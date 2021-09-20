@@ -5,7 +5,7 @@ import { Box, Flex, Text, } from '@contco/core-ui';
 import { CurrencySelect } from './CurrencySelect';
 import { ButtonRound } from '../UIComponents';
 import { AccAddress } from '@terra-money/terra.js';
-import { useAssetContext } from '../../contexts';
+import { useAssetsDataContext } from '../../contexts';
 import { SmallText } from './common';
 import { useEffect } from 'react';
 import { simulateSendTokenTx } from '../../transactions/sendToken';
@@ -16,6 +16,8 @@ const DEFAULT_TX_STATE = '---';
 const AMOUNT_ERROR = 'Amount should be less than balance';
 const TAX_ERROR = 'Balance not enough to pay fee';
 const AMOUNT_DECIMAL_ERROR = 'Amount must be within 6 decimal points';
+const UST_DENOM = 'uusd';
+
 export const ModalBox = styled(Box)`
   ${css({
     height: [530, null, 550, 600],
@@ -144,13 +146,16 @@ interface SendInput {
 }
 
 export const InputModal = ({onSend}) => {
-  const {assets, loading} = useAssetContext();
+  const {data, loading} = useAssetsDataContext();
   const [input, setInput] = useState<SendInput>(DEFAULT_INPUT_STATE);
   const [selectedAsset, setAsset] = useState<Holdings | null>(null);
   const [txFee, setTxFee] = useState<string>(DEFAULT_TX_STATE);
   const [isTxCalculated, setIsTxCalculated] = useState(false);
   const [simulationLoading, setSimulationLoading] = useState(false);
   const {useConnectedWallet} = useWallet();
+
+  const assets  = data ? [...data?.assets?.core?.coins, ...data?.assets?.anchor?.assets,  ...data?.assets?.mirror?.mirrorHoldings, ...data?.assets?.pylon?.pylonHoldings, ...data?.assets?.spectrum?.specHoldings] : [];
+  const ustAsset: any = assets.filter((asset: Holdings) => asset.denom === UST_DENOM);
 
   const connectedWallet = useConnectedWallet();
   const walletAddress = connectedWallet?.terraAddress;
@@ -195,7 +200,7 @@ export const InputModal = ({onSend}) => {
       }
       else if (isTxCalculated && !simulationLoading) {
         if(selectedAsset?.denom) {
-          if ((parseFloat(input.amount) + parseFloat(txFee)) > parseFloat(selectedAsset?.balance)) {
+          if ((parseFloat(txFee)) > parseFloat(ustAsset?.balance) ) {
             return {error: true, msg: TAX_ERROR};
           }
         }
@@ -232,7 +237,7 @@ export const InputModal = ({onSend}) => {
     if(!getDisabledState()) {
       if(!isTxCalculated) {
         setSimulationLoading(true);
-        const data = {to: input.address, from: walletAddress, amount: input.amount, memo: input.memo, denom: selectedAsset?.denom, contract: selectedAsset?.contract };
+        const data = {to: input.address, from: walletAddress, amount: input.amount, memo: input.memo, denom: selectedAsset?.denom, txDenom: UST_DENOM , contract: selectedAsset?.contract };
         const result = await simulateSendTokenTx(data);
         if(!result.error) { 
           setTxFee(result.fee);
@@ -241,7 +246,7 @@ export const InputModal = ({onSend}) => {
         setSimulationLoading(false);
       }
       else {
-        const data = {to: input.address, from: walletAddress, amount: input.amount, memo: input.memo, denom: selectedAsset?.denom, contract: selectedAsset?.contract };
+        const data = {to: input.address, from: walletAddress, amount: input.amount, memo: input.memo, denom: selectedAsset?.denom, txDenom: UST_DENOM, contract: selectedAsset?.contract };
         resetTxState();
         setInput(DEFAULT_INPUT_STATE);
         onSend(data);
@@ -254,7 +259,7 @@ export const InputModal = ({onSend}) => {
       return '';
     }
     else {
-      return selectedAsset?.denom ? selectedAsset?.symbol : 'UST';
+      return 'UST';
     }
   }
   return (
@@ -268,7 +273,7 @@ export const InputModal = ({onSend}) => {
         <InputContainer>
           <InputLabel>Amount</InputLabel>
           <AmountBox error={amountError.error}>
-            <CurrencySelect loading={loading}assets={assets} selectedAsset={selectedAsset} setAsset={onAssetSelect}/>
+            <CurrencySelect loading={loading} assets={assets} selectedAsset={selectedAsset} setAsset={onAssetSelect}/>
             <AmountInput value={input.amount} onChange={onChange} name='amount' min= '0' type='number' />
           </AmountBox>
           <BalanceContainer>
