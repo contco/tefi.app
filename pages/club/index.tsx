@@ -167,6 +167,7 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts, next }: any)
         amount: SEND_AMOUNT,
         memo: text,
         denom: 'uusd',
+        txDenom: 'uusd',
       };
       const newFeedPost: txData = {
         to_address: ADDRESS,

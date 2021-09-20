@@ -154,7 +154,7 @@ export const InputModal = ({onSend}) => {
   const [simulationLoading, setSimulationLoading] = useState(false);
   const {useConnectedWallet} = useWallet();
 
-  const assets  = data ? [...data?.assets?.core?.coins, ...data?.assets?.anchor?.assets,  ...data?.assets?.mirror?.mirrorHoldings, ...data?.assets?.pylon?.pylonHoldings, ...data?.assets?.spectrum?.specHoldings] : [];
+  const assets: any  = data ? [...data?.assets?.core?.coins, ...data?.assets?.anchor?.assets,  ...data?.assets?.mirror?.mirrorHoldings, ...data?.assets?.pylon?.pylonHoldings, ...data?.assets?.spectrum?.specHoldings] : [];
   const ustAsset: any = assets.filter((asset: Holdings) => asset.denom === UST_DENOM);
 
   const connectedWallet = useConnectedWallet();

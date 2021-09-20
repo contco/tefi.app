@@ -80,15 +80,16 @@ const SendModal: React.FC<ModalDisplayState> = ({isVisible, setVisible}) => {
 
   const onSend = async (data: any) => {
     setModalState(ModalState.waiting);
-      const result = await sendToken(data, post);
-      if(result.success) {
+      const {error, msg, txResult, deductedAmounts}: any = await sendToken(data, post);
+      console.log(deductedAmounts, txResult, msg, error);
+      if(txResult.success) {
         setModalState(ModalState.broadcasted);
-        setTxHash(result?.result?.txhash);
+        setTxHash(txResult?.result?.txhash);
         setIsPollingTx(true);
         
       }
-      if(result.error) {
-         if(result.msg === "User Denied") {
+      if(error) {
+         if(msg === "User Denied") {
            setModalState(ModalState.denied);
          }
          else {

@@ -4,7 +4,7 @@ import { FCD_URL } from '../pages/api/utils';
 import { UNIT } from '../pages/api/mirror/utils';
 import BigNumber from 'bignumber.js';
 import { calculateFee } from './calculateFee';
-import { plus } from '../utils/math';
+
 
 const TREASURY_URL = 'https://fcd.terra.dev/treasury/';
 
@@ -41,6 +41,26 @@ const getGasPrice = async (denom = DEFAULT_DENOM) => {
 	return data?.[denom];
 }
 
+const getDeductedAmounts = (amount: string, estimatedFee: string, tax: Coin | null, feeDenom: string, denom: string, contract: string) => {
+	if(denom) {
+			const taxData  = tax ? tax.toData() : {amount: '0'};
+			if(denom === feeDenom) {
+				const deductedAmount = parseFloat(amount) + (parseFloat(estimatedFee)  + parseFloat(taxData.amount) / UNIT);
+				return [{denom, amount: deductedAmount }]
+			}
+			else {
+				const denomAmount = {denom, amount: parseFloat(amount) + (parseFloat(taxData.amount)/UNIT)};
+				const feeAmount = {denom: feeDenom, amount: (parseFloat(estimatedFee) / UNIT)}
+				return [denomAmount, feeAmount]
+			}
+	}  
+	else {
+		const dedudctedAmount = {contract: contract, amount:parseFloat(amount)};
+		const feeAmount = {denom: feeDenom, amount: parseFloat(estimatedFee) / UNIT};
+		return [dedudctedAmount, feeAmount];
+		
+	}
+};
 
 
 export const sendToken = async (data: SendTokenTransactionData, post) => {
@@ -67,13 +87,13 @@ export const sendToken = async (data: SendTokenTransactionData, post) => {
 				gasPrices,
 				fee: feeResult.fee,
 			}
-			console.log(txOptions);
+			const deductedAmounts = getDeductedAmounts(amount, feeResult.estimatedFee, tax, feeDenom, denom, contract);
 			const result = await post(txOptions);
-			return result;
+			return {error: false, msg: '', txResult: result, deductedAmounts};
 		}
 	}
 	catch ({ message }) {
-		return { error: true, msg: message };
+		return { error: true, msg: message, txResult: null, deductedAmounts: null };
 	}
 }
 
