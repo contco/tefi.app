@@ -1,4 +1,4 @@
-import { PYLON_API_ENDPOINT, PYLON_TOKEN_NAME, PYLON_TOKEN_SYMBOL, PYLON_UST_LP } from "./constants";
+import { PYLON_API_ENDPOINT, PYLON_TOKEN_NAME, PYLON_TOKEN_SYMBOL, PYLON_UST_LP, contracts} from "./constants";
 import { getGatewayData } from "./getGatewayData";
 import { fetchData } from "../commons/index";
 import { getPylonAirdrops } from "./airdrops";
