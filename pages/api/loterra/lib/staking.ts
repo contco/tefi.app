@@ -1,8 +1,8 @@
 import { getPoolInfo, getPrice, wasmStoreRequest } from '../../commons';
 import { div, times, plus } from '../../../../utils/math';
-import { price, UNIT } from '../../mirror/utils';
+import { UNIT } from '../../mirror/utils';
 import { contracts } from './contracts';
-import { getLpValue } from '../../utils';
+import { getLpStakingInfo } from './getLpStaking';
 
 const getLotaRewards = (claims: any) => {
   if (claims && claims.length > 0) {
@@ -62,28 +62,6 @@ export const getLoterraStaking = async (address: string) => {
     const claimsLp = wasmStoreRequest(contracts.loterraStakingLPAddress, claimsLpMsg);
     const state_lp_staking = wasmStoreRequest(contracts.loterraStakingLPAddress, state_lp_stakingMsg);
 
-    const getPoolValues = (stakedlpBalance: number, stakeableLpBalance: number, lpValue: number, price: number) => {
-      let token1UnStaked = null;
-
-      const stakeableLpUstValue = stakeableLpBalance * lpValue;
-      const stakedLpUstValue = stakedlpBalance * lpValue;
-      const totalLpUstValue = stakeableLpUstValue + stakedLpUstValue;
-      token1UnStaked = stakeableLpUstValue / 2;
-      let token1Staked = stakedLpUstValue / 2;
-      const token2UnStaked = token1UnStaked / price;
-      const token2Staked = token1Staked / price;
-
-      return {
-        stakedLpUstValue: stakedLpUstValue.toString(),
-        stakeableLpUstValue: stakeableLpUstValue.toString(),
-        totalLpUstValue: totalLpUstValue.toString(),
-        token1UnStaked: token1UnStaked.toString(),
-        token1Staked: token1Staked.toString(),
-        token2UnStaked: token2UnStaked.toString(),
-        token2Staked: token2Staked.toString(),
-      };
-    };
-
     const [
       poolInfo,
       holderInfo,
@@ -103,30 +81,15 @@ export const getLoterraStaking = async (address: string) => {
       claimsLp,
       state_lp_staking,
     ]);
-    // console.log('>>>> Pool Info', poolInfo);
-    // console.log('>>>> lpTokenInfo', lpTokenInfo);
-    // console.log('>>>> LPHolderAccruedRewardsInfo', LPHolderAccruedRewardsInfo);
-    // console.log('>>>> holderLPInfo', holderLPInfo);
-    // console.log('>>>>> state_lp_stakingInfo', state_lp_stakingInfo);
-    // console.log('>>>> claimsLpInfo', claimsLpInfo);
 
-    const lpName = 'LOTA-UST';
-    const symbol1 = 'LOTA';
-    const symbol2 = 'UST';
-    const price = getPrice(poolInfo);
-    let lpValue = getLpValue(poolInfo, parseFloat(price));
-    let stakeableLp = parseFloat(lpTokenInfo.balance) / UNIT;
-    let stakedLp = parseFloat(holderLPInfo.balance) / UNIT;
-    let LpStakeInfo : any = getPoolValues(stakedLp, stakeableLp, lpValue, parseFloat(price));
-
-
-   
-   console.log({symbol1 , symbol2 ,lpName, lpValue , price , stakedLp , stakeableLp , ...LpStakeInfo} )
+    const lpInfo = getLpStakingInfo(poolInfo, lpTokenInfo, holderLPInfo);
+    console.log('object >>', lpInfo);
 
     if (holderInfo?.balance && holderInfo?.balance !== '0') {
       const name = 'LOTA Gov';
       const symbol = 'LOTA';
       const staked = div(holderInfo?.balance, UNIT);
+      const price = getPrice(poolInfo);
       const value = times(staked, price);
       const lotaRewards = getLotaRewards(claimInfo?.claims);
       const lotaRewardsValue = times(lotaRewards, price);
