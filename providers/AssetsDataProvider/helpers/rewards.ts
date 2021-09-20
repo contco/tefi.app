@@ -131,9 +131,9 @@ export const getRewardData = (anchor, mirror, pylon, spectrum, loterra) => {
         reward: {
           token: borrowRewards?.reward + ' ANC',
           tokenValue:
-            '$' + borrowRewards?.reward === '<0.001'
-              ? 0
-              : (parseFloat(borrowRewards?.reward) * parseFloat(anchor?.debt?.ancprice)).toFixed(3),
+            borrowRewards?.reward === '<0.001'
+              ? '$' + 0
+              : '$' + (parseFloat(borrowRewards?.reward) * parseFloat(anchor?.debt?.ancprice)).toFixed(3),
         },
       },
     ],
@@ -149,7 +149,9 @@ export const getRewardData = (anchor, mirror, pylon, spectrum, loterra) => {
             },
           }
         : { value: 'Automatically re-staked' };
-    const ap = govItem?.apy ? { apy: convertToFloatValue(govItem.apy) + '%' } : { apr: convertToFloatValue(govItem.apr) + '%' };
+    const ap = govItem?.apy
+      ? { apy: convertToFloatValue(govItem.apy) + '%' }
+      : { apr: convertToFloatValue(govItem.apr) + '%' };
     return [
       {
         name: govItem.name,
