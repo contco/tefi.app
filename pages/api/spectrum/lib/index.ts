@@ -67,7 +67,7 @@ const fetchData = async (address: string) => {
   return result;
 }
 
-export const getAccount = async (address: string) => {
+export const getSpectrumAccount = async (address: string) => {
   const [userSpec, specPool, specBalance, farmData] = await fetchData(address);
   const specPrice =  specPool ? getSpecPrice(specPool) : '0';
 

@@ -35,7 +35,7 @@ const getAnchorHoldings = (balance: number, price: number) => {
   return { anchorHoldings: [], anchorHoldingsSum: '0' };
 };
 
-export const getAccount = async (address: any) => {
+export const getAnchorAccount = async (address: any) => {
   const balanceRequest = fetchBalance(address);
   const priceRequest = fetchPrice();
   const debtRequest = getDebt(address);

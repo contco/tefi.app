@@ -97,7 +97,7 @@ const fetchBalance = async (address: string) => {
   }
 };
 
-export const getBankBalance = async ({ args: { address } }: any) => {
+export const getTerraCoreAccount = async ({ args: { address } }: any) => {
   const balanceRequest = fetchBalance(address);
   const pricesRequest = fetchData(FCD_URL + 'dashboard');
   const stakingRequest = fetchData(FCD_URL + `staking/${address}`);

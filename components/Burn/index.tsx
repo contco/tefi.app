@@ -1,69 +1,24 @@
-import { convertToFloatValue } from '../../utils/convertFloat';
-import {
-  Wrapper,
-  Row,
-  HeadingWrapper,
-  Heading,
-  Title,
-  StyledText,
-  SubText,
-  StyledTextContainer,
-  SimpleText,
-} from '../dashboardStyles';
-import { BurnTitle } from '../../constants';
-import { Box, Flex } from '@contco/core-ui';
-
+import { Wrapper, HeadingWrapper, Heading } from '../dashboardStyles';
+import Header from '../../components/DashboardComponents/Header';
+import Section from '../../components/DashboardComponents/Section';
+import TitleContainer from '../DashboardComponents/TitleContainer';
 const HEADING_TEXT = `Anchor Bond`;
 
 export interface BurnProps {
-  ancAssets: AccountAnc;
+  burn: any;
 }
 
-const Earn: React.FC<BurnProps> = ({ ancAssets }) => {
-  const burn: BurnData = ancAssets?.burn;
-
-  const withdrawableAmount = burn.withdrawableAmount;
-
-  if (burn?.requestData.length <= 0) return <></>;
-
-  const getBurnData = () => {
-    return burn?.requestData.map((data: RequestData, index) => (
-      <Row key={index}>
-        <Box>
-          <StyledText>{convertToFloatValue(data.amount.amount)} bLUNA</StyledText>
-          <SubText>${convertToFloatValue(data.amount.amountValue)}</SubText>
-        </Box>
-        <StyledText>{data.time.requestedTime || 'Pending'}</StyledText>
-        <StyledText>{data.time.claimableTime || 'Pending'}</StyledText>
-      </Row>
-    ));
-  };
+const Earn: React.FC<BurnProps> = ({ burn }) => {
+  if (JSON.stringify(burn) === '{}') return <></>;
 
   return (
     <Wrapper>
       <HeadingWrapper>
         <Heading>{HEADING_TEXT}</Heading>
-        <Flex>
-          <StyledTextContainer>
-            <SimpleText>
-              <b>Total:</b> &nbsp;
-            </SimpleText>
-            <SimpleText>${convertToFloatValue(burn?.totalBurnAmountValue)}</SimpleText>
-          </StyledTextContainer>
-          <StyledTextContainer>
-            <SimpleText>
-              <b>Withdrawable Amount:</b> &nbsp;
-            </SimpleText>
-            <SimpleText>{withdrawableAmount} LUNA</SimpleText>
-          </StyledTextContainer>
-        </Flex>
+        <Header data={burn.total} />
       </HeadingWrapper>
-      <Row>
-        {BurnTitle.map((t, index) => (
-          <Title key={index}>{t}</Title>
-        ))}
-      </Row>
-      {getBurnData()}
+      <TitleContainer titles={burn.titles} />
+      <Section data={burn.data} />
     </Wrapper>
   );
 };

@@ -136,12 +136,13 @@ export const AddressSubmitText = styled(Text)`
 `;
 
 export const WarningText = styled(Text)`
-  ${css({
-    color: '#f39c12',
-    fontSize: 0,
-    minHeight: 12,
-    m: 2,
-  })}
+  ${(props) =>
+    css({
+      color: props.valid ? props.theme.colors.green : '#f39c12',
+      fontSize: 0,
+      minHeight: 12,
+      m: 2,
+    })}
 `;
 
 export const Row = styled(Box)`

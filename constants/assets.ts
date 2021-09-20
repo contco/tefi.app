@@ -54,6 +54,14 @@ export const assets = {
         terraSwapSymbol: 'ALTE',
         poolAddress: "terra18adm0emn6j3pnc90ldechhun62y898xrdmfgfz",
         url: 'https://app.alteredprotocol.com/'
+    },
+    stt: {
+        pair:'STT-UST',
+        name: "StarTerra",
+        symbol: "STT",
+        terraSwapSymbol: 'STT',
+        poolAddress: "terra19pg6d7rrndg4z4t0jhcd7z9nhl3p5ygqttxjll",
+        url: 'https://app.starterra.io/'
     }
 };
 
@@ -65,4 +73,5 @@ export const DEFAULT_ASSETS_CURRENT_PRICE = {
   spec: null, 
   lota: null,
   alte: null,
+  stt: null,
 } 

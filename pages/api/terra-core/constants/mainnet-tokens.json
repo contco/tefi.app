@@ -491,7 +491,7 @@
     },
     {
         "name": "terraswap liquidity token",
-        "symbol": "uLP",
+        "symbol": "LUNA",
         "decimals": 6,
         "total_supply": "1596359549698",
         "contract_addr": "terra17dkr9rnmtmu7x4azrpupukvur2crnptyfvsrvr"

@@ -1,10 +1,10 @@
 import axios from "axios";
-import { LCD_URL } from "../utils";
+import { LCD_URL,EXTRATERRESTRIAL_URl } from "../utils";
 import { div } from "../../../utils/math";
+import { fetchData } from "./fetchData";
 
 export { wasmStoreRequest } from "./wasm";
 export {fetchData} from "./fetchData";
-
 
 export const getUserTokenBalance = async (address: string, token_addr: string) => {
   const { data } = await axios.get(LCD_URL + `wasm/contracts/${token_addr}/store`, {
@@ -47,11 +47,31 @@ export const getPrice = (poolResponse) => {
   }
 }
 
+export const getPriceBySymbol = async (symbol) => {
+  if(symbol){
+    const pricesRequest:any = await fetchData(EXTRATERRESTRIAL_URl)
+    const tokenPrice = pricesRequest.data.prices[symbol].price;
+    if(tokenPrice){
+      return tokenPrice
+    }
+  }
+  return 0;
+}
+
 export const isLunaPair = (poolResponse) => {
   if ((poolResponse?.assets[0]?.info?.native_token?.denom === 'uusd' || poolResponse?.assets[1]?.info?.native_token?.denom === 'uusd') || (poolResponse?.assets[0]?.info?.native_token?.denom === undefined && poolResponse?.assets[1]?.info?.native_token?.denom === undefined )) {
     return false;
   }
   else {
     return true;
+  }
+}
+
+export const isNoneNativePair = (poolResponse) => {
+  if (poolResponse?.assets[0]?.info?.native_token?.denom === undefined && poolResponse?.assets[1]?.info?.native_token?.denom === undefined ) {
+    return true;
+  }
+  else {
+    return false;
   }
 }

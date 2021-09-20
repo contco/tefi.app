@@ -1,8 +1,17 @@
-import DeviceDetectProvider from "./DeviceDetectProvider";
-import AssetPriceProvider from "./AssetPriceProvider";
-import RedirectProvider from "./RedirectProvider";
-import WalletConnectProvider from "./WalletConnectProvider";
+import DeviceDetectProvider from './DeviceDetectProvider';
+import AssetPriceProvider from './AssetPriceProvider';
+import RedirectProvider from './RedirectProvider';
+import WalletConnectProvider from './WalletConnectProvider';
+import AssetsDataProvider from './AssetsDataProvider';
 import ModalProvider from "./ModalsProvider";
-import AssetsProvider from "./AssetsProvider";
+import AlertProvider from './AlertProvider';
 
-export {DeviceDetectProvider, AssetPriceProvider, RedirectProvider, WalletConnectProvider, ModalProvider, AssetsProvider };
+export {
+  DeviceDetectProvider,
+  AssetPriceProvider,
+  RedirectProvider,
+  WalletConnectProvider,
+  AlertProvider,
+  ModalProvider,
+  AssetsDataProvider,
+};

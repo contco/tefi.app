@@ -8,7 +8,7 @@ export const coinSymbolList =  {
     terra1jsxngqasf2zynj5kyh0tgq9mj3zksa5gk35j4k: "mNFLX",
     terra1kcthelkax4j9x8d3ny6sdag0qmxxynl3qtcrpy: "MINE",
     terra1kscs6uhrqwy6rx5kuw5lwpuqvm3t6j2d6uf2lp: "mSLV",
-    terra1l5lrxtwd98ylfy09fn866au6dp76gu8ywnudls: "mGLXY",
+    terra18yqdfzfhnguerz9du5mnvxsh5kxlknqhcxzjfr: "mHOOD",
     terra1lvmx8fsagy70tv0fhmfzdw9h6s3sy4prz38ugf: "mUSO",
     terra1m6j6j9gw728n82k78s0j9kq8l5p6ne0xcc820p: "mGME",
     terra1mqsjugsugfprn3cvgxsrr8akkvdxv2pzc74us7: "mFB",
@@ -30,4 +30,6 @@ export const coinSymbolList =  {
     terra137drsu8gce5thf6jr5mxlfghw36rpljt3zj73v: "mGS",
     terra165nd2qmrtszehcfrntlplzern7zl4ahtlhd5t2: "mAMZN",
     terra1227ppwxxj3jxz8cfgq00jgnxqcny7ryenvkwj6: "mMSFT",
+    terra1l5lrxtwd98ylfy09fn866au6dp76gu8ywnudls: "MGLXY",
+    terra13xujxcrc9dqft4p9a8ls0w3j0xnzm6y2uvve8n: "STT",
 }

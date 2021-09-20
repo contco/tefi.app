@@ -130,6 +130,7 @@ interface RequestData {
 interface BurnData {
   requestData: Array<RequestData>;
   withdrawableAmount: string;
+  withdrawableValue: string;
   totalBurnAmount: string;
   totalBurnAmountValue: string;
 }
@@ -344,7 +345,7 @@ interface StarStakedData {
   lpname: string;
   faction: string;
   stakedLp: string;
-	stakedLpUstValue: string;
+  stakedLpUstValue: string;
   token1Staked: string;
   token2Staked: string;
   rewards: string;
@@ -362,4 +363,19 @@ interface StarTerraAccount {
   totalStakedLpUstValue: string;
   totalRewards: string;
   totalRewardsValue: string;
+}
+
+interface ApolloVault {
+  symbol1: string;
+  symbol2: string;
+  lpName: string;
+  stakedLp: string;
+  stakedLpUstValue: string;
+  token1Staked: string;
+  token2Staked: string;
+}
+
+interface ApolloAccount  {
+  vaults: ApolloVault[];
+  total: string;
 }

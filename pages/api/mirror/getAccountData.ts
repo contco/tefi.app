@@ -70,7 +70,7 @@ export const fetchData = (address: string) => {
   return Promise.all([lpTokenBalancePromise , stakingRewardsPromise , pairsListPromise , stakingPoolPromise , assetStatsPromise , tokenBalancePromise, airdrops, govBalancePromise, shortDataPromise ]);
 }
 
-export const getAccountData = async (address: string) => {
+export const getMirrorAccount = async (address: string) => {
   try {
   let mirrorPoolRewardsSum = '0';
   let mirrorPoolSum = '0';

@@ -74,7 +74,7 @@ export const AirdropModal: React.FC<Props> = ({showModal, setModalVisible, amoun
           <Title>Claim All Airdrops</Title>
           <Section>
             <AmountText fontWeight="bold">Amount</AmountText>
-            <AmountText fontWeight="bold">${amount}</AmountText>
+            <AmountText fontWeight="bold">{amount}</AmountText>
           </Section>
           <Section>
             <FeeText>TxFee</FeeText>

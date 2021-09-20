@@ -1,6 +1,6 @@
 import { ApolloServer, gql } from 'apollo-server-micro';
 import { buildFederatedSchema } from '@apollo/federation';
-import { getBankBalance } from './core';
+import { getTerraCoreAccount } from './core';
 import { saveAddress } from '../commons/knownAddress';
 
 const typeDefs = gql`
@@ -73,12 +73,12 @@ const resolvers = {
     Query: {
         async assets(_, args) {
             saveAddress(args.address);
-            return getBankBalance({ args })
+            return getTerraCoreAccount({ args })
         },
     },
     Assets: {
         __resolveReference(assets) {
-            return getBankBalance({ args: { address: assets.address } })
+            return getTerraCoreAccount({ args: { address: assets.address } })
         }
     }
 };
