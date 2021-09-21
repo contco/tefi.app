@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { isMobile } from 'react-device-detect';
-import { LIGHT_THEME } from '../../constants';
 import Menu from './Menu';
 import {
   Container,
@@ -29,9 +27,10 @@ type Props = {
   addressType?: string;
   onRefresh?: () => void;
   refreshing?: boolean;
+  isViewOnly?: boolean;
 };
 
-const Header: React.FC<Props> = ({ theme, changeTheme, address, addressType, onRefresh, refreshing }) => {
+const Header: React.FC<Props> = ({ theme, changeTheme, address, addressType, onRefresh, refreshing, isViewOnly = false }) => {
   const [isVisible, setVisible] = useState<boolean>(false);
   const [displayMenu, setDisplayMenu] = useState<boolean>(false);
 
@@ -78,7 +77,7 @@ const Header: React.FC<Props> = ({ theme, changeTheme, address, addressType, onR
                 <WalletCopyTooltip isVisible={isVisible}>Copied!</WalletCopyTooltip>
               </WalletCopyContainer>
               <StyledAddressText>{slicedAddress}</StyledAddressText>
-              <CloseIcon onClick={onDisconnect} />
+             <CloseIcon showIcon={!isViewOnly} onClick={onDisconnect} />
             </WalletContainer>
           ) : null}
           <HoverContainer isActive={displayMenu} onClick={onMenuClick}>

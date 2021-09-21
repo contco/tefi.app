@@ -9,29 +9,27 @@ import {
   AddressInput,
   AddressSubmit,
   AddressSubmitText,
-  ModalBox,
-  ModalTitle,
-  ModalSection,
   WarningText,
   Row,
-  
 } from './style';
-import { isMobile } from 'react-device-detect';
 import useWallet from '../../lib/useWallet';
 import { AccAddress } from '@terra-money/terra.js';
-import { Modal } from '@contco/core-ui';
+
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import Footer from '../Footer';
+import ConnectModal from '../ConnectModal';
 import { NextSeo } from 'next-seo';
 import { landingSEO } from '../../next-seo.config';
+import { useDeviceDetect } from '../../contexts';
 
 import { ADDRESS_KEY, WalletConnectType } from '../../constants';
 
 const Landing: React.FC = () => {
   const [address, setAddress] = useState<string>(null);
-  const [showModel, setModelVisible] = useState<boolean>(false);
+  const [showModal, setModalVisible] = useState<boolean>(false);
 
+  const { isMobile } = useDeviceDetect();
   const { onConnect, useConnectedWallet } = useWallet();
   const connectedWallet = useConnectedWallet();
 
@@ -49,11 +47,6 @@ const Landing: React.FC = () => {
     router.push('/dashboard');
   };
 
-  const onTypeSelect = (type: WalletConnectType) => {
-    onConnect(type);
-    setModelVisible(false);
-  };
-
   const getWarningText = () => {
     if (address) {
       if (validWalletAddress) {
@@ -62,17 +55,22 @@ const Landing: React.FC = () => {
     }
   };
 
+  const onTypeSelect = (type: WalletConnectType) => {
+    onConnect(type);
+    setModalVisible(false);
+  };
+
   return (
     <>
       <Container>
-      <NextSeo {...landingSEO} />
+        <NextSeo {...landingSEO} />
         <Title>
           Your portal to
           <Tefi>&nbsp;TeFi</Tefi>
         </Title>
 
         <ConnectButton
-          onClick={isMobile ? () => onTypeSelect(WalletConnectType.Mobile) : () => setModelVisible(!showModel)}
+          onClick={isMobile ? () => onTypeSelect(WalletConnectType.Mobile) : () => setModalVisible(!showModal)}
         >
           {connectedWallet?.terraAddress ? (
             <ConnectText>Connected</ConnectText>
@@ -85,7 +83,7 @@ const Landing: React.FC = () => {
         <AddressContainer>
           <Row>
             <AddressInput defaultValue={address} onChange={handleAddress} placeholder="Enter a Terra address" />
-            <WarningText>{getWarningText()}</WarningText>
+            <WarningText valid={validWalletAddress}>{getWarningText()}</WarningText>
           </Row>
           <Row>
             <AddressSubmit disabled={!validWalletAddress} onClick={onAddressSubmit}>
@@ -93,23 +91,10 @@ const Landing: React.FC = () => {
             </AddressSubmit>
           </Row>
         </AddressContainer>
-        <Footer/>
+        {!isMobile && <Footer />}
       </Container>
-
-      { !isMobile ?
-      <Modal isOpen={showModel} onClose={() => setModelVisible(false)}>
-        <ModalBox>
-          <ModalTitle>Connect To A Wallet</ModalTitle>
-          <ModalSection onClick={() => onTypeSelect(WalletConnectType.Extension)}>
-            Terra Wallet (Extension)
-          </ModalSection>
-          <ModalSection onClick={() => onTypeSelect(WalletConnectType.Mobile)}>Terra Wallet (Mobile)</ModalSection>
-        </ModalBox>
-      </Modal>
-      :
-      null
-
-       } </>
+      <ConnectModal showModal={showModal} setModalVisible={setModalVisible} />
+    </>
   );
 };
 

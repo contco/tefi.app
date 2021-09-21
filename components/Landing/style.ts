@@ -135,54 +135,14 @@ export const AddressSubmitText = styled(Text)`
   })};
 `;
 
-export const ModalBox = styled(Box)`
-  ${css({
-    bg: 'background',
-    height: [200, null, null, 280],
-    width: [300, null, null, 600],
-  })}
-`;
-
-export const ModalTitle = styled(Text)`
-  ${css({
-    color: 'secondary',
-    pt: [4, null, null, 5],
-    pb: [2, null, null, 0],
-    textAlign: 'center',
-    width: '100%',
-    fontWeight: 'bold',
-    fontSize: [1, null, 3],
-  })}
-`;
-
-export const ModalSection = styled(Flex)`
-  ${css({
-    height: [40, null, null, 60],
-    px: [3, null, null, 5],
-    bg: 'secondary',
-    fontWeight: 'bold',
-    opacity: 5,
-    color: 'background',
-    fontSize: [0, null, null, 2],
-    alignItems: 'center',
-    my: [3, null, null, 4],
-    mx: [3, null, null, 5],
-    borderRadius: '15px',
-    cursor: 'pointer',
-    transition: 'opacity 0.3s',
-    '&:hover': {
-      opacity: 0.7,
-    },
-  })}
-`;
-
 export const WarningText = styled(Text)`
-  ${css({
-    color: '#f39c12',
-    fontSize: 0,
-    minHeight: 12,
-    m: 2,
-  })}
+  ${(props) =>
+    css({
+      color: props.valid ? props.theme.colors.green : '#f39c12',
+      fontSize: 0,
+      minHeight: 12,
+      m: 2,
+    })}
 `;
 
 export const Row = styled(Box)`

@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 import { LIGHT_THEME } from '../../constants';
 import Section from './Section';
 
-import { INTERNAL_LINKS, PROTOCOL_LINKS, UPCOMING_PROTOCOL_LINKS } from './data';
+import { INTERNAL_LINKS, PROTOCOL_LINKS, TOOLS_LINKS, COMMUNITY_TOOLS_LINKS, UPCOMING_PROTOCOL_LINKS } from './data';
 
 const Parent = styled(Box)`
   ${(props) =>
@@ -86,7 +86,7 @@ const Menu: React.FC<Props> = ({
 
   const onClose = () => {
     setVisibility(false);
-    InnerContainerRef && InnerContainerRef.current.scrollTo(0, 0);
+    InnerContainerRef && InnerContainerRef?.current?.scrollTo(0, 0);
   };
 
   const onOutsideClick = React.useCallback(() => {
@@ -115,7 +115,11 @@ const Menu: React.FC<Props> = ({
         <InneContainer ref={InnerContainerRef}>
           <Section data={INTERNAL_LINKS} onItemClick={onInternalLinkClick} />
           <Divider />
+          <Section data={TOOLS_LINKS} onItemClick={onLinkClick} />
+          <Divider />
           <Section data={PROTOCOL_LINKS} onItemClick={onLinkClick} />
+          <Divider />
+          <Section data={COMMUNITY_TOOLS_LINKS} onItemClick={onLinkClick} />
           <Divider />
           <Section data={UPCOMING_PROTOCOL_LINKS} onItemClick={onLinkClick} />
         </InneContainer>

@@ -35,7 +35,7 @@ const getAnchorHoldings = (balance: number, price: number) => {
   return { anchorHoldings: [], anchorHoldingsSum: '0' };
 };
 
-export const getAccount = async (address: any) => {
+export const getAnchorAccount = async (address: any) => {
   const balanceRequest = fetchBalance(address);
   const priceRequest = fetchPrice();
   const debtRequest = getDebt(address);
@@ -68,10 +68,8 @@ export const getAccount = async (address: any) => {
   if (debt.reward.reward === '<0.001') {
     reward = parseFloat(anchorRewardsSum);
   } else {
-    reward = parseFloat(debt.reward.reward) + parseFloat(anchorRewardsSum);
+    reward = parseFloat(debt.reward.reward) * parseFloat(price) + parseFloat(anchorRewardsSum);
   }
-
-  const rewardValue = reward * parseFloat(price);
 
   const result = {
     assets: anchorHoldings,
@@ -96,7 +94,7 @@ export const getAccount = async (address: any) => {
       anchorPoolSum,
       anchorHoldingsSum,
     },
-    totalReward: rewardValue.toString(),
+    totalReward: reward.toString(),
   };
 
   return result;

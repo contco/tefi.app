@@ -1,5 +1,6 @@
 export const FCD_URL = "https://fcd.terra.dev/v1/";
 export const LCD_URL = "https://lcd.terra.dev/";
+export const EXTRATERRESTRIAL_URl = 'https://api.extraterrestrial.money/v1/api/prices';
 import { UUSD_DENOM, LUNA_DENOM } from "../api/terra-core/symbols";
 
 export const getLatestBlockHeight = async () => {

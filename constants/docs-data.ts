@@ -348,5 +348,38 @@ export const CODE_EXAMPLE = `{
             price
           }
         }
+        starterra {
+          stakedData {
+            lpname
+            faction
+            stakedLp
+            stakedLpUstValue
+            token1Staked
+            token2Staked
+            rewards
+            rewardsValue
+          } 
+          stakableLp
+          symbol1
+          symbol2
+          token1UnStaked
+          token2UnStaked
+          totalStakedLp
+          totalStakedLpUstValue
+          totalRewards
+          totalRewardsValue
+        }
+      }
+      apolloDao {
+        vaults {
+          symbol1
+          symbol2
+          lpName
+          token1Staked
+          token2Staked
+          stakedLp
+          stakedLpUstValue
+        }
+        total
       }
   }`;

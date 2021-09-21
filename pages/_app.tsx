@@ -4,9 +4,14 @@ import GlobalStyles from '../styles/global';
 import { ApolloProvider } from '@apollo/client';
 import { useApollo } from '../lib/apolloClient';
 import { ThemeProvider } from 'styled-components';
-import WalletConnectProvider from '../providers/WalletConnectProvider';
-import RedirectProvider from '../providers/RedirectProvider';
-import AssetPriceProvider from '../providers/AssetPriceProvider';
+import {
+  WalletConnectProvider,
+  RedirectProvider,
+  AssetPriceProvider,
+  AlertProvider,
+  DeviceDetectProvider,
+  AssetsDataProvider,
+} from '../providers';
 import { DefaultSeo } from 'next-seo';
 import SEO from '../next-seo.config';
 import { lightTheme, darkTheme } from '../styles/theme';
@@ -36,13 +41,19 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <DefaultSeo {...SEO} />
-      <ApolloProvider client={apolloClient}>    
+      <ApolloProvider client={apolloClient}>
         <ThemeProvider theme={theme === LIGHT_THEME ? lightTheme : darkTheme}>
           <GlobalStyles />
           <WalletConnectProvider>
             <RedirectProvider>
               <AssetPriceProvider>
-                <Component {...pageProps} theme={theme} changeTheme={changeTheme} />
+                <DeviceDetectProvider>
+                  <AssetsDataProvider>
+                    <AlertProvider>
+                      <Component {...pageProps} theme={theme} changeTheme={changeTheme} />
+                    </AlertProvider>
+                  </AssetsDataProvider>
+                </DeviceDetectProvider>
               </AssetPriceProvider>
             </RedirectProvider>
           </WalletConnectProvider>

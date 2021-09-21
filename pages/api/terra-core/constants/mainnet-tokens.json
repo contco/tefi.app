@@ -491,7 +491,7 @@
     },
     {
         "name": "terraswap liquidity token",
-        "symbol": "uLP",
+        "symbol": "LUNA",
         "decimals": 6,
         "total_supply": "1596359549698",
         "contract_addr": "terra17dkr9rnmtmu7x4azrpupukvur2crnptyfvsrvr"
@@ -754,6 +754,20 @@
         "decimals": 6,
         "total_supply": "",
         "contract_addr": "terra1x3musrr03tl3dy9xhagm6r5nthwwxgx0hezc79"
+    },
+    {
+        "name": "STT - UST LP",
+        "symbol": "STT",
+        "decimals": 6,
+        "total_supply": "",
+        "contract_addr": "terra1uwhf02zuaw7grj6gjs7pxt5vuwm79y87ct5p70"
+    },
+    {
+        "name": "mETH - bETH LP",
+        "symbol": "BETH",
+        "decimals": 6,
+        "total_supply": "",
+        "contract_addr": "terra1l8jgxd9uv430rdt2u58h4h7kdfxsle4w6w2ecq"
     }
     
 ]

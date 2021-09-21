@@ -1,7 +1,8 @@
 import {
     DashboardIcon,
     ChartsIcon,
-    BubbleIcon
+    BubbleIcon,
+    FeedIcon
 } from './style';
 
 export const INTERNAL_LINKS = [
@@ -19,7 +20,12 @@ export const INTERNAL_LINKS = [
         component: BubbleIcon,
         url: "/market/heat",
         name: "Bubbles"
-    }
+    },
+    {
+        component: FeedIcon,
+        url: "/club",
+        name: "Club"
+    },
 ];
 
 export const PROTOCOL_LINKS = [
@@ -52,6 +58,52 @@ export const PROTOCOL_LINKS = [
         src: "/logos/lota.png",
         url: "https://loterra.io/",
         name: "LoTerra"
+    },
+    {
+        src: "/logos/starterra.png",
+        url: "https://starterra.io",
+        name: "StarTerra"
+    },
+];
+
+export const TOOLS_LINKS = [
+    {
+        src: "/logos/station.png",
+        url: "https://station.terra.money/",
+        name: "Station"
+    },
+    {
+        src: "/logos/finder.png",
+        url: "https://finder.terra.money/",
+        name: "Finder"
+    },
+    {
+        src: "/logos/bridge.png",
+        url: "https://bridge.terra.money/",
+        name: "Bridge"
+    },
+];
+
+export const COMMUNITY_TOOLS_LINKS = [
+    {
+        src: "/logos/et.png",
+        url: "https://finder.extraterrestrial.money",
+        name: "ET Finder"
+    },
+    {
+        src: "/logos/smartstake.png",
+        url: "https://terra.smartstake.io/",
+        name: "Smart Stake"
+    },
+    {
+        src: "/logos/alpac4.png",
+        url: "https://alpac4.com/TerraSwapDashboard",
+        name: "Alpac4"
+    },
+    {
+        src: "/logos/coinhall.png",
+        url: "https://coinhall.org/",
+        name: "Coin Hall"
     },
 ];
 
@@ -87,14 +139,9 @@ export const UPCOMING_PROTOCOL_LINKS = [
         name: "Orion"
     },
     {
-        src: "/logos/starterra.png",
-        url: "https://starterra.io",
-        name: "StarTerra"
-    },
-    {
         src: "/twd.png",
         url: "https://terraoffice.world",
-        name: "Terraoffice"
+        name: "Terra Office"
     },
     {
         src: "/logos/angel.png",
@@ -156,5 +203,31 @@ export const UPCOMING_PROTOCOL_LINKS = [
         url: "http://betterra.money",
         name: "BetTerra"
     },
+    {
+        src: "/logos/vega.png",
+        url: "https://vega.xyz/",
+        name: "Vega"
+    },      
+    {
+        src: "/logos/levana.png",
+        url: "https://levana.finance/",
+        name: "Levana"
+    },
+    {
+        src: "/logos/tsunami.png",
+        url: "https://twitter.com/TsunamiProtocol",
+        name: "Tsunami"
+    },
+    {
+        src: "/logos/artemis.png",
+        url: "https://artemistoken.space/",
+        name: "Artemis"
+    },
+    {
+        src: "/logos/andromeda.png",
+        url: "https://andromedaprotocol.io/",
+        name: "Andromeda"
+    }
+    
 ];
 
