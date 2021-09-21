@@ -75,6 +75,7 @@ export const getLoterraStaking = async (address: string) => {
     if (holderInfo?.balance && holderInfo?.balance !== '0') {
       const lpStaking = getLpStakingInfo(poolInfo, lpTokenInfo, holderLPInfo);
       const GovStaking = getGovInfo(holderInfo, poolInfo, claimInfo);
+      console.log(lpStaking)
       return { GovStaking, lpStaking };
     }
     return null;

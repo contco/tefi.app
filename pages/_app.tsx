@@ -9,7 +9,6 @@ import RedirectProvider from '../providers/RedirectProvider';
 import AssetPriceProvider from '../providers/AssetPriceProvider';
 import { DefaultSeo } from 'next-seo';
 import SEO from '../next-seo.config';
-
 import { lightTheme, darkTheme } from '../styles/theme';
 import { LIGHT_THEME, DARK_THEME } from '../constants';
 
