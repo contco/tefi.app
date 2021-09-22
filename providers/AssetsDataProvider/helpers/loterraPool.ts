@@ -4,9 +4,8 @@ export const getlotaPoolFarms = (lotaPool) => {
   if (!lotaPool?.stakedData || lotaPool?.stakedData.length === 0) {
     return {};
   }
-    console.log({ lotaPool})
   const data = [
-    [   
+    [
       { name: lotaPool.lpname },
       {
         lpData: {

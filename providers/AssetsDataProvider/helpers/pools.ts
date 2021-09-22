@@ -1,6 +1,6 @@
 import { convertToFloatValue } from '../../../utils/convertFloat';
 
-export const getPoolData = (anchor, mirror, pylon, terraSwap) => {
+export const getPoolData = (anchor, mirror, pylon, terraSwap ) => {
   const getPoolTotal = () => {
     const pylonPoolTotal = pylon?.pylonSum?.pylonPoolSum;
     const total =
