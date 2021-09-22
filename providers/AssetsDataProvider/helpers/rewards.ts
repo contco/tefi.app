@@ -17,6 +17,7 @@ export const getRewardData = (anchor, mirror, pylon, spectrum, loterra) => {
     const loterraRewards = loterra?.lotaGov?.rewardsValue ?? '0';
     const total =
       parseFloat(mirrorTotal) + parseFloat(ancTotal) + parseFloat(pylonPoolTotal) + parseFloat(loterraRewards);
+
     return total.toString() ?? '0';
   };
 
@@ -85,7 +86,7 @@ export const getRewardData = (anchor, mirror, pylon, spectrum, loterra) => {
     }
 
     return {
-      Claimable: convertToFloatValue(getRewardsTotal()),
+      Claimable: getRewardsTotal(),
       Daily: dailyTotal.toFixed(2),
       Monthly: monthlyTotal.toFixed(2),
       Yearly: yearlyTotal.toFixed(2),
