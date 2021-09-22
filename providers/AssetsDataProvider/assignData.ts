@@ -19,7 +19,6 @@ import {
 } from './helpers';
 
 export const assignData = (data) => 
-
   data
     ? {
         anchorEarn: getAnchorEarnData(data?.assets?.anchor?.earn),
@@ -33,6 +32,7 @@ export const assignData = (data) =>
         specReward: getSpecRewardData(data?.assets?.spectrum),
         starterraFarms: getStarterraFarms(data?.assets?.starterra),
         lotaPool: getlotaPoolFarms(data?.assets.loterra.lotaPool),
+        
         assets: getAssetData(
           data?.assets?.anchor,
           data?.assets?.mirror,

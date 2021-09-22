@@ -10,10 +10,10 @@ export interface Props {
 
 const Loterra: React.FC<Props> = ({ loterra }) => {
   console.log("loterra" , loterra)
-  if (JSON.stringify(loterra) === '{}') {
-    return <> Hello </>;
+  if (JSON.stringify(loterra) === null) {
+    return <> Hello</>;
   }
-   
+  console.log(">>",loterra)
   return (
     <Wrapper>
       <HeadingWrapper>
