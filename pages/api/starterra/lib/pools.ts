@@ -1,127 +1,104 @@
-import axios from 'axios';
-import { getLastSyncedHeight } from '../../anchor/lib/utils';
-import { getPrice } from '../../commons';
-import { LCD_URL } from '../../utils';
 import { contracts } from './contracts';
+import { wasmStoreRequest, getPoolInfo, calculateLpBonding} from '../../commons';
+import { UNIT } from '../../mirror/utils';
+import {getLatestBlockTime} from '../../utils';
 
-const valueConversion = (value) => parseFloat(value) / 1000000;
+const LP_NAME = 'STT-UST';
+const TOKEN1_SYMBOL = 'UST';
+const TOKEN2_SYMBOL = 'STT';
 
-const stakingContracts = [
-  { name: 'Lunatics', contract: contracts.lunatics },
-  { name: 'Interstellars', contract: contracts.interstellars },
-  { name: 'Degens', contract: contracts.degens },
-];
 
-export const getPoolData = async () => {
+
+export const fetchUserStarTerraStakingPools = async (address: string) => {
   try {
-    const { data } = await axios.get(LCD_URL + `wasm/contracts/${contracts.pool}/store`, {
-      params: {
-        query_msg: JSON.stringify({
-          pool: {},
-        }),
-      },
+    const block_time = await getLatestBlockTime();
+    const query_msg = {
+      staker_info: {
+        staker: address,
+        block_time
+      }
+    };
+    
+    const userStakingPoolPromises =  contracts.lpStakingContracts.map( async (lpContract: any) => {
+      const userStakingInfo = await wasmStoreRequest(lpContract.contract, query_msg);
+      return {factionName:lpContract.faction ,...userStakingInfo};
     });
 
-    return data;
-  } catch (err) {
-    return {};
+    const userStakingPools = await Promise.all(userStakingPoolPromises);
+    const filteredResults = userStakingPools.filter(item => item.bond_amount !== '0');
+    return filteredResults;
   }
+
+  catch(err) {
+    return [];
+  }
+
 };
 
-export const fetchStarPoolResponseData = async (address: string, contract: string) => {
-  const lastSyncedHeight = await getLastSyncedHeight();
-
-  try {
-    const result = await axios.get(
-      LCD_URL +
-        `wasm/contracts/${contract}/store?query_msg=%7B%22staker_info%22:%7B%22staker%22:%22${address}%22,%22block_time%22:${lastSyncedHeight}%7D%7D`,
-    );
-
-    return result;
-  } catch (err) {
-    return null;
+export const fetchUserLpData = (address: string) => {
+  const query_msg = {
+    balance: {
+      address
+    }
   }
-};
+  const result = wasmStoreRequest(contracts.lp, query_msg);
+  return result;
+}
 
-export const getLPData = async (address: string) => {
-  try {
-    const { data } = await axios.get(LCD_URL + `wasm/contracts/${contracts.lp}/store`, {
-      params: {
-        query_msg: JSON.stringify({
-          balance: {
-            address: address,
-          },
-        }),
-      },
+const getStakedData = (stakingPools, poolInfo, sttPrice) => {
+
+  if(stakingPools.length === 0) {
+    return { stakedData: null, totalStakedLp: '0', totalStakedLpUstValue: '0', totalRewards: '0', totalRewardsValue: '0' };
+  }
+
+  else {
+
+    let totalStakedLp = 0;
+    let totalStakedLpUstValue = 0;
+    let totalRewards = 0;
+    let totalRewardsValue = 0;
+
+    const stakedData = stakingPools.map((stakingPool: any) => {
+
+      const {lpAmount, lpUstValue, token1, token2} = calculateLpBonding(stakingPool.bond_amount, poolInfo);
+      const rewards = (stakingPool.pending_reward) / UNIT;
+      const rewardsValue = rewards * parseFloat(sttPrice);
+
+      totalStakedLp = totalStakedLp + lpAmount;
+      totalStakedLpUstValue = totalStakedLpUstValue + lpUstValue;
+      totalRewards = totalRewards + rewards;
+      totalRewardsValue = totalRewardsValue + rewardsValue;
+
+      return {lpName: LP_NAME, faction: stakingPool.factionName, stakedLp: lpAmount.toString(), stakedLpUstValue: lpUstValue.toString(), token1Staked: token1.toString(), token2Staked: token2.toString(), rewards: rewards.toString(), rewardsValue: rewardsValue.toString() };
     });
 
-    const poolData = await getPoolData();
-    const singleLpValue = (parseFloat(poolData.result.assets[1].amount) / parseFloat(poolData.result.total_share)) * 2;
-    const sttPrice = await getPrice(poolData.result);
-    const stakableLp = valueConversion(data.result.balance);
-    const stakableToken1 = (stakableLp / 2) * singleLpValue;
-    const stakableToken2 = stakableToken1 / parseFloat(sttPrice);
-
-    const stakedData = await Promise.all(
-      stakingContracts.map(async (contract) => {
-        const starPoolData = await fetchStarPoolResponseData(address, contract.contract);
-        const stakedLp = valueConversion(starPoolData.data.result.bond_amount);
-        const stakedLpUstValue = stakedLp * singleLpValue;
-        const stakedToken1 = (stakedLp / 2) * singleLpValue;
-        const stakedToken2 = stakedToken1 / parseFloat(sttPrice);
-        const reward = valueConversion(starPoolData.data.result.pending_reward);
-        const rewardValue = reward * parseFloat(sttPrice);
-
-        if (stakedLp > 0) {
-          return {
-            lpname: 'STT-UST',
-            faction: contract.name,
-            stakedLp: stakedLp.toString(),
-            stakedLpUstValue: stakedLpUstValue.toString(),
-            token1Staked: stakedToken1.toString(),
-            token2Staked: stakedToken2.toString(),
-            rewards: reward.toString(),
-            rewardsValue: rewardValue.toString(),
-          };
-        }
-      }),
-    );
-
-    return {
-      stakedData: stakedData.filter((data) => data != null),
-      singleLpValue: singleLpValue,
-      stakableLp: stakableLp.toString(),
-      token1UnStaked: stakableToken1.toString(),
-      token2UnStaked: stakableToken2.toString(),
-    };
-  } catch (err) {
-    return {
-      stakedData: null,
-      singleLpValue: 0,
-      stakableLp: '0',
-      token1UnStaked: '0',
-      token2UnStaked: '0',
-    };
+    return {stakedData, totalStakedLp: totalStakedLp.toString(), totalStakedLpUstValue: totalStakedLpUstValue.toString(), totalRewards: totalRewards.toString(), totalRewardsValue: totalRewardsValue.toString()};
+  
   }
-};
+}
 
-export const getStarTerraAccount = async (address) => {
-  const { stakedData, singleLpValue, stakableLp, token1UnStaked, token2UnStaked } = await getLPData(address);
-  const totalStakedLp = stakedData?.reduce((a, staked) => a + parseFloat(staked?.stakedLp), 0);
-  const totalStakedLpValue = singleLpValue * totalStakedLp;
-  const totalReward = stakedData?.reduce((a, staked) => a + parseFloat(staked?.rewards), 0);
-  const totalRewardValue = stakedData?.reduce((a, staked) => a + parseFloat(staked?.rewardsValue), 0);
+const getStakeAbleData = (userLpData: any, poolInfo: any) =>{
+  if (userLpData?.balance === '0') {
+    return {stakeableLp: '0', stakeableLpUstValue: '0', token1UnStaked: '0', token2UnStaked: '0' };
+  }
+  else {
+    const {lpAmount, lpUstValue, token1, token2} = calculateLpBonding(userLpData.balance, poolInfo);
+    return {stakeableLp: lpAmount.toString(), stakeableLpUstValue: lpUstValue.toString(), token1UnStaked: token1.toString(), token2UnStaked: token2.toString() };
+  }
+}
 
-  return {
+export const getStarTerraPools = (userStakingPools: any, userLpData: any, poolInfo: any, sttPrice: string) => {
+  const {stakedData, totalStakedLp, totalStakedLpUstValue, totalRewards, totalRewardsValue} = getStakedData(userStakingPools, poolInfo, sttPrice);
+  const stakeableData = getStakeAbleData(userLpData, poolInfo);
+
+    return {
     stakedData,
-    stakableLp,
-    symbol1: 'STT',
-    symbol2: 'UST',
-    token1UnStaked,
-    token2UnStaked,
-    totalStakedLp: totalStakedLp?.toString(),
-    totalStakedLpUstValue: totalStakedLpValue?.toString(),
-    totalRewards: totalReward?.toString(),
-    totalRewardsValue: totalRewardValue?.toString(),
+    symbol1: TOKEN1_SYMBOL,
+    symbol2: TOKEN2_SYMBOL,
+    totalStakedLp,
+    totalStakedLpUstValue,
+    totalRewards,
+    totalRewardsValue,
+    ...stakeableData
   };
-};
+}

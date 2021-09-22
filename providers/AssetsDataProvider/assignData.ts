@@ -29,7 +29,7 @@ export const assignData = (data) =>
         pylon: getPylonGatewayData(data?.assets?.pylon),
         specFarm: getSpecFarmData(data?.assets?.spectrum),
         specReward: getSpecRewardData(data?.assets?.spectrum),
-        starterraFarms: getStarterraFarms(data?.assets?.starterra),
+        starterraFarms: getStarterraFarms(data?.assets?.starterra?.starTerraPools),
         assets: getAssetData(
           data?.assets?.anchor,
           data?.assets?.mirror,
