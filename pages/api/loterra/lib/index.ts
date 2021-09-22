@@ -21,7 +21,6 @@ export const getLoterraAccount = async (address: string) => {
     const [loterraConfig, lotaData] = await Promise.all([getLoterraConfig(), getLoterraStaking(address)]);
     const lotaGov = lotaData.GovStaking;
     const lotaPool = lotaData.lpStaking;
-    console.log(lotaGov);
     const { userCombinations, ticketCounts, jackpot } = await getLotteryDetails(
       address,
       loterraConfig?.lottery_counter,

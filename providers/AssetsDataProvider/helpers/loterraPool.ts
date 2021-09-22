@@ -1,7 +1,6 @@
 import { convertToFloatValue } from '../../../utils/convertFloat';
 
 export const getlotaPoolFarms = (lotaPool) => {
-  console.log('lotaPool >>', lotaPool);
   if (lotaPool !== null) {
     const data = [
       [
