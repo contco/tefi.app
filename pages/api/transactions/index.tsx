@@ -23,7 +23,7 @@ const filterAndFormatPost = (data) => {
   return result;
 };
 
-export const getTransaction = async (address,offset = 0, limit = 50) => {
+export const getTransaction = async (address,offset = 0, limit = 100) => {
   const query = `https://fcd.terra.dev/v1/txs?offset=${offset}&limit=${limit}&account=${address}`;
   const request = await fetchData(query);
   console.log('request', request);
