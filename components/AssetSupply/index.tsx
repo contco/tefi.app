@@ -12,6 +12,7 @@ import {
   TimePeriods,
   Time,
 } from './styles';
+import { format } from 'path';
 
 const ICE_EMOJI = '❄️';
 const FIRE_EMOJI = '🔥';
@@ -61,7 +62,11 @@ const AssetSupply: React.FC<{ assetSupply: [SupplyProps] }> = ({ assetSupply }) 
     } else return FIRE_EMOJI;
   };
 
-  const getSupply = () =>(currentAssetSupply - currentTimePeriod.value).toFixed(0);
+  const getSupply = () => {
+    const assetChange = Math.round(currentAssetSupply - currentTimePeriod.value);
+    const formatSupply = new Intl.NumberFormat().format(assetChange);
+    return formatSupply;
+  } 
 
   return (
     <Container>
