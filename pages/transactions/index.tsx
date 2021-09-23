@@ -6,6 +6,7 @@ import Transaction from '../../components/Transaction';
 import { Box, Flex } from '@contco/core-ui';
 import css from '@styled-system/css';
 import Styled from 'styled-components';
+import { getTransaction } from '../api/transactions';
 
 const EmptyContainer = styled.div`
   height: 100vh;
@@ -20,6 +21,7 @@ ${css({
 })}
 `;
 const Transactions: React.FC = ({ theme, changeTheme }: any) => {
+  const [data, setData] = useState(null);
   const [isDisplay, setIsDisplay] = useState<boolean>(false);
   const router = useRouter();
 
@@ -27,6 +29,16 @@ const Transactions: React.FC = ({ theme, changeTheme }: any) => {
     setIsDisplay(false);
     setTimeout(() => setIsDisplay(true), 1000);
   }, [router.pathname]);
+
+  const getTransactionFunction = async () => {
+    const data = await getTransaction('terra18jg24fpqvjntm2wfc0p47skqccdr9ldtgl5ac9');
+    setData(data);
+  }
+
+  useEffect(() => {
+    getTransactionFunction();
+    console.log(data);
+   }, [data])
 
   return (
     <div>

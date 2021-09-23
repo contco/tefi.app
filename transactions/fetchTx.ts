@@ -14,12 +14,12 @@ export const formatPostData: (a: any) => postData = (txResult: any) => {
     };
 }
 export const formatTxData: (a: any) => txData = (txResult: any) => {
-  console.log("txResult", txResult.logs);
   return {
       memo: txResult?.tx?.value?.memo,
       block: txResult?.height,
       txhash: txResult?.txhash,
       timestamp: txResult?.timestamp,
+      logs:txResult.logs,
   };
 }
 

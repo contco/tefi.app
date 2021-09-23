@@ -9,7 +9,6 @@ const arr = [1,2,3]
 export interface TransactionProps { };
 
 const Transaction: React.FC<TransactionProps> = () => {
-    console.log(transactions)
     return (
         <Wrapper>
             <TransactionHeading>

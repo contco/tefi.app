@@ -20,10 +20,6 @@ const Home: React.FC = ({ theme, changeTheme }: any) => {
     setTimeout(() => setIsDisplay(true), 1000);
   }, [router.pathname]);
 
-  useEffect(() => {
-   getTransaction('terra18jg24fpqvjntm2wfc0p47skqccdr9ldtgl5ac9')
-  }, [])
-
   return (
     <div>
       {!isDisplay ? (
