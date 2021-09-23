@@ -1,6 +1,6 @@
 import { MARKET_DENOMS } from '@anchor-protocol/anchor.js';
 import { anchor, blocksPerYear, ContractAddresses } from './test-defaults';
-import { formatRate } from '@anchor-protocol/notation';
+import { formatRate } from './utils';
 import {getLastSyncedHeight, mantleFetch } from './utils';
 import { DEFAULT_MANTLE_ENDPOINTS } from '../../../../utils/ancEndpoints';
 

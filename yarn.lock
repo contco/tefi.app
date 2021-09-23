@@ -9,40 +9,6 @@
   dependencies:
     "@terra-money/terra.js" "^1.3.6"
 
-"@anchor-protocol/notation@^0.15.0":
-  version "0.15.0"
-  resolved "https://registry.npmjs.org/@anchor-protocol/notation/-/notation-0.15.0.tgz"
-  integrity sha512-FrdT6YbvsNFxuUvdc8evdbro8JDxd1rvUKYmfICqlxbyqSKN+kCOriTp8Z7ZBFZHct1nsKCslLtwcNNubvOpfw==
-  dependencies:
-    "@anchor-protocol/types" "^0.15.0"
-    "@terra-dev/big-interpolate" "^0.15.0"
-    big.js "^6.1.1"
-    d3-ease "^2.0.0"
-    d3-timer "^2.0.0"
-    numeral "^2.0.6"
-
-"@anchor-protocol/types@^0.15.0":
-  version "0.15.0"
-  resolved "https://registry.npmjs.org/@anchor-protocol/types/-/types-0.15.0.tgz"
-  integrity sha512-a/SqwMrBSfhOujsoeiKCcD1bNL9Elf64K4SbCoMo1iM79VFSjVv9hcZQOoFdLvpuv4ZkRNPgj4GwDPPQ4Aw78g==
-
-"@anchor-protocol/webapp-fns@^0.15.0":
-  version "0.15.0"
-  resolved "https://registry.npmjs.org/@anchor-protocol/webapp-fns/-/webapp-fns-0.15.0.tgz"
-  integrity sha512-8ZjaK37d3pauwDpaiuefDPeKtXD7o/otNKMkDk9PYJi8/e4cSKbiXY8YDC+KgFr2TZrQEYfWc8pfNqSISUG37Q==
-  dependencies:
-    "@anchor-protocol/anchor.js" "^1.0.1"
-    "@anchor-protocol/notation" "^0.15.0"
-    "@anchor-protocol/types" "^0.15.0"
-    "@rx-stream/pipe" "^0.7.0"
-    "@terra-dev/big-math" "^0.15.0"
-    "@terra-dev/tx-helpers" "^0.15.0"
-    "@terra-dev/wallet-types" "^0.15.0"
-    "@terra-money/terra.js" "^1.8.0"
-    "@terra-money/webapp-fns" "^0.15.0"
-    big.js "^6.1.1"
-    rxjs "^7.1.0"
-
 "@apollo/client@^3.3.18":
   version "3.3.18"
   resolved "https://registry.npmjs.org/@apollo/client/-/client-3.3.18.tgz"
@@ -1484,13 +1450,6 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
-"@rx-stream/pipe@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.npmjs.org/@rx-stream/pipe/-/pipe-0.7.0.tgz"
-  integrity sha512-aamijxNwu+erfzhtCQ9kdi8Vo1GVkMLSppstSmWPDW7nZ6s5sdDOdyHOmQvH/EnnB76M/MYfEQAZRG+CkVX3Mw==
-  dependencies:
-    rxjs "^7.0.0"
-
 "@styled-system/background@^5.1.2":
   version "5.1.2"
   resolved "https://registry.npmjs.org/@styled-system/background/-/background-5.1.2.tgz"
@@ -1692,21 +1651,6 @@
     "@svgr/plugin-svgo" "^5.5.0"
     loader-utils "^2.0.0"
 
-"@terra-dev/big-interpolate@^0.15.0":
-  version "0.15.0"
-  resolved "https://registry.npmjs.org/@terra-dev/big-interpolate/-/big-interpolate-0.15.0.tgz"
-  integrity sha512-0choMrhH8edvixkb7MZnheBIWhCkDsZivrrYzohYQun4ifC/8oYE2qWE6DlkkWJCkfDmsM2jFirSn149hVAKvA==
-  dependencies:
-    big.js "^6.1.1"
-    d3-ease "^2.0.0"
-
-"@terra-dev/big-math@^0.15.0":
-  version "0.15.0"
-  resolved "https://registry.npmjs.org/@terra-dev/big-math/-/big-math-0.15.0.tgz"
-  integrity sha512-1ENOAN9ZskjcrujI8jwWig8xjNRo/K6ESKj68HuuNLXxdTs/Ko7wyEs1ushbI1uVYNWZudAB1VW0epFNqETAWA==
-  dependencies:
-    big.js "^6.1.1"
-
 "@terra-dev/chrome-extension@^0.15.0":
   version "0.15.0"
   resolved "https://registry.npmjs.org/@terra-dev/chrome-extension/-/chrome-extension-0.15.0.tgz"
@@ -1763,13 +1707,6 @@
     fast-deep-equal "^3.1.3"
     rxjs "^7.0.0"
     webextension-polyfill-ts "^0.25.0"
-
-"@terra-dev/tx-helpers@^0.15.0":
-  version "0.15.0"
-  resolved "https://registry.npmjs.org/@terra-dev/tx-helpers/-/tx-helpers-0.15.0.tgz"
-  integrity sha512-Ezb8LlIrDWeVIaq/XIL/4Yrdwc2lK4V9x/041+gsDPXeV+KvE+O10jcQdsFA5kmAvpDUHGq/jITFi6mbBAwk7A==
-  dependencies:
-    "@terra-dev/wallet-types" "^0.15.0"
 
 "@terra-dev/use-browser-inactive@^0.15.0":
   version "0.15.0"
@@ -3695,11 +3632,6 @@ d3-array@2, d3-array@^2.3.0:
   resolved "https://registry.npmjs.org/d3-color/-/d3-color-2.0.0.tgz"
   integrity sha512-SPXi0TSKPD4g9tw0NMZFnR95XVgUZiBH+uUTqQuDu1OsE2zomHU7ho0FISciaPvosimixwHFl3WHLGabv6dDgQ==
 
-d3-ease@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/d3-ease/-/d3-ease-2.0.0.tgz"
-  integrity sha512-68/n9JWarxXkOWMshcT5IcjbB+agblQUaIsbnXmrzejn2O82n3p2A9R2zEB9HIEFWKFwPAEDDN8gR0VdSAyyAQ==
-
 "d3-format@1 - 2":
   version "2.0.0"
   resolved "https://registry.npmjs.org/d3-format/-/d3-format-2.0.0.tgz"
@@ -3748,11 +3680,6 @@ d3-shape@^2.0.0:
   integrity sha512-/eIQe/eR4kCQwq7yxi7z4c6qEXf2IYGcjoWB5OOQy4Tq9Uv39/947qlDcN2TLkiTzQWzvnsuYPB9TrWaNfipKQ==
   dependencies:
     d3-array "2"
-
-d3-timer@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/d3-timer/-/d3-timer-2.0.0.tgz"
-  integrity sha512-TO4VLh0/420Y/9dO3+f9abDEFYeCUr2WZRlxJvbp4HPTQcSylXNiL6yZa9FIUvV1yRiFufl1bszTCLDqv9PWNA==
 
 data-uri-to-buffer@3.0.1:
   version "3.0.1"

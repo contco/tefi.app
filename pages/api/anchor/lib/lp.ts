@@ -1,10 +1,9 @@
 /* eslint-disable no-console */
 import { ContractAddresses } from './test-defaults';
-import { getLatestBlockHeight, mantleFetch } from './utils';
+import { getLatestBlockHeight, mantleFetch, MICRO } from './utils';
 import { DEFAULT_MANTLE_ENDPOINTS } from '../../../../utils/ancEndpoints';
 import big from 'big.js';
 import { ancPriceQuery } from './ancPrice';
-import { formatLP, MICRO } from '@anchor-protocol/notation';
 import { borrowAPYQuery } from './borrow';
 
 
@@ -76,9 +75,9 @@ export const getAncPoolData = async (address) => {
       const apy = rewardsApy?.lpRewards[0]?.APY ?? '0';
       const stakeableLp = parseFloat(pool?.lPBalance?.balance) / MICRO;
       const stakedLp = parseFloat(pool?.lPStakerInfo?.bond_amount) / MICRO;
-      const lpValue = formatLP(big(ancData?.ancPrice?.USTPoolSize)
+      const lpValue = big(ancData?.ancPrice?.USTPoolSize)
         ?.div(ancData?.ancPrice?.LPShare === '0' ? 1 : ancData?.ancPrice?.LPShare)
-        ?.mul(2));
+        ?.mul(2);
       const token1Staked = (stakedLp / 2) * parseFloat(lpValue);
       const token2Staked = token1Staked / ancData?.ancPrice?.ANCPrice;
       const token1UnStaked = (stakeableLp / 2) * parseFloat(lpValue);
