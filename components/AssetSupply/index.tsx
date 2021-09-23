@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Text } from '@contco/core-ui';
 import {
   MainContainer,
@@ -12,7 +12,6 @@ import {
   TimePeriods,
   Time,
 } from './styles';
-import { convertToFloatValue } from '../../utils/convertFloat';
 
 const ICE_EMOJI = '❄️';
 const FIRE_EMOJI = '🔥';
@@ -27,27 +26,28 @@ export interface SupplyProps {
 }
 
 const AssetSupply: React.FC<{ assetSupply: [SupplyProps] }> = ({ assetSupply }) => {
-  const valueConversion = (value) => value / 1000000;
 
   const timePeriodData = [
     {
       period: 'HOUR',
-      value: valueConversion(assetSupply[0].hour),
+      value: parseFloat(assetSupply[0].hour),
     },
     {
       period: 'DAY',
-      value: valueConversion(assetSupply[0].day),
+      value: parseFloat(assetSupply[0].day),
     },
     {
       period: 'WEEK',
-      value: valueConversion(assetSupply[0].week),
+      value: parseFloat(assetSupply[0].week),
     },
     {
       period: 'MONTH',
-      value: valueConversion(assetSupply[0].month),
+      value: parseFloat(assetSupply[0].month),
     },
   ];
+
   const [currentTimePeriod, setCurrentTimePeriod] = useState(timePeriodData[0]);
+  const currentAssetSupply = useMemo(() => assetSupply[0]?.current ? parseFloat(assetSupply[0].current) : 0, [assetSupply[0]?.current]);
 
   const changePeriod = (e) => {
     e.preventDefault();
@@ -56,13 +56,12 @@ const AssetSupply: React.FC<{ assetSupply: [SupplyProps] }> = ({ assetSupply }) 
   };
 
   const getEmoji = () => {
-    if (valueConversion(assetSupply[0].current.toString()) > currentTimePeriod.value) {
+    if (currentAssetSupply > currentTimePeriod.value) {
       return ICE_EMOJI;
     } else return FIRE_EMOJI;
   };
 
-  const getSupply = () =>
-    convertToFloatValue((valueConversion(assetSupply[0].current.toString()) - currentTimePeriod.value).toString());
+  const getSupply = () =>(currentAssetSupply - currentTimePeriod.value).toFixed(0);
 
   return (
     <Container>
