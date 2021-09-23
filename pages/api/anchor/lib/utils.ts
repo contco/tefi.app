@@ -49,3 +49,13 @@ export const mantleFetch = (
       return data;
     });
 };
+
+export const formatRate = (rate) => {
+  return (parseFloat(rate) * 100).toFixed(2);
+};
+
+export const MICRO = 1000000;
+
+export const valueConversion = (value) =>
+  (parseFloat(value) / MICRO).toFixed(3);
+	

@@ -1,9 +1,9 @@
 import axios from "axios";
 import networks from "../../../../utils/networks";
 import { plus} from "../../mirror/utils";
-import { demicrofy,formatANCWithPostfixUnits} from '@anchor-protocol/notation';
 import {ContractAddresses} from "./test-defaults";
 import { LCD_URL } from "../../utils";
+import { valueConversion } from "./utils";
 
 
 const ANCHOR_API_URL = "https://airdrop.anchorprotocol.com/api/get?";
@@ -61,7 +61,7 @@ export const formatAirdrops = (result: any , ancPrice: string) => {
     if(claimableAirdrops && claimableAirdrops.length > 0) {
       let airdropSum = '0';
       const airdrops = claimableAirdrops.map((airdrop: any) => {
-        const amount = formatANCWithPostfixUnits(demicrofy(airdrop?.amount));
+        const amount = valueConversion(airdrop?.amount);
         const value = (parseFloat(ancPrice) * parseFloat(amount)).toString();
         airdropSum = plus(airdropSum, value);
         return {quantity: amount, name: ANCHOR_TOKEN_NAME, round: airdrop?.stage, value, symbol: ANCHOR_TOKEN_SYMBOL, proof: JSON.parse(airdrop.proof), contract: ContractAddresses.airdrop};
