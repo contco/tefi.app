@@ -1,10 +1,10 @@
 export const getPoolValues = (stakedlpBalance: number, stakeableLpBalance: number, lpValue: number, price: number) => {
-    let token1UnStaked = null;
+   
     const stakeableLpUstValue = stakeableLpBalance * lpValue;
     const stakedLpUstValue = stakedlpBalance * lpValue;
     const totalLpUstValue = stakeableLpUstValue + stakedLpUstValue;
-    token1UnStaked = stakeableLpUstValue / 2;
-    let token1Staked = stakedLpUstValue / 2;
+    const token1UnStaked = stakeableLpUstValue / 2;
+    const token1Staked = stakedLpUstValue / 2;
     const token2UnStaked = token1UnStaked / price;
     const token2Staked = token1Staked / price;
   
