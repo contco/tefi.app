@@ -12,6 +12,10 @@ const getLotaRewards = (claims: any) => {
 };
 
 export const getGovInfo = (holderInfo, poolInfo, claimInfo) => {
+
+  if(holderInfo?.balance === "0") {
+    return null;
+  }
   const name = 'LOTA Gov';
   const symbol = 'LOTA';
   const staked = div(holderInfo?.balance, UNIT);
