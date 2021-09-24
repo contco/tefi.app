@@ -9,13 +9,6 @@ export const getLatestBlockHeight = async () => {
   return block.block.header.height;
 };
 
-export const getLatestBlockTime = async () => {
-   const response = await fetch('https://lcd.terra.dev/blocks/latest');
-   const block = await response.json();
-   const dateTime = new Date(block.block.header.time);
-   return dateTime.getTime();
-}
-
 export const getLpValue = (poolResponse: any, price: number, isLuna = false, lunaPrice?: number) => {
   const totalShares = parseFloat(poolResponse.total_share);
   let nativeReserve = 0;

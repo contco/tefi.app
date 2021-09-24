@@ -3,8 +3,6 @@ import { useRouter } from 'next/router';
 import Header from '../components/Header';
 import Landing from '../components/Landing';
 import styled from 'styled-components';
-import { getStarTerraAccount } from './api/starterra/lib/account';
-
 
 const EmptyContainer = styled.div`
   height: 100vh;
@@ -20,10 +18,6 @@ const Home: React.FC = ({ theme, changeTheme }: any) => {
     setIsDisplay(false);
     setTimeout(() => setIsDisplay(true), 1000);
   }, [router.pathname]);
-
-  useEffect(() => {
-    getStarTerraAccount("terra18jg24fpqvjntm2wfc0p47skqccdr9ldtgl5ac9")
-  }, []);
 
   return (
     <div>
