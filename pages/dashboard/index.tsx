@@ -62,7 +62,6 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
 
   const { assets, loading, error, refetch, refreshing } = useAssetsDataContext();
 
-  console.log(">>>>>>",assets.lotaPool)
   useEffect(() => {
     if (error && fetchCount !== MAX_TRY) {
       setFetchCount(fetchCount + 1);
