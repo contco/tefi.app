@@ -33,16 +33,21 @@ export const fetchUserGovStaking = async (address: string) => {
 
 export const getStarTerraGov = (userGovData: any, sttPrice: string) => {
 	if(userGovData.length === 0) {
-		return null;
+		return {govData: null, govRewardsTotal: '0', govStakedTotal: '0' };
 	}
 	else  {
+    let govRewardsTotal = 0;
+    let govStakedTotal = 0;
     const govData = userGovData.map((item) => {
       const staked = parseFloat(item.bond_amount) / UNIT;
 			const value = staked * parseFloat(sttPrice);
       const rewards = parseFloat(item.pending_reward) / UNIT;
 			const rewardsValue = rewards * parseFloat(sttPrice);
-      return {symbol: STT_SYMBOL, faction: item.factionName, name: GOV_NAME, staked: staked.toString(), value: value.toString(), rewards: rewards.toString(), rewardsValue: rewardsValue.toString()};
+      govRewardsTotal = govRewardsTotal + rewardsValue;  
+      govStakedTotal = govStakedTotal + value;
+      const apr = '0';
+      return {symbol: STT_SYMBOL, faction: item.factionName, name: GOV_NAME, apr, staked: staked.toString(), value: value.toString(), rewards: rewards.toString(), rewardsValue: rewardsValue.toString()};
 		});
-	  return govData;
+	  return {govData,  govRewardsTotal: govRewardsTotal.toString(), govStakedTotal: govStakedTotal.toString()};
 	}
 }

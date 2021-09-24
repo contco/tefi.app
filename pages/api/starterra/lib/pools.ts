@@ -1,12 +1,13 @@
 import { contracts } from './contracts';
-import { wasmStoreRequest, getPoolInfo, calculateLpBonding} from '../../commons';
 import { UNIT } from '../../mirror/utils';
 import {getLatestBlockTime} from '../../utils';
+import { wasmStoreRequest, poolHelpers } from '@contco/terra-utilities';
 
 const LP_NAME = 'STT-UST';
 const TOKEN1_SYMBOL = 'UST';
 const TOKEN2_SYMBOL = 'STT';
 
+const { calculateLpBonding }  = poolHelpers;
 
 
 export const fetchUserStarTerraStakingPools = async (address: string) => {
@@ -45,7 +46,7 @@ export const fetchUserLpData = (address: string) => {
   return result;
 }
 
-const getStakedData = (stakingPools, poolInfo, sttPrice) => {
+const getStakedData = (stakingPools: any, poolInfo: any, sttPrice: any) => {
 
   if(stakingPools.length === 0) {
     return { stakedData: null, totalStakedLp: '0', totalStakedLpUstValue: '0', totalRewards: '0', totalRewardsValue: '0' };

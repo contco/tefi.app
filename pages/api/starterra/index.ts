@@ -1,6 +1,6 @@
 import { ApolloServer, gql } from 'apollo-server-micro';
 import { buildFederatedSchema } from '@apollo/federation';
-import {getStarTerraAccount} from './lib/pools';
+import {getStarTerraAccount} from './lib/account';
 
 const typeDefs = gql`
   type StarStakedData {
@@ -37,12 +37,15 @@ const typeDefs = gql`
     value: String
     rewards: String
     rewardsValue: String
+    apr: String
 
   }
 
   type StarTerraAccount {
     starTerraPools: StarTerraPools
     starTerraGov: StarTerraGov
+    govRewardsTotal: String
+    govStakedTotal: String
   }
 
   extend type Assets @key(fields: "address") {
