@@ -1,7 +1,7 @@
 import { getPoolInfo, getPrice, wasmStoreRequest } from '../../commons';
 import { contracts } from './contracts';
 import { getLpStakingInfo } from './getLpStaking';
-import {getGovInfo} from './getGovInfo';
+import { getGovInfo } from './getGovInfo';
 
 export const getLoterraStaking = async (address: string) => {
   try {
@@ -41,7 +41,6 @@ export const getLoterraStaking = async (address: string) => {
       state: {},
     };
 
-
     const poolInfoRequest = getPoolInfo(contracts.pool);
     const holderRequest = wasmStoreRequest(contracts.staking, holderMsg);
     const claimsRequest = wasmStoreRequest(contracts.staking, claimMsg);
@@ -71,10 +70,9 @@ export const getLoterraStaking = async (address: string) => {
       state_lp_staking,
     ]);
 
-      const lpStaking = getLpStakingInfo(poolInfo, lpTokenInfo, holderLPInfo);
-      const GovStaking = getGovInfo(holderInfo, poolInfo, claimInfo);
-      return { GovStaking, lpStaking };
-    
+    const lpStaking = getLpStakingInfo(poolInfo, lpTokenInfo, holderLPInfo);
+    const GovStaking = getGovInfo(holderInfo, poolInfo, claimInfo);
+    return { GovStaking, lpStaking };
   } catch (err) {
     return null;
   }

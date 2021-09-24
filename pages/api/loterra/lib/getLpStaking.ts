@@ -4,12 +4,12 @@ import { getLpValue } from '../../utils';
 import { getPoolValues } from './getPoolValues';
 
 export const getLpStakingInfo = (poolInfo, lpTokenInfo, holderLPInfo) => {
-  if(lpTokenInfo?.balance  === '0' && holderLPInfo?.balancce === '0') {
-    return null
-   }
+  if (lpTokenInfo?.balance === '0' && holderLPInfo?.balancce === '0') {
+    return null;
+  }
   const lpName = 'LOTA-UST';
-  const symbol1 = 'LOTA';
-  const symbol2 = 'UST';
+  const symbol2 = 'LOTA';
+  const symbol1 = 'UST';
   const price = getPrice(poolInfo);
   let lpValue = getLpValue(poolInfo, parseFloat(price));
   let stakeableLp = parseFloat(lpTokenInfo.balance) / UNIT;
