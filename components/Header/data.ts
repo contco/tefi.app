@@ -3,7 +3,8 @@ import {
     ChartsIcon,
     BubbleIcon,
     FeedIcon,
-		SupplyIcon
+    SupplyIcon,
+    APIIcon
 } from './style';
 
 export const INTERNAL_LINKS = [
@@ -27,11 +28,16 @@ export const INTERNAL_LINKS = [
         url: "/club",
         name: "Club"
     },
-		{
-			component: SupplyIcon,
-			url:"/supply",
-			name: "Supply"
-		}
+    {
+        component: SupplyIcon,
+        url: "/supply",
+        name: "Supply"
+    },
+    {
+        component: APIIcon,
+        url: "/docs",
+        name: "API"
+    }
 ];
 
 export const PROTOCOL_LINKS = [
@@ -213,7 +219,7 @@ export const UPCOMING_PROTOCOL_LINKS = [
         src: "/logos/vega.png",
         url: "https://vega.xyz/",
         name: "Vega"
-    },      
+    },
     {
         src: "/logos/levana.png",
         url: "https://levana.finance/",
@@ -234,6 +240,6 @@ export const UPCOMING_PROTOCOL_LINKS = [
         url: "https://andromedaprotocol.io/",
         name: "Andromeda"
     }
-    
+
 ];
 

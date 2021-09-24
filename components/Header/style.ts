@@ -14,7 +14,8 @@ import Bubble_ICON from '../../public/bubble.svg';
 import MENU_ICON from '../../public/icons/circle-menu.svg';
 import DASHBOARD_ICON from '../../public/space_dashboard.svg';
 import FEED_ICON from '../../public/icons/circle.svg';
-import SUPPLY_ICON from '../../public/icons/local_fire_department_black_24dp.svg';
+import SUPPLY_ICON from '../../public/icons/fire.svg';
+import API_ICON from '../../public/icons/code.svg';
 
 
 export const Container = styled(Flex)`
@@ -241,6 +242,13 @@ export const DashboardIcon = styled(DASHBOARD_ICON)`
 `;
 
 export const SupplyIcon = styled(SUPPLY_ICON)`
+  fill: ${props => props.theme.colors.secondary};
+  &:hover {
+    opacity: 0.7;
+  }
+`;
+
+export const APIIcon = styled(API_ICON)`
   fill: ${props => props.theme.colors.secondary};
   &:hover {
     opacity: 0.7;
