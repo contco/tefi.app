@@ -16,6 +16,17 @@ const formatCombinations = (userCombinations) => {
   return combinationsString;
 };
 
+const getLoterraDraw = (userCombinations, loterraConfig, ticketCounts, jackpot) => {
+  if (userCombinations && userCombinations.length > 0) {
+    const combinations = formatCombinations(userCombinations);
+    const ticketPrice = div(loterraConfig?.price_per_ticket_to_register, UNIT);
+    const drawTime = loterraConfig?.block_time_play * 1000;
+    const loterraDraw = { combinations, ticketCounts, jackpot, drawTime: drawTime.toString(), ticketPrice };
+    return loterraDraw;
+  }
+  return null;
+};
+
 export const getLoterraAccount = async (address: string) => {
   try {
     const [loterraConfig, lotaData] = await Promise.all([getLoterraConfig(), getLoterraStaking(address)]);
@@ -25,11 +36,9 @@ export const getLoterraAccount = async (address: string) => {
       address,
       loterraConfig?.lottery_counter,
     );
+    const loterraDraw = getLoterraDraw(userCombinations, loterraConfig, ticketCounts, jackpot);
+
     if (userCombinations && userCombinations.length > 0) {
-      const combinations = formatCombinations(userCombinations);
-      const ticketPrice = div(loterraConfig?.price_per_ticket_to_register, UNIT);
-      const drawTime = loterraConfig?.block_time_play * 1000;
-      const loterraDraw = { combinations, ticketCounts, jackpot, drawTime: drawTime.toString(), ticketPrice };
       return { loterraDraw, lotaGov, lotaPool };
     }
 
