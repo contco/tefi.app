@@ -21,7 +21,7 @@ export const getlotaPoolFarms = (lotaPool) => {
     return {
       titles: ['Name', 'Staked', 'Value'],
       data: data,
-      totalValue: parseFloat(lotaPool?.totalLpUstValue),
+      totalValue: parseFloat(lotaPool?.stakedLpUstValue),
     };
   }
   return null
