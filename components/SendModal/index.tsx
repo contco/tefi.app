@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import styled from 'styled-components';
 import css from '@styled-system/css';
 import { Modal } from '@contco/core-ui';
@@ -46,9 +46,10 @@ const SendModal: React.FC<ModalDisplayState> = ({isVisible, setVisible}) => {
 
   const {useConnectedWallet, post } = useWallet();
   const connectedWallet = useConnectedWallet();
+  const walletConnectedRef = useRef(false);
 
   const onClose = () => {
-    if(connectedWallet?.terraAddress) {
+    if(walletConnectedRef.current) {
       setModalState(ModalState.initial);
     }
     else {
@@ -72,9 +73,11 @@ const SendModal: React.FC<ModalDisplayState> = ({isVisible, setVisible}) => {
   useEffect(() => {
     if(connectedWallet?.terraAddress) {
       setModalState(ModalState.initial);
+      walletConnectedRef.current = true;
     }
     else {
       setModalState(ModalState.disconnected);
+      walletConnectedRef.current = false;
     }
   }, [connectedWallet?.terraAddress]);
 
@@ -104,7 +107,7 @@ const SendModal: React.FC<ModalDisplayState> = ({isVisible, setVisible}) => {
   const onSend = async (data: any) => {
       setModalState(ModalState.waiting);
       const {error, msg, txResult}: any = await sendToken(data, post);
-      if(txResult.success) {
+      if(txResult?.success) {
         setModalState(ModalState.broadcasted);
         setTxHash(txResult?.result?.txhash);
         setIsPollingTx(true); 
@@ -140,7 +143,7 @@ const SendModal: React.FC<ModalDisplayState> = ({isVisible, setVisible}) => {
 
 
   return(
-    <StyledModal isOpen={isVisible} onClose={() => setVisible(false)}>
+    <StyledModal isOpen={isVisible} onClose={onClose}>
       {showModalState()}
     </StyledModal> 
   );

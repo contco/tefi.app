@@ -210,7 +210,7 @@ export const InputModal = ({onSend}) => {
     return {error: false, msg: ''};
   }, [input.amount, txFee, isTxCalculated, simulationLoading, selectedAsset?.balance])
  
-  const isInvalidInput =  amountError.error || !isValidAddress || input.address.trim() === '' || input.amount.trim() === '';
+  const isInvalidInput =  amountError.error || !isValidAddress || input.address.trim() === '' || input.amount.trim() === '' || input.amount.trim() === '0';
   const isSendDisabled =  amountError.error || simulationLoading || !isTxCalculated;
   const onAssetSelect = (asset: Holdings ) => {
     setAsset(asset);
