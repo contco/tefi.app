@@ -30,19 +30,13 @@ const getLoterraDraw = (userCombinations, loterraConfig, ticketCounts, jackpot) 
 export const getLoterraAccount = async (address: string) => {
   try {
     const [loterraConfig, lotaData] = await Promise.all([getLoterraConfig(), getLoterraStaking(address)]);
-    const lotaGov = lotaData.GovStaking;
-    const lotaPool = lotaData.lpStaking;
+    const {lotaGov, lotaPool} = lotaData;
     const { userCombinations, ticketCounts, jackpot } = await getLotteryDetails(
       address,
       loterraConfig?.lottery_counter,
     );
     const loterraDraw = getLoterraDraw(userCombinations, loterraConfig, ticketCounts, jackpot);
-
-    if (userCombinations && userCombinations.length > 0) {
-      return { loterraDraw, lotaGov, lotaPool };
-    }
-
-    return { loterraDraw: null, lotaGov, lotaPool };
+    return { loterraDraw, lotaGov, lotaPool };
   } catch {
     return { loterraDraw: null, lotaGov: null, lotaPool: null };
   }
