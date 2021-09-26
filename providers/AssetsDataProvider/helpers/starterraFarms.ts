@@ -21,7 +21,7 @@ export const getStarterraFarms = (starterra) => {
       },
       {
         reward: {
-          token: convertToFloatValue(data?.rewards) + ' ' + starterra.symbol1,
+          token: convertToFloatValue(data?.rewards) + ' ' + starterra.symbol2,
           tokenValue: '$' + convertToFloatValue(data?.rewardsValue),
         },
       },

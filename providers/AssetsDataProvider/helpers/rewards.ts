@@ -37,8 +37,9 @@ export const getRewardData = (anchor, mirror, pylon, spectrum, loterra, starterr
   const pool = [...pylon?.pylonPool, ...mirror?.mirrorStaking, ...anchor.pool].sort(
     (a, b) => b.rewardsValue - a.rewardsValue,
   );
-
-  const gov = [pylon?.gov, spectrum?.specGov, mirror?.gov, anchor?.gov, loterra?.lotaGov, ...starterra.starTerraGov]
+  
+  const starTerraGov = starterra.starTerraGov ? starterra.starTerraGov : [];
+  const gov = [pylon?.gov, spectrum?.specGov, mirror?.gov, anchor?.gov, loterra?.lotaGov, ...starTerraGov]
     .filter((item) => item != null)
     .sort((a, b) => parseFloat(b.value) - parseFloat(a.value));
 
