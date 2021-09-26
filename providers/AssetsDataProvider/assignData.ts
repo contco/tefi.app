@@ -14,10 +14,11 @@ import {
   getSpecFarmData,
   getSpecRewardData,
   getStarterraFarms,
-  getApolloVaultData
+  getApolloVaultData,
+  getlotaPoolFarms,
 } from './helpers';
 
-export const assignData = (data) =>
+export const assignData = (data) => 
   data
     ? {
         anchorEarn: getAnchorEarnData(data?.assets?.anchor?.earn),
@@ -30,6 +31,7 @@ export const assignData = (data) =>
         specFarm: getSpecFarmData(data?.assets?.spectrum),
         specReward: getSpecRewardData(data?.assets?.spectrum),
         starterraFarms: getStarterraFarms(data?.assets?.starterra?.starTerraPools),
+        lotaPool: getlotaPoolFarms(data?.assets.loterra.lotaPool),
         assets: getAssetData(
           data?.assets?.anchor,
           data?.assets?.mirror,
@@ -53,6 +55,6 @@ export const assignData = (data) =>
         ),
         airdrops: getAirdropsData(data?.assets?.anchor, data?.assets?.mirror, data?.assets?.pylon),
         loterra: getLoterraData(data?.assets?.loterra),
-        apollo: getApolloVaultData(data?.assets?.apollo)
+        apollo: getApolloVaultData(data?.assets?.apollo),
       }
     : {};

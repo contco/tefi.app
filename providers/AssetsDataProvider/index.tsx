@@ -42,6 +42,7 @@ const AssetsDataProvider: React.FC<Props> = ({ children }) => {
   const { data, loading, error, refetch, refreshing } = useAccounts(address);
 
   const assets = assignData(data);
+     
 
   return (
     <AssetContext.Provider value={{ assets, loading, error, refetch, refreshing }}>{children}</AssetContext.Provider>

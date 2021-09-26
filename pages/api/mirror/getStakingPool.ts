@@ -19,6 +19,8 @@ export const getStakingPool = async (): Promise<Dictionary<StakingPool>> => {
       ${contractAssets.map(alias)}
     }
   `;
+
+  
   const result = await request(networks.mainnet.mantle, contractQuery);
   const parsedData: Dictionary<StakingPool> = parse(result);
   return parsedData;

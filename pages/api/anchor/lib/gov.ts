@@ -1,7 +1,7 @@
 import { ContractAddresses } from './test-defaults';
 import { mantleFetch } from './utils';
 import { DEFAULT_MANTLE_ENDPOINTS } from '../../../../utils/ancEndpoints';
-import { formatRate } from '@anchor-protocol/notation';
+import { formatRate } from './utils';
 import { borrowAPYQuery } from './borrow';
 import { ancPriceQuery } from './ancPrice';
 
