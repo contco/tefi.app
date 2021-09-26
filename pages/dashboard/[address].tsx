@@ -105,6 +105,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
                 assets.lunaStaking,
                 assets.airdrops,
                 assets?.apollo,
+                assets?.lotaPool,
               ]}
             />
             <Assets assets={assets.assets} />

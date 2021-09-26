@@ -356,28 +356,54 @@ export const getAssets = gql`
           apr
           price
         }
-      }
-      starterra {
-        stakedData {
-          lpname
-          faction
+        lotaPool {
+          symbol1
+          symbol2
+          lpName
+          price
           stakedLp
           stakedLpUstValue
+          stakeableLp
+          stakeableLpUstValue
+          token1UnStaked
           token1Staked
+          token2UnStaked
           token2Staked
+          totalLpUstValue
+        }
+      }
+      starterra {
+        starTerraPools {
+          stakedData {
+            lpName
+            faction
+            stakedLp
+            stakedLpUstValue
+            token1Staked
+            token2Staked
+            rewards
+            rewardsValue
+          }
+          stakeableLp
+          stakeableLpUstValue
+          symbol1
+          symbol2
+          token1UnStaked
+          token2UnStaked
+          totalStakedLp
+          totalStakedLpUstValue
+          totalRewards
+          totalRewardsValue
+        }
+        starTerraGov {
+          name
+          symbol
+          faction
+          staked
+          value
           rewards
           rewardsValue
         }
-        stakableLp
-        symbol1
-        symbol2
-        token1UnStaked
-        token2UnStaked
-        totalStakedLp
-        totalStakedLpUstValue
-        totalRewards
-        totalRewardsValue
-      }
     }
   }
 `;

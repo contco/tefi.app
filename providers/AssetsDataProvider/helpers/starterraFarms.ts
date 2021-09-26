@@ -7,13 +7,13 @@ export const getStarterraFarms = (starterra) => {
 
   const data = starterra.stakedData.map((data: StarStakedData) => {
     return [
-      { name: data.lpname },
+      { name: data.lpName },
       { faction: data.faction },
       {
         lpData: {
           lp: convertToFloatValue(data?.stakedLp) + ' LP',
-          token1: convertToFloatValue(data?.token2Staked) + ' ' + starterra?.symbol1,
-          token2: convertToFloatValue(data?.token1Staked) + ' ' + starterra?.symbol2,
+          token1: convertToFloatValue(data?.token2Staked) + ' ' + starterra?.symbol2,
+          token2: convertToFloatValue(data?.token1Staked) + ' ' + starterra?.symbol1,
         },
       },
       {

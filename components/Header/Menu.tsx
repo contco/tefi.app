@@ -42,7 +42,7 @@ const MenuContainer = styled(Flex)`
       bg: 'background',
       height: 369,
       width: 270,
-      zIndex: props.isVisible ? 2 : -1,
+      zIndex: props.isVisible ? 3 : -1,
       boxShadow: props.theme.boxShadow,
     })}
   border: 1px solid #f2f2f2;

@@ -11,6 +11,7 @@ interface Holdings {
 interface Gov {
   name: string;
   symbol: string;
+  faction?: string;
   staked: string;
   value: string;
   rewards: string;
@@ -163,6 +164,12 @@ interface MirrorTotal {
   mirrorAirdropSum: string;
 }
 
+interface loterraTotal {
+  loterraHoldingsSum: string;
+  loterraPoolRewardsSum: string;
+  loterraPoolSum: string;
+  loterraAirdropSum: string;
+}
 interface AssetInfo {
   idx: string;
   name: string;
@@ -307,6 +314,59 @@ interface LotaGov extends Gov {
 interface LoterraAccount {
   loterraDraw: LoterraDraw;
   lotaGov: LotaGov;
+  total: loterraTotal;
+  loterraStaking: Pool[];
+}
+
+interface ModalDisplayState {
+  isVisible: boolean;
+  setVisible: (state: boolean) => void;
+}
+interface StarStakedData {
+  lpName: string;
+  faction: string;
+  stakedLp: string;
+  stakedLpUstValue: string;
+  token1Staked: string;
+  token2Staked: string;
+  rewards: string;
+  rewardsValue: string;
+}
+
+interface StarTerraPools {
+  stakedData: StarStakedData[];
+  symbol1: string;
+  symbol2: string;
+  stakeableLp: string;
+  stakeableLpUstValue: string;
+  token1UnStaked: string;
+  token2UnStaked: string;
+  totalStakedLp: string;
+  totalStakedLpUstValue: string;
+  totalRewards: string;
+  totalRewardsValue: string;
+}
+
+interface StarTerraAccount {
+  starTerraPools: StarTerraPools
+  starTerraGov: [Gov]
+  govRewardsTotal: string
+  govStakedTotal: string
+}
+
+interface ApolloVault {
+  symbol1: string;
+  symbol2: string;
+  lpName: string;
+  stakedLp: string;
+  stakedLpUstValue: string;
+  token1Staked: string;
+  token2Staked: string;
+}
+
+interface ApolloAccount  {
+  vaults: ApolloVault[];
+  total: string;
 }
 interface Assets {
   __typename?: 'Assets';
@@ -316,6 +376,8 @@ interface Assets {
   pylon?: PylonAccount;
   spectrum: SpectrumAccount;
   loterra: LoterraAccount;
+  starterra: StarTerraAccount;
+  apollo: ApolloAccount;
 }
 
 interface PriceChange {
@@ -337,45 +399,3 @@ interface ErrorResult {
   msg: string;
 }
 
-interface ModalDisplayState {
-  isVisible: boolean;
-  setVisible: (state: boolean) => void;
-}
-interface StarStakedData {
-  lpname: string;
-  faction: string;
-  stakedLp: string;
-  stakedLpUstValue: string;
-  token1Staked: string;
-  token2Staked: string;
-  rewards: string;
-  rewardsValue: string;
-}
-
-interface StarTerraAccount {
-  stakedData: StarStakedData[];
-  symbol1: string;
-  symbol2: string;
-  stakableLp: string;
-  token1UnStaked: string;
-  token2UnStaked: string;
-  totalStakedLp: string;
-  totalStakedLpUstValue: string;
-  totalRewards: string;
-  totalRewardsValue: string;
-}
-
-interface ApolloVault {
-  symbol1: string;
-  symbol2: string;
-  lpName: string;
-  stakedLp: string;
-  stakedLpUstValue: string;
-  token1Staked: string;
-  token2Staked: string;
-}
-
-interface ApolloAccount  {
-  vaults: ApolloVault[];
-  total: string;
-}

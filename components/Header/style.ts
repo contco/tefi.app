@@ -12,7 +12,6 @@ import REFRESHING_ICON from '../../public/refreshing.svg';
 import MENU_ICON from '../../public/icons/circle-menu.svg';
 
 
-
 export const Container = styled(Flex)`
 ${props => css({
   height: '64px',
@@ -160,7 +159,6 @@ ${props => css({
 export const SwitchContainer = styled(Flex)`
   ${props => css({
     color: props.theme.colors.secondary,
-    // minWidth: [10, null, 20],
     justifyContent: 'center',
     alignItems: 'center',
   })}

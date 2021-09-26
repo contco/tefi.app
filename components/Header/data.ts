@@ -1,4 +1,4 @@
-import {DASHBOARD_ICON, CHARTS_ICON, BUBBLE_ICON, FEED_ICON, SEND_ICON} from '../Icons';
+import {DASHBOARD_ICON, CHARTS_ICON, BUBBLE_ICON, FEED_ICON, SEND_ICON, SUPPLY_ICON, API_ICON} from '../Icons';
 
 
 export const INTERNAL_LINKS = [
@@ -26,6 +26,16 @@ export const INTERNAL_LINKS = [
         component: SEND_ICON,
         modal: true,
         name: 'Send'
+    },
+    {
+        component: SUPPLY_ICON,
+        url: "/supply",
+        name: "Supply"
+    },
+    {
+        component: API_ICON,
+        url: "/docs",
+        name: "API"
     }
 ];
 
@@ -208,7 +218,7 @@ export const UPCOMING_PROTOCOL_LINKS = [
         src: "/logos/vega.png",
         url: "https://vega.xyz/",
         name: "Vega"
-    },      
+    },
     {
         src: "/logos/levana.png",
         url: "https://levana.finance/",
@@ -229,6 +239,6 @@ export const UPCOMING_PROTOCOL_LINKS = [
         url: "https://andromedaprotocol.io/",
         name: "Andromeda"
     }
-    
+
 ];
 

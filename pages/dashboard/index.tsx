@@ -15,6 +15,8 @@ import SpectrumFarms from '../../components/SpectrumFarms';
 import SpectrumRewards from '../../components/SpectrumRewards';
 import Rewards from '../../components/Rewards';
 import Loterra from '../../components/ؒLoterra';
+import LoterraPool from '../../components/ؒLoterraPool';
+
 import { ADDRESS_KEY, LOCAL_ADDRESS_TYPE, WALLET_ADDRESS_TYPE } from '../../constants';
 import Airdrops from '../../components/Airdrop';
 import { NextSeo } from 'next-seo';
@@ -60,7 +62,6 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
 
   const { assets, loading, error, refetch, refreshing } = useAssetsDataContext();
 
-
   useEffect(() => {
     if (error && fetchCount !== MAX_TRY) {
       setFetchCount(fetchCount + 1);
@@ -105,7 +106,8 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
                 assets?.loterra,
                 assets?.lunaStaking,
                 assets?.airdrops,
-                assets?.apollo
+                assets?.apollo,
+                assets?.lotaPool
               ]}
             />
             <Assets assets={assets?.assets} />
@@ -122,6 +124,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
             <SpectrumRewards reward={assets?.specReward} />
             <StarTerraFarms farm={assets?.starterraFarms} />
             <Loterra loterra={assets?.loterra} />
+            <LoterraPool loterra={assets.lotaPool} />
             <LunaStaking staking={assets?.lunaStaking || {}} />
             <Airdrops airdrops={assets?.airdrops} />
           </Body>

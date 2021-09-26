@@ -23,6 +23,8 @@ import FEED_ICON from '../public/icons/circle.svg';
 import CHARTS_ICON from '../public/charts.svg';
 import BUBBLE_ICON from '../public/bubble.svg';
 import SEND_ICON from '../public/icons/send.svg';
+import API_ICON from '../public/icons/code.svg';
+import SUPPLY_ICON from '../public/icons/fire.svg';
 
 
 export const NewOpenIcon = styled(OPEN_NEW_ICON)``;
@@ -46,5 +48,7 @@ export
     FEED_ICON,
     CHARTS_ICON,
     BUBBLE_ICON,
-    SEND_ICON
+    SEND_ICON,
+    API_ICON,
+    SUPPLY_ICON
 };
