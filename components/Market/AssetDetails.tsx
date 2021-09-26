@@ -7,7 +7,6 @@ import {Box, Flex} from "@contco/core-ui";
 
 import { NewOpenIcon} from '../Icons';
 import { PriceChange } from './PriceChange';
-import PriceAlert from './PriceAlert';
 
 const NamePriceContainer = styled(Box)`
 width: 55%;
@@ -105,7 +104,6 @@ export const AssetDetails: React.FC<Props> = ({price, name, url, useTV, onSwitch
         <ImageContainer onClick={onSwitchTV} useTV={useTV}>
           <Image width="30" height="16" src={useTV ? '/tv-white.png' : '/tv.png'} alt="Picture of the author" />
         </ImageContainer>
-          <PriceAlert currentPrice={`${price}`} />
       </ActionContainer>
     </NameTopBar>
     {!useTV && (
