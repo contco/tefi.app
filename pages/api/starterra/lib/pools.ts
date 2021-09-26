@@ -60,7 +60,7 @@ const getStakedData = (stakingPools: any, poolInfo: any, sttPrice: any) => {
     let totalStakedLpUstValue = 0;
     let totalRewards = 0;
     let totalRewardsValue = 0;
-    console.log(stakingPools);
+    
     const stakedData = stakingPools.map((stakingPool: any) => {
 
 
