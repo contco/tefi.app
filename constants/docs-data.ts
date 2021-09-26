@@ -348,9 +348,10 @@ export const CODE_EXAMPLE = `{
             price
           }
         }
-        starterra {
+      starterra {
+        starTerraPools {
           stakedData {
-            lpname
+            lpName
             faction
             stakedLp
             stakedLpUstValue
@@ -358,8 +359,9 @@ export const CODE_EXAMPLE = `{
             token2Staked
             rewards
             rewardsValue
-          } 
-          stakableLp
+          }
+          stakeableLp
+          stakeableLpUstValue
           symbol1
           symbol2
           token1UnStaked
@@ -369,7 +371,16 @@ export const CODE_EXAMPLE = `{
           totalRewards
           totalRewardsValue
         }
-      }
+        starTerraGov {
+          name
+          symbol
+          faction
+          staked
+          value
+          rewards
+          rewardsValue
+        }
+      } 
       apolloDao {
         vaults {
           symbol1

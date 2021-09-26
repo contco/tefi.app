@@ -6,7 +6,7 @@ const formatApr = (apr = '0') => {
   return parseFloat(aprPercentage).toFixed(2);
 };
 
-export const getRewardData = (anchor, mirror, pylon, spectrum, loterra) => {
+export const getRewardData = (anchor, mirror, pylon, spectrum, loterra, starterra: StarTerraAccount) => {
   const borrowRewards = anchor?.debt?.reward;
   const totalReward = anchor?.totalReward;
 
@@ -15,8 +15,10 @@ export const getRewardData = (anchor, mirror, pylon, spectrum, loterra) => {
     const mirrorTotal = mirror?.total?.mirrorPoolRewardsSum;
     const pylonPoolTotal = pylon?.pylonSum?.pylonPoolRewardsSum;
     const loterraRewards = loterra?.lotaGov?.rewardsValue ?? '0';
+    const starterraRewards = starterra?.govRewardsTotal;
     const total =
-      parseFloat(mirrorTotal) + parseFloat(ancTotal) + parseFloat(pylonPoolTotal) + parseFloat(loterraRewards);
+      parseFloat(mirrorTotal) + parseFloat(ancTotal) + parseFloat(pylonPoolTotal) + parseFloat(loterraRewards)
+      + parseFloat(starterraRewards);
 
     return total.toString() ?? '0';
   };
@@ -27,7 +29,8 @@ export const getRewardData = (anchor, mirror, pylon, spectrum, loterra) => {
     const pylonGov = parseFloat(pylon?.gov?.value ?? '0');
     const specGov = parseFloat(spectrum?.specGov?.value ?? '0');
     const lotaGov = parseFloat(loterra?.lotaGov?.value ?? '0');
-    const govStaked = mirrorGov + ancGov + pylonGov + specGov + lotaGov;
+    const sttGov = parseFloat(starterra?.govStakedTotal);
+    const govStaked = mirrorGov + ancGov + pylonGov + specGov + lotaGov + sttGov;
     return govStaked;
   };
 
@@ -35,7 +38,7 @@ export const getRewardData = (anchor, mirror, pylon, spectrum, loterra) => {
     (a, b) => b.rewardsValue - a.rewardsValue,
   );
 
-  const gov = [pylon?.gov, spectrum?.specGov, mirror?.gov, anchor?.gov, loterra?.lotaGov]
+  const gov = [pylon?.gov, spectrum?.specGov, mirror?.gov, anchor?.gov, loterra?.lotaGov, ...starterra.starTerraGov]
     .filter((item) => item != null)
     .sort((a, b) => parseFloat(b.value) - parseFloat(a.value));
 
@@ -141,21 +144,14 @@ export const getRewardData = (anchor, mirror, pylon, spectrum, loterra) => {
   ];
 
   const govData = gov?.map((govItem: Gov) => {
-    const govReward =
-      govItem.symbol === 'LOTA'
-        ? {
-            reward: {
-              token: convertToFloatValue(govItem?.rewards) + ' ' + govItem.symbol,
-              tokenValue: '$' + convertToFloatValue(govItem?.rewardsValue),
-            },
-          }
-        : { value: 'Automatically re-staked' };
+    const govReward = { value: 'Automatically re-staked' };
     const ap = govItem?.apy
       ? { apy: convertToFloatValue(govItem.apy) + '%' }
-      : { apr: convertToFloatValue(govItem.apr) + '%' };
+      : { apr: govItem?.apr === '0' ? 'N/A' : convertToFloatValue(govItem?.apr) + '%' };
     return [
       {
         name: govItem.name,
+        info: govItem?.faction,
       },
       {
         balance: {

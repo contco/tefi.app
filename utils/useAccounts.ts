@@ -4,7 +4,7 @@ import { getLoterraAccount } from "../pages/api/loterra/lib";
 import { useState, useEffect } from 'react';
 import { getPylonAccount } from "../pages/api/pylon/getAccountData";
 import { getTerraCoreAccount } from "../pages/api/terra-core/core";
-import { getStarTerraAccount } from "../pages/api/starterra/lib/pools";
+import { getStarTerraAccount } from "../pages/api/starterra/lib/account";
 import { getSpectrumAccount } from "../pages/api/spectrum/lib";
 import { getApolloDaoAccount } from "../pages/api/apollo/lib";
 
