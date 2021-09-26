@@ -39,10 +39,10 @@ const AssetPriceProvider: React.FC<Props> = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    let ws;
+    const ws = new WebSocket(TERRA_OBSERVER_URL);
 
     const connectWithTerraObserver = () => {
-      ws = new WebSocket(TERRA_OBSERVER_URL);
+  
       ws.onopen = function () {
         ws.send(JSON.stringify({ subscribe: 'ts_pool', chain_id: 'columbus-4' }));
       };
