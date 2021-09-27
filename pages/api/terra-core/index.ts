@@ -10,6 +10,8 @@ const typeDefs = gql`
         balance: String
         value: String
         price: String
+        denom: String
+        contract: String
     }
 
    type CoreTotal {

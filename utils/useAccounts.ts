@@ -8,6 +8,19 @@ import { getStarTerraAccount } from "../pages/api/starterra/lib/account";
 import { getSpectrumAccount } from "../pages/api/spectrum/lib";
 import { getApolloDaoAccount } from "../pages/api/apollo/lib";
 
+export const fetchAccountsData = async (address: string) => {
+  const anchorPromise =  getAnchorAccount(address);
+  const mirrorPromise =  getMirrorAccount(address);
+  const loterraPromise = getLoterraAccount(address); 
+  const pylonPromise = getPylonAccount(address);
+  const spectrumPromise = getSpectrumAccount(address);
+  const starterraPromise = getStarTerraAccount(address)
+  const corePromise = getTerraCoreAccount({ args: { address: address } });
+  const apolloPromise =  getApolloDaoAccount(address);
+  const result = Promise.all([anchorPromise, mirrorPromise, loterraPromise, pylonPromise, spectrumPromise, starterraPromise, corePromise, apolloPromise ]);
+  return result;
+}
+
 const useAccounts = (address:string) => {
     const [loading, setLoading] = useState(true);
     const [data,setData] = useState(null);
@@ -16,17 +29,9 @@ const useAccounts = (address:string) => {
     
     const fetch = async ()  => {
       try {
-        const anchorPromise =  getAnchorAccount(address);
-        const mirrorPromise =  getMirrorAccount(address);
-        const loterraPromise = getLoterraAccount(address); 
-        const pylonPromise = getPylonAccount(address);
-        const spectrumPromise = getSpectrumAccount(address);
-        const starterraPromise = getStarTerraAccount(address)
-        const corePromise = getTerraCoreAccount({ args: { address: address } });
-        const apolloPromise =  getApolloDaoAccount(address);
-        const [anchor, mirror, loterra, pylon, spectrum, starterra, core, apollo] = await Promise.all([anchorPromise, mirrorPromise, loterraPromise, pylonPromise, spectrumPromise, starterraPromise, corePromise, apolloPromise ]);
-        
-  
+ 
+        const [anchor, mirror, loterra, pylon, spectrum, starterra, core, apollo] = await fetchAccountsData(address);
+      
         if(anchor && mirror && loterra && pylon && spectrum && starterra && core && apollo){
           setData({assets:{...core,mirror, anchor, loterra, spectrum, starterra, pylon, apollo}})
         }

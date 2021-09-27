@@ -1,4 +1,4 @@
-import { anchor } from './test-defaults';
+import { anchor, ContractAddresses } from './test-defaults';
 import getDebt from './borrow';
 import getEarn from './earn';
 import { getAncPoolData } from './lp';
@@ -28,7 +28,7 @@ const getAnchorHoldings = (balance: number, price: number) => {
   if (balance) {
     const value = (balance * price).toString();
     const anchorHoldings = [
-      { symbol: 'ANC', name: 'Anchor', balance: balance.toString(), value, price: price.toString() },
+      { symbol: 'ANC', name: 'Anchor', contract: ContractAddresses.cw20, balance: balance.toString(), value, price: price.toString() },
     ];
     return { anchorHoldings, anchorHoldingsSum: value };
   }

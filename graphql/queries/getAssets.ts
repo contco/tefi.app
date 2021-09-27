@@ -11,6 +11,8 @@ export const getAssets = gql`
           price
           symbol
           name
+          denom
+          contract
         }
         staking {
           balance
@@ -52,6 +54,7 @@ export const getAssets = gql`
           price
           balance
           value
+          contract
         }
         airdrops {
           name
@@ -114,6 +117,7 @@ export const getAssets = gql`
           price
           balance
           value
+          contract
         }
         debt {
           reward {
@@ -213,6 +217,7 @@ export const getAssets = gql`
           price
           balance
           value
+          contract
         }
         pylonPool {
           symbol1
@@ -325,6 +330,7 @@ export const getAssets = gql`
           price
           balance
           value
+          contract
         }
         spectrumTotal {
           farmsTotal

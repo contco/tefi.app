@@ -4,6 +4,8 @@ interface Holdings {
   balance: string;
   price: string;
   name: string;
+  denom?: string;
+  contract?: string;
 }
 
 interface Gov {
@@ -316,6 +318,10 @@ interface LoterraAccount {
   loterraStaking: Pool[];
 }
 
+interface ModalDisplayState {
+  isVisible: boolean;
+  setVisible: (state: boolean) => void;
+}
 interface StarStakedData {
   lpName: string;
   faction: string;

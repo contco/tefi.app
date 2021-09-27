@@ -10,6 +10,8 @@ export const CODE_EXAMPLE = `{
             price
             symbol
             name
+            denom 
+            contract
           }
           staking {
             balance
@@ -51,6 +53,7 @@ export const CODE_EXAMPLE = `{
             price
             balance
             value
+            contract
           }
           airdrops {
             name
@@ -113,6 +116,7 @@ export const CODE_EXAMPLE = `{
             price
             balance
             value
+            contract
           }
           debt {
             reward {
@@ -210,6 +214,7 @@ export const CODE_EXAMPLE = `{
             price
             balance
             value
+            contract
           }
           pylonPool {
             symbol1
@@ -322,6 +327,7 @@ export const CODE_EXAMPLE = `{
             price
             balance
             value
+            contract
           }
           spectrumTotal {
             farmsTotal

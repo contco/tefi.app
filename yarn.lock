@@ -1033,10 +1033,10 @@
     "@babel/helper-validator-identifier" "^7.12.11"
     to-fast-properties "^2.0.0"
 
-"@contco/core-ui@^1.1.6":
-  version "1.1.9"
-  resolved "https://npm.pkg.github.com/download/@contco/core-ui/1.1.9/a1688cee5896b96a68843ef8e327e7310555960f73231f274108b50b378d6747#203bba5db1a0578278089938df7bc3119669086d"
-  integrity sha512-3oVIHi6SBakHn1Lu7E0cJhkkMH91bbd04g1aEwbNtL7XrwmGr/JG6ehwVO0TNAlSZoZfPSpGz+wqtfgBw9THBA==
+"@contco/core-ui@^1.1.10":
+  version "1.1.10"
+  resolved "https://npm.pkg.github.com/download/@contco/core-ui/1.1.10/2cec3e3908b0a52b71e357e7f5a7d4073cc2de2d3a557399c6344cbc831b1330#0b0ae7aca21bf5214b775947843127d1ea76ccb0"
+  integrity sha512-3XFbDP6IsDgF4TL707WDIbYJawfZXQrAdjZ7858ZpI15kVBH1FUwvu8d8u6/xWEa4ZsrP6godADSydg4DjZM+w==
   dependencies:
     "@types/styled-components" "^5.1.2"
     "@types/styled-system" "^5.1.10"

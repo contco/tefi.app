@@ -3,6 +3,7 @@ import AssetPriceProvider from './AssetPriceProvider';
 import RedirectProvider from './RedirectProvider';
 import WalletConnectProvider from './WalletConnectProvider';
 import AssetsDataProvider from './AssetsDataProvider';
+import ModalProvider from "./ModalsProvider";
 import AlertProvider from './AlertProvider';
 
 export {
@@ -11,5 +12,6 @@ export {
   RedirectProvider,
   WalletConnectProvider,
   AlertProvider,
+  ModalProvider,
   AssetsDataProvider,
 };
