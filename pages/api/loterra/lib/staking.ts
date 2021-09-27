@@ -46,11 +46,12 @@ export const getLoterraStaking = async (address: string) => {
       holderLP,
       LPHolderAccruedRewards,
     ]);
-    console.log('Rewards: ', lpRewardsInfo.rewards  / UNIT);
 
     const lotaPool = getLpStakingInfo(poolInfo, lpTokenInfo, holderLPInfo);
     const lotaGov = getGovInfo(holderInfo, poolInfo, claimInfo);
-    return { lotaGov, lotaPool };
+    const lpRewards = { lpRewards: lpRewardsInfo?.rewards / UNIT};
+
+    return { lotaGov, lotaPool , lpRewards };
   } catch (err) {
     return null;
   }
