@@ -13,7 +13,8 @@ const { getLatestBlockTime } = blockHelpers;
 
 export const fetchUserStarTerraStakingPools = async (address: string) => {
   try {
-    const block_time = await getLatestBlockTime();
+    const block_time_in_ms = await getLatestBlockTime();
+    const block_time = Math.round(block_time_in_ms / 1000);
     const query_msg = {
       staker_info: {
         staker: address,
@@ -59,8 +60,9 @@ const getStakedData = (stakingPools: any, poolInfo: any, sttPrice: any) => {
     let totalStakedLpUstValue = 0;
     let totalRewards = 0;
     let totalRewardsValue = 0;
-
+    
     const stakedData = stakingPools.map((stakingPool: any) => {
+
 
       const {lpAmount, lpUstValue, token1, token2} = calculateLpBonding(stakingPool.bond_amount, poolInfo);
       const rewards = (stakingPool.pending_reward) / UNIT;
