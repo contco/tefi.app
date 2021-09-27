@@ -5,8 +5,8 @@ export const calculateAPY = (poolInfo, stateLPStaking) => {
     const ratio = poolInfo.total_share / poolInfo.assets[0].amount;
     const inLota = stateLPStaking.total_balance / ratio;
     //console.log("test",inLota / 1000000)
-    const total_staked = inLota / 1000000;
-    const APY = numeral((100000 / total_staked) * 100).format('0');
-    return APY;
+    const totalStaked = inLota / 1000000;
+    const apy = numeral((100000 / totalStaked) * 100).format('0');
+    return { apy, totalStaked };
   }
 };

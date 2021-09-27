@@ -46,7 +46,11 @@ const typeDefs = gql`
     token2UnStaked: String!
     token2Staked: String!
     totalLpUstValue: String!
+    totalStaked: String!
+    rewards: String!
+    apy: String!
   }
+ 
 
   type LoterraAccount {
     loterraDraw: LoterraDraw

@@ -61,11 +61,13 @@ export const getLoterraStaking = async (address: string) => {
       state_lp_staking,
     ]);
 
-    const lotaPool = getLpStakingInfo(poolInfo, lpTokenInfo, holderLPInfo);
+    const lotaPoolInfo = getLpStakingInfo(poolInfo, lpTokenInfo, holderLPInfo);
     const lotaGov = getGovInfo(holderInfo, poolInfo, claimInfo);
-    const lpRewards = { lpRewards: lpRewardsInfo?.rewards / UNIT };
+    const rewards = lpRewardsInfo?.rewards / UNIT;
     const APY = calculateAPY(poolInfo, stateLpStakingInfo);
-    return { lotaGov, lotaPool, lpRewards, APY };
+    const lotaLpInfo = { rewards, ...APY };
+    const lotaPool = { ...lotaPoolInfo, ...lotaLpInfo };
+    return { lotaGov, lotaPool };
   } catch (err) {
     return null;
   }

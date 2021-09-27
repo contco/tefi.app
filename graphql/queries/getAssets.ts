@@ -370,7 +370,11 @@ export const getAssets = gql`
           token2UnStaked
           token2Staked
           totalLpUstValue
+          totalStaked: String!
+          rewards: String!
+          apy: String!
         }
+        
       }
       starterra {
         starTerraPools {
