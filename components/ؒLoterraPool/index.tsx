@@ -9,7 +9,7 @@ export interface Props {
 }
 
 const Loterra: React.FC<Props> = ({ loterra }) => {
-  console.log(loterra, loterra);
+
   if (loterra === null) {
     return <> </>;
   }
