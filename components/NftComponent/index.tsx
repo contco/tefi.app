@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import css from '@styled-system/css';
 import { Text, Flex, Box } from '@contco/core-ui';
-import { SmallCircle } from './animatingCircle';
+import { Logo } from './AnimatedCircle';
 
 const MainContainer = styled(Flex)`
   justify-content: center;
@@ -33,18 +33,22 @@ const BigText = styled(Text)`
   letter-spacing: 0.77px;
 
   ${css({
-    fontSize: ['30px', null, '40px', '60px', null, null, null, '80px'],
+    fontSize: ['30px', null, '40px', '60px', null, null, null, '60px'],
     mt: [8],
     color: 'Heading',
   })}
 `;
 
-const NftComponent: React.FC = () => {
+interface Props {
+  currentTheme: string;
+}
+
+const NftComponent: React.FC<Props> = ({ currentTheme }) => {
   return (
     <MainContainer>
       <Container>
         <BigCircle>
-          <SmallCircle />
+          <Logo width="100%" currentTheme={currentTheme} />
         </BigCircle>
         <Box>
           <BigText>COMING SOON</BigText>

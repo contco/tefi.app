@@ -169,18 +169,18 @@ export const TopBarContainer = Styled(Flex)`
   align-items: flex-end;
   justify-content: space-between;
   ${css({
-    width: ['80vw', '70vw', null, '65vw', null, null, null, null, null, '25vw'],
-    pb: [60],
+    width: ['60vw', '60vw', null, '65vw', null, null, null, null, null, '25vw'],
+    pb: [50],
   })}
 `;
 
 export const BarOptions = Styled<any>(Box)`
   padding-bottom: 5px;
   font-weight: 500;
-  border-bottom: ${(props: any) => (props.selected ? `3px solid ${props.theme.colors.secondary}` : 'node')};
+  border-bottom: ${(props: any) => (props.selected ? `2.5px solid ${props.theme.colors.text3}` : `2.5px solid transparent`)};
   cursor: pointer;
   ${css({
-    fontSize: [1, null, 3, null, 4, null, null, null, 5],
-    color: 'secondary',
+    fontSize: [1, null, 2, null, 3, null, null, null, 3],
+    color: 'text3',
   })}
 `;

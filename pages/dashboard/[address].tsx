@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import css from '@styled-system/css';
 import Styled from 'styled-components';
-import { Box, Avatar } from '@contco/core-ui';
+import { Box } from '@contco/core-ui';
 import { AccAddress } from '@terra-money/terra.js';
 import Loading from '../../components/Loading';
 import EmptyComponent from '../../components/EmptyComponent';
@@ -91,7 +91,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
           <EmptyComponent msg={getErrorMessage()} />
         ) : (
           <Body>
-            <TopBar currentBar={currentBar} setCurrentBar={setCurrentBar} />
+            <TopBar currentBar={currentBar} setCurrentBar={setCurrentBar} currentTheme={theme} />
             {currentBar === ACCOUNT ? (
               <Box>
                 <MarketValue
@@ -134,7 +134,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
                 <Airdrops airdrops={assets?.airdrops} />
               </Box>
             ) : (
-              <NftComponent />
+              <NftComponent currentTheme={theme} />
             )}
           </Body>
         )}

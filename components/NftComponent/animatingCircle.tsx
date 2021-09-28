@@ -22,7 +22,7 @@ export const SmallCircle = () => {
     ${css({
       height: ['30px', null, '40px'],
       width: ['30px', null, '40px'],
-      bg: 'primary',
+      bg: 'circle',
     })}
   `;
 

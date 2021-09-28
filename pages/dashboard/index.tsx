@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import css from '@styled-system/css';
 import Styled from 'styled-components';
-import { Box, Avatar } from '@contco/core-ui';
+import { Box } from '@contco/core-ui';
 import Loading from '../../components/Loading';
 import EmptyComponent from '../../components/EmptyComponent';
 import Header from '../../components/Header';
@@ -91,7 +91,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
           <EmptyComponent msg={error ? 'Oops! Error Fetching Assets' : null} />
         ) : (
           <Body>
-            <TopBar currentBar={currentBar} setCurrentBar={setCurrentBar} />
+            <TopBar currentBar={currentBar} setCurrentBar={setCurrentBar} currentTheme={theme} />
             {currentBar === ACCOUNT ? (
               <Box>
                 <MarketValue
@@ -134,7 +134,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
                 <Airdrops airdrops={assets?.airdrops} />
               </Box>
             ) : (
-              <NftComponent />
+              <NftComponent currentTheme={theme} />
             )}
           </Body>
         )}
