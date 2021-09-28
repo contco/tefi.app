@@ -8,7 +8,7 @@ const checkFailure = (trans) => {
   return false;
 }
 
-const filterAndFormatPost = (data) => {
+const filterAndFormatTx = (data) => {
   const transactions = data.txs;
   const result = transactions.reduce((list, trans) => {
     const isFail = checkFailure(trans);
@@ -26,7 +26,7 @@ export const getTransaction = async (address,offset = 0, limit = 100) => {
   const query = `https://fcd.terra.dev/v1/txs?offset=${offset}&limit=${limit}&account=${address}`;
   const request = await fetchData(query);
   const next = request?.data?.next ?? false;
-  const transactions = request?.data && filterAndFormatPost(request?.data);
+  const transactions = request?.data && filterAndFormatTx(request?.data);
   return {transactions, next};
 };
 
