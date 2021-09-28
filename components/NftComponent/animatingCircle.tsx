@@ -7,7 +7,7 @@ export const SmallCircle = () => {
     loop: { reverse: false },
     config: { duration: 1000 },
     from: { y: 0 },
-    to: { y: 150 },
+    to: { y: 140 },
   });
 
   const styles = useSpring({

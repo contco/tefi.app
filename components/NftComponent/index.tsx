@@ -7,7 +7,7 @@ const MainContainer = styled(Flex)`
   justify-content: center;
   align-items: center;
   ${css({
-    height: ['calc(100vh - 320px)'],
+    height: ['calc(100vh - 300px)'],
   })}
 `;
 
@@ -22,8 +22,8 @@ const BigCircle = styled(Flex)`
   justify-content: center;
   margin: 0 auto;
   ${css({
-    width: ['150px', null, '200px'],
-    height: ['150px', null, '200px'],
+    width: ['170px', null, '200px'],
+    height: ['170px', null, '200px'],
     bg: 'secondary',
   })};
 `;

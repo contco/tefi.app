@@ -44,6 +44,7 @@ ${css({
 })}
 `;
 
+
 const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   const [address, setAddress] = useState<string>('');
   const [addressType, setAddressType] = useState<string>(WALLET_ADDRESS_TYPE);
@@ -94,7 +95,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
         ) : (
           <Body>
             <TopBar>
-              <Avatar name="Hello" height={80} width={80} />
+              <Avatar name="Hello" size="lg"/>
               <BarOptions selected={currentBar === ACCOUNT} onClick={() => setCurrentBar(ACCOUNT)}>
                 ACCOUNT
               </BarOptions>
