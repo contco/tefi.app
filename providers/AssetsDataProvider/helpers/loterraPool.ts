@@ -6,7 +6,7 @@ export const getlotaPoolFarms = (lotaPool) => {
       [
         { name: lotaPool.lpName },
         {
-          APY: lotaPool.apy + '%'
+          APY: lotaPool.apy + '%',
         },
         {
           lpData: {
@@ -15,22 +15,25 @@ export const getlotaPoolFarms = (lotaPool) => {
             token2: convertToFloatValue(lotaPool?.token2Staked) + ' ' + lotaPool?.symbol2,
           },
         },
-        
+
         {
           value: '$' + convertToFloatValue(lotaPool?.stakedLpUstValue),
         },
-        
+
         {
-          rewards: lotaPool.rewards + ' Lota'
-        }
+          reward: {
+            token: convertToFloatValue(lotaPool?.rewards) + ' Lota',
+            tokenValue: '$' + convertToFloatValue(lotaPool?.rewardsValue),
+          },
+        },
       ],
     ];
 
     return {
-      titles: ['Name','APY', 'Staked' , 'Value' , 'Rewards'],
+      titles: ['Name', 'APY', 'Staked', 'Value', 'Rewards'],
       data: data,
       totalValue: parseFloat(lotaPool?.stakedLpUstValue),
     };
   }
-  return null
+  return null;
 };
