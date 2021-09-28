@@ -1,4 +1,4 @@
-import { getPoolInfo, wasmStoreRequest } from '../../commons';
+import { getPoolInfo, getPrice, wasmStoreRequest } from '../../commons';
 import { contracts } from './contracts';
 import { getLpStakingInfo } from './getLpStaking';
 import { getGovInfo } from './getGovInfo';
@@ -60,14 +60,14 @@ export const getLoterraStaking = async (address: string) => {
       LPHolderAccruedRewards,
       state_lp_staking,
     ]);
-console.log(lpRewardsInfo)
+    console.log(lpRewardsInfo);
+    const price: any = getPrice(poolInfo);
     const lotaPoolInfo = getLpStakingInfo(poolInfo, lpTokenInfo, holderLPInfo);
     const lotaGov = getGovInfo(holderInfo, poolInfo, claimInfo);
     const rewards = lpRewardsInfo?.rewards / UNIT;
     const APY = calculateAPY(poolInfo, stateLpStakingInfo);
-    //const lotaLpInfo = { rewards, ...APY };
-    const lotaPool = { ...lotaPoolInfo, rewards , ...APY };
-    console.log(lotaPool)
+    const rewardsValue = price * rewards;
+    const lotaPool = { ...lotaPoolInfo, rewards, rewardsValue, ...APY };
     return { lotaGov, lotaPool };
   } catch (err) {
     return null;
