@@ -60,7 +60,6 @@ export const getLoterraStaking = async (address: string) => {
       LPHolderAccruedRewards,
       state_lp_staking,
     ]);
-    console.log(lpRewardsInfo);
     const price: any = getPrice(poolInfo);
     const lotaPoolInfo = getLpStakingInfo(poolInfo, lpTokenInfo, holderLPInfo);
     const lotaGov = getGovInfo(holderInfo, poolInfo, claimInfo);
