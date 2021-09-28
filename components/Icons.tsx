@@ -15,6 +15,7 @@ import DisconnectIcon from '../public/icons/disconnect.svg';
 import ErrorIcon from '../public/icons/error.svg';
 import TELEGRAM_ICON from '../public/icons/telegram.svg';
 import TWITTER_ICON from '../public/icons/twitter.svg';
+import TIP_ICON from '../public/icons/tip.svg';
 
 
 /**** INTERNAL PROTOCOL ICONS ****/
@@ -50,5 +51,6 @@ export
     BUBBLE_ICON,
     SEND_ICON,
     API_ICON,
-    SUPPLY_ICON
+    SUPPLY_ICON,
+    TIP_ICON,
 };

@@ -35,8 +35,9 @@ export enum ModalState {
   error,
 }
 
+interface SendModalTipProps extends ModalDisplayState, SendModalTipState {}
 
-const SendModal: React.FC<ModalDisplayState> = ({isVisible, setVisible}) => {
+const SendModal: React.FC<SendModalTipProps> = ({isVisible, setVisible, isTip, setIsTip, tipAddress}) => {
   const [modalState, setModalState] = useState(ModalState.initial);
   const [txHash, setTxHash] = useState('');
   const [isPollingTx, setIsPollingTx] = useState(false);
@@ -55,6 +56,7 @@ const SendModal: React.FC<ModalDisplayState> = ({isVisible, setVisible}) => {
     else {
       setModalState(ModalState.disconnected);
     }
+    setIsTip(false);
     setVisible(false);
   }
 
@@ -138,7 +140,7 @@ const SendModal: React.FC<ModalDisplayState> = ({isVisible, setVisible}) => {
     else if (modalState === ModalState.success || modalState === ModalState.denied || modalState === ModalState.error) {
       return <CompleteModal onClose={onClose} txHash={txHash} status={modalState} />
     }
-    else return <InputModal onSend={onSend}/>;
+    else return <InputModal isTip={isTip} tipAddress={tipAddress} onSend={onSend}/>;
   }
 
 
