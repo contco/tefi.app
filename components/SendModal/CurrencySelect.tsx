@@ -74,7 +74,7 @@ const LoadingContainer = styled(Flex)`
   })}
 `
 interface Props {
-    assets: [Holdings];
+    assets: Holdings[];
     selectedAsset: Holdings;
     setAsset: (asset: Holdings) => void;
     loading: boolean;

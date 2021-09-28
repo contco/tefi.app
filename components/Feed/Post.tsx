@@ -4,6 +4,8 @@ import css from '@styled-system/css';
 import { Flex, Text } from '@contco/core-ui';
 import { format } from 'date-fns';
 import { useRouter } from 'next/router';
+import { TIP_ICON } from '../Icons';
+import { useModalContext } from '../../contexts';
 
 const Container = styled.div`
   width: 100%;
@@ -53,7 +55,7 @@ const TopSection = styled(Section)`
 `;
 
 const BottomSection = styled(Section)`
-  justify-content: flex-end;
+  justify-content: space-between;
 `;
 
 const MemoSection = styled(Flex)`
@@ -63,8 +65,21 @@ const MemoSection = styled(Flex)`
     wordWrap: 'break-word',
   })}
 `;
+
+const TipIcon = styled(TIP_ICON)`
+  ${css({
+    color: 'secondary',
+    transform: 'scale(0.8)',
+    transition: ' opacity 0.3s ease-in',
+    cursor: 'pointer',
+    '&:hover': {
+      opacity: 0.7,
+    }
+  })}
+`;
 const Post = ({ data: { memo, from_address: address, block, timestamp } }: any) => {
   const router = useRouter();
+  const {sendTip} = useModalContext();
 
   const slicedAddress =
     address && `${address?.slice(0, 6) + '....' + address?.slice(address?.length - 6, address?.length)}`;
@@ -86,6 +101,10 @@ const Post = ({ data: { memo, from_address: address, block, timestamp } }: any) 
     setTimeout(() => router.push(`/dashboard/${address}`), 300);
   };
 
+  const onTipClick = () => {
+    sendTip(address);
+  }
+
   return (
     <Container>
       <TopSection>
@@ -95,7 +114,10 @@ const Post = ({ data: { memo, from_address: address, block, timestamp } }: any) 
       <MemoSection>
         <MemoText>{memo}</MemoText>
       </MemoSection>
-      <BottomSection>{displayTimestamp()}</BottomSection>
+      <BottomSection>
+         <TipIcon onClick={onTipClick} />
+        {displayTimestamp()}
+        </BottomSection>
     </Container>
   );
 };
