@@ -12,7 +12,6 @@ import {
   TimePeriods,
   Time,
 } from './styles';
-import { format } from 'path';
 
 const ICE_EMOJI = '❄️';
 const FIRE_EMOJI = '🔥';

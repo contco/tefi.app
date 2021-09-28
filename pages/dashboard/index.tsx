@@ -16,7 +16,6 @@ import SpectrumRewards from '../../components/SpectrumRewards';
 import Rewards from '../../components/Rewards';
 import Loterra from '../../components/ؒLoterra';
 import LoterraPool from '../../components/ؒLoterraPool';
-
 import { ADDRESS_KEY, LOCAL_ADDRESS_TYPE, WALLET_ADDRESS_TYPE } from '../../constants';
 import Airdrops from '../../components/Airdrop';
 import { NextSeo } from 'next-seo';
@@ -29,6 +28,8 @@ import MirrorBorrowing from '../../components/MirrorBorrowing';
 import StarTerraFarms from '../../components/StarTerraFarms';
 import { useAssetsDataContext } from '../../contexts';
 import ApolloVaults from '../../components/ApolloVaults';
+import NftComponent from '../../components/NftComponent';
+import TopBar, { ACCOUNT } from '../../components/DashboardComponents/TopBar';
 
 const MAX_TRY = 3;
 
@@ -47,6 +48,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   const [fetchCount, setFetchCount] = useState<number>(0);
   const { useConnectedWallet } = useWallet();
   const connectedWallet = useConnectedWallet();
+  const [currentBar, setCurrentBar] = useState(ACCOUNT);
 
   useEffect(() => {
     const localAddress = localStorage.getItem(ADDRESS_KEY);
@@ -89,44 +91,51 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
           <EmptyComponent msg={error ? 'Oops! Error Fetching Assets' : null} />
         ) : (
           <Body>
-            <MarketValue
-              allData={[
-                assets?.assets,
-                assets?.pylon,
-                assets?.anchorEarn,
-                assets?.anchorBond,
-                assets?.anchorBorrow,
-                assets?.rewards,
-                assets?.pools,
-                assets?.mirrorBorrow,
-                assets?.mirrorShortFarm,
-                assets?.specFarm,
-                assets?.specReward,
-                assets?.starterraFarms,
-                assets?.loterra,
-                assets?.lunaStaking,
-                assets?.airdrops,
-                assets?.apollo,
-                assets?.lotaPool
-              ]}
-            />
-            <Assets assets={assets?.assets} />
-            <PylonGateway pylon={assets?.pylon || {}} />
-            <Earn earn={assets?.anchorEarn || {}} />
-            <Burn burn={assets?.anchorBond || {}} />
-            <Borrowing borrow={assets?.anchorBorrow || {}} />
-            <Rewards rewards={assets?.rewards} />
-            <Pools pools={assets?.pools} />
-            <ApolloVaults apolloAssets= {assets?.apollo} />
-            <MirrorBorrowing borrow={assets?.mirrorBorrow || {}} />
-            <ShortFarms short={assets?.mirrorShortFarm || {}} />
-            <SpectrumFarms farm={assets?.specFarm} />
-            <SpectrumRewards reward={assets?.specReward} />
-            <StarTerraFarms farm={assets?.starterraFarms} />
-            <Loterra loterra={assets?.loterra} />
-            <LoterraPool loterra={assets.lotaPool} />
-            <LunaStaking staking={assets?.lunaStaking || {}} />
-            <Airdrops airdrops={assets?.airdrops} />
+            <TopBar currentBar={currentBar} setCurrentBar={setCurrentBar} currentTheme={theme} />
+            {currentBar === ACCOUNT ? (
+              <Box>
+                <MarketValue
+                  allData={[
+                    assets?.assets,
+                    assets?.pylon,
+                    assets?.anchorEarn,
+                    assets?.anchorBond,
+                    assets?.anchorBorrow,
+                    assets?.rewards,
+                    assets?.pools,
+                    assets?.mirrorBorrow,
+                    assets?.mirrorShortFarm,
+                    assets?.specFarm,
+                    assets?.specReward,
+                    assets?.starterraFarms,
+                    assets?.loterra,
+                    assets?.lunaStaking,
+                    assets?.airdrops,
+                    assets?.apollo,
+                    assets?.lotaPool,
+                  ]}
+                />
+                <Assets assets={assets?.assets} />
+                <PylonGateway pylon={assets?.pylon || {}} />
+                <Earn earn={assets?.anchorEarn || {}} />
+                <Burn burn={assets?.anchorBond || {}} />
+                <Borrowing borrow={assets?.anchorBorrow || {}} />
+                <Rewards rewards={assets?.rewards} />
+                <Pools pools={assets?.pools} />
+                <ApolloVaults apolloAssets={assets?.apollo} />
+                <MirrorBorrowing borrow={assets?.mirrorBorrow || {}} />
+                <ShortFarms short={assets?.mirrorShortFarm || {}} />
+                <SpectrumFarms farm={assets?.specFarm} />
+                <SpectrumRewards reward={assets?.specReward} />
+                <StarTerraFarms farm={assets?.starterraFarms} />
+                <Loterra loterra={assets?.loterra} />
+                <LoterraPool loterra={assets.lotaPool} />
+                <LunaStaking staking={assets?.lunaStaking || {}} />
+                <Airdrops airdrops={assets?.airdrops} />
+              </Box>
+            ) : (
+              <NftComponent currentTheme={theme} />
+            )}
           </Body>
         )}
       </div>
