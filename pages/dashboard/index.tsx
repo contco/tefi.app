@@ -28,12 +28,10 @@ import MirrorBorrowing from '../../components/MirrorBorrowing';
 import StarTerraFarms from '../../components/StarTerraFarms';
 import { useAssetsDataContext } from '../../contexts';
 import ApolloVaults from '../../components/ApolloVaults';
-import { BarOptions, TopBar } from '../../components/dashboardStyles';
 import NftComponent from '../../components/NftComponent';
+import TopBar, { ACCOUNT } from '../../components/DashboardComponents/TopBar';
 
 const MAX_TRY = 3;
-const ACCOUNT = 'account';
-const NFT = 'nft';
 
 const Body = Styled(Box)`
 ${css({
@@ -43,7 +41,6 @@ ${css({
   overflowX: ['scroll', null, null, null, null, 'hidden'],
 })}
 `;
-
 
 const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   const [address, setAddress] = useState<string>('');
@@ -94,15 +91,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
           <EmptyComponent msg={error ? 'Oops! Error Fetching Assets' : null} />
         ) : (
           <Body>
-            <TopBar>
-              <Avatar name="Hello" size="lg"/>
-              <BarOptions selected={currentBar === ACCOUNT} onClick={() => setCurrentBar(ACCOUNT)}>
-                ACCOUNT
-              </BarOptions>
-              <BarOptions selected={currentBar === NFT} onClick={() => setCurrentBar(NFT)}>
-                NFTS
-              </BarOptions>
-            </TopBar>
+            <TopBar currentBar={currentBar} setCurrentBar={setCurrentBar} />
             {currentBar === ACCOUNT ? (
               <Box>
                 <MarketValue

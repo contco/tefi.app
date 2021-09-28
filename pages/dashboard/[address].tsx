@@ -28,13 +28,11 @@ import StarTerraFarms from '../../components/StarTerraFarms';
 import ApolloVaults from '../../components/ApolloVaults';
 import { assignData } from '../../providers/AssetsDataProvider/assignData';
 import useAccounts from '../../utils/useAccounts';
-import { BarOptions, TopBar } from '../../components/dashboardStyles';
 import NftComponent from '../../components/NftComponent';
 import LoterraPool from '../../components/ؒLoterraPool';
+import TopBar, { ACCOUNT } from '../../components/DashboardComponents/TopBar';
 
 const MAX_TRY = 3;
-const ACCOUNT = 'account';
-const NFT = 'nft';
 
 const Body = Styled(Box)`
 ${css({
@@ -93,15 +91,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
           <EmptyComponent msg={getErrorMessage()} />
         ) : (
           <Body>
-            <TopBar>
-              <Avatar name="Hello" height={80} width={80} />
-              <BarOptions selected={currentBar === ACCOUNT} onClick={() => setCurrentBar(ACCOUNT)}>
-                ACCOUNT
-              </BarOptions>
-              <BarOptions selected={currentBar === NFT} onClick={() => setCurrentBar(NFT)}>
-                NFTS
-              </BarOptions>
-            </TopBar>
+            <TopBar currentBar={currentBar} setCurrentBar={setCurrentBar} />
             {currentBar === ACCOUNT ? (
               <Box>
                 <MarketValue

@@ -165,7 +165,7 @@ export const StyledInput = Styled.input`
   })}
 `;
 
-export const TopBar = Styled(Flex)`
+export const TopBarContainer = Styled(Flex)`
   align-items: flex-end;
   justify-content: space-between;
   ${css({
