@@ -26,5 +26,9 @@
     {
         "symbol": "alte",
         "imageUrl": "/logos/alte.png"
+    },
+    {
+        "symbol":"stt",
+        "imageUrl":"/logos/starterra.png"
     }
 ]

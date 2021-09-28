@@ -1,46 +1,25 @@
 import React from 'react';
-import { css } from 'styled-components';
-import { EarnTitle } from '../../constants';
-import { convertToFloatValue } from '../../utils/convertFloat';
-import { Wrapper, Row, HeadingWrapper, Heading, Title, StyledText } from '../dashboardStyles';
+import TitleContainer from '../DashboardComponents/TitleContainer';
+import { Wrapper, HeadingWrapper, Heading } from '../dashboardStyles';
+import Header from '../DashboardComponents/Header';
+import Section from '../DashboardComponents/Section';
 
 const HEADING_TEXT = `Anchor Earn`;
-
-const CSS_NET_APR = (props) =>
-  css({
-    fontWeight: 500,
-    color: props.theme.colors.secondary,
-  });
-
 export interface EarnProps {
-  ancAssets: AccountAnc;
+  earn: any;
 }
 
-const Earn: React.FC<EarnProps> = ({ ancAssets }) => {
-  const earn: EarnData = ancAssets?.earn;
-
-  if (parseFloat(earn?.reward?.staked) <= 0) return <></>;
+const Earn: React.FC<EarnProps> = ({ earn }) => {
+  if (JSON.stringify(earn) === '{}') return <></>;
 
   return (
-    <Wrapper
-      css={`
-        ${css({ mb: 0 })}
-      `}
-    >
+    <Wrapper>
       <HeadingWrapper>
         <Heading>{HEADING_TEXT}</Heading>
-        <StyledText>${convertToFloatValue(earn?.reward?.staked) || 0}</StyledText>
+        <Header data={earn.total} />
       </HeadingWrapper>
-      <Row>
-        {EarnTitle.map((t, index) => (
-          <Title key={index}>{t}</Title>
-        ))}
-      </Row>
-
-      <Row>
-        <StyledText>{convertToFloatValue(earn?.reward?.staked)} UST</StyledText>
-        <StyledText css={CSS_NET_APR}>{convertToFloatValue(earn?.reward?.apy)}%</StyledText>
-      </Row>
+      <TitleContainer titles={earn.titles} />
+      <Section data={earn.data} />
     </Wrapper>
   );
 };

@@ -1,8 +1,12 @@
+import React from 'react';
 import styled from 'styled-components';
-import {Box} from "@contco/core-ui";
-import { NewOpenIcon } from '../Icons';
-import { PriceChange } from './PriceChange';
+
 import Image from 'next/image';
+import css from "@styled-system/css";
+import {Box, Flex} from "@contco/core-ui";
+
+import { NewOpenIcon} from '../Icons';
+import { PriceChange } from './PriceChange';
 
 const NamePriceContainer = styled(Box)`
 width: 55%;
@@ -53,6 +57,7 @@ const ImageContainer: any = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
   &:hover {
     background-color: ${(props: any) => (props.useTV ? 'black' : '#f5f5f5')};
     width: 52px;
@@ -60,6 +65,9 @@ const ImageContainer: any = styled.div`
     border-radius: 26px;
   }
   border: ${(props: any) => `1px solid ${props.theme.colors.secondary}`};
+  ${css({
+    mx:2,
+  })}
 `;
 
 const NameTopBar = styled.div`
@@ -68,6 +76,11 @@ const NameTopBar = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
+
+const ActionContainer = styled(Flex)`
+  align-items: center;
+`;
+
 
 interface Props {
   price: number;
@@ -79,16 +92,19 @@ interface Props {
 }
 
 export const AssetDetails: React.FC<Props> = ({price, name, url, useTV, onSwitchTV, priceChange }) => {
+  
   return(
     <NamePriceContainer useTV={useTV}>
     <NameTopBar>
       <StyledName href={url} target="_blank">
         {name} 
         <NewOpenIcon />
-    </StyledName>
-    <ImageContainer onClick={onSwitchTV} useTV={useTV}>
-      <Image width="30" height="16" src={useTV ? '/tv-white.png' : '/tv.png'} alt="Picture of the author" />
-    </ImageContainer>
+      </StyledName>
+      <ActionContainer>
+        <ImageContainer onClick={onSwitchTV} useTV={useTV}>
+          <Image width="30" height="16" src={useTV ? '/tv-white.png' : '/tv.png'} alt="Picture of the author" />
+        </ImageContainer>
+      </ActionContainer>
     </NameTopBar>
     {!useTV && (
         <PriceContainer>
@@ -96,6 +112,6 @@ export const AssetDetails: React.FC<Props> = ({price, name, url, useTV, onSwitch
           <PriceChange priceChange={priceChange}/>
          </PriceContainer>
       )}
-    </NamePriceContainer>
+   </NamePriceContainer>
   )
 }

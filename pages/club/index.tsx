@@ -8,7 +8,7 @@ import Posts from '../../components/Feed/Posts';
 import Header from '../../components/Header';
 import { WALLET_ADDRESS_TYPE } from '../../constants';
 import useWallet from '../../lib/useWallet';
-import { sendNativeToken } from '../../transactions/sendToken';
+import { sendToken } from '../../transactions/sendToken';
 import { getPost } from '../api/feed/posts';
 import ConnectModal from '../../components/ConnectModal';
 import { WalletConnectType } from '../../constants';
@@ -72,12 +72,10 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts, next }: any)
   const [address, setAddress] = useState<string>();
   const [addressType, setAddressType] = useState<string>();
   const [showModal, setModalVisible] = useState<boolean>(false);
-  const [latestFeeds, setLatestFeeds] = useState(posts);
   const [feedPosts, _setFeedPosts] = useState<any>(null);
   const { onConnect, useConnectedWallet, post } = useWallet();
   const connectedWallet = useConnectedWallet();
   const [loading, setLoading] = useState(false);
-  const [mobile, setMobile] = useState<boolean>(false);
   const [nextOffset, _setNextOffset] = useState<boolean | number> (next); 
   const [isInfiniteLoading, _setIsInfiniteLoading] = useState<boolean>(false);
   const nextOffsetRef = React.useRef(nextOffset);
@@ -111,12 +109,10 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts, next }: any)
     setLoading(true);
     const {posts: latestPosts} = await getPost();
     setLoading(false);
-    setLatestFeeds(latestPosts);
     if(latestPosts.length && feedPosts.length) {
       const newlyAddedPosts = difference(latestPosts, feedPosts);
       setFeedPosts([...newlyAddedPosts, ...feedPosts]);
     }
-    latestPosts.length && setFeedPosts(latestPosts);
   };
 
   useEffect(() => {
@@ -171,6 +167,7 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts, next }: any)
         amount: SEND_AMOUNT,
         memo: text,
         denom: 'uusd',
+        txDenom: 'uusd',
       };
       const newFeedPost: postData = {
         to_address: ADDRESS,
@@ -180,7 +177,7 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts, next }: any)
         txhash: null,
         timestamp: null,
       };
-      const result = await sendNativeToken(transactionData, post);
+      const result = await sendToken(transactionData, post);
       if (!result.error) {
         setFeedPosts([newFeedPost, ...feedPosts]);
       }

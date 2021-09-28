@@ -42,6 +42,7 @@ const AssetPriceProvider: React.FC<Props> = ({ children }) => {
     const ws = new WebSocket(TERRA_OBSERVER_URL);
 
     const connectWithTerraObserver = () => {
+  
       ws.onopen = function () {
         ws.send(JSON.stringify({ subscribe: 'ts_pool', chain_id: 'columbus-4' }));
       };
@@ -67,9 +68,10 @@ const AssetPriceProvider: React.FC<Props> = ({ children }) => {
         }, 1000);
       };
     };
+
     connectWithTerraObserver();
 
-    return () => ws.close();
+    return () => ws?.close();
   }, [realTimePrices, assetPriceData]);
 
   return (

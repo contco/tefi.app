@@ -4,6 +4,8 @@ const runtimeCaching = require('next-pwa/cache');
 module.exports = withPWA({
   env: {
     SERVER_END_POINT: process.env.SERVER_END_POINT,
+    DGRAPH_API_KEY: process.env.DGRAPH_API_KEY,
+    DGRAPH_API_URL: process.env.DGRAPH_API_URL,
     ADDRESS: process.env.ADDRESS,
     FILTER_POST_UST: process.env.FILTER_POST_UST,
   },

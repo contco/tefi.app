@@ -29,16 +29,16 @@ const getTerraTokens = async (coins, price: string) => {
       const balance = div(coin.amount, DIVIDER);
       if (coin.denom === UUSD_DENOM) {
         assetsSum = plus(assetsSum, balance);
-        tokens.push({ ...DENOM_SYMBOLS[coin.denom], price: '1', balance, value: balance });
+        tokens.push({ ...DENOM_SYMBOLS[coin.denom], denom: coin.denom, price: '1', balance, value: balance });
       } else if (coin.denom === LUNA_DENOM) {
         const value = times(balance, price);
         assetsSum = plus(assetsSum, value);
-        tokens.push({ ...DENOM_SYMBOLS[coin.denom], price, balance, value });
+        tokens.push({ ...DENOM_SYMBOLS[coin.denom], denom: coin.denom, price, balance, value });
       } else if (DENOM_SYMBOLS[coin.denom]) {
         const price = await getPrice(coin.denom);
         const value = times(balance, price);
         assetsSum = plus(assetsSum, value);
-        tokens.push({ ...DENOM_SYMBOLS[coin.denom], price: price, balance, value });
+        tokens.push({ ...DENOM_SYMBOLS[coin.denom], denom: coin.denom, price: price, balance, value });
       }
     }
   }
@@ -97,7 +97,7 @@ const fetchBalance = async (address: string) => {
   }
 };
 
-export const getBankBalance = async ({ args: { address } }: any) => {
+export const getTerraCoreAccount = async ({ args: { address } }: any) => {
   const balanceRequest = fetchBalance(address);
   const pricesRequest = fetchData(FCD_URL + 'dashboard');
   const stakingRequest = fetchData(FCD_URL + `staking/${address}`);

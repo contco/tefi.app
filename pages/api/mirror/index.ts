@@ -1,6 +1,6 @@
 import { ApolloServer, gql } from 'apollo-server-micro';
 import { buildFederatedSchema } from '@apollo/federation';
-import { getAccountData } from './getAccountData';
+import { getMirrorAccount } from './getAccountData';
 
 const typeDefs = gql`
   type MirrorStaking {
@@ -28,6 +28,7 @@ const typeDefs = gql`
     balance: String!
     value: String!
     price: String!
+    contract: String!
   }
 
   type MirrorTotal {
@@ -110,7 +111,7 @@ const typeDefs = gql`
 const resolvers = {
   Assets: {
     mirror(assets) {
-      return getAccountData(assets.address);
+      return getMirrorAccount(assets.address);
     },
   },
 };

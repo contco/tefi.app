@@ -4,7 +4,6 @@ import { UNIT } from "../../mirror/utils";
 import { getLpValue } from "../../utils";
 import { getPrice } from "../../commons";
 import { coinSymbolList } from "./coinInfos/list";
-import { fi } from "date-fns/locale";
 
 export const getPoolValues = (lpBalance: number, lpValue: number, price: number) => {
     const stakedLpUstValue  = lpBalance * lpValue;

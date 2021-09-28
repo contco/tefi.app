@@ -11,6 +11,8 @@ export const getAssets = gql`
           price
           symbol
           name
+          denom
+          contract
         }
         staking {
           balance
@@ -52,6 +54,7 @@ export const getAssets = gql`
           price
           balance
           value
+          contract
         }
         airdrops {
           name
@@ -114,6 +117,7 @@ export const getAssets = gql`
           price
           balance
           value
+          contract
         }
         debt {
           reward {
@@ -148,6 +152,7 @@ export const getAssets = gql`
             }
           }
           withdrawableAmount
+					withdrawableValue
           totalBurnAmount
           totalBurnAmountValue
         }
@@ -212,6 +217,7 @@ export const getAssets = gql`
           price
           balance
           value
+          contract
         }
         pylonPool {
           symbol1
@@ -324,6 +330,7 @@ export const getAssets = gql`
           price
           balance
           value
+          contract
         }
         spectrumTotal {
           farmsTotal
@@ -349,28 +356,54 @@ export const getAssets = gql`
           apr
           price
         }
-      }
-      starterra {
-        stakedData {
-          lpname
-          faction
+        lotaPool {
+          symbol1
+          symbol2
+          lpName
+          price
           stakedLp
           stakedLpUstValue
+          stakeableLp
+          stakeableLpUstValue
+          token1UnStaked
           token1Staked
+          token2UnStaked
           token2Staked
+          totalLpUstValue
+        }
+      }
+      starterra {
+        starTerraPools {
+          stakedData {
+            lpName
+            faction
+            stakedLp
+            stakedLpUstValue
+            token1Staked
+            token2Staked
+            rewards
+            rewardsValue
+          }
+          stakeableLp
+          stakeableLpUstValue
+          symbol1
+          symbol2
+          token1UnStaked
+          token2UnStaked
+          totalStakedLp
+          totalStakedLpUstValue
+          totalRewards
+          totalRewardsValue
+        }
+        starTerraGov {
+          name
+          symbol
+          faction
+          staked
+          value
           rewards
           rewardsValue
         }
-        stakableLp
-        symbol1
-        symbol2
-        token1UnStaked
-        token2UnStaked
-        totalStakedLp
-        totalStakedLpUstValue
-        totalRewards
-        totalRewardsValue
-      }
     }
   }
 `;

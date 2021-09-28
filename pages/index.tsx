@@ -30,7 +30,6 @@ const Home: React.FC = ({ theme, changeTheme }: any) => {
             <Header theme={theme} changeTheme={changeTheme} />
           </div>
           <Landing />
-        
         </div>
       )}
     </div>

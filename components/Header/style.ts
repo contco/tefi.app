@@ -9,11 +9,7 @@ import CLOSE_ICON from "../../public/close.svg";
 import TEFI_LOGO from '../../public/tefi.svg';
 import REFRESH_ICON from '../../public/refresh.svg';
 import REFRESHING_ICON from '../../public/refreshing.svg';
-import CHARTS_ICON from '../../public/charts.svg';
-import Bubble_ICON from '../../public/bubble.svg';
 import MENU_ICON from '../../public/icons/circle-menu.svg';
-import DASHBOARD_ICON from '../../public/space_dashboard.svg';
-import FEED_ICON from '../../public/icons/circle.svg';
 
 
 export const Container = styled(Flex)`
@@ -163,7 +159,6 @@ ${props => css({
 export const SwitchContainer = styled(Flex)`
   ${props => css({
     color: props.theme.colors.secondary,
-    // minWidth: [10, null, 20],
     justifyContent: 'center',
     alignItems: 'center',
   })}
@@ -217,38 +212,6 @@ export const AnimatedRefresh = styled(REFRESHING_ICON)`
       ml: 3,
     })}
 `;
-
-export const ChartsIcon = styled(CHARTS_ICON)`
-  color: secondary;
-  &:hover {
-    opacity: 0.7;
-  }
-`;
-export const BubbleIcon = styled(Bubble_ICON)`
-${css({
-  color: 'secondary',
-})}
-  &:hover {
-    opacity: 0.7;
-  }
-`;
-
-export const DashboardIcon = styled(DASHBOARD_ICON)`
-  color: secondary;
-  &:hover {
-    opacity: 0.7;
-  }
-`;
-
-
-export const FeedIcon = styled(FEED_ICON)`
-  color: secondary;
-  &:hover {
-    opacity: 0.7;
-  }
-`;
-
-
 
 export const HoverContainer = styled(Flex)`
   ${props => css({

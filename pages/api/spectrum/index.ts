@@ -1,6 +1,6 @@
 import { ApolloServer, gql } from 'apollo-server-micro';
 import { buildFederatedSchema } from '@apollo/federation';
-import { getAccount } from "./lib";
+import { getSpectrumAccount } from "./lib";
 
 const typeDefs = gql`
 
@@ -10,6 +10,7 @@ const typeDefs = gql`
       balance: String!
       value: String!
       price: String!
+      contract: String!
   }
 
   type SpecFarms {
@@ -60,7 +61,7 @@ const typeDefs = gql`
 const resolvers = {
   Assets: {
     spectrum(assets) {
-      return getAccount(assets.address);
+      return getSpectrumAccount(assets.address);
     }
   },
 

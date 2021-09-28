@@ -1,6 +1,6 @@
 import { ApolloServer, gql } from 'apollo-server-micro';
 import { buildFederatedSchema } from '@apollo/federation';
-import { getAccount } from './lib/anc';
+import { getAnchorAccount } from './lib/anc';
 
 const typeDefs = gql`
   type Token {
@@ -9,6 +9,7 @@ const typeDefs = gql`
     balance: String!
     value: String!
     price: String!
+    contract: String!
   }
 
   type Reward {
@@ -106,8 +107,9 @@ const typeDefs = gql`
   type BurnData {
     requestData: [RequestData]
     withdrawableAmount: String
-	totalBurnAmount: String
-	totalBurnAmountValue: String
+		withdrawableValue: String
+		totalBurnAmount: String
+		totalBurnAmountValue: String
   }
 
   type AccountANC {
@@ -131,7 +133,7 @@ const typeDefs = gql`
 const resolvers = {
   Assets: {
     anchor(assets) {
-      return getAccount(assets.address);
+      return getAnchorAccount(assets.address);
     },
   },
 };

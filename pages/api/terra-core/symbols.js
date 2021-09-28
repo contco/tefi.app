@@ -7,7 +7,7 @@ export const DENOM_SYMBOLS = {
     ucny: { name: "Terra Chinese Yuan", symbol: "CNT" },
     udkk: { name: "Terra Danish Krone", symbol: "DKK" },
     ueur: { name: "Terra Euro", symbol: "EUR" },
-    ugbp: { name: "Terra Biritish Pound", symbol: "GBT" },
+    ugbp: { name: "Terra British Pound", symbol: "GBT" },
     uhkd: { name: "Terra HongKong Dollar", symbol: "HKT" },
     uinr: { name: "Terra Indian Rupee", symbol: "INT" },
     ujpy: { name: "Terra Japanese Yen", symbol: "JPT" },

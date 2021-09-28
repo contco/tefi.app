@@ -2,7 +2,7 @@ import { MARKET_DENOMS } from '@anchor-protocol/anchor.js';
 import { anchor, blocksPerYear, ContractAddresses } from './test-defaults';
 import { getLatestBlockHeight, mantleFetch } from './utils';
 import { DEFAULT_MANTLE_ENDPOINTS } from '../../../../utils/ancEndpoints';
-import { demicrofy, formatRate, formatUSTWithPostfixUnits } from '@anchor-protocol/notation';
+import { formatRate, valueConversion } from './utils';
 import { getPrice } from '../../terra-core/core';
 import { LUNA_DENOM } from '../../terra-core/symbols';
 import axios from 'axios';
@@ -231,7 +231,7 @@ export default async (address) => {
       reward: {
         name,
         apy: formatRate(distributionAPY),
-        reward: formatUSTWithPostfixUnits(demicrofy(rewards?.borrowerInfo?.pending_rewards)),
+        reward: valueConversion(rewards?.borrowerInfo?.pending_rewards),
       },
       limit: borrowLimit,
       value: borrowedValue,

@@ -10,6 +10,8 @@ export const CODE_EXAMPLE = `{
             price
             symbol
             name
+            denom 
+            contract
           }
           staking {
             balance
@@ -51,6 +53,7 @@ export const CODE_EXAMPLE = `{
             price
             balance
             value
+            contract
           }
           airdrops {
             name
@@ -113,6 +116,7 @@ export const CODE_EXAMPLE = `{
             price
             balance
             value
+            contract
           }
           debt {
             reward {
@@ -210,6 +214,7 @@ export const CODE_EXAMPLE = `{
             price
             balance
             value
+            contract
           }
           pylonPool {
             symbol1
@@ -322,6 +327,7 @@ export const CODE_EXAMPLE = `{
             price
             balance
             value
+            contract
           }
           spectrumTotal {
             farmsTotal
@@ -348,9 +354,10 @@ export const CODE_EXAMPLE = `{
             price
           }
         }
-        starterra {
+      starterra {
+        starTerraPools {
           stakedData {
-            lpname
+            lpName
             faction
             stakedLp
             stakedLpUstValue
@@ -358,8 +365,9 @@ export const CODE_EXAMPLE = `{
             token2Staked
             rewards
             rewardsValue
-          } 
-          stakableLp
+          }
+          stakeableLp
+          stakeableLpUstValue
           symbol1
           symbol2
           token1UnStaked
@@ -369,5 +377,26 @@ export const CODE_EXAMPLE = `{
           totalRewards
           totalRewardsValue
         }
+        starTerraGov {
+          name
+          symbol
+          faction
+          staked
+          value
+          rewards
+          rewardsValue
+        }
+      } 
+      apolloDao {
+        vaults {
+          symbol1
+          symbol2
+          lpName
+          token1Staked
+          token2Staked
+          stakedLp
+          stakedLpUstValue
+        }
+        total
       }
   }`;

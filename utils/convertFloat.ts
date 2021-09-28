@@ -4,7 +4,7 @@ export const convertToFloatValue = (value: string) => {
   if(floatValue === 0) {
     return 0
   }
-  else if (floatValue <= 0.001) {
+  else if (Math.abs(floatValue) <= 0.001) {
     return floatValue.toFixed(8);
   } else {
     return numberFormat(floatValue.toFixed(3));

@@ -9,40 +9,6 @@
   dependencies:
     "@terra-money/terra.js" "^1.3.6"
 
-"@anchor-protocol/notation@^0.15.0":
-  version "0.15.0"
-  resolved "https://registry.npmjs.org/@anchor-protocol/notation/-/notation-0.15.0.tgz"
-  integrity sha512-FrdT6YbvsNFxuUvdc8evdbro8JDxd1rvUKYmfICqlxbyqSKN+kCOriTp8Z7ZBFZHct1nsKCslLtwcNNubvOpfw==
-  dependencies:
-    "@anchor-protocol/types" "^0.15.0"
-    "@terra-dev/big-interpolate" "^0.15.0"
-    big.js "^6.1.1"
-    d3-ease "^2.0.0"
-    d3-timer "^2.0.0"
-    numeral "^2.0.6"
-
-"@anchor-protocol/types@^0.15.0":
-  version "0.15.0"
-  resolved "https://registry.npmjs.org/@anchor-protocol/types/-/types-0.15.0.tgz"
-  integrity sha512-a/SqwMrBSfhOujsoeiKCcD1bNL9Elf64K4SbCoMo1iM79VFSjVv9hcZQOoFdLvpuv4ZkRNPgj4GwDPPQ4Aw78g==
-
-"@anchor-protocol/webapp-fns@^0.15.0":
-  version "0.15.0"
-  resolved "https://registry.npmjs.org/@anchor-protocol/webapp-fns/-/webapp-fns-0.15.0.tgz"
-  integrity sha512-8ZjaK37d3pauwDpaiuefDPeKtXD7o/otNKMkDk9PYJi8/e4cSKbiXY8YDC+KgFr2TZrQEYfWc8pfNqSISUG37Q==
-  dependencies:
-    "@anchor-protocol/anchor.js" "^1.0.1"
-    "@anchor-protocol/notation" "^0.15.0"
-    "@anchor-protocol/types" "^0.15.0"
-    "@rx-stream/pipe" "^0.7.0"
-    "@terra-dev/big-math" "^0.15.0"
-    "@terra-dev/tx-helpers" "^0.15.0"
-    "@terra-dev/wallet-types" "^0.15.0"
-    "@terra-money/terra.js" "^1.8.0"
-    "@terra-money/webapp-fns" "^0.15.0"
-    big.js "^6.1.1"
-    rxjs "^7.1.0"
-
 "@apollo/client@^3.3.18":
   version "3.3.18"
   resolved "https://registry.npmjs.org/@apollo/client/-/client-3.3.18.tgz"
@@ -1067,15 +1033,20 @@
     "@babel/helper-validator-identifier" "^7.12.11"
     to-fast-properties "^2.0.0"
 
-"@contco/core-ui@^1.1.6":
-  version "1.1.9"
-  resolved "https://npm.pkg.github.com/download/@contco/core-ui/1.1.9/a1688cee5896b96a68843ef8e327e7310555960f73231f274108b50b378d6747#203bba5db1a0578278089938df7bc3119669086d"
-  integrity sha512-3oVIHi6SBakHn1Lu7E0cJhkkMH91bbd04g1aEwbNtL7XrwmGr/JG6ehwVO0TNAlSZoZfPSpGz+wqtfgBw9THBA==
+"@contco/core-ui@^1.1.10":
+  version "1.1.10"
+  resolved "https://npm.pkg.github.com/download/@contco/core-ui/1.1.10/2cec3e3908b0a52b71e357e7f5a7d4073cc2de2d3a557399c6344cbc831b1330#0b0ae7aca21bf5214b775947843127d1ea76ccb0"
+  integrity sha512-3XFbDP6IsDgF4TL707WDIbYJawfZXQrAdjZ7858ZpI15kVBH1FUwvu8d8u6/xWEa4ZsrP6godADSydg4DjZM+w==
   dependencies:
     "@types/styled-components" "^5.1.2"
     "@types/styled-system" "^5.1.10"
     styled-components "^5.1.1"
     styled-system "^5.1.5"
+
+"@contco/terra-utilities@0.0.1":
+  version "0.0.1"
+  resolved "https://npm.pkg.github.com/download/@contco/terra-utilities/0.0.1/f434d9aac53580994ddbc35c8b4b79f0fad16e28a8fa2507e21f84abdffebdd7#aa76af0c12150ee38f5b8e1752993dd299d31102"
+  integrity sha512-SCeHu1+DyP3XTQ6533rkwztyMBOv8+4qHzEyunBXEFD0yf5sgUfQ+GrCr84WCn13lVSU11iIQoXFB4q2NQq+3g==
 
 "@emotion/is-prop-valid@^0.8.8":
   version "0.8.8"
@@ -1484,13 +1455,6 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
-"@rx-stream/pipe@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.npmjs.org/@rx-stream/pipe/-/pipe-0.7.0.tgz"
-  integrity sha512-aamijxNwu+erfzhtCQ9kdi8Vo1GVkMLSppstSmWPDW7nZ6s5sdDOdyHOmQvH/EnnB76M/MYfEQAZRG+CkVX3Mw==
-  dependencies:
-    rxjs "^7.0.0"
-
 "@styled-system/background@^5.1.2":
   version "5.1.2"
   resolved "https://registry.npmjs.org/@styled-system/background/-/background-5.1.2.tgz"
@@ -1692,21 +1656,6 @@
     "@svgr/plugin-svgo" "^5.5.0"
     loader-utils "^2.0.0"
 
-"@terra-dev/big-interpolate@^0.15.0":
-  version "0.15.0"
-  resolved "https://registry.npmjs.org/@terra-dev/big-interpolate/-/big-interpolate-0.15.0.tgz"
-  integrity sha512-0choMrhH8edvixkb7MZnheBIWhCkDsZivrrYzohYQun4ifC/8oYE2qWE6DlkkWJCkfDmsM2jFirSn149hVAKvA==
-  dependencies:
-    big.js "^6.1.1"
-    d3-ease "^2.0.0"
-
-"@terra-dev/big-math@^0.15.0":
-  version "0.15.0"
-  resolved "https://registry.npmjs.org/@terra-dev/big-math/-/big-math-0.15.0.tgz"
-  integrity sha512-1ENOAN9ZskjcrujI8jwWig8xjNRo/K6ESKj68HuuNLXxdTs/Ko7wyEs1ushbI1uVYNWZudAB1VW0epFNqETAWA==
-  dependencies:
-    big.js "^6.1.1"
-
 "@terra-dev/chrome-extension@^0.15.0":
   version "0.15.0"
   resolved "https://registry.npmjs.org/@terra-dev/chrome-extension/-/chrome-extension-0.15.0.tgz"
@@ -1763,13 +1712,6 @@
     fast-deep-equal "^3.1.3"
     rxjs "^7.0.0"
     webextension-polyfill-ts "^0.25.0"
-
-"@terra-dev/tx-helpers@^0.15.0":
-  version "0.15.0"
-  resolved "https://registry.npmjs.org/@terra-dev/tx-helpers/-/tx-helpers-0.15.0.tgz"
-  integrity sha512-Ezb8LlIrDWeVIaq/XIL/4Yrdwc2lK4V9x/041+gsDPXeV+KvE+O10jcQdsFA5kmAvpDUHGq/jITFi6mbBAwk7A==
-  dependencies:
-    "@terra-dev/wallet-types" "^0.15.0"
 
 "@terra-dev/use-browser-inactive@^0.15.0":
   version "0.15.0"
@@ -3695,11 +3637,6 @@ d3-array@2, d3-array@^2.3.0:
   resolved "https://registry.npmjs.org/d3-color/-/d3-color-2.0.0.tgz"
   integrity sha512-SPXi0TSKPD4g9tw0NMZFnR95XVgUZiBH+uUTqQuDu1OsE2zomHU7ho0FISciaPvosimixwHFl3WHLGabv6dDgQ==
 
-d3-ease@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/d3-ease/-/d3-ease-2.0.0.tgz"
-  integrity sha512-68/n9JWarxXkOWMshcT5IcjbB+agblQUaIsbnXmrzejn2O82n3p2A9R2zEB9HIEFWKFwPAEDDN8gR0VdSAyyAQ==
-
 "d3-format@1 - 2":
   version "2.0.0"
   resolved "https://registry.npmjs.org/d3-format/-/d3-format-2.0.0.tgz"
@@ -3748,11 +3685,6 @@ d3-shape@^2.0.0:
   integrity sha512-/eIQe/eR4kCQwq7yxi7z4c6qEXf2IYGcjoWB5OOQy4Tq9Uv39/947qlDcN2TLkiTzQWzvnsuYPB9TrWaNfipKQ==
   dependencies:
     d3-array "2"
-
-d3-timer@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/d3-timer/-/d3-timer-2.0.0.tgz"
-  integrity sha512-TO4VLh0/420Y/9dO3+f9abDEFYeCUr2WZRlxJvbp4HPTQcSylXNiL6yZa9FIUvV1yRiFufl1bszTCLDqv9PWNA==
 
 data-uri-to-buffer@3.0.1:
   version "3.0.1"
@@ -5378,14 +5310,9 @@ lodash.xorby@^4.7.0:
   resolved "https://registry.npmjs.org/lodash.xorby/-/lodash.xorby-4.7.0.tgz"
   integrity sha1-nBmm+fBjputT3QPBtocXmYAUY9c=
 
-lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20:
+lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.21:
   version "4.17.21"
   resolved "https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz"
-  integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
-
-lodash@^4.17.21:
-  version "4.17.21"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
 
 log-symbols@^4.0.0:

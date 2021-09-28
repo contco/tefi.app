@@ -1,31 +1,42 @@
-import {
-    DashboardIcon,
-    ChartsIcon,
-    BubbleIcon,
-    FeedIcon
-} from './style';
+import {DASHBOARD_ICON, CHARTS_ICON, BUBBLE_ICON, FEED_ICON, SEND_ICON, SUPPLY_ICON, API_ICON} from '../Icons';
+
 
 export const INTERNAL_LINKS = [
     {
-        component: DashboardIcon,
+        component: DASHBOARD_ICON,
         url: "/dashboard",
         name: "Dashboard"
     },
     {
-        component: ChartsIcon,
+        component: CHARTS_ICON,
         url: "/market",
         name: "Market"
     },
     {
-        component: BubbleIcon,
+        component: BUBBLE_ICON,
         url: "/market/heat",
         name: "Bubbles"
     },
     {
-        component: FeedIcon,
+        component: FEED_ICON,
         url: "/club",
         name: "Club"
     },
+    {
+        component: SEND_ICON,
+        modal: true,
+        name: 'Send'
+    },
+    {
+        component: SUPPLY_ICON,
+        url: "/supply",
+        name: "Supply"
+    },
+    {
+        component: API_ICON,
+        url: "/docs",
+        name: "API"
+    }
 ];
 
 export const PROTOCOL_LINKS = [
@@ -207,7 +218,7 @@ export const UPCOMING_PROTOCOL_LINKS = [
         src: "/logos/vega.png",
         url: "https://vega.xyz/",
         name: "Vega"
-    },      
+    },
     {
         src: "/logos/levana.png",
         url: "https://levana.finance/",
@@ -228,6 +239,6 @@ export const UPCOMING_PROTOCOL_LINKS = [
         url: "https://andromedaprotocol.io/",
         name: "Andromeda"
     }
-    
+
 ];
 

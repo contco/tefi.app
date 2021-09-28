@@ -1,21 +1,20 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { useEffect, useRef } from 'react';
 
-const noop = () => {};
-
-export function useInterval(callback: () => void, delay: number) {
-  const savedCallback = useRef(noop);
+export function useInterval(callback: () => void, delay: number | null) {
+  const savedCallback = useRef(callback)
 
   useEffect(() => {
-    savedCallback.current = callback;
-  }, [callback]);
-
+    savedCallback.current = callback
+  }, [callback])
 
   useEffect(() => {
-    function tick() {
-      savedCallback.current();
+    if (delay === null) {
+      return
     }
-    const id = setInterval(tick, delay);
-    return () => clearInterval(id);
-  }, [delay]);
+
+    const id = setInterval(() => savedCallback.current(), delay)
+
+    return () => clearInterval(id)
+  }, [delay])
 }

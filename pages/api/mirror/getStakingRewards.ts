@@ -4,6 +4,7 @@ import networks from '../../../utils/networks';
 import { parseContractsData, STAKING_CONTRACT } from './utils';
 
 const STAKING_CONTRACT_NAME = 'StakingReward';
+
 const GET_CONTRACT = (name: string) => gql`
 query ${name} ($contract: String, $msg: String) {
   WasmContractsContractAddressStore(

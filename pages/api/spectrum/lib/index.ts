@@ -53,7 +53,7 @@ const getHoldings = (balance, price) => {
   if (balance !== '0') {
     const specBalance = (parseFloat(balance) / UNIT).toString(); 
     const value = times(specBalance, price);
-    return [{name: 'Spectrum', symbol: 'SPEC',balance: specBalance, price, value}]
+    return [{name: 'Spectrum', symbol: 'SPEC', contract: contracts.specToken ,balance: specBalance, price, value}]
   }
   return [];
 }
@@ -67,7 +67,7 @@ const fetchData = async (address: string) => {
   return result;
 }
 
-export const getAccount = async (address: string) => {
+export const getSpectrumAccount = async (address: string) => {
   const [userSpec, specPool, specBalance, farmData] = await fetchData(address);
   const specPrice =  specPool ? getSpecPrice(specPool) : '0';
 

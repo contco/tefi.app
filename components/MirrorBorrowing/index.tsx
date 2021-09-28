@@ -1,94 +1,25 @@
-import { MirrorBorrowTitle } from '../../constants';
-import { Heading, HeadingWrapper, Row, StyledTextContainer, SimpleText, StyledText, Title, Wrapper, CSS_APR, SubText } from '../dashboardStyles';
-import { Box, Flex } from '@contco/core-ui';
-import { convertToFloatValue } from '../../utils/convertFloat';
+import { Heading, HeadingWrapper, Wrapper } from '../dashboardStyles';
+import TitleContainer from '../DashboardComponents/TitleContainer';
+import Header from '../../components/DashboardComponents/Header';
+import Section from '../../components/DashboardComponents/Section';
 
 const HEADING_TEXT = 'Mirror Borrow';
 
 export interface ShortFarmProps {
-  mirrorAssets: MirrorAccount;
+  borrow: any;
 }
 
-const ShortFarms: React.FC<ShortFarmProps> = ({ mirrorAssets }) => {
-  let short = mirrorAssets?.mirrorShortFarm;
-
-  const getBorrowedTotal = () => {
-    const short = mirrorAssets?.mirrorShortFarm;
-    const totalBorrowed = short.reduce((a, shortAsset) => a + parseFloat(shortAsset?.borrowInfo?.amountValue), 0);
-    return totalBorrowed.toString();
-  };
-
-  const getCollateralTotal = () => {
-    const short = mirrorAssets?.mirrorShortFarm;
-    const totalCollateral = short.reduce(
-      (a, shortAsset) => a + parseFloat(shortAsset?.collateralInfo?.collateralValue),
-      0,
-    );
-    return totalCollateral.toString();
-  };
-
-  const getMirBorrow = () => {
-    short = short
-      .slice()
-      .sort((a, b) => parseFloat(b?.collateralInfo?.collateralRatio) - parseFloat(a?.collateralInfo?.collateralRatio));
-    return short.map((assets: MirrorShortFarm, index) => (
-      <Row key={index}>
-        <StyledText fontWeight={500}> {assets?.assetInfo?.name}</StyledText>
-        <StyledText>{convertToFloatValue(assets?.assetInfo?.price)} UST</StyledText>
-        <Box>
-          <StyledText>
-            {convertToFloatValue(assets?.borrowInfo.amount)} {assets?.assetInfo?.symbol}
-          </StyledText>
-          <SubText>{convertToFloatValue(assets?.borrowInfo?.amountValue)} UST</SubText>
-        </Box>
-        <Box>
-          <StyledText>
-            {convertToFloatValue(assets?.collateralInfo?.collateral)} {assets?.collateralInfo?.csymbol}
-          </StyledText>
-          <SubText>
-            {assets?.collateralInfo?.csymbol === 'UST'
-              ? null
-              : convertToFloatValue(assets?.collateralInfo?.collateralValue) + ' UST'}
-          </SubText>
-        </Box>
-        <StyledText css={CSS_APR}>{parseFloat(assets?.collateralInfo?.collateralRatio).toFixed(2)}%</StyledText>
-      </Row>
-    ));
-  };
-
-  if (!short || short.length === 0) {
-    return <></>;
-  }
+const ShortFarms: React.FC<ShortFarmProps> = ({ borrow }) => {
+  if (JSON.stringify(borrow) === '{}') return <></>;
 
   return (
     <Wrapper>
       <HeadingWrapper>
         <Heading>{HEADING_TEXT}</Heading>
-        <Flex>
-          <StyledTextContainer>
-            <SimpleText>
-            <b>Borrowed:</b> &nbsp;
-            </SimpleText>
-          <SimpleText>
-          {convertToFloatValue(getBorrowedTotal()) + ' UST'}
-          </SimpleText>
-          </StyledTextContainer>
-          <StyledTextContainer>
-          <SimpleText>
-            <b>Collateral:</b> &nbsp;
-            </SimpleText>
-          <SimpleText>
-            {convertToFloatValue(getCollateralTotal())} UST
-          </SimpleText>
-          </StyledTextContainer>
-        </Flex>
+        <Header data={borrow.total} />
       </HeadingWrapper>
-      <Row>
-        {MirrorBorrowTitle.map((t, index) => (
-          <Title key={index}>{t}</Title>
-        ))}
-      </Row>
-      {getMirBorrow()}
+      <TitleContainer titles={borrow.titles} />
+      <Section data={borrow.data} />
     </Wrapper>
   );
 };
