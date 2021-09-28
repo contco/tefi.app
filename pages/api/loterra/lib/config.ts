@@ -1,5 +1,5 @@
 import { contracts } from "./contracts";
-import {wasmStoreRequest} from "../../commons";
+import {wasmStoreRequest} from "@contco/terra-utilities";
 
 export const getLoterraConfig = async () => {
     const params = {config: {}};

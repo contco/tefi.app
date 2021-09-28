@@ -1,6 +1,6 @@
 import React, { ReactNode, createContext, useState, useEffect } from 'react';
 import { TERRA_OBSERVER_URL } from '../../constants';
-import { getPrice } from '../../pages/api/commons';
+import { getPrice } from '@contco/terra-utilities';
 import { assets } from '../../constants/assets';
 import {fetchPairData, updateAssetPriceData} from './helpers';
 

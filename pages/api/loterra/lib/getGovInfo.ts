@@ -1,6 +1,6 @@
 import { div, times, plus } from '../../../../utils/math';
 import { UNIT } from '../../mirror/utils';
-import { getPrice } from '../../commons';
+import { getPrice } from '@contco/terra-utilities';
 
 const SYMBOL = "LOTA";
 const NAME = "LOTA Gov";
