@@ -4,9 +4,14 @@ import css from '@styled-system/css';
 import styled, { keyframes } from 'styled-components';
 import TEFI_LOGO from '../public/tefi.svg';
 
-const Container = styled(Flex)`
-  height: 90vh;
-  width: 100vw;
+interface Props {
+  height?: string;
+  width?: string;
+}
+
+const Container = styled<any>(Flex)`
+  height: ${(props: any) => props.height || '65vh'};
+  width: ${(props: any) => props.width || '80vw'};
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -50,9 +55,9 @@ const StyledLogo = styled(TEFI_LOGO)`
     })}
 `;
 
-const Loading: React.FC = () => {
+const Loading: React.FC<Props> = ({ height = '65vh', width = '80vw' }) => {
   return (
-    <Container>
+    <Container height={height} width={width}>
       <StyledLogo />
       <Text>searching the cosmos...</Text>
     </Container>
