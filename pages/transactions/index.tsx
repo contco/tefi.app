@@ -32,13 +32,13 @@ const Transactions: React.FC = ({ theme, changeTheme }: any) => {
 
   const getTransactionFunction = async () => {
     const data = await getTransaction('terra18jg24fpqvjntm2wfc0p47skqccdr9ldtgl5ac9');
+    console.log(data);
     setData(data);
   }
 
   useEffect(() => {
     getTransactionFunction();
-    console.log(data);
-   }, [data])
+   }, [])
 
   return (
     <div>
