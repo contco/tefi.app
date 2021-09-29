@@ -29,7 +29,7 @@ const txTypeIdentification = (logs) => {
       a.events.map((b) =>{
         switch (b.type) {
           case 'transfer':
-            type = 'sent'
+            type = 'send'
             let amount, symbol, recipient;
             b.attributes.map(c =>{
               if(c.key === 'amount'){
