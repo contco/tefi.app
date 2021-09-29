@@ -11,7 +11,7 @@ const Container = styled.div`
   width: 100%;
   ${(props) =>
     css({
-      height: [200, null, null, 200, null, 250],
+      height: [233, null, null, 233, null, 250],
       mb: [40, null, null, 60, null, 80],
       px: 4,
       bg: 'background',

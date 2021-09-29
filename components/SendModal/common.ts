@@ -10,6 +10,7 @@ export const ModalSmall = styled(Box)`
     boxSizing: 'borderBox',
     px: 4,
   })}
+  z-index: 1000;
 `;
 
 export const ContentContainer = styled(Flex)`
