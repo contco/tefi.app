@@ -15,13 +15,15 @@ export const getRewardData = (anchor, mirror, pylon, spectrum, loterra, starterr
     const mirrorTotal = mirror?.total?.mirrorPoolRewardsSum;
     const pylonPoolTotal = pylon?.pylonSum?.pylonPoolRewardsSum;
     const loterraRewards = loterra?.lotaGov?.rewardsValue ?? '0';
+    const loterraPoolRewards = loterra?.lotaPool?.rewards ?? '0';
     const starterraRewards = starterra?.govRewardsTotal;
     const total =
       parseFloat(mirrorTotal) +
       parseFloat(ancTotal) +
       parseFloat(pylonPoolTotal) +
       parseFloat(loterraRewards) +
-      parseFloat(starterraRewards);
+      parseFloat(starterraRewards)+
+      parseFloat(loterraPoolRewards)
 
     return total.toString() ?? '0';
   };

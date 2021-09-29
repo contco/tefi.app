@@ -1,3 +1,4 @@
+import { assets } from '../../constants/assets';
 import {
   getAirdropsData,
   getAnchorBondData,
@@ -44,6 +45,7 @@ export const assignData = (data) =>
           data?.assets?.mirror,
           data?.assets?.pylon,
           data?.assets?.terraSwapPool,
+          data?.assets.loterra
         ),
         rewards: getRewardData(
           data?.assets?.anchor,
