@@ -37,10 +37,10 @@ const AssetsDataProvider: React.FC<Props> = ({ children }) => {
 
   useEffect(() => {
     const walletAddress = connectedWallet?.terraAddress;
-    if (localAddress) {
-      setAddress(localAddress);
-    } else if (walletAddress) {
+    if (walletAddress) {
       setAddress(walletAddress);
+    } else if (localAddress) {
+      setAddress(localAddress);
     }
   }, [localAddress, connectedWallet]);
 

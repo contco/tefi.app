@@ -1,8 +1,8 @@
 import { SWAP_TOKENS } from "./symbols";
-import { getPoolInfo, getUserTokenBalance, getPrice } from "../commons";
-import { times, div, plus } from "../../../utils/math";
-import { UNIT } from "../mirror/utils";
+import { getPoolInfo, getPrice, getUserTokenBalance, math, MICRO } from "@contco/terra-utilities";
 import { fetchData } from "../commons";
+
+const { times, div, plus } = math;
 
 const BASSETS_INFO = 'https://api.anchorprotocol.com/api/v1/bassets/';
 
@@ -32,7 +32,7 @@ export const fetchTerraSwapHoldings = async (address: string, lunaUstPrice?: str
                 else {
                     price = bEthInfo?.data?.beth_price
                 }
-                const bondedBalance = div(balance, UNIT);
+                const bondedBalance = div(balance, MICRO);
                 const value = times(bondedBalance, price);
                 terraSwapHoldingsSum = plus(terraSwapHoldingsSum, value);
                 terraSwapHoldings.push({ name: item.name, symbol: item.symbol, contract: item.token_addr, value, balance: bondedBalance, price });

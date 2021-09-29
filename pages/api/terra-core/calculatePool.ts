@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getPrice, isLunaPair, isNoneNativePair } from "@contco/terra-utilities";
 import { UNIT } from "../mirror/utils";
 import { getLpValue } from "../utils";
 import { times } from "../../../utils/math"
@@ -6,8 +7,8 @@ import pairs from './constants/pairs.json'
 import tokens from './constants/mainnet-tokens.json';
 import { UUSD_DENOM } from "./symbols";
 const FCD_URL = "https://fcd.terra.dev/v1/";
-import { getPrice, getPriceBySymbol, isLunaPair, isNoneNativePair } from "../commons";
 import { getTokenData } from "../spectrum/lib/coinInfos";
+import { getPriceBySymbol } from "../commons";
 
 export const getPoolValues = (lpBalance: number, lpValue: number, price: number, isLuna = false, lunaPrice?: number, isNoneNative =false, tokenPrice?:number) => {
     let token1UnStaked = null

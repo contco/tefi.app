@@ -1,4 +1,4 @@
-import { getPoolInfo, wasmStoreRequest } from '../../commons';
+import { getPoolInfo, wasmStoreRequest } from '@contco/terra-utilities';
 import { contracts } from './contracts';
 import { getLpStakingInfo } from './getLpStaking';
 import { getGovInfo } from './getGovInfo';

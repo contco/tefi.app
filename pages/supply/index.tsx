@@ -14,7 +14,7 @@ const Supply: React.FC = ({ theme, changeTheme }: any) => {
   });
 
   if (loading || error) {
-    return <Loading />;
+    return <Loading height="90vh" width="100vw" />;
   }
 
   return (

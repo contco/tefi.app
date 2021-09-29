@@ -1,10 +1,8 @@
 import {fetchUserGovStaking, getStarTerraGov} from './gov';
 import {fetchUserStarTerraStakingPools, fetchUserLpData, getStarTerraPools} from './pools';
-import { poolHelpers} from '@contco/terra-utilities';
+import { getPoolInfo, getPrice} from '@contco/terra-utilities';
 
 import {contracts} from './contracts';
-
-const {getPoolInfo, getPrice} = poolHelpers;
 
 const fetchData = async (address: string) => {
    const userGovStaking = fetchUserGovStaking(address);

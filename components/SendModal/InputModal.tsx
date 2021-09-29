@@ -17,6 +17,7 @@ const AMOUNT_ERROR = 'Amount should be less than balance';
 const TAX_ERROR = 'Balance not enough to pay fee';
 const AMOUNT_DECIMAL_ERROR = 'Amount must be within 6 decimal points';
 const UST_DENOM = 'uusd';
+const TIP_MEMO = 'Tip via TefiApp';
 
 export const ModalBox = styled(Box)`
   ${css({
@@ -145,26 +146,50 @@ interface SendInput {
   memo: string;
 }
 
-export const InputModal = ({onSend}) => {
+export const InputModal = ({onSend, isTip, tipAddress}) => {
   const {data, loading} = useAssetsDataContext();
   const [input, setInput] = useState<SendInput>(DEFAULT_INPUT_STATE);
   const [selectedAsset, setAsset] = useState<Holdings | null>(null);
+  const [assets, setAssets] = useState<Holdings[]>([]);
   const [txFee, setTxFee] = useState<string>(DEFAULT_TX_STATE);
   const [isTxCalculated, setIsTxCalculated] = useState(false);
   const [simulationLoading, setSimulationLoading] = useState(false);
   const {useConnectedWallet} = useWallet();
 
-  const assets: any  = data ? [...data?.assets?.core?.coins, ...data?.assets?.anchor?.assets,  ...data?.assets?.mirror?.mirrorHoldings, ...data?.assets?.pylon?.pylonHoldings, ...data?.assets?.spectrum?.specHoldings] : [];
-  const ustAsset: any = assets.filter((asset: Holdings) => asset.denom === UST_DENOM);
+  const ustAsset: any = useMemo(() => {
+   const filteredAssets =  assets.filter((asset: Holdings) => asset.denom === UST_DENOM);
+   if(filteredAssets.length === 0) {
+     return {balance: '0', denom: "uusd", symbol: 'UST'};
+   }
+   else return filteredAssets[0];
+  }, [assets]);
+
 
   const connectedWallet = useConnectedWallet();
   const walletAddress = connectedWallet?.terraAddress;
 
   useEffect(() => {
-    if(!selectedAsset  && assets.length > 0) {
+    if(isTip) {
+      setInput({...input, address: tipAddress, memo: TIP_MEMO })
+    }
+
+  }, [isTip, tipAddress]);
+
+
+  useEffect(() => {
+    const assetsList: any  = data ? [...data?.assets?.core?.coins, ...data?.assets?.anchor?.assets,  ...data?.assets?.mirror?.mirrorHoldings, ...data?.assets?.pylon?.pylonHoldings, ...data?.assets?.spectrum?.specHoldings] : [];
+    const sortedAssets = assetsList.sort((a,b) => parseFloat(b?.balance) - parseFloat(a?.balance));
+    setAssets(sortedAssets);
+  }, [data])
+
+  useEffect(() => {
+    if(isTip) {
+      setAsset(ustAsset);
+    }
+    else if(assets.length > 0) {
       setAsset(assets[0]);
     }
-  }, [assets])
+  }, [assets, ustAsset, isTip])
   
   const resetTxState = () =>{
     if(isTxCalculated) {
@@ -268,7 +293,7 @@ export const InputModal = ({onSend}) => {
       <InputSection>
         <InputContainer>
           <InputLabel>Send To</InputLabel>
-          <Input error={input.address !== '' && !isValidAddress} onChange={onChange} name='address' type='text' placeholder="Address" />
+          <Input disabled={isTip} defaultValue={isTip ? tipAddress : ''} error={input.address !== '' && !isValidAddress} onChange={onChange} name='address' type='text' placeholder="Address" />
         </InputContainer>
         <InputContainer>
           <InputLabel>Amount</InputLabel>
@@ -283,7 +308,7 @@ export const InputModal = ({onSend}) => {
         </InputContainer>
         <InputContainer>
           <InputLabel>Memo (Optional)</InputLabel>
-          <Input onChange={onChange} name='memo' type='text' placeholder="MEMO" />
+          <Input disabled={isTip} defaultValue={isTip ? TIP_MEMO : ''} onChange={onChange} name='memo' type='text' placeholder="MEMO" />
         </InputContainer>
       </InputSection>
       <FeeSection>

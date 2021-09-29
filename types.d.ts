@@ -322,6 +322,12 @@ interface ModalDisplayState {
   isVisible: boolean;
   setVisible: (state: boolean) => void;
 }
+interface SendModalTipState {
+  isTip: boolean;
+  setIsTip: (state: boolean) => void;
+  tipAddress: string;
+  setTipAddress: (state: string) => void;
+}
 interface StarStakedData {
   lpName: string;
   faction: string;

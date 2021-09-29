@@ -1,5 +1,5 @@
 import { contracts } from "./contracts";
-import {wasmStoreRequest} from "../../commons";
+import { wasmStoreRequest } from "@contco/terra-utilities";
 import { div } from "../../../../utils/math";
 import { UNIT } from "../../mirror/utils";
 
