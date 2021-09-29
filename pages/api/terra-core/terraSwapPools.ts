@@ -1,8 +1,6 @@
-import axios from "axios";
-import { LCD_URL } from "../utils";
+import { wasmStoreRequest } from "@contco/terra-utilities";
 import { calculatePoolData } from "./calculatePool";
 import pairs from './constants/pairs.json'
-import { wasmStoreRequest } from "../commons";
 
 const fetchPoolResponseData = async (address: string) => {
     const queryMessage = {

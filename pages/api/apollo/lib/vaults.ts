@@ -1,9 +1,7 @@
-import {wasmStoreRequest} from '../../commons/wasm';
+import {wasmStoreRequest, getPoolInfo, getPrice} from '@contco/terra-utilities';
 import {apolloDaoContracts} from './contracts';
 import { pairInfoList } from '../../spectrum/lib/pairInfoList';
-import { getPoolInfo } from '../../commons';
 import { getLpValue } from '../../utils';
-import { getPrice } from '../../commons';
 import { UNIT } from '../../mirror/utils';
 import { getPoolSymbol } from './getPoolSymbol';
 

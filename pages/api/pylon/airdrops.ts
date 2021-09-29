@@ -1,5 +1,5 @@
 import axios from "axios";
-import { wasmStoreRequest } from "../commons/index";
+import { wasmStoreRequest } from "@contco/terra-utilities";
 import { LCD_URL } from "../utils";
 import { contracts, PYLON_TOKEN_NAME, PYLON_TOKEN_SYMBOL } from "./constants";
 

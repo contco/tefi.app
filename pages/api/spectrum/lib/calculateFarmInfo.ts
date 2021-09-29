@@ -2,7 +2,7 @@ import { contracts } from "./contracts";
 import BigNumber from "bignumber.js";
 import { UNIT } from "../../mirror/utils";
 import { getLpValue } from "../../utils";
-import { getPrice } from "../../commons";
+import { getPrice } from "@contco/terra-utilities";
 import { coinSymbolList } from "./coinInfos/list";
 
 export const getPoolValues = (lpBalance: number, lpValue: number, price: number) => {
