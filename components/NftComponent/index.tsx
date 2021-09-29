@@ -21,11 +21,12 @@ const BigCircle = styled(Flex)`
   align-items: flex-start;
   justify-content: center;
   margin: 0 auto;
-  ${css({
-    width: ['170px', null, '200px'],
-    height: ['170px', null, '200px'],
-    bg: 'secondary',
-  })};
+  ${(props) =>
+    css({
+      width: props.isBig ? ['170px', null, '300px'] : ['170px', null, '200px'],
+      height: props.isBig ? ['170px', null, '300px'] : ['170px', null, '200px'],
+      bg: 'secondary',
+    })};
 `;
 
 const BigText = styled(Text)`
@@ -41,17 +42,21 @@ const BigText = styled(Text)`
 
 interface Props {
   currentTheme: string;
+  text?: string;
+  isBig?: boolean;
 }
 
-const NftComponent: React.FC<Props> = ({ currentTheme }) => {
+const DEFAULT_TEXT = 'COMING SOON';
+
+const NftComponent: React.FC<Props> = ({ currentTheme, text = DEFAULT_TEXT, isBig = false }) => {
   return (
     <MainContainer>
       <Container>
-        <BigCircle>
+        <BigCircle isBig={isBig}>
           <Logo width="100%" currentTheme={currentTheme} />
         </BigCircle>
         <Box>
-          <BigText>COMING SOON</BigText>
+          <BigText>{text}</BigText>
         </Box>
       </Container>
     </MainContainer>

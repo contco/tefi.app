@@ -240,4 +240,13 @@ export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
   };
 };
 
+export async function getServerSideProps(context) {
+  return {
+    redirect: {
+      destination: '/col-5',
+      permanent: false,
+    },
+  };
+}
+
 export default Home;

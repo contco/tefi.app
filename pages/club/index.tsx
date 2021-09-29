@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback} from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
 import css from '@styled-system/css';
@@ -15,7 +15,6 @@ import { WalletConnectType } from '../../constants';
 import { throttle, difference } from 'lodash';
 import { LoadingIcon } from '../../components/Icons';
 import { useDeviceDetect } from '../../contexts';
-
 
 const ADDRESS = 'terra1lpccq0w9e36nlzhx3m6t8pphx8ncavslyul29g';
 const SEND_AMOUNT = '0.1';
@@ -64,7 +63,7 @@ const ConnectButton = styled(Flex)`
 const StyledLoading = styled(LoadingIcon)`
   ${css({
     my: 4,
-    color: 'secondary'
+    color: 'secondary',
   })}
 `;
 
@@ -76,7 +75,7 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts, next }: any)
   const { onConnect, useConnectedWallet, post } = useWallet();
   const connectedWallet = useConnectedWallet();
   const [loading, setLoading] = useState(false);
-  const [nextOffset, _setNextOffset] = useState<boolean | number> (next); 
+  const [nextOffset, _setNextOffset] = useState<boolean | number>(next);
   const [isInfiniteLoading, _setIsInfiniteLoading] = useState<boolean>(false);
   const nextOffsetRef = React.useRef(nextOffset);
   const isInfiniteLoadingRef = React.useRef(false);
@@ -85,19 +84,19 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts, next }: any)
   const setFeedPosts = (posts: any) => {
     feedPostsRef.current = posts;
     _setFeedPosts(posts);
-  }
+  };
 
   const setNextOffset = (next: number | boolean) => {
     nextOffsetRef.current = next;
     _setNextOffset(next);
-  }
+  };
 
   const setIsInfiniteLoading = (loading: boolean) => {
     isInfiniteLoadingRef.current = loading;
     _setIsInfiniteLoading(loading);
-  }
+  };
 
-  const {isMobile} = useDeviceDetect();
+  const { isMobile } = useDeviceDetect();
 
   useEffect(() => {
     if (posts) {
@@ -107,9 +106,9 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts, next }: any)
 
   const refetchLatestPosts = async () => {
     setLoading(true);
-    const {posts: latestPosts} = await getPost();
+    const { posts: latestPosts } = await getPost();
     setLoading(false);
-    if(latestPosts.length && feedPosts.length) {
+    if (latestPosts.length && feedPosts.length) {
       const newlyAddedPosts = difference(latestPosts, feedPosts);
       setFeedPosts([...newlyAddedPosts, ...feedPosts]);
     }
@@ -126,11 +125,11 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts, next }: any)
     }
   }, [connectedWallet?.terraAddress]);
 
-  const fetchMoreFeeds = async () => {  
-    if(nextOffsetRef.current && !isInfiniteLoadingRef.current) {
+  const fetchMoreFeeds = async () => {
+    if (nextOffsetRef.current && !isInfiniteLoadingRef.current) {
       setIsInfiniteLoading(true);
       const offset = nextOffsetRef.current as number;
-      const {posts, next} = await getPost(offset);
+      const { posts, next } = await getPost(offset);
       setNextOffset(next);
       setFeedPosts([...feedPostsRef.current, ...posts]);
       setIsInfiniteLoading(false);
@@ -139,19 +138,19 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts, next }: any)
 
   const withThrottleFeedScroll = useCallback(
     throttle(() => {
-        fetchMoreFeeds();
+      fetchMoreFeeds();
     }, 500),
     [nextOffset],
   );
 
   useEffect(() => {
     const onScroll = () => {
-        const totalHeight = document.documentElement.scrollHeight * 0.75;
-        const currentScrollHeight = document.documentElement.scrollTop + window.innerHeight;
-        if(currentScrollHeight >= totalHeight) {
-         withThrottleFeedScroll();
-        }
-    }
+      const totalHeight = document.documentElement.scrollHeight * 0.75;
+      const currentScrollHeight = document.documentElement.scrollTop + window.innerHeight;
+      if (currentScrollHeight >= totalHeight) {
+        withThrottleFeedScroll();
+      }
+    };
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -218,18 +217,26 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts, next }: any)
           <Posts data={feedPosts} />
         </InnerContainer>
         <ConnectModal showModal={showModal} setModalVisible={setModalVisible} />
-       {isInfiniteLoading ? <StyledLoading />: null }
+        {isInfiniteLoading ? <StyledLoading /> : null}
       </Container>
     </>
   );
 };
 
-export async function getServerSideProps() {
-  const {posts, next} = await getPost();
+// export async function getServerSideProps() {
+//   const { posts, next } = await getPost();
+//   return {
+//     props: {
+//       posts,
+//       next,
+//     },
+//   };
+// }
+export async function getServerSideProps(context) {
   return {
-    props: {
-      posts,
-      next
+    redirect: {
+      destination: '/col-5',
+      permanent: false,
     },
   };
 }

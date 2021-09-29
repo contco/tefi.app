@@ -28,9 +28,19 @@ type Props = {
   onRefresh?: () => void;
   refreshing?: boolean;
   isViewOnly?: boolean;
+  hideMenu?: boolean;
 };
 
-const Header: React.FC<Props> = ({ theme, changeTheme, address, addressType, onRefresh, refreshing, isViewOnly = false }) => {
+const Header: React.FC<Props> = ({
+  theme,
+  changeTheme,
+  address,
+  addressType,
+  onRefresh,
+  refreshing,
+  isViewOnly = false,
+  hideMenu = false,
+}) => {
   const [isVisible, setVisible] = useState<boolean>(false);
   const [displayMenu, setDisplayMenu] = useState<boolean>(false);
 
@@ -77,22 +87,26 @@ const Header: React.FC<Props> = ({ theme, changeTheme, address, addressType, onR
                 <WalletCopyTooltip isVisible={isVisible}>Copied!</WalletCopyTooltip>
               </WalletCopyContainer>
               <StyledAddressText>{slicedAddress}</StyledAddressText>
-             <CloseIcon showIcon={!isViewOnly} onClick={onDisconnect} />
+              <CloseIcon showIcon={!isViewOnly} onClick={onDisconnect} />
             </WalletContainer>
           ) : null}
-          <HoverContainer isActive={displayMenu} onClick={onMenuClick}>
-            <StyledMenuIcon />
-          </HoverContainer>
+          {!hideMenu && (
+            <HoverContainer isActive={displayMenu} onClick={onMenuClick}>
+              <StyledMenuIcon />
+            </HoverContainer>
+          )}
         </RightSection>
       </Container>
-      <Menu
-        theme={theme}
-        changeTheme={changeTheme}
-        isVisible={displayMenu}
-        setVisibility={setDisplayMenu}
-        onRefresh={onRefresh}
-        refreshing={refreshing}
-      />
+      {!hideMenu && (
+        <Menu
+          theme={theme}
+          changeTheme={changeTheme}
+          isVisible={displayMenu}
+          setVisibility={setDisplayMenu}
+          onRefresh={onRefresh}
+          refreshing={refreshing}
+        />
+      )}
     </>
   );
 };

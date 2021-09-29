@@ -108,4 +108,13 @@ const Docs: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
   );
 };
 
+export async function getServerSideProps(context) {
+  return {
+    redirect: {
+      destination: '/col-5',
+      permanent: false,
+    },
+  };
+}
+
 export default Docs;

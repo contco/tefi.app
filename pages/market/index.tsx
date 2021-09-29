@@ -11,10 +11,19 @@ export default function Page() {
   return null;
 }
 
-export async function getServerSideProps(_) {
+// export async function getServerSideProps(_) {
+//   return {
+//     redirect: {
+//       destination: '/market/luna',
+//       permanent: false,
+//     },
+//   };
+// }
+
+export async function getServerSideProps(context) {
   return {
     redirect: {
-      destination: '/market/luna',
+      destination: '/col-5',
       permanent: false,
     },
   };

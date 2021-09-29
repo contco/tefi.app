@@ -11,7 +11,7 @@ interface LogoProps {
 export const Logo = ({ width, currentTheme }: LogoProps) => {
   const centerX = 69.560811;
   const centerY = 69.604167;
-  const rMax = 48;
+  const rMax = 50;
 
   const [{ x, y, cursor }, api] = useSpring(() => ({
     x: centerX,

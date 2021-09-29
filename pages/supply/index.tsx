@@ -28,4 +28,13 @@ const Supply: React.FC = ({ theme, changeTheme }: any) => {
   );
 };
 
+export async function getServerSideProps(context) {
+  return {
+    redirect: {
+      destination: '/col-5',
+      permanent: false,
+    },
+  };
+}
+
 export default Supply;
