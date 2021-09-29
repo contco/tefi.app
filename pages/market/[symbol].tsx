@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { Line, LineChart, ResponsiveContainer, Tooltip } from 'recharts';
 import styled, { useTheme } from 'styled-components';
-import { GetStaticPaths } from 'next';
+// import { GetStaticPaths } from 'next';
 import Header from '../../components/Header';
 import { AssetDetails } from '../../components/Market/AssetDetails';
 import { assets } from '../../constants/assets';
@@ -216,22 +216,22 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
   );
 };
 
-export async function getStaticProps({ params: { symbol } }) {
-  if (!assets[symbol])
-    return {
-      redirect: {
-        destination: '/market/luna',
-        permanent: false,
-      },
-    };
+// export async function getStaticProps({ params: { symbol } }) {
+//   if (!assets[symbol])
+//     return {
+//       redirect: {
+//         destination: '/market/luna',
+//         permanent: false,
+//       },
+//     };
 
-  return {
-    props: {
-      pairData: await fetchPairData(),
-    },
-    revalidate: 5,
-  };
-}
+//   return {
+//     props: {
+//       pairData: await fetchPairData(),
+//     },
+//     revalidate: 5,
+//   };
+// }
 
 // export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
 //   return {
