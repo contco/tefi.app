@@ -373,6 +373,7 @@ export const getAssets = gql`
           totalStaked
           rewards
           rewardsValue 
+          rewardsSymbol
           apy
         }
         

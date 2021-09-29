@@ -17,8 +17,11 @@ export const getRewardData = (anchor, mirror, pylon, spectrum, loterra, starterr
     const loterraRewards = loterra?.lotaGov?.rewardsValue ?? '0';
     const starterraRewards = starterra?.govRewardsTotal;
     const total =
-      parseFloat(mirrorTotal) + parseFloat(ancTotal) + parseFloat(pylonPoolTotal) + parseFloat(loterraRewards)
-      + parseFloat(starterraRewards);
+      parseFloat(mirrorTotal) +
+      parseFloat(ancTotal) +
+      parseFloat(pylonPoolTotal) +
+      parseFloat(loterraRewards) +
+      parseFloat(starterraRewards);
 
     return total.toString() ?? '0';
   };
@@ -34,10 +37,10 @@ export const getRewardData = (anchor, mirror, pylon, spectrum, loterra, starterr
     return govStaked;
   };
 
-  const pool = [...pylon?.pylonPool, ...mirror?.mirrorStaking, ...anchor.pool].sort(
+  const pool = [...pylon?.pylonPool, ...mirror?.mirrorStaking, ...anchor.pool, loterra?.lotaPool].sort(
     (a, b) => b.rewardsValue - a.rewardsValue,
   );
-  
+
   const starTerraGov = starterra.starTerraGov ? starterra.starTerraGov : [];
   const gov = [pylon?.gov, spectrum?.specGov, mirror?.gov, anchor?.gov, loterra?.lotaGov, ...starTerraGov]
     .filter((item) => item != null)
@@ -100,7 +103,7 @@ export const getRewardData = (anchor, mirror, pylon, spectrum, loterra, starterr
   const poolData =
     pool && pool.length > 0
       ? pool.map((assets: Pool) => {
-          const ap = assets?.apy ? { apy: formatApr(assets.apy) + '%' } : { apr: formatApr(assets.apr) + '%' };
+          const ap = assets?.apy ? { apy: assets.apy + '%' } : { apr: formatApr(assets.apr) + '%' };
           return [
             { name: assets?.lpName },
             {

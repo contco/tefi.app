@@ -66,7 +66,7 @@ export const getLoterraStaking = async (address: string) => {
     const rewards = lpRewardsInfo?.rewards / UNIT;
     const APY = calculateAPY(poolInfo, stateLpStakingInfo);
     const rewardsValue = price * rewards;
-    const lotaPool = { ...lotaPoolInfo, rewards, rewardsValue, ...APY };
+    const lotaPool = { ...lotaPoolInfo, rewards, rewardsValue , rewardsSymbol: 'Lota', ...APY };
     return { lotaGov, lotaPool };
   } catch (err) {
     return null;

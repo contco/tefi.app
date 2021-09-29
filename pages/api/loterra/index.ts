@@ -49,6 +49,7 @@ const typeDefs = gql`
     totalStaked: String!
     rewards: String!
     rewardsValue: String!
+    rewardsSymbol: String!
     apy: String!
   }
  
