@@ -233,12 +233,12 @@ export async function getStaticProps({ params: { symbol } }) {
   };
 }
 
-export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
-  return {
-    paths: [],
-    fallback: 'blocking',
-  };
-};
+// export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
+//   return {
+//     paths: [],
+//     fallback: 'blocking',
+//   };
+// };
 
 export async function getServerSideProps(context) {
   return {
