@@ -12,6 +12,11 @@ interface Props {
 const Container = styled<any>(Flex)`
   height: ${(props: any) => props.height || '65vh'};
   width: ${(props: any) => props.width || '80vw'};
+
+  @media (max-width: 530px) {
+    width: ${(props: any) => props.width === '80vw' ? '90vw': '100vw'};
+  }
+
   display: flex;
   flex-direction: column;
   justify-content: center;
