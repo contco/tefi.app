@@ -1,16 +1,12 @@
 import { contracts } from "../contracts";
 import { getRewardInfos, getFarmConfig, createPairStats } from "../utils";
-import { borrowAPYQuery } from "../../../anchor/lib/borrow";
 import BigNumber from 'bignumber.js';
-
-const ANCHOR_MANTLE = 'https://mantle.anchorprotocol.com';
 
 export const getAnchorPairStatsData = async (height) => {
     const rewardInfoPromise = getRewardInfos(height, contracts.anchorFarm, contracts.anchorStaking);
     const farmConfigPromise =  getFarmConfig(contracts.anchorFarm);
-    const anchorApyStatsPromise = borrowAPYQuery(ANCHOR_MANTLE);
-    const [rewardInfo, farmConfig, anchorApyStats] = await Promise.all([rewardInfoPromise, farmConfigPromise, anchorApyStatsPromise]);
-    return {rewardInfo, farmConfig, anchorApyStats};
+    const [rewardInfo, farmConfig] = await Promise.all([rewardInfoPromise, farmConfigPromise]);
+    return {rewardInfo, farmConfig, anchorApyStats: null};
 }
 
 export const calculateAnchorPairStats =  (anchorPairStatsData, poolInfos, govVaults, govConfig, terraSwapPoolResponses) => {

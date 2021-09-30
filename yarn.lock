@@ -1823,6 +1823,24 @@
     utf-8-validate "^5.0.2"
     ws "^7.4.2"
 
+"@terra-money/terra.js@^2.0.14":
+  version "2.0.14"
+  resolved "https://registry.yarnpkg.com/@terra-money/terra.js/-/terra.js-2.0.14.tgz#3195ed184524f926196b0b0ef15ae177ece148d1"
+  integrity sha512-GeMadRIPaOedODa5a0pJ2+76l7MeFSIfSJZ2vvWPRco6MRIQLw/k0cZpPKMLm2Zo54li/oY1mrR+r3uxLM7q3Q==
+  dependencies:
+    axios "^0.21.1"
+    bech32 "^2.0.0"
+    bip32 "^2.0.6"
+    bip39 "^3.0.3"
+    bufferutil "^4.0.3"
+    decimal.js "^10.2.1"
+    jscrypto "^1.0.1"
+    readable-stream "^3.6.0"
+    secp256k1 "^4.0.2"
+    tmp "^0.2.1"
+    utf-8-validate "^5.0.5"
+    ws "^7.4.2"
+
 "@terra-money/wallet-provider@^0.15.0":
   version "0.15.0"
   resolved "https://registry.npmjs.org/@terra-money/wallet-provider/-/wallet-provider-0.15.0.tgz"
@@ -3128,6 +3146,13 @@ bufferutil@^4.0.1:
   version "4.0.3"
   resolved "https://registry.npmjs.org/bufferutil/-/bufferutil-4.0.3.tgz"
   integrity sha512-yEYTwGndELGvfXsImMBLop58eaGW+YdONi1fNjTINSY98tmMmFijBG6WXgdkfuLNt4imzQNtIE+eBp1PVpMCSw==
+  dependencies:
+    node-gyp-build "^4.2.0"
+
+bufferutil@^4.0.3:
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/bufferutil/-/bufferutil-4.0.4.tgz#ab81373d313a6ead0d734e98c448c722734ae7bb"
+  integrity sha512-VNxjXUCrF3LvbLgwfkTb5LsFvk6pGIn7OBb9x+3o+iJ6mKw0JTUp4chBFc88hi1aspeZGeZG9jAIbpFYPQSLZw==
   dependencies:
     node-gyp-build "^4.2.0"
 
@@ -5117,6 +5142,11 @@ js-yaml@^3.13.1:
   dependencies:
     argparse "^1.0.7"
     esprima "^4.0.0"
+
+jscrypto@^1.0.1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/jscrypto/-/jscrypto-1.0.2.tgz#2775430a39589693efb31d41421b103200c87dae"
+  integrity sha512-r+oNJLGTv1nkNMBBq3c70xYrFDgJOYVgs2OHijz5Ht+0KJ0yObD0oYxC9mN72KLzVfXw+osspg6t27IZvuTUxw==
 
 jsesc@^2.5.1:
   version "2.5.2"
@@ -7687,6 +7717,13 @@ utf-8-validate@^5.0.2:
   version "5.0.4"
   resolved "https://registry.npmjs.org/utf-8-validate/-/utf-8-validate-5.0.4.tgz"
   integrity sha512-MEF05cPSq3AwJ2C7B7sHAA6i53vONoZbMGX8My5auEVm6W+dJ2Jd/TZPyGJ5CH42V2XtbI5FD28HeHeqlPzZ3Q==
+  dependencies:
+    node-gyp-build "^4.2.0"
+
+utf-8-validate@^5.0.5:
+  version "5.0.6"
+  resolved "https://registry.yarnpkg.com/utf-8-validate/-/utf-8-validate-5.0.6.tgz#e1b3e0a5cc8648a3b44c1799fbb170d1aaaffe80"
+  integrity sha512-hoY0gOf9EkCw+nimK21FVKHUIG1BMqSiRwxB/q3A9yKZOrOI99PP77BxmarDqWz6rG3vVYiBWfhG8z2Tl+7fZA==
   dependencies:
     node-gyp-build "^4.2.0"
 

@@ -5,7 +5,7 @@ import { secondsToDate, UNIT } from '../../mirror/utils';
 import { getPrice } from '../../terra-core/core';
 import { LUNA_DENOM } from '../../terra-core/symbols';
 
-const URL = 'https://mantle.anchorprotocol.com/';
+const URL = 'https://mantle.terra.dev/';
 const BASSETS_INFO = 'https://api.anchorprotocol.com/api/v1/bassets/';
 
 const WITHDRAWABLE_REQUEST_QUERY = (address, blockTime) =>
