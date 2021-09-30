@@ -9,6 +9,7 @@ import axios from 'axios';
 import { ancPriceQuery } from './ancPrice';
 import { fetchData } from '../../commons';
 import { UNIT } from '../../mirror/utils';
+import { getAnchorApyStats } from './getAncApyStats';
 
 const LCDURL = 'https://lcd.terra.dev/';
 const name = 'UST Borrow';
@@ -42,29 +43,6 @@ export const REWARDS_CLAIMABLE_UST_BORROW_REWARDS_QUERY = `
       QueryMsg: $marketStateQuery
     ) {
       Result
-    }
-  }
-`;
-
-export const BORROW_APY_QUERY = `
-  query {
-    borrowerDistributionAPYs: AnchorBorrowerDistributionAPYs(
-      Order: DESC
-      Limit: 1
-    ) {
-      Height
-      Timestamp
-      DistributionAPY
-    }
-    govRewards: AnchorGovRewardRecords(Order: DESC, Limit: 1) {
-      CurrentAPY
-      Timestamp
-      Height
-    }
-    lpRewards: AnchorLPRewards(Order: DESC, Limit: 1) {
-      Height
-      Timestamp
-      APY
     }
   }
 `;
@@ -184,12 +162,8 @@ export const rewardsClaimableUstBorrowRewardsQuery = async (mantleEndpoint, addr
   };
 };
 
-export async function borrowAPYQuery(mantleEndpoint) {
-  return await mantleFetch(BORROW_APY_QUERY, {}, `${mantleEndpoint}?borrow--apy`);
-}
-
 export const getBorrowRate = async () => {
-  const market_states = await axios.get('https://mantle.anchorprotocol.com/?borrow--market-states', {
+  const market_states = await axios.get(`${DEFAULT_MANTLE_ENDPOINTS['mainnet']}/?borrow--market-states`, {
     params: {
       query: BORROW_RATE_QUERY,
       variables: { marketContract: 'terra1sepfj7s0aeg5967uxnfk4thzlerrsktkpelm5s' },
@@ -216,14 +190,14 @@ export default async (address) => {
       getBorrowLimit({ address }),
       getBorrowedValue({ address }),
       getCollaterals({ address }),
-      borrowAPYQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']),
+      getAnchorApyStats(),
       rewardsClaimableUstBorrowRewardsQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet'], address),
       getPrice(LUNA_DENOM),
       getBorrowRate(),
       ancPriceQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet'])
     ]);
     const percentage = (parseFloat(borrowedValue) / parseFloat(borrowLimit)) * 100 * 0.6;
-    const distributionAPY = allRewards?.borrowerDistributionAPYs[0]?.DistributionAPY;
+    const distributionAPY = allRewards?.distributionAPY;
     const borrowApy = borrowRate?.data?.result?.rate * blocksPerYear;
     const netApy = (parseFloat(distributionAPY) - borrowApy).toString();
     const collaterals = collateralsData.resultCollateral.length > 0 ? collateralsData.resultCollateral : null;
