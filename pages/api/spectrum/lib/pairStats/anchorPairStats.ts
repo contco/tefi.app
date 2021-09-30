@@ -5,7 +5,7 @@ import BigNumber from 'bignumber.js';
 
 const ANCHOR_API_URL = 'https://api.anchorprotocol.com/api/v2/';
 
-export const fetchAnchoApyStats = async () => {
+const fetchAnchorApyStats = async () => {
   try {
     const {data: distributionAPY} = await axios.get(ANCHOR_API_URL + "distribution-apy");
     const {data: ustLpRewardApy} = await axios.get(ANCHOR_API_URL + "ust-lp-reward");
@@ -20,7 +20,7 @@ export const fetchAnchoApyStats = async () => {
 export const getAnchorPairStatsData = async (height) => {
     const rewardInfoPromise = getRewardInfos(height, contracts.anchorFarm, contracts.anchorStaking);
     const farmConfigPromise =  getFarmConfig(contracts.anchorFarm);
-    const anchorApyStatsPromise = fetchAnchoApyStats();
+    const anchorApyStatsPromise = fetchAnchorApyStats();
     const [rewardInfo, farmConfig, anchorApyStats] = await Promise.all([rewardInfoPromise, farmConfigPromise, anchorApyStatsPromise]);
     return {rewardInfo, farmConfig, anchorApyStats};
 }
