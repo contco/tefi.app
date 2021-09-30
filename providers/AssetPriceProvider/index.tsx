@@ -4,6 +4,8 @@ import { getPrice } from '@contco/terra-utilities';
 import { assets } from '../../constants/assets';
 import {fetchPairData, updateAssetPriceData} from './helpers';
 
+const CHAIN_ID = 'columbus-5';
+
 interface Prices {
   [key : string] : string;
 }
@@ -44,13 +46,13 @@ const AssetPriceProvider: React.FC<Props> = ({ children }) => {
     const connectWithTerraObserver = () => {
   
       ws.onopen = function () {
-        ws.send(JSON.stringify({ subscribe: 'ts_pool', chain_id: 'columbus-4' }));
+        ws.send(JSON.stringify({ subscribe: 'ts_pool', chain_id: CHAIN_ID }));
       };
 
       ws.onmessage = function (message) {
         const messageData = JSON.parse(message?.data);
         Object.keys(assets).map((key: string) => {
-          if (assets?.[key]?.poolAddress === messageData?.data?.contract && messageData.chain_id === 'columbus-4') {
+          if (assets?.[key]?.poolAddress === messageData?.data?.contract && messageData.chain_id === CHAIN_ID) {
             const price = parseFloat(getPrice(messageData?.data?.pool)).toFixed(4);
             const newRealTimePrice = {...realTimePrices, [key]: price};
             setRealTimePrices(newRealTimePrice);
