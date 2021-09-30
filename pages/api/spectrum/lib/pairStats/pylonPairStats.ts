@@ -6,18 +6,28 @@ import BigNumber from 'bignumber.js';
 
 
 export const getPylonPairStatsData = async (height) => {
+  try {
     const rewardInfoPromise = getRewardInfos(height, contracts.pylonFarm, contracts.pylonStaking);
     const farmConfigPromise =  getFarmConfig(contracts.pylonFarm);
     const pylonApyPromise = getPylonApy();
     const [rewardInfo, farmConfig, pylonApy] = await Promise.all([rewardInfoPromise, farmConfigPromise, pylonApyPromise]);
     return {rewardInfo, farmConfig, ...pylonApy};
+  }
+  catch(err) {
+    return {rewardInfo: {bond_amount: '0'}, farmConfig: {community_fee: "0"},  govLpy: '0', lpApy: '0' }
+  }
 }
 
 const getPylonApy = async () => {
-  const [govData ,lpData] = await Promise.all([fetchData(PYLON_API_ENDPOINT+'governance/v1/overview'), fetchData(PYLON_API_ENDPOINT+'liquidity/v1/overview')]);
-  const govApy =  govData?.data?.apy ? govData?.data?.apy.toString() : '0';
-  const lpApy = lpData?.data?.apy;
-  return {govApy, lpApy};
+  try {
+    const [govData ,lpData] = await Promise.all([fetchData(PYLON_API_ENDPOINT+'governance/v1/overview'), fetchData(PYLON_API_ENDPOINT+'liquidity/v1/overview')]);
+    const govApy =  govData?.data?.apy ? govData?.data?.apy.toString() : '0';
+    const lpApy = lpData?.data?.apy;
+    return {govApy, lpApy};
+  }
+  catch(err) {
+    return {govApy: '0', lpApy: '0'};
+  }
 }
 
 export const calculatePylonPairStats = (pylonStatsData, poolInfos, govVaults, govConfig, terraSwapPoolResponses ) => {
