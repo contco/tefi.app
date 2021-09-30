@@ -32,7 +32,7 @@
     "@mirror-protocol/mirror.js": "^1.1.7",
     "@styled-system/css": "^5.1.5",
     "@terra-dev/use-browser-inactive": "^0.15.0",
-    "@terra-money/terra.js": "^1.7.0",
+    "@terra-money/terra.js": "^2.0.14",
     "@terra-money/wallet-provider": "^0.15.0",
     "@terra-money/webapp-provider": "^0.15.0",
     "add": "^2.0.6",

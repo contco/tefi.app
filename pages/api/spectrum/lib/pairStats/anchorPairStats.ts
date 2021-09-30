@@ -1,26 +1,13 @@
-import axios from "axios";
 import { contracts } from "../contracts";
 import { getRewardInfos, getFarmConfig, createPairStats } from "../utils";
 import BigNumber from 'bignumber.js';
+import { getAnchorApyStats } from "../../../anchor/lib/getAncApyStats";
 
-const ANCHOR_API_URL = 'https://api.anchorprotocol.com/api/v2/';
-
-const fetchAnchorApyStats = async () => {
-  try {
-    const {data: distributionAPY} = await axios.get(ANCHOR_API_URL + "distribution-apy");
-    const {data: ustLpRewardApy} = await axios.get(ANCHOR_API_URL + "ust-lp-reward");
-    const {data: govRewardApy} = await axios.get(ANCHOR_API_URL+ "gov-reward");
-    return { distributionAPY: distributionAPY?.distribution_apy, lpRewardApy: ustLpRewardApy?.apy, govRewardApy: govRewardApy?.current_apy };
-  }
-  catch(err) {
-    return {distributionAPY: '0', lpRewardApy: '0', govRewardApy: '0'};
-  }
-}
 
 export const getAnchorPairStatsData = async (height) => {
     const rewardInfoPromise = getRewardInfos(height, contracts.anchorFarm, contracts.anchorStaking);
     const farmConfigPromise =  getFarmConfig(contracts.anchorFarm);
-    const anchorApyStatsPromise = fetchAnchorApyStats();
+    const anchorApyStatsPromise = getAnchorApyStats();
     const [rewardInfo, farmConfig, anchorApyStats] = await Promise.all([rewardInfoPromise, farmConfigPromise, anchorApyStatsPromise]);
     return {rewardInfo, farmConfig, anchorApyStats};
 }
