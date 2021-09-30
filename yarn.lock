@@ -1638,77 +1638,59 @@
     "@svgr/plugin-svgo" "^5.5.0"
     loader-utils "^2.0.0"
 
-"@terra-dev/chrome-extension@^0.15.0":
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/@terra-dev/chrome-extension/-/chrome-extension-0.15.0.tgz#2747bc3437e8931367c2f6d06e418f3939226659"
-  integrity sha512-u4gnG55AeriWAsIfoV38OKZyn0X6SJ5mDagB42jUvBsitsm4/940YibvndtD+9EnCXbkKbres/XixVP4RKyVTw==
+"@terra-dev/browser-check@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@terra-dev/browser-check/-/browser-check-2.2.0.tgz#d5ec100bff13ccc0a85c8c85e025ed8797c5d4d0"
+  integrity sha512-g90XUSLfSDgXoLhnCrvS/ceHcGfwATC8qViZRvXh2+4jEClScJsefSzASTM/DMRrZfmEHohvIN4MEPclfe/OfA==
   dependencies:
-    "@terra-dev/is-desktop-chrome" "^0.15.0"
-    "@terra-dev/wallet-types" "^0.15.0"
-    "@terra-money/terra.js" "^1.8.0"
-    rxjs "^7.1.0"
-
-"@terra-dev/is-desktop-chrome@^0.15.0":
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/@terra-dev/is-desktop-chrome/-/is-desktop-chrome-0.15.0.tgz#2bbf3106a9324aada177dbb60d47e507aeb13f39"
-  integrity sha512-hxtKn81/B/irEj6rsYKBJaeshF31hTU7pmOBPn8iontLVo/m8oPLL7JjkBM7U1+IYwRKQFerSnjhmL9kO2JQQA==
-  dependencies:
-    "@terra-dev/mathwallet" "^0.15.0"
     bowser "^2.11.0"
     mobile-detect "^1.4.5"
 
-"@terra-dev/is-mobile@^0.15.0":
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/@terra-dev/is-mobile/-/is-mobile-0.15.0.tgz#cb1e9b2435dc7da3ed52681589cecea7d5d0b316"
-  integrity sha512-tjWEJKHNcwkRru6Cn7t/egeuMTfMOhYD1jnCFFMjN4Vbd2ib9XblhVolQNJKs7nkETdGmwq7m1+LgMuznmPAkg==
+"@terra-dev/chrome-extension@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@terra-dev/chrome-extension/-/chrome-extension-2.2.0.tgz#270adc47ae549ae6a7dde8e67bdf02d0787b54b0"
+  integrity sha512-4MOSljfpi9DLPHjR2SOnqagm4KnvjuNlnMxKPmDiZ40j0lF5Bi9MTZ1jlNJ2cQhqSDRidRjVi8k0zUEG7LUX8w==
   dependencies:
-    mobile-detect "^1.4.5"
+    "@terra-dev/browser-check" "^2.2.0"
+    "@terra-dev/wallet-types" "^2.2.0"
+    "@terra-money/terra.js" "^2.0.0"
+    rxjs "^7.3.0"
 
-"@terra-dev/mathwallet@^0.15.0":
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/@terra-dev/mathwallet/-/mathwallet-0.15.0.tgz#7b415e5b234101e5ffb0c876e7354a5fd6c650f4"
-  integrity sha512-t9baES0jUQUQ/+SAERh+5Kd1GWbIp7awwrKYAg6qsJoRu24SsBCoO2+BKDRHTxCQR5E9BJDo5ymsGd8aBKZpOg==
-
-"@terra-dev/readonly-wallet-modal@^0.15.0":
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/@terra-dev/readonly-wallet-modal/-/readonly-wallet-modal-0.15.0.tgz#5cf52d4d195f294a3c9f246cd32558a2e0e378f9"
-  integrity sha512-kWgcssd7YXW+QuAq6rsqve2MhSQP52hfE4ieOEk70byVEW2LWYdw6Irv1UotFtSxQoMvecgvAt2sw+jYSGtAAg==
+"@terra-dev/readonly-wallet-modal@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@terra-dev/readonly-wallet-modal/-/readonly-wallet-modal-2.2.0.tgz#c9615e9416e60aa4410ed556bc26f34ea9228973"
+  integrity sha512-w5k/+YXOt3htrsZ0zRPLgM+wtMBhOXd6GspI7yS1epJ1nS8GMfbznlnG0HN56qYkaV2DEJIEOtYkDJgRkChkRQ==
   dependencies:
-    "@terra-dev/readonly-wallet" "^0.15.0"
-    "@terra-dev/wallet-types" "^0.15.0"
-    "@terra-money/terra.js" "^1.8.0"
+    "@terra-dev/readonly-wallet" "^2.2.0"
+    "@terra-dev/wallet-types" "^2.2.0"
+    "@terra-money/terra.js" "^2.0.0"
+    styled-components "^5.0.0"
 
-"@terra-dev/readonly-wallet@^0.15.0":
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/@terra-dev/readonly-wallet/-/readonly-wallet-0.15.0.tgz#0e688d692c82152d8e34cae413841163562bfd2c"
-  integrity sha512-LQR9T2ApEnkv55ptOnBkt/6LjKx3ioEFYmEk/ymwj7i0IBkoYNp52mdORlzCBsns3Q9AbYnFdbkHs77SqcRlhQ==
+"@terra-dev/readonly-wallet@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@terra-dev/readonly-wallet/-/readonly-wallet-2.2.0.tgz#303c2b4baabc2b5a52da7fc0299f820037451b0f"
+  integrity sha512-XfV/Nr+3qH7ZN1GmjbiHql4GDO2JgFBxyJKAwMN4YIQG3JE5sdqmiy83bUEmio6gaSxKnUOhDd1huazyPbrjuQ==
   dependencies:
-    "@terra-dev/wallet-types" "^0.15.0"
-    "@terra-money/terra.js" "^1.8.0"
-
-"@terra-dev/safari-webextension-storage-change-listener@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@terra-dev/safari-webextension-storage-change-listener/-/safari-webextension-storage-change-listener-0.4.0.tgz#cd09bd74363a074d426451eb1cfb6d74b126b747"
-  integrity sha512-9UA4V66b9LNAK8s9SySI4luUOOxD2E+RL8Oy9yFuu8fSTvUtMJxBYO7dMKcQe06iuReXyIZqeYz5bS4PV1YsnA==
-  dependencies:
-    fast-deep-equal "^3.1.3"
-    rxjs "^7.0.0"
-    webextension-polyfill-ts "^0.25.0"
+    "@terra-dev/wallet-types" "^2.2.0"
+    "@terra-money/terra.js" "^2.0.0"
 
 "@terra-dev/use-browser-inactive@^0.15.0":
   version "0.15.0"
   resolved "https://registry.yarnpkg.com/@terra-dev/use-browser-inactive/-/use-browser-inactive-0.15.0.tgz#8318453e8df2dd0f0a710e87f696888244a01a75"
   integrity sha512-vmoxOx+Eekg/LkknsQn8+fqA6JpBXvU3im/7HG1qToINrWGvNVMrzRcYh+lOiWa2ofjnLDxUsQxxC/L4Q5+WJQ==
 
-"@terra-dev/use-interval@^0.15.0":
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/@terra-dev/use-interval/-/use-interval-0.15.0.tgz#5869518810453789ee60cd6d153aafeb3272ec80"
-  integrity sha512-HeYBqsVtfGT2MRWWxhv/ZIsQeo3y5MBseIRN5oWH+ncm8Cjf8EaEQlZBtSY2efe3BR0rjcJwyMApK4WkJ16B2Q==
-
 "@terra-dev/use-longtime-no-see@^0.15.0":
   version "0.15.0"
   resolved "https://registry.yarnpkg.com/@terra-dev/use-longtime-no-see/-/use-longtime-no-see-0.15.0.tgz#da5b14da20a5dca800471ff6d4150d02aa242eb3"
   integrity sha512-OGUai4f+oJkWTnIEfhrLG+JwVk/VKbQW8bVtk86TAGvAqQyQQzLP8jR0gAfBPR0qHyUc3ICyFUyA9RSuxI+fHg==
+
+"@terra-dev/use-wallet@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@terra-dev/use-wallet/-/use-wallet-2.2.0.tgz#555bfdbf6d83b4255df410dbd973dfb6537a9426"
+  integrity sha512-TgP6iomlfho/1V7Ad2eokaxif8KEojuHLfcd8FJxCpPRgg+u5t87jRSa49R7n65UiQcDENp7G0edzpvJzPJ3Cg==
+  dependencies:
+    "@terra-dev/wallet-types" "^2.2.0"
+    "@terra-money/terra.js" "^2.0.0"
 
 "@terra-dev/wallet-types@^0.15.0":
   version "0.15.0"
@@ -1717,59 +1699,48 @@
   dependencies:
     "@terra-money/terra.js" "^1.8.0"
 
-"@terra-dev/wallet@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@terra-dev/wallet/-/wallet-0.4.0.tgz#c5a96d039a598bf8be91ca975f967c66c9f3ed36"
-  integrity sha512-R7N91yC5G/Rj1EvV+eccC+R4hL1BQyFCx9Bvuth5vBoEYWqx7VPlx1C56/zcCE78mpnKLowN2eN0o21Xii71kA==
+"@terra-dev/wallet-types@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@terra-dev/wallet-types/-/wallet-types-2.2.0.tgz#aa9a9a69958432ded955da52cff773f870722a80"
+  integrity sha512-0QH+nNFTY5WOuHW70Lsvz/REWoAfGIXmTNF8kFSNgaIyZS+7nHLT77JSnwjACXa19RMsG8kNlP2Cjhtmausr/A==
   dependencies:
-    "@terra-money/key-utils" "^1.0.2"
-    "@terra-money/terra.js" "^1.7.0"
+    "@terra-money/terra.js" "^2.0.0"
 
-"@terra-dev/walletconnect-qrcode-modal@^0.15.0":
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/@terra-dev/walletconnect-qrcode-modal/-/walletconnect-qrcode-modal-0.15.0.tgz#c517dd64205b5aad25ee9e28544b7065af84f882"
-  integrity sha512-vmP9ySp3VtJZTA4MPJUGfcXj+2ZF2PJrntlgt8W2IabLuc1OBqDiCRinxamLTrclbE5BQ4yOLJ2Z7u2hQ7v32Q==
+"@terra-dev/walletconnect-qrcode-modal@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@terra-dev/walletconnect-qrcode-modal/-/walletconnect-qrcode-modal-2.2.0.tgz#317d7b2fbaabf52b865d97974127a4bc863d18f8"
+  integrity sha512-8xCrrE/Bg9VBvG3XOv9pz/raAs2o687QK6Bf5U5ZAh0GQ44LJ49wMKLNMafLSCSW/v3H/a5ZK2hziRuwEujVKw==
   dependencies:
-    "@terra-dev/is-mobile" "^0.15.0"
-    "@walletconnect/types" "^1.4.1"
+    "@terra-dev/browser-check" "^2.2.0"
+    "@walletconnect/types" "^1.6.1"
     qrcode.react "^1.0.1"
+    styled-components "^5.0.0"
 
-"@terra-dev/walletconnect@^0.15.0":
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/@terra-dev/walletconnect/-/walletconnect-0.15.0.tgz#a4bb88e0ce08e3aaad14de1a579748c02288e429"
-  integrity sha512-H/qZTXCc2hE0gOwgOW9WiXmpSGORdOh48o/NJuv+seRPIMGuB+OTErAGsA54xbXjJiWoQVFQEdARJmDiQ2OdFQ==
+"@terra-dev/walletconnect@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@terra-dev/walletconnect/-/walletconnect-2.2.0.tgz#22cc872b1055e16530f7e24111dc887c8366af4e"
+  integrity sha512-ekUoqOFJi//1+9gYpltUm0uTl+psB3JUXMgYS2qsFWOItaCXybh5ux/+xq/WIChXq6NSRYJqEc0AgKMO4fnI7A==
   dependencies:
-    "@terra-dev/is-mobile" "^0.15.0"
-    "@terra-dev/walletconnect-qrcode-modal" "^0.15.0"
-    "@terra-money/terra.js" "^1.8.0"
-    "@walletconnect/core" "^1.4.1"
-    "@walletconnect/iso-crypto" "^1.4.1"
-    "@walletconnect/types" "^1.4.1"
-    "@walletconnect/utils" "^1.4.1"
-    rxjs "^7.1.0"
-    ws "^7.4.6"
+    "@terra-dev/browser-check" "^2.2.0"
+    "@terra-dev/walletconnect-qrcode-modal" "^2.2.0"
+    "@terra-money/terra.js" "^2.0.0"
+    "@walletconnect/core" "^1.6.1"
+    "@walletconnect/iso-crypto" "^1.6.1"
+    "@walletconnect/types" "^1.6.1"
+    "@walletconnect/utils" "^1.6.1"
+    rxjs "^7.3.0"
+    ws "^7.5.3"
 
-"@terra-dev/web-extension@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@terra-dev/web-extension/-/web-extension-0.4.0.tgz#66ef062a4aa9ba13f147070a23f86ec5b6711824"
-  integrity sha512-opk21n+MSM7awi4RvAv6IXYAzjfuMx4Ex/ZydWvFHHAdI1OBia8/PVvWuTzShNZRmZoO3Py/S3n1t6w5u8N5bA==
+"@terra-dev/web-extension@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@terra-dev/web-extension/-/web-extension-0.6.0.tgz#2cceebc276073ceb24944c51d611872ab3ce6669"
+  integrity sha512-IyIWHLfweZCb5nHuMyzavnMYposnZMvpsA/89zZPIgIooxhxE//uZD+Ty+ptt4nvkbOgEFKdKIKe5rIHqgVLpA==
   dependencies:
-    "@terra-dev/safari-webextension-storage-change-listener" "^0.4.0"
-    "@terra-dev/wallet" "^0.4.0"
-    "@terra-money/key-utils" "^1.0.2"
-    "@terra-money/terra.js" "^1.7.0"
+    "@terra-money/terra.js" "^1.8.0 || ^2.0.0"
     bowser "^2.11.0"
-    post-message-stream "^3.0.0"
-    react "^17.0.2"
-    rxjs "^7.0.0"
-    webextension-polyfill-ts "^0.25.0"
+    rxjs "^7.3.0"
 
-"@terra-money/key-utils@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@terra-money/key-utils/-/key-utils-1.0.2.tgz#156df042a38c1028dce038d04375b8cf092ca392"
-  integrity sha512-M3F+yIwiRgQie93nm/0PZSoeYKgjfHmcoJKuew9tc1xiGuLEKA0BXYzAy6AGJbs2DMHwQKBHKyznQjwayPTItw==
-
-"@terra-money/terra.js@^1.7.0", "@terra-money/terra.js@^1.8.0", "@terra-money/terra.js@^1.8.9":
+"@terra-money/terra.js@^1.8.0", "@terra-money/terra.js@^1.8.9":
   version "1.8.10"
   resolved "https://registry.yarnpkg.com/@terra-money/terra.js/-/terra.js-1.8.10.tgz#50f4f28b5592847201b64aa952ff2331809dcbc0"
   integrity sha512-5tXblDZvXYVxS/z64nPX45m49e0M28eoIaBIaKJjui0JJBEuNS7sFBDZrU572Pl4er1n2xaEAjrfzsNjTYORWg==
@@ -1787,7 +1758,7 @@
     utf-8-validate "^5.0.5"
     ws "^7.4.2"
 
-"@terra-money/terra.js@^2.0.14":
+"@terra-money/terra.js@^1.8.0 || ^2.0.0", "@terra-money/terra.js@^2.0.0", "@terra-money/terra.js@^2.0.14":
   version "2.0.14"
   resolved "https://registry.yarnpkg.com/@terra-money/terra.js/-/terra.js-2.0.14.tgz#3195ed184524f926196b0b0ef15ae177ece148d1"
   integrity sha512-GeMadRIPaOedODa5a0pJ2+76l7MeFSIfSJZ2vvWPRco6MRIQLw/k0cZpPKMLm2Zo54li/oY1mrR+r3uxLM7q3Q==
@@ -1805,23 +1776,22 @@
     utf-8-validate "^5.0.5"
     ws "^7.4.2"
 
-"@terra-money/wallet-provider@^0.15.0":
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/@terra-money/wallet-provider/-/wallet-provider-0.15.0.tgz#8460f086da5ce2c1aba4ec1ca71bf8d83c7d0f67"
-  integrity sha512-IFeoyUbMTuydOVrqtczmtBcs0Wgb6rk/UHolbAEq1w7k3jQI4mbBkmEI1e3ig5st6Gx3jhd0G0NklJIzaA77aQ==
+"@terra-money/wallet-provider@2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@terra-money/wallet-provider/-/wallet-provider-2.2.0.tgz#bc8df7d378e45814728195c12b6c5570f70e2147"
+  integrity sha512-K8NLpJ/yak8Pq6jQpjVr7yWDIbxjTp42OXaAS+xlTufqQwWbCR7coAGbm2FpYX43j4uymuSAICZvsOS1qrFeYA==
   dependencies:
-    "@terra-dev/chrome-extension" "^0.15.0"
-    "@terra-dev/is-desktop-chrome" "^0.15.0"
-    "@terra-dev/mathwallet" "^0.15.0"
-    "@terra-dev/readonly-wallet" "^0.15.0"
-    "@terra-dev/readonly-wallet-modal" "^0.15.0"
-    "@terra-dev/use-interval" "^0.15.0"
-    "@terra-dev/wallet-types" "^0.15.0"
-    "@terra-dev/walletconnect" "^0.15.0"
-    "@terra-dev/web-extension" "^0.4.0"
-    "@terra-money/terra.js" "^1.8.0"
+    "@terra-dev/browser-check" "^2.2.0"
+    "@terra-dev/chrome-extension" "^2.2.0"
+    "@terra-dev/readonly-wallet" "^2.2.0"
+    "@terra-dev/readonly-wallet-modal" "^2.2.0"
+    "@terra-dev/use-wallet" "^2.2.0"
+    "@terra-dev/wallet-types" "^2.2.0"
+    "@terra-dev/walletconnect" "^2.2.0"
+    "@terra-dev/web-extension" "^0.6.0"
+    "@terra-money/terra.js" "^2.0.0"
     fast-deep-equal "^3.1.3"
-    rxjs "^7.1.0"
+    rxjs "^7.3.0"
 
 "@terra-money/webapp-fns@^0.15.0":
   version "0.15.0"
@@ -2301,7 +2271,7 @@
     "@walletconnect/window-metadata" "1.0.0"
     detect-browser "5.2.0"
 
-"@walletconnect/core@^1.4.1":
+"@walletconnect/core@^1.6.1":
   version "1.6.5"
   resolved "https://registry.yarnpkg.com/@walletconnect/core/-/core-1.6.5.tgz#acb687fc7c2d71ce2adad6a921ec1b343c4b4dd7"
   integrity sha512-mmMTP8nZunjSCAy0ckafvt/JcdzcuSZPaAybqgKwx2rC9cc/3XWrdNsfiKMt8AFoQF87jGHem3905eFZYTqLXw==
@@ -2334,7 +2304,7 @@
   resolved "https://registry.yarnpkg.com/@walletconnect/environment/-/environment-1.0.0.tgz#c4545869fa9c389ec88c364e1a5f8178e8ab5034"
   integrity sha512-4BwqyWy6KpSvkocSaV7WR3BlZfrxLbJSLkg+j7Gl6pTDE+U55lLhJvQaMuDVazXYxcjBsG09k7UlH7cGiUI5vQ==
 
-"@walletconnect/iso-crypto@^1.4.1":
+"@walletconnect/iso-crypto@^1.6.1":
   version "1.6.5"
   resolved "https://registry.yarnpkg.com/@walletconnect/iso-crypto/-/iso-crypto-1.6.5.tgz#1c6471506283817e7e797c5e2e733f6c3d88f8dc"
   integrity sha512-145VRX1+gudhHrnT2s81lLW/BEu3QgFMMRCrkxx9Tsl5JiLGcGbWkMxAl8zjGTMqnHeuQngyjvY1mO+3z27a7A==
@@ -2381,12 +2351,12 @@
     "@walletconnect/utils" "^1.6.5"
     ws "7.5.3"
 
-"@walletconnect/types@^1.4.1", "@walletconnect/types@^1.6.5":
+"@walletconnect/types@^1.6.1", "@walletconnect/types@^1.6.5":
   version "1.6.5"
   resolved "https://registry.yarnpkg.com/@walletconnect/types/-/types-1.6.5.tgz#31ad1415fc6e1e89e25a10ad5fed6958f56cefa8"
   integrity sha512-S9DsODI35PbIDuOSkIiF8SzTstqCqX/4+kV7n18vyukEFPlpSSHwZMwJUfzo9yJ0pqsqLNZta+jvb88gJRuAaA==
 
-"@walletconnect/utils@^1.4.1", "@walletconnect/utils@^1.6.5":
+"@walletconnect/utils@^1.6.1", "@walletconnect/utils@^1.6.5":
   version "1.6.5"
   resolved "https://registry.yarnpkg.com/@walletconnect/utils/-/utils-1.6.5.tgz#6edd749cb52a363feda117121dc865d7cc6169f7"
   integrity sha512-QB5rn/1s0PKVitAQ2/mgWbay2XfN21y3ob+5g6IhxtJRW31bbMoZw5YfO6s4ixLaZZez5LNQXstvQAclRzB7jQ==
@@ -3157,13 +3127,6 @@ buffer@^4.3.0:
     base64-js "^1.0.2"
     ieee754 "^1.1.4"
     isarray "^1.0.0"
-
-bufferutil@^4.0.3:
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/bufferutil/-/bufferutil-4.0.4.tgz#ab81373d313a6ead0d734e98c448c722734ae7bb"
-  integrity sha512-VNxjXUCrF3LvbLgwfkTb5LsFvk6pGIn7OBb9x+3o+iJ6mKw0JTUp4chBFc88hi1aspeZGeZG9jAIbpFYPQSLZw==
-  dependencies:
-    node-gyp-build "^4.2.0"
 
 bufferutil@^4.0.3:
   version "4.0.4"
@@ -6205,13 +6168,6 @@ pnp-webpack-plugin@1.6.4:
   dependencies:
     ts-pnp "^1.1.6"
 
-post-message-stream@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/post-message-stream/-/post-message-stream-3.0.0.tgz#90d9f54bd209e6b6f5d74795b87588205b547048"
-  integrity sha1-kNn1S9IJ5rb110eVuHWIIFtUcEg=
-  dependencies:
-    readable-stream "^2.1.4"
-
 postcss-value-parser@^3.3.0:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/postcss-value-parser/-/postcss-value-parser-3.3.1.tgz#9ff822547e2893213cf1c30efa51ac5fd1ba8281"
@@ -6625,15 +6581,7 @@ react@17.0.1:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
 
-react@^17.0.2:
-  version "17.0.2"
-  resolved "https://registry.yarnpkg.com/react/-/react-17.0.2.tgz#d0b5cc516d29eb3eee383f75b62864cfb6800037"
-  integrity sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
-
-readable-stream@^2.0.2, readable-stream@^2.1.4, readable-stream@^2.3.3, readable-stream@^2.3.6:
+readable-stream@^2.0.2, readable-stream@^2.3.3, readable-stream@^2.3.6:
   version "2.3.7"
   resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.3.7.tgz#1eca1cf711aef814c04f62252a36a62f6cb23b57"
   integrity sha512-Ebho8K4jIbHAxnuxi7o42OrZgF/ZTNcsZj6nRKyUmkhLFq8CHItp/fy6hQZuZmP/n3yZ9VBUbp4zz/mX8hmYPw==
@@ -6884,7 +6832,7 @@ rxjs@^6.6.7:
   dependencies:
     tslib "^1.9.0"
 
-rxjs@^7.0.0, rxjs@^7.1.0:
+rxjs@^7.3.0:
   version "7.3.0"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.3.0.tgz#39fe4f3461dc1e50be1475b2b85a0a88c1e938c6"
   integrity sha512-p2yuGIg9S1epc3vrjKf6iVb3RCaAYjYskkO+jHIaV0IjOPlJop4UnodOoFb2xeNwlguqLYvGw1b1McillYb5Gw==
@@ -7325,7 +7273,7 @@ strip-json-comments@^3.1.0, strip-json-comments@^3.1.1:
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-3.1.1.tgz#31f1281b3832630434831c310c01cccda8cbe006"
   integrity sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==
 
-styled-components@^5.1.1, styled-components@^5.2.1:
+styled-components@^5.0.0, styled-components@^5.1.1, styled-components@^5.2.1:
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-5.3.1.tgz#8a86dcd31bff7049c2ed408bae36fa23f03f071a"
   integrity sha512-JThv2JRzyH0NOIURrk9iskdxMSAAtCfj/b2Sf1WJaCUsloQkblepy1jaCLX/bYE+mhYo3unmwVSI9I5d9ncSiQ==
@@ -7807,13 +7755,6 @@ utf-8-validate@^5.0.5:
   dependencies:
     node-gyp-build "^4.2.0"
 
-utf-8-validate@^5.0.5:
-  version "5.0.6"
-  resolved "https://registry.yarnpkg.com/utf-8-validate/-/utf-8-validate-5.0.6.tgz#e1b3e0a5cc8648a3b44c1799fbb170d1aaaffe80"
-  integrity sha512-hoY0gOf9EkCw+nimK21FVKHUIG1BMqSiRwxB/q3A9yKZOrOI99PP77BxmarDqWz6rG3vVYiBWfhG8z2Tl+7fZA==
-  dependencies:
-    node-gyp-build "^4.2.0"
-
 util-deprecate@^1.0.1, util-deprecate@~1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
@@ -7891,18 +7832,6 @@ watchpack@2.1.1:
   dependencies:
     glob-to-regexp "^0.4.1"
     graceful-fs "^4.1.2"
-
-webextension-polyfill-ts@^0.25.0:
-  version "0.25.0"
-  resolved "https://registry.yarnpkg.com/webextension-polyfill-ts/-/webextension-polyfill-ts-0.25.0.tgz#fff041626365dbd0e29c40b197e989a55ec221ca"
-  integrity sha512-ikQhwwHYkpBu00pFaUzIKY26I6L87DeRI+Q6jBT1daZUNuu8dSrg5U9l/ZbqdaQ1M/TTSPKeAa3kolP5liuedw==
-  dependencies:
-    webextension-polyfill "^0.7.0"
-
-webextension-polyfill@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/webextension-polyfill/-/webextension-polyfill-0.7.0.tgz#0df1120ff0266056319ce1a622b09ad8d4a56505"
-  integrity sha512-su48BkMLxqzTTvPSE1eWxKToPS2Tv5DLGxKexLEVpwFd6Po6N8hhSLIvG6acPAg7qERoEaDL+Y5HQJeJeml5Aw==
 
 webidl-conversions@^3.0.0:
   version "3.0.1"
@@ -8190,7 +8119,7 @@ ws@7.5.3:
   resolved "https://registry.yarnpkg.com/ws/-/ws-7.5.3.tgz#160835b63c7d97bfab418fc1b8a9fced2ac01a74"
   integrity sha512-kQ/dHIzuLrS6Je9+uv81ueZomEwH0qVYstcAQ4/Z93K8zeko9gtAbttJWzoC5ukqXY1PpoouV3+VSOqEAFt5wg==
 
-"ws@^5.2.0 || ^6.0.0 || ^7.0.0", ws@^7.4.2, ws@^7.4.6:
+"ws@^5.2.0 || ^6.0.0 || ^7.0.0", ws@^7.4.2, ws@^7.5.3:
   version "7.5.5"
   resolved "https://registry.yarnpkg.com/ws/-/ws-7.5.5.tgz#8b4bc4af518cfabd0473ae4f99144287b33eb881"
   integrity sha512-BAkMFcAzl8as1G/hArkxOxq3G7pjUqQ3gzYbLL0/5zNkph70e+lCoxBGnm6AW1+/aiNeV4fnKqZ8m4GZewmH2w==
