@@ -26,6 +26,7 @@ import BUBBLE_ICON from '../public/bubble.svg';
 import SEND_ICON from '../public/icons/send.svg';
 import API_ICON from '../public/icons/code.svg';
 import SUPPLY_ICON from '../public/icons/fire.svg';
+import DAO_ICON from '../public/icons/dao.svg';
 
 
 export const NewOpenIcon = styled(OPEN_NEW_ICON)``;
@@ -53,4 +54,5 @@ export
     API_ICON,
     SUPPLY_ICON,
     TIP_ICON,
+    DAO_ICON,
 };

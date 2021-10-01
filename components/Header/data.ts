@@ -1,4 +1,4 @@
-import {DASHBOARD_ICON, CHARTS_ICON, BUBBLE_ICON, FEED_ICON, SEND_ICON, SUPPLY_ICON, API_ICON} from '../Icons';
+import { DASHBOARD_ICON, CHARTS_ICON, BUBBLE_ICON, FEED_ICON, SEND_ICON, SUPPLY_ICON, API_ICON, DAO_ICON } from '../Icons';
 
 
 export const INTERNAL_LINKS = [
@@ -31,6 +31,11 @@ export const INTERNAL_LINKS = [
         component: SUPPLY_ICON,
         url: "/supply",
         name: "Supply"
+    },
+    {
+        component: DAO_ICON,
+        url: "/dao",
+        name: "DAO"
     },
     {
         component: API_ICON,

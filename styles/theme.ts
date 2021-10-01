@@ -37,6 +37,7 @@ export const lightTheme = {
     green: '#6ed14b',
     red: '#ff2400',
     circle: '#ffffff',
+    circleTrail: '#0221BA',
   },
   boxShadow: '0 1px 10px 0 rgba(225, 221, 221, 0.5)',
   postShadow: '0 1px 3px 0 rgba(225, 221, 221, 0.5)',
