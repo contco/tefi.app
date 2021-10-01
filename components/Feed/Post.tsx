@@ -96,7 +96,7 @@ const Post = ({ data: { memo, from_address: address, block, timestamp }, current
 
   let slicedAddress =
     address && `${address?.slice(0, 6) + '....' + address?.slice(address?.length - 6, address?.length)}`;
-  slicedAddress = address == CLUB_DEPOSIT_ADDRESS ? 'TeFiApp' : slicedAddress;
+  slicedAddress = address == CLUB_DEPOSIT_ADDRESS ? 'TefiApp' : slicedAddress;
 
   let image = currentTheme === LIGHT_THEME ? '/images/dp_light.png' : '/images/dp_dark.png';
   let logo = currentTheme === LIGHT_THEME ? '/images/logo_light.png' : '/images/logo_dark.png';

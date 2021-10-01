@@ -24,10 +24,6 @@
         "imageUrl": "/logos/spec.png"
     },
     {
-        "symbol": "alte",
-        "imageUrl": "/logos/alte.png"
-    },
-    {
         "symbol":"stt",
         "imageUrl":"/logos/starterra.png"
     }
