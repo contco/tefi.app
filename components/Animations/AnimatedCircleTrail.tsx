@@ -65,7 +65,6 @@ const MainHook = styled.div`
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    /* background: rgba(255, 255, 255, 0.8); */
   }
   > div:nth-child(2)::after {
     top: 35px;
@@ -82,9 +81,7 @@ const MainHook = styled.div`
   position: absolute;
   width: 100%;
   height: 90%;
-  /* filter: url('#goo'); */
   overflow: hidden;
-  /* background: transparent; */
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -92,11 +89,6 @@ const MainHook = styled.div`
   -ms-user-select: none;
   user-select: none;
   cursor: default;
-`;
-
-const Container = styled.div`
-  height: 85vh;
-  overflow: hidden;
 `;
 
 const AnimatedCircleTrail = () => {
@@ -113,7 +105,7 @@ const AnimatedCircleTrail = () => {
   };
 
   return (
-    <Container>
+    <div>
       <svg style={{ position: 'absolute', width: 0, height: 0 }}>
         <filter id="goo">
           <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="30" />
@@ -125,7 +117,7 @@ const AnimatedCircleTrail = () => {
           <animated.div key={index} style={{ transform: props.xy.to(trans) }} />
         ))}
       </MainHook>
-    </Container>
+    </div>
   );
 };
 
