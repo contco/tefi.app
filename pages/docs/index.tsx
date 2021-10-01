@@ -24,7 +24,7 @@ const Container = styled.div`
 
 const TextContainer = styled.div`
   display: flex;
-  height: 300px;
+  height: 260px;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
@@ -75,7 +75,7 @@ const Docs: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
         <Header theme={currentTheme} changeTheme={changeTheme} />
         <Container>
           <TextContainer>
-            <Title>Tefi API</Title>
+            <Title>TeFiAPI</Title>
             <MainText>
               A powerful GraphQL API that unifies all Terra Protocols. Build cool dashboards or bots to the 🌕
             </MainText>

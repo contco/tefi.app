@@ -6,7 +6,7 @@ import { Flex, Box } from '@contco/core-ui';
 import Create from '../../components/Feed/Create';
 import Posts from '../../components/Feed/Posts';
 import Header from '../../components/Header';
-import { WALLET_ADDRESS_TYPE } from '../../constants';
+import { CLUB_DEPOSIT_ADDRESS, WALLET_ADDRESS_TYPE } from '../../constants';
 import useWallet from '../../lib/useWallet';
 import { sendToken } from '../../transactions/sendToken';
 import { getPost } from '../api/feed/posts';
@@ -16,8 +16,6 @@ import { throttle, difference } from 'lodash';
 import { LoadingIcon } from '../../components/Icons';
 import { useDeviceDetect } from '../../contexts';
 
-
-const ADDRESS = 'terra1lpccq0w9e36nlzhx3m6t8pphx8ncavslyul29g';
 const SEND_AMOUNT = '0.1';
 
 const Container = styled(Box)`
@@ -162,7 +160,7 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts, next }: any)
       setAddress(walletAddress);
       setAddressType(WALLET_ADDRESS_TYPE);
       const transactionData = {
-        to: ADDRESS,
+        to: CLUB_DEPOSIT_ADDRESS,
         from: connectedWallet?.terraAddress,
         amount: SEND_AMOUNT,
         memo: text,
@@ -170,7 +168,7 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts, next }: any)
         txDenom: 'uusd',
       };
       const newFeedPost: txData = {
-        to_address: ADDRESS,
+        to_address: CLUB_DEPOSIT_ADDRESS,
         from_address: connectedWallet?.terraAddress,
         memo: text,
         block: null,
@@ -215,7 +213,7 @@ const Feeds: React.FC = ({ theme: currentTheme, changeTheme, posts, next }: any)
               <Create onPost={onPost} />
             )}
           </TopSection>
-          <Posts data={feedPosts} />
+          <Posts data={feedPosts} currentTheme={currentTheme} />
         </InnerContainer>
         <ConnectModal showModal={showModal} setModalVisible={setModalVisible} />
        {isInfiniteLoading ? <StyledLoading />: null }

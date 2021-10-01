@@ -1,19 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
 import css from '@styled-system/css';
-import { Flex, Text } from '@contco/core-ui';
+import { Flex, Text, Avatar } from '@contco/core-ui';
 import { format } from 'date-fns';
 import { useRouter } from 'next/router';
 import { TIP_ICON } from '../Icons';
 import { useModalContext } from '../../contexts';
+import { CLUB_DEPOSIT_ADDRESS, LIGHT_THEME } from '../../constants';
 
 const Container = styled.div`
   width: 100%;
   ${(props) =>
     css({
-      height: [233, null, null, 233, null, 250],
+      height: [300, null, null, 300, null, 250],
       mb: [40, null, null, 60, null, 80],
       px: 4,
+      py: 4,
       bg: 'background',
       borderRadius: 20,
       boxShadow: props.theme.postShadow,
@@ -29,7 +31,8 @@ const StyledText = styled(Text)`
 `;
 
 const MemoText = styled(StyledText)`
-  line-height: 20px;
+  line-height: 22px;
+  font-weight: 400;
   ${css({
     color: 'postPrimary',
   })}
@@ -43,6 +46,7 @@ const DateText = styled(StyledText)`
 
 const AddressText = styled(StyledText)`
   cursor: pointer;
+  margin-left: 9px;
 `;
 
 const Section = styled(Flex)`
@@ -56,6 +60,7 @@ const TopSection = styled(Section)`
 
 const BottomSection = styled(Section)`
   justify-content: space-between;
+  align-items: flex-end;
 `;
 
 const MemoSection = styled(Flex)`
@@ -66,6 +71,11 @@ const MemoSection = styled(Flex)`
   })}
 `;
 
+const TopLeft = styled(Flex)`
+  align-items: center;
+  ${css({})}
+`;
+
 const TipIcon = styled(TIP_ICON)`
   ${css({
     color: 'secondary',
@@ -74,15 +84,23 @@ const TipIcon = styled(TIP_ICON)`
     cursor: 'pointer',
     '&:hover': {
       opacity: 0.7,
-    }
+    },
   })}
 `;
-const Post = ({ data: { memo, from_address: address, block, timestamp } }: any) => {
-  const router = useRouter();
-  const {sendTip} = useModalContext();
+const Post = ({ data: { memo, from_address: address, block, timestamp }, currentTheme }: any) => {
+  // temp - hide send out transaction
+  if (block == 4728937) return <></>;
 
-  const slicedAddress =
+  const router = useRouter();
+  const { sendTip } = useModalContext();
+
+  let slicedAddress =
     address && `${address?.slice(0, 6) + '....' + address?.slice(address?.length - 6, address?.length)}`;
+  slicedAddress = address == CLUB_DEPOSIT_ADDRESS ? 'TeFiApp' : slicedAddress;
+
+  let image = currentTheme === LIGHT_THEME ? '/images/dp_light.png' : '/images/dp_dark.png';
+  let logo = currentTheme === LIGHT_THEME ? '/images/logo_light.png' : '/images/logo_dark.png';
+  image = address == CLUB_DEPOSIT_ADDRESS ? logo : image;
 
   const displayTimestamp = () => {
     if (!timestamp) {
@@ -103,21 +121,24 @@ const Post = ({ data: { memo, from_address: address, block, timestamp } }: any) 
 
   const onTipClick = () => {
     sendTip(address);
-  }
+  };
 
   return (
     <Container>
       <TopSection>
-        <AddressText onClick={onAddressClick}>{slicedAddress}</AddressText>
+        <TopLeft>
+          <Avatar image={image} name="Hello" height={33} width={33} />
+          <AddressText onClick={onAddressClick}>{slicedAddress}</AddressText>
+        </TopLeft>
         <StyledText>{block ? new Intl.NumberFormat().format(block) : 'pending'}</StyledText>
       </TopSection>
       <MemoSection>
         <MemoText>{memo}</MemoText>
       </MemoSection>
       <BottomSection>
-         <TipIcon onClick={onTipClick} />
+        <TipIcon onClick={onTipClick} />
         {displayTimestamp()}
-        </BottomSection>
+      </BottomSection>
     </Container>
   );
 };
