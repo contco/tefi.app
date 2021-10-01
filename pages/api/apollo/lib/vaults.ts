@@ -7,14 +7,15 @@ import { getPoolSymbol } from './getPoolSymbol';
 
 const pairInfoByLiquidityToken = Object.values(pairInfoList).reduce((acm, item) => ({[item.liquidity_token]: item, ...acm}), {});
 
-const FETCH_LIMIT = 12;
+const USER_FETCH_LIMIT = 12;
+const VAULT_FETCH_LIMIT = 1;
  
 const getQueryMsg =  (start_from: number, address = "", type = 'default') => {
     if (type === "user") {
       return ({
         get_user_strategies: {
             user: address,
-            limit: FETCH_LIMIT,
+            limit: USER_FETCH_LIMIT,
             start_from: start_from
         }
       });
@@ -22,7 +23,7 @@ const getQueryMsg =  (start_from: number, address = "", type = 'default') => {
     else {
       return ({
         get_strategies: {
-            limit: FETCH_LIMIT,
+            limit: VAULT_FETCH_LIMIT,
             start_from: start_from
         }
       });
@@ -30,10 +31,11 @@ const getQueryMsg =  (start_from: number, address = "", type = 'default') => {
 }
 
 
-const getVaultDetails = async () => {
+export const getVaultDetails = async () => {
+  const strategies = {};
+  try {
     let fetchMore = true;
     let start_from = 1;
-    const strategies = {};
     while (fetchMore) {
         const query_msg = getQueryMsg(start_from);
         const result = await wasmStoreRequest(apolloDaoContracts.vaultContract, query_msg);
@@ -41,17 +43,22 @@ const getVaultDetails = async () => {
             strategies[strategy.id] = strategy;
         });
 
-        if(result?.strategies.length === 12) {
-            start_from = FETCH_LIMIT + start_from;
+        if(result?.strategies.length === VAULT_FETCH_LIMIT) {
+            start_from = VAULT_FETCH_LIMIT + start_from;
         }
         else {
             fetchMore = false
         }
     }
-    return strategies;
+  }
+  catch(err){
+    console.warn('strategies fetched');
+  }
+  
+  return strategies;
 } 
 
-const getUserVaults = async (address: string) => {
+export const getUserVaults = async (address: string) => {
   let fetchMore = true;
   let start_from = 1;
   let strategies = [];
@@ -59,8 +66,8 @@ const getUserVaults = async (address: string) => {
       const query_msg = getQueryMsg(start_from, address, "user");
       const result = await wasmStoreRequest(apolloDaoContracts.vaultContract,  query_msg);
       strategies = [...strategies, ...result?.strategies];
-      if(result?.strategies.length === 12) {
-          start_from = FETCH_LIMIT + start_from;
+      if(result?.strategies.length === USER_FETCH_LIMIT) {
+          start_from = USER_FETCH_LIMIT + start_from;
       }
       else {
           fetchMore = false
