@@ -33,7 +33,7 @@ export const NFT = 'NFTs';
 
 const TopBar: React.FC<Props> = ({ currentBar, setCurrentBar, currentTheme, profileNftLoading, profileNft }) => {
   const getProfileNft = () => {
-    if (profileNft) {
+    if (false && profileNft) {
       return profileNft.url;
     } else {
       return currentTheme === LIGHT_THEME ? '/images/dp_light.png' : '/images/dp_dark.png';
@@ -42,13 +42,7 @@ const TopBar: React.FC<Props> = ({ currentBar, setCurrentBar, currentTheme, prof
 
   return (
     <TopBarContainer>
-      {profileNftLoading ? (
-        <LoadingAvatar>
-          <Logo width="100%" currentTheme={currentTheme} />
-        </LoadingAvatar>
-      ) : (
-        <Avatar image={getProfileNft()} name="Hello" height={80} width={80} />
-      )}
+      <Avatar image={getProfileNft()} name="Hello" height={80} width={80} />
       <OptionsContainer>
         <BarOptions selected={currentBar === ACCOUNT} onClick={() => setCurrentBar(ACCOUNT)}>
           {ACCOUNT}
