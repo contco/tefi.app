@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import css from '@styled-system/css';
 import { Text, Flex, Box } from '@contco/core-ui';
 import { Logo } from './AnimatedCircle';
+import * as data from './data.json';
+import Collection from './Collection';
 
 const MainContainer = styled(Flex)`
   justify-content: center;
@@ -56,14 +58,20 @@ export const AnimatedCircle: React.FC<Props> = ({ currentTheme, isBig = false })
 };
 
 const NftComponent: React.FC<Props> = ({ currentTheme, text = DEFAULT_TEXT, isBig = false }) => {
+  console.log(data.items);
+
   return (
     <MainContainer>
-      <Container>
-        <AnimatedCircle currentTheme={currentTheme} isBig={isBig} />
-        <Box>
-          <BigText>{text}</BigText>
-        </Box>
-      </Container>
+      {data ? (
+        <Collection data={data.items} />
+      ) : (
+        <Container>
+          <AnimatedCircle currentTheme={currentTheme} isBig={isBig} />
+          <Box>
+            <BigText>{text}</BigText>
+          </Box>
+        </Container>
+      )}
     </MainContainer>
   );
 };
