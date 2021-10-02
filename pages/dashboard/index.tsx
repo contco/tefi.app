@@ -97,7 +97,11 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
               <DashboardComponents assets={assets} />
             )
           ) : (
-            <NftComponent currentTheme={theme} />
+            <NftComponent
+              profileNftLoading={profileNftLoading || !profileNftCalled}
+              profileNft={profileNftData?.getProfileNft}
+              address={address}
+              currentTheme={theme} />
           )}
         </Body>
       </div>
