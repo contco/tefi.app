@@ -405,3 +405,7 @@ interface ErrorResult {
   msg: string;
 }
 
+interface ProfileNft {
+  address: string;
+  url: string;
+}

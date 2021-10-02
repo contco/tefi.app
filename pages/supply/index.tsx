@@ -3,11 +3,11 @@ import Head from 'next/head';
 import AssetSupply from '../../components/AssetSupply';
 import { useSubscription } from '@apollo/client';
 import { GET_ASSET_SUPPLY } from '../../graphql/queries/getAssetSupply';
-import useAssetSupplyClient from '../../lib/assetSupplyClient';
+import { useDgraphClient } from '../../lib/dgraphClient';
 import Loading from '../../components/Loading';
 
 const Supply: React.FC = ({ theme, changeTheme }: any) => {
-  const assetSupplyClient = useAssetSupplyClient();
+  const assetSupplyClient = useDgraphClient();
 
   const { loading, error, data } = useSubscription(GET_ASSET_SUPPLY, {
     client: assetSupplyClient,

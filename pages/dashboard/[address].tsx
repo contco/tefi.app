@@ -14,6 +14,9 @@ import useAccounts from '../../utils/useAccounts';
 import NftComponent from '../../components/NftComponent';
 import TopBar, { ACCOUNT } from '../../components/DashboardComponents/TopBar';
 import DashboardComponents from '../../components/DashboardComponents';
+import { useQuery } from '@apollo/client';
+import { useDgraphClient } from '../../lib/dgraphClient';
+import { GET_PROFILE_NFT } from '../../graphql/queries/getProfileNFT';
 
 const MAX_TRY = 3;
 
@@ -34,6 +37,8 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   const [currentBar, setCurrentBar] = useState(ACCOUNT);
 
   const { data, loading, error, refetch, refreshing } = useAccounts(address);
+  const { data: profileNftData, called: profileNftCalled, loading: profileNftLoading } = useQuery(GET_PROFILE_NFT, {client: useDgraphClient(), variables: {address}});
+
 
   const assets = assignData(data);
 
@@ -69,7 +74,13 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
           isViewOnly={true}
         />
         <Body>
-          <TopBar currentBar={currentBar} setCurrentBar={setCurrentBar} currentTheme={theme} />
+        <TopBar 
+            currentBar={currentBar}
+            setCurrentBar={setCurrentBar}
+            currentTheme={theme}
+            profileNftLoading={profileNftLoading || !profileNftCalled}
+            profileNft={profileNftData?.getProfileNft} 
+          />
           {currentBar === ACCOUNT ? (
             loading ? (
               <Loading />
