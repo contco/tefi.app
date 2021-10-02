@@ -50,9 +50,9 @@ interface Props {
   currentTheme: string;
   text?: string;
   isBig?: boolean;
-  profileNftLoading: boolean;
-  profileNft: ProfileNft
-  address: string;
+  profileNftLoading?: boolean;
+  profileNft?: ProfileNft
+  address?: string;
 }
 
 const DEFAULT_TEXT = 'COMING SOON';
