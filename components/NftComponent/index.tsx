@@ -83,18 +83,20 @@ const NftComponent: React.FC<Props> = ({ currentTheme, text = DEFAULT_TEXT, isBi
   
 
   return (
-    <MainContainer>
+    <div>
       {data ? (
         <Collection data={data.items} />
       ) : (
-        <Container>
-          <AnimatedCircle currentTheme={currentTheme} isBig={isBig} />
-          <Box>
-            <BigText>{text}</BigText>
-          </Box>
-        </Container>
+        <MainContainer>
+          <Container>
+            <AnimatedCircle currentTheme={currentTheme} isBig={isBig} />
+            <Box>
+              <BigText>{text}</BigText>
+            </Box>
+          </Container>
+        </MainContainer>
       )}
-    </MainContainer>
+    </div>
   );
 };
 

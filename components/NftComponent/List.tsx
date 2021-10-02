@@ -7,10 +7,11 @@ import Item from './Item';
 const Container = styled.div`
   ${css({
     py: 3,
+    gridTemplateColumns: [null, null, '1fr', '1fr 1fr', '1fr 1fr', '1fr 1fr 1fr'],
   })}
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 1rem 0;
+  /* grid-template-columns: 1fr 1fr 1fr; */
+  gap: 3.99rem 3.99rem;
   &.internalSection {
     svg {
       color: secondary;
