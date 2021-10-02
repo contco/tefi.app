@@ -136,7 +136,7 @@ const Post = ({ data: { memo, from_address: address, block, timestamp }, current
         <MemoText>{memo}</MemoText>
       </MemoSection>
       <BottomSection>
-        <TipIcon onClick={onTipClick} />
+        {address === CLUB_DEPOSIT_ADDRESS ? <div /> : <TipIcon onClick={onTipClick} />}
         {displayTimestamp()}
       </BottomSection>
     </Container>
