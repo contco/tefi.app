@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import css from '@styled-system/css';
 import Item from './Item';
+import { Text } from '@contco/core-ui';
 
 const Container = styled.div`
   ${css({
@@ -19,6 +20,16 @@ const Container = styled.div`
   }
 `;
 
+const NoText = styled(Text)`
+  ${(props) =>
+    css({
+      color: props.theme.colors.Heading,
+      fontSize: '16px',
+      fontWeight: 600,
+      mb: 2,
+    })}
+`;
+
 interface Props {
   data: [any];
   currentTheme: any;
@@ -27,7 +38,11 @@ interface Props {
 const List: React.FC<Props> = ({ data, currentTheme }) => {
   return (
     <Container>
-      {data && data.map((item) => <Item key={item.token_id} data={item} currentTheme={currentTheme} />)}
+      {data && data.length ? (
+        data.map((item) => <Item key={item.token_id} data={item} currentTheme={currentTheme} />)
+      ) : (
+        <NoText>No Items Found</NoText>
+      )}
     </Container>
   );
 };
