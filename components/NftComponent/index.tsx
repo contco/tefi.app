@@ -8,7 +8,6 @@ import { useMutation } from '@apollo/client';
 import { useDgraphClient } from '../../lib/dgraphClient';
 import { ADD_PROFILE_NFT } from '../../graphql/mutations/addProfileNft';
 import { UPDATE_PROFILE_NFT } from '../../graphql/mutations/updateProfileNft'; 
-import { update } from '@react-spring/core';
 
 const MainContainer = styled(Flex)`
   justify-content: center;
@@ -50,9 +49,6 @@ interface Props {
   currentTheme: string;
   text?: string;
   isBig?: boolean;
-  profileNftLoading?: boolean;
-  profileNft?: ProfileNft
-  address?: string;
 }
 
 const DEFAULT_TEXT = 'COMING SOON';
@@ -65,26 +61,8 @@ export const AnimatedCircle: React.FC<Props> = ({ currentTheme, isBig = false })
   );
 };
 
-const NftComponent: React.FC<Props> = ({ currentTheme, text = DEFAULT_TEXT, isBig = false, profileNft, profileNftLoading, address }) => {
+const NftComponent: React.FC<Props> = ({ currentTheme, text = DEFAULT_TEXT, isBig = false }) => {
    
-  const [addProfileNft] = useMutation(ADD_PROFILE_NFT, {client: useDgraphClient()});
-  const [updateProfileNft] = useMutation(UPDATE_PROFILE_NFT, {client: useDgraphClient()});
-
-  const setProfileNft = (url: string) => {
-    if(!profileNftLoading) {
-       if(profileNft && profileNft?.address) {
-         updateProfileNft({variables: {filter: {address: {eq: profileNft.address }},set: {url}}})
-       }
-       else {
-         addProfileNft({variables: {address: address, url}});
-       }
-    }
-  }
-  
-  console.log('profileNft', profileNft);
-  console.log('profileNftLoading', profileNftLoading);
-  
-
   return (
     <div>
       {data ? (

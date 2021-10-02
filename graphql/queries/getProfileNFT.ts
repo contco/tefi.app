@@ -4,6 +4,7 @@ export const GET_PROFILE_NFT = gql`
   query getProfileNft($address: String! ) {
     getProfileNft(address: $address) {
       address
+      tokenId
       url
     }
   }

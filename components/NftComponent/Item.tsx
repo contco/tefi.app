@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import css from '@styled-system/css';
 import { Flex, Text, Avatar } from '@contco/core-ui';
 import { LIGHT_THEME } from '../../constants';
+import useWallet  from '../../lib/useWallet';
+import { useNftContext } from '../../contexts';
 
 const Container = styled(Flex)`
   flex-direction: column;
@@ -93,9 +95,19 @@ const BidText = styled.p`
 
 interface Props {
   data: any;
+  profileNft: ProfileNft
 }
 
 const Item: React.FC<Props> = ({ data }) => {
+
+  const { useConnectedWallet } = useWallet();
+  const connectedWallet  = useConnectedWallet();
+  const { profileNft, saveProfileNft } = useNftContext();
+
+  const isNftSelected = () => {
+    return data?.token_id === profileNft?.tokenId
+  }
+
   return (
     <Container>
       <ImageContainer>
@@ -106,8 +118,8 @@ const Item: React.FC<Props> = ({ data }) => {
         <ItemName>{data.name}</ItemName>
       </TextContainer>
       <BottomContainer>
-        {true && (
-          <AvatarContainer selected={data.name === 'Galactic Punk #9253'}>
+        {connectedWallet?.terraAddress && (
+          <AvatarContainer onClick={() => saveProfileNft(data.src, data.token_id)} selected={isNftSelected()}>
             <Avatar
               image={LIGHT_THEME === LIGHT_THEME ? '/images/dp_light.png' : '/images/dp_dark.png'}
               name="Hello"

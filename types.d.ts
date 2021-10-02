@@ -408,4 +408,5 @@ interface ErrorResult {
 interface ProfileNft {
   address: string;
   url: string;
+  tokenId: string;
 }

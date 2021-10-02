@@ -1,9 +1,7 @@
 import styled from 'styled-components';
 import css from '@styled-system/css';
-import { Flex } from '@contco/core-ui';
 import Item from './Item';
 
-// const MainContainer = styled(Flex)``;
 const Container = styled.div`
   ${css({
     py: 3,
@@ -27,7 +25,9 @@ interface Props {
 }
 
 const List: React.FC<Props> = ({ data }) => {
-  return <Container>{data && data.map((item) => <Item data={item} />)}</Container>;
+
+  
+  return <Container>{data && data.map((item) => <Item key={item.token_id} data={item} />)}</Container>;
 };
 
 export default List;

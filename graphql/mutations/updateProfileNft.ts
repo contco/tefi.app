@@ -1,10 +1,13 @@
 import { gql } from '@apollo/client';
 
 export const UPDATE_PROFILE_NFT = gql`
-  mutation addProfileNft($input: [AddProfileNftInput!]! ) {
-    profileNft {
-      address
-      url
-    }
+  mutation updateProfileNft($input: UpdateProfileNftInput! ) {
+    updateProfileNft(input: $input) {
+      profileNft {
+        address
+        url
+        tokenId
+      }
+    }  
   }
 `;

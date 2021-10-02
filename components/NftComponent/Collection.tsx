@@ -1,11 +1,10 @@
 import styled from 'styled-components';
 import css from '@styled-system/css';
-import { Flex, Text } from '@contco/core-ui';
+import { Text } from '@contco/core-ui';
 import List from './List';
 
 const MainContainer = styled.div`
-  ${(props) =>
-    css({
+  ${css({
       mt: 2,
       pl: 3,
       pr: 3,
