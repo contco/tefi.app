@@ -5,19 +5,16 @@ import { Flex, Text } from '@contco/core-ui';
 const Container = styled(Flex)`
   flex-direction: column;
   overflow: hidden;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  /* border-radius: 3%; */
   ${(props) =>
     css({
-      // p: 3,
+      boxShadow: props.theme.postShadow,
+      bg: 'background',
     })}
 `;
 
 const ImageContainer = styled(Flex)``;
 
-const Image = styled.img`
-  /* border-radius: 3%; */
-`;
+const Image = styled.img``;
 
 const TextContainer = styled(Flex)`
   flex-direction: column;
@@ -26,6 +23,7 @@ const TextContainer = styled(Flex)`
   ${(props) =>
     css({
       p: 3,
+      pb: 0,
     })}
 `;
 
@@ -48,6 +46,38 @@ const ItemName = styled(Text)`
     })}
 `;
 
+const BidContainer = styled(Flex)`
+  flex: 1;
+  justify-content: flex-end;
+  ${css({
+    mb: 3,
+  })}
+`;
+
+const BidButton = styled.div`
+  ${(props) =>
+    css({
+      bg: props.theme.colors.secondary,
+    })}
+  width: 25%;
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
+  height: 39px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+`;
+
+const BidText = styled.p`
+  color: white;
+  ${(props) =>
+    css({
+      color: props.theme.colors.primary,
+    })}
+  font-size: 11px;
+`;
+
 interface Props {
   data: any;
 }
@@ -64,6 +94,11 @@ const Item: React.FC<Props> = ({ data }) => {
         <CollectionName>{data.collection.name}</CollectionName>
         <ItemName>{data.name}</ItemName>
       </TextContainer>
+      <BidContainer>
+        <BidButton>
+          <BidText>Bid</BidText>
+        </BidButton>
+      </BidContainer>
     </Container>
   );
 };

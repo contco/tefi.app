@@ -6,6 +6,7 @@ import List from './List';
 const MainContainer = styled.div`
   ${(props) =>
     css({
+      mt: 2,
       pl: 3,
       pr: 3,
     })}
