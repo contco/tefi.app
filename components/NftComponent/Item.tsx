@@ -116,11 +116,6 @@ const Item: React.FC<Props> = ({ data }) => {
             />
           </AvatarContainer>
         )}
-        {false && (
-          <BidButton>
-            <BidText>Bid</BidText>
-          </BidButton>
-        )}
       </BottomContainer>
     </Container>
   );
