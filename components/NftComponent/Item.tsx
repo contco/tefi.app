@@ -1,12 +1,51 @@
 import styled from 'styled-components';
 import css from '@styled-system/css';
-import { Flex } from '@contco/core-ui';
-import Image from 'next/image';
+import { Flex, Text } from '@contco/core-ui';
 
 const Container = styled(Flex)`
   flex-direction: column;
-  background-color: red;
-  border: 1px solid grey;
+  overflow: hidden;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  /* border-radius: 3%; */
+  ${(props) =>
+    css({
+      // p: 3,
+    })}
+`;
+
+const ImageContainer = styled(Flex)``;
+
+const Image = styled.img`
+  /* border-radius: 3%; */
+`;
+
+const TextContainer = styled(Flex)`
+  flex-direction: column;
+  height: 99px;
+  justify-content: center;
+  ${(props) =>
+    css({
+      p: 3,
+    })}
+`;
+
+const CollectionName = styled(Text)`
+  ${(props) =>
+    css({
+      color: props.theme.colors.subHeading,
+      fontWeight: 500,
+      fontSize: ['14px', null, null, '14px'],
+    })}
+`;
+
+const ItemName = styled(Text)`
+  ${(props) =>
+    css({
+      color: props.theme.colors.Heading,
+      fontWeight: 500,
+      mt: 2,
+      fontSize: ['14px', null, null, '16px'],
+    })}
 `;
 
 interface Props {
@@ -18,8 +57,13 @@ const Item: React.FC<Props> = ({ data }) => {
 
   return (
     <Container>
-      <p>{data.name}</p>
-      <img src={data.src} alt="Picture of the author" width={260} height={260} />
+      <ImageContainer>
+        <Image src={data.src} alt="Picture of the author" width="100%" height="auto" />
+      </ImageContainer>
+      <TextContainer>
+        <CollectionName>{data.collection.name}</CollectionName>
+        <ItemName>{data.name}</ItemName>
+      </TextContainer>
     </Container>
   );
 };

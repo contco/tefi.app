@@ -1,9 +1,26 @@
 import styled from 'styled-components';
 import css from '@styled-system/css';
-import { Flex } from '@contco/core-ui';
+import { Flex, Text } from '@contco/core-ui';
 import List from './List';
 
-const MainContainer = styled(Flex)``;
+const MainContainer = styled.div`
+  ${(props) =>
+    css({
+      pl: 3,
+      pr: 3,
+    })}
+`;
+
+const Title = styled(Text)`
+  ${(props) =>
+    css({
+      color: props.theme.colors.Heading,
+      letterSpacing: 2,
+      fontSize: [20, null, null, 28],
+      fontWeight: 900,
+      mb: 2,
+    })}
+`;
 
 interface Props {
   data: any;
@@ -12,6 +29,7 @@ interface Props {
 const Collection: React.FC<Props> = ({ data }) => {
   return (
     <MainContainer>
+      <Title>Galactic Punks</Title>
       <List data={data} />
     </MainContainer>
   );
