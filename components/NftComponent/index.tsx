@@ -81,6 +81,9 @@ const NftComponent: React.FC<Props> = ({ currentTheme, text = DEFAULT_TEXT, isBi
     }
   }
   
+  console.log('profileNft', profileNft);
+  console.log('profileNftLoading', profileNftLoading);
+  
 
   return (
     <div>

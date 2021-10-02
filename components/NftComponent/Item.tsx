@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import css from '@styled-system/css';
-import { Flex, Text } from '@contco/core-ui';
+import { Flex, Text, Avatar } from '@contco/core-ui';
+import { LIGHT_THEME } from '../../constants';
 
 const Container = styled(Flex)`
   flex-direction: column;
@@ -46,12 +47,24 @@ const ItemName = styled(Text)`
     })}
 `;
 
-const BidContainer = styled(Flex)`
+const BottomContainer = styled(Flex)`
   flex: 1;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   ${css({
     mb: 3,
+    pl: 3,
   })}
+`;
+
+const AvatarContainer = styled(Flex)`
+  ${(props) =>
+    css({
+      p: props.selected ? 1 : 0,
+      border: `1px solid`,
+      borderColor: props.selected ? 'secondary' : 'primary',
+      borderRadius: '50%',
+    })}
 `;
 
 const BidButton = styled.div`
@@ -83,8 +96,6 @@ interface Props {
 }
 
 const Item: React.FC<Props> = ({ data }) => {
-  console.log(data, data);
-
   return (
     <Container>
       <ImageContainer>
@@ -94,11 +105,23 @@ const Item: React.FC<Props> = ({ data }) => {
         <CollectionName>{data.collection.name}</CollectionName>
         <ItemName>{data.name}</ItemName>
       </TextContainer>
-      <BidContainer>
-        <BidButton>
-          <BidText>Bid</BidText>
-        </BidButton>
-      </BidContainer>
+      <BottomContainer>
+        {true && (
+          <AvatarContainer selected={data.name === 'Galactic Punk #9253'}>
+            <Avatar
+              image={LIGHT_THEME === LIGHT_THEME ? '/images/dp_light.png' : '/images/dp_dark.png'}
+              name="Hello"
+              height={18}
+              width={18}
+            />
+          </AvatarContainer>
+        )}
+        {false && (
+          <BidButton>
+            <BidText>Bid</BidText>
+          </BidButton>
+        )}
+      </BottomContainer>
     </Container>
   );
 };
