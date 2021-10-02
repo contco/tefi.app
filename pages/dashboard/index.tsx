@@ -6,7 +6,6 @@ import Loading from '../../components/Loading';
 import EmptyComponent from '../../components/EmptyComponent';
 import Header from '../../components/Header';
 
-
 import { ADDRESS_KEY, LOCAL_ADDRESS_TYPE, WALLET_ADDRESS_TYPE } from '../../constants';
 import { NextSeo } from 'next-seo';
 import { DashboardSEO } from '../../next-seo.config';
@@ -35,8 +34,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   const { useConnectedWallet } = useWallet();
   const connectedWallet = useConnectedWallet();
   const [currentBar, setCurrentBar] = useState(ACCOUNT);
-  const {profileNft, profileNftLoading} = useNftContext();
-
+  const { profileNft, profileNftLoading } = useNftContext();
 
   useEffect(() => {
     const localAddress = localStorage.getItem(ADDRESS_KEY);
@@ -74,12 +72,12 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
           address={address}
         />
         <Body>
-          <TopBar 
+          <TopBar
             currentBar={currentBar}
             setCurrentBar={setCurrentBar}
             currentTheme={theme}
             profileNftLoading={profileNftLoading}
-            profileNft={profileNft} 
+            profileNft={profileNft}
           />
           {currentBar === ACCOUNT ? (
             loading ? (
@@ -90,10 +88,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
               <DashboardComponents assets={assets} />
             )
           ) : (
-            <NftComponent
-
-              currentTheme={theme}
-              />
+            <NftComponent address={address} currentTheme={theme} />
           )}
         </Body>
       </div>

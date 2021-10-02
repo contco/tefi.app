@@ -8,7 +8,6 @@ const Container = styled.div`
     gridTemplateColumns: [null, null, '1fr', '1fr 1fr', '1fr 1fr', '1fr 1fr 1fr'],
   })}
   display: grid;
-  /* grid-template-columns: 1fr 1fr 1fr; */
   gap: 3.99rem 3.99rem;
   &.internalSection {
     svg {
@@ -22,12 +21,15 @@ const Container = styled.div`
 
 interface Props {
   data: [any];
+  currentTheme: any;
 }
 
-const List: React.FC<Props> = ({ data }) => {
-
-  
-  return <Container>{data && data.map((item) => <Item key={item.token_id} data={item} />)}</Container>;
+const List: React.FC<Props> = ({ data, currentTheme }) => {
+  return (
+    <Container>
+      {data && data.map((item) => <Item key={item.token_id} data={item} currentTheme={currentTheme} />)}
+    </Container>
+  );
 };
 
 export default List;

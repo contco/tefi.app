@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import css from '@styled-system/css';
 import { Flex, Text, Avatar } from '@contco/core-ui';
 import { LIGHT_THEME } from '../../constants';
-import useWallet  from '../../lib/useWallet';
+import useWallet from '../../lib/useWallet';
 import { useNftContext } from '../../contexts';
 
 const Container = styled(Flex)`
@@ -51,11 +51,11 @@ const ItemName = styled(Text)`
 
 const BottomContainer = styled(Flex)`
   flex: 1;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   ${css({
     mb: 3,
-    pl: 3,
+    pr: 3,
   })}
 `;
 
@@ -95,18 +95,21 @@ const BidText = styled.p`
 
 interface Props {
   data: any;
-  profileNft: ProfileNft
+  currentTheme: any;
 }
 
-const Item: React.FC<Props> = ({ data }) => {
-
+const Item: React.FC<Props> = ({ data, currentTheme }) => {
   const { useConnectedWallet } = useWallet();
-  const connectedWallet  = useConnectedWallet();
+  const connectedWallet = useConnectedWallet();
   const { profileNft, saveProfileNft } = useNftContext();
 
   const isNftSelected = () => {
-    return data?.token_id === profileNft?.tokenId
-  }
+    return data?.tokenId === profileNft?.tokenId;
+  };
+
+  const onSetClick = () => {
+    saveProfileNft(data.src, data.token_id);
+  };
 
   return (
     <Container>
@@ -114,14 +117,14 @@ const Item: React.FC<Props> = ({ data }) => {
         <Image src={data.src} alt="Picture of the author" width="100%" height="auto" />
       </ImageContainer>
       <TextContainer>
-        <CollectionName>{data.collection.name}</CollectionName>
+        <CollectionName>{data.collection}</CollectionName>
         <ItemName>{data.name}</ItemName>
       </TextContainer>
       <BottomContainer>
-        {connectedWallet?.terraAddress && (
-          <AvatarContainer onClick={() => saveProfileNft(data.src, data.token_id)} selected={isNftSelected()}>
+        {false && connectedWallet?.terraAddress && (
+          <AvatarContainer onClick={onSetClick} selected={isNftSelected()}>
             <Avatar
-              image={LIGHT_THEME === LIGHT_THEME ? '/images/dp_light.png' : '/images/dp_dark.png'}
+              image={currentTheme === LIGHT_THEME ? '/images/dp_light.png' : '/images/dp_dark.png'}
               name="Hello"
               height={18}
               width={18}

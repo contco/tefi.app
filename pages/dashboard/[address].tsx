@@ -90,7 +90,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
               <DashboardComponents assets={assets} />
             )
           ) : (
-            <NftComponent currentTheme={theme} />
+            <NftComponent address={address} currentTheme={theme} />
           )}
         </Body>
       </div>

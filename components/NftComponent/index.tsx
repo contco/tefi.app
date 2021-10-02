@@ -2,12 +2,8 @@ import styled from 'styled-components';
 import css from '@styled-system/css';
 import { Text, Flex, Box } from '@contco/core-ui';
 import { Logo } from './AnimatedCircle';
-import * as data from './data.json';
 import Collection from './Collection';
-import { useMutation } from '@apollo/client';
-import { useDgraphClient } from '../../lib/dgraphClient';
-import { ADD_PROFILE_NFT } from '../../graphql/mutations/addProfileNft';
-import { UPDATE_PROFILE_NFT } from '../../graphql/mutations/updateProfileNft'; 
+import { useEffect, useState } from 'react';
 
 const MainContainer = styled(Flex)`
   justify-content: center;
@@ -49,6 +45,7 @@ interface Props {
   currentTheme: string;
   text?: string;
   isBig?: boolean;
+  address?: string;
 }
 
 const DEFAULT_TEXT = 'COMING SOON';
@@ -61,19 +58,28 @@ export const AnimatedCircle: React.FC<Props> = ({ currentTheme, isBig = false })
   );
 };
 
-const NftComponent: React.FC<Props> = ({ currentTheme, text = DEFAULT_TEXT, isBig = false }) => {
-   
+export const fetchNftData = async (addr, setData) => {
+  try {
+    const res = await fetch(`/api/nft/${addr}`);
+    setData(await res.json());
+  } catch (error) {}
+};
+
+const NftComponent: React.FC<Props> = ({ currentTheme, text = DEFAULT_TEXT, isBig = false, address }) => {
+  const [data, setData] = useState<any>(0);
+
+  useEffect(() => {
+    address && fetchNftData(address, setData);
+  }, [address]);
+
   return (
     <div>
       {data ? (
-        <Collection data={data.items} />
+        <Collection data={data} currentTheme={currentTheme} />
       ) : (
         <MainContainer>
           <Container>
             <AnimatedCircle currentTheme={currentTheme} isBig={isBig} />
-            <Box>
-              <BigText>{text}</BigText>
-            </Box>
           </Container>
         </MainContainer>
       )}

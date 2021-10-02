@@ -98,8 +98,6 @@ const AnimatedCircleTrail = () => {
     config: i === 0 ? fast : slow,
   }));
 
-  console.log(left, top, bottom);
-
   const handleMouseMove = (e) => {
     api.start({ xy: [e.clientX - left, e.clientY - top] });
   };
