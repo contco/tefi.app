@@ -7,12 +7,14 @@ const Container = styled(Flex)`
 `;
 
 const NoticeText = styled(Text)`
+line-height: 2;
+text-align: center;
   ${(props) =>
     css({
       color: props.theme.colors.red,
       fontSize: '19px',
       fontWeight: 600,
-      mb: 2,
+      p: 2,
     })}
 `;
 

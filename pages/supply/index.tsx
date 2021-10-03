@@ -25,7 +25,7 @@ const Supply: React.FC = ({ theme, changeTheme }: any) => {
       </Head>
       <Header theme={theme} changeTheme={changeTheme} />
       <Notice>
-        Data is inaccurate atm. Refer to{' '}
+        Weekly and Monthly data is inaccurate atm. Refer to{' '}
         <a href="https://terra.smartstake.io/history" target="_blank" style={{ color: 'blue' }}>
           Smart Stake.
         </a>
