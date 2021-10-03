@@ -1,30 +1,43 @@
 import React from 'react';
-import { Flex } from '@contco/core-ui';
+import { Flex, Box } from '@contco/core-ui';
 import css from '@styled-system/css';
 import styled, { keyframes } from 'styled-components';
 import TEFI_LOGO from '../public/tefi.svg';
+import { Logo } from './NftComponent/AnimatedCircle';
+import { AnimatedCircle } from './NftComponent';
 
 interface Props {
   height?: string;
   width?: string;
 }
-
-const Container = styled<any>(Flex)`
+const MainContainer = styled(Flex)`
   height: ${(props: any) => props.height || '65vh'};
-  width: ${(props: any) => props.width || '80vw'};
-
-  @media (max-width: 530px) {
-    width: ${(props: any) => props.width === '80vw' ? '90vw': '100vw'};
-  }
-
-  display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  ${css({
-    bg: 'background',
-  })}
+  flex-direction: column;
 `;
+
+const Container = styled(Box)`
+  align-items: center;
+  justify-content: center;
+`;
+
+// const Container = styled<any>(Flex)`
+//   height: ${(props: any) => props.height || '65vh'};
+//   width: ${(props: any) => props.width || '80vw'};
+
+//   @media (max-width: 530px) {
+//     width: ${(props: any) => (props.width === '80vw' ? '90vw' : '100vw')};
+//   }
+
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+//   ${css({
+//     bg: 'background',
+//   })}
+// `;
 
 const Text = styled.p`
   margin-top: 39px;
@@ -62,10 +75,12 @@ const StyledLogo = styled(TEFI_LOGO)`
 
 const Loading: React.FC<Props> = ({ height = '65vh', width = '80vw' }) => {
   return (
-    <Container height={height} width={width}>
-      <StyledLogo />
+    <MainContainer height={height}>
+      <Container>
+        <AnimatedCircle currentTheme={'light'} />
+      </Container>
       <Text>searching the cosmos...</Text>
-    </Container>
+    </MainContainer>
   );
 };
 
