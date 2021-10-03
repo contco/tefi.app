@@ -31,18 +31,12 @@ export const getLoterraStaking = async (address: string) => {
     const lpTokenRequest = wasmStoreRequest(contracts.loterraLPAddress, LpTokenMsg);
     const holderLP = wasmStoreRequest(contracts.loterraStakingLPAddress, holderLPMsg);
 
-    const [
-      poolInfo,
-      holderInfo,
-      claimInfo,
-      lpTokenInfo,
-      holderLPInfo
-    ] = await Promise.all([
+    const [poolInfo, holderInfo, claimInfo, lpTokenInfo, holderLPInfo] = await Promise.all([
       poolInfoRequest,
       holderRequest,
       claimsRequest,
       lpTokenRequest,
-      holderLP
+      holderLP,
     ]);
 
     const lotaPool = getLpStakingInfo(poolInfo, lpTokenInfo, holderLPInfo);

@@ -24,12 +24,6 @@ const Supply: React.FC = ({ theme, changeTheme }: any) => {
         <title>Tefi App - Asset Supply</title>
       </Head>
       <Header theme={theme} changeTheme={changeTheme} />
-      <Notice>
-        Weekly and Monthly data is inaccurate atm. Refer to{' '}
-        <a href="https://terra.smartstake.io/history" target="_blank" style={{ color: 'blue' }}>
-          Smart Stake.
-        </a>
-      </Notice>
       <AssetSupply assetSupply={data?.queryAssetSupply} />
     </>
   );
