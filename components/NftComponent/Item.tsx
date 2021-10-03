@@ -15,9 +15,10 @@ const Container = styled(Flex)`
     })}
 `;
 
-const ImageContainer = styled(Flex)``;
-
-const Image = styled.img``;
+const Image = styled.img`
+  width: 100%;
+  height: auto;
+`;
 
 const TextContainer = styled(Flex)`
   flex-direction: column;
@@ -113,9 +114,7 @@ const Item: React.FC<Props> = ({ data, currentTheme }) => {
 
   return (
     <Container>
-      <ImageContainer>
-        <Image src={data.src} alt="Picture of the author" width="100%" height="auto" />
-      </ImageContainer>
+      <Image src={data.src} />
       <TextContainer>
         <CollectionName>{data.collection}</CollectionName>
         <ItemName>{data.name}</ItemName>
