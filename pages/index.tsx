@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import Header from '../components/Header';
 import Landing from '../components/Landing';
 import styled from 'styled-components';
-import { getTWDAccount } from './api/twd/lib';
+import { getTWDAccount } from './api/terraworld/lib';
 
 const EmptyContainer = styled.div`
   height: 100vh;

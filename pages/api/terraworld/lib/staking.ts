@@ -2,9 +2,12 @@ import { getPoolInfo, wasmStoreRequest } from '@contco/terra-utilities';
 import { contracts } from './contracts';
 import { getLpStakingInfo } from './getLpStaking';
 import { getGovInfo } from './getGovInfo';
+import { getLatestBlockHeight } from '@contco/terra-utilities';
 
-export const getLoterraStaking = async (address: string) => {
+export const getTerraWorldStaking = async (address: string) => {
   try {
+    const blockRequest = await getLatestBlockHeight();
+    const blockHeight = parseFloat(blockRequest);
     const holderMsg = {
       holder: { address: address },
     };
@@ -13,7 +16,7 @@ export const getLoterraStaking = async (address: string) => {
         address: address,
       },
     };
-    const LpTokenMsg = {
+    const balanceMsg = {
       balance: {
         address: address,
       },
@@ -25,29 +28,38 @@ export const getLoterraStaking = async (address: string) => {
       },
     };
 
+    const stakerInfo = {
+      staker_info:{
+        staker:address,
+        block_height: blockHeight,
+      }
+    }
+
     const poolInfoRequest = getPoolInfo(contracts.pool);
-    const holderRequest = wasmStoreRequest(contracts.staking, holderMsg);
-    const claimsRequest = wasmStoreRequest(contracts.staking, claimMsg);
-    const lpTokenRequest = wasmStoreRequest(contracts.terraWorldLPAddress, LpTokenMsg);
-    const holderLP = wasmStoreRequest(contracts.terraWorldStakingLPAddress, holderLPMsg);
+    const poolRewardRequest =  wasmStoreRequest(contracts.twdPoolStakingContract, stakerInfo);
+    const govRewardsRequest =  wasmStoreRequest(contracts.twdGovStakingContract, stakerInfo);
+    const poolLpRequest = wasmStoreRequest(contracts.staking, balanceMsg);
+
 
     const [
       poolInfo,
-      holderInfo,
-      claimInfo,
-      lpTokenInfo,
-      holderLPInfo
+      poolRewardInfo,
+      govRewardInfo,
+      poolLpInfo,
     ] = await Promise.all([
       poolInfoRequest,
-      holderRequest,
-      claimsRequest,
-      lpTokenRequest,
-      holderLP
+      poolRewardRequest,
+      govRewardsRequest,
+      poolLpRequest,
     ]);
+    console.log(poolInfo)
+    console.log(poolRewardInfo);
+    console.log(govRewardInfo);
+    console.log(poolLpInfo);
 
-    const lotaPool = getLpStakingInfo(poolInfo, lpTokenInfo, holderLPInfo);
-    const lotaGov = getGovInfo(holderInfo, poolInfo, claimInfo);
-    return { lotaGov, lotaPool };
+    //const twdPool = getLpStakingInfo(poolInfo, lpTokenInfo, holderLPInfo);
+    //const twdGov = getGovInfo(holderInfo, poolInfo, claimInfo);
+    //return { twdGov, twdPool };
   } catch (err) {
     return null;
   }

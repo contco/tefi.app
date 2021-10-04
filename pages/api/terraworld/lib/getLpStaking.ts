@@ -3,9 +3,9 @@ import { UNIT } from '../../mirror/utils';
 import { getLpValue } from '../../utils';
 import { getPoolValues } from './getPoolValues';
 
-const LP_NAME = 'LOTA-UST';
+const LP_NAME = 'TWD-UST';
 const SYMBOL1 = 'UST'
-const SYMBOL2 = "LOTA";
+const SYMBOL2 = "TWD";
 
 export const getLpStakingInfo = (poolInfo, lpTokenInfo, holderLPInfo) => {
   if (lpTokenInfo?.balance === '0' && holderLPInfo?.balancce === '0') {
