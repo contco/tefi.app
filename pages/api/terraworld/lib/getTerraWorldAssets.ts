@@ -5,7 +5,7 @@ import { getGovInfo } from './getGovInfo';
 import { getLatestBlockHeight } from '@contco/terra-utilities';
 import { getWalletHoldings } from './getWalletHoldings';
 
-export const getTerrWorldASsets = async (address: string) => {
+export const getTerraWorldAssets = async (address: string) => {
   try {
     const blockRequest = await getLatestBlockHeight();
     const blockHeight = parseFloat(blockRequest);

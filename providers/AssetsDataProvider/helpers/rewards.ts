@@ -49,7 +49,8 @@ export const getRewardData = (anchor: AccountAnc, mirror: MirrorAccount, pylon: 
   );
 
   const starTerraGov = starterra.starTerraGov ? starterra.starTerraGov : [];
-  const gov = [pylon?.gov, spectrum?.specGov, mirror?.gov, anchor?.gov, loterra?.lotaGov, ...starTerraGov, terraworld.twdGov]
+  const terraworldGov = terraworld.twdGov? [terraworld.twdGov]: [];
+  const gov = [pylon?.gov, spectrum?.specGov, mirror?.gov, anchor?.gov, loterra?.lotaGov, ...starTerraGov, ...terraworldGov]
     .filter((item) => item != null)
     .sort((a, b) => parseFloat(b.value) - parseFloat(a.value));
 
