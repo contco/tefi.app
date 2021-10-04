@@ -10,7 +10,7 @@ export const getRewardData = (anchor: AccountAnc, mirror: MirrorAccount, pylon: 
   const borrowRewards = anchor?.debt?.reward;
   const totalReward = anchor?.totalReward;
   const lotaPool = loterra?.lotaPool ? [loterra.lotaPool] : [];
-  
+  const terraworldPool = terraworld.twdPool? [terraworld.twdPool] : [];
 
   const getRewardsTotal = () => {
     const ancTotal = totalReward;
@@ -44,7 +44,7 @@ export const getRewardData = (anchor: AccountAnc, mirror: MirrorAccount, pylon: 
     return govStaked;
   };
 
-  const pool = [...pylon?.pylonPool, ...mirror?.mirrorStaking, ...anchor.pool, ...lotaPool, terraworld.twdPool].sort(
+  const pool = [...pylon?.pylonPool, ...mirror?.mirrorStaking, ...anchor.pool, ...lotaPool, ...terraworldPool].sort(
     (a, b) => b.rewardsValue - a.rewardsValue,
   );
 
