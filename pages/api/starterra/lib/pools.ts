@@ -52,8 +52,8 @@ const getStakedData = (stakingPools: any, poolInfo: any, sttPrice: any) => {
     };
   } else {
     let totalStakedLp = 0;
-    let totalUnbondedLp = 0;
-    let totalUnbondedLpUstValue = 0;
+    let totalBondedLp = 0;
+    let totalBondedLpUstValue = 0;
     let totalStakedLpUstValue = 0;
     let totalRewards = 0;
     let totalRewardsValue = 0;
@@ -62,22 +62,22 @@ const getStakedData = (stakingPools: any, poolInfo: any, sttPrice: any) => {
       const { lpAmount, lpUstValue, token1, token2 } = calculateLpBonding(stakingPool.bond_amount, poolInfo);
       const rewards = stakingPool.pending_reward / UNIT;
       const rewardsValue = rewards * parseFloat(sttPrice);
-      const unbondedAmount = stakingPool.rewards_per_fee[0] ? stakingPool.rewards_per_fee[0].amount : 0;
-      const unbondedData = calculateLpBonding(unbondedAmount, poolInfo);
+      const bondedAmount = stakingPool.rewards_per_fee[0] ? stakingPool.rewards_per_fee[0].amount : 0;
+      const bondedData = calculateLpBonding(bondedAmount, poolInfo);
 
       const unbondingTime = stakingPool.rewards_per_fee[0]
         ? secondsToDate(Math.floor(new Date().getTime()) / 1000 + parseFloat(stakingPool.time_to_best_fee))
         : '-';
 
-      const unbondedLp = unbondedData.lpAmount;
-      const unbondedLpUstValue = unbondedData.lpUstValue;
-      const token1Unbonded = unbondedData.token1;
-      const token2Unbonded = unbondedData.token2;
+      const bondedLp = bondedData.lpAmount;
+      const bondedLpUstValue = bondedData.lpUstValue;
+      const token1Bonded = bondedData.token1;
+      const token2Bonded = bondedData.token2;
 
       totalStakedLp = totalStakedLp + lpAmount;
       totalStakedLpUstValue = totalStakedLpUstValue + lpUstValue;
-      totalUnbondedLp = totalUnbondedLp + unbondedLp;
-      totalUnbondedLpUstValue = totalUnbondedLpUstValue + unbondedLpUstValue;
+      totalBondedLp = totalBondedLp + bondedLp;
+      totalBondedLpUstValue = totalBondedLpUstValue + bondedLpUstValue;
       totalRewards = totalRewards + rewards;
       totalRewardsValue = totalRewardsValue + rewardsValue;
 
@@ -90,10 +90,10 @@ const getStakedData = (stakingPools: any, poolInfo: any, sttPrice: any) => {
         token2Staked: token2.toString(),
         rewards: rewards.toString(),
         rewardsValue: rewardsValue.toString(),
-        unbondedLp: unbondedLp.toString(),
-        unbondedLpUstValue: unbondedLpUstValue.toString(),
-        token1Unbonded: token1Unbonded.toString(),
-        token2Unbonded: token2Unbonded.toString(),
+        bondedLp: bondedLp.toString(),
+        bondedLpUstValue: bondedLpUstValue.toString(),
+        token1Bonded: token1Bonded.toString(),
+        token2Bonded: token2Bonded.toString(),
         unbondingTime,
       };
     });
@@ -102,8 +102,8 @@ const getStakedData = (stakingPools: any, poolInfo: any, sttPrice: any) => {
       stakedData,
       totalStakedLp: totalStakedLp.toString(),
       totalStakedLpUstValue: totalStakedLpUstValue.toString(),
-			totalUnbondedLp: totalUnbondedLp.toString(),
-			totalUnbondedLpUstValue: totalUnbondedLpUstValue.toString(),
+			totalBondedLp: totalBondedLp.toString(),
+			totalBondedLpUstValue: totalBondedLpUstValue.toString(),
       totalRewards: totalRewards.toString(),
       totalRewardsValue: totalRewardsValue.toString(),
     };
@@ -125,7 +125,7 @@ const getStakeAbleData = (userLpData: any, poolInfo: any) => {
 };
 
 export const getStarTerraPools = (userStakingPools: any, userLpData: any, poolInfo: any, sttPrice: string) => {
-  const { stakedData, totalStakedLp, totalStakedLpUstValue, totalUnbondedLp, totalUnbondedLpUstValue, totalRewards, totalRewardsValue } = getStakedData(
+  const { stakedData, totalStakedLp, totalStakedLpUstValue, totalBondedLp, totalBondedLpUstValue, totalRewards, totalRewardsValue } = getStakedData(
     userStakingPools,
     poolInfo,
     sttPrice,
@@ -138,8 +138,8 @@ export const getStarTerraPools = (userStakingPools: any, userLpData: any, poolIn
     symbol2: TOKEN2_SYMBOL,
     totalStakedLp,
     totalStakedLpUstValue,
-		totalUnbondedLp,
-		totalUnbondedLpUstValue,	
+		totalBondedLp,
+		totalBondedLpUstValue,	
     totalRewards,
     totalRewardsValue,
     ...stakeableData,

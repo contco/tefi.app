@@ -383,10 +383,10 @@ export const getAssets = gql`
             token2Staked
             rewards
             rewardsValue
-						unbondedLp
-						unbondedLpUstValue
-						token1Unbonded
-						token2Unbonded
+						bondedLp
+						bondedLpUstValue
+						token1Bonded
+						token2Bonded
 						unbondingTime
           }
           stakeableLp
@@ -397,8 +397,8 @@ export const getAssets = gql`
           token2UnStaked
           totalStakedLp
           totalStakedLpUstValue
-					totalUnbondedLp
-					totalUnbondedLpUstValue
+					totalBondedLp
+					totalBondedLpUstValue
           totalRewards
           totalRewardsValue
         }

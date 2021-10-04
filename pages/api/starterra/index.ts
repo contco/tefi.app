@@ -12,10 +12,10 @@ const typeDefs = gql`
     token2Staked: String!
     rewards: String!
     rewardsValue: String!
-    unbondedLp: String
-    unbondedLpUstValue: String
-    token1Unbonded: String
-    token2Unbonded: String
+    bondedLp: String
+    bondedLpUstValue: String
+    token1Bonded: String
+    token2Bonded: String
     unbondingTime: String
   }
 
@@ -29,8 +29,8 @@ const typeDefs = gql`
     token2UnStaked: String
     totalStakedLp: String
     totalStakedLpUstValue: String
-    totalUnbondedLp: String
-    totalUnbondedLpUstValue: String
+    totalBondedLp: String
+    totalBondedLpUstValue: String
     totalRewards: String
     totalRewardsValue: String
   }

@@ -339,10 +339,10 @@ interface StarStakedData {
   token2Staked: string;
   rewards: string;
   rewardsValue: string;
-  unbondedLp: string;
-  unbondedLpUstValue: string;
-  token1Unbonded: string;
-  token2Unbonded: string;
+  bondedLp: string;
+  bondedLpUstValue: string;
+  token1Bonded: string;
+  token2Bonded: string;
   unbondingTime: string;
 }
 
@@ -356,8 +356,8 @@ interface StarTerraPools {
   token2UnStaked: string;
   totalStakedLp: string;
   totalStakedLpUstValue: string;
-  totalUnbondedLp: string;
-  totalUnbondedLpUstValue: string;
+  totalBondedLp: string;
+  totalBondedLpUstValue: string;
   totalRewards: string;
   totalRewardsValue: string;
 }
