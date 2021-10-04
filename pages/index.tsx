@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Header from '../components/Header';
 import Landing from '../components/Landing';
 import styled from 'styled-components';
+import { getTWDAccount } from './api/twd/lib';
 
 const EmptyContainer = styled.div`
   height: 100vh;
@@ -18,6 +19,10 @@ const Home: React.FC = ({ theme, changeTheme }: any) => {
     setIsDisplay(false);
     setTimeout(() => setIsDisplay(true), 1000);
   }, [router.pathname]);
+
+  useEffect(() => {
+    getTWDAccount('terra18jg24fpqvjntm2wfc0p47skqccdr9ldtgl5ac9');
+  }, [])
 
   return (
     <div>
