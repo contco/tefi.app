@@ -33,13 +33,14 @@ const NoText = styled(Text)`
 interface Props {
   data: [any];
   currentTheme: any;
+  address: string;
 }
 
-const List: React.FC<Props> = ({ data, currentTheme }) => {
+const List: React.FC<Props> = ({ data, currentTheme, address }) => {
   return (
     <Container>
       {data && data.length ? (
-        data.map((item) => <Item key={item.token_id} data={item} currentTheme={currentTheme} />)
+        data.map((item) => <Item key={item.token_id} data={item} currentTheme={currentTheme} address={address} />)
       ) : (
         <NoText>No Items Found</NoText>
       )}

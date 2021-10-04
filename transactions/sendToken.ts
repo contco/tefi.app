@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { MsgSend, MsgExecuteContract, Coin} from "@terra-money/terra.js";
+import { MsgSend, MsgExecuteContract, Coin } from "@terra-money/terra.js";
 import { FCD_URL } from '../pages/api/utils';
 import { UNIT } from '../pages/api/mirror/utils';
 import BigNumber from 'bignumber.js';
@@ -15,9 +15,11 @@ interface SendTokenTransactionData {
 	from: string;
 	memo?: string;
 	denom?: string;
-	amount: string;
+	amount?: string;
 	contract?: string
 	txDenom?: string;
+	isNFT?: boolean;
+	tokenId?: string;
 }
 
 const fetchCapital = async (denom = DEFAULT_DENOM) => {
@@ -42,37 +44,47 @@ const getGasPrice = async (denom = DEFAULT_DENOM) => {
 }
 
 const getDeductedAmounts = (amount: string, estimatedFee: string, tax: Coin | null, feeDenom: string, denom: string, contract: string) => {
-	if(denom) {
-			const taxData  = tax ? tax.toData() : {amount: '0'};
-			if(denom === feeDenom) {
-				const deductedAmount = parseFloat(amount) + (parseFloat(estimatedFee)  + parseFloat(taxData.amount) / UNIT);
-				return [{denom, amount: deductedAmount }]
-			}
-			else {
-				const denomAmount = {denom, amount: parseFloat(amount) + (parseFloat(taxData.amount)/UNIT)};
-				const feeAmount = {denom: feeDenom, amount: (parseFloat(estimatedFee) / UNIT)}
-				return [denomAmount, feeAmount]
-			}
-	}  
+	if (denom) {
+		const taxData = tax ? tax.toData() : { amount: '0' };
+		if (denom === feeDenom) {
+			const deductedAmount = parseFloat(amount) + (parseFloat(estimatedFee) + parseFloat(taxData.amount) / UNIT);
+			return [{ denom, amount: deductedAmount }]
+		}
+		else {
+			const denomAmount = { denom, amount: parseFloat(amount) + (parseFloat(taxData.amount) / UNIT) };
+			const feeAmount = { denom: feeDenom, amount: (parseFloat(estimatedFee) / UNIT) }
+			return [denomAmount, feeAmount]
+		}
+	}
 	else {
-		const dedudctedAmount = {contract: contract, amount:parseFloat(amount)};
-		const feeAmount = {denom: feeDenom, amount: parseFloat(estimatedFee) / UNIT};
+		const dedudctedAmount = { contract: contract, amount: parseFloat(amount) };
+		const feeAmount = { denom: feeDenom, amount: parseFloat(estimatedFee) / UNIT };
 		return [dedudctedAmount, feeAmount];
-		
+
 	}
 };
 
 
 export const sendToken = async (data: SendTokenTransactionData, post) => {
 	try {
-		const { to, from, amount, memo, denom, txDenom, contract } = data;
+		const { to, from, amount, memo, denom, txDenom, contract, isNFT, tokenId } = data;
 		const amountInLamports = (+amount * +UNIT);
-		const msgs = denom ? [new MsgSend(from, to, { [denom]: amountInLamports })] :  [
-			new MsgExecuteContract(from, contract, {
-			  transfer: { recipient: to, amount: amountInLamports.toString() },
-			}),
-		  ];
-		const tax = denom ? await calculateTax(amountInLamports.toString(), denom) : null; 
+		let msgs;
+		if (isNFT) {
+			msgs = [
+				new MsgExecuteContract(from, contract, {
+					transfer_nft: { recipient: to, token_id: tokenId, },
+				}),
+			];
+
+		} else {
+			msgs = denom ? [new MsgSend(from, to, { [denom]: amountInLamports })] : [
+				new MsgExecuteContract(from, contract, {
+					transfer: { recipient: to, amount: amountInLamports.toString() },
+				}),
+			];
+		}
+		const tax = denom ? await calculateTax(amountInLamports.toString(), denom) : null;
 		const feeDenom = txDenom ?? DEFAULT_DENOM;
 		const gasPrice = await getGasPrice(feeDenom);
 		const feeResult = await calculateFee(data.from, msgs, tax, gasPrice, feeDenom, memo);
@@ -80,7 +92,7 @@ export const sendToken = async (data: SendTokenTransactionData, post) => {
 			return feeResult;
 		}
 		else {
-		  const gasPrices = { [txDenom]: gasPrice };
+			const gasPrices = { [txDenom]: gasPrice };
 			const txOptions = {
 				msgs,
 				memo: memo,
@@ -89,7 +101,7 @@ export const sendToken = async (data: SendTokenTransactionData, post) => {
 			}
 			const deductedAmounts = getDeductedAmounts(amount, feeResult.estimatedFee, tax, feeDenom, denom, contract);
 			const result = await post(txOptions);
-			return {error: false, msg: '', txResult: result, deductedAmounts};
+			return { error: false, msg: '', txResult: result, deductedAmounts };
 		}
 	}
 	catch ({ message }) {
@@ -97,20 +109,20 @@ export const sendToken = async (data: SendTokenTransactionData, post) => {
 	}
 }
 
-export const simulateSendTokenTx = async (data: SendTokenTransactionData ) => {
-    try{
-	    const { to, from, amount, memo, denom, txDenom, contract } = data;
+export const simulateSendTokenTx = async (data: SendTokenTransactionData) => {
+	try {
+		const { to, from, amount, memo, denom, txDenom, contract } = data;
 		const amountInLamports = (+amount * +UNIT);
-		const msgs = denom ?  [new MsgSend(from, to, { [denom]: amountInLamports })] : [new MsgExecuteContract(from, contract, {
-            transfer: { recipient: to, amount: amountInLamports.toString() },
-        })]; 
+		const msgs = denom ? [new MsgSend(from, to, { [denom]: amountInLamports })] : [new MsgExecuteContract(from, contract, {
+			transfer: { recipient: to, amount: amountInLamports.toString() },
+		})];
 		const feeDenom = txDenom ?? DEFAULT_DENOM;
 		const gasPrice = await getGasPrice(feeDenom);
-		const {estimatedFee}= await calculateFee(data.from, msgs, null, gasPrice, feeDenom, memo);
+		const { estimatedFee } = await calculateFee(data.from, msgs, null, gasPrice, feeDenom, memo);
 		const fee = (+estimatedFee / +UNIT).toString();
-		return {fee, feeInLamports: estimatedFee, error: false};
-    }
-	catch(err){
-		return {error: true, fee: '0', feeInLamports: '0'};
+		return { fee, feeInLamports: estimatedFee, error: false };
+	}
+	catch (err) {
+		return { error: true, fee: '0', feeInLamports: '0' };
 	}
 }
