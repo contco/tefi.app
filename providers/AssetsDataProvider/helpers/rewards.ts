@@ -6,19 +6,26 @@ const formatApr = (apr = '0') => {
   return parseFloat(aprPercentage).toFixed(2);
 };
 
-export const getRewardData = (anchor, mirror, pylon, spectrum, loterra, starterra: StarTerraAccount) => {
+export const getRewardData = (anchor: AccountAnc, mirror: MirrorAccount, pylon: PylonAccount, spectrum: SpectrumAccount, loterra: LoterraAccount, starterra: StarTerraAccount) => {
   const borrowRewards = anchor?.debt?.reward;
   const totalReward = anchor?.totalReward;
+  const lotaPool = loterra?.lotaPool ? [loterra.lotaPool] : [];
+  
 
   const getRewardsTotal = () => {
     const ancTotal = totalReward;
     const mirrorTotal = mirror?.total?.mirrorPoolRewardsSum;
     const pylonPoolTotal = pylon?.pylonSum?.pylonPoolRewardsSum;
     const loterraRewards = loterra?.lotaGov?.rewardsValue ?? '0';
+    const loterraPoolRewards = loterra?.lotaPool?.rewardsValue ?? '0';
     const starterraRewards = starterra?.govRewardsTotal;
     const total =
-      parseFloat(mirrorTotal) + parseFloat(ancTotal) + parseFloat(pylonPoolTotal) + parseFloat(loterraRewards)
-      + parseFloat(starterraRewards);
+      parseFloat(mirrorTotal) +
+      parseFloat(ancTotal) +
+      parseFloat(pylonPoolTotal) +
+      parseFloat(loterraRewards) +
+      parseFloat(starterraRewards)+
+      parseFloat(loterraPoolRewards)
 
     return total.toString() ?? '0';
   };
@@ -34,10 +41,10 @@ export const getRewardData = (anchor, mirror, pylon, spectrum, loterra, starterr
     return govStaked;
   };
 
-  const pool = [...pylon?.pylonPool, ...mirror?.mirrorStaking, ...anchor.pool].sort(
+  const pool = [...pylon?.pylonPool, ...mirror?.mirrorStaking, ...anchor.pool, ...lotaPool].sort(
     (a, b) => b.rewardsValue - a.rewardsValue,
   );
-  
+
   const starTerraGov = starterra.starTerraGov ? starterra.starTerraGov : [];
   const gov = [pylon?.gov, spectrum?.specGov, mirror?.gov, anchor?.gov, loterra?.lotaGov, ...starTerraGov]
     .filter((item) => item != null)
@@ -50,7 +57,7 @@ export const getRewardData = (anchor, mirror, pylon, spectrum, loterra, starterr
 
     pool?.map((item: Pool) => {
       const value = parseFloat(item?.totalLpUstValue);
-      const apr = parseFloat(item?.apr);
+      const apr = parseFloat(item?.apr ?? item?.apy);
       if (value && apr) {
         const daily = (apr / 365) * value;
         const monthly = daily * 30;

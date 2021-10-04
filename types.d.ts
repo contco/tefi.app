@@ -315,7 +315,7 @@ interface LoterraAccount {
   loterraDraw: LoterraDraw;
   lotaGov: LotaGov;
   total: loterraTotal;
-  loterraStaking: Pool[];
+  lotaPool: Pool;
 }
 
 interface ModalDisplayState {

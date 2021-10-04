@@ -8,7 +8,6 @@ import SpectrumFarms from '../../components/SpectrumFarms';
 import SpectrumRewards from '../../components/SpectrumRewards';
 import Rewards from '../../components/Rewards';
 import Loterra from '../../components/ؒLoterra';
-import LoterraPool from '../../components/ؒLoterraPool';
 import Earn from '../../components/Earn';
 import Burn from '../../components/Burn';
 import ShortFarms from '../../components/ShortFarms';
@@ -43,8 +42,7 @@ const DashboardComponents: React.FC<Props> = ({ assets }) => {
           assets?.loterra,
           assets?.lunaStaking,
           assets?.airdrops,
-          assets?.apollo,
-          assets?.lotaPool,
+          assets?.apollo
         ]}
       />
       <Assets assets={assets?.assets} />
@@ -61,7 +59,6 @@ const DashboardComponents: React.FC<Props> = ({ assets }) => {
       <SpectrumRewards reward={assets?.specReward} />
       <StarTerraFarms farm={assets?.starterraFarms} />
       <Loterra loterra={assets?.loterra} />
-      <LoterraPool loterra={assets.lotaPool} />
       <LunaStaking staking={assets?.lunaStaking || {}} />
       <Airdrops airdrops={assets?.airdrops} />
     </Box>
