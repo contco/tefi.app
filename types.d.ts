@@ -339,9 +339,11 @@ interface StarStakedData {
   token2Staked: string;
   rewards: string;
   rewardsValue: string;
-	unbondedLp: string;
-	unbondingTime: string;
-	unbondedLpUstValue: string;
+  unbondedLp: string;
+  unbondedLpUstValue: string;
+  token1Unbonded: string;
+  token2Unbonded: string;
+  unbondingTime: string;
 }
 
 interface StarTerraPools {
@@ -354,15 +356,17 @@ interface StarTerraPools {
   token2UnStaked: string;
   totalStakedLp: string;
   totalStakedLpUstValue: string;
+  totalUnbondedLp: string;
+  totalUnbondedLpUstValue: string;
   totalRewards: string;
   totalRewardsValue: string;
 }
 
 interface StarTerraAccount {
-  starTerraPools: StarTerraPools
-  starTerraGov: [Gov]
-  govRewardsTotal: string
-  govStakedTotal: string
+  starTerraPools: StarTerraPools;
+  starTerraGov: [Gov];
+  govRewardsTotal: string;
+  govStakedTotal: string;
 }
 
 interface ApolloVault {
@@ -375,7 +379,7 @@ interface ApolloVault {
   token2Staked: string;
 }
 
-interface ApolloAccount  {
+interface ApolloAccount {
   vaults: ApolloVault[];
   total: string;
 }

@@ -1,33 +1,36 @@
 import { ApolloServer, gql } from 'apollo-server-micro';
 import { buildFederatedSchema } from '@apollo/federation';
-import {getStarTerraAccount} from './lib/account';
+import { getStarTerraAccount } from './lib/account';
 
 const typeDefs = gql`
   type StarStakedData {
     lpName: String!
-		faction: String!
+    faction: String!
     stakedLp: String!
-		stakedLpUstValue: String!
+    stakedLpUstValue: String!
     token1Staked: String!
     token2Staked: String!
     rewards: String!
     rewardsValue: String!
-		unbondedLp: String
-		unbondingTime: String
-		unbondedLpUstValue: String
+    unbondedLp: String
+    unbondedLpUstValue: String
+    token1Unbonded: String
+    token2Unbonded: String
+    unbondingTime: String
   }
-  
 
   type StarTerraPools {
     stakedData: [StarStakedData]
-		symbol1: String
-		symbol2: String
+    symbol1: String
+    symbol2: String
     stakeableLp: String
     stakeableLpUstValue: String
     token1UnStaked: String
     token2UnStaked: String
     totalStakedLp: String
     totalStakedLpUstValue: String
+    totalUnbondedLp: String
+    totalUnbondedLpUstValue: String
     totalRewards: String
     totalRewardsValue: String
   }
@@ -41,7 +44,6 @@ const typeDefs = gql`
     rewards: String
     rewardsValue: String
     apr: String
-
   }
 
   type StarTerraAccount {

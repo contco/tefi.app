@@ -5,6 +5,8 @@ export const getStarterraFarms = (starterra) => {
     return {};
   }
 
+  console.log(starterra);
+
   const data = starterra.stakedData.map((data: StarStakedData) => {
     return [
       { name: data.lpName },
@@ -17,12 +19,16 @@ export const getStarterraFarms = (starterra) => {
         },
       },
 
-			{
-				value: convertToFloatValue(data?.unbondedLp) + ' LP',
-			},
-			{
-				value: data?.unbondingTime,
-			},
+      {
+        lpData: {
+          lp: convertToFloatValue(data?.unbondedLp) + ' LP',
+          token1: convertToFloatValue(data?.token2Unbonded) + ' ' + starterra?.symbol2,
+          token2: convertToFloatValue(data?.token1Unbonded) + ' ' + starterra?.symbol1,
+        },
+      },
+      {
+        value: data?.unbondingTime,
+      },
       {
         reward: {
           token: convertToFloatValue(data?.rewards) + ' ' + starterra.symbol2,
@@ -36,10 +42,16 @@ export const getStarterraFarms = (starterra) => {
     titles: ['Name', 'Faction', 'Staked', 'Unbonded', 'Unbonding Time', 'Reward'],
     data: data,
     total: [
-      { name: 'Total LP Value', value: convertToFloatValue(starterra?.totalStakedLpUstValue) + ' UST' },
+      {
+        name: 'Total LP Value',
+        value:
+          convertToFloatValue(
+            (parseFloat(starterra?.totalStakedLpUstValue) + parseFloat(starterra?.totalUnbondedLpUstValue)).toString(),
+          ) + ' UST',
+      },
       { name: 'Total Reward Value', value: convertToFloatValue(starterra?.totalRewardsValue) + ' UST' },
     ],
-    totalValue: parseFloat(starterra?.totalStakedLpUstValue) + parseFloat(starterra?.unbondedLpUstValue),
+    totalValue: parseFloat(starterra?.totalStakedLpUstValue) + parseFloat(starterra?.totalUnbondedLpUstValue),
     totalReward: parseFloat(starterra?.totalRewardsValue),
   };
 };
