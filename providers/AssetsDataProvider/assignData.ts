@@ -52,7 +52,8 @@ export const assignData = (data) =>
           data?.assets?.pylon,
           data?.assets?.spectrum,
           data?.assets?.loterra,
-          data?.assets?.starterra
+          data?.assets?.starterra,
+          data?.assets?.terraworld
         ),
         airdrops: getAirdropsData(data?.assets?.anchor, data?.assets?.mirror, data?.assets?.pylon),
         loterra: getLoterraData(data?.assets?.loterra),

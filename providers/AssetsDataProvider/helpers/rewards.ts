@@ -6,7 +6,7 @@ const formatApr = (apr = '0') => {
   return parseFloat(aprPercentage).toFixed(2);
 };
 
-export const getRewardData = (anchor, mirror, pylon, spectrum, loterra, starterra: StarTerraAccount) => {
+export const getRewardData = (anchor, mirror, pylon, spectrum, loterra, starterra: StarTerraAccount, terraworld) => {
   const borrowRewards = anchor?.debt?.reward;
   const totalReward = anchor?.totalReward;
 
@@ -16,9 +16,10 @@ export const getRewardData = (anchor, mirror, pylon, spectrum, loterra, starterr
     const pylonPoolTotal = pylon?.pylonSum?.pylonPoolRewardsSum;
     const loterraRewards = loterra?.lotaGov?.rewardsValue ?? '0';
     const starterraRewards = starterra?.govRewardsTotal;
+    const terraworldRewards = terraworld?.twdPool?.rewardsValue ?? '0';
     const total =
       parseFloat(mirrorTotal) + parseFloat(ancTotal) + parseFloat(pylonPoolTotal) + parseFloat(loterraRewards)
-      + parseFloat(starterraRewards);
+      + parseFloat(starterraRewards) + parseFloat(terraworldRewards);
 
     return total.toString() ?? '0';
   };
@@ -30,16 +31,17 @@ export const getRewardData = (anchor, mirror, pylon, spectrum, loterra, starterr
     const specGov = parseFloat(spectrum?.specGov?.value ?? '0');
     const lotaGov = parseFloat(loterra?.lotaGov?.value ?? '0');
     const sttGov = parseFloat(starterra?.govStakedTotal);
-    const govStaked = mirrorGov + ancGov + pylonGov + specGov + lotaGov + sttGov;
+    const twdGov = parseFloat(terraworld?.twdGov?.value?? '0');
+    const govStaked = mirrorGov + ancGov + pylonGov + specGov + lotaGov + sttGov + twdGov;
     return govStaked;
   };
 
-  const pool = [...pylon?.pylonPool, ...mirror?.mirrorStaking, ...anchor.pool].sort(
+  const pool = [...pylon?.pylonPool, ...mirror?.mirrorStaking, ...anchor.pool, terraworld.twdPool].sort(
     (a, b) => b.rewardsValue - a.rewardsValue,
   );
   
   const starTerraGov = starterra.starTerraGov ? starterra.starTerraGov : [];
-  const gov = [pylon?.gov, spectrum?.specGov, mirror?.gov, anchor?.gov, loterra?.lotaGov, ...starTerraGov]
+  const gov = [pylon?.gov, spectrum?.specGov, mirror?.gov, anchor?.gov, loterra?.lotaGov, ...starTerraGov, terraworld.twdGov]
     .filter((item) => item != null)
     .sort((a, b) => parseFloat(b.value) - parseFloat(a.value));
 

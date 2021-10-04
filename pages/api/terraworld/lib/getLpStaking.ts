@@ -19,6 +19,7 @@ export const getLpStakingInfo = (poolInfo, stakedLpInfo, LpTokenInfo) => {
   const LpStakeInfo: any = getPoolValues(stakedLp, stakeableLp, lpValue, parseFloat(price));
   const rewards = (stakedLpInfo?.pending_reward/ UNIT).toString();
   const rewardsValue = times(rewards, price);
+  const rewardsSymbol = SYMBOL2;
   const apr = '0';
-  return { symbol1: SYMBOL1, symbol2: SYMBOL2, lpName: LP_NAME, lpValue: lpValue.toString(), price, stakedLp: stakedLp.toString(), stakeableLp: stakeableLp.toString(), ...LpStakeInfo, rewards, rewardsValue, apr };
+  return { symbol1: SYMBOL1, symbol2: SYMBOL2, lpName: LP_NAME, lpValue: lpValue.toString(), price, stakedLp: stakedLp.toString(), stakeableLp: stakeableLp.toString(), ...LpStakeInfo, rewards, rewardsValue, apr, rewardsSymbol };
 };

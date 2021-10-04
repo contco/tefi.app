@@ -40,6 +40,7 @@ type TWDHolding {
     totalLpUstValue: String!
     rewards: String!
     rewardsValue: String!
+    rewardsSymbol: String!
   }
 
   type TWDAccount {
