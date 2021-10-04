@@ -6,7 +6,7 @@ const formatApr = (apr = '0') => {
   return parseFloat(aprPercentage).toFixed(2);
 };
 
-export const getRewardData = (anchor, mirror, pylon, spectrum, loterra, starterra: StarTerraAccount) => {
+export const getRewardData = (anchor: AccountAnc, mirror: MirrorAccount, pylon: PylonAccount, spectrum: SpectrumAccount, loterra: LoterraAccount, starterra: StarTerraAccount) => {
   const borrowRewards = anchor?.debt?.reward;
   const totalReward = anchor?.totalReward;
   const lotaPool = loterra?.lotaPool ? [loterra.lotaPool] : [];
@@ -57,7 +57,7 @@ export const getRewardData = (anchor, mirror, pylon, spectrum, loterra, starterr
 
     pool?.map((item: Pool) => {
       const value = parseFloat(item?.totalLpUstValue);
-      const apr = parseFloat(item?.apr);
+      const apr = parseFloat(item?.apr ?? item?.apy);
       if (value && apr) {
         const daily = (apr / 365) * value;
         const monthly = daily * 30;
@@ -107,7 +107,7 @@ export const getRewardData = (anchor, mirror, pylon, spectrum, loterra, starterr
   const poolData =
     pool && pool.length > 0
       ? pool.map((assets: Pool) => {
-          const ap = assets?.apy ? { apy: assets.apy + '%' } : { apr: formatApr(assets.apr) + '%' };
+          const ap = assets?.apy ? { apy: formatApr(assets.apy) + '%' } : { apr: formatApr(assets.apr) + '%' };
           return [
             { name: assets?.lpName },
             {
