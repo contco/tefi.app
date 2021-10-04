@@ -12,6 +12,9 @@ const typeDefs = gql`
     token2Staked: String!
     rewards: String!
     rewardsValue: String!
+		unbondedLp: String
+		unbondingTime: String
+		unbondedLpUstValue: String
   }
   
 

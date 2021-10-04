@@ -339,6 +339,9 @@ interface StarStakedData {
   token2Staked: string;
   rewards: string;
   rewardsValue: string;
+	unbondedLp: string;
+	unbondingTime: string;
+	unbondedLpUstValue: string;
 }
 
 interface StarTerraPools {
