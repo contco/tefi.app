@@ -24,28 +24,41 @@ export const getLoterraStaking = async (address: string) => {
         address: address,
       },
     };
+    const accrued_rewards = {
+      accrued_rewards: {
+        address: address,
+      },
+    };
+    const state_lp_stakingMsg = {
+      state: {},
+    };
 
     const poolInfoRequest = getPoolInfo(contracts.pool);
     const holderRequest = wasmStoreRequest(contracts.staking, holderMsg);
     const claimsRequest = wasmStoreRequest(contracts.staking, claimMsg);
     const lpTokenRequest = wasmStoreRequest(contracts.loterraLPAddress, LpTokenMsg);
     const holderLP = wasmStoreRequest(contracts.loterraStakingLPAddress, holderLPMsg);
+    const LPHolderAccruedRewards = wasmStoreRequest(contracts.loterraStakingLPAddress, accrued_rewards);
+    const state_lp_staking = wasmStoreRequest(contracts.loterraStakingLPAddress, state_lp_stakingMsg);
 
     const [
       poolInfo,
       holderInfo,
       claimInfo,
       lpTokenInfo,
-      holderLPInfo
+      holderLPInfo,
+      lpRewardsInfo,
+      stateLpStakingInfo,
     ] = await Promise.all([
       poolInfoRequest,
       holderRequest,
       claimsRequest,
       lpTokenRequest,
-      holderLP
+      holderLP,
+      LPHolderAccruedRewards,
+      state_lp_staking,
     ]);
-
-    const lotaPool = getLpStakingInfo(poolInfo, lpTokenInfo, holderLPInfo);
+    const lotaPool = getLpStakingInfo(poolInfo, lpTokenInfo, holderLPInfo, lpRewardsInfo, stateLpStakingInfo);
     const lotaGov = getGovInfo(holderInfo, poolInfo, claimInfo);
     return { lotaGov, lotaPool };
   } catch (err) {

@@ -15,7 +15,6 @@ import {
   getSpecRewardData,
   getStarterraFarms,
   getApolloVaultData,
-  getlotaPoolFarms,
 } from './helpers';
 
 export const assignData = (data) => 
@@ -31,7 +30,6 @@ export const assignData = (data) =>
         specFarm: getSpecFarmData(data?.assets?.spectrum),
         specReward: getSpecRewardData(data?.assets?.spectrum),
         starterraFarms: getStarterraFarms(data?.assets?.starterra?.starTerraPools),
-        lotaPool: getlotaPoolFarms(data?.assets.loterra.lotaPool),
         assets: getAssetData(
           data?.assets?.anchor,
           data?.assets?.mirror,
@@ -45,6 +43,7 @@ export const assignData = (data) =>
           data?.assets?.mirror,
           data?.assets?.pylon,
           data?.assets?.terraSwapPool,
+          data?.assets.loterra,
           data?.assets?.terraworld,
         ),
         rewards: getRewardData(

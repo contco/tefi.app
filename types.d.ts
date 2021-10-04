@@ -315,7 +315,7 @@ interface LoterraAccount {
   loterraDraw: LoterraDraw;
   lotaGov: LotaGov;
   total: loterraTotal;
-  loterraStaking: Pool[];
+  lotaPool: Pool;
 }
 
 interface ModalDisplayState {
@@ -327,6 +327,8 @@ interface SendModalTipState {
   setIsTip: (state: boolean) => void;
   tipAddress: string;
   setTipAddress: (state: string) => void;
+  NFTData: any;
+  setNFTData: (state: any) => void;
 }
 interface StarStakedData {
   lpName: string;

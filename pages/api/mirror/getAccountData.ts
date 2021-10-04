@@ -55,8 +55,6 @@ export const calculatePoolDetails = (listing, rewardsBalance, priceResult, stake
   const apr = getApr(assetStats, listing.token);
   return { ...poolValues, ...rewards, apr };
 };
-
-
 export const fetchData = (address: string) => {
   const lpTokenBalancePromise = getLpTokenBalance(address);
   const stakingRewardsPromise  = getStakingRewards(address);

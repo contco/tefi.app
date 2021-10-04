@@ -8,6 +8,7 @@ import { AnimatedCircle } from './NftComponent';
 interface Props {
   height?: string;
   width?: string;
+  currentTheme?: string;
 }
 const MainContainer = styled(Flex)`
   height: ${(props: any) => props.height || '65vh'};
@@ -55,11 +56,11 @@ const StyledLogo = styled(TEFI_LOGO)`
     })}
 `;
 
-const Loading: React.FC<Props> = ({ height = '65vh', width = '80vw' }) => {
+const Loading: React.FC<Props> = ({ height = '65vh', currentTheme }) => {
   return (
     <MainContainer height={height}>
       <Container>
-        <AnimatedCircle currentTheme={'light'} />
+        <AnimatedCircle currentTheme={currentTheme} />
       </Container>
       <Text>searching the cosmos...</Text>
     </MainContainer>

@@ -75,7 +75,7 @@ const NftComponent: React.FC<Props> = ({ currentTheme, text = DEFAULT_TEXT, isBi
   return (
     <div>
       {data ? (
-        <Collection data={data} currentTheme={currentTheme} />
+        <Collection data={data} currentTheme={currentTheme} address={address} />
       ) : (
         <MainContainer>
           <Container>

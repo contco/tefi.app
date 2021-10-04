@@ -81,7 +81,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
           />
           {currentBar === ACCOUNT ? (
             loading ? (
-              <Loading />
+              <Loading currentTheme={theme} />
             ) : !assets || JSON.stringify(assets) === '{}' ? (
               <EmptyComponent msg={error ? 'Oops! Error Fetching Assets' : null} />
             ) : (
