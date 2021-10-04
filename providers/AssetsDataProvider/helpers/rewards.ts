@@ -155,7 +155,7 @@ export const getRewardData = (anchor: AccountAnc, mirror: MirrorAccount, pylon: 
   ];
 
   const govData = gov?.map((govItem: Gov) => {
-    const govReward = { value: 'Automatically re-staked' };
+    const govReward = { value: govItem?.rewardsValue && govItem?.rewardsValue != '0'? parseFloat(govItem.rewardsValue).toFixed(2) :  'Automatically re-staked' };
     const ap = govItem?.apy
       ? { apy: convertToFloatValue(govItem.apy) + '%' }
       : { apr: govItem?.apr === '0' ? 'N/A' : convertToFloatValue(govItem?.apr) + '%' };
