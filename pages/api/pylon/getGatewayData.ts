@@ -3,18 +3,27 @@ import { div } from "../../../utils/math";
 import { fetchData } from "../commons";
 import { UNIT , times} from "../mirror/utils";
 import { PYLON_API_ENDPOINT } from "./constants";
+import { getPoolInfo, getPrice } from "@contco/terra-utilities";
+import { contracts } from "../terraworld/lib/contracts";
 
 const getTokenPrice = async (symbol) => {
   let price;
-  const mineOverviewPromise = await fetchData(PYLON_API_ENDPOINT + 'mine/v1/overview');
-  const minePrice = mineOverviewPromise.data.priceInUst;
-  const loopPrice = '0.035';
-  const twdPrice = '0.01';
-  if (symbol === 'MINE') {
-    price = minePrice;
-  } else if (symbol === 'LOOP') {
-    price = loopPrice;
-  } else {
+  const mineOverviewRequest = fetchData(PYLON_API_ENDPOINT + 'mine/v1/overview');
+  const poolInfoTWDReuest = getPoolInfo(contracts.pool);
+  const [mineOverview, poolInfoTWD] = await Promise.all([
+    mineOverviewRequest,
+    poolInfoTWDReuest
+  ]);
+  const minePrice = mineOverview.data.priceInUst;
+  const twdPrice = (getPrice(poolInfoTWD)).toString();
+  const loopPrice = "0.035";
+  if(symbol ==='MINE') {
+    price = minePrice
+  }
+  else if(symbol ==='LOOP'){
+      price = loopPrice;
+  }
+  else {
     price = twdPrice;
   }
   return price;

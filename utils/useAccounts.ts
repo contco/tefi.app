@@ -7,6 +7,7 @@ import { getTerraCoreAccount } from "../pages/api/terra-core/core";
 import { getStarTerraAccount } from "../pages/api/starterra/lib/account";
 import { getSpectrumAccount } from "../pages/api/spectrum/lib";
 import { getApolloDaoAccount } from "../pages/api/apollo/lib";
+import { getTWDAccount } from "../pages/api/terraworld/lib";
 
 export const fetchAccountsData = async (address: string) => {
   const anchorPromise =  getAnchorAccount(address);
@@ -17,7 +18,8 @@ export const fetchAccountsData = async (address: string) => {
   const starterraPromise = getStarTerraAccount(address)
   const corePromise = getTerraCoreAccount({ args: { address: address } });
   const apolloPromise =  getApolloDaoAccount(address);
-  const result = Promise.all([anchorPromise, mirrorPromise, loterraPromise, pylonPromise, spectrumPromise, starterraPromise, corePromise, apolloPromise ]);
+  const terraworldPromise = getTWDAccount(address);
+  const result = Promise.all([anchorPromise, mirrorPromise, loterraPromise, pylonPromise, spectrumPromise, starterraPromise, corePromise, apolloPromise, terraworldPromise ]);
   return result;
 }
 
@@ -30,10 +32,10 @@ const useAccounts = (address:string) => {
     const fetch = async ()  => {
       try {
  
-        const [anchor, mirror, loterra, pylon, spectrum, starterra, core, apollo] = await fetchAccountsData(address);
+        const [anchor, mirror, loterra, pylon, spectrum, starterra, core, apollo, terraworld] = await fetchAccountsData(address);
       
-        if(anchor && mirror && loterra && pylon && spectrum && starterra && core && apollo){
-          setData({assets:{...core,mirror, anchor, loterra, spectrum, starterra, pylon, apollo}})
+        if(anchor && mirror && loterra && pylon && spectrum && starterra && core && apollo && terraworld){
+          setData({assets:{...core,mirror, anchor, loterra, spectrum, starterra, pylon, apollo, terraworld}})
         }
       } catch (error) {
         setError(error);
