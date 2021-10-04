@@ -56,8 +56,8 @@ export const getTerraWorldStaking = async (address: string) => {
     // console.log(stakingGovInfo);
     // console.log(poolLpBalance);
 
-    const twdPool = getLpStakingInfo(poolInfo, stakingLpInfo, poolLpBalance);
-    console.log('twdPool', twdPool);
+    const twdPoolStaking = getLpStakingInfo(poolInfo, stakingLpInfo, poolLpBalance);
+    console.log('twdPool', twdPoolStaking);
     //const twdGov = getGovInfo(holderInfo, poolInfo, claimInfo);
     //return { twdGov, twdPool };
   } catch (err) {
