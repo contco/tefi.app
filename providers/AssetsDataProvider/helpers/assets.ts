@@ -9,7 +9,7 @@ export const getAssetData = (anchor, mirror, pylon, core, spectrum, terraworld) 
     const pylonHoldingsSum = pylon?.pylonSum?.pylonHoldingsSum;
     const spectrumSum = spectrum?.spectrumTotal?.holdingsTotal;
     const anchorTotal = anchor?.total?.anchorHoldingsSum;
-    const terraworldSum = terraworld?.twdHoldings?.value
+    const terraworldSum = terraworld?.twdHoldings?.value ?? '0';
     const total =
       parseFloat(spectrumSum) +
       parseFloat(plus(mirrorTotal, coreTotal)) +
