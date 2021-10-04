@@ -1,4 +1,3 @@
-import { div, times } from '../../../../utils/math';
 import { getPrice, MICRO, math } from '@contco/terra-utilities';
 import { contracts } from './contracts';
 
