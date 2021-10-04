@@ -15,6 +15,8 @@ const gateway = new ApolloGateway({
     { name: 'loterra', url: `${SERVER_END_POINT}/loterra` },
     { name: 'starterra', url: `${SERVER_END_POINT}/starterra` },
     { name: 'apollo', url: `${SERVER_END_POINT}/apollo` },
+    { name: 'terraworld', url: `${SERVER_END_POINT}/terraworld` },
+
   ],
 });
 
