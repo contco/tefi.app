@@ -1,7 +1,4 @@
-import { getPrice } from "@contco/terra-utilities";
-import { times } from "../../../../utils/math";
-import { UNIT } from '../../mirror/utils';
-import { getLpValue } from '../../utils';
+import { getPrice, getLpValue, MICRO, math } from "@contco/terra-utilities";
 import { getPoolValues } from './getPoolValues';
 
 const LP_NAME = 'TWD-UST';
@@ -14,11 +11,11 @@ export const getLpStakingInfo = (poolInfo, stakedLpInfo, LpTokenInfo) => {
   }
   const price = getPrice(poolInfo);
   const lpValue = getLpValue(poolInfo, parseFloat(price));
-  const stakedLp = parseFloat(stakedLpInfo?.bond_amount) / UNIT;
-  const stakeableLp = parseFloat(LpTokenInfo?.balance) / UNIT;
+  const stakedLp = parseFloat(stakedLpInfo?.bond_amount) / MICRO;
+  const stakeableLp = parseFloat(LpTokenInfo?.balance) / MICRO;
   const LpStakeInfo: any = getPoolValues(stakedLp, stakeableLp, lpValue, parseFloat(price));
-  const rewards = (stakedLpInfo?.pending_reward/ UNIT).toString();
-  const rewardsValue = times(rewards, price);
+  const rewards = (stakedLpInfo?.pending_reward/ MICRO).toString();
+  const rewardsValue = math.times(rewards, price);
   const rewardsSymbol = SYMBOL2;
   const apr = '0';
   return { symbol1: SYMBOL1, symbol2: SYMBOL2, lpName: LP_NAME, lpValue: lpValue.toString(), price, stakedLp: stakedLp.toString(), stakeableLp: stakeableLp.toString(), ...LpStakeInfo, rewards, rewardsValue, apr, rewardsSymbol };

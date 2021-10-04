@@ -1,6 +1,5 @@
 import { div, times } from '../../../../utils/math';
-import { UNIT } from '../../mirror/utils';
-import { getPrice } from '@contco/terra-utilities';
+import { getPrice, MICRO, math } from '@contco/terra-utilities';
 import { contracts } from './contracts';
 
 const SYMBOL = "TWD";
@@ -12,8 +11,8 @@ export const getWalletHoldings = (poolInfo, tokenInfo) => {
     return null;
   }
   const price = getPrice(poolInfo);
-  const balance = div(tokenInfo.balance,UNIT);
-  const value = times(balance, price)
+  const balance = math.div(tokenInfo.balance,MICRO);
+  const value = math.times(balance, price)
   const contract = contracts.token;
   return { name: NAME, symbol: SYMBOL, price, balance, value , contract};
 };

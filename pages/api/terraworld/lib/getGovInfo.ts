@@ -1,11 +1,7 @@
-import { div, times } from '../../../../utils/math';
-import { UNIT } from '../../mirror/utils';
-import { getPrice } from '@contco/terra-utilities';
+import { getPrice, MICRO, math } from '@contco/terra-utilities';
 
 const SYMBOL = "TWD";
 const NAME = "TWD Gov";
-
-
 
 export const getGovInfo = (poolInfo, govStakingInfo) => {
 
@@ -14,10 +10,10 @@ export const getGovInfo = (poolInfo, govStakingInfo) => {
   }
   const price = getPrice(poolInfo);
 
-  const staked = div(govStakingInfo?.bond_amount, UNIT);
-  const value = times(staked, price);
-  const rewards = div(govStakingInfo.pending_reward, UNIT);
-  const rewardsValue = times(rewards, price);
+  const staked = math.div(govStakingInfo?.bond_amount, MICRO);
+  const value = math.times(staked, price);
+  const rewards = math.div(govStakingInfo.pending_reward, MICRO);
+  const rewardsValue = math.times(rewards, price);
   const apr = '0';
   return { name: NAME, symbol: SYMBOL, staked, value, rewards, rewardsValue, apr, price };
 };
