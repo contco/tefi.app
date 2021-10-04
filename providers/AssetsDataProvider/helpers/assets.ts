@@ -18,7 +18,6 @@ export const getAssetData = (anchor, mirror, pylon, core, spectrum, terraworld) 
       parseFloat(terraworldSum);
     return total.toString() ?? '0';
   };
-console.log(terraworld);
   const holdings = [
     ...spectrum?.specHoldings,
     ...pylon?.pylonHoldings,
