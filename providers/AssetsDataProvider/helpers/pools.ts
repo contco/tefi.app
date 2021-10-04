@@ -1,9 +1,12 @@
 import { convertToFloatValue } from '../../../utils/convertFloat';
 
-export const getPoolData = (anchor, mirror, pylon, terraSwap ) => {
+export const getPoolData = (anchor, mirror, pylon, terraSwap, terraworld ) => {
+  console.log(terraworld)
   const getPoolTotal = () => {
     const pylonPoolTotal = pylon?.pylonSum?.pylonPoolSum;
+    const terraworldTotal = terraworld?.twdPool?.totalLpUstValue;
     const total =
+      parseFloat(terraworldTotal) +
       parseFloat(pylonPoolTotal) +
       parseFloat(mirror?.total?.mirrorPoolSum) +
       parseFloat(anchor?.total?.anchorPoolSum) +
@@ -11,7 +14,7 @@ export const getPoolData = (anchor, mirror, pylon, terraSwap ) => {
     return total.toString() ?? '0';
   };
 
-  const pool = [...pylon?.pylonPool, ...mirror?.mirrorStaking, ...anchor.pool, ...terraSwap.list].sort(
+  const pool = [...pylon?.pylonPool, ...mirror?.mirrorStaking, ...anchor.pool, ...terraSwap.list, terraworld.twdPool].sort(
     (a, b) =>
       parseFloat(b.stakeableLpUstValue) +
       parseFloat(b.stakedLpUstValue) -

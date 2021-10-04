@@ -44,6 +44,7 @@ export const assignData = (data) =>
           data?.assets?.mirror,
           data?.assets?.pylon,
           data?.assets?.terraSwapPool,
+          data?.assets?.terraworld,
         ),
         rewards: getRewardData(
           data?.assets?.anchor,
