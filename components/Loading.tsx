@@ -60,7 +60,7 @@ const Loading: React.FC<Props> = ({ height = '65vh', currentTheme }) => {
   return (
     <MainContainer height={height}>
       <Container>
-        <AnimatedCircle currentTheme={'light'} />
+        <AnimatedCircle currentTheme={currentTheme} />
       </Container>
       <Text>searching the cosmos...</Text>
     </MainContainer>
