@@ -1,7 +1,8 @@
-import { div } from '../../../utils/math';
-import { fetchData, wasmStoreRequest } from '../commons';
-import { UNIT, times } from '../mirror/utils';
-import { PYLON_API_ENDPOINT } from './constants';
+import { wasmStoreRequest } from "@contco/terra-utilities";
+import { div } from "../../../utils/math";
+import { fetchData } from "../commons";
+import { UNIT , times} from "../mirror/utils";
+import { PYLON_API_ENDPOINT } from "./constants";
 
 const getTokenPrice = async (symbol) => {
   let price;
@@ -19,8 +20,8 @@ const getTokenPrice = async (symbol) => {
   return price;
 };
 
-const getLoopPoolData = async (projects, address) => {
-  let gatewayPoolData = [];
+const getLoopPoolData = async (projects, address) =>{
+  const gatewayPoolData = []
   const timestamp = Math.floor(Date.now() / 1000);
   const query_blance = { balance_of: { owner: address } };
   const query_reward = { claimable_reward: { owner: address, timestamp } };

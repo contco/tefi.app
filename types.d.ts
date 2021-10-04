@@ -322,6 +322,14 @@ interface ModalDisplayState {
   isVisible: boolean;
   setVisible: (state: boolean) => void;
 }
+interface SendModalTipState {
+  isTip: boolean;
+  setIsTip: (state: boolean) => void;
+  tipAddress: string;
+  setTipAddress: (state: string) => void;
+  NFTData: any;
+  setNFTData: (state: any) => void;
+}
 interface StarStakedData {
   lpName: string;
   faction: string;
@@ -399,3 +407,8 @@ interface ErrorResult {
   msg: string;
 }
 
+interface ProfileNft {
+  address: string;
+  url: string;
+  tokenId: string;
+}

@@ -1,19 +1,25 @@
 import React from 'react';
-import { Flex } from '@contco/core-ui';
+import { Flex, Box } from '@contco/core-ui';
 import css from '@styled-system/css';
 import styled, { keyframes } from 'styled-components';
 import TEFI_LOGO from '../public/tefi.svg';
+import { AnimatedCircle } from './NftComponent';
 
-const Container = styled(Flex)`
-  height: 90vh;
-  width: 100vw;
-  display: flex;
-  flex-direction: column;
+interface Props {
+  height?: string;
+  width?: string;
+  currentTheme?: string;
+}
+const MainContainer = styled(Flex)`
+  height: ${(props: any) => props.height || '65vh'};
   justify-content: center;
   align-items: center;
-  ${css({
-    bg: 'background',
-  })}
+  flex-direction: column;
+`;
+
+const Container = styled(Box)`
+  align-items: center;
+  justify-content: center;
 `;
 
 const Text = styled.p`
@@ -50,12 +56,14 @@ const StyledLogo = styled(TEFI_LOGO)`
     })}
 `;
 
-const Loading: React.FC = () => {
+const Loading: React.FC<Props> = ({ height = '65vh', currentTheme }) => {
   return (
-    <Container>
-      <StyledLogo />
+    <MainContainer height={height}>
+      <Container>
+        <AnimatedCircle currentTheme={'light'} />
+      </Container>
       <Text>searching the cosmos...</Text>
-    </Container>
+    </MainContainer>
   );
 };
 

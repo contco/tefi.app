@@ -10,7 +10,8 @@ import {
   AssetPriceProvider,
   DeviceDetectProvider,
   AssetsDataProvider,
-  ModalProvider
+  ModalProvider,
+  NftDataProvider
 } from '../providers';
 import { DefaultSeo } from 'next-seo';
 import SEO from '../next-seo.config';
@@ -49,9 +50,11 @@ function MyApp({ Component, pageProps }: AppProps) {
               <AssetPriceProvider>
                 <DeviceDetectProvider>
                   <AssetsDataProvider>
-                    <ModalProvider>
-                      <Component {...pageProps} theme={theme} changeTheme={changeTheme} />
-                    </ModalProvider>
+                    <NftDataProvider>
+                      <ModalProvider>
+                        <Component {...pageProps} theme={theme} changeTheme={changeTheme} />
+                      </ModalProvider>
+                    </NftDataProvider>
                   </AssetsDataProvider>
                 </DeviceDetectProvider>
               </AssetPriceProvider>

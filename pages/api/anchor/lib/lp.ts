@@ -4,7 +4,7 @@ import { getLatestBlockHeight, mantleFetch, MICRO } from './utils';
 import { DEFAULT_MANTLE_ENDPOINTS } from '../../../../utils/ancEndpoints';
 import big from 'big.js';
 import { ancPriceQuery } from './ancPrice';
-import { borrowAPYQuery } from './borrow';
+import { getAnchorApyStats } from './getAncApyStats';
 
 
 export const REWARDS_CLAIMABLE_ANC_UST_LP_REWARDS_QUERY = `
@@ -65,14 +65,14 @@ export const getAncPoolData = async (address) => {
   try {
     const poolPromise = rewardsClaimableAncUstLpRewardsQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet'], address);
     const ancDataPromise = ancPriceQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']);
-    const rewardsApyPromise = borrowAPYQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']);
+    const rewardsApyPromise = getAnchorApyStats();
 
     const [pool, ancData, rewardsApy] = await Promise.all([poolPromise, ancDataPromise, rewardsApyPromise]);
     if (pool && (pool?.lPStakerInfo?.bond_amount != '0' || pool?.lPBalance?.balance != '0')) {
       const symbol1 = 'UST';
       const symbol2 = 'ANC';
       const lpName = 'ANC-UST LP';
-      const apy = rewardsApy?.lpRewards[0]?.APY ?? '0';
+      const apy = rewardsApy?.lpRewardApy
       const stakeableLp = parseFloat(pool?.lPBalance?.balance) / MICRO;
       const stakedLp = parseFloat(pool?.lPStakerInfo?.bond_amount) / MICRO;
       const lpValue = big(ancData?.ancPrice?.USTPoolSize)

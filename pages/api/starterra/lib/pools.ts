@@ -1,20 +1,15 @@
+import { wasmStoreRequest, calculateLpBonding, getLatestBlockTime} from '@contco/terra-utilities';
 import { contracts } from './contracts';
 import { UNIT } from '../../mirror/utils';
-import {} from '../../utils';
-import { wasmStoreRequest, poolHelpers, blockHelpers } from '@contco/terra-utilities';
 
 const LP_NAME = 'STT-UST';
 const TOKEN1_SYMBOL = 'UST';
 const TOKEN2_SYMBOL = 'STT';
 
-const { calculateLpBonding }  = poolHelpers;
-const { getLatestBlockTime } = blockHelpers;
-
 
 export const fetchUserStarTerraStakingPools = async (address: string) => {
   try {
-    const block_time_in_ms = await getLatestBlockTime();
-    const block_time = Math.round(block_time_in_ms / 1000);
+    const block_time = await getLatestBlockTime();
     const query_msg = {
       staker_info: {
         staker: address,

@@ -2,7 +2,7 @@ import React from 'react';
 import Post from './Post';
 
 
-const Posts = ({ data }: any) => {
+const Posts = ({ data, currentTheme }: any) => {
 
   if(!data  || data?.length === 0) {
     return <> </>;
@@ -11,7 +11,7 @@ const Posts = ({ data }: any) => {
   return (
     <>
       {data.map((item) => (
-        <Post data={item} key={item.tx} />
+        <Post data={item} key={item.tx} currentTheme={currentTheme} />
       ))}
     </>
   );

@@ -9,13 +9,15 @@ const formatApr = (apr = '0') => {
 export const getRewardData = (anchor, mirror, pylon, spectrum, loterra, starterra: StarTerraAccount) => {
   const borrowRewards = anchor?.debt?.reward;
   const totalReward = anchor?.totalReward;
+  const lotaPool = loterra?.lotaPool ? [loterra.lotaPool] : [];
+  
 
   const getRewardsTotal = () => {
     const ancTotal = totalReward;
     const mirrorTotal = mirror?.total?.mirrorPoolRewardsSum;
     const pylonPoolTotal = pylon?.pylonSum?.pylonPoolRewardsSum;
     const loterraRewards = loterra?.lotaGov?.rewardsValue ?? '0';
-    const loterraPoolRewards = loterra?.lotaPool?.rewards ?? '0';
+    const loterraPoolRewards = loterra?.lotaPool?.rewardsValue ?? '0';
     const starterraRewards = starterra?.govRewardsTotal;
     const total =
       parseFloat(mirrorTotal) +
@@ -39,7 +41,7 @@ export const getRewardData = (anchor, mirror, pylon, spectrum, loterra, starterr
     return govStaked;
   };
 
-  const pool = [...pylon?.pylonPool, ...mirror?.mirrorStaking, ...anchor.pool, loterra?.lotaPool].sort(
+  const pool = [...pylon?.pylonPool, ...mirror?.mirrorStaking, ...anchor.pool, ...lotaPool].sort(
     (a, b) => b.rewardsValue - a.rewardsValue,
   );
 

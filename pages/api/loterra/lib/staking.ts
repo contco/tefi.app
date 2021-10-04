@@ -1,9 +1,7 @@
-import { getPoolInfo, getPrice, wasmStoreRequest } from '../../commons';
+import { getPoolInfo, wasmStoreRequest } from '@contco/terra-utilities';
 import { contracts } from './contracts';
 import { getLpStakingInfo } from './getLpStaking';
 import { getGovInfo } from './getGovInfo';
-import { UNIT } from '../../mirror/utils';
-import { calculateAPY } from './calculateApy';
 
 export const getLoterraStaking = async (address: string) => {
   try {
@@ -60,13 +58,8 @@ export const getLoterraStaking = async (address: string) => {
       LPHolderAccruedRewards,
       state_lp_staking,
     ]);
-    const price: any = getPrice(poolInfo);
-    const lotaPoolInfo = getLpStakingInfo(poolInfo, lpTokenInfo, holderLPInfo);
+    const lotaPool = getLpStakingInfo(poolInfo, lpTokenInfo, holderLPInfo, lpRewardsInfo, stateLpStakingInfo);
     const lotaGov = getGovInfo(holderInfo, poolInfo, claimInfo);
-    const rewards = lpRewardsInfo?.rewards / UNIT;
-    const APY = calculateAPY(poolInfo, stateLpStakingInfo);
-    const rewardsValue = price * rewards;
-    const lotaPool = { ...lotaPoolInfo, rewards, rewardsValue , rewardsSymbol: 'Lota', ...APY };
     return { lotaGov, lotaPool };
   } catch (err) {
     return null;

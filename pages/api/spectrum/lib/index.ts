@@ -1,8 +1,9 @@
+import { wasmStoreRequest } from "@contco/terra-utilities";
 import { contracts } from "./contracts";
 import { getFarmInfos } from "./farmInfo";
 import { div, times } from "../../../../utils/math";
 import { UNIT } from "../../mirror/utils";
-import { wasmStoreRequest } from "../../commons";
+
 
 const getUserSpecInfo = async (address) => {
   const userSpecInfoMsg = {

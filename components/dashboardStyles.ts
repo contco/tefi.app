@@ -22,7 +22,7 @@ ${css({
 export const AirdropHeading = Styled(Flex)`
 ${css({
   mb: 20,
-  justifyContent: 'space-between'
+  justifyContent: 'space-between',
 })}
 `;
 export const Heading = Styled(Text)`
@@ -67,29 +67,30 @@ ${(props) =>
 
 export const StyledTextContainer = Styled(Flex)`
   ${css({
-    mr:[2, null, null, null, 4],
-  })}
+  mr: [2, null, null, null, 4],
+})}
 `;
 export const SimpleText = Styled(Text)`
-${props => css({
-  color: props.theme.colors.detailsText,
-  letterSpacing: 1,
-  fontSize: ['11px', null, null, null, '14px', null, null, 16],
-  cursor: props.isChildren || props.isURL ? 'pointer' : '',
-})}
+${(props) =>
+    css({
+      color: props.theme.colors.detailsText,
+      letterSpacing: 1,
+      fontSize: ['11px', null, null, null, '14px', null, null, 16],
+      cursor: props.isChildren || props.isURL ? 'pointer' : '',
+    })}
 
 `;
 export const StyledText = Styled(SimpleText)`
 ${css({
-      width: [100, null, 150, null, null, 200],
-    })}
+  width: [100, null, 150, null, null, 200],
+})}
     &:hover > * {
-        display:${(props) => !props.isURL ? 'flex' : ''};
-        opacity:${(props) => !props.isURL ? '1' : ''};
+        display:${(props) => (!props.isURL ? 'flex' : '')};
+        opacity:${(props) => (!props.isURL ? '1' : '')};
         visibility: visible;
     }
     &:hover {
-      text-decoration: ${(props) => props.isURL ? "underline" : ''}
+      text-decoration: ${(props) => (props.isURL ? 'underline' : '')}
     }
 `;
 export const HoverText = Styled(Text)`
@@ -116,7 +117,7 @@ export const CheckBox = Styled.input`
 
 export const ColumnFlex = Styled(Flex)`
  flex-direction: column;
-`
+`;
 
 export const CSS_APR = (props) =>
   css({
@@ -125,40 +126,60 @@ export const CSS_APR = (props) =>
     fontSize: ['11px', null, null, '14px', null, null, 16],
   });
 
-  export const ClaimButton = Styled(Flex)`
-  ${props => css({
-    transition:'all 0.3s ease-in',
-    justifyContent:'center',
-    alignItems:'center',
-    px:3,
-    cursor:'pointer',
-    height:30,
-    borderRadius: 50,
-    fontSize:0,
-    border: `solid 2px ${props.theme.colors.secondary}`,
-    color:'secondary',
-    '&:hover': {
-      bg: 'secondary',
-      color:'background',
-    }
-  })}
+export const ClaimButton = Styled(Flex)`
+  ${(props) =>
+    css({
+      transition: 'all 0.3s ease-in',
+      justifyContent: 'center',
+      alignItems: 'center',
+      px: 3,
+      cursor: 'pointer',
+      height: 30,
+      borderRadius: 50,
+      fontSize: 0,
+      border: `solid 2px ${props.theme.colors.secondary}`,
+      color: 'secondary',
+      '&:hover': {
+        bg: 'secondary',
+        color: 'background',
+      },
+    })}
 `;
 
 export const StyledInput = Styled.input`
   ${css({
-    backgroundColor: 'lightBackground',
-    border: 'none',
-    width: 160, 
-    height: 20,
-    borderRadius: 10,
-    outline: 'none',
+  backgroundColor: 'lightBackground',
+  border: 'none',
+  width: 160,
+  height: 20,
+  borderRadius: 10,
+  outline: 'none',
+  color: '#0221ba',
+  fontSize: 0,
+  px: 2,
+  textTransform: 'uppercase',
+  '&::placeholder': {
     color: '#0221ba',
-    fontSize: 0,
-    px:2,
-    textTransform: "uppercase",
-    '&::placeholder': {
-      color: '#0221ba',
-      fontSize: '10px',
-    }
-  })}
+    fontSize: '10px',
+  },
+})}
+`;
+
+export const TopBarContainer = Styled(Flex)`
+  align-items: flex-end;
+  ${css({
+  pb: [50],
+})}
+`;
+
+export const BarOptions = Styled<any>(Box)`
+  padding-bottom: 5px;
+  font-weight: 500;
+  border-bottom: ${(props: any) => (props.selected ? `2.5px solid ${props.theme.colors.text3}` : `2.5px solid transparent`)};
+  cursor: pointer;
+  ${css({
+  fontSize: [1, null, 2, null, 3, null, null, null, 3],
+  color: 'text3',
+  mr: 6,
+})}
 `;

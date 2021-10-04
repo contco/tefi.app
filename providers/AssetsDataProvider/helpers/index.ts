@@ -14,4 +14,3 @@ export { getRewardData } from './rewards';
 export { getAirdropsData } from './airdrops';
 export { getLoterraData } from './loterra';
 export {getApolloVaultData} from './apolloVaultData';
-export { getlotaPoolFarms } from './loterraPool';

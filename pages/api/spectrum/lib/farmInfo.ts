@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getPrice } from '@contco/terra-utilities';
 import { LCD_URL } from "../../utils";
 import { contracts } from "./contracts";
 import { getPairStats } from "./pairStats";
@@ -7,7 +8,6 @@ import { getPairStatsData } from "./pairStats/getPairStats";
 import { getGovConfig, getGovState, getGovVaults } from "./gov";
 import { calculateFarmInfos } from "./calculateFarmInfo";
 import { getLatestBlockHeight} from "../../utils";
-import { getPrice } from "../../commons";
 import { pairInfoList } from "./pairInfoList";
 
 const fetchSpecFarmInfo = async (pool_addr: string) => {

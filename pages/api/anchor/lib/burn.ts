@@ -5,7 +5,7 @@ import { secondsToDate, UNIT } from '../../mirror/utils';
 import { getPrice } from '../../terra-core/core';
 import { LUNA_DENOM } from '../../terra-core/symbols';
 
-const URL = 'https://mantle.anchorprotocol.com/';
+const URL = 'https://mantle.terra.dev/';
 const BASSETS_INFO = 'https://api.anchorprotocol.com/api/v1/bassets/';
 
 const WITHDRAWABLE_REQUEST_QUERY = (address, blockTime) =>
@@ -27,6 +27,7 @@ export const getAllHistory = async (requestNumber: number) => {
       },
     });
 
+    const monthTime = 2592000;
     const histories = JSON.parse(history?.data?.data?.allHistory?.Result).history;
     const blockTime = Math.floor(new Date().getTime() / 1000);
     if (histories.length > 0) {
@@ -34,7 +35,9 @@ export const getAllHistory = async (requestNumber: number) => {
       const requestedTime = secondsToDate(histories[0].time);
       const unbondingPeriod = JSON.parse(history?.data?.data?.parameters?.Result)?.unbonding_period;
       const claimableTime =
-        histories[0].time + unbondingPeriod > blockTime ? secondsToDate(histories[0].time + unbondingPeriod) : '-';
+        histories[0].time + unbondingPeriod + monthTime > blockTime
+          ? secondsToDate(histories[0].time + unbondingPeriod)
+          : '-';
 
       return {
         exchangeRate,
@@ -60,7 +63,7 @@ export const getWithdrawableRequest = async (address: string) => {
     });
 
     const requests = JSON.parse(withdrawables.data?.data?.unbondedRequests.Result).requests;
-    let requestHistories = [];
+    let requestHistories: any = [];
     if (requests.length > 0) {
       requestHistories = await Promise.all(
         requests.map(async (request) => {
@@ -113,7 +116,7 @@ export default async (address) => {
   return {
     requestData: requestHistories,
     withdrawableAmount,
-		withdrawableValue,
+    withdrawableValue,
     totalBurnAmount,
     totalBurnAmountValue,
   };

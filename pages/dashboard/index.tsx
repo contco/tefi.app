@@ -5,30 +5,16 @@ import { Box } from '@contco/core-ui';
 import Loading from '../../components/Loading';
 import EmptyComponent from '../../components/EmptyComponent';
 import Header from '../../components/Header';
-import Assets from '../../components/Asset';
-import LunaStaking from '../../components/LunaStaking';
-import MarketValue from '../../components/MarketValue';
-import Borrowing from '../../components/Borrowing';
-import PylonGateway from '../../components/PylonGateway';
-import Pools from '../../components/Pools';
-import SpectrumFarms from '../../components/SpectrumFarms';
-import SpectrumRewards from '../../components/SpectrumRewards';
-import Rewards from '../../components/Rewards';
-import Loterra from '../../components/ؒLoterra';
-import LoterraPool from '../../components/ؒLoterraPool';
 
 import { ADDRESS_KEY, LOCAL_ADDRESS_TYPE, WALLET_ADDRESS_TYPE } from '../../constants';
-import Airdrops from '../../components/Airdrop';
 import { NextSeo } from 'next-seo';
 import { DashboardSEO } from '../../next-seo.config';
 import useWallet from '../../lib/useWallet';
-import Earn from '../../components/Earn';
-import Burn from '../../components/Burn';
-import ShortFarms from '../../components/ShortFarms';
-import MirrorBorrowing from '../../components/MirrorBorrowing';
-import StarTerraFarms from '../../components/StarTerraFarms';
-import { useAssetsDataContext } from '../../contexts';
-import ApolloVaults from '../../components/ApolloVaults';
+
+import { useAssetsDataContext, useNftContext } from '../../contexts';
+import NftComponent from '../../components/NftComponent';
+import TopBar, { ACCOUNT } from '../../components/DashboardComponents/TopBar';
+import DashboardComponents from '../../components/DashboardComponents';
 
 const MAX_TRY = 3;
 
@@ -47,6 +33,8 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   const [fetchCount, setFetchCount] = useState<number>(0);
   const { useConnectedWallet } = useWallet();
   const connectedWallet = useConnectedWallet();
+  const [currentBar, setCurrentBar] = useState(ACCOUNT);
+  const { profileNft, profileNftLoading } = useNftContext();
 
   useEffect(() => {
     const localAddress = localStorage.getItem(ADDRESS_KEY);
@@ -83,52 +71,26 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
           addressType={addressType}
           address={address}
         />
-        {loading ? (
-          <Loading />
-        ) : !assets || JSON.stringify(assets) === '{}' ? (
-          <EmptyComponent msg={error ? 'Oops! Error Fetching Assets' : null} />
-        ) : (
-          <Body>
-            <MarketValue
-              allData={[
-                assets?.assets,
-                assets?.pylon,
-                assets?.anchorEarn,
-                assets?.anchorBond,
-                assets?.anchorBorrow,
-                assets?.rewards,
-                assets?.pools,
-                assets?.mirrorBorrow,
-                assets?.mirrorShortFarm,
-                assets?.specFarm,
-                assets?.specReward,
-                assets?.starterraFarms,
-                assets?.loterra,
-                assets?.lunaStaking,
-                assets?.airdrops,
-                assets?.apollo,
-                assets?.lotaPool
-              ]}
-            />
-            <Assets assets={assets?.assets} />
-            <PylonGateway pylon={assets?.pylon || {}} />
-            <Earn earn={assets?.anchorEarn || {}} />
-            <Burn burn={assets?.anchorBond || {}} />
-            <Borrowing borrow={assets?.anchorBorrow || {}} />
-            <Rewards rewards={assets?.rewards} />
-            <Pools pools={assets?.pools} />
-            <ApolloVaults apolloAssets= {assets?.apollo} />
-            <MirrorBorrowing borrow={assets?.mirrorBorrow || {}} />
-            <ShortFarms short={assets?.mirrorShortFarm || {}} />
-            <SpectrumFarms farm={assets?.specFarm} />
-            <SpectrumRewards reward={assets?.specReward} />
-            <StarTerraFarms farm={assets?.starterraFarms} />
-            <Loterra loterra={assets?.loterra} />
-            <LoterraPool loterra={assets.lotaPool} />
-            <LunaStaking staking={assets?.lunaStaking || {}} />
-            <Airdrops airdrops={assets?.airdrops} />
-          </Body>
-        )}
+        <Body>
+          <TopBar
+            currentBar={currentBar}
+            setCurrentBar={setCurrentBar}
+            currentTheme={theme}
+            profileNftLoading={profileNftLoading}
+            profileNft={profileNft}
+          />
+          {currentBar === ACCOUNT ? (
+            loading ? (
+              <Loading currentTheme={theme} />
+            ) : !assets || JSON.stringify(assets) === '{}' ? (
+              <EmptyComponent msg={error ? 'Oops! Error Fetching Assets' : null} />
+            ) : (
+              <DashboardComponents assets={assets} />
+            )
+          ) : (
+            <NftComponent address={address} currentTheme={theme} />
+          )}
+        </Body>
       </div>
     </div>
   );

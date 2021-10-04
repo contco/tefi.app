@@ -14,7 +14,7 @@ export const getLastSyncedHeight = async () => {
   }
 `;
   const payload = {query: LAST_SYNCED_HEIGHT_QUERY, variables: {} };
-  const {data} = await axios.post("https://mantle.anchorprotocol.com/?last-synced-height", payload);
+  const {data} = await axios.post("https://mantle.terra.dev?last-synced-height", payload);
   return data?.data?.LastSyncedHeight;
 }
 catch(err) {

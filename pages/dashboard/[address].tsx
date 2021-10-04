@@ -7,27 +7,16 @@ import { AccAddress } from '@terra-money/terra.js';
 import Loading from '../../components/Loading';
 import EmptyComponent from '../../components/EmptyComponent';
 import Header from '../../components/Header';
-import Assets from '../../components/Asset';
-import LunaStaking from '../../components/LunaStaking';
-import MarketValue from '../../components/MarketValue';
-import Borrowing from '../../components/Borrowing';
-import PylonGateway from '../../components/PylonGateway';
-import Pools from '../../components/Pools';
-import SpectrumFarms from '../../components/SpectrumFarms';
-import SpectrumRewards from '../../components/SpectrumRewards';
-import Rewards from '../../components/Rewards';
-import Loterra from '../../components/ؒLoterra';
-import Airdrops from '../../components/Airdrop';
 import { NextSeo } from 'next-seo';
 import { DashboardSEO } from '../../next-seo.config';
-import Earn from '../../components/Earn';
-import Burn from '../../components/Burn';
-import ShortFarms from '../../components/ShortFarms';
-import MirrorBorrowing from '../../components/MirrorBorrowing';
-import StarTerraFarms from '../../components/StarTerraFarms';
-import ApolloVaults from '../../components/ApolloVaults';
 import { assignData } from '../../providers/AssetsDataProvider/assignData';
 import useAccounts from '../../utils/useAccounts';
+import NftComponent from '../../components/NftComponent';
+import TopBar, { ACCOUNT } from '../../components/DashboardComponents/TopBar';
+import DashboardComponents from '../../components/DashboardComponents';
+import { useQuery } from '@apollo/client';
+import { useDgraphClient } from '../../lib/dgraphClient';
+import { GET_PROFILE_NFT } from '../../graphql/queries/getProfileNFT';
 
 const MAX_TRY = 3;
 
@@ -45,8 +34,11 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   const router = useRouter();
   const address = router?.query?.address as string;
   const isValidAddress = AccAddress.validate(address);
+  const [currentBar, setCurrentBar] = useState(ACCOUNT);
 
   const { data, loading, error, refetch, refreshing } = useAccounts(address);
+  const { data: profileNftData, called: profileNftCalled, loading: profileNftLoading } = useQuery(GET_PROFILE_NFT, {client: useDgraphClient(), variables: {address}});
+
 
   const assets = assignData(data);
 
@@ -81,51 +73,26 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
           address={isValidAddress ? address : ''}
           isViewOnly={true}
         />
-        {loading ? (
-          <Loading />
-        ) : !isValidAddress || !assets || JSON.stringify(assets) === '{}' ? (
-          <EmptyComponent msg={getErrorMessage()} />
-        ) : (
-          <Body>
-            <MarketValue
-              allData={[
-                assets.assets,
-                assets?.pylon,
-                assets?.anchorEarn,
-                assets?.anchorBond,
-                assets?.anchorBorrow,
-                assets.rewards,
-                assets.pools,
-                assets?.mirrorBorrow,
-                assets?.mirrorShortFarm,
-                assets?.specFarm,
-                assets?.specReward,
-                assets?.starterraFarms,
-                assets?.loterra,
-                assets.lunaStaking,
-                assets.airdrops,
-                assets?.apollo,
-                assets?.lotaPool,
-              ]}
-            />
-            <Assets assets={assets.assets} />
-            <PylonGateway pylon={assets?.pylon || {}} />
-            <Earn earn={assets?.anchorEarn || {}} />
-            <Burn burn={assets?.anchorBond || {}} />
-            <Borrowing borrow={assets?.anchorBorrow || {}} />
-            <Rewards rewards={assets.rewards} />
-            <Pools pools={assets.pools} />
-            <ApolloVaults apolloAssets= {assets?.apollo} />
-            <MirrorBorrowing borrow={assets?.mirrorBorrow || {}} />
-            <ShortFarms short={assets?.mirrorShortFarm || {}} />
-            <SpectrumFarms farm={assets?.specFarm} />
-            <SpectrumRewards reward={assets?.specReward} />
-            <StarTerraFarms farm={assets?.starterraFarms} />
-            <Loterra loterra={assets?.loterra} />
-            <LunaStaking staking={assets.lunaStaking || {}} />
-            <Airdrops airdrops={assets.airdrops} />
-          </Body>
-        )}
+        <Body>
+        <TopBar 
+            currentBar={currentBar}
+            setCurrentBar={setCurrentBar}
+            currentTheme={theme}
+            profileNftLoading={profileNftLoading || !profileNftCalled}
+            profileNft={profileNftData?.getProfileNft} 
+          />
+          {currentBar === ACCOUNT ? (
+            loading ? (
+              <Loading currentTheme={theme} />
+            ) : !assets || JSON.stringify(assets) === '{}' ? (
+              <EmptyComponent msg={getErrorMessage()} />
+            ) : (
+              <DashboardComponents assets={assets} />
+            )
+          ) : (
+            <NftComponent address={address} currentTheme={theme} />
+          )}
+        </Body>
       </div>
     </div>
   );

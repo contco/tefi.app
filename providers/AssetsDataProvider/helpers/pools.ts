@@ -1,16 +1,17 @@
-import { parse } from 'graphql';
 import { convertToFloatValue } from '../../../utils/convertFloat';
 
 export const getPoolData = (anchor, mirror, pylon, terraSwap, loterra) => {
-  console.log(loterra);
+  const lotaPool = loterra?.lotaPool ? [loterra.lotaPool] : [];
+  
   const getPoolTotal = () => {
     const pylonPoolTotal = pylon?.pylonSum?.pylonPoolSum;
+    const lotaPoolTotal = loterra?.lotaPool?.totalLpUstValue ?? '0';
     const total =
       parseFloat(pylonPoolTotal) +
       parseFloat(mirror?.total?.mirrorPoolSum) +
       parseFloat(anchor?.total?.anchorPoolSum) +
       parseFloat(terraSwap.total) +
-      parseFloat(loterra.lotaPool.totalLpUstValue);
+      parseFloat(lotaPoolTotal);
     return total.toString() ?? '0';
   };
 
@@ -19,7 +20,7 @@ export const getPoolData = (anchor, mirror, pylon, terraSwap, loterra) => {
     ...mirror?.mirrorStaking,
     ...anchor.pool,
     ...terraSwap.list,
-    loterra.lotaPool,
+    ...lotaPool,
   ].sort(
     (a, b) =>
       parseFloat(b.stakeableLpUstValue) +

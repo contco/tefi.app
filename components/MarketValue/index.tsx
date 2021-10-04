@@ -15,10 +15,10 @@ const Total: React.FC<AssetsProps> = ({ allData }) => {
   let totalRewards = 0;
 
   allData.forEach((data) => {
-    totalBorrowing += data.totalBorrow ? data.totalBorrow : 0;
-    totalAssets += data.totalValue ? data.totalValue : 0;
-    totalAssets += data.totalGov ? data.totalGov : 0;
-    totalRewards += data.totalReward ? data.totalReward : 0;
+    totalBorrowing += data?.totalBorrow ? data.totalBorrow : 0;
+    totalAssets += data?.totalValue ? data.totalValue : 0;
+    totalAssets += data?.totalGov ? data.totalGov : 0;
+    totalRewards += data?.totalReward ? data.totalReward : 0;
   });
 
   const getTotalMarketValue = () => {

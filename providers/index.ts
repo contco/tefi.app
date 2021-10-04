@@ -5,6 +5,7 @@ import WalletConnectProvider from './WalletConnectProvider';
 import AssetsDataProvider from './AssetsDataProvider';
 import ModalProvider from "./ModalsProvider";
 import AlertProvider from './AlertProvider';
+import NftDataProvider from './NftDataProvider';
 
 export {
   DeviceDetectProvider,
@@ -14,4 +15,5 @@ export {
   AlertProvider,
   ModalProvider,
   AssetsDataProvider,
+  NftDataProvider
 };

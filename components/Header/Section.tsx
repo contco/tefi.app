@@ -19,7 +19,7 @@ const Container = styled.div`
   }
 `;
 
-const StyledHover = styled.div`
+export const StyledHover = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;

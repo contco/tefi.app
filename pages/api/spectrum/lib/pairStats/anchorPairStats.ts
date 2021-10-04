@@ -1,14 +1,13 @@
 import { contracts } from "../contracts";
 import { getRewardInfos, getFarmConfig, createPairStats } from "../utils";
-import { borrowAPYQuery } from "../../../anchor/lib/borrow";
 import BigNumber from 'bignumber.js';
+import { getAnchorApyStats } from "../../../anchor/lib/getAncApyStats";
 
-const ANCHOR_MANTLE = 'https://mantle.anchorprotocol.com';
 
 export const getAnchorPairStatsData = async (height) => {
     const rewardInfoPromise = getRewardInfos(height, contracts.anchorFarm, contracts.anchorStaking);
     const farmConfigPromise =  getFarmConfig(contracts.anchorFarm);
-    const anchorApyStatsPromise = borrowAPYQuery(ANCHOR_MANTLE);
+    const anchorApyStatsPromise = getAnchorApyStats();
     const [rewardInfo, farmConfig, anchorApyStats] = await Promise.all([rewardInfoPromise, farmConfigPromise, anchorApyStatsPromise]);
     return {rewardInfo, farmConfig, anchorApyStats};
 }
@@ -18,9 +17,9 @@ export const calculateAnchorPairStats =  (anchorPairStatsData, poolInfos, govVau
     const terraSwapPool = terraSwapPoolResponses[contracts.anchorToken];
     const totalWeight = Object.values(poolInfos).reduce((a, b: any) => a + b.weight, 0);
     const govWeight = govVaults.vaults.find(it => it.address === contracts.anchorFarm)?.weight || 0;
-    const poolApr = +(anchorApyStats?.lpRewards[0]?.APY || 0);
+    const poolApr = +(anchorApyStats?.lpRewardApy || 0);
 
-    const farmApr = (anchorApyStats?.govRewards[0]?.CurrentAPY || 0 );
+    const farmApr = (anchorApyStats?.govRewardApy || 0 );
 
     const pairs = {};
     pairs[contracts.anchorToken] = createPairStats(poolApr, contracts.anchorToken, poolInfos, govWeight, totalWeight, farmApr);

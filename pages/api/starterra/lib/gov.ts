@@ -1,5 +1,5 @@
+import { wasmStoreRequest } from "@contco/terra-utilities";
 import { contracts } from "./contracts";
-import { wasmStoreRequest } from "../../commons";
 import { UNIT } from "../../mirror/utils";
 
 const STT_SYMBOL = "STT";

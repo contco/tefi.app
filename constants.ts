@@ -1,7 +1,7 @@
 export const DARK_THEME = 'dark';
 export const LIGHT_THEME = 'light';
 export const TERRA_TEST_NET = { URL: 'https://tequila-lcd.terra.dev', chainID: 'tequila-0004' };
-export const TERRA_MAIN_NET = { URL: 'https://lcd.terra.dev', chainID: 'columbus-4' };
+export const TERRA_MAIN_NET = { URL: 'https://lcd.terra.dev', chainID: 'columbus-5' };
 export const TERRA_OBSERVER_URL = 'wss://observer.terra.dev';
 export const TERRA_SWAP_GRAPHQL_URL = 'https://terraswap-graph.terra.dev/graphql';
 
@@ -52,3 +52,5 @@ export enum WalletConnectType {
 }
 
 export const TEFI_PREVIEW_IMAGE = 'https://storage.googleapis.com/tefi-app/tefi-preview.png';
+
+export const CLUB_DEPOSIT_ADDRESS = 'terra1lpccq0w9e36nlzhx3m6t8pphx8ncavslyul29g';

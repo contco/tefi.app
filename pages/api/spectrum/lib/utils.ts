@@ -1,6 +1,7 @@
 import axios from "axios";
+import { wasmStoreRequest } from "@contco/terra-utilities";
 import { LCD_URL } from "../../utils";
-import { wasmStoreRequest } from "../../commons";
+
 
 export const BLOCK_TIME = 6500;
 export const HEIGHT_PER_YEAR = 365 * 24 * 60 * 60 * 1000 / BLOCK_TIME;

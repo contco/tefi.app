@@ -7,7 +7,6 @@ export const getPoolValues = (stakedlpBalance: number, stakeableLpBalance: numbe
     const token1Staked = stakedLpUstValue / 2;
     const token2UnStaked = token1UnStaked / price;
     const token2Staked = token1Staked / price;
-  
     return {
       stakedLpUstValue: stakedLpUstValue.toString(),
       stakeableLpUstValue: stakeableLpUstValue.toString(),

@@ -19,7 +19,7 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-export const useAssetSupplyClient = () => {
+export const useDgraphClient = () => {
   const client = useMemo(
     () =>
       new ApolloClient({
@@ -31,5 +31,3 @@ export const useAssetSupplyClient = () => {
   );
   return client;
 };
-
-export default useAssetSupplyClient;

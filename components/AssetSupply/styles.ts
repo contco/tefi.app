@@ -76,7 +76,7 @@ export const FlameBase = styled.span`
   text-align: center;
   left: 1%;
   right: 1%;
-  z-index: 2;
+  z-index: 1;
   opacity: 0.8;
   ${css({
     fontSize: ['100px', null, '130px', null, '160px'],
@@ -129,3 +129,4 @@ export const Time = styled<any>(Box)`
     color: 'secondary',
   })}
 `;
+
