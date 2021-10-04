@@ -38,6 +38,7 @@ export const assignData = (data) =>
           data?.assets?.pylon,
           data?.assets?.core,
           data?.assets?.spectrum,
+          data?.assets?.terraworld
         ),
         pools: getPoolData(
           data?.assets?.anchor,

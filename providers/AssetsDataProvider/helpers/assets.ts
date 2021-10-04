@@ -2,18 +2,20 @@ import { plus } from '../../../utils/math';
 import { convertToFloatValue } from '../../../utils/convertFloat';
 import { assets } from '../../../constants/assets';
 
-export const getAssetData = (anchor, mirror, pylon, core, spectrum) => {
+export const getAssetData = (anchor, mirror, pylon, core, spectrum, terraworld) => {
   const getAssetsTotal = () => {
     const mirrorTotal = mirror?.total?.mirrorHoldingsSum;
     const coreTotal = core?.total?.assetsSum;
     const pylonHoldingsSum = pylon?.pylonSum?.pylonHoldingsSum;
     const spectrumSum = spectrum?.spectrumTotal?.holdingsTotal;
     const anchorTotal = anchor?.total?.anchorHoldingsSum;
+    const terraworldSum = terraworld?.twdHoldings?.value
     const total =
       parseFloat(spectrumSum) +
       parseFloat(plus(mirrorTotal, coreTotal)) +
       parseFloat(anchorTotal) +
-      parseFloat(pylonHoldingsSum);
+      parseFloat(pylonHoldingsSum) +
+      parseFloat(terraworldSum);
     return total.toString() ?? '0';
   };
 
@@ -23,6 +25,7 @@ export const getAssetData = (anchor, mirror, pylon, core, spectrum) => {
     ...mirror?.mirrorHoldings,
     ...core?.coins,
     ...anchor?.assets,
+    terraworld?.twdHoldings
   ];
   const sortedHoldings = holdings.sort((a: any, b: any) => b.value - a.value);
   const largerHoldings = sortedHoldings.filter((asset: Holdings) => parseFloat(asset?.value) >= 1);
