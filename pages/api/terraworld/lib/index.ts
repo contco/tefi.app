@@ -1,8 +1,8 @@
-import { getTerraWorldStaking } from './staking';
+import { getTerrWorldASsets } from './getTerraWorldAssets';
 
 export const getTWDAccount = async (address: string) => {
   try {
-    const twdData = await getTerraWorldStaking(address)
+    const twdData = await getTerrWorldASsets(address)
     const {twdPool, twdGov} = twdData;      
     return { twdPool, twdGov };
   } catch {
