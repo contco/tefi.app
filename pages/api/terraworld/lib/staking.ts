@@ -8,22 +8,9 @@ export const getTerraWorldStaking = async (address: string) => {
   try {
     const blockRequest = await getLatestBlockHeight();
     const blockHeight = parseFloat(blockRequest);
-    const holderMsg = {
-      holder: { address: address },
-    };
-    const claimMsg = {
-      claims: {
-        address: address,
-      },
-    };
+    
     const balanceMsg = {
       balance: {
-        address: address,
-      },
-    };
-
-    const holderLPMsg = {
-      holder: {
         address: address,
       },
     };
@@ -51,15 +38,11 @@ export const getTerraWorldStaking = async (address: string) => {
       stakingGovRequest,
       poolLpRequest,
     ]);
-    // console.log(poolInfo)
-     console.log(stakingLpInfo);
-    // console.log(stakingGovInfo);
-    // console.log(poolLpBalance);
-
-    const twdPoolStaking = getLpStakingInfo(poolInfo, stakingLpInfo, poolLpBalance);
-    console.log('twdPool', twdPoolStaking);
-    //const twdGov = getGovInfo(holderInfo, poolInfo, claimInfo);
-    //return { twdGov, twdPool };
+    console.log(stakingGovInfo);
+    const twdPool = getLpStakingInfo(poolInfo, stakingLpInfo, poolLpBalance);
+    const twdGov = getGovInfo( poolInfo, stakingGovInfo);
+    
+    return { twdPool, twdGov };
   } catch (err) {
     return null;
   }

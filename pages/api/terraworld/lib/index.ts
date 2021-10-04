@@ -1,18 +1,11 @@
-import { div } from '../../../../utils/math';
-import { UNIT } from '../../mirror/utils';
-import { getTWDConfig } from './config';
 import { getTerraWorldStaking } from './staking';
 
 export const getTWDAccount = async (address: string) => {
   try {
-    const [loterraConfig, lotaData] = await Promise.all([getTWDConfig(), getTerraWorldStaking(address)]);
-    const {lotaGov, lotaPool} = lotaData;
-
-    console.log('lotaGov', lotaGov);
-    console.log('lotaPool', lotaPool);
-        
-    return { lotaGov, lotaPool };
+    const twdData = await getTerraWorldStaking(address)
+    const {twdPool, twdGov} = twdData;      
+    return { twdPool, twdGov };
   } catch {
-    return { loterraDraw: null, lotaGov: null, lotaPool: null };
+    return { twdPool: null, twdGov: null };
   }
 };
