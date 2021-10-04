@@ -8,10 +8,13 @@ import { contracts } from "../terraworld/lib/contracts";
 
 const getTokenPrice = async (symbol) => {
   let price;
-  const mineOverviewPromise = await fetchData(PYLON_API_ENDPOINT + 'mine/v1/overview');
-  const minePrice = mineOverviewPromise.data.priceInUst;
-  //twdprice
-  const poolInfoTWD = await getPoolInfo(contracts.pool);
+  const mineOverviewRequest = fetchData(PYLON_API_ENDPOINT + 'mine/v1/overview');
+  const poolInfoTWDReuest = getPoolInfo(contracts.pool);
+  const [mineOverview, poolInfoTWD] = await Promise.all([
+    mineOverviewRequest,
+    poolInfoTWDReuest
+  ]);
+  const minePrice = mineOverview.data.priceInUst;
   const twdPrice = (getPrice(poolInfoTWD)).toString();
   const loopPrice = "0.035";
   if(symbol ==='MINE') {

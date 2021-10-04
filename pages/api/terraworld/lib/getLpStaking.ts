@@ -6,7 +6,7 @@ const SYMBOL1 = 'UST'
 const SYMBOL2 = "TWD";
 
 export const getLpStakingInfo = (poolInfo, stakedLpInfo, LpTokenInfo) => {
-  if (stakedLpInfo?.bond_amount === '0' && LpTokenInfo?.balancce === '0') {
+  if (stakedLpInfo?.bond_amount === '0' && LpTokenInfo?.balance === '0') {
     return null;
   }
   const price = getPrice(poolInfo);
