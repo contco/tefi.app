@@ -288,7 +288,7 @@ export const InputModal = ({ onSend, isTip, tipAddress, NFTData }) => {
   };
 
   const getNFTState = () => {
-    return false;
+    return !isValidAddress || input.address.trim() === '';
   };
 
   const onSendNFTClick = async () => {
