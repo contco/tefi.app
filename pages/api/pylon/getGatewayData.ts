@@ -3,13 +3,17 @@ import { div } from "../../../utils/math";
 import { fetchData } from "../commons";
 import { UNIT , times} from "../mirror/utils";
 import { PYLON_API_ENDPOINT } from "./constants";
+import { getPoolInfo, getPrice } from "@contco/terra-utilities";
+import { contracts } from "../terraworld/lib/contracts";
 
 const getTokenPrice = async (symbol) => {
   let price;
   const mineOverviewPromise = await fetchData(PYLON_API_ENDPOINT + 'mine/v1/overview');
   const minePrice = mineOverviewPromise.data.priceInUst;
+  //twdprice
+  const poolInfoTWD = await getPoolInfo(contracts.pool);
+  const twdPrice = (getPrice(poolInfoTWD)).toString();
   const loopPrice = "0.035";
-  const twdPrice = "0.01";
   if(symbol ==='MINE') {
     price = minePrice
   }
