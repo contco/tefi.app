@@ -37,7 +37,7 @@ export enum ModalState {
 
 interface SendModalTipProps extends ModalDisplayState, SendModalTipState {}
 
-const SendModal: React.FC<SendModalTipProps> = ({isVisible, setVisible, isTip, setIsTip, tipAddress}) => {
+const SendModal: React.FC<SendModalTipProps> = ({isVisible, setVisible, isTip, setIsTip, tipAddress, NFTData, setNFTData}) => {
   const [modalState, setModalState] = useState(ModalState.initial);
   const [txHash, setTxHash] = useState('');
   const [isPollingTx, setIsPollingTx] = useState(false);
@@ -57,6 +57,7 @@ const SendModal: React.FC<SendModalTipProps> = ({isVisible, setVisible, isTip, s
       setModalState(ModalState.disconnected);
     }
     setIsTip(false);
+    setNFTData({});
     setVisible(false);
   }
 
@@ -107,7 +108,7 @@ const SendModal: React.FC<SendModalTipProps> = ({isVisible, setVisible, isTip, s
 
 
   const onSend = async (data: any) => {
-      setModalState(ModalState.waiting);
+      setModalState(ModalState.waiting);      
       const {error, msg, txResult}: any = await sendToken(data, post);
       if(txResult?.success) {
         setModalState(ModalState.broadcasted);
@@ -121,7 +122,6 @@ const SendModal: React.FC<SendModalTipProps> = ({isVisible, setVisible, isTip, s
          }
          else {
            setModalState(ModalState.initial);
-           alert('Error Sending Transaction');
          }
 
       }
@@ -140,7 +140,7 @@ const SendModal: React.FC<SendModalTipProps> = ({isVisible, setVisible, isTip, s
     else if (modalState === ModalState.success || modalState === ModalState.denied || modalState === ModalState.error) {
       return <CompleteModal onClose={onClose} txHash={txHash} status={modalState} />
     }
-    else return <InputModal isTip={isTip} tipAddress={tipAddress} onSend={onSend}/>;
+    else return <InputModal isTip={isTip} tipAddress={tipAddress} onSend={onSend} NFTData={NFTData}/>;
   }
 
 

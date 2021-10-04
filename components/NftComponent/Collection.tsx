@@ -25,13 +25,14 @@ const Title = styled(Text)`
 interface Props {
   data: any;
   currentTheme: any;
+  address: string;
 }
 
-const Collection: React.FC<Props> = ({ data, currentTheme }) => {
+const Collection: React.FC<Props> = ({ data, currentTheme, address }) => {
   return (
     <MainContainer>
       <Title>{data.collection}</Title>
-      <List data={data.items} currentTheme={currentTheme} />
+      <List data={data.items} currentTheme={currentTheme} address={address} />
     </MainContainer>
   );
 };

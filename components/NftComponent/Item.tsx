@@ -3,9 +3,12 @@ import css from '@styled-system/css';
 import { Flex, Text, Avatar } from '@contco/core-ui';
 import { LIGHT_THEME } from '../../constants';
 import useWallet from '../../lib/useWallet';
-import { useNftContext } from '../../contexts';
+import { useModalContext, useNftContext } from '../../contexts';
+import { sendToken } from '../../transactions/sendToken';
+import { SEND_ICON as SendIcon } from '../Icons';
+import { StyledHover } from '../Header/Section';
 
-const Container = styled(Flex)`
+export const NFTItemContainer = styled(Flex)`
   flex-direction: column;
   overflow: hidden;
   ${(props) =>
@@ -20,7 +23,7 @@ const Image = styled.img`
   height: auto;
 `;
 
-const TextContainer = styled(Flex)`
+export const NFTTextContainer = styled(Flex)`
   flex-direction: column;
   height: 99px;
   justify-content: center;
@@ -31,7 +34,7 @@ const TextContainer = styled(Flex)`
     })}
 `;
 
-const CollectionName = styled(Text)`
+export const NFTCollectionName = styled(Text)`
   ${(props) =>
     css({
       color: props.theme.colors.subHeading,
@@ -40,7 +43,7 @@ const CollectionName = styled(Text)`
     })}
 `;
 
-const ItemName = styled(Text)`
+export const NFTItemName = styled(Text)`
   ${(props) =>
     css({
       color: props.theme.colors.Heading,
@@ -97,41 +100,56 @@ const BidText = styled.p`
 interface Props {
   data: any;
   currentTheme: any;
+  address: string;
 }
 
-const Item: React.FC<Props> = ({ data, currentTheme }) => {
-  const { useConnectedWallet } = useWallet();
+const Item: React.FC<Props> = ({ data, address }) => {
+  const { onConnect, useConnectedWallet, post } = useWallet();
   const connectedWallet = useConnectedWallet();
   const { profileNft, saveProfileNft } = useNftContext();
+  const { sendNFT } = useModalContext();
 
   const isNftSelected = () => {
     return data?.tokenId === profileNft?.tokenId;
   };
 
   const onSetClick = () => {
-    saveProfileNft(data.src, data.token_id);
+    sendNFT({
+      from: connectedWallet.terraAddress,
+      isNFT: true,
+      tokenId: data?.tokenId,
+      contract: 'terra103z9cnqm8psy0nyxqtugg6m7xnwvlkqdzm4s4k',
+      data,
+    });
   };
 
   return (
-    <Container>
+    <NFTItemContainer>
       <Image src={data.src} />
-      <TextContainer>
-        <CollectionName>{data.collection}</CollectionName>
-        <ItemName>{data.name}</ItemName>
-      </TextContainer>
+      <NFTTextContainer>
+        <NFTCollectionName>{data.collection}</NFTCollectionName>
+        <NFTItemName>{data.name}</NFTItemName>
+      </NFTTextContainer>
       <BottomContainer>
-        {false && connectedWallet?.terraAddress && (
-          <AvatarContainer onClick={onSetClick} selected={isNftSelected()}>
-            <Avatar
-              image={currentTheme === LIGHT_THEME ? '/images/dp_light.png' : '/images/dp_dark.png'}
-              name="Hello"
-              height={18}
-              width={18}
-            />
-          </AvatarContainer>
+        {connectedWallet?.terraAddress && connectedWallet?.terraAddress === address && (
+          <StyledHover
+            style={{
+              display: 'flex',
+              width: '33px',
+              height: '33px',
+              borderRadius: '50%',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            onClick={onSetClick}
+          >
+            <div>
+              <SendIcon />
+            </div>
+          </StyledHover>
         )}
       </BottomContainer>
-    </Container>
+    </NFTItemContainer>
   );
 };
 
