@@ -18,15 +18,17 @@ export const getAssetData = (anchor, mirror, pylon, core, spectrum, terraworld) 
       parseFloat(terraworldSum);
     return total.toString() ?? '0';
   };
-
+console.log(terraworld);
   const holdings = [
     ...spectrum?.specHoldings,
     ...pylon?.pylonHoldings,
     ...mirror?.mirrorHoldings,
     ...core?.coins,
     ...anchor?.assets,
-    terraworld?.twdHoldings
   ];
+  if(terraworld?.twdHoldings){
+    holdings.push(terraworld?.twdHoldings);
+  }
   const sortedHoldings = holdings.sort((a: any, b: any) => b.value - a.value);
   const largerHoldings = sortedHoldings.filter((asset: Holdings) => parseFloat(asset?.value) >= 1);
 
