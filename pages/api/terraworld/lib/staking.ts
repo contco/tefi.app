@@ -36,28 +36,28 @@ export const getTerraWorldStaking = async (address: string) => {
     }
 
     const poolInfoRequest = getPoolInfo(contracts.pool);
-    const poolRewardRequest =  wasmStoreRequest(contracts.twdPoolStakingContract, stakerInfo);
-    const govRewardsRequest =  wasmStoreRequest(contracts.twdGovStakingContract, stakerInfo);
+    const stakingLpRequest =  wasmStoreRequest(contracts.twdPoolStakingContract, stakerInfo);
     const poolLpRequest = wasmStoreRequest(contracts.staking, balanceMsg);
-
+    const stakingGovRequest =  wasmStoreRequest(contracts.twdGovStakingContract, stakerInfo);
 
     const [
       poolInfo,
-      poolRewardInfo,
-      govRewardInfo,
-      poolLpInfo,
+      stakingLpInfo,
+      stakingGovInfo,
+      poolLpBalance,
     ] = await Promise.all([
       poolInfoRequest,
-      poolRewardRequest,
-      govRewardsRequest,
+      stakingLpRequest,
+      stakingGovRequest,
       poolLpRequest,
     ]);
-    console.log(poolInfo)
-    console.log(poolRewardInfo);
-    console.log(govRewardInfo);
-    console.log(poolLpInfo);
+    // console.log(poolInfo)
+     console.log(stakingLpInfo);
+    // console.log(stakingGovInfo);
+    // console.log(poolLpBalance);
 
-    //const twdPool = getLpStakingInfo(poolInfo, lpTokenInfo, holderLPInfo);
+    const twdPool = getLpStakingInfo(poolInfo, stakingLpInfo, poolLpBalance);
+    console.log('twdPool', twdPool);
     //const twdGov = getGovInfo(holderInfo, poolInfo, claimInfo);
     //return { twdGov, twdPool };
   } catch (err) {

@@ -7,14 +7,17 @@ const LP_NAME = 'TWD-UST';
 const SYMBOL1 = 'UST'
 const SYMBOL2 = "TWD";
 
-export const getLpStakingInfo = (poolInfo, lpTokenInfo, holderLPInfo) => {
-  if (lpTokenInfo?.balance === '0' && holderLPInfo?.balancce === '0') {
+export const getLpStakingInfo = (poolInfo, stakedLpInfo, LpTokenInfo) => {
+  console.log(poolInfo)
+  console.log(stakedLpInfo)
+  console.log(LpTokenInfo)
+  if (stakedLpInfo?.bond_amount === '0' && LpTokenInfo?.balancce === '0') {
     return null;
   }
   const price = getPrice(poolInfo);
   const lpValue = getLpValue(poolInfo, parseFloat(price));
-  const stakeableLp = parseFloat(lpTokenInfo.balance) / UNIT;
-  const stakedLp = parseFloat(holderLPInfo.balance) / UNIT;
+  const stakedLp = parseFloat(stakedLpInfo.bond_amount) / UNIT;
+  const stakeableLp = parseFloat(LpTokenInfo.balance) / UNIT;
   const LpStakeInfo: any = getPoolValues(stakedLp, stakeableLp, lpValue, parseFloat(price));
   return { symbol1: SYMBOL1, symbol2: SYMBOL2, lpName: LP_NAME, lpValue: lpValue.toString(), price, stakedLp: stakedLp.toString(), stakeableLp: stakeableLp.toString(), ...LpStakeInfo };
 };
