@@ -46,6 +46,9 @@ interface Props {
   text?: string;
   isBig?: boolean;
   address?: string;
+}
+
+interface NftProps extends Props {
   knowhereNftData: NftAssets[] | null;
 }
 
@@ -61,14 +64,14 @@ export const AnimatedCircle: React.FC<Props> = ({ currentTheme, isBig = false })
 
 export const fetchNftData = async (addr, setData) => {
   try {
-    const res = await fetch(`/api/nft/${"terra1w896lqtylc3u5whutjwq0k0wveph8z6z6qxcn7"}`);
+    const res = await fetch(`/api/nft/${addr}`);
     setData(await res.json());
   } catch (error) {
     console.warn('err', error)
   }
 };
 
-const NftComponent: React.FC<Props> = ({ currentTheme, text = DEFAULT_TEXT, isBig = false, address, knowhereNftData}) => {
+const NftComponent: React.FC<NftProps> = ({ currentTheme, text = DEFAULT_TEXT, isBig = false, address, knowhereNftData}) => {
   const [data, setData] = useState<any>(null);
 
   useEffect(() => {
