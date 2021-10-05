@@ -46,6 +46,7 @@ interface Props {
   text?: string;
   isBig?: boolean;
   address?: string;
+  knowhereNftData: NftAssets[] | null;
 }
 
 const DEFAULT_TEXT = 'COMING SOON';
@@ -60,22 +61,23 @@ export const AnimatedCircle: React.FC<Props> = ({ currentTheme, isBig = false })
 
 export const fetchNftData = async (addr, setData) => {
   try {
-    const res = await fetch(`/api/nft/${addr}`);
+    const res = await fetch(`/api/nft/${"terra1w896lqtylc3u5whutjwq0k0wveph8z6z6qxcn7"}`);
     setData(await res.json());
-  } catch (error) {}
+  } catch (error) {
+    console.warn('err', error)
+  }
 };
 
-const NftComponent: React.FC<Props> = ({ currentTheme, text = DEFAULT_TEXT, isBig = false, address }) => {
-  const [data, setData] = useState<any>(0);
+const NftComponent: React.FC<Props> = ({ currentTheme, text = DEFAULT_TEXT, isBig = false, address, knowhereNftData}) => {
+  const [data, setData] = useState<any>(null);
 
   useEffect(() => {
     address && fetchNftData(address, setData);
   }, [address]);
-
   return (
     <div>
       {data ? (
-        <Collection data={data} currentTheme={currentTheme} address={address} />
+        <Collection data={data} knowhereNftData={knowhereNftData} currentTheme={currentTheme} address={address} />
       ) : (
         <MainContainer>
           <Container>

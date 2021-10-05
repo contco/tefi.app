@@ -7,6 +7,9 @@ import { useModalContext, useNftContext } from '../../contexts';
 import { sendToken } from '../../transactions/sendToken';
 import { SEND_ICON as SendIcon } from '../Icons';
 import { StyledHover } from '../Header/Section';
+import { NFT_CONTRACTS } from './contracts';
+
+const GP_CONTRACT = NFT_CONTRACTS[0];
 
 export const NFTItemContainer = styled(Flex)`
   flex-direction: column;
@@ -123,15 +126,16 @@ const Item: React.FC<Props> = ({ data, address }) => {
     });
   };
 
+
   return (
     <NFTItemContainer>
-      <Image src={data.src} />
+      <Image src={data?.src || data?.image} />
       <NFTTextContainer>
-        <NFTCollectionName>{data.collection}</NFTCollectionName>
+        <NFTCollectionName>{data?.collection || data?.nftType}</NFTCollectionName>
         <NFTItemName>{data.name}</NFTItemName>
       </NFTTextContainer>
       <BottomContainer>
-        {connectedWallet?.terraAddress && connectedWallet?.terraAddress === address && (
+        {data?.collection === GP_CONTRACT.name && connectedWallet?.terraAddress && connectedWallet?.terraAddress === address && (
           <StyledHover
             style={{
               display: 'flex',

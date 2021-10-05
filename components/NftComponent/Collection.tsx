@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import css from '@styled-system/css';
 import { Text } from '@contco/core-ui';
 import List from './List';
+import { NFT_CONTRACTS } from './contracts';
 
 const MainContainer = styled.div`
   ${css({
@@ -11,13 +12,13 @@ const MainContainer = styled.div`
     })}
 `;
 
-const Title = styled(Text)`
+
+const NoText = styled(Text)`
   ${(props) =>
     css({
       color: props.theme.colors.Heading,
-      letterSpacing: 2,
-      fontSize: [20, null, null, 28],
-      fontWeight: 900,
+      fontSize: '16px',
+      fontWeight: 600,
       mb: 2,
     })}
 `;
@@ -26,13 +27,36 @@ interface Props {
   data: any;
   currentTheme: any;
   address: string;
+  knowhereNftData: NftAssets[] | null
 }
 
-const Collection: React.FC<Props> = ({ data, currentTheme, address }) => {
+const Collection: React.FC<Props> = ({ data: galacticPunkData, currentTheme, address, knowhereNftData }) => {
+
+  const showNftList = () => {
+    const punkNfts = galacticPunkData ? galacticPunkData?.items : [] ;
+    const knowhereNfts = knowhereNftData ? knowhereNftData : [];
+    const nftList = [...punkNfts, ...knowhereNfts];
+
+    if (nftList?.length === 0) {
+      return <NoText> No Items Found </NoText>
+    }
+    else {
+      const userNftData = NFT_CONTRACTS.map((contract) => {
+        const contractData = nftList.filter((nftAsset: any) => (nftAsset?.nftContract === contract?.contractAddr) || nftAsset?.collection === contract?.name );
+        return {...contract, items: contractData};
+      })
+      return userNftData.map((nftData: any) => {
+        return(
+          <>
+          <List data={nftData} currentTheme={currentTheme} address={address} />
+          </>
+        )
+      })
+    }
+  }
   return (
     <MainContainer>
-      <Title>{data.collection}</Title>
-      <List data={data.items} currentTheme={currentTheme} address={address} />
+      {showNftList()}
     </MainContainer>
   );
 };

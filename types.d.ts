@@ -407,8 +407,20 @@ interface ErrorResult {
   msg: string;
 }
 
+
+interface NftAssets {
+  description: string;
+  creator: string;
+  image: string;
+  tokenId: string;
+  nftContract: string;
+  nftType: string;
+  nftSymbol: string;
+  owner: ProfileNft
+}
 interface ProfileNft {
   address: string;
   url: string;
   tokenId: string;
+  nftAssets: NftAssets[];
 }
