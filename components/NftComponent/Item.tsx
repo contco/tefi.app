@@ -128,16 +128,17 @@ const Item: React.FC<Props> = ({ data, address }) => {
   };
 
   const onSetClick = () => {
+    const sendData = {collection: data?.collection ?? data?.nftType, name: data?.name, src: data?.src ?? data?.image, tokenId: data.tokenId };
     sendNFT({
       from: connectedWallet.terraAddress,
       isNFT: true,
       tokenId: data?.tokenId,
       contract: 'terra103z9cnqm8psy0nyxqtugg6m7xnwvlkqdzm4s4k',
-      data,
+      data: sendData,
     });
   };
 
-
+  
   return (
     <NFTItemContainer>
       <Image src={data?.src || data?.image || '/images/blank_nft.png'} />

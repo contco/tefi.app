@@ -411,6 +411,7 @@ interface ErrorResult {
 interface NftAssets {
   description: string;
   creator: string;
+  name: string;
   image: string;
   tokenId: string;
   nftContract: string;
