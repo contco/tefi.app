@@ -7,9 +7,10 @@ import { useModalContext, useNftContext } from '../../contexts';
 import { sendToken } from '../../transactions/sendToken';
 import { SEND_ICON as SendIcon } from '../Icons';
 import { StyledHover } from '../Header/Section';
-import { NFT_CONTRACTS } from './contracts';
+import { NFT_CONTRACTS, TLOOT_CONTRACT} from './contracts';
 
-const GP_CONTRACT = NFT_CONTRACTS[0];
+const GP_CONTRACT_INFO = NFT_CONTRACTS[0];
+
 
 export const NFTItemContainer = styled(Flex)`
   flex-direction: column;
@@ -53,6 +54,16 @@ export const NFTItemName = styled(Text)`
       fontWeight: 500,
       mt: 2,
       fontSize: ['14px', null, null, '16px'],
+    })}
+`;
+
+const NFTDescription = styled(Text)`
+  ${(props) =>
+    css({
+      color: props.theme.colors.Heading,
+      fontWeight: 500,
+      mt: 2,
+      fontSize: ['12px', null, null, '14px'],
     })}
 `;
 
@@ -129,13 +140,17 @@ const Item: React.FC<Props> = ({ data, address }) => {
 
   return (
     <NFTItemContainer>
-      <Image src={data?.src || data?.image} />
+      <Image src={data?.src || data?.image || '/images/blank_nft.png'} />
       <NFTTextContainer>
         <NFTCollectionName>{data?.collection || data?.nftType}</NFTCollectionName>
         <NFTItemName>{data.name}</NFTItemName>
+        {data?.nftContract === TLOOT_CONTRACT ? 
+         <NFTDescription>{data?.description}</NFTDescription>
+         : null
+        }  
       </NFTTextContainer>
       <BottomContainer>
-        {data?.collection === GP_CONTRACT.name && connectedWallet?.terraAddress && connectedWallet?.terraAddress === address && (
+        {data?.collection === GP_CONTRACT_INFO.name && connectedWallet?.terraAddress && connectedWallet?.terraAddress === address && (
           <StyledHover
             style={{
               display: 'flex',

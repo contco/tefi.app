@@ -7,6 +7,7 @@ export const GET_PROFILE_NFT = gql`
       tokenId
       url
       nftAssets {
+        id
         creator
         description
         image
