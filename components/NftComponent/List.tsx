@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import css from '@styled-system/css';
+import {Text} from '@contco/core-ui';
 import Item from './Item';
-import { Text } from '@contco/core-ui';
 
 const Container = styled.div`
   ${css({
@@ -20,31 +20,38 @@ const Container = styled.div`
   }
 `;
 
-const NoText = styled(Text)`
+const Title = styled(Text)`
   ${(props) =>
     css({
       color: props.theme.colors.Heading,
-      fontSize: '16px',
-      fontWeight: 600,
+      letterSpacing: 2,
+      fontSize: [20, null, null, 28],
+      fontWeight: 900,
       mb: 2,
     })}
 `;
 
+
 interface Props {
-  data: [any];
+  data: any;
   currentTheme: any;
   address: string;
 }
 
 const List: React.FC<Props> = ({ data, currentTheme, address }) => {
+  if (!data?.items || data?.items?.length === 0) {
+    return <> </>;
+  }
+
   return (
+    <>
+    <Title> {data?.name}</Title>
     <Container>
-      {data && data.length ? (
-        data.map((item) => <Item key={item.token_id} data={item} currentTheme={currentTheme} address={address} />)
-      ) : (
-        <NoText>No Items Found</NoText>
-      )}
+      {
+        data?.items?.map((item) => <Item key={item.token_id} data={item} currentTheme={currentTheme} address={address} />)
+      }
     </Container>
+    </>
   );
 };
 

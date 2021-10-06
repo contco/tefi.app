@@ -34,7 +34,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   const { useConnectedWallet } = useWallet();
   const connectedWallet = useConnectedWallet();
   const [currentBar, setCurrentBar] = useState(ACCOUNT);
-  const { profileNft, profileNftLoading } = useNftContext();
+  const { profileNft, profileNftLoading, nftAssets, initialLoading} = useNftContext();
 
   useEffect(() => {
     const localAddress = localStorage.getItem(ADDRESS_KEY);
@@ -88,7 +88,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
               <DashboardComponents assets={assets} />
             )
           ) : (
-            <NftComponent address={address} currentTheme={theme} />
+            <NftComponent nftAssets={nftAssets} loading={initialLoading} address={address} currentTheme={theme} />
           )}
         </Body>
       </div>

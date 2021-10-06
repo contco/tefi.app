@@ -6,6 +6,17 @@ export const GET_PROFILE_NFT = gql`
       address
       tokenId
       url
+      nftAssets {
+        id
+        creator
+        description
+        image
+        nftContract
+        name
+        nftSymbol
+        nftType
+        tokenId
+      }
     }
   }
 `;

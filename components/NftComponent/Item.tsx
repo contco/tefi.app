@@ -7,6 +7,10 @@ import { useModalContext, useNftContext } from '../../contexts';
 import { sendToken } from '../../transactions/sendToken';
 import { SEND_ICON as SendIcon } from '../Icons';
 import { StyledHover } from '../Header/Section';
+import { NFT_CONTRACTS, TLOOT_CONTRACT} from './contracts';
+
+const GP_CONTRACT_INFO = NFT_CONTRACTS[0];
+
 
 export const NFTItemContainer = styled(Flex)`
   flex-direction: column;
@@ -50,6 +54,16 @@ export const NFTItemName = styled(Text)`
       fontWeight: 500,
       mt: 2,
       fontSize: ['14px', null, null, '16px'],
+    })}
+`;
+
+const NFTDescription = styled(Text)`
+  ${(props) =>
+    css({
+      color: props.theme.colors.Heading,
+      fontWeight: 500,
+      mt: 2,
+      fontSize: ['12px', null, null, '14px'],
     })}
 `;
 
@@ -114,24 +128,30 @@ const Item: React.FC<Props> = ({ data, address }) => {
   };
 
   const onSetClick = () => {
+    const sendData = {collection: data?.collection ?? data?.nftType, name: data?.name, src: data?.src ?? data?.image, tokenId: data.tokenId };
     sendNFT({
       from: connectedWallet.terraAddress,
       isNFT: true,
       tokenId: data?.tokenId,
       contract: 'terra103z9cnqm8psy0nyxqtugg6m7xnwvlkqdzm4s4k',
-      data,
+      data: sendData,
     });
   };
 
+  
   return (
     <NFTItemContainer>
-      <Image src={data.src} />
+      <Image src={data?.src || data?.image || '/images/blank_nft.png'} />
       <NFTTextContainer>
-        <NFTCollectionName>{data.collection}</NFTCollectionName>
+        <NFTCollectionName>{data?.collection || data?.nftType}</NFTCollectionName>
         <NFTItemName>{data.name}</NFTItemName>
+        {data?.nftContract === TLOOT_CONTRACT ? 
+         <NFTDescription>{data?.description}</NFTDescription>
+         : null
+        }  
       </NFTTextContainer>
       <BottomContainer>
-        {connectedWallet?.terraAddress && connectedWallet?.terraAddress === address && (
+        {data?.collection === GP_CONTRACT_INFO.name && connectedWallet?.terraAddress && connectedWallet?.terraAddress === address && (
           <StyledHover
             style={{
               display: 'flex',
