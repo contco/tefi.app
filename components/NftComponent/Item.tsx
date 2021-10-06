@@ -130,10 +130,10 @@ const Item: React.FC<Props> = ({ data, address }) => {
   const onSetClick = () => {
     const sendData = {collection: data?.collection ?? data?.nftType, name: data?.name, src: data?.src ?? data?.image, tokenId: data.tokenId };
     sendNFT({
-      from: connectedWallet.terraAddress,
+      from: connectedWallet?.terraAddress,
       isNFT: true,
       tokenId: data?.tokenId,
-      contract: 'terra103z9cnqm8psy0nyxqtugg6m7xnwvlkqdzm4s4k',
+      contract: data.nftContract,
       data: sendData,
     });
   };
@@ -151,7 +151,7 @@ const Item: React.FC<Props> = ({ data, address }) => {
         }  
       </NFTTextContainer>
       <BottomContainer>
-        {data?.collection === GP_CONTRACT_INFO.name && connectedWallet?.terraAddress && connectedWallet?.terraAddress === address && (
+        {connectedWallet?.terraAddress && (
           <StyledHover
             style={{
               display: 'flex',

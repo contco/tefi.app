@@ -1,4 +1,5 @@
 import { fetchData } from "../commons";
+const GP_CONTRACT = "terra103z9cnqm8psy0nyxqtugg6m7xnwvlkqdzm4s4k";
 
 
 export default async function personHandler({ query: { address } }, res) {
@@ -12,7 +13,8 @@ export default async function personHandler({ query: { address } }, res) {
             name,
             collection: collection.name,
             src,
-            tokenId: token_id
+            tokenId: token_id,
+            nftContract: GP_CONTRACT,
         }))
         const finalData = {
             collection: 'Galactic Punks',
