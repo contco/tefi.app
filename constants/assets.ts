@@ -62,6 +62,14 @@ export const assets = {
         terraSwapSymbol: 'STT',
         poolAddress: "terra19pg6d7rrndg4z4t0jhcd7z9nhl3p5ygqttxjll",
         url: 'https://app.starterra.io/'
+    },
+    twd: {
+        pair:'TWD-UST',
+        name: "Terra World",
+        symbol: "TWD",
+        terraSwapSymbol: 'TWD',
+        poolAddress: "terra1etdkg9p0fkl8zal6ecp98kypd32q8k3ryced9d",
+        url: 'https://app.terraoffice.world/'
     }
 };
 

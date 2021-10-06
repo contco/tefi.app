@@ -26,5 +26,9 @@
     {
         "symbol":"stt",
         "imageUrl":"/logos/starterra.png"
+    },
+    {
+        "symbol":"twd",
+        "imageUrl":"/twd.png"
     }
 ]
