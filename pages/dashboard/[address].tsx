@@ -35,9 +35,35 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   const address = router?.query?.address as string;
   const isValidAddress = AccAddress.validate(address);
   const [currentBar, setCurrentBar] = useState(ACCOUNT);
+  const [initialNftLoading, setInitialNftLoading] = useState<boolean>(true);
+  const [randomEarthData, setRandomEarthData] = useState(null);
+  const [nftAssets, setNftAssets] = useState<any>(null);
 
   const { data, loading, error, refetch, refreshing } = useAccounts(address);
   const { data: profileNftData, called: profileNftCalled, loading: profileNftLoading } = useQuery(GET_PROFILE_NFT, {client: useDgraphClient(), variables: {address}});
+
+  useEffect(() => {
+    const fetchRandomEarthNftData = async(addr) => {
+      try {
+        const jsonResponse = await fetch(`/api/nft/${addr}`);
+        const result = await jsonResponse.json();
+        setRandomEarthData(result);
+      }
+      catch(err){
+        setRandomEarthData(null);
+      }
+      setInitialNftLoading(false);
+    }
+    fetchRandomEarthNftData(address);
+  }, [address]);
+
+  useEffect(() => { 
+    const randomEarthNfts = randomEarthData ? randomEarthData?.items : [];
+    const knowhereNfts = profileNftData?.getProfileNft?.nftAssets ? profileNftData?.getProfileNft?.nftAssets : [];
+    const nftList = [...randomEarthNfts, ...knowhereNfts];
+    setNftAssets(nftList);
+    
+  }, [randomEarthData, profileNftData?.getProfileNft?.nftAssets]);
 
 
   const assets = assignData(data);
@@ -90,7 +116,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
               <DashboardComponents assets={assets} />
             )
           ) : (
-            <NftComponent knowhereNftData={profileNftData?.getProfileNft?.nftAssets} address={address} currentTheme={theme} />
+            <NftComponent nftAssets={nftAssets} loading={initialNftLoading} address={address} currentTheme={theme} />
           )}
         </Body>
       </div>

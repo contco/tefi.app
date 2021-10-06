@@ -49,7 +49,8 @@ interface Props {
 }
 
 interface NftProps extends Props {
-  knowhereNftData: NftAssets[] | null;
+  nftAssets: any | null;
+  loading: boolean;
 }
 
 const DEFAULT_TEXT = 'COMING SOON';
@@ -62,25 +63,12 @@ export const AnimatedCircle: React.FC<Props> = ({ currentTheme, isBig = false })
   );
 };
 
-export const fetchNftData = async (addr, setData) => {
-  try {
-    const res = await fetch(`/api/nft/${addr}`);
-    setData(await res.json());
-  } catch (error) {
-    console.warn('err', error)
-  }
-};
 
-const NftComponent: React.FC<NftProps> = ({ currentTheme, text = DEFAULT_TEXT, isBig = false, address, knowhereNftData}) => {
-  const [data, setData] = useState<any>(null);
-
-  useEffect(() => {
-    address && fetchNftData(address, setData);
-  }, [address]);
+const NftComponent: React.FC<NftProps> = ({ currentTheme, text = DEFAULT_TEXT, isBig = false, address, nftAssets, loading}) => {
   return (
     <div>
-      {data ? (
-        <Collection data={data} knowhereNftData={knowhereNftData} currentTheme={currentTheme} address={address} />
+      {!loading ? (
+        <Collection data={nftAssets} currentTheme={currentTheme} address={address} />
       ) : (
         <MainContainer>
           <Container>
