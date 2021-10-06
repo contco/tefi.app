@@ -1,27 +1,19 @@
 import { ApolloServer, gql } from 'apollo-server-micro';
 import { buildFederatedSchema } from '@apollo/federation';
-import { getLoterraAccount } from './lib';
+import { getTWDAccount } from './lib';
 
 const typeDefs = gql`
-  type SpecGov {
-    name: String!
+
+type TWDHolding {
     symbol: String!
-    staked: String!
+    name: String!
+    balance: String!
     value: String!
-    rewards: String!
     price: String!
-    apr: String!
+    contract: String!
   }
 
-  type LoterraDraw {
-    combinations: String!
-    drawTime: String!
-    jackpot: String!
-    ticketPrice: String!
-    ticketCounts: String!
-  }
-
-  type LotaGov {
+  type TWDGov {
     name: String!
     symbol: String!
     staked: String!
@@ -32,7 +24,7 @@ const typeDefs = gql`
     price: String!
   }
 
-  type LotaPool {
+  type TWDPool {
     symbol1: String!
     symbol2: String!
     lpName: String!
@@ -46,30 +38,27 @@ const typeDefs = gql`
     token2UnStaked: String!
     token2Staked: String!
     totalLpUstValue: String!
-    totalStaked: String!
     rewards: String!
     rewardsValue: String!
     rewardsSymbol: String!
-    apy: String!
   }
- 
 
-  type LoterraAccount {
-    loterraDraw: LoterraDraw
-    lotaGov: LotaGov
-    lotaPool: LotaPool
+  type TWDAccount {
+    twdHoldings: TWDHolding
+    twdGov: TWDGov
+    twdPool: TWDPool
   }
 
   extend type Assets @key(fields: "address") {
     address: String! @external
-    loterra: LoterraAccount
+    terraworld: TWDAccount
   }
 `;
 
 const resolvers = {
   Assets: {
-    loterra(assets) {
-      return getLoterraAccount(assets.address);
+    terraworld(assets) {
+      return getTWDAccount(assets.address);
     },
   },
 };
@@ -83,5 +72,5 @@ export const config = {
 };
 
 export default apolloServer.createHandler({
-  path: '/api/loterra',
+  path: '/api/terraworld',
 });

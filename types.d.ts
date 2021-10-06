@@ -315,7 +315,7 @@ interface LoterraAccount {
   loterraDraw: LoterraDraw;
   lotaGov: LotaGov;
   total: loterraTotal;
-  loterraStaking: Pool[];
+  lotaPool: Pool;
 }
 
 interface ModalDisplayState {
@@ -339,6 +339,11 @@ interface StarStakedData {
   token2Staked: string;
   rewards: string;
   rewardsValue: string;
+  bondedLp: string;
+  bondedLpUstValue: string;
+  token1Bonded: string;
+  token2Bonded: string;
+  unbondingTime: string;
 }
 
 interface StarTerraPools {
@@ -351,15 +356,17 @@ interface StarTerraPools {
   token2UnStaked: string;
   totalStakedLp: string;
   totalStakedLpUstValue: string;
+  totalBondedLp: string;
+  totalBondedLpUstValue: string;
   totalRewards: string;
   totalRewardsValue: string;
 }
 
 interface StarTerraAccount {
-  starTerraPools: StarTerraPools
-  starTerraGov: [Gov]
-  govRewardsTotal: string
-  govStakedTotal: string
+  starTerraPools: StarTerraPools;
+  starTerraGov: [Gov];
+  govRewardsTotal: string;
+  govStakedTotal: string;
 }
 
 interface ApolloVault {
@@ -372,7 +379,7 @@ interface ApolloVault {
   token2Staked: string;
 }
 
-interface ApolloAccount  {
+interface ApolloAccount {
   vaults: ApolloVault[];
   total: string;
 }
@@ -419,6 +426,7 @@ interface NftAssets {
   nftSymbol: string;
   owner: ProfileNft
 }
+
 interface ProfileNft {
   address: string;
   url: string;
