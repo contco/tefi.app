@@ -111,11 +111,21 @@ export const sendToken = async (data: SendTokenTransactionData, post) => {
 
 export const simulateSendTokenTx = async (data: SendTokenTransactionData) => {
 	try {
-		const { to, from, amount, memo, denom, txDenom, contract } = data;
+		const { to, from, amount, memo, denom, txDenom, contract, isNFT, tokenId} = data;
 		const amountInLamports = (+amount * +UNIT);
-		const msgs = denom ? [new MsgSend(from, to, { [denom]: amountInLamports })] : [new MsgExecuteContract(from, contract, {
-			transfer: { recipient: to, amount: amountInLamports.toString() },
-		})];
+		let msgs;
+		if(isNFT) {
+			msgs = [
+				new MsgExecuteContract(from, contract, {
+					transfer_nft: { recipient: to, token_id: tokenId},
+				}),
+			];
+		} 
+		else {
+			msgs = denom ? [new MsgSend(from, to, { [denom]: amountInLamports })] : [new MsgExecuteContract(from, contract, {
+				transfer: { recipient: to, amount: amountInLamports.toString() },
+			})];
+	    }
 		const feeDenom = txDenom ?? DEFAULT_DENOM;
 		const gasPrice = await getGasPrice(feeDenom);
 		const { estimatedFee } = await calculateFee(data.from, msgs, null, gasPrice, feeDenom, memo);

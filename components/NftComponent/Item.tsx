@@ -118,7 +118,7 @@ interface Props {
 }
 
 const Item: React.FC<Props> = ({ data, address }) => {
-  const { onConnect, useConnectedWallet, post } = useWallet();
+  const { useConnectedWallet } = useWallet();
   const connectedWallet = useConnectedWallet();
   const { profileNft, saveProfileNft } = useNftContext();
   const { sendNFT } = useModalContext();
@@ -151,7 +151,7 @@ const Item: React.FC<Props> = ({ data, address }) => {
         }  
       </NFTTextContainer>
       <BottomContainer>
-        {connectedWallet?.terraAddress && (
+        {connectedWallet?.terraAddress && connectedWallet?.terraAddress === address && (
           <StyledHover
             style={{
               display: 'flex',

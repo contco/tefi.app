@@ -46,8 +46,8 @@ export const Title = styled(Text)`
 `;
 
 export const SmallText = styled(Text)`
-${css({
-  color: 'secondary',
+${props => css({
+  color: props.isError ? 'red' : 'secondary',
   fontSize: ['8px', null, null, 0],
   letterSpacing: 1,
   lineHeight: ['10px', null, null, '15px'],

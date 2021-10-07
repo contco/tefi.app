@@ -127,11 +127,11 @@ const MsgText = styled(SmallText)`
 `;
 
 const FeeSection = styled(Flex)`
-  ${css({
+  ${props => css({
     width: ['calc(80vw - 40px)', null, null, 480],
     mx: 'auto',
     justifyContent: 'space-between',
-    mb: 4,
+    mb: props.isSmall ? 2 : 4,
   })}
 `;
 
@@ -287,12 +287,38 @@ export const InputModal = ({ onSend, isTip, tipAddress, NFTData }) => {
     return false;
   };
 
-  const getNFTState = () => {
-    return !isValidAddress || input.address.trim() === '';
+  const isNftTxError = () => {
+    if(isTxCalculated) {
+      return parseFloat(txFee) > parseFloat(ustAsset?.balance);
+    }
+    return false;
   };
 
+  const getNFTDisabledState = () => {
+    if(!isTxCalculated ) {
+      return !isValidAddress || input.address.trim() === '' || loading;
+    }
+    else {
+      return isNftTxError();
+    };
+  }
+
   const onSendNFTClick = async () => {
-    onSend({ to: input.address, ...NFTData });
+    if(!getNFTDisabledState()) {
+      const data = {to: input.address, ...NFTData};
+      if (!isTxCalculated) {
+        setSimulationLoading(true);
+        const result = await simulateSendTokenTx(data);
+          if (!result.error) {
+            setTxFee(result.fee);
+            setIsTxCalculated(true);
+          }
+          setSimulationLoading(false);
+      }
+      else {
+        onSend({ to: input.address, ...NFTData });
+      }
+  }
   };
 
   const onSendClick = async () => {
@@ -346,7 +372,7 @@ export const InputModal = ({ onSend, isTip, tipAddress, NFTData }) => {
         <>
           <NFTInputSection>
             <NFTItemContainer>
-              <Image src={NFTData.data.src} />
+              <Image src={NFTData.data.src ?? '/images/blank_nft.png'} />
               <NFTTextContainer>
                 <NFTCollectionName>{NFTData.data.collection}</NFTCollectionName>
                 <NFTItemName>{NFTData.data.name}</NFTItemName>
@@ -363,8 +389,16 @@ export const InputModal = ({ onSend, isTip, tipAddress, NFTData }) => {
               placeholder="To Address"
             />
           </NFTInputSection>
+          <FeeSection isSmall={true}>
+            <SmallText fontWeight={500}>Balance</SmallText>
+            <SmallText isError={isNftTxError()}>{loading ? 'Loading...' : `${ustAsset?.balance} UST`}</SmallText>
+          </FeeSection>
+          <FeeSection isSmall={true}>
+            <SmallText fontWeight={500}>TxFee</SmallText>
+            <SmallText isError={isNftTxError()}>{simulationLoading ? 'Simulating...' : `${txFee} ${showTxSymbol()}`}</SmallText>
+          </FeeSection>
           <ButtonContainer>
-            <ButtonRound onClick={onSendNFTClick} disabled={getNFTState()}>
+            <ButtonRound onClick={onSendNFTClick} disabled={getNFTDisabledState()}>
               {isTxCalculated ? 'Send' : 'Next'}
             </ButtonRound>
           </ButtonContainer>
