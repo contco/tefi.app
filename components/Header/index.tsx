@@ -67,7 +67,7 @@ const Header: React.FC<Props> = ({ theme, changeTheme, address, addressType, onR
       <Container>
         <LeftSection>
           <StyledTitle onClick={() => router.push('/')}>
-            AreYouReallyARat?<span>{" Sell"}</span>
+            AreYouReallyARat?<span>{" Sell. DUMP IT ON THEM. FOR ONCE"}</span>
           </StyledTitle>
         </LeftSection>
         <RightSection>
