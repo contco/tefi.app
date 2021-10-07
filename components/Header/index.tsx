@@ -67,7 +67,7 @@ const Header: React.FC<Props> = ({ theme, changeTheme, address, addressType, onR
       <Container>
         <LeftSection>
           <StyledTitle onClick={() => router.push('/')}>
-            Tefi<span>{logoSub}</span>
+            Anon<span>{logoSub}</span>
           </StyledTitle>
         </LeftSection>
         <RightSection>
