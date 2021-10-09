@@ -1,9 +1,7 @@
-#  NextJS Boilerplate
-**Boilerplate code with configuration for:** 
+#  TeFi App
+**Instructions to use** 
 
- - **Next JS with Typescript**
- - **Styled-Components with Global Styles**
- - **Apollo Graphql Client**
- - **Eslint and Prettier**
- - **Husky and Lint-Staged**
- - **SVGR Webpack**
+- clone repo
+- run yarn install
+- then run yarn dev
+- http://localhost:3003/
