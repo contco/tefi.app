@@ -10,7 +10,7 @@ export const getRewardData = (anchor: AccountAnc, mirror: MirrorAccount, pylon: 
   const borrowRewards = anchor?.debt?.reward;
   const totalReward = anchor?.totalReward;
   const lotaPool = loterra?.lotaPool ? [loterra.lotaPool] : [];
-  const terraworldPool = terraworld.twdPool? [terraworld.twdPool] : [];
+  const terraworldPool = terraworld?.twdPool? [terraworld?.twdPool] : [];
 
   const getRewardsTotal = () => {
     const ancTotal = totalReward;
@@ -49,7 +49,7 @@ export const getRewardData = (anchor: AccountAnc, mirror: MirrorAccount, pylon: 
   );
 
   const starTerraGov = starterra.starTerraGov ? starterra.starTerraGov : [];
-  const terraworldGov = terraworld.twdGov? [terraworld.twdGov]: [];
+  const terraworldGov = terraworld?.twdGov? [terraworld?.twdGov]: [];
   const gov = [pylon?.gov, spectrum?.specGov, mirror?.gov, anchor?.gov, loterra?.lotaGov, ...starTerraGov, ...terraworldGov]
     .filter((item) => item != null)
     .sort((a, b) => parseFloat(b.value) - parseFloat(a.value));

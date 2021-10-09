@@ -2,7 +2,7 @@ import { convertToFloatValue } from '../../../utils/convertFloat';
 
 export const getPoolData = (anchor, mirror, pylon, terraSwap, loterra, terraworld) => {
   const lotaPool = loterra?.lotaPool ? [loterra.lotaPool] : [];
-  const terraworldPool = terraworld.twdPool ? [terraworld.twdPool]: [];
+  const terraworldPool = terraworld?.twdPool ? [terraworld?.twdPool]: [];
 
   const getPoolTotal = () => {
     const pylonPoolTotal = pylon?.pylonSum?.pylonPoolSum;
