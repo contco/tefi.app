@@ -44,12 +44,12 @@ const AssetsDataProvider: React.FC<Props> = ({ children }) => {
     }
   }, [localAddress, connectedWallet]);
 
-  const { data, loading, error, refetch, refreshing } = useAccounts(address);
+ /* const { data, loading, error, refetch, refreshing } =  useAccounts(address);
 
 
   useEffect(() => {
     setAccountData(data);
-  }, [data])
+  }, [data])*/
 
   const assets = React.useMemo(() => {
     
@@ -66,7 +66,7 @@ const AssetsDataProvider: React.FC<Props> = ({ children }) => {
   }
 
   return (
-    <AssetContext.Provider value={{ assets, data: accountData, loading, error, refetch, refreshing, updateAccountData }}>{children}</AssetContext.Provider>
+    <AssetContext.Provider value={{ assets, data: accountData, loading:false, error: true, refetch: null, refreshing: false, updateAccountData }}>{children}</AssetContext.Provider>
   );
 };
 
