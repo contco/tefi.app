@@ -69,12 +69,21 @@ const HeatBubble: React.FC = ({ theme, changeTheme, pairData }: any) => {
   );
 };
 
-export async function getServerSideProps(_) {
+/*export async function getServerSideProps(_) {
   return {
     props: {
       pairData: await fetchPairData(),
     },
   };
-}
+}*/
 
 export default HeatBubble;
+
+export async function getServerSideProps() {
+  return {
+    redirect: {
+      destination: '/dashboard',
+      permanent: false,
+    },
+  };
+}

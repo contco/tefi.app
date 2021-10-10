@@ -8,16 +8,6 @@ export const INTERNAL_LINKS = [
         name: "Dashboard"
     },
     {
-        component: CHARTS_ICON,
-        url: "/market",
-        name: "Market"
-    },
-    {
-        component: BUBBLE_ICON,
-        url: "/market/heat",
-        name: "Bubbles"
-    },
-    {
         component: FEED_ICON,
         url: "/club",
         name: "Club"
