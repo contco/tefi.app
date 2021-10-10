@@ -124,4 +124,13 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   );
 };
 
+export async function getServerSideProps() {
+  return {
+    redirect: {
+      destination: '/',
+      permanent: false,
+    },
+  };
+}
+
 export default Dashboard;
