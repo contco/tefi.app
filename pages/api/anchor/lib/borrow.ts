@@ -11,7 +11,7 @@ import { fetchData } from '../../commons';
 import { UNIT } from '../../mirror/utils';
 import { getAnchorApyStats } from './getAncApyStats';
 
-const LCDURL = 'https://lcd.terra.dev/';
+const LCDURL = 'https://104.154.220.59/';
 const name = 'UST Borrow';
 
 const BASSETS_INFO = 'https://api.anchorprotocol.com/api/v1/bassets/';
