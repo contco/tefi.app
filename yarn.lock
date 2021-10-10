@@ -1074,10 +1074,10 @@
     styled-components "^5.1.1"
     styled-system "^5.1.5"
 
-"@contco/terra-utilities@0.0.3":
-  version "0.0.3"
-  resolved "https://npm.pkg.github.com/download/@contco/terra-utilities/0.0.3/e2a81587bf21583c80e87908ba2ff5d4f49ed184b2618e664a6be5a33f16dbcf#37d05976f959a7ef24dda1b45f5b795615e998af"
-  integrity sha512-l7t0kjZbUoleZVNKeP2pPWZGcnGoVA0FjnL7WrABLjoqyxUr1wgwThHYe4WoJhEE6tgrfDiaHMVWr7FV4oJB+g==
+"@contco/terra-utilities@0.0.5":
+  version "0.0.5"
+  resolved "https://npm.pkg.github.com/download/@contco/terra-utilities/0.0.5/9e701e392351be5163e443c3c27ad79b03d749764ba5f36820961c9b680c1f2f#98d93dd76e621c9d7e7432be4dbab96c84f83fac"
+  integrity sha512-JbtQ5y/nA4mq9yquzXUPlNAJzBVfTeYHakiP1zziONrXQNckmaYof9MbuL8bll4A1DkpIjSESN0pbbCxKsnQ+g==
 
 "@emotion/is-prop-valid@^0.8.8":
   version "0.8.8"

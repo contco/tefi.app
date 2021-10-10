@@ -216,6 +216,7 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
   );
 };
 
+/*
 export async function getStaticProps({ params: { symbol } }) {
   if (!assets[symbol])
     return {
@@ -239,5 +240,15 @@ export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
     fallback: 'blocking',
   };
 };
+*/
+
+export async function getServerSideProps() {
+  return {
+    redirect: {
+      destination: '/dashboard',
+      permanent: false,
+    },
+  };
+}
 
 export default Home;

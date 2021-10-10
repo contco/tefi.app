@@ -28,7 +28,7 @@
     "@apollo/federation": "^0.23.2",
     "@apollo/gateway": "^0.26.3",
     "@contco/core-ui": "^1.1.10",
-    "@contco/terra-utilities": "0.0.3",
+    "@contco/terra-utilities": "0.0.5",
     "@styled-system/css": "^5.1.5",
     "@terra-dev/use-browser-inactive": "^0.15.0",
     "@terra-money/terra.js": "^2.0.14",

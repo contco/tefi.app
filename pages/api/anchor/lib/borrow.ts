@@ -1,4 +1,5 @@
 import { MARKET_DENOMS } from '@anchor-protocol/anchor.js';
+import { LCD_URL } from '@contco/terra-utilities';
 import { anchor, blocksPerYear, ContractAddresses } from './test-defaults';
 import { getLatestBlockHeight, mantleFetch } from './utils';
 import { DEFAULT_MANTLE_ENDPOINTS } from '../../../../utils/ancEndpoints';
@@ -11,7 +12,6 @@ import { fetchData } from '../../commons';
 import { UNIT } from '../../mirror/utils';
 import { getAnchorApyStats } from './getAncApyStats';
 
-const LCDURL = 'https://lcd.terra.dev/';
 const name = 'UST Borrow';
 
 const BASSETS_INFO = 'https://api.anchorprotocol.com/api/v1/bassets/';
@@ -170,7 +170,7 @@ export const getBorrowRate = async () => {
     },
   });
 
-  const rate = await axios.get(LCDURL + `wasm/contracts/terra1kq8zzq5hufas9t0kjsjc62t2kucfnx8txf547n/store`, {
+  const rate = await axios.get(LCD_URL + `wasm/contracts/terra1kq8zzq5hufas9t0kjsjc62t2kucfnx8txf547n/store`, {
     params: {
       query_msg: JSON.stringify({
         borrow_rate: {

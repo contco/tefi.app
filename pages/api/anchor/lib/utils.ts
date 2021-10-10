@@ -1,7 +1,8 @@
 import axios from "axios"
+import { LCD_URL } from "../../utils";
 
 export const getLatestBlockHeight = async () => {
-  const response = await fetch('https://lcd.terra.dev/blocks/latest');
+  const response = await fetch(LCD_URL + 'blocks/latest');
   const block = await response.json();
   return block.block.header.height;
 };

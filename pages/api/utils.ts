@@ -1,10 +1,10 @@
 export const FCD_URL = "https://fcd.terra.dev/v1/";
-export const LCD_URL = "https://lcd.terra.dev/";
+export const LCD_URL = "https://berkerden.com/";
 export const EXTRATERRESTRIAL_URl = 'https://api.extraterrestrial.money/v1/api/prices';
 import { UUSD_DENOM, LUNA_DENOM } from "../api/terra-core/symbols";
 
 export const getLatestBlockHeight = async () => {
-  const response = await fetch('https://lcd.terra.dev/blocks/latest');
+  const response = await fetch(LCD_URL + 'blocks/latest');
   const block = await response.json();
   return block.block.header.height;
 };
