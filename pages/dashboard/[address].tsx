@@ -72,7 +72,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     if (error && fetchCount !== MAX_TRY) {
       setFetchCount(fetchCount + 1);
       setTimeout(() => {
-        refetch();
+       // refetch();
       }, 3000);
     }
   }, [error]);
