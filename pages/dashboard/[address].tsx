@@ -127,7 +127,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
 export async function getServerSideProps() {
   return {
     redirect: {
-      destination: '/',
+      destination: '/maintenance',
       permanent: false,
     },
   };
