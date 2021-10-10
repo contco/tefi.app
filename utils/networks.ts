@@ -20,7 +20,7 @@ const networks: Record<string, MirrorNetworkInfo> = {
   mainnet: {
     name: "mainnet",
     chainID: "columbus-5",
-    lcd: "https://berekrden.com",
+    lcd: "https://berkerden.com",
     contract: "https://whitelist.mirror.finance/columbus.json",
     mantle: "https://mantle.terra.dev/",
     stats: "https://graph.mirror.finance/graphql",
