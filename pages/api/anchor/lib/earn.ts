@@ -2,7 +2,7 @@ import { MARKET_DENOMS } from '@anchor-protocol/anchor.js';
 import { anchor, blocksPerYear, ContractAddresses } from './test-defaults';
 import { formatRate } from './utils';
 import {getLastSyncedHeight, mantleFetch } from './utils';
-import { DEFAULT_MANTLE_ENDPOINTS } from '../../../../utils/ancEndpoints';
+import { MANTLE_URL } from '../../utils';
 
 const name = 'ANC Earn';
 
@@ -71,7 +71,7 @@ export async function earnEpochStatesQuery(mantleEndpoint) {
 
 export default async (address) => {
   try {
-    const [totalDesposit, earnEpoch] = await Promise.all([getTotalDesposit({ address }), earnEpochStatesQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']) ]);
+    const [totalDesposit, earnEpoch] = await Promise.all([getTotalDesposit({ address }), earnEpochStatesQuery(MANTLE_URL) ]);
     const apy = parseFloat(earnEpoch?.overseerEpochState?.deposit_rate) * blocksPerYear;
 
     const result = {

@@ -97,8 +97,12 @@ const NftDataProvider: React.FC<Props> = ({ children }) => {
 
   
   useEffect(() => { 
-    const randomEarthNfts = randomEarthData ? randomEarthData?.items : [];
+    const randomEarthNfts = randomEarthData?.items ? randomEarthData?.items : [];
     const knowhereNfts = profileNft?.nftAssets ? profileNft?.nftAssets : [];
+    console.log(typeof(profileNft), profileNft?.nftAssets)
+    console.log(randomEarthNfts)
+    console.log(knowhereNfts, profileNft, "aaa112");
+
     const nftList = [...randomEarthNfts, ...knowhereNfts];
     setNftAssets(nftList);
     

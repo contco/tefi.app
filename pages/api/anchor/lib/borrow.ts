@@ -1,9 +1,9 @@
 import { MARKET_DENOMS } from '@anchor-protocol/anchor.js';
 import { LCD_URL } from '@contco/terra-utilities';
 import { anchor, blocksPerYear, ContractAddresses } from './test-defaults';
-import { getLatestBlockHeight, mantleFetch } from './utils';
-import { DEFAULT_MANTLE_ENDPOINTS } from '../../../../utils/ancEndpoints';
+import { getLatestBlockHeight, mantleFetch, BASSETS_INFO } from './utils';
 import { formatRate, valueConversion } from './utils';
+import { MANTLE_URL } from '../../utils';
 import { getPrice } from '../../terra-core/core';
 import { LUNA_DENOM } from '../../terra-core/symbols';
 import axios from 'axios';
@@ -13,8 +13,6 @@ import { UNIT } from '../../mirror/utils';
 import { getAnchorApyStats } from './getAncApyStats';
 
 const name = 'UST Borrow';
-
-const BASSETS_INFO = 'https://api.anchorprotocol.com/api/v1/bassets/';
 
 const bETHContract = 'terra1dzhzukyezv0etz22ud940z7adyv7xgcjkahuun'
 
@@ -99,7 +97,7 @@ export const getCollaterals = async ({ address }: any) => {
         },
       }),
     },
-    `${DEFAULT_MANTLE_ENDPOINTS['mainnet']}/?borrow--borrower`,
+    `${MANTLE_URL}/?borrow--borrower`,
   );
   const result = JSON.parse(rawData?.overseerCollaterals?.Result)
 
@@ -163,7 +161,7 @@ export const rewardsClaimableUstBorrowRewardsQuery = async (mantleEndpoint, addr
 };
 
 export const getBorrowRate = async () => {
-  const market_states = await axios.get(`${DEFAULT_MANTLE_ENDPOINTS['mainnet']}/?borrow--market-states`, {
+  const market_states = await axios.get(`${MANTLE_URL}/?borrow--market-states`, {
     params: {
       query: BORROW_RATE_QUERY,
       variables: { marketContract: 'terra1sepfj7s0aeg5967uxnfk4thzlerrsktkpelm5s' },

@@ -54,7 +54,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     if (error && fetchCount !== MAX_TRY) {
       setFetchCount(fetchCount + 1);
       setTimeout(() => {
-        //refetch();
+        refetch();
       }, 3000);
     }
   }, [error]);
@@ -96,13 +96,5 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   );
 };
 
-export async function getServerSideProps() {
-  return {
-    redirect: {
-      destination: '/maintenance',
-      permanent: false,
-    },
-  };
-}
 
 export default Dashboard;

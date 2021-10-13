@@ -4,9 +4,10 @@ import { plus} from "../../mirror/utils";
 import {ContractAddresses} from "./test-defaults";
 import { LCD_URL } from "../../utils";
 import { valueConversion } from "./utils";
+import { TEFI_API } from "../../../../constants";
 
 
-const ANCHOR_API_URL = "https://airdrop.anchorprotocol.com/api/get?";
+const ANCHOR_API_URL = TEFI_API + "https://airdrop.anchorprotocol.com/api/get?";
 const ANCHOR_TOKEN_NAME = "Anchor";
 const ANCHOR_TOKEN_SYMBOL = "ANC";
 
