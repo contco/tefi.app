@@ -6,7 +6,6 @@ import {GET_PROFILE_NFT} from '../../graphql/queries/getProfileNFT';
 import { ADD_PROFILE_NFT } from '../../graphql/mutations/addProfileNft';
 import { UPDATE_PROFILE_NFT } from '../../graphql/mutations/updateProfileNft';
 import { ADDRESS_KEY } from '../../constants';
-import useFee from '../../utils/useFee';
 
 interface ContextProps {
   profileNft: ProfileNft;
@@ -99,9 +98,6 @@ const NftDataProvider: React.FC<Props> = ({ children }) => {
   useEffect(() => { 
     const randomEarthNfts = randomEarthData?.items ? randomEarthData?.items : [];
     const knowhereNfts = profileNft?.nftAssets ? profileNft?.nftAssets : [];
-    console.log(typeof(profileNft), profileNft?.nftAssets)
-    console.log(randomEarthNfts)
-    console.log(knowhereNfts, profileNft, "aaa112");
 
     const nftList = [...randomEarthNfts, ...knowhereNfts];
     setNftAssets(nftList);

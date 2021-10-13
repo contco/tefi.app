@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { getAnchorAccount } from "../pages/api/anchor/lib/anc";
 import { getMirrorAccount } from "../pages/api/mirror/getAccountData";
 import { getLoterraAccount } from "../pages/api/loterra/lib";
@@ -28,8 +29,10 @@ const useAccounts = (address:string) => {
     const [data,setData] = useState(null);
     const [error, setError] = useState(null);
     const [refreshing, setRefreshing]= useState(false);
+
+
     
-    const fetch = async ()  => {
+    const fetch = useCallback(async ()  => {
       try {
  
         const [anchor, mirror, loterra, pylon, spectrum, starterra, core, apollo, terraworld] = await fetchAccountsData(address);
@@ -43,17 +46,21 @@ const useAccounts = (address:string) => {
       finally {
         setLoading(false);
         setRefreshing(false);
+      }}, [address]);
+
+    const refetch = () => {
+      if(!refreshing) {
+        setRefreshing(true);
+        fetch();
       }
     }
-    const refetch = () => {
-      setRefreshing(true);
-      fetch();
-    }
+
     useEffect(() => {
       if(data !== null){
         setLoading(false);
       }
     }, [data])
+
     useEffect(() => {
       if(address){
 				setLoading(true);

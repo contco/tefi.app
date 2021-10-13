@@ -58,7 +58,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   }, [address]);
 
   useEffect(() => { 
-    const randomEarthNfts = randomEarthData ? randomEarthData?.items : [];
+    const randomEarthNfts = randomEarthData?.items ? randomEarthData?.items : [];
     const knowhereNfts = profileNftData?.getProfileNft?.nftAssets ? profileNftData?.getProfileNft?.nftAssets : [];
     const nftList = [...randomEarthNfts, ...knowhereNfts];
     setNftAssets(nftList);
@@ -72,7 +72,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     if (error && fetchCount !== MAX_TRY) {
       setFetchCount(fetchCount + 1);
       setTimeout(() => {
-       // refetch();
+        refetch();
       }, 3000);
     }
   }, [error]);
@@ -123,14 +123,5 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     </div>
   );
 };
-
-export async function getServerSideProps() {
-  return {
-    redirect: {
-      destination: '/maintenance',
-      permanent: false,
-    },
-  };
-}
 
 export default Dashboard;
