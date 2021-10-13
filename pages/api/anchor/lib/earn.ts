@@ -65,7 +65,9 @@ export async function earnEpochStatesQuery(mantleEndpoint) {
       overseerEpochState: JSON.parse(rawData?.overseerEpochState?.Result),
     };
   } catch (err) {
-    earnEpochStatesQuery(mantleEndpoint);
+    return {
+      overseerEpochState: {deposit_rate: "0"}
+    };
   }
 }
 

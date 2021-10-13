@@ -57,7 +57,10 @@ export const rewardsClaimableAncUstLpRewardsQuery = async (mantleEndpoint, addre
       lPStakerInfo: JSON.parse(rawData?.lPStakerInfo?.Result),
     };
   } catch (err) {
-    rewardsClaimableAncUstLpRewardsQuery(mantleEndpoint, address);
+    return {
+      lPBalance: { balance: "0"},
+      lPStakerInfo: { bond_amount: "0", pending_reward: "0"}
+    };
   }
 };
 
