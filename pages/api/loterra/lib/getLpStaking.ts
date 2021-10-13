@@ -1,5 +1,4 @@
-import { getPrice } from "@contco/terra-utilities";
-import { UNIT } from '../../mirror/utils';
+import { getPrice, MICRO} from "@contco/terra-utilities";;
 import { getLpValue } from '../../utils';
 import { getPoolValues } from './getPoolValues';
 import { calculateAPY } from "./calculateApy";
@@ -17,9 +16,9 @@ export const getLpStakingInfo = (poolInfo, lpTokenInfo, holderLPInfo, lpRewardsI
   }
   const price = getPrice(poolInfo);
   const lpValue = getLpValue(poolInfo, parseFloat(price));
-  const stakeableLp = parseFloat(lpTokenInfo.balance) / UNIT;
-  const stakedLp = parseFloat(holderLPInfo.balance) / UNIT;
-  const rewards = lpRewardsInfo?.rewards / UNIT;
+  const stakeableLp = parseFloat(lpTokenInfo.balance) / MICRO;
+  const stakedLp = parseFloat(holderLPInfo.balance) / MICRO;
+  const rewards = lpRewardsInfo?.rewards / MICRO;
   const apyData = calculateAPY(poolInfo, stateLpStakingInfo);
   const rewardsValue = parseFloat(price) * rewards;
   const LpStakeInfo: any = getPoolValues(stakedLp, stakeableLp, lpValue, parseFloat(price));
