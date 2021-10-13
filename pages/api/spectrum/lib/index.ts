@@ -1,8 +1,6 @@
-import { wasmStoreRequest } from "@contco/terra-utilities";
+import { wasmStoreRequest, math, MICRO } from "@contco/terra-utilities";
 import { contracts } from "./contracts";
 import { getFarmInfos } from "./farmInfo";
-import { div, times } from "../../../../utils/math";
-import { UNIT } from "../../mirror/utils";
 
 
 const getUserSpecInfo = async (address) => {
@@ -35,7 +33,7 @@ const getUserBalance = async (address: string) => {
 };
 
 const getSpecPrice = (specPool) => {
-    const price = div(specPool.assets[1].amount, specPool.assets[0].amount);
+    const price = math.div(specPool.assets[1].amount, specPool.assets[0].amount);
     return price;
 };
 
@@ -43,17 +41,17 @@ const getSpecGov = (userSpec, specPrice, govApr) => {
   if(userSpec && userSpec?.balance !== '0') {
     const name = "SPEC Gov";
     const symbol = "SPEC";
-    const staked = (parseFloat(userSpec?.balance)/ UNIT).toString();
-    const value =  times(staked, specPrice);
-    const apr = times(govApr, '100');
+    const staked = (parseFloat(userSpec?.balance)/ MICRO).toString();
+    const value =  math.times(staked, specPrice);
+    const apr = math.times(govApr, '100');
     return {name, symbol, staked, value, apr, rewards: "Automatically re-staked", price: specPrice};
   }
   else return null;
 }
 const getHoldings = (balance, price) => {
   if (balance !== '0') {
-    const specBalance = (parseFloat(balance) / UNIT).toString(); 
-    const value = times(specBalance, price);
+    const specBalance = (parseFloat(balance) / MICRO).toString(); 
+    const value = math.times(specBalance, price);
     return [{name: 'Spectrum', symbol: 'SPEC', contract: contracts.specToken ,balance: specBalance, price, value}]
   }
   return [];

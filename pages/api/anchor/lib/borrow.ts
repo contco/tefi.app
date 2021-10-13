@@ -189,10 +189,10 @@ export default async (address) => {
       getBorrowedValue({ address }),
       getCollaterals({ address }),
       getAnchorApyStats(),
-      rewardsClaimableUstBorrowRewardsQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet'], address),
+      rewardsClaimableUstBorrowRewardsQuery(MANTLE_URL, address),
       getPrice(LUNA_DENOM),
       getBorrowRate(),
-      ancPriceQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet'])
+      ancPriceQuery(MANTLE_URL)
     ]);
     const percentage = (parseFloat(borrowedValue) / parseFloat(borrowLimit)) * 100 * 0.6;
     const distributionAPY = allRewards?.distributionAPY;
