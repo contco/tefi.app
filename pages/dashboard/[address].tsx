@@ -18,8 +18,6 @@ import { useQuery } from '@apollo/client';
 import { useDgraphClient } from '../../lib/dgraphClient';
 import { GET_PROFILE_NFT } from '../../graphql/queries/getProfileNFT';
 
-const MAX_TRY = 3;
-
 const Body = Styled(Box)`
 ${css({
   m: 'auto',
@@ -30,7 +28,6 @@ ${css({
 `;
 
 const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
-  const [fetchCount, setFetchCount] = useState<number>(0);
   const router = useRouter();
   const address = router?.query?.address as string;
   const isValidAddress = AccAddress.validate(address);
@@ -68,15 +65,6 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
 
   const assets = assignData(data);
 
-  useEffect(() => {
-    if (error && fetchCount !== MAX_TRY) {
-      setFetchCount(fetchCount + 1);
-      setTimeout(() => {
-        refetch();
-      }, 3000);
-    }
-  }, [error]);
-
   const getErrorMessage = () => {
     if (error) {
       return 'Oops! Error Fetching Assets';
@@ -111,7 +99,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
             loading ? (
               <Loading currentTheme={theme} />
             ) : !assets || JSON.stringify(assets) === '{}' ? (
-              <EmptyComponent msg={getErrorMessage()} />
+              <EmptyComponent msg={getErrorMessage()} refetch={refetch} refreshing={refreshing} />
             ) : (
               <DashboardComponents assets={assets} />
             )

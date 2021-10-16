@@ -16,6 +16,8 @@ import ErrorIcon from '../public/icons/error.svg';
 import TELEGRAM_ICON from '../public/icons/telegram.svg';
 import TWITTER_ICON from '../public/icons/twitter.svg';
 import TIP_ICON from '../public/icons/tip.svg';
+import REFRESH_ICON from '../public/refresh.svg';
+import REFRESHING_ICON from '../public/refreshing.svg';
 
 
 /**** INTERNAL PROTOCOL ICONS ****/
@@ -44,6 +46,8 @@ export
     NotificationActive,
     NotificationOff,
     InfoIcon,
+    REFRESHING_ICON,
+    REFRESH_ICON,
     TELEGRAM_ICON,
     TWITTER_ICON,
     DASHBOARD_ICON,
