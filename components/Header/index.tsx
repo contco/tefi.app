@@ -67,7 +67,7 @@ const Header: React.FC<Props> = ({ theme, changeTheme, address, addressType, onR
       <Container>
         <LeftSection>
           <StyledTitle onClick={() => router.push('/')}>
-            <span>{""}</span>
+            Tefi<span>{"App"}</span>
           </StyledTitle>
         </LeftSection>
         <RightSection>
