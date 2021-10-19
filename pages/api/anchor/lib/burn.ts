@@ -4,9 +4,9 @@ import { fetchData } from '../../commons';
 import { secondsToDate, UNIT } from '../../mirror/utils';
 import { getPrice } from '../../terra-core/core';
 import { LUNA_DENOM } from '../../terra-core/symbols';
+import { MANTLE_URL } from '../../utils';
+import { BASSETS_INFO } from './utils';
 
-const URL = 'https://mantle.terra.dev/';
-const BASSETS_INFO = 'https://api.anchorprotocol.com/api/v1/bassets/';
 
 const WITHDRAWABLE_REQUEST_QUERY = (address, blockTime) =>
   `{\n  withdrawableUnbonded: WasmContractsContractAddressStore(\n    ContractAddress: \"terra1mtwph2juhj0rvjz7dy92gvl6xvukaxu8rfv8ts\"\n    QueryMsg: \"{\\\"withdrawable_unbonded\\\":{\\\"block_time\\\":${blockTime},\\\"address\\\":\\\"${address}\\\"}}\"\n  ) {\n    Result\n  }\n  unbondedRequests: WasmContractsContractAddressStore(\n    ContractAddress: \"terra1mtwph2juhj0rvjz7dy92gvl6xvukaxu8rfv8ts\"\n    QueryMsg: \"{\\\"unbond_requests\\\":{\\\"address\\\":\\\"${address}\\\"}}\"\n  ) {\n    Result\n  }\n}\n`;
@@ -20,7 +20,7 @@ const valueConversion = (value) => value / UNIT;
 
 export const getAllHistory = async (requestNumber: number) => {
   try {
-    const history = await axios.get(URL + '?bond--withdraw-history', {
+    const history = await axios.get(MANTLE_URL + '?bond--withdraw-history', {
       params: {
         query: ALL_HISTORY_QUERY(requestNumber),
         variables: {},
@@ -55,7 +55,7 @@ export const getAllHistory = async (requestNumber: number) => {
 export const getWithdrawableRequest = async (address: string) => {
   const blockTime = Math.floor(new Date().getTime() / 1000);
   try {
-    const withdrawables = await axios.get(URL + '?bond--withdrawable-requests', {
+    const withdrawables = await axios.get(MANTLE_URL + '?bond--withdrawable-requests', {
       params: {
         query: WITHDRAWABLE_REQUEST_QUERY(address, blockTime),
         variables: {},

@@ -1,6 +1,6 @@
-import { wasmStoreRequest, calculateLpBonding, getLatestBlockTime } from '@contco/terra-utilities';
+import { wasmStoreRequest, calculateLpBonding, getLatestBlockTime, MICRO } from '@contco/terra-utilities';
 import { contracts } from './contracts';
-import { secondsToDate, UNIT } from '../../mirror/utils';
+import { secondsToDate } from '../../mirror/utils';
 
 const LP_NAME = 'STT-UST';
 const TOKEN1_SYMBOL = 'UST';
@@ -60,7 +60,7 @@ const getStakedData = (stakingPools: any, poolInfo: any, sttPrice: any) => {
 
     const stakedData = stakingPools.map((stakingPool: any) => {
       const { lpAmount, lpUstValue, token1, token2 } = calculateLpBonding(stakingPool.bond_amount, poolInfo);
-      const rewards = stakingPool.pending_reward / UNIT;
+      const rewards = stakingPool.pending_reward / MICRO;
       const rewardsValue = rewards * parseFloat(sttPrice);
       const bondedAmount = stakingPool.rewards_per_fee[0] ? stakingPool.rewards_per_fee[0].amount : 0;
       const bondedData = calculateLpBonding(bondedAmount, poolInfo);

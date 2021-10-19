@@ -1,5 +1,6 @@
 import axios from 'axios';
-const ANCHOR_API_URL = "https://api.anchorprotocol.com/api/v2/";
+import { TEFI_API } from '../../../../constants';
+const ANCHOR_API_URL = TEFI_API + "https://api.anchorprotocol.com/api/v2/";
 
 export const getAnchorApyStats = async () => {
     try {

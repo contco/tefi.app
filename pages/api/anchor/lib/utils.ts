@@ -1,5 +1,8 @@
 import axios from "axios"
-import { LCD_URL } from "../../utils";
+import { LCD_URL, MANTLE_URL } from "../../utils";
+import { TEFI_API } from "../../../../constants";
+
+export const BASSETS_INFO = TEFI_API + 'https://api.anchorprotocol.com/api/v1/bassets/';
 
 export const getLatestBlockHeight = async () => {
   const response = await fetch(LCD_URL + 'blocks/latest');
@@ -15,7 +18,7 @@ export const getLastSyncedHeight = async () => {
   }
 `;
   const payload = {query: LAST_SYNCED_HEIGHT_QUERY, variables: {} };
-  const {data} = await axios.post("https://mantle.terra.dev?last-synced-height", payload);
+  const {data} = await axios.post(MANTLE_URL + "?last-synced-height", payload);
   return data?.data?.LastSyncedHeight;
 }
 catch(err) {

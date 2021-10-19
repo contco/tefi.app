@@ -16,7 +16,6 @@ import NftComponent from '../../components/NftComponent';
 import TopBar, { ACCOUNT } from '../../components/DashboardComponents/TopBar';
 import DashboardComponents from '../../components/DashboardComponents';
 
-const MAX_TRY = 3;
 
 const Body = Styled(Box)`
 ${css({
@@ -30,7 +29,6 @@ ${css({
 const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   const [address, setAddress] = useState<string>('');
   const [addressType, setAddressType] = useState<string>(WALLET_ADDRESS_TYPE);
-  const [fetchCount, setFetchCount] = useState<number>(0);
   const { useConnectedWallet } = useWallet();
   const connectedWallet = useConnectedWallet();
   const [currentBar, setCurrentBar] = useState(ACCOUNT);
@@ -49,15 +47,6 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   }, [address, setAddress]);
 
   const { assets, loading, error, refetch, refreshing } = useAssetsDataContext();
-
-  useEffect(() => {
-    if (error && fetchCount !== MAX_TRY) {
-      setFetchCount(fetchCount + 1);
-      setTimeout(() => {
-        //refetch();
-      }, 3000);
-    }
-  }, [error]);
 
   return (
     <div>
@@ -83,7 +72,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
             loading ? (
               <Loading currentTheme={theme} />
             ) : !assets || JSON.stringify(assets) === '{}' ? (
-              <EmptyComponent msg={error ? 'Oops! Error Fetching Assets' : null} />
+              <EmptyComponent msg={error ? 'Oops! Error Fetching Assets' : null} refetch={refetch} refreshing={refreshing} />
             ) : (
               <DashboardComponents assets={assets} />
             )
@@ -96,13 +85,5 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   );
 };
 
-export async function getServerSideProps() {
-  return {
-    redirect: {
-      destination: '/maintenance',
-      permanent: false,
-    },
-  };
-}
 
 export default Dashboard;

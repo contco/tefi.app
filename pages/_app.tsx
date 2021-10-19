@@ -7,7 +7,6 @@ import { ThemeProvider } from 'styled-components';
 import {
   WalletConnectProvider,
   RedirectProvider,
-  AssetPriceProvider,
   DeviceDetectProvider,
   AssetsDataProvider,
   ModalProvider,
@@ -47,7 +46,6 @@ function MyApp({ Component, pageProps }: AppProps) {
           <GlobalStyles />
           <WalletConnectProvider>
             <RedirectProvider>
-              <AssetPriceProvider>
                 <DeviceDetectProvider>
                   <AssetsDataProvider>
                     <NftDataProvider>
@@ -57,7 +55,6 @@ function MyApp({ Component, pageProps }: AppProps) {
                     </NftDataProvider>
                   </AssetsDataProvider>
                 </DeviceDetectProvider>
-              </AssetPriceProvider>
             </RedirectProvider>
           </WalletConnectProvider>
         </ThemeProvider>

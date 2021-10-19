@@ -1,4 +1,6 @@
-export const PYLON_API_ENDPOINT = "https://api.pylon.money/api/";
+import { TEFI_API } from "../../../constants";
+
+export const PYLON_API_ENDPOINT = TEFI_API + "https://api.pylon.money/api/";
 export const PYLON_TOKEN_SYMBOL = "MINE";
 export const PYLON_TOKEN_NAME = "Pylon";
 export const PYLON_UST_LP = "MINE-UST LP";

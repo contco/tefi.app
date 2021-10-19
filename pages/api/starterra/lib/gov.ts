@@ -1,6 +1,5 @@
-import { wasmStoreRequest } from "@contco/terra-utilities";
+import { wasmStoreRequest, MICRO } from "@contco/terra-utilities";
 import { contracts } from "./contracts";
-import { UNIT } from "../../mirror/utils";
 
 const STT_SYMBOL = "STT";
 const GOV_NAME = "STT Gov";
@@ -39,9 +38,9 @@ export const getStarTerraGov = (userGovData: any, sttPrice: string) => {
     let govRewardsTotal = 0;
     let govStakedTotal = 0;
     const govData = userGovData.map((item) => {
-      const staked = parseFloat(item.bond_amount) / UNIT;
+      const staked = parseFloat(item.bond_amount) / MICRO;
 			const value = staked * parseFloat(sttPrice);
-      const rewards = parseFloat(item.pending_reward) / UNIT;
+      const rewards = parseFloat(item.pending_reward) / MICRO;
 			const rewardsValue = rewards * parseFloat(sttPrice);
       govRewardsTotal = govRewardsTotal + rewardsValue;  
       govStakedTotal = govStakedTotal + value;

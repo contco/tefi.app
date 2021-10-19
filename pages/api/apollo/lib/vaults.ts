@@ -1,8 +1,7 @@
-import {wasmStoreRequest, getPoolInfo, getPrice} from '@contco/terra-utilities';
+import {wasmStoreRequest, getPoolInfo, getPrice, MICRO} from '@contco/terra-utilities';
 import {apolloDaoContracts} from './contracts';
 import { pairInfoList } from '../../spectrum/lib/pairInfoList';
-import { getLpValue } from '../../utils';
-import { UNIT } from '../../mirror/utils';
+import { getLpValue } from '../../utils';;
 import { getPoolSymbol } from './getPoolSymbol';
 
 const pairInfoByLiquidityToken = Object.values(pairInfoList).reduce((acm, item) => ({[item.liquidity_token]: item, ...acm}), {});
@@ -93,7 +92,7 @@ const calculateVaultData = (userVaults, poolResponses) => {
   const vaultData = userVaults.map((userVault : any, index: number) => {
     const tokenPrice = getPrice(poolResponses[index]);
     const lpValue = getLpValue(poolResponses[index], parseFloat(tokenPrice));
-    const stakedLp = parseFloat(userVault.base_token_balance)/ UNIT;
+    const stakedLp = parseFloat(userVault.base_token_balance)/ MICRO;
     const stakedLpUstValue = lpValue * stakedLp;
     const token1Staked = (stakedLpUstValue/ 2 );
     const token2Staked = token1Staked / parseFloat(tokenPrice);

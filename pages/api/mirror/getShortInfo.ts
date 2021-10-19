@@ -1,15 +1,16 @@
 import axios from 'axios';
+import { math, MICRO } from '@contco/terra-utilities';
 import MIRROR_ASSETS from './mirrorAssets.json';
 import { getAssetsStats } from './getAssetsStats';
 import { getShortApr } from './getAccountData';
 import { getStakingRewards } from './getStakingRewards';
-import { ANC, aUST, div, secondsToDate, times, UNIT } from './utils';
+import { ANC, aUST, secondsToDate } from './utils';
 import { anchor } from '../anchor/lib/test-defaults';
 import { getPrice } from '../terra-core/core';
 import { LUNA_DENOM } from '../terra-core/symbols';
 import { getLastSyncedHeight } from '../anchor/lib/utils';
+import { MANTLE_URL } from '../utils';
 
-const MANTLE_URL = 'https://mantle.terra.dev/';
 
 const MINT_POSITIONS_QUERY = `
 query WasmContractsContractAddressStore($contract: String, $msg: String) {
@@ -63,13 +64,13 @@ const getAssetInfo = (token) => {
   return MIRROR_ASSETS.filter((asset) => asset.token === token)[0];
 };
 
-const valueConversion = (value) => value / UNIT;
+const valueConversion = (value) => value / MICRO;
 
 export const getRewards = (token, mirPrice, stakingRewards) => {
   const shortRewards = stakingRewards.reward_infos.filter((asset) => asset.is_short === true);
   const assetReward = shortRewards.filter((asset) => asset.asset_token === token)[0];
-  const reward = div(parseFloat(assetReward.pending_reward), UNIT);
-  const rewardValue = times(reward, mirPrice);
+  const reward = math.div(parseFloat(assetReward.pending_reward), MICRO);
+  const rewardValue = math.times(reward, mirPrice);
   return { reward, rewardValue };
 };
 

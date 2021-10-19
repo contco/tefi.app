@@ -1,6 +1,7 @@
 import axios from "axios";
+import { math, MICRO } from "@contco/terra-utilities";
 import { mirrorContracts } from "./mirrorContracts";
-import { UNIT, times, MIR } from "./utils";
+import { MIR } from "./utils";
 import { LCD_URL } from "../utils";
 
 export const fetchGovBalance = async (address: string) => {
@@ -30,9 +31,9 @@ export const getGovData = (balance: string, statistic: any) => {
       const govApr = statistic?.govAPR ?? '0';
       const name = "MIR Gov"; 
       const symbol = MIR;
-      const staked = (parseFloat(balance)/ UNIT).toString();
-      const value =  times(staked, price);
-      const apr = times(govApr, '100');
+      const staked = (parseFloat(balance)/ MICRO).toString();
+      const value =  math.times(staked, price);
+      const apr = math.times(govApr, '100');
       return {name, symbol, staked, value, apr, price, rewards: "Automatically re-staked"};
   }
 }

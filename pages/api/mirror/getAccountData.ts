@@ -1,3 +1,4 @@
+import { math, MICRO } from '@contco/terra-utilities';
 import { getLpTokenBalance } from './getLpTokenBalance';
 import { getStakingRewards } from './getStakingRewards';
 import { getStakingPool } from './getStakingPool';
@@ -7,18 +8,21 @@ import { getTokenBalance } from './getTokenBalance';
 import getShortInfo from './getShortInfo';
 import {formatAirdrops, getAirdrops} from "./getAirdrops";
 import { getGovData, fetchGovBalance } from './getGovData';
-import { balance, BalanceKey, PriceKey, parsePairPool, UUSD, fromLP, price, div, UNIT, times, plus, MIR } from './utils';
+import { balance, BalanceKey, PriceKey, parsePairPool, UUSD, fromLP, price, MIR } from './utils';
 import MIRROR_ASSETS from './mirrorAssets.json';
 const MIR_TOKEN = MIRROR_ASSETS[0].token;
 
+const {div , times, plus} = math;
+
+
 export const getPoolValues = (stakedLpDetails, unstakedLpDetails, priceResult) => {
-  const token1Staked = div(stakedLpDetails.uusd.amount, UNIT);
-  const token2Staked = div(stakedLpDetails.asset.amount, UNIT);
+  const token1Staked = div(stakedLpDetails.uusd.amount, MICRO);
+  const token2Staked = div(stakedLpDetails.asset.amount, MICRO);
   const tokenStakedValue = times(token2Staked, priceResult ?? 0);
   const stakedLpUstValue = plus(token1Staked, tokenStakedValue);
 
-  const token1UnStaked = div(unstakedLpDetails.uusd.amount, UNIT);
-  const token2UnStaked = div(unstakedLpDetails.asset.amount, UNIT);
+  const token1UnStaked = div(unstakedLpDetails.uusd.amount, MICRO);
+  const token2UnStaked = div(unstakedLpDetails.asset.amount, MICRO);
   const tokenUnStakedValue = times(token2UnStaked, priceResult ?? 0);
   const stakeableLpUstValue = plus(token1UnStaked, tokenUnStakedValue);
 
@@ -38,13 +42,13 @@ export const getShortApr = (assetStats, token) => {
 }
 
 export const getHoldingsData = (tokenBalance, priceResult, token) => {
-  const balance = div(tokenBalance[token].balance, UNIT);
+  const balance = div(tokenBalance[token].balance, MICRO);
   const value = times(balance, priceResult ?? 0);
   return { balance, value };
 };
 
 export const getRewards = (rewardsBalance, listing, priceResult) => {
-  const rewards = div(rewardsBalance[listing.token], UNIT);
+  const rewards = div(rewardsBalance[listing.token], MICRO);
   const rewardsValue = times(rewards, priceResult);
   return { rewards, rewardsValue };
 };
@@ -107,8 +111,8 @@ export const getMirrorAccount = async (address: string) => {
         const stakedLpDetails = fromLP(stakedAmount, shares, pairPool.total);
         const unstakedLpDetails = fromLP(stakeableAmount, shares, pairPool.total);
       if (stakedLpDetails?.asset?.amount !== '0' || unstakedLpDetails?.asset?.amount !== '0') {
-        const stakedLpBalance = div(stakedAmount, UNIT);
-        const unStakedLpBalance = div(stakeableAmount, UNIT);
+        const stakedLpBalance = div(stakedAmount, MICRO);
+        const unStakedLpBalance = div(stakeableAmount, MICRO);
         const poolData = calculatePoolDetails(listing, rewardsBalance, priceResult, stakedLpDetails, unstakedLpDetails, assetStats, mirPrice);
         mirrorPoolSum = plus(mirrorPoolSum, poolData.stakedLpUstValue);
         mirrorPoolRewardsSum = plus(mirrorPoolRewardsSum, poolData.rewardsValue);

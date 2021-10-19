@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
 import { ContractAddresses } from './test-defaults';
 import { getLatestBlockHeight, mantleFetch, MICRO } from './utils';
-import { DEFAULT_MANTLE_ENDPOINTS } from '../../../../utils/ancEndpoints';
 import big from 'big.js';
 import { ancPriceQuery } from './ancPrice';
 import { getAnchorApyStats } from './getAncApyStats';
+import { MANTLE_URL } from '../../utils';
 
 
 export const REWARDS_CLAIMABLE_ANC_UST_LP_REWARDS_QUERY = `
@@ -57,14 +57,17 @@ export const rewardsClaimableAncUstLpRewardsQuery = async (mantleEndpoint, addre
       lPStakerInfo: JSON.parse(rawData?.lPStakerInfo?.Result),
     };
   } catch (err) {
-    rewardsClaimableAncUstLpRewardsQuery(mantleEndpoint, address);
+    return {
+      lPBalance: { balance: "0"},
+      lPStakerInfo: { bond_amount: "0", pending_reward: "0"}
+    };
   }
 };
 
 export const getAncPoolData = async (address) => {
   try {
-    const poolPromise = rewardsClaimableAncUstLpRewardsQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet'], address);
-    const ancDataPromise = ancPriceQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet']);
+    const poolPromise = rewardsClaimableAncUstLpRewardsQuery(MANTLE_URL, address);
+    const ancDataPromise = ancPriceQuery(MANTLE_URL);
     const rewardsApyPromise = getAnchorApyStats();
 
     const [pool, ancData, rewardsApy] = await Promise.all([poolPromise, ancDataPromise, rewardsApyPromise]);

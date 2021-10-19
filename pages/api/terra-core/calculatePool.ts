@@ -1,12 +1,9 @@
 import axios from "axios";
-import { getPrice, isLunaPair, isNoneNativePair } from "@contco/terra-utilities";
-import { UNIT } from "../mirror/utils";
-import { getLpValue } from "../utils";
-import { times } from "../../../utils/math"
+import { getPrice, isLunaPair, isNoneNativePair, math, MICRO } from "@contco/terra-utilities";
+import { getLpValue, FCD_URL } from "../utils";
 import pairs from './constants/pairs.json'
 import tokens from './constants/mainnet-tokens.json';
 import { UUSD_DENOM } from "./symbols";
-const FCD_URL = "https://fcd.terra.dev/v1/";
 import { getTokenData } from "../spectrum/lib/coinInfos";
 import { getPriceBySymbol } from "../commons";
 
@@ -25,7 +22,7 @@ export const getPoolValues = (lpBalance: number, lpValue: number, price: number,
     const token2UnStaked = tokenValueInUST / price;
 
     if(isNoneNative){
-        totalLpUstValue = times(stakeableLpUstValue , tokenPrice);
+        totalLpUstValue = math.times(stakeableLpUstValue , tokenPrice);
     }
 
     return { stakedLpUstValue, stakeableLpUstValue: stakeableLpUstValue.toString(), totalLpUstValue, token1UnStaked, token1Staked, token2UnStaked: token2UnStaked.toString(), token2Staked };
@@ -78,7 +75,7 @@ export const getPoolSymbol = async (poolresponse, isLuna = false) => {
 export const calculatePoolData = async (poolResponses, userPoolBalances) => {
     const poolsData = [];
     let total = 0;
-    const pricesRequest = await axios.get(FCD_URL + "dashboard");
+    const pricesRequest = await axios.get(FCD_URL + "v1/dashboard");
     const lunaPrice = pricesRequest?.data?.prices[UUSD_DENOM];
     const EthPrice = await getPriceBySymbol('mETH');
     const poolTask = Object.keys(poolResponses).map(async key => {
@@ -86,9 +83,9 @@ export const calculatePoolData = async (poolResponses, userPoolBalances) => {
         const isNoneNative = isNoneNativePair(poolResponses[key]);
         const { symbol1, symbol2, lpName } = await getPoolSymbol(poolResponses[key], isLuna);
         let price = getPrice(poolResponses[key])
-        if (isLuna) { price = times(price, lunaPrice); }
+        if (isLuna) { price = math.times(price, lunaPrice); }
         const lpValue = getLpValue(poolResponses[key], parseFloat(price), isLuna, lunaPrice);
-        const stakeableLP = parseFloat(userPoolBalances[key].balance) / UNIT;
+        const stakeableLP = parseFloat(userPoolBalances[key].balance) / MICRO;
         const poolValue = getPoolValues(stakeableLP, lpValue, parseFloat(price), isLuna, parseFloat(lunaPrice), isNoneNative, EthPrice);
         const { stakeableLpUstValue } = poolValue;
         total = total + parseFloat(stakeableLpUstValue);

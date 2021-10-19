@@ -1,9 +1,11 @@
 export const DARK_THEME = 'dark';
 export const LIGHT_THEME = 'light';
+export const TEFI_API = "https://api.contco.dev/";
 export const TERRA_TEST_NET = { URL: 'https://tequila-lcd.terra.dev', chainID: 'tequila-0004' };
-export const TERRA_MAIN_NET = { URL: 'https://berkerden.com/', chainID: 'columbus-5' };
+export const TERRA_MAIN_NET = { URL: 'https://lcd.contco.dev', chainID: 'columbus-5' };
 export const TERRA_OBSERVER_URL = 'wss://observer.terra.dev';
-export const TERRA_SWAP_GRAPHQL_URL = 'https://terraswap-graph.terra.dev/graphql';
+export const TERRA_SWAP_GRAPHQL_URL = TEFI_API + 'https://terraswap-graph.terra.dev/graphql';
+
 
 export const Keywords =
   'Luna , Terra Protocol, UST , MIR, Tefi, MINE, price, cryptocurrency,token , dashboard, crypto , crypto news ,	crypto market cap ,	 crypto prices , market ,  crypto market , wallet	';

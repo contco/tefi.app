@@ -1,10 +1,9 @@
 import { SWAP_TOKENS } from "./symbols";
 import { getPoolInfo, getPrice, getUserTokenBalance, math, MICRO } from "@contco/terra-utilities";
 import { fetchData } from "../commons";
+import { BASSETS_INFO } from "../anchor/lib/utils";
 
 const { times, div, plus } = math;
-
-const BASSETS_INFO = 'https://api.anchorprotocol.com/api/v1/bassets/';
 
 const convertPrice = (poolPrice: string, price: string) => {
     const convertedPrice = times(poolPrice, price);

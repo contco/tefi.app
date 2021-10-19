@@ -1,7 +1,6 @@
-import { wasmStoreRequest } from "@contco/terra-utilities";
+import { wasmStoreRequest, MICRO, math} from "@contco/terra-utilities";
 import { div } from "../../../utils/math";
 import { fetchData } from "../commons";
-import { UNIT , times} from "../mirror/utils";
 import { PYLON_API_ENDPOINT } from "./constants";
 import { getPoolInfo, getPrice } from "@contco/terra-utilities";
 import { contracts } from "../terraworld/lib/contracts";
@@ -40,11 +39,11 @@ const getLoopPoolData = async (projects, address) =>{
     const task = projects.map(async (item, count) => {
       const poolTask = projects[count].pools.map(async (p) => {
         const balanceRequest = await wasmStoreRequest(p.contract, query_blance);
-        const balance = balanceRequest?.amount / UNIT;
+        const balance = balanceRequest?.amount / MICRO;
         const rewardsRequest = await wasmStoreRequest(p.contract, query_reward);
-        const rewards = div(rewardsRequest.amount, UNIT);
+        const rewards = div(rewardsRequest.amount, MICRO);
         const price = await getTokenPrice(projects[count].symbol);
-        const rewardsValue = times(rewards, price);
+        const rewardsValue = math.times(rewards, price);
         depositeSum = depositeSum + balance;
         rewardsSum = rewardsSum + parseFloat(rewardsValue);
         const userProjectRequest: any = await fetchData(

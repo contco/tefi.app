@@ -1,9 +1,9 @@
 import { ContractAddresses } from './test-defaults';
 import { mantleFetch } from './utils';
-import { DEFAULT_MANTLE_ENDPOINTS } from '../../../../utils/ancEndpoints';
 import { formatRate } from './utils';
 import { ancPriceQuery } from './ancPrice';
 import { getAnchorApyStats } from './getAncApyStats';
+import { MANTLE_URL } from '../../utils';
 
 export const REWARDS_ANC_GOVERNANCE_REWARDS_QUERY = `
   query (
@@ -49,7 +49,7 @@ export const rewardsAncGovernanceRewardsQuery = async (mantleEndpoint, address) 
 
 export default async (address) => {
   try {
-    const [govInfo, apyStats, ancData] = await Promise.all([rewardsAncGovernanceRewardsQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet'], address), getAnchorApyStats(), ancPriceQuery(DEFAULT_MANTLE_ENDPOINTS['mainnet'])]);
+    const [govInfo, apyStats, ancData] = await Promise.all([rewardsAncGovernanceRewardsQuery(MANTLE_URL, address), getAnchorApyStats(), ancPriceQuery(MANTLE_URL)]);
     if(govInfo?.userGovStakingInfo?.balance !== "0") {
       const staked =
         parseFloat(govInfo?.userGovStakingInfo?.balance) > 0
