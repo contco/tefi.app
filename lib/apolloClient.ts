@@ -6,7 +6,7 @@ let apolloClient: any;
 const authToken = '';
 
 const httpLink = createHttpLink({
-  uri: '/api',
+  uri: 'https://graph.contco.dev/',
   fetch,
 });
 
@@ -24,6 +24,7 @@ function createApolloClient() {
     ssrMode: typeof window === 'undefined',
     link: authLink.concat(httpLink),
     cache: new InMemoryCache(),
+    
   });
 }
 

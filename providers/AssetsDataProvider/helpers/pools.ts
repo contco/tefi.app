@@ -15,7 +15,7 @@ export const getPoolData = (anchor, mirror, pylon, terraSwap, loterra, terraworl
       parseFloat(anchor?.total?.anchorPoolSum) +
       parseFloat(terraSwap.total) +
       parseFloat(lotaPoolTotal);
-    return total.toString() ?? '0';
+      return total.toString() ?? '0';
   };
 
   const pool = [

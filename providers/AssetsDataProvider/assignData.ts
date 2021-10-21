@@ -57,6 +57,6 @@ export const assignData = (data) =>
         ),
         airdrops: getAirdropsData(data?.assets?.anchor, data?.assets?.mirror, data?.assets?.pylon),
         loterra: getLoterraData(data?.assets?.loterra),
-        apollo: getApolloVaultData(data?.assets?.apollo),
+        apollo: getApolloVaultData(data?.assets?.apolloDao),
       }
     : {};

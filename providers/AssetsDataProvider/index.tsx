@@ -1,7 +1,8 @@
 import React, { ReactNode, createContext, useState, useEffect } from 'react';
+import { useLazyQuery, NetworkStatus } from '@apollo/client';
+import { getAssets } from '../../graphql/queries/getAssets';
 import { ADDRESS_KEY } from '../../constants';
 import useWallet from '../../lib/useWallet';
-import useAccounts from '../../utils/useAccounts';
 import { assignData } from './assignData';
 
 interface ContextProps {
@@ -35,17 +36,25 @@ const AssetsDataProvider: React.FC<Props> = ({ children }) => {
   const connectedWallet = useConnectedWallet();
 	const localAddress = localStorage.getItem(ADDRESS_KEY);
 
+  const [fetchAssets, { data, loading: assetsLoading, error, refetch: refetchQuery, networkStatus }] = useLazyQuery(getAssets, {
+    variables: { address: address },
+    notifyOnNetworkStatusChange: true,
+  });
+
   useEffect(() => {
     const walletAddress = connectedWallet?.terraAddress;
     if (walletAddress) {
       setAddress(walletAddress);
+      fetchAssets({variables: {address: walletAddress}});
     } else if (localAddress) {
       setAddress(localAddress);
+      fetchAssets({variables: {address: walletAddress}});
     }
   }, [localAddress, connectedWallet]);
 
-  const { data, loading, error, refetch, refreshing } =  useAccounts(address);
-
+  const refreshing = networkStatus === NetworkStatus.refetch && assetsLoading;
+  const loading = !refreshing && assetsLoading;
+  const refetch = () => refetchQuery({address: address});
 
   useEffect(() => {
     setAccountData(data);

@@ -10,13 +10,13 @@ import Header from '../../components/Header';
 import { NextSeo } from 'next-seo';
 import { DashboardSEO } from '../../next-seo.config';
 import { assignData } from '../../providers/AssetsDataProvider/assignData';
-import useAccounts from '../../utils/useAccounts';
 import NftComponent from '../../components/NftComponent';
 import TopBar, { ACCOUNT } from '../../components/DashboardComponents/TopBar';
 import DashboardComponents from '../../components/DashboardComponents';
-import { useQuery } from '@apollo/client';
+import { useQuery, NetworkStatus } from '@apollo/client';
 import { useDgraphClient } from '../../lib/dgraphClient';
 import { GET_PROFILE_NFT } from '../../graphql/queries/getProfileNFT';
+import { getAssets } from '../../graphql/queries/getAssets';
 
 const Body = Styled(Box)`
 ${css({
@@ -36,7 +36,17 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   const [randomEarthData, setRandomEarthData] = useState(null);
   const [nftAssets, setNftAssets] = useState<any>(null);
 
-  const { data, loading, error, refetch, refreshing } = useAccounts(address);
+  const  { data, loading: assetsLoading, error, refetch: refetchQuery, networkStatus } = useQuery(getAssets, {
+    variables: { address: address },
+    notifyOnNetworkStatusChange: true,
+  });
+
+  const refreshing = networkStatus === NetworkStatus.refetch && assetsLoading;
+  const loading = !refreshing && assetsLoading;
+  const refetch = () => refetchQuery({address: address});
+
+
+
   const { data: profileNftData, called: profileNftCalled, loading: profileNftLoading } = useQuery(GET_PROFILE_NFT, {client: useDgraphClient(), variables: {address}});
 
   useEffect(() => {
