@@ -39,10 +39,12 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     const walletAddress = connectedWallet?.terraAddress;
     if (walletAddress) {
       setAddress(walletAddress);
-      setAddressType(LOCAL_ADDRESS_TYPE);
-    } else if (localAddress) {
-      setAddress(localAddress);
       setAddressType(WALLET_ADDRESS_TYPE);
+    } else {
+      if(localAddress){
+        setAddress(localAddress);
+        setAddressType(LOCAL_ADDRESS_TYPE);
+      }
     }
   }, [address, setAddress]);
 
