@@ -3,7 +3,29 @@ import { gql } from '@apollo/client';
 export const getAssets = gql`
 query getAssets($address: String!) {
   assets(address: $address) {
-   core {
+    altered {
+      altePool {
+      apr
+      lpName
+      price
+        rewards
+        rewardsSymbol
+        rewardsValue
+        stakeableLp
+        stakeableLpUstValue
+        stakedLp
+        stakedLpUstValue
+        symbol1
+        symbol2
+        token1Staked
+        token1UnStaked
+        token2Staked
+        token2UnStaked
+        totalLpUstValue
+        totalStaked
+      }
+    }
+    core {
     coins {
       balance
       contract

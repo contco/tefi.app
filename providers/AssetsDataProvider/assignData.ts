@@ -45,6 +45,7 @@ export const assignData = (data) =>
           data?.assets?.terraSwapPool,
           data?.assets.loterra,
           data?.assets?.terraworld,
+          data?.assets?.altered
         ),
         rewards: getRewardData(
           data?.assets?.anchor,
@@ -53,7 +54,8 @@ export const assignData = (data) =>
           data?.assets?.spectrum,
           data?.assets?.loterra,
           data?.assets?.starterra,
-          data?.assets?.terraworld
+          data?.assets?.terraworld,
+          data?.assets?.altered
         ),
         airdrops: getAirdropsData(data?.assets?.anchor, data?.assets?.mirror, data?.assets?.pylon),
         loterra: getLoterraData(data?.assets?.loterra),

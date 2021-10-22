@@ -383,6 +383,10 @@ interface ApolloAccount {
   vaults: ApolloVault[];
   total: string;
 }
+
+interface AlteredAccount {
+  altePool: Pool
+}
 interface Assets {
   __typename?: 'Assets';
   address: string;
@@ -393,6 +397,7 @@ interface Assets {
   loterra: LoterraAccount;
   starterra: StarTerraAccount;
   apollo: ApolloAccount;
+  altered: AlteredAccount
 }
 
 interface PriceChange {

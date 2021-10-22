@@ -6,11 +6,12 @@ const formatApr = (apr = '0') => {
   return parseFloat(aprPercentage).toFixed(2);
 };
 
-export const getRewardData = (anchor: AccountAnc, mirror: MirrorAccount, pylon: PylonAccount, spectrum: SpectrumAccount, loterra: LoterraAccount, starterra: StarTerraAccount, terraworld) => {
+export const getRewardData = (anchor: AccountAnc, mirror: MirrorAccount, pylon: PylonAccount, spectrum: SpectrumAccount, loterra: LoterraAccount, starterra: StarTerraAccount, terraworld, altered: AlteredAccount) => {
   const borrowRewards = anchor?.debt?.reward;
   const totalReward = anchor?.totalReward;
   const lotaPool = loterra?.lotaPool ? [loterra.lotaPool] : [];
   const terraworldPool = terraworld?.twdPool? [terraworld?.twdPool] : [];
+  const altePool = altered?.altePool? [altered?.altePool] : [];
 
   const getRewardsTotal = () => {
     const ancTotal = totalReward;
@@ -20,14 +21,17 @@ export const getRewardData = (anchor: AccountAnc, mirror: MirrorAccount, pylon: 
     const loterraPoolRewards = loterra?.lotaPool?.rewardsValue ?? '0';
     const starterraRewards = starterra?.govRewardsTotal;
     const terraworldRewards = terraworld?.twdPool?.rewardsValue ?? '0';
+    const alteredRewards  = altered?.altePool?.rewardsValue ?? '0';
+
     const total =
       parseFloat(mirrorTotal) +
       parseFloat(ancTotal) +
       parseFloat(pylonPoolTotal) +
       parseFloat(loterraRewards) +
-      parseFloat(starterraRewards)+
+      parseFloat(starterraRewards) +
       parseFloat(loterraPoolRewards) +
-      parseFloat(terraworldRewards);
+      parseFloat(terraworldRewards) +
+      parseFloat(alteredRewards);
 
     return total.toString() ?? '0';
   };
@@ -44,7 +48,7 @@ export const getRewardData = (anchor: AccountAnc, mirror: MirrorAccount, pylon: 
     return govStaked;
   };
 
-  const pool = [...pylon?.pylonPool, ...mirror?.mirrorStaking, ...anchor.pool, ...lotaPool, ...terraworldPool].sort(
+  const pool = [...pylon?.pylonPool, ...mirror?.mirrorStaking, ...anchor.pool, ...lotaPool, ...terraworldPool, ...altePool].sort(
     (a, b) => b.rewardsValue - a.rewardsValue,
   );
 

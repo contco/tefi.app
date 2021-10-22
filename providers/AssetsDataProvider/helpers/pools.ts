@@ -1,20 +1,23 @@
 import { convertToFloatValue } from '../../../utils/convertFloat';
 
-export const getPoolData = (anchor, mirror, pylon, terraSwap, loterra, terraworld) => {
+export const getPoolData = (anchor, mirror, pylon, terraSwap, loterra, terraworld, altered) => {
   const lotaPool = loterra?.lotaPool ? [loterra.lotaPool] : [];
   const terraworldPool = terraworld?.twdPool ? [terraworld?.twdPool]: [];
+  const altePool = altered.altePool ? [altered?.altePool] : [];
 
   const getPoolTotal = () => {
     const pylonPoolTotal = pylon?.pylonSum?.pylonPoolSum;
     const lotaPoolTotal = loterra?.lotaPool?.totalLpUstValue ?? '0';
     const terraworldTotal = terraworld?.twdPool?.totalLpUstValue ?? '0';
+    const alteredTotal = altered?.altePool?.totalLpUstValue ?? '0';
     const total =
       parseFloat(terraworldTotal) +
       parseFloat(pylonPoolTotal) +
       parseFloat(mirror?.total?.mirrorPoolSum) +
       parseFloat(anchor?.total?.anchorPoolSum) +
       parseFloat(terraSwap.total) +
-      parseFloat(lotaPoolTotal);
+      parseFloat(lotaPoolTotal) +
+      parseFloat(alteredTotal);
       return total.toString() ?? '0';
   };
 
@@ -24,7 +27,8 @@ export const getPoolData = (anchor, mirror, pylon, terraSwap, loterra, terraworl
     ...anchor.pool,
     ...terraSwap.list,
     ...lotaPool,
-    ...terraworldPool
+    ...terraworldPool,
+    ...altePool
       
   ].sort(
     (a, b) =>
