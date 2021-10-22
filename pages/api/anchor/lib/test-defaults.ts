@@ -1,10 +1,5 @@
 import { LCDClient, MnemonicKey, StdFee, Wallet } from '@terra-money/terra.js';
-import {
-  Anchor,
-  tequila0004,
-  columbus4,
-  AddressProviderFromJson,
-} from '@anchor-protocol/anchor.js';
+import { Anchor, tequila0004, columbus4, AddressProviderFromJson } from '@anchor-protocol/anchor.js';
 import { IS_TEST, TERRA_TEST_NET, TERRA_MAIN_NET } from '../../../../constants';
 
 const addressProvider = new AddressProviderFromJson(IS_TEST ? tequila0004 : columbus4);

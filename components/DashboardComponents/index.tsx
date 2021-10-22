@@ -42,7 +42,7 @@ const DashboardComponents: React.FC<Props> = ({ assets }) => {
           assets?.loterra,
           assets?.lunaStaking,
           assets?.airdrops,
-          assets?.apollo
+          assets?.apollo,
         ]}
       />
       <Assets assets={assets?.assets} />

@@ -1,14 +1,11 @@
-import { getPrice, MICRO} from "@contco/terra-utilities";;
+import { getPrice, MICRO } from '@contco/terra-utilities';
 import { getLpValue } from '../../utils';
 import { getPoolValues } from './getPoolValues';
-import { calculateAPY } from "./calculateApy";
+import { calculateAPY } from './calculateApy';
 
 const LP_NAME = 'LOTA-UST';
-const SYMBOL1 = 'UST'
-const SYMBOL2 = "LOTA";
-
-
-
+const SYMBOL1 = 'UST';
+const SYMBOL2 = 'LOTA';
 
 export const getLpStakingInfo = (poolInfo, lpTokenInfo, holderLPInfo, lpRewardsInfo, stateLpStakingInfo) => {
   if (lpTokenInfo?.balance === '0' && holderLPInfo?.balance === '0') {
@@ -22,5 +19,18 @@ export const getLpStakingInfo = (poolInfo, lpTokenInfo, holderLPInfo, lpRewardsI
   const apyData = calculateAPY(poolInfo, stateLpStakingInfo);
   const rewardsValue = parseFloat(price) * rewards;
   const LpStakeInfo: any = getPoolValues(stakedLp, stakeableLp, lpValue, parseFloat(price));
-  return { symbol1: SYMBOL1, symbol2: SYMBOL2, lpName: LP_NAME, lpValue: lpValue.toString(), price, stakedLp: stakedLp.toString(), stakeableLp: stakeableLp.toString(), rewardsValue: rewardsValue.toString(), rewards: rewards.toString(), rewardsSymbol: SYMBOL2,  ...apyData, ...LpStakeInfo };
+  return {
+    symbol1: SYMBOL1,
+    symbol2: SYMBOL2,
+    lpName: LP_NAME,
+    lpValue: lpValue.toString(),
+    price,
+    stakedLp: stakedLp.toString(),
+    stakeableLp: stakeableLp.toString(),
+    rewardsValue: rewardsValue.toString(),
+    rewards: rewards.toString(),
+    rewardsSymbol: SYMBOL2,
+    ...apyData,
+    ...LpStakeInfo,
+  };
 };

@@ -92,7 +92,7 @@ const MainHook = styled.div`
 `;
 
 const AnimatedCircleTrail = () => {
-  const [ref, { left, top, bottom }] = useMeasure();
+  const [ref, { left, top }] = useMeasure();
   const [trail, api] = useTrail(9, (i) => ({
     xy: [window.innerWidth / 2, window.innerHeight * 0.7],
     config: i === 0 ? fast : slow,

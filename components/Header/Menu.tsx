@@ -85,7 +85,7 @@ const Menu: React.FC<Props> = ({
   const MenuRef = React.useRef<HTMLDivElement | null>(null);
   const InnerContainerRef = React.useRef<HTMLDivElement | null>(null);
 
-  const {sendModal} = useModalContext();
+  const { sendModal } = useModalContext();
 
   const onClose = () => {
     setVisibility(false);
@@ -109,10 +109,9 @@ const Menu: React.FC<Props> = ({
 
   const onInternalLinkClick = (url: string) => {
     onClose();
-    if(url) {
+    if (url) {
       setTimeout(() => router.push(url), 300);
-    }
-    else {
+    } else {
       sendModal.setVisible(true);
     }
   };
@@ -121,7 +120,7 @@ const Menu: React.FC<Props> = ({
     <Parent isVisible={isVisible}>
       <MenuContainer ref={MenuRef} isLight={theme === LIGHT_THEME} isVisible={isVisible}>
         <InneContainer ref={InnerContainerRef}>
-          <Section className='internalSection' data={INTERNAL_LINKS} onItemClick={onInternalLinkClick} />
+          <Section className="internalSection" data={INTERNAL_LINKS} onItemClick={onInternalLinkClick} />
           <Divider />
           <Section data={TOOLS_LINKS} onItemClick={onLinkClick} />
           <Divider />

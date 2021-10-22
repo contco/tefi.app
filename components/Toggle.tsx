@@ -12,10 +12,10 @@ const CheckBoxLabel = styled.label`
   height: inherit;
   width: inherit;
   border-radius: 15px;
-  background: ${props => props.theme.colors.lightBackground};
+  background: ${(props) => props.theme.colors.lightBackground};
   cursor: pointer;
   &::after {
-    content: "";
+    content: '';
     display: block;
     border-radius: 25px;
     width: 20px;
@@ -32,9 +32,9 @@ const CheckBox = styled.input`
   height: inherit;
   width: inherit;
   &:checked + ${CheckBoxLabel} {
-    background: ${props => props.theme.colors.toggleBackground};
+    background: ${(props) => props.theme.colors.toggleBackground};
     &::after {
-      content: "";
+      content: '';
       display: block;
       border-radius: 50%;
       width: 20px;
@@ -44,17 +44,17 @@ const CheckBox = styled.input`
     }
   }
 `;
-  interface Props {
-      onToggle: (active: boolean) => void;
-      active: boolean,
-  }
-  const Toggle: React.FC<Props> = ({onToggle, active = false}) => {
-      return (
-        <CheckBoxWrapper>
-          <CheckBox checked={active} onChange={e => onToggle(e.target.checked)} id="checkbox" type="checkbox" />
-          <CheckBoxLabel htmlFor="checkbox" />
-        </CheckBoxWrapper>
-      )
-  }
+interface Props {
+  onToggle: (active: boolean) => void;
+  active: boolean;
+}
+const Toggle: React.FC<Props> = ({ onToggle, active = false }) => {
+  return (
+    <CheckBoxWrapper>
+      <CheckBox checked={active} onChange={(e) => onToggle(e.target.checked)} id="checkbox" type="checkbox" />
+      <CheckBoxLabel htmlFor="checkbox" />
+    </CheckBoxWrapper>
+  );
+};
 
-  export default Toggle;
+export default Toggle;

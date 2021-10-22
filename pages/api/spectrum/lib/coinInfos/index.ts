@@ -1,17 +1,16 @@
-import axios from "axios";
-import { LCD_URL } from "../../../utils";
-
+import axios from 'axios';
+import { LCD_URL } from '../../../utils';
 
 export const getTokenData = async (token) => {
   const result = await axios.get(LCD_URL + `wasm/contracts/${token}/store`, {
     params: {
       query_msg: JSON.stringify({
-        token_info: {}
-      })
+        token_info: {},
+      }),
     },
   });
-  return result?.data?.result
-}
+  return result?.data?.result;
+};
 
 export const getCoinInfos = async (poolInfo: any) => {
   const coinInfos = {};
@@ -23,4 +22,4 @@ export const getCoinInfos = async (poolInfo: any) => {
 
   await Promise.all(tasks);
   return coinInfos;
-}
+};

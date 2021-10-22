@@ -12,17 +12,16 @@ const generate = ({ token, pair }: ListedItem) => {
 
 export const getPairPool = async () => {
   try {
-  const contractAssets = MIRROR_ASSETS.map((item: ListedItem) => ({ token: item.token, ...generate(item) }));
-  const contractQuery = gql`
+    const contractAssets = MIRROR_ASSETS.map((item: ListedItem) => ({ token: item.token, ...generate(item) }));
+    const contractQuery = gql`
     query ${PAIR_POOL} {
       ${contractAssets.map(alias)}
     }
   `;
-  const result = await request(networks.mainnet.mantle, contractQuery);
-  const parsedData: Dictionary<PairPool> & Dictionary<MintInfo> = parse(result);
-  return parsedData;
-  }
-  catch(err){
+    const result = await request(networks.mainnet.mantle, contractQuery);
+    const parsedData: Dictionary<PairPool> & Dictionary<MintInfo> = parse(result);
+    return parsedData;
+  } catch (err) {
     return null;
   }
 };

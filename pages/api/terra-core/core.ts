@@ -1,6 +1,6 @@
 import { LCDClient } from '@terra-money/terra.js';
 import axios from 'axios';
-import { MICRO, math} from '@contco/terra-utilities';
+import { MICRO, math } from '@contco/terra-utilities';
 import { FCD_URL } from '../utils';
 import { IS_TEST, TERRA_TEST_NET, TERRA_MAIN_NET } from '../../../constants';
 import { fetchTerraSwapHoldings } from './terraSwapHoldings';
@@ -46,7 +46,10 @@ const getTerraTokens = async (coins, price: string) => {
 
 const calculateStakeData = (delegations, price, state) => {
   return delegations.map((data: any) => {
-    const balance = state === 'Delegated' ? math.div(data?.amountDelegated, MICRO.toString()) : math.div(data?.amount, MICRO.toString());
+    const balance =
+      state === 'Delegated'
+        ? math.div(data?.amountDelegated, MICRO.toString())
+        : math.div(data?.amount, MICRO.toString());
     const rewards = math.div(data?.totalReward, MICRO.toString());
     const stakedValue = math.times(balance, price);
     const rewardsValue = math.times(rewards, price);

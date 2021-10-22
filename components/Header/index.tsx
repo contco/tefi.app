@@ -31,7 +31,15 @@ type Props = {
   logoSub?: string;
 };
 
-const Header: React.FC<Props> = ({ theme, changeTheme, address, addressType, onRefresh, refreshing, isViewOnly = false, logoSub = 'App' }) => {
+const Header: React.FC<Props> = ({
+  theme,
+  changeTheme,
+  address,
+  addressType,
+  onRefresh,
+  refreshing,
+  isViewOnly = false,
+}) => {
   const [isVisible, setVisible] = useState<boolean>(false);
   const [displayMenu, setDisplayMenu] = useState<boolean>(false);
 
@@ -67,7 +75,7 @@ const Header: React.FC<Props> = ({ theme, changeTheme, address, addressType, onR
       <Container>
         <LeftSection>
           <StyledTitle onClick={() => router.push('/')}>
-            Tefi<span>{"App"}</span>
+            Tefi<span>{'App'}</span>
           </StyledTitle>
         </LeftSection>
         <RightSection>
@@ -78,7 +86,7 @@ const Header: React.FC<Props> = ({ theme, changeTheme, address, addressType, onR
                 <WalletCopyTooltip isVisible={isVisible}>Copied!</WalletCopyTooltip>
               </WalletCopyContainer>
               <StyledAddressText>{slicedAddress}</StyledAddressText>
-             <CloseIcon showIcon={!isViewOnly} onClick={onDisconnect} />
+              <CloseIcon showIcon={!isViewOnly} onClick={onDisconnect} />
             </WalletContainer>
           ) : null}
           <HoverContainer isActive={displayMenu} onClick={onMenuClick}>

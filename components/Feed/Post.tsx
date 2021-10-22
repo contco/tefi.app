@@ -99,7 +99,7 @@ const Post = ({ data: { memo, from_address: address, block, timestamp }, current
   slicedAddress = address == CLUB_DEPOSIT_ADDRESS ? 'TefiApp' : slicedAddress;
 
   let image = currentTheme === LIGHT_THEME ? '/images/dp_light.png' : '/images/dp_dark.png';
-  let logo = currentTheme === LIGHT_THEME ? '/images/logo_light.png' : '/images/logo_dark.png';
+  const logo = currentTheme === LIGHT_THEME ? '/images/logo_light.png' : '/images/logo_dark.png';
   image = address == CLUB_DEPOSIT_ADDRESS ? logo : image;
 
   const displayTimestamp = () => {

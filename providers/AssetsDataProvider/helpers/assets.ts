@@ -25,7 +25,7 @@ export const getAssetData = (anchor, mirror, pylon, core, spectrum, terraworld) 
     ...core?.coins,
     ...anchor?.assets,
   ];
-  if(terraworld?.twdHoldings){
+  if (terraworld?.twdHoldings) {
     holdings.push(terraworld?.twdHoldings);
   }
   const sortedHoldings = holdings.sort((a: any, b: any) => b.value - a.value);
@@ -59,6 +59,6 @@ export const getAssetData = (anchor, mirror, pylon, core, spectrum, terraworld) 
     data: data,
     largeData: largeData,
     total: '$' + convertToFloatValue(getAssetsTotal()),
-		totalValue: parseFloat(getAssetsTotal())
+    totalValue: parseFloat(getAssetsTotal()),
   };
 };

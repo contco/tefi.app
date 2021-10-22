@@ -24,7 +24,6 @@ function createApolloClient() {
     ssrMode: typeof window === 'undefined',
     link: authLink.concat(httpLink),
     cache: new InMemoryCache(),
-    
   });
 }
 

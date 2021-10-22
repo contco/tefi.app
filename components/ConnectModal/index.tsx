@@ -49,12 +49,11 @@ export const ModalSection = styled(Flex)`
 
 interface Props {
   showModal: boolean;
-  setModalVisible: (state : boolean) => void;
+  setModalVisible: (state: boolean) => void;
 }
 
-const ConnectModal: React.FC<Props> = ({showModal, setModalVisible}) => {
-
-  const {isMobile} = useDeviceDetect();
+const ConnectModal: React.FC<Props> = ({ showModal, setModalVisible }) => {
+  const { isMobile } = useDeviceDetect();
 
   const { onConnect } = useWallet();
 
@@ -64,20 +63,18 @@ const ConnectModal: React.FC<Props> = ({showModal, setModalVisible}) => {
   };
 
   if (isMobile) {
-    return <> </>;  
+    return <> </>;
   }
 
-  return(
+  return (
     <Modal isOpen={showModal} onClose={() => setModalVisible(false)}>
-    <ModalBox>
-      <ModalTitle>Connect To A Wallet</ModalTitle>
-      <ModalSection onClick={() => onTypeSelect(WalletConnectType.Extension)}>
-        Terra Wallet (Extension)
-      </ModalSection>
-      <ModalSection onClick={() => onTypeSelect(WalletConnectType.Mobile)}>Terra Wallet (Mobile)</ModalSection>
-    </ModalBox>
-  </Modal>
+      <ModalBox>
+        <ModalTitle>Connect To A Wallet</ModalTitle>
+        <ModalSection onClick={() => onTypeSelect(WalletConnectType.Extension)}>Terra Wallet (Extension)</ModalSection>
+        <ModalSection onClick={() => onTypeSelect(WalletConnectType.Mobile)}>Terra Wallet (Mobile)</ModalSection>
+      </ModalBox>
+    </Modal>
   );
-}
+};
 
 export default ConnectModal;

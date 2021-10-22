@@ -1,10 +1,8 @@
 import React from 'react';
 import Post from './Post';
 
-
 const Posts = ({ data, currentTheme }: any) => {
-
-  if(!data  || data?.length === 0) {
+  if (!data || data?.length === 0) {
     return <> </>;
   }
 

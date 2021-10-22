@@ -2,9 +2,7 @@ import { convertToFloatValue } from '../../../utils/convertFloat';
 
 export const getApolloVaultData = (apolloData: ApolloAccount) => {
   const apolloVaults = apolloData.vaults.sort(
-    (a, b) =>
-      parseFloat(b.stakedLpUstValue) -
-      parseFloat(a.stakedLpUstValue)
+    (a, b) => parseFloat(b.stakedLpUstValue) - parseFloat(a.stakedLpUstValue),
   );
 
   const largePool = apolloVaults.filter((a: ApolloVault) => parseFloat(a.stakedLpUstValue) >= 1);
@@ -45,6 +43,5 @@ export const getApolloVaultData = (apolloData: ApolloAccount) => {
     largeData: largeData,
     total: '$' + convertToFloatValue(apolloData?.total),
     totalValue: parseFloat(apolloData?.total),
-  }
-
-}
+  };
+};

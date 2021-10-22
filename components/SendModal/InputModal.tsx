@@ -148,14 +148,6 @@ const Image = styled.img`
   height: auto;
 `;
 
-const NFTContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: auto;
-`;
-
 const NFTInputSection = styled.div`
   display: flex;
   flex-direction: column;

@@ -6,12 +6,21 @@ const formatApr = (apr = '0') => {
   return parseFloat(aprPercentage).toFixed(2);
 };
 
-export const getRewardData = (anchor: AccountAnc, mirror: MirrorAccount, pylon: PylonAccount, spectrum: SpectrumAccount, loterra: LoterraAccount, starterra: StarTerraAccount, terraworld, altered: AlteredAccount) => {
+export const getRewardData = (
+  anchor: AccountAnc,
+  mirror: MirrorAccount,
+  pylon: PylonAccount,
+  spectrum: SpectrumAccount,
+  loterra: LoterraAccount,
+  starterra: StarTerraAccount,
+  terraworld,
+  altered: AlteredAccount,
+) => {
   const borrowRewards = anchor?.debt?.reward;
   const totalReward = anchor?.totalReward;
   const lotaPool = loterra?.lotaPool ? [loterra.lotaPool] : [];
-  const terraworldPool = terraworld?.twdPool? [terraworld?.twdPool] : [];
-  const altePool = altered?.altePool? [altered?.altePool] : [];
+  const terraworldPool = terraworld?.twdPool ? [terraworld?.twdPool] : [];
+  const altePool = altered?.altePool ? [altered?.altePool] : [];
 
   const getRewardsTotal = () => {
     const ancTotal = totalReward;
@@ -21,7 +30,7 @@ export const getRewardData = (anchor: AccountAnc, mirror: MirrorAccount, pylon: 
     const loterraPoolRewards = loterra?.lotaPool?.rewardsValue ?? '0';
     const starterraRewards = starterra?.govRewardsTotal;
     const terraworldRewards = terraworld?.twdPool?.rewardsValue ?? '0';
-    const alteredRewards  = altered?.altePool?.rewardsValue ?? '0';
+    const alteredRewards = altered?.altePool?.rewardsValue ?? '0';
 
     const total =
       parseFloat(mirrorTotal) +
@@ -43,18 +52,31 @@ export const getRewardData = (anchor: AccountAnc, mirror: MirrorAccount, pylon: 
     const specGov = parseFloat(spectrum?.specGov?.value ?? '0');
     const lotaGov = parseFloat(loterra?.lotaGov?.value ?? '0');
     const sttGov = parseFloat(starterra?.govStakedTotal);
-    const twdGov = parseFloat(terraworld?.twdGov?.value?? '0');
+    const twdGov = parseFloat(terraworld?.twdGov?.value ?? '0');
     const govStaked = mirrorGov + ancGov + pylonGov + specGov + lotaGov + sttGov + twdGov;
     return govStaked;
   };
 
-  const pool = [...pylon?.pylonPool, ...mirror?.mirrorStaking, ...anchor.pool, ...lotaPool, ...terraworldPool, ...altePool].sort(
-    (a, b) => b.rewardsValue - a.rewardsValue,
-  );
+  const pool = [
+    ...pylon?.pylonPool,
+    ...mirror?.mirrorStaking,
+    ...anchor.pool,
+    ...lotaPool,
+    ...terraworldPool,
+    ...altePool,
+  ].sort((a, b) => b.rewardsValue - a.rewardsValue);
 
   const starTerraGov = starterra.starTerraGov ? starterra.starTerraGov : [];
-  const terraworldGov = terraworld?.twdGov? [terraworld?.twdGov]: [];
-  const gov = [pylon?.gov, spectrum?.specGov, mirror?.gov, anchor?.gov, loterra?.lotaGov, ...starTerraGov, ...terraworldGov]
+  const terraworldGov = terraworld?.twdGov ? [terraworld?.twdGov] : [];
+  const gov = [
+    pylon?.gov,
+    spectrum?.specGov,
+    mirror?.gov,
+    anchor?.gov,
+    loterra?.lotaGov,
+    ...starTerraGov,
+    ...terraworldGov,
+  ]
     .filter((item) => item != null)
     .sort((a, b) => parseFloat(b.value) - parseFloat(a.value));
 
@@ -160,7 +182,12 @@ export const getRewardData = (anchor: AccountAnc, mirror: MirrorAccount, pylon: 
   ];
 
   const govData = gov?.map((govItem: Gov) => {
-    const govReward = { value: govItem?.rewardsValue && govItem?.rewardsValue != '0'? parseFloat(govItem.rewardsValue).toFixed(2) :  'Automatically re-staked' };
+    const govReward = {
+      value:
+        govItem?.rewardsValue && govItem?.rewardsValue != '0'
+          ? parseFloat(govItem.rewardsValue).toFixed(2)
+          : 'Automatically re-staked',
+    };
     const ap = govItem?.apy
       ? { apy: convertToFloatValue(govItem.apy) + '%' }
       : { apr: govItem?.apr === '0' ? 'N/A' : convertToFloatValue(govItem?.apr) + '%' };

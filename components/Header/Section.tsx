@@ -10,12 +10,12 @@ const Container = styled.div`
   grid-template-columns: 1fr 1fr 1fr;
   gap: 1rem 0;
   &.internalSection {
-   svg {
-    color: secondary;
-    &:hover {
-      opacity: 0.7;
+    svg {
+      color: secondary;
+      &:hover {
+        opacity: 0.7;
+      }
     }
-   }
   }
 `;
 

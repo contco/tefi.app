@@ -17,7 +17,7 @@ import {
   getApolloVaultData,
 } from './helpers';
 
-export const assignData = (data) => 
+export const assignData = (data) =>
   data
     ? {
         anchorEarn: getAnchorEarnData(data?.assets?.anchor?.earn),
@@ -36,7 +36,7 @@ export const assignData = (data) =>
           data?.assets?.pylon,
           data?.assets?.core,
           data?.assets?.spectrum,
-          data?.assets?.terraworld
+          data?.assets?.terraworld,
         ),
         pools: getPoolData(
           data?.assets?.anchor,
@@ -45,7 +45,7 @@ export const assignData = (data) =>
           data?.assets?.terraSwapPool,
           data?.assets.loterra,
           data?.assets?.terraworld,
-          data?.assets?.altered
+          data?.assets?.altered,
         ),
         rewards: getRewardData(
           data?.assets?.anchor,
@@ -55,7 +55,7 @@ export const assignData = (data) =>
           data?.assets?.loterra,
           data?.assets?.starterra,
           data?.assets?.terraworld,
-          data?.assets?.altered
+          data?.assets?.altered,
         ),
         airdrops: getAirdropsData(data?.assets?.anchor, data?.assets?.mirror, data?.assets?.pylon),
         loterra: getLoterraData(data?.assets?.loterra),

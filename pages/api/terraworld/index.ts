@@ -3,8 +3,7 @@ import { buildFederatedSchema } from '@apollo/federation';
 import { getTWDAccount } from './lib';
 
 const typeDefs = gql`
-
-type TWDHolding {
+  type TWDHolding {
     symbol: String!
     name: String!
     balance: String!

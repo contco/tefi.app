@@ -1,5 +1,6 @@
-#  TeFi App
-**Instructions to use** 
+# TeFi App
+
+**Instructions to use**
 
 - clone repo
 - run yarn install

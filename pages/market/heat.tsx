@@ -6,7 +6,6 @@ import css from '@styled-system/css';
 import styled from 'styled-components';
 import { Flex } from '@contco/core-ui';
 import { formatHeatData } from '../../helpers/market';
-import {fetchPairData } from '../../providers/AssetPriceProvider/helpers/pairData';
 import { useAssetPriceContext } from '../../providers/AssetPriceProvider';
 
 const Container = styled(Flex)`
@@ -37,13 +36,12 @@ const BubblesRow = styled(Flex)`
   })}
 `;
 
-
 const HeatBubble: React.FC = ({ theme, changeTheme, pairData }: any) => {
   const [data, setData] = useState(formatHeatData(pairData));
-  const {assetPriceData} = useAssetPriceContext();
+  const { assetPriceData } = useAssetPriceContext();
 
   useEffect(() => {
-    if(assetPriceData) {
+    if (assetPriceData) {
       setData(formatHeatData(assetPriceData));
     }
   }, [assetPriceData]);

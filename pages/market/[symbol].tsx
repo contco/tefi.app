@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { Line, LineChart, ResponsiveContainer, Tooltip } from 'recharts';
 import styled, { useTheme } from 'styled-components';
-import { GetStaticPaths } from 'next';
 import Header from '../../components/Header';
 import { AssetDetails } from '../../components/Market/AssetDetails';
 import { assets } from '../../constants/assets';
@@ -11,8 +10,7 @@ import { formatChartData } from '../../helpers/market';
 import TradingViewWidget, { Themes } from 'react-tradingview-widget';
 import { NextSeo } from 'next-seo';
 import { MarketSEO } from '../../next-seo.config';
-import { fetchPairData } from '../../providers/AssetPriceProvider/helpers/pairData';
-import { useAssetPriceContext } from '../../providers/AssetPriceProvider'
+import { useAssetPriceContext } from '../../providers/AssetPriceProvider';
 
 const TV_SYMBOLS = {
   luna: 'KUCOIN:LUNAUST',
@@ -64,8 +62,8 @@ const SymbolsContainer: any = styled.div`
   }
   -ms-overflow-style: none;
   scrollbar-width: none;
-  ::-webkit-scrollbar { 
-    display: none; 
+  ::-webkit-scrollbar {
+    display: none;
   }
 `;
 
@@ -116,30 +114,27 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
   const theme: any = useTheme();
   const router = useRouter();
   const symbol = router.query.symbol as string;
-  const [price, setPrice] = useState(parseFloat((pairData[symbol]).currentPrice));;
+  const [price, setPrice] = useState(parseFloat(pairData[symbol].currentPrice));
   const [useTV, setUseTV] = useState<boolean>(false);
   const [currentAsset, setCurrentAsset] = useState(pairData[symbol]);
 
-  const {assetPriceData} = useAssetPriceContext();
+  const { assetPriceData } = useAssetPriceContext();
 
-
-  
   useEffect(() => {
-    if(assetPriceData?.[symbol]) {
+    if (assetPriceData?.[symbol]) {
       setPrice(parseFloat(assetPriceData[symbol]?.currentPrice));
       setCurrentAsset(assetPriceData[symbol]);
     }
   }, [assetPriceData]);
 
   useEffect(() => {
-     if(assetPriceData) {
-       setPrice(assetPriceData[symbol]?.currentPrice);
-       setCurrentAsset(assetPriceData[symbol])
-     }
-     else {
+    if (assetPriceData) {
+      setPrice(assetPriceData[symbol]?.currentPrice);
+      setCurrentAsset(assetPriceData[symbol]);
+    } else {
       setPrice(pairData[symbol]?.currentPrice);
-      setCurrentAsset(pairData[symbol])
-     }
+      setCurrentAsset(pairData[symbol]);
+    }
   }, [symbol]);
 
   const onMouseEnter = ({ isTooltipActive, activePayload }) => {
@@ -150,11 +145,9 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
     if (isTooltipActive) setPrice(activePayload[0]?.payload.value);
   };
 
-
   const onMouseLeave = () => {
     setPrice(currentAsset?.currentPrice);
   };
-
 
   const onSwitchTV = () => {
     if (!TV_SYMBOLS[symbol]) router.push('/market', undefined, { shallow: true });
@@ -166,11 +159,11 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
       <NextSeo {...MarketSEO} />
       <Header theme={currentTheme} changeTheme={changeTheme} />
       <Container>
-      <AssetDetails
+        <AssetDetails
           price={price}
           name={currentAsset.name}
           url={currentAsset.url}
-          priceChange={{change: currentAsset.priceChange, percentChange: currentAsset.percentChange}}
+          priceChange={{ change: currentAsset.priceChange, percentChange: currentAsset.percentChange }}
           onSwitchTV={onSwitchTV}
           useTV={useTV}
         />
@@ -186,7 +179,7 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
           ) : (
             <ResponsiveContainer width={'100%'} height={263}>
               <LineChart
-               data={formatChartData(currentAsset?.historicalData, currentAsset?.tokenKey, symbol)}
+                data={formatChartData(currentAsset?.historicalData, currentAsset?.tokenKey, symbol)}
                 onMouseEnter={onMouseEnter}
                 onMouseMove={onMouseMove}
                 onMouseLeave={onMouseLeave}

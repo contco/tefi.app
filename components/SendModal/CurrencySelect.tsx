@@ -1,6 +1,6 @@
-import React, {useState, useRef} from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
-import css from "@styled-system/css";
+import css from '@styled-system/css';
 import { Flex, Text } from '@contco/core-ui';
 import { ArrowDownIcon, LoadingIcon } from '../Icons';
 import useOutsideClickListener from '../../utils/useOutsideClickListener';
@@ -19,11 +19,10 @@ const Container = styled(Flex)`
   })}
 `;
 
- 
 const ContainerLabel = styled(Text)`
-${css({
+  ${css({
     color: 'secondary',
-    fontSize: [1,null, null, null, 2],
+    fontSize: [1, null, null, null, 2],
     letterSpacing: 1,
   })}
 `;
@@ -33,12 +32,13 @@ const StyledArrowDownIcon = styled(ArrowDownIcon)`
 `;
 
 const CurrencyMenu = styled(Flex)`
-    -ms-overflow-style: none; 
-    scrollbar-width: none;
-    ::-webkit-scrollbar { 
-        display: none;
-    }
-  ${props => css({
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  ${(props) =>
+    css({
       flexDirection: 'column',
       position: 'absolute',
       height: 100,
@@ -48,21 +48,21 @@ const CurrencyMenu = styled(Flex)`
       bottom: -90,
       right: 3,
       overflowY: 'auto',
-      visibility: props.isVisible ? 'visible' : 'hidden'
-  })}
+      visibility: props.isVisible ? 'visible' : 'hidden',
+    })}
 `;
 
 const CurrencyItem = styled(Text)`
-${css({
+  ${css({
     bg: 'background',
     transition: 'background-color 0.2s ease-in',
-    textAlign:'center',
+    textAlign: 'center',
     p: 2,
     fontSize: 0,
     '&:hover': {
-        bg: 'postBg',
-    }
-})}
+      bg: 'postBg',
+    },
+  })}
 `;
 
 const LoadingContainer = styled(Flex)`
@@ -72,49 +72,50 @@ const LoadingContainer = styled(Flex)`
     justifyContent: 'center',
     alignItems: 'center',
   })}
-`
+`;
 interface Props {
-    assets: Holdings[];
-    selectedAsset: Holdings;
-    setAsset: (asset: Holdings) => void;
-    loading: boolean;
+  assets: Holdings[];
+  selectedAsset: Holdings;
+  setAsset: (asset: Holdings) => void;
+  loading: boolean;
 }
 
-export const CurrencySelect: React.FC<Props> = ({assets, selectedAsset, setAsset, loading}) => {
-    const [displayMenu, setDisplayMenu] = useState<boolean>(true);
-    const selectRef = useRef();
+export const CurrencySelect: React.FC<Props> = ({ assets, selectedAsset, setAsset, loading }) => {
+  const [displayMenu, setDisplayMenu] = useState<boolean>(true);
+  const selectRef = useRef();
 
-    useOutsideClickListener(selectRef, () => {
-        setDisplayMenu(false);
-    });
+  useOutsideClickListener(selectRef, () => {
+    setDisplayMenu(false);
+  });
 
-    const onItemSelect = (currency: Holdings) => {
-        setAsset(currency);
+  const onItemSelect = (currency: Holdings) => {
+    setAsset(currency);
+  };
+
+  const getSelectedCurrency = () => {
+    if (selectedAsset) {
+      return selectedAsset?.symbol?.length > 4 ? selectedAsset?.symbol.substr(0, 4) : selectedAsset.symbol;
     }
-
-    const getSelectedCurrency = () => { 
-     if (selectedAsset) {
-         return selectedAsset?.symbol?.length > 4 ? selectedAsset?.symbol.substr(0, 4) : selectedAsset.symbol;
-     }
-     return 'Select';
-    }
+    return 'Select';
+  };
 
   return (
-      <Container ref={selectRef} onClick={() => setDisplayMenu(!displayMenu)}>
-          <ContainerLabel>{getSelectedCurrency()}</ContainerLabel>
-          <StyledArrowDownIcon/>
-          <CurrencyMenu isVisible={displayMenu}>
-            {loading ? 
-            <LoadingContainer>
-              <LoadingIcon />
-            </LoadingContainer>
-            : 
-              assets.map(item => (
-                <CurrencyItem onClick={() => onItemSelect(item)} key={item.contract || item.denom}>{item.symbol}</CurrencyItem>
-              ))
-              }
-          </CurrencyMenu>
-      </Container>
-
-  )
-}
+    <Container ref={selectRef} onClick={() => setDisplayMenu(!displayMenu)}>
+      <ContainerLabel>{getSelectedCurrency()}</ContainerLabel>
+      <StyledArrowDownIcon />
+      <CurrencyMenu isVisible={displayMenu}>
+        {loading ? (
+          <LoadingContainer>
+            <LoadingIcon />
+          </LoadingContainer>
+        ) : (
+          assets.map((item) => (
+            <CurrencyItem onClick={() => onItemSelect(item)} key={item.contract || item.denom}>
+              {item.symbol}
+            </CurrencyItem>
+          ))
+        )}
+      </CurrencyMenu>
+    </Container>
+  );
+};

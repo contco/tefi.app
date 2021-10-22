@@ -33,7 +33,7 @@ const typeDefs = gql`
     collateral: String
     balance: String
     price: String
-    value:String
+    value: String
     symbol: String
   }
 
@@ -42,7 +42,7 @@ const typeDefs = gql`
     limit: String!
     value: String
     collaterals: [UserCollateral]
-    totalCollateralValue:String
+    totalCollateralValue: String
     percentage: String
     lunaprice: String
     ancprice: String
@@ -107,9 +107,9 @@ const typeDefs = gql`
   type BurnData {
     requestData: [RequestData]
     withdrawableAmount: String
-		withdrawableValue: String
-		totalBurnAmount: String
-		totalBurnAmountValue: String
+    withdrawableValue: String
+    totalBurnAmount: String
+    totalBurnAmountValue: String
   }
 
   type AccountANC {

@@ -52,7 +52,6 @@ const typeDefs = gql`
     rewardsSymbol: String!
     apy: String!
   }
- 
 
   type LoterraAccount {
     loterraDraw: LoterraDraw

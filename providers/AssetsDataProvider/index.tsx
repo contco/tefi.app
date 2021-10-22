@@ -34,12 +34,15 @@ const AssetsDataProvider: React.FC<Props> = ({ children }) => {
   const [accountData, setAccountData] = useState<any>(null);
   const { useConnectedWallet } = useWallet();
   const connectedWallet = useConnectedWallet();
-	const localAddress = localStorage.getItem(ADDRESS_KEY);
+  const localAddress = localStorage.getItem(ADDRESS_KEY);
 
-  const [fetchAssets, { data, loading: assetsLoading, error, refetch: refetchQuery, networkStatus }] = useLazyQuery(getAssets, {
-    variables: { address: address },
-    notifyOnNetworkStatusChange: true,
-  });
+  const [fetchAssets, { data, loading: assetsLoading, error, refetch: refetchQuery, networkStatus }] = useLazyQuery(
+    getAssets,
+    {
+      variables: { address: address },
+      notifyOnNetworkStatusChange: true,
+    },
+  );
 
   useEffect(() => {
     const walletAddress = connectedWallet?.terraAddress;
@@ -51,35 +54,37 @@ const AssetsDataProvider: React.FC<Props> = ({ children }) => {
   }, [localAddress, connectedWallet]);
 
   useEffect(() => {
-    if(address && address !== '' ) {
-      fetchAssets({variables: {address: address}});
+    if (address && address !== '') {
+      fetchAssets({ variables: { address: address } });
     }
-  },[address]);
+  }, [address]);
 
   const refreshing = networkStatus === NetworkStatus.refetch && assetsLoading;
   const loading = !refreshing && assetsLoading;
-  const refetch = () => refetchQuery({address: address});
+  const refetch = () => refetchQuery({ address: address });
 
   useEffect(() => {
     setAccountData(data);
-  }, [data])
+  }, [data]);
 
   const assets = React.useMemo(() => {
-    
-    if(accountData) {
+    if (accountData) {
       const assetsData = assignData(accountData);
       return assetsData;
     }
     return null;
-
   }, [accountData]);
 
   const updateAccountData = (newAccountData: any) => {
     setAccountData(newAccountData);
-  }
+  };
 
   return (
-    <AssetContext.Provider value={{ assets, data: accountData, loading, error, refetch, refreshing, updateAccountData }}>{children}</AssetContext.Provider>
+    <AssetContext.Provider
+      value={{ assets, data: accountData, loading, error, refetch, refreshing, updateAccountData }}
+    >
+      {children}
+    </AssetContext.Provider>
   );
 };
 

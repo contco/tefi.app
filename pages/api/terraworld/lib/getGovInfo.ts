@@ -1,11 +1,10 @@
 import { getPrice, MICRO, math } from '@contco/terra-utilities';
 
-const SYMBOL = "TWD";
-const NAME = "TWD Gov";
+const SYMBOL = 'TWD';
+const NAME = 'TWD Gov';
 
 export const getGovInfo = (poolInfo, govStakingInfo) => {
-
-  if(govStakingInfo?.bond_amount === "0") {
+  if (govStakingInfo?.bond_amount === '0') {
     return null;
   }
   const price = getPrice(poolInfo);

@@ -1,6 +1,6 @@
-import {fetchVaultsData} from './vaults';
+import { fetchVaultsData } from './vaults';
 
 export const getApolloDaoAccount = async (address: string) => {
-  const {vaultData, vaultTotal} = await fetchVaultsData(address);
-  return {vaults: vaultData, total: vaultTotal};
-}
+  const { vaultData, vaultTotal } = await fetchVaultsData(address);
+  return { vaults: vaultData, total: vaultTotal };
+};

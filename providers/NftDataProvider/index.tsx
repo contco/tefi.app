@@ -2,7 +2,7 @@ import React, { ReactNode, createContext, useState, useEffect } from 'react';
 import { useLazyQuery, useMutation } from '@apollo/client';
 import useWallet from '../../lib/useWallet';
 import { useDgraphClient } from '../../lib//dgraphClient';
-import {GET_PROFILE_NFT} from '../../graphql/queries/getProfileNFT';
+import { GET_PROFILE_NFT } from '../../graphql/queries/getProfileNFT';
 import { ADD_PROFILE_NFT } from '../../graphql/mutations/addProfileNft';
 import { UPDATE_PROFILE_NFT } from '../../graphql/mutations/updateProfileNft';
 import { ADDRESS_KEY } from '../../constants';
@@ -38,79 +38,83 @@ const NftDataProvider: React.FC<Props> = ({ children }) => {
   const [nftAssets, setNftAssets] = useState(null);
   const [initialLoading, setInitialLoading] = useState(true);
 
-  const [fetchProfileNFT, { data: profileNftData, called: profileNftCalled, loading }] = useLazyQuery(GET_PROFILE_NFT, {client: useDgraphClient()});
-  
-  const [addProfileNft, {loading: addProfileLoading}] = useMutation(ADD_PROFILE_NFT, {client: useDgraphClient()});
-  const [updateProfileNft, {loading: updateProfileLoading}] = useMutation(UPDATE_PROFILE_NFT, {client: useDgraphClient()});
+  const [fetchProfileNFT, { data: profileNftData, called: profileNftCalled, loading }] = useLazyQuery(GET_PROFILE_NFT, {
+    client: useDgraphClient(),
+  });
+
+  const [addProfileNft, { loading: addProfileLoading }] = useMutation(ADD_PROFILE_NFT, { client: useDgraphClient() });
+  const [updateProfileNft, { loading: updateProfileLoading }] = useMutation(UPDATE_PROFILE_NFT, {
+    client: useDgraphClient(),
+  });
 
   const profileNftLoading = !profileNftCalled || loading;
   const saveProfileNftLoading = addProfileLoading || updateProfileLoading;
 
-
   const saveProfileNft = async (url: string, tokenId: string) => {
-    if(!profileNftLoading) {
-       if(profileNft && profileNft?.address) {
-           if(profileNft.tokenId === tokenId) {
-            await updateProfileNft({variables: {input: {filter: {address: {eq: connectedWallet?.terraAddress}}, set: {url: "", tokenId: ""}}}});
-            setProfileNft({...profileNft, tokenId: "", url: ""})
-           }
-          else {
-            await updateProfileNft({variables: { input: {filter: {address: {eq: connectedWallet.terraAddress }},set: {url, tokenId}}}});
-            setProfileNft({...profileNft, tokenId, url})
-          }   
-       }
-       else {
-         await addProfileNft({variables: {address: connectedWallet?.terraAddress, url, tokenId}});
-         setProfileNft({...profileNft, tokenId, url})
-       }
+    if (!profileNftLoading) {
+      if (profileNft && profileNft?.address) {
+        if (profileNft.tokenId === tokenId) {
+          await updateProfileNft({
+            variables: {
+              input: { filter: { address: { eq: connectedWallet?.terraAddress } }, set: { url: '', tokenId: '' } },
+            },
+          });
+          setProfileNft({ ...profileNft, tokenId: '', url: '' });
+        } else {
+          await updateProfileNft({
+            variables: { input: { filter: { address: { eq: connectedWallet.terraAddress } }, set: { url, tokenId } } },
+          });
+          setProfileNft({ ...profileNft, tokenId, url });
+        }
+      } else {
+        await addProfileNft({ variables: { address: connectedWallet?.terraAddress, url, tokenId } });
+        setProfileNft({ ...profileNft, tokenId, url });
+      }
     }
-  }
+  };
 
   useEffect(() => {
-  
-    const fetchRandomEarthNftData = async(addr) => {
+    const fetchRandomEarthNftData = async (addr) => {
       try {
         const jsonResponse = await fetch(`/api/nft/${addr}`);
         const result = await jsonResponse.json();
         setRandomEarthData(result);
-      }
-      catch(err){
+      } catch (err) {
         setRandomEarthData(null);
       }
       setInitialLoading(false);
-    }
+    };
 
     const walletAddress = connectedWallet?.terraAddress;
     if (walletAddress) {
-      fetchProfileNFT({variables: {address: walletAddress}})
+      fetchProfileNFT({ variables: { address: walletAddress } });
       fetchRandomEarthNftData(walletAddress);
-    }
-    else if(localAddress && localAddress !== "") {
-      fetchProfileNFT({variables: {address: localAddress}});
+    } else if (localAddress && localAddress !== '') {
+      fetchProfileNFT({ variables: { address: localAddress } });
       fetchRandomEarthNftData(localAddress);
-    }
-    else {
-        setProfileNft(null);
+    } else {
+      setProfileNft(null);
     }
   }, [connectedWallet, localAddress]);
 
-  
-  useEffect(() => { 
+  useEffect(() => {
     const randomEarthNfts = randomEarthData?.items ? randomEarthData?.items : [];
     const knowhereNfts = profileNft?.nftAssets ? profileNft?.nftAssets : [];
 
     const nftList = [...randomEarthNfts, ...knowhereNfts];
     setNftAssets(nftList);
-    
   }, [randomEarthData, profileNft?.nftAssets]);
 
-
   useEffect(() => {
-     setProfileNft(profileNftData?.getProfileNft)
+    setProfileNft(profileNftData?.getProfileNft);
   }, [profileNftData]);
 
   return (
-    <NftContext.Provider value={{ profileNftLoading, profileNft, saveProfileNft, saveProfileNftLoading, initialLoading, nftAssets}}>{children}</NftContext.Provider>
+    <NftContext.Provider
+      value={{ profileNftLoading, profileNft, saveProfileNft, saveProfileNftLoading, initialLoading, nftAssets }}
+    >
+      {children}
+    </NftContext.Provider>
   );
 };
 

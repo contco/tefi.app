@@ -23,12 +23,10 @@ const Section: React.FC<Props> = ({ data }) => {
           if (Object.keys(item)[0] === 'name') {
             return (
               <div>
-              <StyledText fontWeight={500} key={index}>
-                {Object.values(item)[0]}
-              </StyledText>
-               {item?.info ?  
-                <SubText>{item.info}</SubText> : null
-               }
+                <StyledText fontWeight={500} key={index}>
+                  {Object.values(item)[0]}
+                </StyledText>
+                {item?.info ? <SubText>{item.info}</SubText> : null}
               </div>
             );
           } else if (Object.keys(item)[0] === 'apr' || Object.keys(item)[0] === 'ratio') {

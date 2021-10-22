@@ -67,7 +67,7 @@ export const CodeContainer = styled.div`
   })}
 `;
 
-const Docs: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
+const Docs: React.FC = ({ theme: currentTheme, changeTheme }: any) => {
   return (
     <>
       <MainContainer>

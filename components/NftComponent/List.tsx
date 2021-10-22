@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import css from '@styled-system/css';
-import {Text} from '@contco/core-ui';
+import { Text } from '@contco/core-ui';
 import Item from './Item';
 
 const Container = styled.div`
@@ -31,7 +31,6 @@ const Title = styled(Text)`
     })}
 `;
 
-
 interface Props {
   data: any;
   currentTheme: any;
@@ -45,12 +44,12 @@ const List: React.FC<Props> = ({ data, currentTheme, address }) => {
 
   return (
     <>
-    <Title> {data?.name}</Title>
-    <Container>
-      {
-        data?.items?.map((item) => <Item key={item.token_id} data={item} currentTheme={currentTheme} address={address} />)
-      }
-    </Container>
+      <Title> {data?.name}</Title>
+      <Container>
+        {data?.items?.map((item) => (
+          <Item key={item.token_id} data={item} currentTheme={currentTheme} address={address} />
+        ))}
+      </Container>
     </>
   );
 };

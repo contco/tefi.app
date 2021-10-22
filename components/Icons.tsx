@@ -19,7 +19,6 @@ import TIP_ICON from '../public/icons/tip.svg';
 import REFRESH_ICON from '../public/refresh.svg';
 import REFRESHING_ICON from '../public/refreshing.svg';
 
-
 /**** INTERNAL PROTOCOL ICONS ****/
 import DASHBOARD_ICON from '../public/space_dashboard.svg';
 import FEED_ICON from '../public/icons/circle.svg';
@@ -30,33 +29,31 @@ import API_ICON from '../public/icons/code.svg';
 import SUPPLY_ICON from '../public/icons/fire.svg';
 import DAO_ICON from '../public/icons/dao.svg';
 
-
 export const NewOpenIcon = styled(OPEN_NEW_ICON)``;
-export 
-{ 
-    ArrowDownIcon,
-    ArrowUpIcon,
-    CircleIcon,
-    LoadingIcon,
-    HourGlassIcon,
-    DeniedIcon,
-    CheckCircleIcon,
-    DisconnectIcon,
-    ErrorIcon,
-    NotificationActive,
-    NotificationOff,
-    InfoIcon,
-    REFRESHING_ICON,
-    REFRESH_ICON,
-    TELEGRAM_ICON,
-    TWITTER_ICON,
-    DASHBOARD_ICON,
-    FEED_ICON,
-    CHARTS_ICON,
-    BUBBLE_ICON,
-    SEND_ICON,
-    API_ICON,
-    SUPPLY_ICON,
-    TIP_ICON,
-    DAO_ICON,
+export {
+  ArrowDownIcon,
+  ArrowUpIcon,
+  CircleIcon,
+  LoadingIcon,
+  HourGlassIcon,
+  DeniedIcon,
+  CheckCircleIcon,
+  DisconnectIcon,
+  ErrorIcon,
+  NotificationActive,
+  NotificationOff,
+  InfoIcon,
+  REFRESHING_ICON,
+  REFRESH_ICON,
+  TELEGRAM_ICON,
+  TWITTER_ICON,
+  DASHBOARD_ICON,
+  FEED_ICON,
+  CHARTS_ICON,
+  BUBBLE_ICON,
+  SEND_ICON,
+  API_ICON,
+  SUPPLY_ICON,
+  TIP_ICON,
+  DAO_ICON,
 };

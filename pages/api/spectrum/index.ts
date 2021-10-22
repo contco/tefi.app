@@ -1,16 +1,15 @@
 import { ApolloServer, gql } from 'apollo-server-micro';
 import { buildFederatedSchema } from '@apollo/federation';
-import { getSpectrumAccount } from "./lib";
+import { getSpectrumAccount } from './lib';
 
 const typeDefs = gql`
-
   type SpecHoldings {
-      name: String!
-      symbol: String!
-      balance: String!
-      value: String!
-      price: String!
-      contract: String!
+    name: String!
+    symbol: String!
+    balance: String!
+    value: String!
+    price: String!
+    contract: String!
   }
 
   type SpecFarms {
@@ -28,7 +27,7 @@ const typeDefs = gql`
     tokenRewardsStakedValue: String!
     apy: String!
   }
-  
+
   type SpecGov {
     name: String!
     symbol: String!
@@ -62,9 +61,8 @@ const resolvers = {
   Assets: {
     spectrum(assets) {
       return getSpectrumAccount(assets.address);
-    }
+    },
   },
-
 };
 
 const apolloServer = new ApolloServer({ schema: buildFederatedSchema([{ typeDefs, resolvers }]) });

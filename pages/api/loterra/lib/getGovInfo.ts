@@ -1,7 +1,7 @@
 import { getPrice, MICRO, math } from '@contco/terra-utilities';
 
-const SYMBOL = "LOTA";
-const NAME = "LOTA Gov";
+const SYMBOL = 'LOTA';
+const NAME = 'LOTA Gov';
 
 const getLotaRewards = (claims: any) => {
   if (claims && claims.length > 0) {
@@ -13,8 +13,7 @@ const getLotaRewards = (claims: any) => {
 };
 
 export const getGovInfo = (holderInfo, poolInfo, claimInfo) => {
-
-  if(holderInfo?.balance === "0") {
+  if (holderInfo?.balance === '0') {
     return null;
   }
   const staked = math.div(holderInfo?.balance, MICRO);

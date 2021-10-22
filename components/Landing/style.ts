@@ -83,7 +83,6 @@ export const AddressContainer = styled(Flex)`
   })}
 `;
 
-
 export const AddressInput = styled(Input)`
   border-radius: 9px;
   border: none;
@@ -151,4 +150,3 @@ export const Row = styled(Box)`
     minHeight: ['auto', null, null, 100, null],
   })}
 `;
-

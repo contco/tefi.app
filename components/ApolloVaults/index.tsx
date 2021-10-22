@@ -1,21 +1,20 @@
-import { useEffect ,useState } from 'react';
-import { CheckBox, Wrapper, HeadingWrapper, Heading, StyledText} from '../dashboardStyles';
+import { useEffect, useState } from 'react';
+import { CheckBox, Wrapper, HeadingWrapper, Heading, StyledText } from '../dashboardStyles';
 import { Flex } from '@contco/core-ui';
 import Header from '../DashboardComponents/Header';
 import Section from '../DashboardComponents/Section';
 import TitleContainer from '../DashboardComponents/TitleContainer';
 
 const HEADING_TEXT = `Apollo Vaults`;
-const HIDE_KEY = "hide_small_pool";
-const HIDDEN_STATE = "hidden";
-const SMALL_VISIBLE_STATE = "visible";
-
+const HIDE_KEY = 'hide_small_pool';
+const HIDDEN_STATE = 'hidden';
+const SMALL_VISIBLE_STATE = 'visible';
 
 export interface VaultProps {
   apolloAssets: any;
 }
 
-const ApolloVaults: React.FC<VaultProps> = ({apolloAssets}) => {
+const ApolloVaults: React.FC<VaultProps> = ({ apolloAssets }) => {
   const [apolloVaults, setApolloVaultsData] = useState([]);
   const [hideSmall, setHideSmall] = useState(false);
 
@@ -32,9 +31,8 @@ const ApolloVaults: React.FC<VaultProps> = ({apolloAssets}) => {
     localStorage.setItem(HIDE_KEY, hiddenState);
   };
 
-
-  if(apolloAssets?.data?.length === 0) {
-      return <> </>;
+  if (apolloAssets?.data?.length === 0) {
+    return <> </>;
   }
   return (
     <Wrapper>

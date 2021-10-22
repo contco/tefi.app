@@ -36,42 +36,47 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   const [randomEarthData, setRandomEarthData] = useState(null);
   const [nftAssets, setNftAssets] = useState<any>(null);
 
-  const  { data, loading: assetsLoading, error, refetch: refetchQuery, networkStatus } = useQuery(getAssets, {
+  const {
+    data,
+    loading: assetsLoading,
+    error,
+    refetch: refetchQuery,
+    networkStatus,
+  } = useQuery(getAssets, {
     variables: { address: address },
     notifyOnNetworkStatusChange: true,
   });
 
   const refreshing = networkStatus === NetworkStatus.refetch && assetsLoading;
   const loading = !refreshing && assetsLoading;
-  const refetch = () => refetchQuery({address: address});
+  const refetch = () => refetchQuery({ address: address });
 
-
-
-  const { data: profileNftData, called: profileNftCalled, loading: profileNftLoading } = useQuery(GET_PROFILE_NFT, {client: useDgraphClient(), variables: {address}});
+  const {
+    data: profileNftData,
+    called: profileNftCalled,
+    loading: profileNftLoading,
+  } = useQuery(GET_PROFILE_NFT, { client: useDgraphClient(), variables: { address } });
 
   useEffect(() => {
-    const fetchRandomEarthNftData = async(addr) => {
+    const fetchRandomEarthNftData = async (addr) => {
       try {
         const jsonResponse = await fetch(`/api/nft/${addr}`);
         const result = await jsonResponse.json();
         setRandomEarthData(result);
-      }
-      catch(err){
+      } catch (err) {
         setRandomEarthData(null);
       }
       setInitialNftLoading(false);
-    }
+    };
     fetchRandomEarthNftData(address);
   }, [address]);
 
-  useEffect(() => { 
+  useEffect(() => {
     const randomEarthNfts = randomEarthData?.items ? randomEarthData?.items : [];
     const knowhereNfts = profileNftData?.getProfileNft?.nftAssets ? profileNftData?.getProfileNft?.nftAssets : [];
     const nftList = [...randomEarthNfts, ...knowhereNfts];
     setNftAssets(nftList);
-    
   }, [randomEarthData, profileNftData?.getProfileNft?.nftAssets]);
-
 
   const assets = assignData(data);
 
@@ -98,12 +103,12 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
           isViewOnly={true}
         />
         <Body>
-        <TopBar 
+          <TopBar
             currentBar={currentBar}
             setCurrentBar={setCurrentBar}
             currentTheme={theme}
             profileNftLoading={profileNftLoading || !profileNftCalled}
-            profileNft={profileNftData?.getProfileNft} 
+            profileNft={profileNftData?.getProfileNft}
           />
           {currentBar === ACCOUNT ? (
             loading ? (

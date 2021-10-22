@@ -1,2 +1,2 @@
-export {cors} from './cors';
-export {runMiddleware} from './middleware';
+export { cors } from './cors';
+export { runMiddleware } from './middleware';

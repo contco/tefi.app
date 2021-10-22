@@ -3,11 +3,8 @@ import Head from 'next/head';
 import React from 'react';
 import styled from 'styled-components';
 import { Flex, Text } from '@contco/core-ui';
-import { AnimatedCircle } from '../components/NftComponent';
 import css from '@styled-system/css';
 import AnimatedCircleTrail from '../components/Animations/AnimatedCircleTrail';
-
-const TEXT = 'Membership not for sale';
 
 const Container = styled(Flex)`
   position: absolute;
@@ -16,15 +13,6 @@ const Container = styled(Flex)`
   width: 100%;
   justify-content: center;
   align-items: center;
-`;
-
-const SubText = styled(Text)`
-  font-weight: 600;
-  letter-spacing: 0.77px;
-  ${css({
-    fontSize: ['20px', null, '25px', '30px', null, null, null, '30px'],
-    color: 'Heading',
-  })}
 `;
 
 const BigText = styled(Text)`

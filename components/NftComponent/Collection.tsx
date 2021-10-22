@@ -6,12 +6,11 @@ import { NFT_CONTRACTS } from './contracts';
 
 const MainContainer = styled.div`
   ${css({
-      mt: 2,
-      pl: 3,
-      pr: 3,
-    })}
+    mt: 2,
+    pl: 3,
+    pr: 3,
+  })}
 `;
-
 
 const NoText = styled(Text)`
   ${(props) =>
@@ -30,31 +29,27 @@ interface Props {
 }
 
 const Collection: React.FC<Props> = ({ data, currentTheme, address }) => {
-
   const showNftList = () => {
-
     if (!data || data?.length === 0) {
-      return <NoText> No Items Found </NoText>
-    }
-    else {
+      return <NoText> No Items Found </NoText>;
+    } else {
       const userNftData = NFT_CONTRACTS.map((contract) => {
-        const contractData = data.filter((nftAsset: any) => (nftAsset?.nftContract === contract?.contractAddr) || nftAsset?.collection === contract?.name );
-        return {...contract, items: contractData};
-      })
+        const contractData = data.filter(
+          (nftAsset: any) =>
+            nftAsset?.nftContract === contract?.contractAddr || nftAsset?.collection === contract?.name,
+        );
+        return { ...contract, items: contractData };
+      });
       return userNftData.map((nftData: any) => {
-        return(
+        return (
           <>
-          <List data={nftData} currentTheme={currentTheme} address={address} />
+            <List data={nftData} currentTheme={currentTheme} address={address} />
           </>
-        )
-      })
+        );
+      });
     }
-  }
-  return (
-    <MainContainer>
-      {showNftList()}
-    </MainContainer>
-  );
+  };
+  return <MainContainer>{showNftList()}</MainContainer>;
 };
 
 export default Collection;

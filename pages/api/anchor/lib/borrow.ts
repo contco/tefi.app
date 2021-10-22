@@ -14,7 +14,7 @@ import { getAnchorApyStats } from './getAncApyStats';
 
 const name = 'UST Borrow';
 
-const bETHContract = 'terra1dzhzukyezv0etz22ud940z7adyv7xgcjkahuun'
+const bETHContract = 'terra1dzhzukyezv0etz22ud940z7adyv7xgcjkahuun';
 
 export const REWARDS_CLAIMABLE_UST_BORROW_REWARDS_QUERY = `
   query (
@@ -99,7 +99,7 @@ export const getCollaterals = async ({ address }: any) => {
     },
     `${MANTLE_URL}/?borrow--borrower`,
   );
-  const result = JSON.parse(rawData?.overseerCollaterals?.Result)
+  const result = JSON.parse(rawData?.overseerCollaterals?.Result);
 
   const bEthRequest = await fetchData(BASSETS_INFO + 'beth');
   const bEthPrice = bEthRequest?.data?.beth_price;
@@ -107,24 +107,24 @@ export const getCollaterals = async ({ address }: any) => {
   const bLUNARequest = await fetchData(BASSETS_INFO + 'bluna');
   const bLUNAPrice = bLUNARequest?.data?.bLuna_price;
   let totalValue = 0;
-  if (result?.collaterals.length){
+  if (result?.collaterals.length) {
     const resultCollateral = result.collaterals.map((item) => {
       const collateral = item[0];
       const price = collateral == bETHContract ? bEthPrice : bLUNAPrice;
-      const balance = parseFloat(item[1])/UNIT || 0;
-      const value = (balance * parseFloat(price));
-      totalValue += value; 
+      const balance = parseFloat(item[1]) / UNIT || 0;
+      const value = balance * parseFloat(price);
+      totalValue += value;
       return {
         collateral,
-        balance:balance.toString(),
+        balance: balance.toString(),
         price,
-        value:value.toString(),
-        symbol: collateral == bETHContract ? "bEth" : "bLuna"
-      }
+        value: value.toString(),
+        symbol: collateral == bETHContract ? 'bEth' : 'bLuna',
+      };
     });
-    return {totalValue:totalValue.toString(),resultCollateral}
+    return { totalValue: totalValue.toString(), resultCollateral };
   }
-  return {totalValue:"0",resultCollateral:[]}
+  return { totalValue: '0', resultCollateral: [] };
 };
 
 export const rewardsClaimableUstBorrowRewardsQuery = async (mantleEndpoint, address) => {
@@ -184,16 +184,17 @@ export const getBorrowRate = async () => {
 };
 export default async (address) => {
   try {
-    const [borrowLimit, borrowedValue, collateralsData, allRewards, rewards, lunaPrice, borrowRate, { ancPrice }] = await Promise.all([
-      getBorrowLimit({ address }),
-      getBorrowedValue({ address }),
-      getCollaterals({ address }),
-      getAnchorApyStats(),
-      rewardsClaimableUstBorrowRewardsQuery(MANTLE_URL, address),
-      getPrice(LUNA_DENOM),
-      getBorrowRate(),
-      ancPriceQuery(MANTLE_URL)
-    ]);
+    const [borrowLimit, borrowedValue, collateralsData, allRewards, rewards, lunaPrice, borrowRate, { ancPrice }] =
+      await Promise.all([
+        getBorrowLimit({ address }),
+        getBorrowedValue({ address }),
+        getCollaterals({ address }),
+        getAnchorApyStats(),
+        rewardsClaimableUstBorrowRewardsQuery(MANTLE_URL, address),
+        getPrice(LUNA_DENOM),
+        getBorrowRate(),
+        ancPriceQuery(MANTLE_URL),
+      ]);
     const percentage = (parseFloat(borrowedValue) / parseFloat(borrowLimit)) * 100 * 0.6;
     const distributionAPY = allRewards?.distributionAPY;
     const borrowApy = borrowRate?.data?.result?.rate * blocksPerYear;
@@ -216,8 +217,7 @@ export default async (address) => {
     };
 
     return result;
-  }
-  catch (err) {
+  } catch (err) {
     const result = {
       reward: {
         name,
@@ -227,7 +227,7 @@ export default async (address) => {
       limit: '0',
       value: '0',
       collaterals: null,
-      totalCollateralValue:"0",
+      totalCollateralValue: '0',
       percentage: '0',
       lunaprice: '0',
       ancprice: '0',

@@ -1,1 +1,1 @@
-export {ButtonRound} from './ButtonRound';
+export { ButtonRound } from './ButtonRound';

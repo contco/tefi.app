@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import css from '@styled-system/css';
 import { Flex, Box, Text } from '@contco/core-ui';
 
@@ -125,7 +125,7 @@ const getTextLength = (text) => {
 
   textArr.map((item: any) => {
     const encoded = encodeURI(item);
-    let encodedArr = encoded.split('%');
+    const encodedArr = encoded.split('%');
     let length = encodedArr.length;
     length = encodedArr[0].length ? length : length - 1;
     actualLength = length + actualLength;

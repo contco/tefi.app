@@ -2,7 +2,7 @@ import { convertToFloatValue } from '../../../utils/convertFloat';
 
 export const getPoolData = (anchor, mirror, pylon, terraSwap, loterra, terraworld, altered) => {
   const lotaPool = loterra?.lotaPool ? [loterra.lotaPool] : [];
-  const terraworldPool = terraworld?.twdPool ? [terraworld?.twdPool]: [];
+  const terraworldPool = terraworld?.twdPool ? [terraworld?.twdPool] : [];
   const altePool = altered.altePool ? [altered?.altePool] : [];
 
   const getPoolTotal = () => {
@@ -18,7 +18,7 @@ export const getPoolData = (anchor, mirror, pylon, terraSwap, loterra, terraworl
       parseFloat(terraSwap.total) +
       parseFloat(lotaPoolTotal) +
       parseFloat(alteredTotal);
-      return total.toString() ?? '0';
+    return total.toString() ?? '0';
   };
 
   const pool = [
@@ -28,8 +28,7 @@ export const getPoolData = (anchor, mirror, pylon, terraSwap, loterra, terraworl
     ...terraSwap.list,
     ...lotaPool,
     ...terraworldPool,
-    ...altePool
-      
+    ...altePool,
   ].sort(
     (a, b) =>
       parseFloat(b.stakeableLpUstValue) +

@@ -26,7 +26,6 @@ export interface SupplyProps {
 }
 
 const AssetSupply: React.FC<{ assetSupply: [SupplyProps] }> = ({ assetSupply }) => {
-
   const timePeriodData = [
     {
       period: 'HOUR',
@@ -47,7 +46,10 @@ const AssetSupply: React.FC<{ assetSupply: [SupplyProps] }> = ({ assetSupply }) 
   ];
 
   const [currentTimePeriod, setCurrentTimePeriod] = useState(timePeriodData[0]);
-  const currentAssetSupply = useMemo(() => assetSupply[0]?.current ? parseFloat(assetSupply[0].current) : 0, [assetSupply[0]?.current]);
+  const currentAssetSupply = useMemo(
+    () => (assetSupply[0]?.current ? parseFloat(assetSupply[0].current) : 0),
+    [assetSupply[0]?.current],
+  );
 
   const changePeriod = (e) => {
     e.preventDefault();
@@ -65,7 +67,7 @@ const AssetSupply: React.FC<{ assetSupply: [SupplyProps] }> = ({ assetSupply }) 
     const assetChange = Math.round(currentAssetSupply - currentTimePeriod.value);
     const formatSupply = new Intl.NumberFormat().format(assetChange);
     return formatSupply;
-  } 
+  };
 
   return (
     <Container>

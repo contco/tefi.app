@@ -102,8 +102,8 @@ const getStakedData = (stakingPools: any, poolInfo: any, sttPrice: any) => {
       stakedData,
       totalStakedLp: totalStakedLp.toString(),
       totalStakedLpUstValue: totalStakedLpUstValue.toString(),
-			totalBondedLp: totalBondedLp.toString(),
-			totalBondedLpUstValue: totalBondedLpUstValue.toString(),
+      totalBondedLp: totalBondedLp.toString(),
+      totalBondedLpUstValue: totalBondedLpUstValue.toString(),
       totalRewards: totalRewards.toString(),
       totalRewardsValue: totalRewardsValue.toString(),
     };
@@ -125,11 +125,15 @@ const getStakeAbleData = (userLpData: any, poolInfo: any) => {
 };
 
 export const getStarTerraPools = (userStakingPools: any, userLpData: any, poolInfo: any, sttPrice: string) => {
-  const { stakedData, totalStakedLp, totalStakedLpUstValue, totalBondedLp, totalBondedLpUstValue, totalRewards, totalRewardsValue } = getStakedData(
-    userStakingPools,
-    poolInfo,
-    sttPrice,
-  );
+  const {
+    stakedData,
+    totalStakedLp,
+    totalStakedLpUstValue,
+    totalBondedLp,
+    totalBondedLpUstValue,
+    totalRewards,
+    totalRewardsValue,
+  } = getStakedData(userStakingPools, poolInfo, sttPrice);
   const stakeableData = getStakeAbleData(userLpData, poolInfo);
 
   return {
@@ -138,8 +142,8 @@ export const getStarTerraPools = (userStakingPools: any, userLpData: any, poolIn
     symbol2: TOKEN2_SYMBOL,
     totalStakedLp,
     totalStakedLpUstValue,
-		totalBondedLp,
-		totalBondedLpUstValue,	
+    totalBondedLp,
+    totalBondedLpUstValue,
     totalRewards,
     totalRewardsValue,
     ...stakeableData,

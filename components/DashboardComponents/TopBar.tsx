@@ -1,18 +1,8 @@
-import { Avatar, Box, Flex } from '@contco/core-ui';
+import { Avatar, Flex } from '@contco/core-ui';
 import styled from 'styled-components';
 import { css } from '@styled-system/css';
 import { BarOptions, TopBarContainer } from '../dashboardStyles';
 import { LIGHT_THEME } from '../../constants';
-import { Logo } from '../NftComponent/AnimatedCircle';
-
-const LoadingAvatar = styled(Box)`
-  ${css({
-    bg: 'secondary',
-    borderRadius: '50%',
-    height: 80,
-    width: 80,
-  })}
-`;
 
 const OptionsContainer = styled(Flex)`
   ${css({
@@ -31,9 +21,9 @@ interface Props {
 export const ACCOUNT = 'Account';
 export const NFT = 'NFTs';
 
-const TopBar: React.FC<Props> = ({ currentBar, setCurrentBar, currentTheme, profileNftLoading, profileNft }) => {
+const TopBar: React.FC<Props> = ({ currentBar, setCurrentBar, currentTheme, profileNft }) => {
   const getProfileNft = () => {
-    if (false && profileNft) {
+    if (profileNft) {
       return profileNft.url;
     } else {
       return currentTheme === LIGHT_THEME ? '/images/dp_light.png' : '/images/dp_dark.png';

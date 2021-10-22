@@ -7,15 +7,15 @@ const typeDefs = gql`
     symbol1: String!
     symbol2: String!
     lpName: String!
-    token1UnStaked:String!
-    token2UnStaked:String!
-    token1Staked:String!
-    token2Staked:String!
+    token1UnStaked: String!
+    token2UnStaked: String!
+    token1Staked: String!
+    token2Staked: String!
     stakedLp: String!
     stakedLpUstValue: String!
-    stakeableLp:String!
-    stakeableLpUstValue:String!
-    totalLpUstValue:String!
+    stakeableLp: String!
+    stakeableLpUstValue: String!
+    totalLpUstValue: String!
     rewards: String!
     rewardsValue: String!
     rewardsSymbol: String!

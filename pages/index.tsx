@@ -3,13 +3,12 @@ import { useRouter } from 'next/router';
 import Header from '../components/Header';
 import Landing from '../components/Landing';
 import styled from 'styled-components';
- 
+
 const EmptyContainer = styled.div`
   height: 100vh;
   width: 100vh;
   background-color: ${(props) => props.theme.colors.background};
 `;
-
 
 const Home: React.FC = ({ theme, changeTheme }: any) => {
   const [isDisplay, setIsDisplay] = useState<boolean>(false);

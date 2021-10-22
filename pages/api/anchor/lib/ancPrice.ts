@@ -13,7 +13,7 @@ export const ANC_PRICE_QUERY = `
   }
 `;
 
-export const ancPriceQuery = async ( mantleEndpoint ) => {
+export const ancPriceQuery = async (mantleEndpoint) => {
   const rawData = await mantleFetch(
     ANC_PRICE_QUERY,
     {

@@ -69,17 +69,17 @@ export enum AssetInfoKey {
   LPTOTALSTAKED = 'lpTotalStaked',
   LPTOTALSUPPLY = 'lpTotalSupply',
 }
-  
-  export enum BalanceKey {
-    // Dictionary<string>
-    TOKEN = "token",
-    LPTOTAL = "lpTotal",
-    LPSTAKABLE = "lpStakable",
-    LPLONGSTAKED = "lpLongStaked",
-    LPSHORTSTAKED = "lpShortStaked",
-    MIRGOVSTAKED = "MIRGovStaked",
-    REWARD = "reward",
-  }
+
+export enum BalanceKey {
+  // Dictionary<string>
+  TOKEN = 'token',
+  LPTOTAL = 'lpTotal',
+  LPSTAKABLE = 'lpStakable',
+  LPLONGSTAKED = 'lpLongStaked',
+  LPSHORTSTAKED = 'lpShortStaked',
+  MIRGOVSTAKED = 'MIRGovStaked',
+  REWARD = 'reward',
+}
 
 export const price = {
   [PriceKey.PAIR]: (pairPool: Dictionary<PairPool>) => dict(pairPool, calcPairPrice),
@@ -128,18 +128,12 @@ export const reward = (info?: RewardInfo) => {
 };
 
 export const balance = {
-  [BalanceKey.TOKEN]: (tokenBalance: Dictionary<Balance>) =>
-    dict(tokenBalance, ({ balance }) => balance),
-  [BalanceKey.LPTOTAL]: (
-    lpTokenBalance: Dictionary<Balance>,
-    stakingReward: StakingReward
-  ) => reduceLP(listedAll, { lpTokenBalance, stakingReward }),
-  [BalanceKey.LPSTAKABLE]: (lpTokenBalance: Dictionary<Balance>) =>
-    dict(lpTokenBalance, ({ balance }) => balance),
-  [BalanceKey.LPLONGSTAKED]: (stakingReward: StakingReward) =>
-    reduceBondAmount(stakingReward),
-  [BalanceKey.LPSHORTSTAKED]: (stakingReward: StakingReward) =>
-    reduceBondAmount(stakingReward, true),
+  [BalanceKey.TOKEN]: (tokenBalance: Dictionary<Balance>) => dict(tokenBalance, ({ balance }) => balance),
+  [BalanceKey.LPTOTAL]: (lpTokenBalance: Dictionary<Balance>, stakingReward: StakingReward) =>
+    reduceLP(listedAll, { lpTokenBalance, stakingReward }),
+  [BalanceKey.LPSTAKABLE]: (lpTokenBalance: Dictionary<Balance>) => dict(lpTokenBalance, ({ balance }) => balance),
+  [BalanceKey.LPLONGSTAKED]: (stakingReward: StakingReward) => reduceBondAmount(stakingReward),
+  [BalanceKey.LPSHORTSTAKED]: (stakingReward: StakingReward) => reduceBondAmount(stakingReward, true),
   [BalanceKey.MIRGOVSTAKED]: (govStake: Balance) => {
     const token = getToken(MIR);
     return { [token]: govStake.balance };
@@ -147,7 +141,7 @@ export const balance = {
   [BalanceKey.REWARD]: (stakingPool: Dictionary<StakingPool>, stakingReward: StakingReward) =>
     dict(stakingPool, (_, token) => {
       const { reward_infos } = stakingReward;
-      const info = reward_infos?.find((info) => (info.asset_token === token && !info.is_short) );
+      const info = reward_infos?.find((info) => info.asset_token === token && !info.is_short);
       return info?.pending_reward ?? '0';
     }),
 };
@@ -158,27 +152,23 @@ const reduceLP = (listedAll: ListedItem[], { lpTokenBalance, stakingReward }: LP
       ...acc,
       [token]: plus(
         lpTokenBalance[token].balance,
-        stakingReward.reward_infos.find(({ is_short, asset_token }) => (asset_token === token) && !is_short)?.bond_amount,
+        stakingReward.reward_infos.find(({ is_short, asset_token }) => asset_token === token && !is_short)?.bond_amount,
       ),
     }),
-    {}
-  )
-}
+    {},
+  );
+};
 const reduceBondAmount = ({ reward_infos }: StakingReward, isShort = false) =>
-  reward_infos.reduce<Dictionary<string>>(
-    (acc, { asset_token, bond_amount, is_short }) => {
-      if (isShort && is_short) {
-        return { ...acc, [asset_token]: bond_amount }
-      }
-      else if (!isShort && !is_short) {
-        return { ...acc, [asset_token]: bond_amount }
-      }
-      return acc;
-    },
-    {}
-);
+  reward_infos.reduce<Dictionary<string>>((acc, { asset_token, bond_amount, is_short }) => {
+    if (isShort && is_short) {
+      return { ...acc, [asset_token]: bond_amount };
+    } else if (!isShort && !is_short) {
+      return { ...acc, [asset_token]: bond_amount };
+    }
+    return acc;
+  }, {});
 
-export const fromLP =  (
+export const fromLP = (
   lp: string,
   shares: { asset: Asset; uusd: Asset },
   totalShare: string,

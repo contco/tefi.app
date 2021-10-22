@@ -1,7 +1,7 @@
 import { MARKET_DENOMS } from '@anchor-protocol/anchor.js';
 import { anchor, blocksPerYear, ContractAddresses } from './test-defaults';
 import { formatRate } from './utils';
-import {getLastSyncedHeight, mantleFetch } from './utils';
+import { getLastSyncedHeight, mantleFetch } from './utils';
 import { MANTLE_URL } from '../../utils';
 
 const name = 'ANC Earn';
@@ -34,10 +34,8 @@ export const getTotalDesposit = async ({ address }: any) => {
 };
 
 export const getAPY = async () => {
-
-    const apy = await anchor.earn.getAPY({ market: MARKET_DENOMS.UUSD });
-    return apy;
-
+  const apy = await anchor.earn.getAPY({ market: MARKET_DENOMS.UUSD });
+  return apy;
 };
 
 export async function earnEpochStatesQuery(mantleEndpoint) {
@@ -66,14 +64,17 @@ export async function earnEpochStatesQuery(mantleEndpoint) {
     };
   } catch (err) {
     return {
-      overseerEpochState: {deposit_rate: "0"}
+      overseerEpochState: { deposit_rate: '0' },
     };
   }
 }
 
 export default async (address) => {
   try {
-    const [totalDesposit, earnEpoch] = await Promise.all([getTotalDesposit({ address }), earnEpochStatesQuery(MANTLE_URL) ]);
+    const [totalDesposit, earnEpoch] = await Promise.all([
+      getTotalDesposit({ address }),
+      earnEpochStatesQuery(MANTLE_URL),
+    ]);
     const apy = parseFloat(earnEpoch?.overseerEpochState?.deposit_rate) * blocksPerYear;
 
     const result = {
@@ -84,15 +85,14 @@ export default async (address) => {
       },
     };
     return result;
-  }
- catch(err){
-   const result =  {
+  } catch (err) {
+    const result = {
       reward: {
         name,
         apy: '0',
-        staked: '0'
-      }
-   };
-   return result;
- }
+        staked: '0',
+      },
+    };
+    return result;
+  }
 };

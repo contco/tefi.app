@@ -2,18 +2,18 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Image from 'next/image';
-import css from "@styled-system/css";
-import {Box, Flex} from "@contco/core-ui";
+import css from '@styled-system/css';
+import { Box, Flex } from '@contco/core-ui';
 
-import { NewOpenIcon} from '../Icons';
+import { NewOpenIcon } from '../Icons';
 import { PriceChange } from './PriceChange';
 
 const NamePriceContainer = styled(Box)`
-width: 55%;
-@media (max-width: 768px) {
-  width: 85%;
-}
-margin-bottom: ${(props: any) => (props.useTV ? '30px' : 0)};
+  width: 55%;
+  @media (max-width: 768px) {
+    width: 85%;
+  }
+  margin-bottom: ${(props: any) => (props.useTV ? '30px' : 0)};
 `;
 
 const StyledName = styled.a`
@@ -34,8 +34,8 @@ const StyledPrice = styled.p`
     color: props.theme.colors.secondary,
     fontSize: 20,
     fontWeight: 600,
-    bg:'green',
-    mb: 0
+    bg: 'green',
+    mb: 0,
   })}
 `;
 
@@ -47,7 +47,6 @@ const PriceContainer = styled.div`
   /* background-color: red; */
   /* height: 30px; */
 `;
-
 
 const ImageContainer: any = styled.div`
   background-color: ${(props: any) => (props.useTV ? 'black' : 'white')};
@@ -66,7 +65,7 @@ const ImageContainer: any = styled.div`
   }
   border: ${(props: any) => `1px solid ${props.theme.colors.secondary}`};
   ${css({
-    mx:2,
+    mx: 2,
   })}
 `;
 
@@ -81,7 +80,6 @@ const ActionContainer = styled(Flex)`
   align-items: center;
 `;
 
-
 interface Props {
   price: number;
   name: string;
@@ -91,27 +89,26 @@ interface Props {
   onSwitchTV: any;
 }
 
-export const AssetDetails: React.FC<Props> = ({price, name, url, useTV, onSwitchTV, priceChange }) => {
-  
-  return(
+export const AssetDetails: React.FC<Props> = ({ price, name, url, useTV, onSwitchTV, priceChange }) => {
+  return (
     <NamePriceContainer useTV={useTV}>
-    <NameTopBar>
-      <StyledName href={url} target="_blank">
-        {name} 
-        <NewOpenIcon />
-      </StyledName>
-      <ActionContainer>
-        <ImageContainer onClick={onSwitchTV} useTV={useTV}>
-          <Image width="30" height="16" src={useTV ? '/tv-white.png' : '/tv.png'} alt="Picture of the author" />
-        </ImageContainer>
-      </ActionContainer>
-    </NameTopBar>
-    {!useTV && (
+      <NameTopBar>
+        <StyledName href={url} target="_blank">
+          {name}
+          <NewOpenIcon />
+        </StyledName>
+        <ActionContainer>
+          <ImageContainer onClick={onSwitchTV} useTV={useTV}>
+            <Image width="30" height="16" src={useTV ? '/tv-white.png' : '/tv.png'} alt="Picture of the author" />
+          </ImageContainer>
+        </ActionContainer>
+      </NameTopBar>
+      {!useTV && (
         <PriceContainer>
           <StyledPrice>{`$${price}`}</StyledPrice>
-          <PriceChange priceChange={priceChange}/>
-         </PriceContainer>
+          <PriceChange priceChange={priceChange} />
+        </PriceContainer>
       )}
-   </NamePriceContainer>
-  )
-}
+    </NamePriceContainer>
+  );
+};

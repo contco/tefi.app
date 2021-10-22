@@ -13,19 +13,17 @@ const generate = ({ token }: ListedItem) => ({
 
 export const getStakingPool = async (): Promise<Dictionary<StakingPool>> => {
   try {
-  const contractAssets = MIRROR_ASSETS.map((item: ListedItem) => ({ token: item.token, ...generate(item) }));
-  const contractQuery = gql`
+    const contractAssets = MIRROR_ASSETS.map((item: ListedItem) => ({ token: item.token, ...generate(item) }));
+    const contractQuery = gql`
     query ${STAKING_POOL} {
       ${contractAssets.map(alias)}
     }
   `;
 
-  
-  const result = await request(networks.mainnet.mantle, contractQuery);
-  const parsedData: Dictionary<StakingPool> = parse(result);
-  return parsedData;
-  }
-  catch(err){
+    const result = await request(networks.mainnet.mantle, contractQuery);
+    const parsedData: Dictionary<StakingPool> = parse(result);
+    return parsedData;
+  } catch (err) {
     return null;
   }
 };

@@ -1,9 +1,8 @@
 import styled from 'styled-components';
 import css from '@styled-system/css';
-import { Text, Flex, Box } from '@contco/core-ui';
+import { Flex, Box } from '@contco/core-ui';
 import { Logo } from './AnimatedCircle';
 import Collection from './Collection';
-import { useEffect, useState } from 'react';
 
 const MainContainer = styled(Flex)`
   justify-content: center;
@@ -31,16 +30,6 @@ const BigCircle = styled(Flex)`
     })};
 `;
 
-const BigText = styled(Text)`
-  font-weight: 900;
-  letter-spacing: 0.77px;
-  ${css({
-    fontSize: ['30px', null, '40px', '60px', null, null, null, '60px'],
-    mt: [8],
-    color: 'Heading',
-  })}
-`;
-
 interface Props {
   currentTheme: string;
   text?: string;
@@ -53,8 +42,6 @@ interface NftProps extends Props {
   loading: boolean;
 }
 
-const DEFAULT_TEXT = 'COMING SOON';
-
 export const AnimatedCircle: React.FC<Props> = ({ currentTheme, isBig = false }) => {
   return (
     <BigCircle isBig={isBig}>
@@ -63,8 +50,7 @@ export const AnimatedCircle: React.FC<Props> = ({ currentTheme, isBig = false })
   );
 };
 
-
-const NftComponent: React.FC<NftProps> = ({ currentTheme, text = DEFAULT_TEXT, isBig = false, address, nftAssets, loading}) => {
+const NftComponent: React.FC<NftProps> = ({ currentTheme, isBig = false, address, nftAssets, loading }) => {
   return (
     <div>
       {!loading ? (

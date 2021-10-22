@@ -3,11 +3,7 @@ import { TWITTER_ICON, TELEGRAM_ICON } from '../Icons';
 import { Flex, Box } from '@contco/core-ui';
 import css from '@styled-system/css';
 
-
-export const Link = styled.a`
-  
-`;
-
+export const Link = styled.a``;
 
 export const Wrapper = styled(Box)`
   height: 38px;
@@ -18,13 +14,10 @@ export const Wrapper = styled(Box)`
   right: 0;
   flex-direction: row;
   padding-right: 16px;
-  
-
 `;
 
 export const TelegramIcon = styled(TELEGRAM_ICON)`
-
-margin-top: 4px;
+  margin-top: 4px;
 
   ${css({
     color: 'secondary',
@@ -32,7 +25,7 @@ margin-top: 4px;
 `;
 
 export const TwitterIcon = styled(TWITTER_ICON)`
-margin-top: 4px;
+  margin-top: 4px;
   ${css({
     color: 'secondary',
   })}

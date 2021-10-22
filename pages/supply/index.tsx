@@ -5,7 +5,6 @@ import { useSubscription } from '@apollo/client';
 import { GET_ASSET_SUPPLY } from '../../graphql/queries/getAssetSupply';
 import { useDgraphClient } from '../../lib/dgraphClient';
 import Loading from '../../components/Loading';
-import Notice from '../../components/Notice';
 
 const Supply: React.FC = ({ theme, changeTheme }: any) => {
   const assetSupplyClient = useDgraphClient();

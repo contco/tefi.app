@@ -1,16 +1,13 @@
 import styled from 'styled-components';
 import css from '@styled-system/css';
-import { Flex, Text, Avatar } from '@contco/core-ui';
-import { LIGHT_THEME } from '../../constants';
+import { Flex, Text } from '@contco/core-ui';
 import useWallet from '../../lib/useWallet';
-import { useModalContext, useNftContext } from '../../contexts';
-import { sendToken } from '../../transactions/sendToken';
+import { useModalContext } from '../../contexts';
 import { SEND_ICON as SendIcon } from '../Icons';
 import { StyledHover } from '../Header/Section';
-import { NFT_CONTRACTS, TLOOT_CONTRACT} from './contracts';
+import { NFT_CONTRACTS, TLOOT_CONTRACT } from './contracts';
 
 const GP_CONTRACT_INFO = NFT_CONTRACTS[0];
-
 
 export const NFTItemContainer = styled(Flex)`
   flex-direction: column;
@@ -31,11 +28,10 @@ export const NFTTextContainer = styled(Flex)`
   flex-direction: column;
   height: 99px;
   justify-content: center;
-  ${(props) =>
-    css({
-      p: 3,
-      pb: 0,
-    })}
+  ${css({
+    p: 3,
+    pb: 0,
+  })}
 `;
 
 export const NFTCollectionName = styled(Text)`
@@ -77,40 +73,6 @@ const BottomContainer = styled(Flex)`
   })}
 `;
 
-const AvatarContainer = styled(Flex)`
-  ${(props) =>
-    css({
-      p: props.selected ? 1 : 0,
-      border: `1px solid`,
-      borderColor: props.selected ? 'secondary' : 'primary',
-      borderRadius: '50%',
-    })}
-`;
-
-const BidButton = styled.div`
-  ${(props) =>
-    css({
-      bg: props.theme.colors.secondary,
-    })}
-  width: 25%;
-  border-top-left-radius: 25px;
-  border-bottom-left-radius: 25px;
-  height: 39px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-`;
-
-const BidText = styled.p`
-  color: white;
-  ${(props) =>
-    css({
-      color: props.theme.colors.primary,
-    })}
-  font-size: 11px;
-`;
-
 interface Props {
   data: any;
   currentTheme: any;
@@ -118,17 +80,17 @@ interface Props {
 }
 
 const Item: React.FC<Props> = ({ data, address }) => {
-  const { onConnect, useConnectedWallet, post } = useWallet();
+  const { useConnectedWallet } = useWallet();
   const connectedWallet = useConnectedWallet();
-  const { profileNft, saveProfileNft } = useNftContext();
   const { sendNFT } = useModalContext();
 
-  const isNftSelected = () => {
-    return data?.tokenId === profileNft?.tokenId;
-  };
-
   const onSetClick = () => {
-    const sendData = {collection: data?.collection ?? data?.nftType, name: data?.name, src: data?.src ?? data?.image, tokenId: data.tokenId };
+    const sendData = {
+      collection: data?.collection ?? data?.nftType,
+      name: data?.name,
+      src: data?.src ?? data?.image,
+      tokenId: data.tokenId,
+    };
     sendNFT({
       from: connectedWallet.terraAddress,
       isNFT: true,
@@ -138,36 +100,34 @@ const Item: React.FC<Props> = ({ data, address }) => {
     });
   };
 
-  
   return (
     <NFTItemContainer>
       <Image src={data?.src || data?.image || '/images/blank_nft.png'} />
       <NFTTextContainer>
         <NFTCollectionName>{data?.collection || data?.nftType}</NFTCollectionName>
         <NFTItemName>{data.name}</NFTItemName>
-        {data?.nftContract === TLOOT_CONTRACT ? 
-         <NFTDescription>{data?.description}</NFTDescription>
-         : null
-        }  
+        {data?.nftContract === TLOOT_CONTRACT ? <NFTDescription>{data?.description}</NFTDescription> : null}
       </NFTTextContainer>
       <BottomContainer>
-        {data?.collection === GP_CONTRACT_INFO.name && connectedWallet?.terraAddress && connectedWallet?.terraAddress === address && (
-          <StyledHover
-            style={{
-              display: 'flex',
-              width: '33px',
-              height: '33px',
-              borderRadius: '50%',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-            onClick={onSetClick}
-          >
-            <div>
-              <SendIcon />
-            </div>
-          </StyledHover>
-        )}
+        {data?.collection === GP_CONTRACT_INFO.name &&
+          connectedWallet?.terraAddress &&
+          connectedWallet?.terraAddress === address && (
+            <StyledHover
+              style={{
+                display: 'flex',
+                width: '33px',
+                height: '33px',
+                borderRadius: '50%',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              onClick={onSetClick}
+            >
+              <div>
+                <SendIcon />
+              </div>
+            </StyledHover>
+          )}
       </BottomContainer>
     </NFTItemContainer>
   );

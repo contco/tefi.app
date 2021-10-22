@@ -385,7 +385,7 @@ interface ApolloAccount {
 }
 
 interface AlteredAccount {
-  altePool: Pool
+  altePool: Pool;
 }
 interface Assets {
   __typename?: 'Assets';
@@ -397,7 +397,7 @@ interface Assets {
   loterra: LoterraAccount;
   starterra: StarTerraAccount;
   apollo: ApolloAccount;
-  altered: AlteredAccount
+  altered: AlteredAccount;
 }
 
 interface PriceChange {
@@ -419,7 +419,6 @@ interface ErrorResult {
   msg: string;
 }
 
-
 interface NftAssets {
   description: string;
   creator: string;
@@ -429,7 +428,7 @@ interface NftAssets {
   nftContract: string;
   nftType: string;
   nftSymbol: string;
-  owner: ProfileNft
+  owner: ProfileNft;
 }
 
 interface ProfileNft {

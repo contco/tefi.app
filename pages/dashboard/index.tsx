@@ -16,7 +16,6 @@ import NftComponent from '../../components/NftComponent';
 import TopBar, { ACCOUNT } from '../../components/DashboardComponents/TopBar';
 import DashboardComponents from '../../components/DashboardComponents';
 
-
 const Body = Styled(Box)`
 ${css({
   m: 'auto',
@@ -32,7 +31,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   const { useConnectedWallet } = useWallet();
   const connectedWallet = useConnectedWallet();
   const [currentBar, setCurrentBar] = useState(ACCOUNT);
-  const { profileNft, profileNftLoading, nftAssets, initialLoading} = useNftContext();
+  const { profileNft, profileNftLoading, nftAssets, initialLoading } = useNftContext();
 
   useEffect(() => {
     const localAddress = localStorage.getItem(ADDRESS_KEY);
@@ -41,7 +40,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
       setAddress(walletAddress);
       setAddressType(WALLET_ADDRESS_TYPE);
     } else {
-      if(localAddress){
+      if (localAddress) {
         setAddress(localAddress);
         setAddressType(LOCAL_ADDRESS_TYPE);
       }
@@ -74,7 +73,12 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
             loading ? (
               <Loading currentTheme={theme} />
             ) : !assets || JSON.stringify(assets) === '{}' ? (
-              <EmptyComponent msg={error ? 'Oops! Error Fetching Assets' : null} refetch={refetch} error={error} refreshing={refreshing} />
+              <EmptyComponent
+                msg={error ? 'Oops! Error Fetching Assets' : null}
+                refetch={refetch}
+                error={error}
+                refreshing={refreshing}
+              />
             ) : (
               <DashboardComponents assets={assets} />
             )
@@ -86,6 +90,5 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     </div>
   );
 };
-
 
 export default Dashboard;

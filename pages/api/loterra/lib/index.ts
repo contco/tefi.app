@@ -1,5 +1,4 @@
-
-import {math, MICRO} from "@contco/terra-utilities";
+import { math, MICRO } from '@contco/terra-utilities';
 import { getLoterraConfig } from './config';
 import { getLotteryDetails } from './lotteryDetails';
 import { getLoterraStaking } from './staking';
@@ -30,7 +29,7 @@ const getLoterraDraw = (userCombinations, loterraConfig, ticketCounts, jackpot) 
 export const getLoterraAccount = async (address: string) => {
   try {
     const [loterraConfig, lotaData] = await Promise.all([getLoterraConfig(), getLoterraStaking(address)]);
-    const {lotaGov, lotaPool} = lotaData;
+    const { lotaGov, lotaPool } = lotaData;
     const { userCombinations, ticketCounts, jackpot } = await getLotteryDetails(
       address,
       loterraConfig?.lottery_counter,

@@ -7,8 +7,8 @@ const Container = styled(Flex)`
 `;
 
 const NoticeText = styled(Text)`
-line-height: 2;
-text-align: center;
+  line-height: 2;
+  text-align: center;
   ${(props) =>
     css({
       color: props.theme.colors.red,
@@ -18,7 +18,9 @@ text-align: center;
     })}
 `;
 
-interface Props {}
+interface Props {
+  children: any;
+}
 
 const Notice: React.FC<Props> = ({ children }) => {
   return (

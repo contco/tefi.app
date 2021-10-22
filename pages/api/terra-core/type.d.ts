@@ -1,4 +1,4 @@
 /* chain */
 interface AssetInfo {
-    token: { contract_addr: string }
+  token: { contract_addr: string };
 }
