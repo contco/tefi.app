@@ -3,141 +3,70 @@ export const CODE_EXAMPLE = `{
       address: "terra...74e6"
     ) {
         address
-        core {
-          coins {
-            balance
-            value
-            price
-            symbol
-            name
-            denom 
-            contract
-          }
-          staking {
-            balance
-            rewards
-            stakedValue
-            rewardsValue
-            totalValue
-            validator
-            state
-          }
-          total {
-            assetsSum
-            stakedSum
-            unstakedSum
-          }
-        }
-        mirror {
-          mirrorStaking {
-            symbol1
-            symbol2
+        altered {
+          altePool {
+            apr
             lpName
-            stakedLp
-            stakedLpUstValue
+            price
+            rewards
+            rewardsSymbol
+            rewardsValue
             stakeableLp
             stakeableLpUstValue
-            token1UnStaked
+            stakedLp
+            stakedLpUstValue
+            symbol1
+            symbol2
             token1Staked
-            token2UnStaked
+            token1UnStaked
             token2Staked
+            token2UnStaked
             totalLpUstValue
-            rewards
-            rewardsValue
-            rewardsSymbol
-            apr
-          }
-          mirrorHoldings {
-            name
-            symbol
-            price
-            balance
-            value
-            contract
-          }
-          airdrops {
-            name
-            symbol
-            quantity
-            value
-            round
-            proof
-            contract
-          }
-          gov {
-            name
-            symbol
-            staked
-            value
-            rewards
-            price
-            apr
-          }
-          total {
-            mirrorHoldingsSum
-            mirrorPoolRewardsSum
-            mirrorPoolSum
-            mirrorAirdropSum
-          }
-          mirrorShortFarm {
-            assetInfo {
-              name
-              symbol
-              price
-              idx
-            }
-  
-            borrowInfo {
-              amount
-              shortApr
-              amountValue
-            }
-  
-            collateralInfo {
-              collateral
-              collateralValue
-              collateralRatio
-              csymbol
-            }
-            lockedInfo {
-              locked_amount
-              unlocked_amount
-              unlock_time
-              reward
-              rewardValue
-              shorted
-            }
+            totalStaked
           }
         }
+        core {
+        coins {
+          balance
+          contract
+          denom
+          name
+          price
+          symbol
+          value
+        }
+        staking {
+          balance
+          rewards
+          rewardsValue
+          stakedValue
+          state
+          totalValue
+          validator
+        }
+        total {
+          assetsSum
+          stakedSum
+          unstakedSum
+        }
+      }
         anchor {
-          assets {
-            name
-            symbol
-            price
-            balance
-            value
+          airdrops {
             contract
-          }
-          debt {
-            reward {
-              name
-              apy
-              staked
-              reward
-            }
-            collaterals {
-              collateral
-              balance
-              price
-              value
-              symbol
-            }
-            totalCollateralValue
+            name
+            proof
+            quantity
+            round
+            symbol
             value
-            percentage
-            lunaprice
-            ancprice
-            netApy
+          }
+          assets {
+            balance
+            contract
+            name
+            price
+            symbol
+            value
           }
           burn {
             requestData {
@@ -146,188 +75,242 @@ export const CODE_EXAMPLE = `{
                 amountValue
               }
               time {
-                requestedTime
                 claimableTime
+                requestedTime
               }
-            } 
-            withdrawableAmount
+            }
             totalBurnAmount
             totalBurnAmountValue
-	}
+            withdrawableValue
+            withdrawableAmount 
+          }
+          debt {
+            ancprice
+            collaterals {
+              balance
+              collateral
+              price
+              symbol
+              value
+            }
+            limit
+            lunaprice
+            netApy
+            percentage
+            reward {
+              apy
+              name
+              reward
+              staked
+            }
+            totalCollateralValue
+            value
+          }
           earn {
             reward {
-              name
-              staked
               apy
+              name
               reward
+              staked
             }
           }
-  
-          pool {
-            symbol1
-            symbol2
-            lpName
-            stakedLp
-            stakedLpUstValue
-            stakeableLp
-            stakeableLpUstValue
-            token1UnStaked
-            token1Staked
-            token2UnStaked
-            token2Staked
-            totalLpUstValue
-            rewards
-            rewardsValue
-            rewardsSymbol
-            apr
-          }
           gov {
-            name
-            symbol
-            staked
-            value
-            rewards
-            price
             apr
-          }
-          airdrops {
             name
+            price
+            rewards
+            staked
             symbol
-            quantity
             value
-            round
-            proof
-            contract
           }
-          total {
-            airdropSum
-            anchorRewardsSum
-            anchorPoolSum
-            anchorHoldingsSum
-          }
+         pool {
+          apr
+          lpName
+          rewards
+          rewardsSymbol
+          rewardsValue
+          stakeableLp
+          stakedLpUstValue
+          stakedLp
+          stakedLpUstValue
+          symbol1
+          symbol2
+          token1Staked
+          token2Staked
+          token1UnStaked
+          token2UnStaked
+          totalLpUstValue
+        }
+        total {
+          airdropSum
+          anchorHoldingsSum
+          anchorRewardsSum 
+          anchorPoolSum
+        }
           totalReward
         }
-        pylon {
-          pylonHoldings {
-            symbol
-            name
-            price
-            balance
-            value
-            contract
-          }
-          pylonPool {
-            symbol1
-            symbol2
-            lpName
-            stakedLp
-            stakedLpUstValue
-            stakeableLp
-            stakeableLpUstValue
-            token1UnStaked
-            token1Staked
-            token2UnStaked
-            token2Staked
-            totalLpUstValue
-            rewards
-            rewardsValue
-            rewardsSymbol
-            apr
-          }
-          gov {
-            name
-            symbol
-            staked
-            value
-            rewards
-            price
-            apy
-            rewards
-            rewardsValue
-            totalValue
-          }
-          pylonAirdrops {
-            name
-            symbol
-            value
-            quantity
-            round
-            proof
-            contract
-          }
-          pylonSum {
-            pylonHoldingsSum
-            pylonPoolSum
-            pylonPoolRewardsSum
-            pylonAirdropSum
-            gatewayRewardsSum
-            gatewayDepositsSum
-          }
-          pylonGateway {
-            symbol
-            apy
-            poolName
-            totalDeposit
-            rewards
-            rewardsValue
-            depositLogs {
-              deposit
-              depositDate
-              depositReleaseDate
-              rewardReleaseDate
-            }
-          }
+       apolloDao {
+        total
+        vaults  {
+          lpName
+          stakedLp
+          stakedLpUstValue
+          symbol1
+          symbol2
+          token1Staked
+          token2Staked
         }
-        terraSwapPool{
-          list{
-            symbol1
-            symbol2
-            lpName
-            price  
-            stakedLp
-            stakedLpUstValue
-            stakeableLp
-            stakeableLpUstValue
-            token1UnStaked
-            token1Staked
-            token2UnStaked
-            token2Staked
-            totalLpUstValue
-          }
-          total
+      }
+      holdings {
+        balance
+        contract
+        denom
+        name
+        price
+        symbol
+        value
+      }
+      loterra {
+        lotaGov {
+          apr
+          name
+          price
+          rewards
+          rewardsValue
+          staked
+          symbol
+          value
         }
+        lotaPool {
+          apy
+          lpName
+          price
+          rewards
+          rewardsSymbol
+          rewardsValue
+          stakeableLp
+          stakedLpUstValue
+          stakedLp
+          stakedLpUstValue
+          symbol1
+          symbol2
+          token1Staked
+          token1UnStaked
+          token2Staked
+          token2UnStaked
+          totalLpUstValue
+          totalStaked
+        }
+        loterraDraw {
+          combinations
+          drawTime
+          jackpot
+          ticketCounts
+          ticketPrice
+        }
+      }
+      pylon {
+        gov {
+          apy
+          name
+          price
+          rewards
+          rewardsValue
+          staked
+          symbol
+          totalValue
+          value
+        }
+        pylonAirdrops {
+          contract
+          name
+          proof
+          quantity
+          round
+          symbol
+          value
+        }
+        pylonGateway {
+          apy
+          depositLogs {
+            deposit
+            depositDate
+            depositReleaseDate
+            rewardReleaseDate
+          }
+          poolName
+          rewards
+          rewardsValue
+          symbol
+          totalDeposit
+        }
+        pylonHoldings {
+          balance
+          contract
+          name
+          price
+          symbol
+          value
+        }
+        pylonPool {
+          apr
+          lpName
+          rewards
+          rewardsSymbol
+          rewardsValue
+          stakeableLp
+          stakeableLpUstValue
+          stakedLp
+          stakedLpUstValue
+          symbol1
+          symbol2
+          token1Staked
+          token1UnStaked
+          token2Staked
+          token2UnStaked
+          totalLpUstValue
+        }
+        pylonSum {
+          gatewayRewardsSum
+          gatewayDepositsSum
+          pylonAirdropSum
+          pylonHoldingsSum
+          pylonPoolRewardsSum
+          pylonPoolSum
+    }
+    }
         spectrum {
           farms {
-            symbol
+            apy
+            farm
             lpName
             stakedLp
             stakedLpUstValue
-            tokenStaked
-            ustStaked
-            farm
             stakedSpec
             stakedSpecValue
+            symbol
             tokenRewardsStaked
-            tokenRewardsStakedValue
             tokenRewardsStakedSymbol
-            apy
+            tokenRewardsStakedValue
+            tokenStaked
+            ustStaked
           }
           specGov {
-            name
-            symbol
-            staked
-            value
-            rewards
-            price
             apr
+            name
+            price
+            rewards
+            staked
+            symbol
+            value
           }
           specHoldings {
-            symbol
+            balance
+            contract
             name
             price
-            balance
+            symbol
             value
-            contract
           }
           spectrumTotal {
             farmsTotal
@@ -335,68 +318,183 @@ export const CODE_EXAMPLE = `{
             rewardsTotal
           }
         }
-        loterra {
-          loterraDraw {
-            combinations
-            drawTime
-            ticketCounts
-            ticketPrice
-            jackpot
-          }
-          lotaGov {
+        starterra {
+          govRewardsTotal 
+          govStakedTotal
+          starTerraGov {
+            apr
+            faction
             name
-            symbol
-            staked
-            value
             rewards
             rewardsValue
-            apr
-            price
+            staked
+            symbol
+            value
+          }
+          starTerraPools {
+            stakeableLp
+            stakeableLpUstValue
+            stakedData {
+              bondedLp
+              bondedLpUstValue
+              faction
+              lpName
+              rewards
+              rewardsValue
+              stakedLp
+              stakedLpUstValue
+              token1Staked
+              token1Bonded
+              token2Staked
+              token2Bonded
+              unbondingTime
+            }
+              symbol1
+            symbol2
+            token1UnStaked
+            token2UnStaked
+            totalBondedLp
+            totalBondedLpUstValue
+            totalRewards
+            totalRewardsValue
+            totalStakedLp
+            totalStakedLpUstValue
           }
         }
-      starterra {
-        starTerraPools {
-          stakedData {
+        terraSwapPool {
+          list {
             lpName
-            faction
+            price
+            stakeableLp
+            stakeableLpUstValue
             stakedLp
             stakedLpUstValue
+            symbol1
+            symbol2
             token1Staked
+            token1UnStaked
             token2Staked
+            token2UnStaked
+            totalLpUstValue
+          }
+          total
+        }
+        terraworld {
+          twdGov {
+            apr
+            name
+            price
             rewards
             rewardsValue
+            staked
+            symbol
+            value
           }
-          stakeableLp
-          stakeableLpUstValue
-          symbol1
-          symbol2
-          token1UnStaked
-          token2UnStaked
-          totalStakedLp
-          totalStakedLpUstValue
-          totalRewards
-          totalRewardsValue
+          twdHoldings {
+            balance
+            contract
+            name
+            price
+            symbol
+            value
+          }
+          twdPool {
+            lpName
+            price
+            rewards
+            rewardsSymbol
+            rewardsValue
+            stakeableLp
+            stakeableLpUstValue
+            stakedLp
+            stakedLpUstValue
+            symbol1
+            symbol2
+            token1Staked
+            token1UnStaked
+            token2Staked
+            token2UnStaked
+            totalLpUstValue
+          }
         }
-        starTerraGov {
+        mirror {
+          airdrops {
+            contract
+            name
+            proof
+            quantity
+            round
+            symbol
+            value
+          }
+         gov {
+          apr
           name
-          symbol
-          faction
-          staked
-          value
+          price
           rewards
-          rewardsValue
+          staked
+          symbol
+          value
         }
-      } 
-      apolloDao {
-        vaults {
-          symbol1
-          symbol2
-          lpName
-          token1Staked
-          token2Staked
-          stakedLp
-          stakedLpUstValue
+          mirrorHoldings {
+            balance
+            contract
+            name
+            price
+            symbol
+            value
+          }
+          mirrorShortFarm {
+            assetInfo {
+              idx
+              name
+              price
+              symbol
+            }
+            borrowInfo {
+              amount
+              amountValue
+              shortApr
+            }
+            collateralInfo {
+              collateral
+              collateralRatio
+              collateralValue
+              csymbol
+            }
+            lockedInfo {
+              locked_amount
+              rewardValue
+              reward
+              shorted
+              unlock_time
+              unlocked_amount
+            }
+          }
+          mirrorStaking {
+            apr
+            lpName
+            rewards
+            rewardsSymbol
+            rewardsValue
+            stakeableLp
+            stakeableLpUstValue
+            stakedLp
+            stakedLpUstValue
+            symbol1
+            symbol2
+            token1Staked
+            token1UnStaked
+            token2Staked
+            token2UnStaked
+            totalLpUstValue
+          }
+          total {
+            mirrorAirdropSum
+            mirrorPoolSum
+            mirrorHoldingsSum
+            mirrorPoolRewardsSum
+          }
         }
-        total
-      }
+      }    
   }`;

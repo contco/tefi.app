@@ -85,7 +85,7 @@ const Docs: React.FC = ({ theme: currentTheme, changeTheme, data: d }: any) => {
           </ImageContainer>
           <MainText style={{ marginTop: '50px', marginBottom: '50px' }}>URL</MainText>
           <CodeBlock
-            text="https://www.tefi.app/api"
+            text="https://graph.contco.dev"
             language="graphql"
             showLineNumbers={false}
             startingLineNumber={0}
