@@ -45,12 +45,16 @@ const AssetsDataProvider: React.FC<Props> = ({ children }) => {
     const walletAddress = connectedWallet?.terraAddress;
     if (walletAddress) {
       setAddress(walletAddress);
-      fetchAssets({variables: {address: walletAddress}});
     } else if (localAddress) {
       setAddress(localAddress);
-      fetchAssets({variables: {address: walletAddress}});
     }
   }, [localAddress, connectedWallet]);
+
+  useEffect(() => {
+    if(address && address !== '' ) {
+      fetchAssets({variables: {address: address}});
+    }
+  },[address]);
 
   const refreshing = networkStatus === NetworkStatus.refetch && assetsLoading;
   const loading = !refreshing && assetsLoading;

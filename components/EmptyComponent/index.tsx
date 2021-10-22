@@ -54,13 +54,15 @@ export const AnimatedRefresh = styled(RefreshIcon)`
 const DEFAULT_MESSAGE = "Sorry! No Data Available";
 
 
-const EmptyComponent = ({children, msg = DEFAULT_MESSAGE, refetch, refreshing}: any) => {
+const EmptyComponent = ({children, msg = DEFAULT_MESSAGE, refetch, error, refreshing}: any) => {
 
     const showRefetchIcon = () => {
         if(refreshing) {
             return <AnimatedRefresh />
         }
-        return <RefreshIcon onClick={refetch} />
+        if(error) {
+          return <RefreshIcon onClick={refetch} />
+        }
     };
 
     return (

@@ -109,7 +109,7 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
             loading ? (
               <Loading currentTheme={theme} />
             ) : !assets || JSON.stringify(assets) === '{}' ? (
-              <EmptyComponent msg={getErrorMessage()} refetch={refetch} refreshing={refreshing} />
+              <EmptyComponent msg={getErrorMessage()} refetch={refetch} error={error} refreshing={refreshing} />
             ) : (
               <DashboardComponents assets={assets} />
             )
