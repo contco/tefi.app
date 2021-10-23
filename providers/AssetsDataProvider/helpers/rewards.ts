@@ -15,12 +15,14 @@ export const getRewardData = (
   starterra: StarTerraAccount,
   terraworld,
   altered: AlteredAccount,
+  tfloki: TflokiAccount,
 ) => {
   const borrowRewards = anchor?.debt?.reward;
   const totalReward = anchor?.totalReward;
   const lotaPool = loterra?.lotaPool ? [loterra.lotaPool] : [];
-  const terraworldPool = terraworld?.twdPool ? [terraworld?.twdPool] : [];
-  const altePool = altered?.altePool ? [altered?.altePool] : [];
+  const terraworldPool = terraworld?.twdPool ? [terraworld.twdPool] : [];
+  const altePool = altered?.altePool ? [altered.altePool] : [];
+  const flokiPool = tfloki?.flokiPool ? [tfloki.flokiPool] : [];
 
   const getRewardsTotal = () => {
     const ancTotal = totalReward;
@@ -31,6 +33,7 @@ export const getRewardData = (
     const starterraRewards = starterra?.govRewardsTotal;
     const terraworldRewards = terraworld?.twdPool?.rewardsValue ?? '0';
     const alteredRewards = altered?.altePool?.rewardsValue ?? '0';
+    const flokiRewards = tfloki?.flokiPool?.rewardsValue ?? '0';
 
     const total =
       parseFloat(mirrorTotal) +
@@ -40,7 +43,8 @@ export const getRewardData = (
       parseFloat(starterraRewards) +
       parseFloat(loterraPoolRewards) +
       parseFloat(terraworldRewards) +
-      parseFloat(alteredRewards);
+      parseFloat(alteredRewards) +
+      parseFloat(flokiRewards);
 
     return total.toString() ?? '0';
   };
@@ -64,6 +68,7 @@ export const getRewardData = (
     ...lotaPool,
     ...terraworldPool,
     ...altePool,
+    ...flokiPool,
   ].sort((a, b) => b.rewardsValue - a.rewardsValue);
 
   const starTerraGov = starterra.starTerraGov ? starterra.starTerraGov : [];
@@ -137,7 +142,9 @@ export const getRewardData = (
   const poolData =
     pool && pool.length > 0
       ? pool.map((assets: Pool) => {
-          const ap = assets?.apy ? { apy: formatApr(assets.apy) + '%' } : { apr: formatApr(assets.apr) + '%' };
+          const ap = assets?.apy
+            ? { apy: formatApr(assets.apy) + '%' }
+            : { apr: assets?.apr === '0' ? 'N/A' : formatApr(assets.apr) + '%' };
           return [
             { name: assets?.lpName },
             {

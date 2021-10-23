@@ -387,6 +387,11 @@ interface ApolloAccount {
 interface AlteredAccount {
   altePool: Pool;
 }
+
+interface TflokiAccount {
+  tflokiHoldings: Holdings;
+  flokiPool: Pool;
+}
 interface Assets {
   __typename?: 'Assets';
   address: string;
@@ -398,6 +403,7 @@ interface Assets {
   starterra: StarTerraAccount;
   apollo: ApolloAccount;
   altered: AlteredAccount;
+  tfloki: TflokiAccount;
 }
 
 interface PriceChange {

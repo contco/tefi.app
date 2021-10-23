@@ -496,6 +496,34 @@ export const getAssets = gql`
           mirrorPoolRewardsSum
         }
       }
+      tfloki {
+        tflokiHoldings {
+          name
+          price
+          symbol
+          balance
+          value
+          contract
+        }
+        flokiPool {
+          apr
+          lpName
+          rewards
+          rewardsSymbol
+          rewardsValue
+          stakeableLp
+          stakeableLpUstValue
+          stakedLp
+          stakedLpUstValue
+          symbol1
+          symbol2
+          token1Staked
+          token1UnStaked
+          token2Staked
+          token2UnStaked
+          totalLpUstValue
+        }
+      }
     }
   }
 `;

@@ -1,15 +1,18 @@
 import { convertToFloatValue } from '../../../utils/convertFloat';
 
-export const getPoolData = (anchor, mirror, pylon, terraSwap, loterra, terraworld, altered) => {
+export const getPoolData = (anchor, mirror, pylon, terraSwap, loterra, terraworld, altered, tfloki: TflokiAccount) => {
   const lotaPool = loterra?.lotaPool ? [loterra.lotaPool] : [];
   const terraworldPool = terraworld?.twdPool ? [terraworld?.twdPool] : [];
   const altePool = altered.altePool ? [altered?.altePool] : [];
+  const flokiPool = tfloki?.flokiPool ? [tfloki.flokiPool] : [];
 
   const getPoolTotal = () => {
     const pylonPoolTotal = pylon?.pylonSum?.pylonPoolSum;
     const lotaPoolTotal = loterra?.lotaPool?.totalLpUstValue ?? '0';
     const terraworldTotal = terraworld?.twdPool?.totalLpUstValue ?? '0';
     const alteredTotal = altered?.altePool?.totalLpUstValue ?? '0';
+    const tflokiTotal = tfloki?.flokiPool?.totalLpUstValue ?? '0';
+
     const total =
       parseFloat(terraworldTotal) +
       parseFloat(pylonPoolTotal) +
@@ -17,7 +20,9 @@ export const getPoolData = (anchor, mirror, pylon, terraSwap, loterra, terraworl
       parseFloat(anchor?.total?.anchorPoolSum) +
       parseFloat(terraSwap.total) +
       parseFloat(lotaPoolTotal) +
-      parseFloat(alteredTotal);
+      parseFloat(alteredTotal) +
+      parseFloat(tflokiTotal);
+
     return total.toString() ?? '0';
   };
 
@@ -29,6 +34,7 @@ export const getPoolData = (anchor, mirror, pylon, terraSwap, loterra, terraworl
     ...lotaPool,
     ...terraworldPool,
     ...altePool,
+    ...flokiPool,
   ].sort(
     (a, b) =>
       parseFloat(b.stakeableLpUstValue) +
