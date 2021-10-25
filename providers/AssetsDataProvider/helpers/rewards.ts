@@ -16,6 +16,7 @@ export const getRewardData = (
   terraworld,
   altered: AlteredAccount,
   tfloki: TflokiAccount,
+  nexus: NexusAccount,
 ) => {
   const borrowRewards = anchor?.debt?.reward;
   const totalReward = anchor?.totalReward;
@@ -23,6 +24,7 @@ export const getRewardData = (
   const terraworldPool = terraworld?.twdPool ? [terraworld.twdPool] : [];
   const altePool = altered?.altePool ? [altered.altePool] : [];
   const flokiPool = tfloki?.flokiPool ? [tfloki.flokiPool] : [];
+  const nexusPool = nexus?.nexusPool ? [nexus.nexusPool] : [];
 
   const getRewardsTotal = () => {
     const ancTotal = totalReward;
@@ -34,6 +36,7 @@ export const getRewardData = (
     const terraworldRewards = terraworld?.twdPool?.rewardsValue ?? '0';
     const alteredRewards = altered?.altePool?.rewardsValue ?? '0';
     const flokiRewards = tfloki?.flokiPool?.rewardsValue ?? '0';
+    const nexusRewards = nexus?.nexusPool?.rewardsValue ?? '0';
 
     const total =
       parseFloat(mirrorTotal) +
@@ -44,7 +47,8 @@ export const getRewardData = (
       parseFloat(loterraPoolRewards) +
       parseFloat(terraworldRewards) +
       parseFloat(alteredRewards) +
-      parseFloat(flokiRewards);
+      parseFloat(flokiRewards) +
+      parseFloat(nexusRewards);
 
     return total.toString() ?? '0';
   };
@@ -69,6 +73,7 @@ export const getRewardData = (
     ...terraworldPool,
     ...altePool,
     ...flokiPool,
+    ...nexusPool,
   ].sort((a, b) => b.rewardsValue - a.rewardsValue);
 
   const starTerraGov = starterra.starTerraGov ? starterra.starTerraGov : [];

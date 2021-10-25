@@ -392,6 +392,11 @@ interface TflokiAccount {
   tflokiHoldings: Holdings;
   flokiPool: Pool;
 }
+
+interface NexusAccount {
+  nexusHoldings: Holdings;
+  nexusPool: Pool;
+}
 interface Assets {
   __typename?: 'Assets';
   address: string;
@@ -404,6 +409,7 @@ interface Assets {
   apollo: ApolloAccount;
   altered: AlteredAccount;
   tfloki: TflokiAccount;
+  nexus: NexusAccount;
 }
 
 interface PriceChange {

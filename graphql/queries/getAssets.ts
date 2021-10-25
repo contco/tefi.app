@@ -524,6 +524,34 @@ export const getAssets = gql`
           totalLpUstValue
         }
       }
+      nexus {
+        nexusHoldings {
+          name
+          price
+          symbol
+          balance
+          value
+          contract
+        }
+        nexusPool {
+          apr
+          lpName
+          rewards
+          rewardsSymbol
+          rewardsValue
+          stakeableLp
+          stakeableLpUstValue
+          stakedLp
+          stakedLpUstValue
+          symbol1
+          symbol2
+          token1Staked
+          token1UnStaked
+          token2Staked
+          token2UnStaked
+          totalLpUstValue
+        }
+      }
     }
   }
 `;
