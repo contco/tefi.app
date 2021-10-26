@@ -6,7 +6,7 @@ export const getPoolData = (
   pylon: PylonAccount,
   terraSwap: terrSwapAccount,
   loterra: LoterraAccount,
-  terraworld,
+  terraworld: TerraworldAccount,
   altered: AlteredAccount,
   tfloki: TflokiAccount,
   nexus: NexusAccount,

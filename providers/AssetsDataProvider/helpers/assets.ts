@@ -3,12 +3,12 @@ import { convertToFloatValue } from '../../../utils/convertFloat';
 import { assets } from '../../../constants/assets';
 
 export const getAssetData = (
-  anchor,
-  mirror,
-  pylon,
+  anchor: AccountAnc,
+  mirror: MirrorAccount,
+  pylon: PylonAccount,
   core,
-  spectrum,
-  terraworld,
+  spectrum: SpectrumAccount,
+  terraworld: TerraworldAccount,
   tfloki: TflokiAccount,
   nexus: NexusAccount,
 ) => {

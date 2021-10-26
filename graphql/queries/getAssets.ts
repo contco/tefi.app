@@ -381,7 +381,7 @@ export const getAssets = gql`
       }
       terraworld {
         twdGov {
-          apr
+          apy
           name
           price
           rewards
@@ -410,6 +410,7 @@ export const getAssets = gql`
           stakedLpUstValue
           symbol1
           symbol2
+          apr
           token1Staked
           token1UnStaked
           token2Staked

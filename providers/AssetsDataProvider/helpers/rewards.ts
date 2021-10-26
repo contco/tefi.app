@@ -1,8 +1,8 @@
 import { convertToFloatValue } from '../../../utils/convertFloat';
-import { times } from '../../../utils/math';
+import { math } from '@contco/terra-utilities';
 
 const formatApr = (apr = '0') => {
-  const aprPercentage = times(apr, 100);
+  const aprPercentage = math.times(apr, 100);
   return parseFloat(aprPercentage).toFixed(2);
 };
 
@@ -13,7 +13,7 @@ export const getRewardData = (
   spectrum: SpectrumAccount,
   loterra: LoterraAccount,
   starterra: StarTerraAccount,
-  terraworld,
+  terraworld: TerraworldAccount,
   altered: AlteredAccount,
   tfloki: TflokiAccount,
   nexus: NexusAccount,
@@ -33,7 +33,10 @@ export const getRewardData = (
     const loterraRewards = loterra?.lotaGov?.rewardsValue ?? '0';
     const loterraPoolRewards = loterra?.lotaPool?.rewardsValue ?? '0';
     const starterraRewards = starterra?.govRewardsTotal;
-    const terraworldRewards = terraworld?.twdPool?.rewardsValue ?? '0';
+    const terraworldRewards = math.plus(
+      terraworld?.twdPool?.rewardsValue ?? '0',
+      terraworld?.twdGov?.rewardsValue ?? '0',
+    );
     const alteredRewards = altered?.altePool?.rewardsValue ?? '0';
     const flokiRewards = tfloki?.flokiPool?.rewardsValue ?? '0';
     const nexusRewards = nexus?.nexusPool?.rewardsValue ?? '0';
@@ -197,7 +200,7 @@ export const getRewardData = (
     const govReward = {
       value:
         govItem?.rewardsValue && govItem?.rewardsValue != '0'
-          ? parseFloat(govItem.rewardsValue).toFixed(2)
+          ? `${parseFloat(govItem.rewardsValue).toFixed(2)} ${govItem.symbol}`
           : 'Automatically re-staked',
     };
     const ap = govItem?.apy

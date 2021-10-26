@@ -397,6 +397,12 @@ interface NexusAccount {
   nexusHoldings: Holdings;
   nexusPool: Pool;
 }
+
+interface TerraworldAccount {
+  twdHoldings: Holdings;
+  twdGov: Gov;
+  twdPool: Pool;
+}
 interface Assets {
   __typename?: 'Assets';
   address: string;
@@ -410,6 +416,7 @@ interface Assets {
   altered: AlteredAccount;
   tfloki: TflokiAccount;
   nexus: NexusAccount;
+  terraworld: TerraworldAccount;
 }
 
 interface PriceChange {
