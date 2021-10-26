@@ -161,15 +161,6 @@ export const CODE_EXAMPLE = `{
             token2Staked
           }
         }
-        holdings {
-          balance
-          contract
-          denom
-          name
-          price
-          symbol
-          value
-        }
         loterra {
           lotaGov {
             apr
