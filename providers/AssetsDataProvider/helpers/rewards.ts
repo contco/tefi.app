@@ -197,12 +197,17 @@ export const getRewardData = (
   ];
 
   const govData = gov?.map((govItem: Gov) => {
-    const govReward = {
-      value:
-        govItem?.rewardsValue && govItem?.rewardsValue != '0'
-          ? `${parseFloat(govItem.rewardsValue).toFixed(2)} ${govItem.symbol}`
-          : 'Automatically re-staked',
-    };
+    const govReward =
+      govItem?.rewardsValue && govItem?.rewardsValue != '0'
+        ? {
+            reward: {
+              token: `${parseFloat(govItem.rewards).toFixed(2)} ${govItem.symbol}`,
+              tokenValue: '$' + parseFloat(govItem?.rewardsValue).toFixed(2),
+            },
+          }
+        : {
+            value: 'Automatically re-staked',
+          };
     const ap = govItem?.apy
       ? { apy: convertToFloatValue(govItem.apy) + '%' }
       : { apr: govItem?.apr === '0' ? 'N/A' : convertToFloatValue(govItem?.apr) + '%' };
