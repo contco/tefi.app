@@ -94,7 +94,7 @@ export const AssetDetails: React.FC<Props> = ({ price, name, url, useTV, onSwitc
     <NamePriceContainer useTV={useTV}>
       <NameTopBar>
         <StyledName href={url} target="_blank">
-          {name}
+          {name?.toUpperCase()}
           <NewOpenIcon />
         </StyledName>
         <ActionContainer>

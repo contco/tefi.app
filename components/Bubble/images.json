@@ -30,5 +30,17 @@
   {
     "symbol": "twd",
     "imageUrl": "/twd.png"
+  },
+  {
+    "symbol": "vkr",
+    "imageUrl": "/logos/val.png"
+  },
+  {
+    "symbol": "psi",
+    "imageUrl": "/logos/nexus.svg"
+  },
+  {
+    "symbol": "tfloki",
+    "imageUrl": "/logos/terrafloki.png"
   }
 ]

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Header from '../../components/Header';
 import Bubble from '../../components/Bubble';
+import Loading from '../../components/Loading';
 import css from '@styled-system/css';
 import styled from 'styled-components';
 import { Flex } from '@contco/core-ui';
@@ -36,9 +37,16 @@ const BubblesRow = styled(Flex)`
   })}
 `;
 
-const HeatBubble: React.FC = ({ theme, changeTheme, pairData }: any) => {
-  const [data, setData] = useState(formatHeatData(pairData));
-  const { assetPriceData } = useAssetPriceContext();
+const LoadingContainer = styled(Flex)`
+  height: 100vh;
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
+`;
+
+const HeatBubble: React.FC = ({ theme, changeTheme }: any) => {
+  const [data, setData] = useState(null);
+  const { assetPriceData, assetsLoading } = useAssetPriceContext();
 
   useEffect(() => {
     if (assetPriceData) {
@@ -46,7 +54,15 @@ const HeatBubble: React.FC = ({ theme, changeTheme, pairData }: any) => {
     }
   }, [assetPriceData]);
 
-  if (!Object.keys(data).length) return <Header theme={theme} changeTheme={changeTheme} />;
+  if (assetsLoading) {
+    return (
+      <LoadingContainer>
+        <Loading currentTheme={theme} />
+      </LoadingContainer>
+    );
+  }
+
+  if (!data) return <Header theme={theme} changeTheme={changeTheme} />;
 
   return (
     <>
@@ -67,21 +83,4 @@ const HeatBubble: React.FC = ({ theme, changeTheme, pairData }: any) => {
   );
 };
 
-/*export async function getServerSideProps(_) {
-  return {
-    props: {
-      pairData: await fetchPairData(),
-    },
-  };
-}*/
-
 export default HeatBubble;
-
-export async function getServerSideProps() {
-  return {
-    redirect: {
-      destination: '/dashboard',
-      permanent: false,
-    },
-  };
-}
