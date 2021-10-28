@@ -11,6 +11,7 @@ import {
   AssetsDataProvider,
   ModalProvider,
   NftDataProvider,
+  AssetPriceProvider,
 } from '../providers';
 import { DefaultSeo } from 'next-seo';
 import SEO from '../next-seo.config';
@@ -47,13 +48,15 @@ function MyApp({ Component, pageProps }: AppProps) {
           <WalletConnectProvider>
             <RedirectProvider>
               <DeviceDetectProvider>
-                <AssetsDataProvider>
-                  <NftDataProvider>
-                    <ModalProvider>
-                      <Component {...pageProps} theme={theme} changeTheme={changeTheme} />
-                    </ModalProvider>
-                  </NftDataProvider>
-                </AssetsDataProvider>
+                <AssetPriceProvider>
+                  <AssetsDataProvider>
+                    <NftDataProvider>
+                      <ModalProvider>
+                        <Component {...pageProps} theme={theme} changeTheme={changeTheme} />
+                      </ModalProvider>
+                    </NftDataProvider>
+                  </AssetsDataProvider>
+                </AssetPriceProvider>
               </DeviceDetectProvider>
             </RedirectProvider>
           </WalletConnectProvider>

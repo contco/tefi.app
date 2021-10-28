@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { Line, LineChart, ResponsiveContainer, Tooltip } from 'recharts';
 import styled, { useTheme } from 'styled-components';
+import { Flex } from '@contco/core-ui';
 import Header from '../../components/Header';
+import Loading from '../../components/Loading';
 import { AssetDetails } from '../../components/Market/AssetDetails';
 import { assets } from '../../constants/assets';
 import { LIGHT_THEME } from '../../constants';
@@ -90,6 +92,13 @@ const SymbolContainer: any = styled.div`
   }
 `;
 
+const LoadingContainer = styled(Flex)`
+  height: 100vh;
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
+`;
+
 const renderTooltip = ({ payload }) => {
   const date = payload[0]?.payload?.date;
   return <StyledDate>{date}</StyledDate>;
@@ -110,30 +119,27 @@ const Symbol = ({ keyName, symbol }) => {
   );
 };
 
-const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => {
+const Home: React.FC = ({ theme: currentTheme, changeTheme }: any) => {
   const theme: any = useTheme();
   const router = useRouter();
   const symbol = router.query.symbol as string;
-  const [price, setPrice] = useState(parseFloat(pairData[symbol].currentPrice));
+  const [price, setPrice] = useState(0);
   const [useTV, setUseTV] = useState<boolean>(false);
-  const [currentAsset, setCurrentAsset] = useState(pairData[symbol]);
+  const [currentAsset, setCurrentAsset] = useState(null);
 
-  const { assetPriceData } = useAssetPriceContext();
+  const { assetPriceData, assetsLoading } = useAssetPriceContext();
 
   useEffect(() => {
     if (assetPriceData?.[symbol]) {
-      setPrice(parseFloat(assetPriceData[symbol]?.currentPrice));
+      setPrice(parseFloat(assetPriceData[symbol]?.price.toFixed(4)));
       setCurrentAsset(assetPriceData[symbol]);
     }
   }, [assetPriceData]);
 
   useEffect(() => {
     if (assetPriceData) {
-      setPrice(assetPriceData[symbol]?.currentPrice);
+      setPrice(parseFloat(assetPriceData[symbol]?.price.toFixed(4)));
       setCurrentAsset(assetPriceData[symbol]);
-    } else {
-      setPrice(pairData[symbol]?.currentPrice);
-      setCurrentAsset(pairData[symbol]);
     }
   }, [symbol]);
 
@@ -146,13 +152,20 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
   };
 
   const onMouseLeave = () => {
-    setPrice(currentAsset?.currentPrice);
+    setPrice(parseFloat(currentAsset?.price.toFixed(4)));
   };
 
   const onSwitchTV = () => {
     if (!TV_SYMBOLS[symbol]) router.push('/market', undefined, { shallow: true });
     setUseTV((prev) => !prev);
   };
+  if (assetsLoading || !currentAsset) {
+    return (
+      <LoadingContainer>
+        <Loading currentTheme={currentTheme} />
+      </LoadingContainer>
+    );
+  }
 
   return (
     <MainContainer>
@@ -161,9 +174,9 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
       <Container>
         <AssetDetails
           price={price}
-          name={currentAsset.name}
-          url={currentAsset.url}
-          priceChange={{ change: currentAsset.priceChange, percentChange: currentAsset.percentChange }}
+          name={currentAsset?.symbol}
+          url={currentAsset?.url}
+          priceChange={{ change: currentAsset?.dailyChange, percentChange: currentAsset?.dailyChangePercent }}
           onSwitchTV={onSwitchTV}
           useTV={useTV}
         />
@@ -179,7 +192,7 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
           ) : (
             <ResponsiveContainer width={'100%'} height={263}>
               <LineChart
-                data={formatChartData(currentAsset?.historicalData, currentAsset?.tokenKey, symbol)}
+                data={formatChartData(currentAsset?.historicalData, symbol)}
                 onMouseEnter={onMouseEnter}
                 onMouseMove={onMouseMove}
                 onMouseLeave={onMouseLeave}
@@ -208,40 +221,5 @@ const Home: React.FC = ({ theme: currentTheme, changeTheme, pairData }: any) => 
     </MainContainer>
   );
 };
-
-/*
-export async function getStaticProps({ params: { symbol } }) {
-  if (!assets[symbol])
-    return {
-      redirect: {
-        destination: '/market/luna',
-        permanent: false,
-      },
-    };
-
-  return {
-    props: {
-      pairData: await fetchPairData(),
-    },
-    revalidate: 5,
-  };
-}
-
-export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
-  return {
-    paths: [],
-    fallback: 'blocking',
-  };
-};
-*/
-
-export async function getServerSideProps() {
-  return {
-    redirect: {
-      destination: '/dashboard',
-      permanent: false,
-    },
-  };
-}
 
 export default Home;

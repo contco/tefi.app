@@ -1,10 +1,29 @@
-import { DASHBOARD_ICON, FEED_ICON, SEND_ICON, SUPPLY_ICON, API_ICON, DAO_ICON } from '../Icons';
+import {
+  DASHBOARD_ICON,
+  FEED_ICON,
+  SEND_ICON,
+  SUPPLY_ICON,
+  API_ICON,
+  DAO_ICON,
+  BUBBLE_ICON,
+  CHARTS_ICON,
+} from '../Icons';
 
 export const INTERNAL_LINKS = [
   {
     component: DASHBOARD_ICON,
     url: '/dashboard',
     name: 'Dashboard',
+  },
+  {
+    component: CHARTS_ICON,
+    url: '/market',
+    name: 'Market',
+  },
+  {
+    component: BUBBLE_ICON,
+    url: '/market/heat',
+    name: 'Bubbles',
   },
   {
     component: FEED_ICON,
