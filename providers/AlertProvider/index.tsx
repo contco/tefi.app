@@ -1,6 +1,5 @@
 import React, { ReactNode, createContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useAssetPriceContext } from '../AssetPriceProvider';
 import { askNotificationPermission } from './helpers';
 
 const ALERT_KEY = 'alerts';
@@ -40,7 +39,7 @@ const AlertProvider: React.FC<Props> = ({ children }) => {
   const router = useRouter();
   const audio = new Audio('/sounds/alert.wav');
 
-  const { realTimePrices } = useAssetPriceContext();
+  const realTimePrices = {};
 
   useEffect(() => {
     const alerts = JSON.parse(localStorage.getItem(ALERT_KEY));
