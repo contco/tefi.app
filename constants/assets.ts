@@ -59,4 +59,9 @@ export const assets = {
     name: 'Terra Floki',
     symbol: 'TFLOKI',
   },
+  loop: {
+    pair: 'LOOP-UST',
+    name: 'Loop Finance',
+    symbol: 'LOOP',
+  },
 };

@@ -42,5 +42,9 @@
   {
     "symbol": "tfloki",
     "imageUrl": "/logos/terrafloki.png"
+  },
+  {
+    "symbol": "loop",
+    "imageUrl": "/logos/loop.png"
   }
 ]
