@@ -153,7 +153,7 @@ export const UPCOMING_PROTOCOL_LINKS = [
     name: 'Prism',
   },
   {
-    src: '/loop.png',
+    src: '/logos/loop.png',
     url: 'https://loop.markets/',
     name: 'Loop',
   },
