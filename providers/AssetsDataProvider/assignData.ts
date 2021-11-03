@@ -39,6 +39,7 @@ export const assignData = (data) =>
           data?.assets?.terraworld,
           data?.assets?.tfloki,
           data?.assets?.nexus,
+          data?.assets?.valkyrie,
         ),
         pools: getPoolData(
           data?.assets?.anchor,
@@ -50,6 +51,7 @@ export const assignData = (data) =>
           data?.assets?.altered,
           data?.assets?.tfloki,
           data?.assets?.nexus,
+          data?.assets?.valkyrie,
         ),
         rewards: getRewardData(
           data?.assets?.anchor,
@@ -62,6 +64,7 @@ export const assignData = (data) =>
           data?.assets?.altered,
           data?.assets?.tfloki,
           data?.assets?.nexus,
+          data?.assets?.valkyrie,
         ),
         airdrops: getAirdropsData(data?.assets?.anchor, data?.assets?.mirror, data?.assets?.pylon),
         loterra: getLoterraData(data?.assets?.loterra),

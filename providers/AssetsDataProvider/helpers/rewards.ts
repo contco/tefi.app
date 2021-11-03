@@ -17,6 +17,7 @@ export const getRewardData = (
   altered: AlteredAccount,
   tfloki: TflokiAccount,
   nexus: NexusAccount,
+  valkyrie: ValkyrieAccount,
 ) => {
   const borrowRewards = anchor?.debt?.reward;
   const totalReward = anchor?.totalReward;
@@ -25,6 +26,7 @@ export const getRewardData = (
   const altePool = altered?.altePool ? [altered.altePool] : [];
   const flokiPool = tfloki?.flokiPool ? [tfloki.flokiPool] : [];
   const nexusPool = nexus?.nexusPool ? [nexus.nexusPool] : [];
+  const vkrPool = valkyrie?.vkrPool ? [valkyrie.vkrPool] : [];
 
   const getRewardsTotal = () => {
     const ancTotal = totalReward;
@@ -40,6 +42,7 @@ export const getRewardData = (
     const alteredRewards = altered?.altePool?.rewardsValue ?? '0';
     const flokiRewards = tfloki?.flokiPool?.rewardsValue ?? '0';
     const nexusRewards = nexus?.nexusPool?.rewardsValue ?? '0';
+    const vkrRewards = valkyrie?.vkrPool?.rewardsValue ?? '0';
 
     const total =
       parseFloat(mirrorTotal) +
@@ -51,7 +54,8 @@ export const getRewardData = (
       parseFloat(terraworldRewards) +
       parseFloat(alteredRewards) +
       parseFloat(flokiRewards) +
-      parseFloat(nexusRewards);
+      parseFloat(nexusRewards) +
+      parseFloat(vkrRewards);
 
     return total.toString() ?? '0';
   };
@@ -64,7 +68,8 @@ export const getRewardData = (
     const lotaGov = parseFloat(loterra?.lotaGov?.value ?? '0');
     const sttGov = parseFloat(starterra?.govStakedTotal);
     const twdGov = parseFloat(terraworld?.twdGov?.value ?? '0');
-    const govStaked = mirrorGov + ancGov + pylonGov + specGov + lotaGov + sttGov + twdGov;
+    const vkrGov = parseFloat(valkyrie?.vkrGov?.value ?? '0');
+    const govStaked = mirrorGov + ancGov + pylonGov + specGov + lotaGov + sttGov + twdGov + vkrGov;
     return govStaked;
   };
 
@@ -77,10 +82,12 @@ export const getRewardData = (
     ...altePool,
     ...flokiPool,
     ...nexusPool,
+    ...vkrPool,
   ].sort((a, b) => b.rewardsValue - a.rewardsValue);
 
   const starTerraGov = starterra.starTerraGov ? starterra.starTerraGov : [];
   const terraworldGov = terraworld?.twdGov ? [terraworld?.twdGov] : [];
+  const vkrGov = valkyrie?.vkrGov ? [valkyrie.vkrGov] : [];
   const gov = [
     pylon?.gov,
     spectrum?.specGov,
@@ -89,6 +96,7 @@ export const getRewardData = (
     loterra?.lotaGov,
     ...starTerraGov,
     ...terraworldGov,
+    ...vkrGov,
   ]
     .filter((item) => item != null)
     .sort((a, b) => parseFloat(b.value) - parseFloat(a.value));

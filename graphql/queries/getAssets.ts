@@ -544,6 +544,43 @@ export const getAssets = gql`
           totalLpUstValue
         }
       }
+      valkyrie {
+        vkrGov {
+          apr
+          name
+          symbol
+          value
+          staked
+          rewards
+          price
+        }
+        vkrHoldings {
+          name
+          value
+          symbol
+          contract
+          price
+          balance
+        }
+        vkrPool {
+          apr
+          lpName
+          symbol1
+          symbol2
+          stakeableLp
+          stakeableLpUstValue
+          stakedLp
+          stakedLpUstValue
+          token1Staked
+          token1UnStaked
+          token2Staked
+          token2UnStaked
+          rewards
+          rewardsValue
+          rewardsSymbol
+          totalLpUstValue
+        }
+      }
     }
   }
 `;
