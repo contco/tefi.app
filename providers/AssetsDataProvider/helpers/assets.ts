@@ -11,6 +11,7 @@ export const getAssetData = (
   terraworld: TerraworldAccount,
   tfloki: TflokiAccount,
   nexus: NexusAccount,
+  valkyrie: ValkyrieAccount,
 ) => {
   const getAssetsTotal = () => {
     const mirrorTotal = mirror?.total?.mirrorHoldingsSum;
@@ -21,6 +22,7 @@ export const getAssetData = (
     const terraworldSum = terraworld?.twdHoldings?.value ?? '0';
     const tflokiSum = tfloki?.tflokiHoldings?.value ?? '0';
     const nexusSum = nexus?.nexusHoldings?.value ?? '0';
+    const vkrSum = valkyrie?.vkrHoldings?.value ?? '0';
 
     const total =
       parseFloat(spectrumSum) +
@@ -29,7 +31,8 @@ export const getAssetData = (
       parseFloat(pylonHoldingsSum) +
       parseFloat(terraworldSum) +
       parseFloat(tflokiSum) +
-      parseFloat(nexusSum);
+      parseFloat(nexusSum) +
+      parseFloat(vkrSum);
     return total.toString() ?? '0';
   };
   const holdings = [
@@ -47,6 +50,9 @@ export const getAssetData = (
   }
   if (nexus?.nexusHoldings) {
     holdings.push(nexus.nexusHoldings);
+  }
+  if (valkyrie?.vkrHoldings) {
+    holdings.push(valkyrie.vkrHoldings);
   }
   const sortedHoldings = holdings.sort((a: any, b: any) => b.value - a.value);
   const largerHoldings = sortedHoldings.filter((asset: Holdings) => parseFloat(asset?.value) >= 1);

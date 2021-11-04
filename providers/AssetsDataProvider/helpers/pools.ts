@@ -10,12 +10,14 @@ export const getPoolData = (
   altered: AlteredAccount,
   tfloki: TflokiAccount,
   nexus: NexusAccount,
+  valkyrie: ValkyrieAccount,
 ) => {
   const lotaPool = loterra?.lotaPool ? [loterra.lotaPool] : [];
   const terraworldPool = terraworld?.twdPool ? [terraworld?.twdPool] : [];
   const altePool = altered.altePool ? [altered?.altePool] : [];
   const flokiPool = tfloki?.flokiPool ? [tfloki.flokiPool] : [];
   const nexusPool = nexus?.nexusPool ? [nexus.nexusPool] : [];
+  const vkrPool = valkyrie?.vkrPool ? [valkyrie.vkrPool] : [];
 
   const getPoolTotal = () => {
     const pylonPoolTotal = pylon?.pylonSum?.pylonPoolSum;
@@ -24,6 +26,7 @@ export const getPoolData = (
     const alteredTotal = altered?.altePool?.totalLpUstValue ?? '0';
     const tflokiTotal = tfloki?.flokiPool?.totalLpUstValue ?? '0';
     const nexusTotal = nexus?.nexusPool?.totalLpUstValue ?? '0';
+    const vkrTotal = valkyrie?.vkrPool?.totalLpUstValue ?? '0';
 
     const total =
       parseFloat(terraworldTotal) +
@@ -34,7 +37,8 @@ export const getPoolData = (
       parseFloat(lotaPoolTotal) +
       parseFloat(alteredTotal) +
       parseFloat(tflokiTotal) +
-      parseFloat(nexusTotal);
+      parseFloat(nexusTotal) +
+      parseFloat(vkrTotal);
 
     return total.toString() ?? '0';
   };
@@ -49,6 +53,7 @@ export const getPoolData = (
     ...altePool,
     ...flokiPool,
     ...nexusPool,
+    ...vkrPool,
   ].sort(
     (a, b) =>
       parseFloat(b.stakeableLpUstValue) +

@@ -403,6 +403,12 @@ interface TerraworldAccount {
   twdGov: Gov;
   twdPool: Pool;
 }
+
+interface ValkyrieAccount {
+  vkrHoldings: Holdings;
+  vkrGov: Gov;
+  vkrPool: Pool;
+}
 interface Assets {
   __typename?: 'Assets';
   address: string;
@@ -417,6 +423,7 @@ interface Assets {
   tfloki: TflokiAccount;
   nexus: NexusAccount;
   terraworld: TerraworldAccount;
+  valkyrie: ValkyrieAccount;
 }
 
 interface PriceChange {
