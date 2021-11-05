@@ -17,6 +17,7 @@ import ApolloVaults from '../../components/ApolloVaults';
 import Airdrops from '../../components/Airdrop';
 
 import { Box } from '@contco/core-ui';
+import NexusVaults from '../NexusVaults';
 
 interface Props {
   assets: any;
@@ -43,6 +44,7 @@ const DashboardComponents: React.FC<Props> = ({ assets }) => {
           assets?.lunaStaking,
           assets?.airdrops,
           assets?.apollo,
+          assets?.nexus,
         ]}
       />
       <Assets assets={assets?.assets} />
@@ -53,6 +55,7 @@ const DashboardComponents: React.FC<Props> = ({ assets }) => {
       <Rewards rewards={assets?.rewards} />
       <Pools pools={assets?.pools} />
       <ApolloVaults apolloAssets={assets?.apollo} />
+      <NexusVaults nexus={assets?.nexus} />
       <MirrorBorrowing borrow={assets?.mirrorBorrow || {}} />
       <ShortFarms short={assets?.mirrorShortFarm || {}} />
       <SpectrumFarms farm={assets?.specFarm} />
