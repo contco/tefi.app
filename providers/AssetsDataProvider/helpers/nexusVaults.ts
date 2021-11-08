@@ -1,15 +1,14 @@
 import { convertToFloatValue } from '../../../utils/convertFloat';
 
 export const getNexusVaultData = (nexus) => {
-	
   if (!nexus.nexusVault) return {};
 
   const bLunaData =
-    nexus?.nexusVault?.bLunaDeposit === '0' && nexus?.nexusVault?.bLunaReward === '0'
+    nexus?.nexusVault?.bLunaDeposit === '0' && nexus?.nexusVault?.bLunaRewards === '0'
       ? null
       : [
           { name: 'bLuna Vault' },
-          { apr: nexus?.nexusVault?.bLunaVaultApr },
+          { apr: parseFloat(nexus?.nexusVault?.bLunaVaultApr).toFixed(2) + '%' },
           {
             balance: {
               token: convertToFloatValue(nexus?.nexusVault?.bLunaDeposit) + ' bLuna',
@@ -19,22 +18,22 @@ export const getNexusVaultData = (nexus) => {
 
           {
             reward: {
-              token: convertToFloatValue(nexus?.nexusVault?.bLunaReward) + ' Psi',
+              token: convertToFloatValue(nexus?.nexusVault?.bLunaRewards) + ' Psi',
               tokenValue:
                 '$' +
                 convertToFloatValue(
-                  (parseFloat(nexus?.nexusVault?.bLunaReward) * parseFloat(nexus?.nexusPool?.price)).toString(),
+                  (parseFloat(nexus?.nexusVault?.bLunaRewards) * parseFloat(nexus?.nexusHoldings?.price)).toString(),
                 ),
             },
           },
         ];
 
   const bEthData =
-    nexus?.nexusVault?.bEthDeposit === '0' && nexus?.nexusVault?.bEthReward === '0'
+    nexus?.nexusVault?.bEthDeposit === '0' && nexus?.nexusVault?.bEthRewards === '0'
       ? null
       : [
           { name: 'bEth Vault' },
-          { apr: nexus?.nexusVault?.bEthVaultApr },
+          { apr: parseFloat(nexus?.nexusVault?.bEthVaultApr).toFixed(2) + '%' },
           {
             balance: {
               token: convertToFloatValue(nexus?.nexusVault?.bEthDeposit) + ' bEth',
@@ -44,11 +43,11 @@ export const getNexusVaultData = (nexus) => {
 
           {
             reward: {
-              token: convertToFloatValue(nexus?.nexusVault?.bEthReward) + ' Psi',
+              token: convertToFloatValue(nexus?.nexusVault?.bEthRewards) + ' Psi',
               tokenValue:
                 '$' +
                 convertToFloatValue(
-                  (parseFloat(nexus?.nexusVault?.bEthReward) * parseFloat(nexus?.nexusPool?.price)).toString(),
+                  (parseFloat(nexus?.nexusVault?.bEthRewards) * parseFloat(nexus?.nexusHoldings?.price)).toString(),
                 ),
             },
           },
@@ -59,10 +58,11 @@ export const getNexusVaultData = (nexus) => {
   if (bEthData) myData.push(bEthData);
 
   const totalDeposit =
-    parseFloat(nexus?.nexusVault?.bEthDepositValue) + parseFloat(nexus?.nexusVault?.bEthDepositValue);
+    parseFloat(nexus?.nexusVault?.bLunaDepositValue) + parseFloat(nexus?.nexusVault?.bEthDepositValue);
+
   const totalReward =
-    (parseFloat(nexus?.nexusVault?.bLunaReward) + parseFloat(nexus?.nexusVault?.bEthReward)) *
-    parseFloat(nexus?.nexusPool?.price);
+    (parseFloat(nexus?.nexusVault?.bLunaRewards) + parseFloat(nexus?.nexusVault?.bEthRewards)) *
+    parseFloat(nexus?.nexusHoldings?.price);
 
   return {
     titles: ['Vault', 'APR', 'Deposit', 'Reward'],

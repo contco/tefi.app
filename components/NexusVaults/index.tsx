@@ -10,7 +10,7 @@ export interface VaultProps {
 }
 
 const NexusVaults: React.FC<VaultProps> = ({ nexus }) => {
-  if (nexus || nexus?.data?.length === 0) {
+  if (!nexus || nexus?.data?.length === 0) {
     return <> </>;
   }
   return (
