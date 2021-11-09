@@ -543,6 +543,16 @@ export const getAssets = gql`
           token2UnStaked
           totalLpUstValue
         }
+        nexusVault {
+          bLunaDeposit
+          bLunaDepositValue
+          bEthDeposit
+          bEthDepositValue
+          bLunaRewards
+          bEthRewards
+          bLunaVaultApr
+          bEthVaultApr
+        }
       }
       valkyrie {
         vkrGov {
