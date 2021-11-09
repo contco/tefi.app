@@ -15,7 +15,7 @@ import {
   getSpecRewardData,
   getStarterraFarms,
   getApolloVaultData,
-	getNexusVaultData,
+  getNexusVaultData,
 } from './helpers';
 
 export const assignData = (data) =>
@@ -70,6 +70,6 @@ export const assignData = (data) =>
         airdrops: getAirdropsData(data?.assets?.anchor, data?.assets?.mirror, data?.assets?.pylon),
         loterra: getLoterraData(data?.assets?.loterra),
         apollo: getApolloVaultData(data?.assets?.apolloDao),
-				nexus: getNexusVaultData(data?.assets?.nexus),
+        nexus: getNexusVaultData(data?.assets?.nexus),
       }
     : {};
