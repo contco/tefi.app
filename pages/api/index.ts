@@ -5,7 +5,7 @@ import { cors, runMiddleware } from './lib';
 
 const SERVER_END_POINT = process.env.SERVER_ENDPOINT;
 
-const gateway = new ApolloGateway({
+const gateway: any = new ApolloGateway({
   serviceList: [
     { name: 'terra-core', url: `${SERVER_END_POINT}/terra-core` },
     { name: 'anchor', url: `${SERVER_END_POINT}/anchor` },
