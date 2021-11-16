@@ -16,7 +16,6 @@ export const getPoolData = (
   const terraworldPool = terraworld?.twdPool ? [terraworld?.twdPool] : [];
   const altePool = altered.altePool ? [altered?.altePool] : [];
   const flokiPool = tfloki?.flokiPool ? [tfloki.flokiPool] : [];
-  const nexusPool = nexus?.nexusPool ? [nexus.nexusPool] : [];
   const vkrPool = valkyrie?.vkrPool ? [valkyrie.vkrPool] : [];
 
   const getPoolTotal = () => {
@@ -25,7 +24,7 @@ export const getPoolData = (
     const terraworldTotal = terraworld?.twdPool?.totalLpUstValue ?? '0';
     const alteredTotal = altered?.altePool?.totalLpUstValue ?? '0';
     const tflokiTotal = tfloki?.flokiPool?.totalLpUstValue ?? '0';
-    const nexusTotal = nexus?.nexusPool?.totalLpUstValue ?? '0';
+    const nexusTotal = nexus?.total?.nexusPoolSum ?? '0';
     const vkrTotal = valkyrie?.vkrPool?.totalLpUstValue ?? '0';
 
     const total =
@@ -52,7 +51,7 @@ export const getPoolData = (
     ...terraworldPool,
     ...altePool,
     ...flokiPool,
-    ...nexusPool,
+    ...nexus?.nexusPools,
     ...vkrPool,
   ].sort(
     (a, b) =>

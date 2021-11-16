@@ -393,9 +393,27 @@ interface TflokiAccount {
   flokiPool: Pool;
 }
 
+interface NexusVault {
+  bLunaDeposit: string;
+  bLunaDepositValue: string;
+  bEthDeposit: string;
+  bEthDepositValue: string;
+  bLunaRewards: string;
+  bEthRewards: string;
+  bLunaVaultApr: string;
+  bEthVaultApr: string;
+}
+
+interface NexusTotal {
+  nexusPoolSum: string;
+  nexusPoolRewardsSum: string;
+}
 interface NexusAccount {
   nexusHoldings: Holdings;
-  nexusPool: Pool;
+  nexusPools: Pool[];
+  nexusGov: Gov;
+  nexusVault: NexusVault;
+  total: NexusTotal;
 }
 
 interface TerraworldAccount {

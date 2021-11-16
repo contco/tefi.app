@@ -525,7 +525,16 @@ export const getAssets = gql`
           value
           contract
         }
-        nexusPool {
+        nexusGov {
+          apr
+          name
+          symbol
+          value
+          staked
+          rewards
+          price
+        }
+        nexusPools {
           apr
           lpName
           rewards
@@ -552,6 +561,10 @@ export const getAssets = gql`
           bEthRewards
           bLunaVaultApr
           bEthVaultApr
+        }
+        total {
+          nexusPoolSum
+          nexusPoolRewardsSum
         }
       }
       valkyrie {

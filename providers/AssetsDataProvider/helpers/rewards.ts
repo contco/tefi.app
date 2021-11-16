@@ -25,7 +25,6 @@ export const getRewardData = (
   const terraworldPool = terraworld?.twdPool ? [terraworld.twdPool] : [];
   const altePool = altered?.altePool ? [altered.altePool] : [];
   const flokiPool = tfloki?.flokiPool ? [tfloki.flokiPool] : [];
-  const nexusPool = nexus?.nexusPool ? [nexus.nexusPool] : [];
   const vkrPool = valkyrie?.vkrPool ? [valkyrie.vkrPool] : [];
 
   const getRewardsTotal = () => {
@@ -41,7 +40,7 @@ export const getRewardData = (
     );
     const alteredRewards = altered?.altePool?.rewardsValue ?? '0';
     const flokiRewards = tfloki?.flokiPool?.rewardsValue ?? '0';
-    const nexusRewards = nexus?.nexusPool?.rewardsValue ?? '0';
+    const nexusRewards = math.plus(nexus?.total?.nexusPoolRewardsSum ?? '0', nexus?.nexusGov?.rewardsValue ?? '0');
     const vkrRewards = valkyrie?.vkrPool?.rewardsValue ?? '0';
 
     const total =
@@ -69,7 +68,8 @@ export const getRewardData = (
     const sttGov = parseFloat(starterra?.govStakedTotal);
     const twdGov = parseFloat(terraworld?.twdGov?.value ?? '0');
     const vkrGov = parseFloat(valkyrie?.vkrGov?.value ?? '0');
-    const govStaked = mirrorGov + ancGov + pylonGov + specGov + lotaGov + sttGov + twdGov + vkrGov;
+    const nexusGov = parseFloat(nexus?.nexusGov?.value ?? '0');
+    const govStaked = mirrorGov + ancGov + pylonGov + specGov + lotaGov + sttGov + twdGov + vkrGov + nexusGov;
     return govStaked;
   };
 
@@ -81,13 +81,14 @@ export const getRewardData = (
     ...terraworldPool,
     ...altePool,
     ...flokiPool,
-    ...nexusPool,
+    ...nexus?.nexusPools,
     ...vkrPool,
   ].sort((a, b) => b.rewardsValue - a.rewardsValue);
 
   const starTerraGov = starterra.starTerraGov ? starterra.starTerraGov : [];
   const terraworldGov = terraworld?.twdGov ? [terraworld?.twdGov] : [];
   const vkrGov = valkyrie?.vkrGov ? [valkyrie.vkrGov] : [];
+  const nexusGov = nexus?.nexusGov ? [nexus.nexusGov] : [];
   const gov = [
     pylon?.gov,
     spectrum?.specGov,
@@ -97,6 +98,7 @@ export const getRewardData = (
     ...starTerraGov,
     ...terraworldGov,
     ...vkrGov,
+    ...nexusGov,
   ]
     .filter((item) => item != null)
     .sort((a, b) => parseFloat(b.value) - parseFloat(a.value));

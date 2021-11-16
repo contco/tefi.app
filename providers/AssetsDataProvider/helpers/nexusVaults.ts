@@ -1,6 +1,6 @@
 import { convertToFloatValue } from '../../../utils/convertFloat';
 
-export const getNexusVaultData = (nexus) => {
+export const getNexusVaultData = (nexus: NexusAccount) => {
   if (!nexus.nexusVault) return {};
 
   const bLunaData =
