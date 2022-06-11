@@ -34,7 +34,7 @@ const filterAndFormatPost = (data) => {
 
 export const getPost = async (offset = 0, limit = 100) => {
   try {
-    const query = FCD_URL + `v1/txs?offset=${offset}&limit=${limit}&account=${ADDRESS}`;
+    const query = `https://tef-club-server.herokuapp.com/posts?offset=${offset}&limit=${limit}`;
     const postRequest = await axios.get(query, {
       headers: {
         'X-Requested-With': 'XMLHttpRequest',

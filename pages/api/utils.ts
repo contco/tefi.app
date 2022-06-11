@@ -1,8 +1,8 @@
 import { TEFI_API } from '../../constants';
-export const FCD_URL = TEFI_API + 'https://fcd.terra.dev/';
+export const FCD_URL ='https://fcd.terra.dev/';
 export const LCD_URL = 'https://lcd.contco.dev/';
-export const EXTRATERRESTRIAL_URl = TEFI_API + 'https://api.extraterrestrial.money/v1/api/prices';
-export const MANTLE_URL = TEFI_API + 'https://mantle.terra.dev/';
+export const EXTRATERRESTRIAL_URl = 'https://api.extraterrestrial.money/v1/api/prices';
+export const MANTLE_URL = 'https://mantle.terra.dev/';
 import { UUSD_DENOM, LUNA_DENOM } from '../api/terra-core/symbols';
 
 export const getLatestBlockHeight = async () => {
