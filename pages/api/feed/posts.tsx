@@ -3,7 +3,8 @@ import { formatTxData } from '../../../transactions/fetchTx';
 import { FCD_URL } from '../utils';
 import axios from 'axios';
 
-const ADDRESS = 'terra1lpccq0w9e36nlzhx3m6t8pphx8ncavslyul29g';
+//const ADDRESS = 'terra1lpccq0w9e36nlzhx3m6t8pphx8ncavslyul29g';
+const CLUB_SERVER_ROOT = 'https://tef-club-server.herokuapp.com/';
 const FILTER_POST_UST = '0.1';
 
 const checkValidPost = (post) => {
@@ -34,7 +35,7 @@ const filterAndFormatPost = (data) => {
 
 export const getPost = async (offset = 0, limit = 100) => {
   try {
-    const query = `https://tef-club-server.herokuapp.com/posts?offset=${offset}&limit=${limit}`;
+    const query = `${CLUB_SERVER_ROOT}posts?offset=${offset}&limit=${limit}`;
     const postRequest = await axios.get(query, {
       headers: {
         'X-Requested-With': 'XMLHttpRequest',
