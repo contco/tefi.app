@@ -2,7 +2,7 @@ import { Msg, LCDClient } from '@terra-money/terra.js';
 import networks from '../utils/networks';
 import { ceil, times } from '../utils/math';
 
-const DEFAULT_GAS_ADJUSTMENT = 1.75;
+const DEFAULT_GAS_ADJUSTMENT = 2;
 
 const calcFeeFromGas = (gas: string, gasPrice: string) => {
   return ceil(times(gas, gasPrice));

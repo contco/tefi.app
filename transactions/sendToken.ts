@@ -38,7 +38,7 @@ const calculateTax = async (amount: string, denom = DEFAULT_DENOM) => {
 };
 
 const getGasPrice = async (denom = DEFAULT_DENOM) => {
-  const { data } = await axios.get(FCD_URL + 'txs/gas_prices');
+  const { data } = await axios.get(FCD_URL + 'v1/txs/gas_prices');
   return data?.[denom];
 };
 
