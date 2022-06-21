@@ -22,7 +22,7 @@ const networks: Record<string, MirrorNetworkInfo> = {
   mainnet: {
     name: 'mainnet',
     chainID: 'columbus-5',
-    lcd: 'https://lcd.contco.dev',
+    lcd: 'https://columbus-lcd.terra.dev/',
     contract: TEFI_API + 'https://whitelist.mirror.finance/columbus.json',
     mantle: TEFI_API + 'https://mantle.terra.dev/',
     stats: TEFI_API + 'https://graph.mirror.finance/graphql',
