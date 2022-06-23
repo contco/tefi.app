@@ -5,6 +5,7 @@ export const TERRA_TEST_NET = { URL: 'https://tequila-lcd.terra.dev', chainID: '
 export const TERRA_MAIN_NET = { URL: 'https://lcd.contco.dev', chainID: 'columbus-5' };
 export const TERRA_OBSERVER_URL = 'wss://observer.terra.dev';
 export const TERRA_SWAP_GRAPHQL_URL = TEFI_API + 'https://terraswap-graph.terra.dev/graphql';
+export const CLUB_SERVER_ROOT = 'https://tef-club-server.herokuapp.com';
 
 export const Keywords =
   'Luna , Terra Protocol, UST , MIR, Tefi, MINE, price, cryptocurrency,token , dashboard, crypto , crypto news ,	crypto market cap ,	 crypto prices , market ,  crypto market , wallet	';

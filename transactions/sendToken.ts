@@ -1,11 +1,12 @@
 import axios from 'axios';
 import { MsgSend, MsgExecuteContract, Coin } from '@terra-money/terra.js';
-import { FCD_URL } from '../pages/api/utils';
 import { UNIT } from '../pages/api/mirror/utils';
 import BigNumber from 'bignumber.js';
 import { calculateFee } from './calculateFee';
+import { CLUB_SERVER_ROOT } from '../constants';
+import { GAS_PRICES } from './gasPrices';
 
-const TREASURY_URL = 'https://fcd.terra.dev/treasury/';
+const TREASURY_URL = CLUB_SERVER_ROOT + '/treasury';
 
 const DEFAULT_DENOM = 'uusd';
 
@@ -22,14 +23,14 @@ interface SendTokenTransactionData {
 }
 
 const fetchCapital = async (denom = DEFAULT_DENOM) => {
-  const { data: taxCapResult } = await axios.get(TREASURY_URL + `tax_cap/${denom}`);
-  const taxCap = taxCapResult?.result;
+  const { data } = await axios.get(TREASURY_URL + `/tax_caps/${denom}`);
+  const taxCap = data?.tax_cap;
   return taxCap;
 };
 
 const calculateTax = async (amount: string, denom = DEFAULT_DENOM) => {
-  const { data: taxRateResult } = await axios.get(TREASURY_URL + 'tax_rate');
-  const taxRate = taxRateResult?.result;
+  const { data: taxRateResult } = await axios.get(TREASURY_URL + '/tax_rate');
+  const taxRate = taxRateResult?.tax_rate ?? '0';
   const taxCap = denom === 'uluna' ? '0' : await fetchCapital(denom);
   const taxAmount = BigNumber.min(new BigNumber(amount).times(taxRate), new BigNumber(taxCap))
     .integerValue(BigNumber.ROUND_CEIL)
@@ -37,9 +38,8 @@ const calculateTax = async (amount: string, denom = DEFAULT_DENOM) => {
   return new Coin(denom, taxAmount);
 };
 
-const getGasPrice = async (denom = DEFAULT_DENOM) => {
-  const { data } = await axios.get(FCD_URL + 'v1/txs/gas_prices');
-  return data?.[denom];
+const getGasPrice = (denom = DEFAULT_DENOM) => {
+  return GAS_PRICES[denom];
 };
 
 const getDeductedAmounts = (
@@ -89,7 +89,7 @@ export const sendToken = async (data: SendTokenTransactionData, post) => {
     }
     const tax = denom ? await calculateTax(amountInLamports.toString(), denom) : null;
     const feeDenom = txDenom ?? DEFAULT_DENOM;
-    const gasPrice = await getGasPrice(feeDenom);
+    const gasPrice = getGasPrice(feeDenom);
     const feeResult = await calculateFee(data.from, msgs, tax, gasPrice, feeDenom, memo);
     if (feeResult.error) {
       return feeResult;
@@ -122,7 +122,7 @@ export const simulateSendTokenTx = async (data: SendTokenTransactionData) => {
           }),
         ];
     const feeDenom = txDenom ?? DEFAULT_DENOM;
-    const gasPrice = await getGasPrice(feeDenom);
+    const gasPrice = getGasPrice(feeDenom);
     const { estimatedFee } = await calculateFee(data.from, msgs, null, gasPrice, feeDenom, memo);
     const fee = (+estimatedFee / +UNIT).toString();
     return { fee, feeInLamports: estimatedFee, error: false };
