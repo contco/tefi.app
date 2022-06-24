@@ -1,5 +1,4 @@
-import { TEFI_API } from '../../constants';
-export const FCD_URL ='https://fcd.terra.dev/';
+export const FCD_URL = 'https://fcd.terra.dev/';
 export const LCD_URL = 'https://lcd.contco.dev/';
 export const EXTRATERRESTRIAL_URl = 'https://api.extraterrestrial.money/v1/api/prices';
 export const MANTLE_URL = 'https://mantle.terra.dev/';
