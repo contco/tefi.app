@@ -10,11 +10,9 @@ import { ADDRESS_KEY, LOCAL_ADDRESS_TYPE, WALLET_ADDRESS_TYPE } from '../../cons
 import { NextSeo } from 'next-seo';
 import { DashboardSEO } from '../../next-seo.config';
 import useWallet from '../../lib/useWallet';
-
-import { useAssetsDataContext, useNftContext } from '../../contexts';
-import NftComponent from '../../components/NftComponent';
 import TopBar, { ACCOUNT } from '../../components/DashboardComponents/TopBar';
 import DashboardComponents from '../../components/DashboardComponents';
+import { useAccount } from '../../data/useAccount';
 
 const Body = Styled(Box)`
 ${css({
@@ -31,7 +29,6 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
   const { useConnectedWallet } = useWallet();
   const connectedWallet = useConnectedWallet();
   const [currentBar, setCurrentBar] = useState(ACCOUNT);
-  const { profileNft, profileNftLoading, nftAssets, initialLoading } = useNftContext();
 
   useEffect(() => {
     const localAddress = localStorage.getItem(ADDRESS_KEY);
@@ -47,43 +44,33 @@ const Dashboard: React.FC = ({ theme, changeTheme }: any) => {
     }
   }, [address, setAddress]);
 
-  const { assets, loading, error, refetch, refreshing } = useAssetsDataContext();
+  const { assets, isLoading, isError, refetch, isRefetching } = useAccount(address);
 
   return (
     <div>
       <NextSeo {...DashboardSEO} />
       <div>
         <Header
-          onRefresh={loading ? null : () => refetch()}
-          refreshing={refreshing}
+          onRefresh={isLoading ? null : () => refetch()}
+          refreshing={isRefetching}
           theme={theme}
           changeTheme={changeTheme}
           addressType={addressType}
           address={address}
         />
         <Body>
-          <TopBar
-            currentBar={currentBar}
-            setCurrentBar={setCurrentBar}
-            currentTheme={theme}
-            profileNftLoading={profileNftLoading}
-            profileNft={profileNft}
-          />
-          {currentBar === ACCOUNT ? (
-            loading ? (
-              <Loading currentTheme={theme} />
-            ) : !assets || JSON.stringify(assets) === '{}' ? (
-              <EmptyComponent
-                msg={error ? 'Oops! Error Fetching Assets' : null}
-                refetch={refetch}
-                error={error}
-                refreshing={refreshing}
-              />
-            ) : (
-              <DashboardComponents assets={assets} />
-            )
+          <TopBar currentBar={currentBar} setCurrentBar={setCurrentBar} currentTheme={theme} />
+          {isLoading ? (
+            <Loading currentTheme={theme} />
+          ) : !assets || JSON.stringify(assets) === '{}' ? (
+            <EmptyComponent
+              msg={isError ? 'Oops! Error Fetching Assets' : null}
+              refetch={refetch}
+              error={isError}
+              refreshing={isRefetching}
+            />
           ) : (
-            <NftComponent nftAssets={nftAssets} loading={initialLoading} address={address} currentTheme={theme} />
+            <DashboardComponents assets={assets} />
           )}
         </Body>
       </div>
