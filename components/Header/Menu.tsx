@@ -10,7 +10,7 @@ import { useModalContext } from '../../contexts';
 import { LIGHT_THEME } from '../../constants';
 import Section from './Section';
 
-import { INTERNAL_LINKS, TOOLS_LINKS, } from './data';
+import { INTERNAL_LINKS, TOOLS_LINKS } from './data';
 
 const Parent = styled(Box)`
   ${(props) =>
