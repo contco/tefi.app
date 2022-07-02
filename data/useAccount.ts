@@ -54,6 +54,7 @@ export const useAccount = (address: string) => {
   const assets = useMemo(() => generateDashboardAssets(data?.data), [data?.data]);
 
   return {
+    rawData: data?.data,
     assets,
     isLoading: !error && !data,
     isRefetching: !error && !data && isRefetching,
