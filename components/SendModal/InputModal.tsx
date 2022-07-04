@@ -5,7 +5,7 @@ import { Box, Flex, Text } from '@contco/core-ui';
 import { CurrencySelect } from './CurrencySelect';
 import { ButtonRound } from '../UIComponents';
 import { AccAddress } from '@terra-money/terra.js';
-import { useAssetsDataContext } from '../../contexts';
+import { useAccount } from '../../data/useAccount';
 import { SmallText } from './common';
 import { useEffect } from 'react';
 import { simulateSendTokenTx } from '../../transactions/sendToken';
@@ -164,7 +164,6 @@ interface SendInput {
 }
 
 export const InputModal = ({ onSend, isTip, tipAddress, NFTData }) => {
-  const { data, loading } = useAssetsDataContext();
   const [input, setInput] = useState<SendInput>(DEFAULT_INPUT_STATE);
   const [selectedAsset, setAsset] = useState<Holdings | null>(null);
   const [assets, setAssets] = useState<Holdings[]>([]);
@@ -182,6 +181,7 @@ export const InputModal = ({ onSend, isTip, tipAddress, NFTData }) => {
 
   const connectedWallet = useConnectedWallet();
   const walletAddress = connectedWallet?.terraAddress;
+  const { rawData, isLoading } = useAccount(walletAddress);
 
   useEffect(() => {
     if (isTip) {
@@ -190,18 +190,9 @@ export const InputModal = ({ onSend, isTip, tipAddress, NFTData }) => {
   }, [isTip, tipAddress]);
 
   useEffect(() => {
-    const assetsList: any = data
-      ? [
-          ...data?.assets?.core?.coins,
-          ...data?.assets?.anchor?.assets,
-          ...data?.assets?.mirror?.mirrorHoldings,
-          ...data?.assets?.pylon?.pylonHoldings,
-          ...data?.assets?.spectrum?.specHoldings,
-        ]
-      : [];
-    const sortedAssets = assetsList.sort((a, b) => parseFloat(b?.balance) - parseFloat(a?.balance));
+    const sortedAssets = rawData ? rawData.sort((a, b) => parseFloat(b?.balance) - parseFloat(a?.balance)) : [];
     setAssets(sortedAssets);
-  }, [data]);
+  }, [rawData]);
 
   useEffect(() => {
     if (isTip) {
@@ -333,7 +324,6 @@ export const InputModal = ({ onSend, isTip, tipAddress, NFTData }) => {
   return (
     <ModalBox>
       <ModalTitle>{NFTData?.isNFT ? 'Send NFT' : 'Send'}</ModalTitle>
-
       {NFTData?.isNFT ? (
         <>
           <NFTInputSection>
@@ -380,7 +370,7 @@ export const InputModal = ({ onSend, isTip, tipAddress, NFTData }) => {
               <InputLabel>Amount</InputLabel>
               <AmountBox error={amountError.error}>
                 <CurrencySelect
-                  loading={loading}
+                  loading={isLoading}
                   assets={assets}
                   selectedAsset={selectedAsset}
                   setAsset={onAssetSelect}

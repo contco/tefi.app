@@ -26,7 +26,7 @@ interface Props {
   isSmallSize?: boolean;
 }
 
-const TX_URL = 'https://finder.terra.money/columbus-4/tx/';
+const TX_URL = 'https://finder.terra.money/classic/tx/';
 
 export const TxHash: React.FC<Props> = ({ txHash, className, isSmallSize }) => {
   const txHashDisplayText = txHash.substr(0, 5) + '......' + txHash.substr(txHash.length - 3, txHash.length - 1);

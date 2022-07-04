@@ -87,8 +87,8 @@ export const sendToken = async (data: SendTokenTransactionData, post) => {
             }),
           ];
     }
-    const tax = denom ? await calculateTax(amountInLamports.toString(), denom) : null;
     const feeDenom = txDenom ?? DEFAULT_DENOM;
+    const tax = feeDenom ? await calculateTax(amountInLamports.toString(), feeDenom) : null;
     const gasPrice = getGasPrice(feeDenom);
     const feeResult = await calculateFee(data.from, msgs, tax, gasPrice, feeDenom, memo);
     if (feeResult.error) {

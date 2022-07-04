@@ -9,11 +9,10 @@ import { CompleteModal } from './CompleteModal';
 import { DisconnectedModal } from './DisconnectedModal';
 import { sendToken } from '../../transactions/sendToken';
 import useWallet from '../../lib/useWallet';
+import { useAccount } from '../../data/useAccount';
 import { useInterval } from '../../utils/useInterval';
-import { FCD_URL } from '../../pages/api/utils';
 import axios from 'axios';
-import { useAssetsDataContext } from '../../contexts';
-import { fetchAccountsData } from '../../utils/useAccounts';
+import { CLUB_SERVER_ROOT } from '../../constants';
 
 const POLLING_INTERVAL = 1000;
 
@@ -48,12 +47,10 @@ const SendModal: React.FC<SendModalTipProps> = ({
   const [modalState, setModalState] = useState(ModalState.initial);
   const [txHash, setTxHash] = useState('');
   const [isPollingTx, setIsPollingTx] = useState(false);
-
-  const { updateAccountData } = useAssetsDataContext();
-
   const { useConnectedWallet, post } = useWallet();
   const connectedWallet = useConnectedWallet();
   const walletConnectedRef = useRef(false);
+  const { refetch } = useAccount(connectedWallet?.terraAddress);
 
   const onClose = () => {
     if (walletConnectedRef.current) {
@@ -64,17 +61,6 @@ const SendModal: React.FC<SendModalTipProps> = ({
     setIsTip(false);
     setNFTData({});
     setVisible(false);
-  };
-
-  const updateAssetsData = async () => {
-    try {
-      const result = await fetchAccountsData(connectedWallet?.terraAddress);
-      const [anchor, mirror, loterra, pylon, spectrum, starterra, core, apollo] = result;
-      const updatedData = { assets: { ...core, mirror, anchor, loterra, spectrum, starterra, pylon, apollo } };
-      updateAccountData(updatedData);
-    } catch (err) {
-      console.warn('error updating account data', err);
-    }
   };
 
   useEffect(() => {
@@ -89,13 +75,13 @@ const SendModal: React.FC<SendModalTipProps> = ({
 
   const fetchTxInfo = async () => {
     try {
-      const { data } = await axios.get(FCD_URL + `tx/${txHash}`);
+      const { data } = await axios.get(CLUB_SERVER_ROOT + `/tx/${txHash}`);
       if (data?.height) {
         setIsPollingTx(false);
         if (data?.code) {
           setModalState(ModalState.error);
         } else {
-          updateAssetsData();
+          refetch();
           setModalState(ModalState.success);
         }
       }
