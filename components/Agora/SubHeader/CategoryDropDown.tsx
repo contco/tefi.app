@@ -20,6 +20,7 @@ const Container = styled(Box)`
     maxWidth: 120,
     px: 2,
     boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
+    color: 'detailsText',
   })}
 `;
 
@@ -68,7 +69,8 @@ const DropDownItem = styled(Text)`
       fontSize: 0,
       borderBottom: '1px solid',
       borderColor: 'divider',
-      bg: props.selected ? 'background2' : 'initial',
+      bg: props.selected ? 'background2' : '#fff',
+      color: '#000',
       opacity: props.selected ? 0.8 : 1,
       cursor: 'pointer',
       '&:hover': {
