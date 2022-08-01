@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import css from '@styled-system/css';
 import { Flex, Box, Text } from '@contco/core-ui';
+import { CategoryDropDown } from './CategoryDropDown';
 import { ADD_CIRCLE } from '../../Icons';
 
 const AGORA_TITLE = 'Tefi DAgora';
@@ -31,31 +32,6 @@ const SubSection = styled(Flex)`
   })}
 `;
 
-const CategorySelect = styled(Flex)`
-  ${css({
-    position: 'relative',
-    '&:hover': {
-      opacity: 0.7,
-    },
-    transition: 'all 0.3s',
-  })}
-`;
-
-const SelectedCategory = styled(Text)`
-  ${css({
-    p: 2,
-    fontWeight: 'bold',
-    fontSize: 0,
-    border: '1px solid',
-    borderColor: 'inputBorder',
-    borderRadius: '25px',
-    maxWidth: 120,
-    cursor: 'pointer',
-    textAlign: 'center',
-    boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
-  })}
-`;
-
 const AddPostIcon = styled(ADD_CIRCLE)`
   ${css({
     color: 'secondary',
@@ -72,9 +48,7 @@ export const SubHeader = () => {
     <Box>
       <AgoraTitle>{AGORA_TITLE}</AgoraTitle>
       <SubSection>
-        <CategorySelect>
-          <SelectedCategory>General</SelectedCategory>
-        </CategorySelect>
+        <CategoryDropDown />
         <AddPostIcon />
       </SubSection>
     </Box>
