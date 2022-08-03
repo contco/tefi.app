@@ -18,6 +18,7 @@ import TWITTER_ICON from '../public/icons/twitter.svg';
 import TIP_ICON from '../public/icons/tip.svg';
 import REFRESH_ICON from '../public/refresh.svg';
 import REFRESHING_ICON from '../public/refreshing.svg';
+import ADD_CIRCLE from '../public/icons/add-circle.svg';
 
 /**** INTERNAL PROTOCOL ICONS ****/
 import DASHBOARD_ICON from '../public/space_dashboard.svg';
@@ -56,4 +57,5 @@ export {
   SUPPLY_ICON,
   TIP_ICON,
   DAO_ICON,
+  ADD_CIRCLE,
 };
