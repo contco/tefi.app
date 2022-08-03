@@ -1110,10 +1110,9 @@
     styled-components "^5.1.1"
     styled-system "^5.1.5"
 
-"@contco/terra-utilities@0.0.7":
-  version "0.0.7"
-  resolved "https://npm.pkg.github.com/download/@contco/terra-utilities/0.0.7/e110df0510e27bf2fb0c1fd20a708949be8f6bfd1ed24f69f3c9267a661a8953#9c198876c0127f9dcf50dd83b2887b2e86102c0d"
-  integrity sha512-1on45LYaPd1j1uIb5pSpSHIH6oi936waiju5SbJN+sFZYUAULfpxkPmsprApTzv8sn99lXHv1n6+yJL/gj0rMA==
+"@contco/terra-utilities@https://github.com/contco/terra-utilities/releases/download/0.0.8/terra-utilities.tgz", "terra-utilities@https://github.com/contco/terra-utilities/releases/download/0.0.8/terra-utilities.tgz":
+  version "0.0.0"
+  resolved "https://github.com/contco/terra-utilities/releases/download/0.0.8/terra-utilities.tgz#ae261a1949803f6241bbc1c4d226f609cf7b2f55"
 
 "@emotion/is-prop-valid@^0.8.8":
   version "0.8.8"
