@@ -3,12 +3,7 @@ import styled from 'styled-components';
 import css from '@styled-system/css';
 import { Flex, Box, Text } from '@contco/core-ui';
 import useOutsideClickListener from '../../../utils/useOutsideClickListener';
-
-const THREAD_CATEGORIES = [
-  { id: 1, category: 'General' },
-  { id: 2, category: 'Governance And Proposals' },
-  { id: 3, category: 'DApp Development' },
-];
+import { THREAD_CATEGORIES } from '../categories';
 
 const Container = styled(Box)`
   ${css({
@@ -21,6 +16,7 @@ const Container = styled(Box)`
     px: 2,
     boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
     color: 'detailsText',
+    display: [null, null, null, null, null, null, null, 'none'],
   })}
 `;
 
@@ -80,8 +76,7 @@ const DropDownItem = styled(Text)`
     })}
 `;
 
-export const CategoryDropDown = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('General');
+export const CategoryDropDown = ({ selectedCategory, setCategory }) => {
   const [showDropDown, setShowDropDown] = useState<boolean>(false);
   const dropDownRef = React.useRef<HTMLDivElement | null>(null);
 
@@ -109,7 +104,7 @@ export const CategoryDropDown = () => {
       <DropDown ref={dropDownRef} showDropDown={showDropDown}>
         {THREAD_CATEGORIES.map((item) => (
           <DropDownItem
-            onClick={() => setSelectedCategory(item.category)}
+            onClick={() => setCategory(item.category)}
             key={item.id}
             selected={item.category === selectedCategory}
           >

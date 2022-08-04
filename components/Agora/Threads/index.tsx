@@ -14,7 +14,7 @@ const ADDRESS = 'terra15xjvvkatfuqneg4tqwju7ulse35hnnjf8r4pd3';
 
 const ThreadItem = styled(Flex)`
   ${css({
-    width: '100vw',
+    width: ['100vw', null, null, null, null, null, null, 'calc(100vw - 400px)'],
     p: 3,
     borderBottom: '1px solid',
     borderColor: 'divider',
@@ -23,12 +23,15 @@ const ThreadItem = styled(Flex)`
     justifyContent: 'space-between',
     cursor: 'pointer',
     color: 'detailsText',
+    '&:hover': {
+      bg: 'hoverBackground',
+    },
   })}
 `;
 
 const ThreadTitle = styled(Text)`
   ${css({
-    fontSize: 2,
+    fontSize: [2, null, null, null, null, null, null, 3],
     fontWeight: 'bold',
   })}
 `;
@@ -41,7 +44,7 @@ const InfoContainer = styled(Flex)`
 
 const InfoText = styled(Text)`
   ${css({
-    fontSize: 0,
+    fontSize: [0, null, null, null, null, null, null, 1],
   })}
 `;
 

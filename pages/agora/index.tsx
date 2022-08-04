@@ -1,20 +1,24 @@
 import Header from '../../components/Header';
 import Head from 'next/head';
-import React from 'react';
-import { SubHeader } from '../../components/Agora/SubHeader';
-import { Threads } from '../../components/Agora/Threads';
+import React, { useState } from 'react';
+import { AgoraHomeLayout } from '../../components/Agora/AgoraHomeLayout';
+import { AgoraHomeContent } from '../../components/Agora/HomeContent';
+import { Sidebar } from '../../components/Agora/Sidebar';
 
-const DAO: React.FC = ({ theme, changeTheme }: any) => {
+const AgoraHome: React.FC = ({ theme, changeTheme }: any) => {
+  const [selectedCategory, setCategory] = useState<string>('General');
   return (
     <>
       <Head>
         <title>TeFi Agora</title>
       </Head>
       <Header theme={theme} changeTheme={changeTheme} logoSub="DAO" />
-      <SubHeader />
-      <Threads />
+      <AgoraHomeLayout>
+        <Sidebar selectedCategory={selectedCategory} setCategory={setCategory} />
+        <AgoraHomeContent selectedCategory={selectedCategory} setCategory={setCategory} />
+      </AgoraHomeLayout>
     </>
   );
 };
 
-export default DAO;
+export default AgoraHome;
