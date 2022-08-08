@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import css from '@styled-system/css';
 import { Box, Flex, Text } from '@contco/core-ui';
 import { CurrencySelect } from './CurrencySelect';
-import { ButtonRound } from '../UIComponents';
+import { ButtonRound, Input, InputLabel, ModalLarge } from '../UIComponents';
 import { AccAddress } from '@terra-money/terra.js';
 import { useAccount } from '../../data/useAccount';
 import { SmallText } from './common';
@@ -19,14 +19,6 @@ const TAX_ERROR = 'Balance not enough to pay fee';
 const AMOUNT_DECIMAL_ERROR = 'Amount must be within 6 decimal points';
 const UST_DENOM = 'uusd';
 const TIP_MEMO = 'Tip via TefiApp';
-
-export const ModalBox = styled(Box)`
-  ${css({
-    height: [530, null, 550, 600],
-    width: ['80vw', null, null, null, 680],
-    maxHeight: 600,
-  })}
-`;
 
 export const ModalTitle = styled(Text)`
   ${css({
@@ -52,50 +44,6 @@ const InputContainer = styled(Box)`
   ${css({
     mb: 4,
   })}
-`;
-
-const InputLabel = styled(Text)`
-  ${css({
-    color: 'secondary',
-    fontSize: [1, null, null, null, 2],
-    letterSpacing: 1,
-    fontWeight: 500,
-    mb: 2,
-  })}
-`;
-
-interface InputProps {
-  error?: boolean;
-}
-
-const Input = styled.input<InputProps>`
-  :-webkit-autofill,
-  :-webkit-autofill:hover,
-  :-webkit-autofill:focus,
-  select:-webkit-autofill,
-  select:-webkit-autofill:hover,
-  select:-webkit-autofill:focus {
-    -webkit-text-fill-color: ${(props) => props.theme.colors.secondary};
-    -webkit-box-shadow: 0 0 0px 0px ${(props) => props.theme.colors.postBg} inset;
-    transition: background-color 5000s ease-in-out 0s;
-  }
-  ${(props) =>
-    css({
-      height: [28, null, 38, 48],
-      width: ['calc(80vw - 40px)', null, null, 480],
-      border: 0,
-      bg: 'postBg',
-      color: 'secondary',
-      fontSize: [1, null, null, null, 2],
-      px: 3,
-      letterSpacing: 1,
-      outline: props.error ? '1px solid #e74c3c' : 0,
-      '&::placeholder': {
-        color: 'secondary',
-        fontSize: [1, null, null, null, 2],
-        letterSpacing: 1,
-      },
-    })}
 `;
 
 const AmountBox = styled(Flex)`
@@ -322,7 +270,7 @@ export const InputModal = ({ onSend, isTip, tipAddress, NFTData }) => {
     }
   };
   return (
-    <ModalBox>
+    <ModalLarge>
       <ModalTitle>{NFTData?.isNFT ? 'Send NFT' : 'Send'}</ModalTitle>
       {NFTData?.isNFT ? (
         <>
@@ -405,6 +353,6 @@ export const InputModal = ({ onSend, isTip, tipAddress, NFTData }) => {
           </ButtonContainer>
         </>
       )}
-    </ModalBox>
+    </ModalLarge>
   );
 };
