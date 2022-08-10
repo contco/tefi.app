@@ -35,7 +35,7 @@ const SidebarItem = styled(Text)`
       fontWeight: 'bold',
       color: 'detailsText',
       cursor: 'pointer',
-      bg: props.isSelected ? 'hoverBackground' : 'primary',
+      bg: props.isSelected ? 'hoverBackground' : 'background',
       '&:hover': {
         bg: 'hoverBackground',
       },

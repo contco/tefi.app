@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import css from '@styled-system/css';
 import { Flex, Box, Text } from '@contco/core-ui';
 import { CategoryDropDown } from './CategoryDropDown';
 import { ADD_CIRCLE } from '../../Icons';
+import { PostThreadModal } from '../PostThreadModal';
 
 const AGORA_TITLE = 'Tefi DAgora';
 const AGORA_DESCRIPTION = 'A Decentralized Forum On Terra Classic!';
@@ -57,14 +58,16 @@ const AddPostIcon = styled(ADD_CIRCLE)`
   })}
 `;
 export const SubHeader = ({ selectedCategory, setCategory }) => {
+  const [isVisible, setVisible] = useState(false);
   return (
     <Box>
       <AgoraTitle>{AGORA_TITLE}</AgoraTitle>
       <SubSection>
         <AgoraDescription>{AGORA_DESCRIPTION}</AgoraDescription>
         <CategoryDropDown selectedCategory={selectedCategory} setCategory={setCategory} />
-        <AddPostIcon />
+        <AddPostIcon onClick={() => setVisible(true)} />
       </SubSection>
+      <PostThreadModal isVisible={isVisible} setVisible={setVisible} />
     </Box>
   );
 };
