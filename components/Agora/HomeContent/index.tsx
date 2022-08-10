@@ -1,7 +1,7 @@
 import React from 'react';
+import { Box } from '@contco/core-ui';
 import { SubHeader } from '../SubHeader';
 import { Threads } from '../Threads';
-import { Box } from '@contco/core-ui';
 
 export const AgoraHomeContent = ({ selectedCategory, setCategory }) => {
   return (
