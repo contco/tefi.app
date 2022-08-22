@@ -68,16 +68,30 @@ interface Props {
   setVisible: (visibleState: boolean) => void;
 }
 
+const EMPTY_CONTENT = [{ type: 'paragraph', children: [{ text: '' }] }];
+
 export const PostThreadModal: React.FC<Props> = ({ isVisible, setVisible }) => {
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<any>({});
 
-  const isEmptyContent = useMemo(() => {
-    if (Object.keys(content).length === 0 || content?.raw[0]?.children[0]?.text === '') {
+  const onPostInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
+
+  const isSubmitDisabled = useMemo(() => {
+    const emptyContent =
+      Object.keys(content).length === 0 || JSON.stringify(content?.raw) === JSON.stringify(EMPTY_CONTENT);
+    if (title.trim() === '' || emptyContent) {
       return true;
     }
     return false;
-  }, [content]);
+  }, [content, title]);
+
+  const onSubmit = () => {
+    if (!isSubmitDisabled) {
+      alert('create thread');
+    }
+  };
 
   return (
     <StyledModal isOpen={isVisible} onClose={() => setVisible(false)}>
@@ -86,7 +100,7 @@ export const PostThreadModal: React.FC<Props> = ({ isVisible, setVisible }) => {
         <FormContainer>
           <Box mt={4}>
             <InputLabel>Title</InputLabel>
-            <Input onChange={(e) => setTitle(e.target.value)} name="title" type="text" placeholder="Write Title" />
+            <Input onChange={onPostInput} name="title" type="text" placeholder="Write Title" />
           </Box>
           <Box mt={4}>
             <InputLabel>Content</InputLabel>
@@ -106,7 +120,9 @@ export const PostThreadModal: React.FC<Props> = ({ isVisible, setVisible }) => {
             <FeeText>0 USTC</FeeText>
           </FeeContainer>
           <Box mt={4}>
-            <ButtonRound disabled={title.length === 0 || isEmptyContent}>Next</ButtonRound>
+            <ButtonRound onClick={onSubmit} disabled={isSubmitDisabled}>
+              Next
+            </ButtonRound>
           </Box>
         </FormContainer>
       </ModalLarge>
