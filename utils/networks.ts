@@ -1,5 +1,3 @@
-import { TEFI_API } from '../constants';
-
 type ShuttleNetwork = 'ethereum' | 'bsc';
 
 interface NetworkInfo {
@@ -23,9 +21,9 @@ const networks: Record<string, MirrorNetworkInfo> = {
     name: 'mainnet',
     chainID: 'columbus-5',
     lcd: 'https://columbus-lcd.terra.dev/',
-    contract: TEFI_API + 'https://whitelist.mirror.finance/columbus.json',
-    mantle: TEFI_API + 'https://mantle.terra.dev/',
-    stats: TEFI_API + 'https://graph.mirror.finance/graphql',
+    contract: 'https://whitelist.mirror.finance/columbus.json',
+    mantle: 'https://mantle.terra.dev/',
+    stats: 'https://graph.mirror.finance/graphql',
     shuttle: {
       ethereum: 'terra13yxhrk08qvdf5zdc9ss5mwsg5sf7zva9xrgwgc',
       bsc: 'terra1g6llg3zed35nd3mh9zx6n64tfw3z67w2c48tn2',
@@ -34,8 +32,8 @@ const networks: Record<string, MirrorNetworkInfo> = {
   },
   testnet: {
     name: 'testnet',
-    chainID: 'bombay-12',
-    lcd: TEFI_API + 'https://bombay-lcd.terra.dev',
+    chainID: 'pisco-1',
+    lcd: 'https://pisco-lcd.terra.dev',
     contract: 'https://whitelist.mirror.finance/bombay.json',
     mantle: 'https://bombay-mantle.terra.dev/',
     stats: 'https://bombay-graph.mirror.finance/graphql',

@@ -3,10 +3,15 @@ import styled from 'styled-components';
 import css from '@styled-system/css';
 import { Modal, Flex, Box, Text } from '@contco/core-ui';
 import { Editor } from '@contco/editor';
+import { MsgExecuteContract } from '@terra-money/terra.js';
 import { ModalLarge, Heading3, InputLabel, Input, ButtonRound } from '../../UIComponents';
+import { TEFI_DAGORA_CONTRACT_ADDRESS } from '../../../constants';
+import { simulateSendContractMsg } from '../../../transactions/sendContract';
+import useWallet from '../../../lib/useWallet';
 
 const TITLE = 'Create A New Thread';
 const EDITOR_PLACEHOLDER = 'Click anywhere to start typing';
+const DEFAULT_TX_STATE = '---';
 
 const StyledModal = styled(Modal)`
   ${css({
@@ -73,6 +78,13 @@ const EMPTY_CONTENT = [{ type: 'paragraph', children: [{ text: '' }] }];
 export const PostThreadModal: React.FC<Props> = ({ isVisible, setVisible }) => {
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<any>({});
+  const [txFee, setTxFee] = useState<string>(null);
+  const [isTxCalculated, setIsTxCalculated] = useState(false);
+  const [simulationLoading, setSimulationLoading] = useState(false);
+  const { useConnectedWallet } = useWallet();
+
+  const connectedWallet = useConnectedWallet();
+  const walletAddress = connectedWallet?.terraAddress;
 
   const onPostInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -87,9 +99,22 @@ export const PostThreadModal: React.FC<Props> = ({ isVisible, setVisible }) => {
     return false;
   }, [content, title]);
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (!isSubmitDisabled) {
-      alert('create thread');
+      if (!isTxCalculated) {
+        setSimulationLoading(true);
+        const msgs = [
+          new MsgExecuteContract(walletAddress, TEFI_DAGORA_CONTRACT_ADDRESS, {
+            create_thread: { category: 'General', content: 'abc', title: 'abc' },
+          }),
+        ];
+        const result = await simulateSendContractMsg(walletAddress, msgs, true);
+        if (!result.error) {
+          setTxFee(result.fee);
+          setIsTxCalculated(true);
+        }
+        setSimulationLoading(false);
+      }
     }
   };
 
@@ -117,7 +142,7 @@ export const PostThreadModal: React.FC<Props> = ({ isVisible, setVisible }) => {
           </Box>
           <FeeContainer>
             <FeeText>TxFee:</FeeText>
-            <FeeText>0 USTC</FeeText>
+            <FeeText>{simulationLoading ? 'Loading...' : txFee ? `${txFee} USTC` : DEFAULT_TX_STATE}</FeeText>
           </FeeContainer>
           <Box mt={4}>
             <ButtonRound onClick={onSubmit} disabled={isSubmitDisabled}>
