@@ -1,7 +1,18 @@
+const { default: next } = require('next');
 const withPWA = require('next-pwa');
 const runtimeCaching = require('next-pwa/cache');
 
+
 const nextConfig = {
+  reactStrictMode: true,
+  compiler: {
+    styledComponents: true,
+  },
+  pwa: {
+    disable: process.env.NODE_ENV === 'development',
+    dest: 'public',
+    runtimeCaching,
+  },
   env: {
     SERVER_END_POINT: process.env.SERVER_END_POINT,
     DGRAPH_API_KEY: process.env.DGRAPH_API_KEY,
@@ -9,25 +20,18 @@ const nextConfig = {
     ADDRESS: process.env.ADDRESS,
     FILTER_POST_UST: process.env.FILTER_POST_UST,
   },
-  pwa: {
-    disable: process.env.NODE_ENV === 'development',
-    dest: 'public',
-    runtimeCaching,
-  },
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,
-      issuer: {
-        test: /\.(js|ts)x?$/,
-      },
-      use: ['@svgr/webpack'],
+      use: [{ loader: '@svgr/webpack', options: { icon: true } }],
     });
-
     return config;
   },
   images: {
     domains: ['storage.googleapis.com'],
   },
 };
+
+delete nextConfig.pwa;
 
 module.exports = process.env.NODE_ENV === 'production' ? withPWA(nextConfig) : nextConfig;
