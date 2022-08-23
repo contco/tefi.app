@@ -13,6 +13,7 @@ import { useAccount } from '../../data/useAccount';
 import { useInterval } from '../../utils/useInterval';
 import axios from 'axios';
 import { CLUB_SERVER_ROOT } from '../../constants';
+import { sendContractMsg } from '../../transactions/sendContract';
 
 const POLLING_INTERVAL = 1000;
 
@@ -43,6 +44,7 @@ const SendModal: React.FC<SendModalTipProps> = ({
   tipAddress,
   NFTData,
   setNFTData,
+  InputView,
 }) => {
   const [modalState, setModalState] = useState(ModalState.initial);
   const [txHash, setTxHash] = useState('');
@@ -58,8 +60,10 @@ const SendModal: React.FC<SendModalTipProps> = ({
     } else {
       setModalState(ModalState.disconnected);
     }
-    setIsTip(false);
-    setNFTData({});
+    if (isTip) {
+      setIsTip(false);
+      setNFTData({});
+    }
     setVisible(false);
   };
 
@@ -92,9 +96,12 @@ const SendModal: React.FC<SendModalTipProps> = ({
 
   useInterval(fetchTxInfo, isPollingTx ? POLLING_INTERVAL : null);
 
-  const onSend = async (data: any) => {
+  const onSend = async (data: any, isContractTx = false) => {
     setModalState(ModalState.waiting);
-    const { error, msg, txResult }: any = await sendToken(data, post);
+
+    const { error, msg, txResult }: any = isContractTx
+      ? await sendContractMsg(data, post, true)
+      : await sendToken(data, post);
     if (txResult?.success) {
       setModalState(ModalState.broadcasted);
       setTxHash(txResult?.result?.txhash);
@@ -122,7 +129,12 @@ const SendModal: React.FC<SendModalTipProps> = ({
       modalState === ModalState.error
     ) {
       return <CompleteModal onClose={onClose} txHash={txHash} status={modalState} />;
-    } else return <InputModal isTip={isTip} tipAddress={tipAddress} onSend={onSend} NFTData={NFTData} />;
+    } else
+      return InputView ? (
+        <InputView onSend={onSend} />
+      ) : (
+        <InputModal isTip={isTip} tipAddress={tipAddress} onSend={onSend} NFTData={NFTData} />
+      );
   };
 
   return (

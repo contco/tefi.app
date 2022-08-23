@@ -318,17 +318,22 @@ interface LoterraAccount {
   lotaPool: Pool;
 }
 
+interface InputViewProps {
+  onSend: (data: any, post: any) => void;
+}
 interface ModalDisplayState {
   isVisible: boolean;
   setVisible: (state: boolean) => void;
+  InputView: React.FC<InputViewProps>;
 }
+
 interface SendModalTipState {
-  isTip: boolean;
-  setIsTip: (state: boolean) => void;
-  tipAddress: string;
-  setTipAddress: (state: string) => void;
-  NFTData: any;
-  setNFTData: (state: any) => void;
+  isTip?: boolean;
+  setIsTip?: (state: boolean) => void;
+  tipAddress?: string;
+  setTipAddress?: (state: string) => void;
+  NFTData?: any;
+  setNFTData?: (state: any) => void;
 }
 interface StarStakedData {
   lpName: string;
