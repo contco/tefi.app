@@ -1,12 +1,41 @@
-import { calculateFee } from './calculateFee';
+import { MsgSend, MsgExecuteContract } from '@terra-money/terra.js';
+import { simulateTx } from './simulateTx';
 import { GAS_PRICES } from './gasPrices';
 import { UNIT } from '../pages/api/mirror/utils';
 
+const feeDenom = 'uluna';
+const gasPrice = GAS_PRICES[feeDenom];
+
+interface Data {
+  msgs: MsgExecuteContract[] | MsgSend[];
+  sender: string;
+}
+
+export const sendContractMsg = async (data: Data, post, isTestnet = false) => {
+  try {
+    const { msgs, sender } = data;
+    const gasPrice = GAS_PRICES[feeDenom];
+    const feeResult = await simulateTx(sender, msgs, gasPrice, feeDenom, '', isTestnet);
+    if (feeResult.error) {
+      return feeResult;
+    } else {
+      const gasPrices = { [feeDenom]: gasPrice };
+      const txOptions = {
+        msgs,
+        gasPrices,
+        fee: feeResult.fee,
+      };
+      const result = await post(txOptions);
+      return { error: false, msg: '', txResult: result };
+    }
+  } catch (err) {
+    return { error: true, msg: err, txResult: null, deductedAmounts: null };
+  }
+};
+
 export const simulateSendContractMsg = async (sender: string, msgs: any, isTestnet = false) => {
   try {
-    const feeDenom = 'uusd';
-    const gasPrice = GAS_PRICES[feeDenom];
-    const { estimatedFee } = await calculateFee(sender, msgs, null, gasPrice, feeDenom, '', isTestnet);
+    const { estimatedFee } = await simulateTx(sender, msgs, gasPrice, feeDenom, '', isTestnet);
     const fee = (+estimatedFee / +UNIT).toString();
     return { fee, feeInLamports: estimatedFee, error: false };
   } catch (err) {
