@@ -1,7 +1,7 @@
 const withPWA = require('next-pwa');
 const runtimeCaching = require('next-pwa/cache');
 
-module.exports = withPWA({
+const nextConfig = {
   env: {
     SERVER_END_POINT: process.env.SERVER_END_POINT,
     DGRAPH_API_KEY: process.env.DGRAPH_API_KEY,
@@ -28,4 +28,6 @@ module.exports = withPWA({
   images: {
     domains: ['storage.googleapis.com'],
   },
-});
+};
+
+module.exports = process.env.NODE_ENV === 'production' ? withPWA(nextConfig) : nextConfig;
