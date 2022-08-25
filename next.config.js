@@ -1,7 +1,5 @@
-const { default: next } = require('next');
 const withPWA = require('next-pwa');
 const runtimeCaching = require('next-pwa/cache');
-
 
 const nextConfig = {
   reactStrictMode: true,

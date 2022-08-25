@@ -5,6 +5,7 @@ import { Flex, Box, Text } from '@contco/core-ui';
 import { Editor } from '@contco/editor';
 import { MsgExecuteContract } from '@terra-money/terra.js';
 import { ModalLarge, Heading3, InputLabel, Input, ButtonRound } from '../../UIComponents';
+import { CategoryDropDown } from '../SubHeader/CategoryDropDown';
 import { TEFI_DAGORA_CONTRACT_ADDRESS } from '../../../constants';
 import { simulateSendContractMsg } from '../../../transactions/sendContract';
 import useWallet from '../../../lib/useWallet';
@@ -51,6 +52,7 @@ const FeeContainer = styled(Flex)`
     mt: 4,
     width: ['calc(80vw - 40px)', null, null, 480],
     justifyContent: 'space-between',
+    alignItems: 'center',
   })}
 `;
 
@@ -71,6 +73,7 @@ const EMPTY_CONTENT = [{ type: 'paragraph', children: [{ text: '' }] }];
 export const PostThreadView: React.FC<Props> = ({ onSend }) => {
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<any>({});
+  const [category, setCategory] = useState<string>(DEFAULT_CATEGORY);
   const [txFee, setTxFee] = useState<string>(null);
   const [isTxCalculated, setIsTxCalculated] = useState(false);
   const [simulationLoading, setSimulationLoading] = useState(false);
@@ -99,7 +102,7 @@ export const PostThreadView: React.FC<Props> = ({ onSend }) => {
         setSimulationLoading(true);
         const msgs = [
           new MsgExecuteContract(walletAddress, TEFI_DAGORA_CONTRACT_ADDRESS, {
-            create_thread: { category: DEFAULT_CATEGORY, content: JSON.stringify(content.raw), title },
+            create_thread: { category, content: JSON.stringify(content.raw), title },
           }),
         ];
         const result = await simulateSendContractMsg(walletAddress, msgs, true);
@@ -154,6 +157,9 @@ export const PostThreadView: React.FC<Props> = ({ onSend }) => {
           </EditorScrollContainer>
         </Box>
         <FeeContainer>
+          <Box width={120}>
+            <CategoryDropDown selectedCategory={category} setCategory={setCategory} />
+          </Box>
           <FeeText>TxFee:</FeeText>
           <FeeText>{simulationLoading ? 'Loading...' : txFee ? `${txFee} USTC` : DEFAULT_TX_STATE}</FeeText>
         </FeeContainer>

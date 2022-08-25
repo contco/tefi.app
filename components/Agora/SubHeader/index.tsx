@@ -57,6 +57,12 @@ const AddPostIcon = styled(ADD_CIRCLE)`
     transition: '0.3s',
   })}
 `;
+
+const CategoryDropDownContainer = styled(Box)`
+  ${css({
+    display: [null, null, null, null, null, null, null, 'none'],
+  })}
+`;
 export const SubHeader = ({ selectedCategory, setCategory }) => {
   const [isVisible, setVisible] = useState(false);
   return (
@@ -64,7 +70,9 @@ export const SubHeader = ({ selectedCategory, setCategory }) => {
       <AgoraTitle>{AGORA_TITLE}</AgoraTitle>
       <SubSection>
         <AgoraDescription>{AGORA_DESCRIPTION}</AgoraDescription>
-        <CategoryDropDown selectedCategory={selectedCategory} setCategory={setCategory} />
+        <CategoryDropDownContainer>
+          <CategoryDropDown selectedCategory={selectedCategory} setCategory={setCategory} />
+        </CategoryDropDownContainer>
         <AddPostIcon onClick={() => setVisible(true)} />
       </SubSection>
       <PostThreadModal isVisible={isVisible} setVisible={setVisible} />
