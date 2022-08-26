@@ -3,15 +3,6 @@ import styled from 'styled-components';
 import css from '@styled-system/css';
 import { Flex, Box, Text } from '@contco/core-ui';
 
-const THREADS_DATA = [
-  { id: 1, title: 'Getting Started on Agora (Commonwealth): Walk-through', category: 'General' },
-  { id: 2, title: 'Getting Started on Agora (Commonwealth): Walk-through', category: 'General' },
-  { id: 3, title: 'Getting Started on Agora (Commonwealth): Walk-through', category: 'General' },
-  { id: 4, title: 'Getting Started on Agora (Commonwealth): Walk-through', category: 'General' },
-];
-
-const ADDRESS = 'terra15xjvvkatfuqneg4tqwju7ulse35hnnjf8r4pd3';
-
 const ThreadItem = styled(Flex)`
   ${css({
     width: ['100vw', null, null, null, null, null, null, 'calc(100vw - 400px)'],
@@ -48,16 +39,22 @@ const InfoText = styled(Text)`
   })}
 `;
 
-export const Threads = () => {
+interface Props {
+  threads: Thread[];
+}
+
+export const Threads: React.FC<Props> = ({ threads }) => {
   return (
     <Box>
-      {THREADS_DATA.map((thread) => (
+      {threads.map((thread) => (
         <ThreadItem key={thread.id}>
           <ThreadTitle>{thread.title}</ThreadTitle>
           <InfoContainer>
-            <InfoText>General</InfoText>
+            <InfoText>{thread.category}</InfoText>
             <InfoText>
-              {ADDRESS.substring(0, 15) + '....' + ADDRESS.substring(ADDRESS.length - 4, ADDRESS.length - 1)}
+              {thread.author.substring(0, 15) +
+                '....' +
+                thread.author.substring(thread.author.length - 4, thread.author.length - 1)}
             </InfoText>
           </InfoContainer>
         </ThreadItem>

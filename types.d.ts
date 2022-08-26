@@ -492,5 +492,5 @@ interface Thread {
   title: string;
   content: string;
   category: string;
-  author: string
+  author: string;
 }
