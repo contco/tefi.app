@@ -4,8 +4,11 @@ import css from '@styled-system/css';
 import { Flex, Text } from '@contco/core-ui';
 import { REFRESH_ICON } from '../Icons';
 
+const DEFAULT_HEIGHT = 'calc(100vh - 300px)';
+const DEFAULT_MESSAGE = 'Sorry! No Data Available';
+
 const Container = styled(Flex)`
-  height: calc(100vh - 300px);
+  height: ${(props) => props.height};
   width: 100%;
   justify-content: center;
   align-items: center;
@@ -50,9 +53,14 @@ export const AnimatedRefresh = styled(RefreshIcon)`
   animation: ${rotate} 2s infinite;
 `;
 
-const DEFAULT_MESSAGE = 'Sorry! No Data Available';
-
-const EmptyComponent = ({ children, msg = DEFAULT_MESSAGE, refetch, error, refreshing }: any) => {
+const EmptyComponent = ({
+  children,
+  msg = DEFAULT_MESSAGE,
+  refetch,
+  error,
+  refreshing,
+  height = DEFAULT_HEIGHT,
+}: any) => {
   const showRefetchIcon = () => {
     if (refreshing) {
       return <AnimatedRefresh />;
@@ -65,7 +73,7 @@ const EmptyComponent = ({ children, msg = DEFAULT_MESSAGE, refetch, error, refre
   return (
     <>
       {children}
-      <Container>
+      <Container height={height}>
         <EmptyText>{msg}</EmptyText>
         {refetch ? showRefetchIcon() : null}
       </Container>

@@ -486,3 +486,11 @@ interface ProfileNft {
   tokenId: string;
   nftAssets: NftAssets[];
 }
+
+interface Thread {
+  id: number;
+  title: string;
+  content: string;
+  category: string;
+  author: string;
+}
