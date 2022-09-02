@@ -97,7 +97,7 @@ export const CategoryDropDown = ({ selectedCategory, setCategory }) => {
     <Container>
       <SelectContainer onClick={onSelectClick}>
         <SelectedCategoryText>
-          {selectedCategory.length > 16 ? selectedCategory.slice(0, 12) + '...' : selectedCategory}
+          {selectedCategory?.length > 16 ? selectedCategory.slice(0, 12) + '...' : selectedCategory}
         </SelectedCategoryText>
       </SelectContainer>
       <DropDown ref={dropDownRef} showDropDown={showDropDown}>
