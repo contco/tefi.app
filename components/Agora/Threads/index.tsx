@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import css from '@styled-system/css';
 import { Flex, Box, Text } from '@contco/core-ui';
@@ -44,10 +45,16 @@ interface Props {
 }
 
 export const Threads: React.FC<Props> = ({ threads }) => {
+  const router = useRouter();
+
+  const navigateToDetailsPage = (id: number) => {
+    router.push(`/agora/${id}`);
+  };
+
   return (
     <Box>
       {threads.map((thread) => (
-        <ThreadItem key={thread.id}>
+        <ThreadItem onClick={() => navigateToDetailsPage(thread.id)} key={thread.id}>
           <ThreadTitle>{thread.title}</ThreadTitle>
           <InfoContainer>
             <InfoText>{thread.category}</InfoText>

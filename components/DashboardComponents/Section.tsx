@@ -22,7 +22,7 @@ const Section: React.FC<Props> = ({ data }) => {
         {items.map((item: any, index) => {
           if (Object.keys(item)[0] === 'name') {
             return (
-              <div>
+              <div key={index}>
                 <StyledText fontWeight={500} key={index}>
                   {Object.values(item)[0]}
                 </StyledText>
@@ -37,17 +37,15 @@ const Section: React.FC<Props> = ({ data }) => {
             );
           } else if (Object.keys(item)[0] === 'apy') {
             return (
-              <div>
-                <StyledText key={index} css={CSS_APR}>
-                  {Object.values(item)[0]}
-                </StyledText>
+              <div key={index}>
+                <StyledText css={CSS_APR}>{Object.values(item)[0]}</StyledText>
                 <SubText> (APY)</SubText>
               </div>
             );
           } else if (Object.keys(item)[0] === 'url') {
             const symbol: any = Object.values(item)[0];
             return (
-              <StyledText fontWeight={500} isURL={assets[symbol.toLowerCase()]}>
+              <StyledText key={index} fontWeight={500} isURL={assets[symbol.toLowerCase()]}>
                 <Link href={assets[symbol.toLowerCase()] ? `/market/${symbol.toLowerCase()}/` : '#'}>
                   <a target="_blank">{symbol}</a>
                 </Link>
@@ -62,11 +60,11 @@ const Section: React.FC<Props> = ({ data }) => {
             return <AssetContainer key={index} token={value.token} tokenValue={value.tokenValue} />;
           } else if (Object.keys(item)[0] === 'lpData') {
             const lpData: any = Object.values(item)[0];
-            return <LpContainer lp={lpData.lp} token1={lpData.token1} token2={lpData.token2} />;
+            return <LpContainer key={index} lp={lpData.lp} token1={lpData.token1} token2={lpData.token2} />;
           } else if (Object.keys(item)[0] === 'collateralList') {
             const collaterals: any = Object.values(item)[0];
             return (
-              <div>
+              <div key={index}>
                 {collaterals.map((item, index) => (
                   <div key={index}>
                     <StyledText>{item.token}</StyledText>
@@ -78,7 +76,7 @@ const Section: React.FC<Props> = ({ data }) => {
             );
           } else if (Object.keys(item)[0] === 'drawTime') {
             const timestamp: any = Object.values(item)[0];
-            return <StyledText>{timestamp}</StyledText>;
+            return <StyledText key={index}>{timestamp}</StyledText>;
           } else return <StyledText key={index}>{Object.values(item)[0]}</StyledText>;
         })}
       </Row>

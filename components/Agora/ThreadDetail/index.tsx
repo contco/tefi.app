@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import css from '@styled-system/css';
 import { Box, Text } from '@contco/core-ui';
+import { RawViewer } from '@contco/editor';
 
 const Container = styled(Box)`
   ${css({
@@ -32,21 +33,25 @@ const ThreadContent = styled(Text)`
   })}
 `;
 
-const THREAD_DETAIL = {
-  id: 2,
-  title: 'A new thread on terra agora!',
-  content:
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-  category: 'General',
-  author: 'terra15xjvvkatfuqneg4tqwju7ulse35hnnjf8r4pd3',
-};
+const StyledViewer = styled(RawViewer)`
+  ${css({
+    minHeight: 200,
+    color: 'text3',
+    px: 2,
+  })}
+`;
 
-export const ThreadDetail = () => {
+interface Props {
+  thread: Thread;
+}
+
+export const ThreadDetail: React.FC<Props> = ({ thread }) => {
+  const rawContent = useMemo(() => JSON.parse(thread.content), [thread.content]);
   return (
     <Container>
-      <ThreadTitle>{THREAD_DETAIL.title}</ThreadTitle>
+      <ThreadTitle>{thread.title}</ThreadTitle>
       <ThreadContent>
-        <Text>{THREAD_DETAIL.content}</Text>
+        <StyledViewer data={rawContent} />
       </ThreadContent>
     </Container>
   );
