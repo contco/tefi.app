@@ -7,6 +7,7 @@ import {
   DAO_ICON,
   BUBBLE_ICON,
   CHARTS_ICON,
+  FORUM_ICON
 } from '../Icons';
 
 export const INTERNAL_LINKS = [
@@ -49,6 +50,11 @@ export const INTERNAL_LINKS = [
     component: API_ICON,
     url: '/docs',
     name: 'API',
+  },
+  {
+    component: FORUM_ICON,
+    url: '/agora',
+    name: 'Agora',
   },
 ];
 
