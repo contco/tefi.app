@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import React from 'react';
 import styled from 'styled-components';
 import css from '@styled-system/css';
@@ -5,6 +6,7 @@ import { Box, Text } from '@contco/core-ui';
 import { THREAD_CATEGORIES } from '../categories';
 
 const AGORA_TITLE = 'Discussions';
+const CATEGORY_ROUTE = '/agora/category/';
 
 const AgoraTitle = styled(Text)`
   ${css({
@@ -44,13 +46,14 @@ const SidebarItem = styled(Text)`
     })}
 `;
 
-export const Sidebar = ({ selectedCategory, setCategory }) => {
+export const Sidebar = ({ selectedCategory }) => {
+  const router = useRouter();
   return (
     <Container>
       <AgoraTitle>{AGORA_TITLE}</AgoraTitle>
       {THREAD_CATEGORIES.map((category) => (
         <SidebarItem
-          onClick={() => setCategory(category.category)}
+          onClick={() => router.push(CATEGORY_ROUTE + category.category)}
           isSelected={selectedCategory === category.category}
           key={category.id}
         >

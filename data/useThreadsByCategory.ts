@@ -5,6 +5,7 @@ import { CLUB_SERVER_ROOT } from '../constants';
 const DEFAULT_LIMIT = 10;
 
 const getKey = (pageIndex: number, previousPageData: any, category: string) => {
+  if (!category) return null;
   if (pageIndex === 0) return `${CLUB_SERVER_ROOT}/dagora/threads/${category}?limit=${DEFAULT_LIMIT}&isTestnet=true`;
 
   if (!previousPageData) return null;
