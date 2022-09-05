@@ -2,9 +2,11 @@ import Header from '../../components/Header';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { Box } from '@contco/core-ui';
 import { AgoraHomeLayout } from '../../components/Agora/AgoraHomeLayout';
 import { ThreadDetail } from '../../components/Agora/ThreadDetail';
 import { Sidebar } from '../../components/Agora/Sidebar';
+import { AddReply } from '../../components/Agora/AddReply';
 import Loading from '../../components/Loading';
 import EmptyComponent from '../../components/EmptyComponent';
 import { useThreadById } from '../../data/useThreadById';
@@ -32,7 +34,10 @@ const AgoraThread: React.FC = ({ theme, changeTheme }: any) => {
         {isError ? (
           <EmptyComponent msg={ERROR_MESSAGE} height="calc(100vh - 154px)" />
         ) : (
-          <ThreadDetail thread={thread} />
+          <Box>
+            <ThreadDetail thread={thread} />
+            <AddReply />
+          </Box>
         )}
       </AgoraHomeLayout>
     </>

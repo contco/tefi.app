@@ -35,7 +35,7 @@ const ThreadContent = styled(Text)`
 
 const StyledViewer = styled(RawViewer)`
   ${css({
-    minHeight: 200,
+    minHeight: 300,
     color: 'text3',
     px: 2,
   })}

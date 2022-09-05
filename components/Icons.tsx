@@ -29,7 +29,7 @@ import SEND_ICON from '../public/icons/send.svg';
 import API_ICON from '../public/icons/code.svg';
 import SUPPLY_ICON from '../public/icons/fire.svg';
 import DAO_ICON from '../public/icons/dao.svg';
-import FORUM_ICON from '../public/icons/forum_icon.svg'
+import FORUM_ICON from '../public/icons/forum_icon.svg';
 
 export const NewOpenIcon = styled(OPEN_NEW_ICON)``;
 export {
@@ -59,5 +59,5 @@ export {
   TIP_ICON,
   DAO_ICON,
   ADD_CIRCLE,
-  FORUM_ICON
+  FORUM_ICON,
 };
