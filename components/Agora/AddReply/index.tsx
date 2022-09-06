@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import css from '@styled-system/css';
 import { Box, Flex, Text } from '@contco/core-ui';
 import { Editor } from '@contco/editor';
+import { PostCommentModal } from '../PostCommentModal';
 import { ButtonRound } from '../../UIComponents';
 
 const TITLE = 'Reply';
@@ -62,8 +63,13 @@ const StyledEditor = styled(Editor)`
   })}
 `;
 
-export const AddReply = () => {
+interface Props {
+  threadId: number;
+}
+
+export const AddReply: React.FC<Props> = ({ threadId }) => {
   const [content, setContent] = useState<any>(INITIAL_CONTENT);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const editorRef = useRef<HTMLDivElement | null>(null);
 
   const isEmptyContent = useMemo(
@@ -80,6 +86,12 @@ export const AddReply = () => {
       window.scroll(0, editorRef.current.scrollHeight);
     }
   };
+
+  const onSubmitClick = () => {
+    if (!isEmptyContent) {
+      setIsModalVisible(true);
+    }
+  };
   return (
     <Container>
       <Title>{TITLE}</Title>
@@ -88,9 +100,17 @@ export const AddReply = () => {
           <StyledEditor placeholder={EDITOR_PLACEHOLDER} data={content} onContentUpdate={onContentUpdate} />
         </EditorContainer>
         <ButtonContainer>
-          <ButtonRound disabled={isEmptyContent}>{ADD_REPLY_BTN_TEXT}</ButtonRound>
+          <ButtonRound onClick={onSubmitClick} disabled={isEmptyContent}>
+            {ADD_REPLY_BTN_TEXT}
+          </ButtonRound>
         </ButtonContainer>
       </ReplyInputContainer>
+      <PostCommentModal
+        threadId={threadId}
+        replyContent={content}
+        isVisible={isModalVisible}
+        setVisible={setIsModalVisible}
+      />
     </Container>
   );
 };
