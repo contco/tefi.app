@@ -7,7 +7,7 @@ import {
   DAO_ICON,
   BUBBLE_ICON,
   CHARTS_ICON,
-  FORUM_ICON
+  FORUM_ICON,
 } from '../Icons';
 
 export const INTERNAL_LINKS = [

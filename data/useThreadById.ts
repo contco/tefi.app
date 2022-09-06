@@ -3,6 +3,7 @@ import axios from 'axios';
 import { CLUB_SERVER_ROOT } from '../constants';
 
 const getKey = (id: string) => {
+  if (!id) return null;
   return `${CLUB_SERVER_ROOT}/dagora/thread/${id}?isTestnet=true`;
 };
 
