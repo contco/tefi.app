@@ -494,3 +494,9 @@ interface Thread {
   category: string;
   author: string;
 }
+
+interface Reply {
+  id: number;
+  comment: string;
+  author: string;
+}

@@ -7,6 +7,7 @@ import { AgoraHomeLayout } from '../../components/Agora/AgoraHomeLayout';
 import { ThreadDetail } from '../../components/Agora/ThreadDetail';
 import { Sidebar } from '../../components/Agora/Sidebar';
 import { AddReply } from '../../components/Agora/AddReply';
+import { Replies } from '../../components/Agora/Replies';
 import Loading from '../../components/Loading';
 import EmptyComponent from '../../components/EmptyComponent';
 import { useThreadById } from '../../data/useThreadById';
@@ -37,6 +38,7 @@ const AgoraThread: React.FC = ({ theme, changeTheme }: any) => {
           <Box>
             <ThreadDetail thread={thread} />
             <AddReply threadId={parseInt(id)} />
+            <Replies />
           </Box>
         )}
       </AgoraHomeLayout>
