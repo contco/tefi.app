@@ -36,7 +36,7 @@ const AgoraThread: React.FC = ({ theme, changeTheme }: any) => {
         ) : (
           <Box>
             <ThreadDetail thread={thread} />
-            <AddReply />
+            <AddReply threadId={parseInt(id)} />
           </Box>
         )}
       </AgoraHomeLayout>
