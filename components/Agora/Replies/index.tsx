@@ -1,26 +1,36 @@
 import React from 'react';
-import { Box } from '@contco/core-ui';
+import styled from 'styled-components';
+import css from '@styled-system/css';
+import { Box, Flex } from '@contco/core-ui';
 import { ReplyView } from '../ReplyView';
+import { ButtonRound } from '../../UIComponents';
+import { useRepliesByThread } from '../../../data/useRepliesByThread';
 
-const DUMMY_REPLIES: Reply[] = [
-  {
-    id: 1,
-    comment: '[{"type":"paragraph","children":[{"text":"test123"}]}]',
-    author: 'terra1mf8kss6fdq338hs7ltxksea83sndmarp4rpkqq',
-  },
-  {
-    id: 2,
-    comment: '[{"type":"paragraph","children":[{"text":"abcdsflfdkl32 3232"}]}]',
-    author: 'terra1mf8kss6fdq338hs7ltxksea83sndmarp4rpkqq',
-  },
-];
+const LOADING_MORE_TEXT = 'Loading...';
+const LOAD_BTN_TEXT = 'Load More';
 
-export const Replies: React.FC = () => {
+const LoadMoreContainer = styled(Flex)`
+  ${css({
+    justifyContent: 'center',
+    alignItem: 'center',
+    py: 4,
+  })}
+`;
+interface Props {
+  threadId: number | null;
+}
+export const Replies: React.FC<Props> = ({ threadId }) => {
+  const { replies, loadMore, isLoadingMore, isReachingEnd } = useRepliesByThread(threadId);
   return (
     <Box>
-      {DUMMY_REPLIES.map((reply: Reply) => (
+      {replies.map((reply: Reply) => (
         <ReplyView key={reply.id} reply={reply} />
       ))}
+      {!isReachingEnd ? (
+        <LoadMoreContainer>
+          <ButtonRound onClick={loadMore}>{isLoadingMore ? LOADING_MORE_TEXT : LOAD_BTN_TEXT}</ButtonRound>
+        </LoadMoreContainer>
+      ) : null}
     </Box>
   );
 };
