@@ -18,6 +18,8 @@ const AgoraThread: React.FC = ({ theme, changeTheme }: any) => {
   const selectedCategory = '';
   const router = useRouter();
   const id = router?.query?.id as string;
+  const threadId = id ? parseInt(id) : null;
+
   const { isLoading, thread, isError } = useThreadById(id);
 
   if (isLoading) {
@@ -37,8 +39,8 @@ const AgoraThread: React.FC = ({ theme, changeTheme }: any) => {
         ) : (
           <Box>
             <ThreadDetail thread={thread} />
-            <AddReply threadId={parseInt(id)} />
-            <Replies />
+            <AddReply threadId={threadId} />
+            <Replies threadId={threadId} />
           </Box>
         )}
       </AgoraHomeLayout>
