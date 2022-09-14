@@ -27,7 +27,7 @@ const LoadMoreContainer = styled(Flex)`
 `;
 
 export const AgoraHomeContent = ({ selectedCategory, setCategory }) => {
-  const { threads, isReachingEnd, isLoadingMore, loadMore, isEmpty, isError } = useThreadsByCategory(selectedCategory);
+  const { threads, showLoadMore, isLoadingMore, loadMore, isEmpty, isError } = useThreadsByCategory(selectedCategory);
   return (
     <HomeContainer>
       <SubHeader selectedCategory={selectedCategory} setCategory={setCategory} />
@@ -36,7 +36,7 @@ export const AgoraHomeContent = ({ selectedCategory, setCategory }) => {
       ) : (
         <>
           <Threads threads={threads} />
-          {!isReachingEnd ? (
+          {showLoadMore ? (
             <LoadMoreContainer>
               <ButtonRound onClick={loadMore}>{isLoadingMore ? LOADING_MORE_TEXT : LOAD_BTN_TEXT}</ButtonRound>
             </LoadMoreContainer>
