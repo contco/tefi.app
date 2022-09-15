@@ -1,6 +1,7 @@
 import useSWRInfinite from 'swr/infinite';
 import axios from 'axios';
 import { CLUB_SERVER_ROOT } from '../constants';
+import { useState, useEffect } from 'react';
 
 const DEFAULT_LIMIT = 10;
 
@@ -22,21 +23,31 @@ export const useThreadsByCategory = (category: string) => {
     (index: number, data: any) => getKey(index, data, category),
     fetcher,
   );
+  const [currentPage, setCurrentPage] = useState(1);
   const isLoadingInitialData = !data && !error;
-  const isLoadingMore = size > 0 && data && typeof data[size - 1] === 'undefined';
+  const isLoadingMore = size > 0 && data && typeof data[currentPage - 1] === 'undefined';
   const isEmpty = data?.[0]?.length === 0;
   const isReachingEnd = isEmpty || (data && data[data.length - 1]?.length < DEFAULT_LIMIT);
+  const showLoadMore = size === 1 && isReachingEnd && isLoadingInitialData ? false : currentPage !== size;
+
+  useEffect(() => {
+    if (size === 1 && !isLoadingInitialData && !isReachingEnd) {
+      setSize(size + 1);
+    }
+  }, [size, isLoadingInitialData]);
 
   const loadMore = () => {
     if (!isReachingEnd) {
       setSize(size + 1);
     }
+    setCurrentPage(currentPage + 1);
   };
 
-  const threads: Thread[] = data ? data.reduce((acm, page) => [...acm, ...page], []) : [];
+  const allThreads: Thread[] = data ? data.reduce((acm, page) => [...acm, ...page], []) : [];
+  const pageThreads = allThreads.slice(0, DEFAULT_LIMIT * currentPage);
 
   const state = {
-    threads,
+    threads: pageThreads,
     size,
     setSize,
     isLoading: isLoadingInitialData,
@@ -45,6 +56,7 @@ export const useThreadsByCategory = (category: string) => {
     isReachingEnd,
     loadMore,
     isEmpty,
+    showLoadMore,
   };
 
   return state;
