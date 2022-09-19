@@ -12,14 +12,14 @@ const Container = styled(Box)`
 `;
 
 const ThreadTitle = styled(Text)`
-  box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
-  ${css({
+  ${({theme}) => css({
     fontSize: [3, null, null, null, null, null, null, 4],
     fontWeight: 'bold',
     py: 3,
     px: 2,
     mr: [4, null, null, null, null, null, null, 2],
-    ml: [4, null, null, null, null, null, null, 0],
+    ml: [4, null, null, null, null, null, null, 2],
+    borderBottom: `0.5px solid ${theme.colors.background2}`
   })}
 `;
 

@@ -21,11 +21,12 @@ const AgoraTitle = styled(Text)`
 
 const Container = styled(Box)`
   box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
-  ${css({
+  ${({theme}) => css({
     p: 3,
-    width: 400,
+    width: 350,
     minHeight: 'calc(100vh - 64px)',
     display: ['none', null, null, null, null, null, null, 'initial'],
+    borderRight: `0.5px solid ${theme.colors.background2}`
   })}
 `;
 
