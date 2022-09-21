@@ -19,6 +19,7 @@ import TIP_ICON from '../public/icons/tip.svg';
 import REFRESH_ICON from '../public/refresh.svg';
 import REFRESHING_ICON from '../public/refreshing.svg';
 import ADD_CIRCLE from '../public/icons/add-circle.svg';
+import EDIT_ICON from '../public/icons/edit.svg';
 
 /**** INTERNAL PROTOCOL ICONS ****/
 import DASHBOARD_ICON from '../public/space_dashboard.svg';
@@ -60,4 +61,5 @@ export {
   DAO_ICON,
   ADD_CIRCLE,
   FORUM_ICON,
+  EDIT_ICON,
 };

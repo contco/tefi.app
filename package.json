@@ -23,7 +23,7 @@
     "@apollo/federation": "^0.33.6",
     "@apollo/gateway": "^0.43.1",
     "@contco/core-ui": "https://github.com/contco/core-ui/releases/download/releases/core-ui-1.1.11.tgz",
-    "@contco/editor": "https://github.com/contco/editor/releases/download/release-v.1.1.15/editor-1.1.15.tgz",
+    "@contco/editor": "https://github.com/contco/editor/releases/download/release-v1.1.16/editor-1.1.16.tgz",
     "@contco/terra-utilities": "https://github.com/contco/terra-utilities/releases/download/0.0.8/terra-utilities-0.0.8.tgz",
     "@styled-system/css": "^5.1.5",
     "@terra-dev/use-browser-inactive": "^0.15.0",

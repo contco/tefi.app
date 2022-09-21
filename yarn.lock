@@ -1187,9 +1187,28 @@
     styled-components "^5.1.1"
     styled-system "^5.1.5"
 
-"@contco/editor@https://github.com/contco/editor/releases/download/release-v.1.1.15/editor-1.1.15.tgz":
-  version "1.1.15"
-  resolved "https://github.com/contco/editor/releases/download/release-v.1.1.15/editor-1.1.15.tgz#03cd04f38035803d0baa2637388a4b8afc57f9b0"
+"@contco/editor@https://github.com/contco/editor/releases/download/release-v.1.1.15/editor-1.1.16.tgz":
+  version "1.1.16"
+  resolved "https://github.com/contco/editor/releases/download/release-v.1.1.15/editor-1.1.16.tgz#5d6dacf44caed787d9c1f6cf39ef8cd944b18b44"
+  dependencies:
+    "@types/escape-html" "^1.0.0"
+    "@types/styled-components" "^5.1.2"
+    "@udecode/slate-plugins" "^0.71.0"
+    is-hotkey "^0.2.0"
+    is-url "^1.2.4"
+    lodash "^4.17.20"
+    nanoid "^3.1.20"
+    react-dom "^16.13.1"
+    slate "^0.58.4"
+    slate-history "^0.58.4"
+    slate-hyperscript "^0.59.0"
+    slate-react "^0.58.4"
+    styled-components "^5.1.1"
+
+"@contco/editor@https://github.com/contco/editor/releases/download/release-v1.1.16/editor-1.1.16.tgz":
+  version "1.1.16"
+  uid "5d6dacf44caed787d9c1f6cf39ef8cd944b18b44"
+  resolved "https://github.com/contco/editor/releases/download/release-v1.1.16/editor-1.1.16.tgz#5d6dacf44caed787d9c1f6cf39ef8cd944b18b44"
   dependencies:
     "@types/escape-html" "^1.0.0"
     "@types/styled-components" "^5.1.2"
