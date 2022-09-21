@@ -1663,12 +1663,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@contco/editor@https://github.com/contco/editor/releases/download/release-v.1.1.15/editor-1.1.15.tgz":
-  version: 1.1.15
-  resolution: "@contco/editor@https://github.com/contco/editor/releases/download/release-v.1.1.15/editor-1.1.15.tgz"
+"@contco/editor@https://github.com/contco/editor/releases/download/v1.1.19/package.tgz":
+  version: 1.1.17
+  resolution: "@contco/editor@https://github.com/contco/editor/releases/download/v1.1.19/package.tgz"
   dependencies:
     "@types/escape-html": ^1.0.0
-    "@types/styled-components": ^5.1.2
+    "@types/styled-components": ^5.1.9
     "@udecode/slate-plugins": ^0.71.0
     is-hotkey: ^0.2.0
     is-url: ^1.2.4
@@ -1679,10 +1679,10 @@ __metadata:
     slate-history: ^0.58.4
     slate-hyperscript: ^0.59.0
     slate-react: ^0.58.4
-    styled-components: ^5.1.1
+    styled-components: ^5.2.1
   peerDependencies:
     react: ^16.0.0
-  checksum: 60d9324ac39a4e4ccc7208e54bcac6b00f8cdf417ff635021da77bb82fd9f6f7b8efabe8596e0becc051b005c6b7ac2a73d8b2a57308c141d69202f5ba0007d0
+  checksum: 1cf1f7ee667131bfa10230d42d2dd06ff82b0a51509049c41769a9d0f469fb45760c9c5feaf8dc393ff9218e6e34d0958c03bc0145eade8c5f264efbefe0cb54
   languageName: node
   linkType: hard
 
@@ -10700,7 +10700,7 @@ __metadata:
     "@apollo/federation": ^0.33.6
     "@apollo/gateway": ^0.43.1
     "@contco/core-ui": "https://github.com/contco/core-ui/releases/download/releases/core-ui-1.1.11.tgz"
-    "@contco/editor": "https://github.com/contco/editor/releases/download/release-v.1.1.15/editor-1.1.15.tgz"
+    "@contco/editor": "https://github.com/contco/editor/releases/download/v1.1.19/package.tgz"
     "@contco/terra-utilities": "https://github.com/contco/terra-utilities/releases/download/0.0.8/terra-utilities-0.0.8.tgz"
     "@styled-system/css": ^5.1.5
     "@svgr/webpack": ^5.5.0
