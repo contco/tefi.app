@@ -22,7 +22,7 @@ export interface BorrowingProps {
   borrow: any;
 }
 
-const Borrowing: React.SFC<BorrowingProps> = ({ borrow }) => {
+const Borrowing: React.FC<BorrowingProps> = ({ borrow }) => {
   if (JSON.stringify(borrow) === '{}') return <></>;
 
   return (

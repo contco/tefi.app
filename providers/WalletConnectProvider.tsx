@@ -1,6 +1,6 @@
+import { FC, ReactChildren, ReactChild, ReactNode } from 'react';
 import dynamic from 'next/dynamic';
 import { NetworkInfo } from '@terra-money/wallet-provider';
-import { FC } from 'react';
 import networks from '../utils/networks';
 
 const DynamicWalletProvider: any = dynamic(
@@ -16,7 +16,11 @@ const walletConnectChainIds: Record<number, NetworkInfo> = {
   1: networks.mainnet,
 };
 
-const WalletConnectProvider: FC = ({ children }) => {
+interface WalletConnectProviderProps {
+  children: ReactChild | ReactChildren | ReactNode;
+}
+
+const WalletConnectProvider: FC<WalletConnectProviderProps> = ({ children }) => {
   return (
     <DynamicWalletProvider
       defaultNetwork={networks.mainnet}

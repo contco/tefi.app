@@ -1,9 +1,13 @@
 import { useRouter } from 'next/router';
-import { useEffect, FC } from 'react';
+import { useEffect, FC, ReactChildren, ReactChild, ReactNode  } from 'react';
 import useWallet from '../lib/useWallet';
 import { ADDRESS_KEY } from '../constants';
 
-const RedirectProvider: FC = ({ children }) => {
+interface RedirectProviderProps {
+  children: ReactChild | ReactChildren | ReactNode;
+}
+
+const RedirectProvider: FC<RedirectProviderProps> = ({ children }) => {
   const { useConnectedWallet } = useWallet();
   const connectedWallet = useConnectedWallet();
   const router = useRouter();
