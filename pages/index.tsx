@@ -9,7 +9,6 @@ const EmptyContainer = styled.div`
   width: 100vh;
   background-color: ${(props) => props.theme.colors.background};
 `;
-
 const Home: React.FC = ({ theme, changeTheme }: any) => {
   const [isDisplay, setIsDisplay] = useState<boolean>(false);
   const router = useRouter();

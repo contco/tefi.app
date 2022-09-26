@@ -24,7 +24,7 @@ const AgoraHome: React.FC = ({ theme, changeTheme }: any) => {
       </Head>
       <Header theme={theme} changeTheme={changeTheme} logoSub="DAO" />
       <AgoraHomeLayout>
-        <Sidebar selectedCategory={selectedCategory} setCategory={setCategory} />
+        <Sidebar selectedCategory={selectedCategory} />
         <AgoraHomeContent selectedCategory={selectedCategory} setCategory={setCategory} />
       </AgoraHomeLayout>
     </>
