@@ -496,7 +496,8 @@ interface Thread {
 }
 
 interface Reply {
-  id: number;
+  comment_id: number;
+  thread_id: number;
   comment: string;
   author: string;
 }

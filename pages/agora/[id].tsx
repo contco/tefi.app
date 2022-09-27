@@ -27,7 +27,7 @@ const AgoraThread: React.FC = ({ theme, changeTheme }: any) => {
   }
 
   return (
-    <Box style={{overflow:'hidden'}}>
+    <Box style={{ overflow: 'hidden' }}>
       <Head>
         <title>TeFi Agora</title>
       </Head>
