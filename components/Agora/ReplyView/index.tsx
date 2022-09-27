@@ -1,8 +1,11 @@
-import React, { useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
 import css from '@styled-system/css';
-import { Box, Text } from '@contco/core-ui';
+import { Flex, Box, Text } from '@contco/core-ui';
 import { RawViewer } from '@contco/editor';
+import { EditReplyModal } from '../EditReplyModal';
+import useWallet from '../../../lib/useWallet';
+import { EDIT_ICON } from '../../Icons';
 
 const Container = styled(Box)`
   ${css({
@@ -34,6 +37,14 @@ const StyledViewer = styled(RawViewer)`
   })}
 `;
 
+const OptionsContainer = styled(Flex)`
+  ${(props) =>
+    css({
+      justifyContent: props.isEditable ? 'space-between' : 'flex-end',
+      alignItems: 'center',
+    })}
+`;
+
 const AddressText = styled(Text)`
   ${css({
     p: 2,
@@ -43,23 +54,47 @@ const AddressText = styled(Text)`
   })}
 `;
 
+const EditIcon = styled(EDIT_ICON)`
+  ${css({
+    cursor: 'pointer',
+    '&:hover': {
+      opacity: 0.7,
+    },
+  })}
+`;
+
 interface Props {
   reply: Reply;
 }
 
 export const ReplyView: React.FC<Props> = ({ reply }) => {
+  const [isUpdateReplyModalVisible, setUpdateReplyModalVisible] = useState(false);
   const rawContent = useMemo(() => JSON.parse(reply?.comment), [reply?.comment]);
+
+  const { useConnectedWallet } = useWallet();
+  const connectedWallet = useConnectedWallet();
+  const walletAddress = connectedWallet?.terraAddress;
+  const isEditable = walletAddress === reply?.author;
+
+  const onEditClick = () => {
+    setUpdateReplyModalVisible(true);
+  };
+
   return (
     <Container>
       <ContentBox>
         <StyledViewer data={rawContent} />
-        <AddressText>
-          {' '}
-          {reply.author.substring(0, 15) +
-            '....' +
-            reply.author.substring(reply.author.length - 4, reply.author.length - 1)}
-        </AddressText>
+        <OptionsContainer isEditable={isEditable}>
+          {isEditable ? <EditIcon onClick={onEditClick} /> : null}
+          <AddressText>
+            {' '}
+            {reply.author.substring(0, 15) +
+              '....' +
+              reply.author.substring(reply.author.length - 4, reply.author.length - 1)}
+          </AddressText>
+        </OptionsContainer>
       </ContentBox>
+      <EditReplyModal reply={reply} isVisible={isUpdateReplyModalVisible} setVisible={setUpdateReplyModalVisible} />
     </Container>
   );
 };
