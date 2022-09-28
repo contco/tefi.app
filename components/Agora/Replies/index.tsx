@@ -24,7 +24,7 @@ export const Replies: React.FC<Props> = ({ threadId }) => {
   return (
     <Box>
       {replies.map((reply: Reply) => (
-        <ReplyView key={reply.id} reply={reply} />
+        <ReplyView key={reply.comment_id} reply={reply} />
       ))}
       {!isReachingEnd ? (
         <LoadMoreContainer>

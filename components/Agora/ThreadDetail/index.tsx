@@ -15,15 +15,16 @@ const Container = styled(Box)`
 `;
 
 const ThreadHeader = styled(Flex)`
-  ${({theme})=> css({
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    mr: [4, null, null, null, null, null, null, 2],
-    ml: [4, null, null, null, null, null, null, 2],
-    py: 3,
-    px: 2,
-    borderBottom: `0.5px solid ${theme.colors.background2}`
-  })}
+  ${({ theme }) =>
+    css({
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      mr: [4, null, null, null, null, null, null, 2],
+      ml: [4, null, null, null, null, null, null, 2],
+      py: 3,
+      px: 2,
+      borderBottom: `0.5px solid ${theme.colors.background2}`,
+    })}
 `;
 
 const ThreadTitle = styled(Text)`
