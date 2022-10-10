@@ -105,7 +105,7 @@ export const EditReplyView: React.FC<Props> = ({ onSend, reply }) => {
         if (!isTxCalculated) {
           setSimulationLoading(true);
           const msgs = [new MsgExecuteContract(walletAddress, TEFI_DAGORA_CONTRACT_ADDRESS, commentMsg)];
-          const result = await simulateSendContractMsg(walletAddress, msgs, true);
+          const result = await simulateSendContractMsg(walletAddress, msgs);
           if (!result.error) {
             setTxFee(result.fee);
             setIsTxCalculated(true);

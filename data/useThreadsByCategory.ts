@@ -7,13 +7,18 @@ const DEFAULT_LIMIT = 10;
 
 const getKey = (pageIndex: number, previousPageData: any, category: string) => {
   if (!category) return null;
-  if (pageIndex === 0) return `${CLUB_SERVER_ROOT}/dagora/threads/${category}?limit=${DEFAULT_LIMIT}&isTestnet=true`;
+  if (pageIndex === 0)
+    return `${CLUB_SERVER_ROOT}/dagora/threads/${category}?limit=${DEFAULT_LIMIT}&isTestnet=${
+      process.env.NEXT_PUBLIC_IS_TESTNET ? true : false
+    }`;
 
   if (!previousPageData) return null;
 
   const offset = DEFAULT_LIMIT * pageIndex;
 
-  return `${CLUB_SERVER_ROOT}/dagora/threads/${category}?limit=${DEFAULT_LIMIT}&offset=${offset}&isTestnet=true`;
+  return `${CLUB_SERVER_ROOT}/dagora/threads/${category}?limit=${DEFAULT_LIMIT}&offset=${offset}&isTestnet=${
+    process.env.NEXT_PUBLIC_IS_TESTNET ? true : false
+  }`;
 };
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);

@@ -47,7 +47,7 @@ const getDeductedAmounts = (
   }
 };
 
-export const sendToken = async (data: SendTokenTransactionData, post, isTestnet = false) => {
+export const sendToken = async (data: SendTokenTransactionData, post) => {
   try {
     const { to, from, amount, memo, denom, txDenom, contract, isNFT, tokenId } = data;
     const amountInLamports = +amount * +UNIT;
@@ -70,7 +70,7 @@ export const sendToken = async (data: SendTokenTransactionData, post, isTestnet 
     const feeDenom = txDenom ?? DEFAULT_DENOM;
     const tax = feeDenom ? await calculateTax(amountInLamports.toString(), feeDenom) : null;
     const gasPrice = getGasPrice(feeDenom);
-    const feeResult = await simulateTx(data.from, msgs, gasPrice, feeDenom, memo, isTestnet);
+    const feeResult = await simulateTx(data.from, msgs, gasPrice, feeDenom, memo);
     if (feeResult.error) {
       return feeResult;
     } else {
@@ -90,7 +90,7 @@ export const sendToken = async (data: SendTokenTransactionData, post, isTestnet 
   }
 };
 
-export const simulateSendTokenTx = async (data: SendTokenTransactionData, isTestnet = false) => {
+export const simulateSendTokenTx = async (data: SendTokenTransactionData) => {
   try {
     const { to, from, amount, memo, denom, txDenom, contract } = data;
     const amountInLamports = +amount * +UNIT;
@@ -103,7 +103,7 @@ export const simulateSendTokenTx = async (data: SendTokenTransactionData, isTest
         ];
     const feeDenom = txDenom ?? DEFAULT_DENOM;
     const gasPrice = getGasPrice(feeDenom);
-    const { estimatedFee } = await simulateTx(data.from, msgs, gasPrice, feeDenom, memo, isTestnet);
+    const { estimatedFee } = await simulateTx(data.from, msgs, gasPrice, feeDenom, memo);
     const fee = (+estimatedFee / +UNIT).toString();
     return { fee, feeInLamports: estimatedFee, error: false };
   } catch (err) {

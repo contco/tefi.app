@@ -70,7 +70,7 @@ export const PostCommentView: React.FC<Props> = ({ onSend, replyContent, isVisib
   const calculateTxTax = async () => {
     if (!isTxCalculated) {
       setSimulationLoading(true);
-      const result = await simulateSendContractMsg(walletAddress, contractMsgs, true);
+      const result = await simulateSendContractMsg(walletAddress, contractMsgs);
       if (!result.error) {
         setTxFee(result.fee);
         setIsTxCalculated(true);
