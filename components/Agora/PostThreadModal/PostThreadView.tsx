@@ -105,7 +105,7 @@ export const PostThreadView: React.FC<Props> = ({ onSend }) => {
             create_thread: { category, content: JSON.stringify(content.raw), title },
           }),
         ];
-        const result = await simulateSendContractMsg(walletAddress, msgs, true);
+        const result = await simulateSendContractMsg(walletAddress, msgs);
         if (!result.error) {
           setTxFee(result.fee);
           setIsTxCalculated(true);

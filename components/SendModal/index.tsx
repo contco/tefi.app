@@ -34,6 +34,8 @@ export enum ModalState {
   error,
 }
 
+type OnSendFn = (data: any, isContractTx: boolean, onSuccess?: () => void) => void;
+
 interface SendModalTipProps extends ModalDisplayState, SendModalTipState {}
 
 const SendModal: React.FC<SendModalTipProps> = ({
@@ -49,6 +51,7 @@ const SendModal: React.FC<SendModalTipProps> = ({
   const [modalState, setModalState] = useState(ModalState.initial);
   const [txHash, setTxHash] = useState('');
   const [isPollingTx, setIsPollingTx] = useState(false);
+  const [successCallback, setSuccessCallback] = useState(null);
   const { useConnectedWallet, post } = useWallet();
   const connectedWallet = useConnectedWallet();
   const walletConnectedRef = useRef(false);
@@ -79,14 +82,19 @@ const SendModal: React.FC<SendModalTipProps> = ({
 
   const fetchTxInfo = async () => {
     try {
-      const { data } = await axios.get(CLUB_SERVER_ROOT + `/tx/${txHash}`);
-      if (data?.height) {
+      const { data } = await axios.get(
+        CLUB_SERVER_ROOT + `/tx/${txHash}?isTestnet=${process.env.NEXT_PUBLIC_IS_TESTNET ? true : false}`,
+      );
+      if (data?.tx_response?.height) {
         setIsPollingTx(false);
         if (data?.code) {
           setModalState(ModalState.error);
         } else {
           refetch();
           setModalState(ModalState.success);
+          if (successCallback) {
+            successCallback();
+          }
         }
       }
     } catch (err) {
@@ -96,16 +104,16 @@ const SendModal: React.FC<SendModalTipProps> = ({
 
   useInterval(fetchTxInfo, isPollingTx ? POLLING_INTERVAL : null);
 
-  const onSend = async (data: any, isContractTx = false) => {
+  const onSend: OnSendFn = async (data: any, isContractTx = false, onSuccess) => {
     setModalState(ModalState.waiting);
-
     const { error, msg, txResult }: any = isContractTx
-      ? await sendContractMsg(data, post, true)
+      ? await sendContractMsg(data, post)
       : await sendToken(data, post);
     if (txResult?.success) {
       setModalState(ModalState.broadcasted);
       setTxHash(txResult?.result?.txhash);
       setIsPollingTx(true);
+      setSuccessCallback(onSuccess);
     }
     if (error) {
       if (msg === 'User Denied') {

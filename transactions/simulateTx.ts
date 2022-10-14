@@ -9,13 +9,12 @@ export const simulateTx = async (
   gasPrice: string,
   denom = 'uusd',
   memo = null,
-  isTestnet: boolean,
   gasAdjustment = DEFAULT_GAS_ADJUSTMENT,
 ) => {
   try {
     const txOptions = { msgs, feeDenoms: [denom], memo, gasAdjustment };
     const gasPrices = { [denom]: gasPrice };
-    const lcd = isTestnet
+    const lcd = process.env.NEXT_PUBLIC_IS_TESTNET
       ? new LCDClient({ chainID: networks.testnet.chainID, URL: networks.testnet.lcd, gasPrices })
       : new LCDClient({ chainID: networks.mainnet.chainID, URL: networks.mainnet.lcd, gasPrices });
 

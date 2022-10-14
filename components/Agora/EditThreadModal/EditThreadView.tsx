@@ -113,7 +113,7 @@ export const EditThreadView: React.FC<Props> = ({ onSend, thread }) => {
         if (!isTxCalculated) {
           setSimulationLoading(true);
           const msgs = [new MsgExecuteContract(walletAddress, TEFI_DAGORA_CONTRACT_ADDRESS, threadMsg)];
-          const result = await simulateSendContractMsg(walletAddress, msgs, true);
+          const result = await simulateSendContractMsg(walletAddress, msgs);
           if (!result.error) {
             setTxFee(result.fee);
             setIsTxCalculated(true);

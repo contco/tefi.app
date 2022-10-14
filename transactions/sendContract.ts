@@ -11,11 +11,11 @@ interface Data {
   sender: string;
 }
 
-export const sendContractMsg = async (data: Data, post, isTestnet = false) => {
+export const sendContractMsg = async (data: Data, post) => {
   try {
     const { msgs, sender } = data;
     const gasPrice = GAS_PRICES[feeDenom];
-    const feeResult = await simulateTx(sender, msgs, gasPrice, feeDenom, '', isTestnet);
+    const feeResult = await simulateTx(sender, msgs, gasPrice, feeDenom, '');
     if (feeResult.error) {
       return feeResult;
     } else {
@@ -33,9 +33,9 @@ export const sendContractMsg = async (data: Data, post, isTestnet = false) => {
   }
 };
 
-export const simulateSendContractMsg = async (sender: string, msgs: any, isTestnet = false) => {
+export const simulateSendContractMsg = async (sender: string, msgs: any) => {
   try {
-    const { estimatedFee } = await simulateTx(sender, msgs, gasPrice, feeDenom, '', isTestnet);
+    const { estimatedFee } = await simulateTx(sender, msgs, gasPrice, feeDenom, '');
     const fee = (+estimatedFee / +UNIT).toString();
     return { fee, feeInLamports: estimatedFee, error: false };
   } catch (err) {
