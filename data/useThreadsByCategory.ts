@@ -28,6 +28,7 @@ export const useThreadsByCategory = (category: string) => {
     (index: number, data: any) => getKey(index, data, category),
     fetcher,
   );
+
   const [currentPage, setCurrentPage] = useState(1);
   const isLoadingInitialData = !data && !error;
   const isLoadingMore = size > 0 && data && typeof data[currentPage - 1] === 'undefined';
@@ -48,6 +49,12 @@ export const useThreadsByCategory = (category: string) => {
     setCurrentPage(currentPage + 1);
   };
 
+  const getMutateKey = (offset: number) => {
+    return `${CLUB_SERVER_ROOT}/dagora/threads/${category}?limit=${DEFAULT_LIMIT}&offset=${offset}&isTestnet=${
+      process.env.NEXT_PUBLIC_IS_TESTNET ? true : false
+    }`;
+  };
+
   const allThreads: Thread[] = data ? data.reduce((acm, page) => [...acm, ...page], []) : [];
   const pageThreads = allThreads.slice(0, DEFAULT_LIMIT * currentPage);
 
@@ -62,6 +69,7 @@ export const useThreadsByCategory = (category: string) => {
     loadMore,
     isEmpty,
     showLoadMore,
+    getMutateKey,
   };
 
   return state;
