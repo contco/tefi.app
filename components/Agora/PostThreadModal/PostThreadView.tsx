@@ -6,9 +6,12 @@ import { Editor } from '@contco/editor';
 import { MsgExecuteContract } from '@terra-money/terra.js';
 import { ModalLarge, Heading3, InputLabel, Input, ButtonRound } from '../../UIComponents';
 import { CategoryDropDown } from '../SubHeader/CategoryDropDown';
-import { TEFI_DAGORA_CONTRACT_ADDRESS } from '../../../constants';
+import { CLUB_SERVER_ROOT, TEFI_DAGORA_CONTRACT_ADDRESS } from '../../../constants';
 import { simulateSendContractMsg } from '../../../transactions/sendContract';
 import useWallet from '../../../lib/useWallet';
+import axios from 'axios';
+import { mutate } from 'swr';
+import { useThreadsByCategory } from '../../../data/useThreadsByCategory';
 
 const TITLE = 'Create A New Thread';
 const EDITOR_PLACEHOLDER = 'Click anywhere to start typing';
@@ -78,6 +81,7 @@ export const PostThreadView: React.FC<Props> = ({ onSend }) => {
   const [isTxCalculated, setIsTxCalculated] = useState(false);
   const [simulationLoading, setSimulationLoading] = useState(false);
   const { useConnectedWallet } = useWallet();
+  const { getMutateKey } = useThreadsByCategory(category);
 
   const connectedWallet = useConnectedWallet();
   const walletAddress = connectedWallet?.terraAddress;
@@ -95,6 +99,20 @@ export const PostThreadView: React.FC<Props> = ({ onSend }) => {
     }
     return false;
   }, [content, title]);
+
+  const onPostSuccess = async (txResult) => {
+    try {
+      const eventAttributes = txResult?.tx_response?.logs[0]?.events[2]?.attributes;
+      const thread_id = eventAttributes?.[4]?.value;
+      const body = { thread_id };
+      const isTestnet = process.env.NEXT_PUBLIC_IS_TESTNET ? true : false;
+      await axios.post(CLUB_SERVER_ROOT + '/dagora/thread/cache?isTestnet=' + isTestnet, body);
+      const key = getMutateKey(0);
+      mutate(key);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const onSubmit = async () => {
     if (!isSubmitDisabled) {
@@ -118,7 +136,7 @@ export const PostThreadView: React.FC<Props> = ({ onSend }) => {
           }),
         ];
         const data = { msgs, sender: walletAddress };
-        onSend(data, true);
+        onSend(data, true, onPostSuccess);
       }
     }
   };
