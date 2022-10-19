@@ -56,4 +56,4 @@ export enum WalletConnectType {
 export const TEFI_PREVIEW_IMAGE = 'https://storage.googleapis.com/tefi-app/tefi-preview.png';
 
 export const CLUB_DEPOSIT_ADDRESS = 'terra1lpccq0w9e36nlzhx3m6t8pphx8ncavslyul29g';
-export const TEFI_DAGORA_CONTRACT_ADDRESS = 'terra1hayct9mh4muvyylhmtzv6usc3yykh25nl93wsd94z2dfzvapkdzsrvl5fv';
+export const TEFI_DAGORA_CONTRACT_ADDRESS = 'terra18luvq9wv88lk0h5xvx2eatnssqew2z36g7f2q0zhk4337q4g7wnqzwhe9w';
