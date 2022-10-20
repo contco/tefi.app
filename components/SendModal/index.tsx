@@ -51,10 +51,10 @@ const SendModal: React.FC<SendModalTipProps> = ({
   const [modalState, setModalState] = useState(ModalState.initial);
   const [txHash, setTxHash] = useState('');
   const [isPollingTx, setIsPollingTx] = useState(false);
-  const [successCallback, setSuccessCallback] = useState(null);
   const { useConnectedWallet, post } = useWallet();
   const connectedWallet = useConnectedWallet();
   const walletConnectedRef = useRef(false);
+  const successCallback = useRef(null);
   const { refetch } = useAccount(connectedWallet?.terraAddress);
 
   const onClose = () => {
@@ -92,8 +92,9 @@ const SendModal: React.FC<SendModalTipProps> = ({
         } else {
           refetch();
           setModalState(ModalState.success);
-          if (successCallback) {
-            successCallback();
+          if (successCallback.current) {
+            successCallback.current(data, data?.tx_response);
+            successCallback.current = null;
           }
         }
       }
@@ -106,6 +107,7 @@ const SendModal: React.FC<SendModalTipProps> = ({
 
   const onSend: OnSendFn = async (data: any, isContractTx = false, onSuccess) => {
     setModalState(ModalState.waiting);
+    successCallback.current = onSuccess;
     const { error, msg, txResult }: any = isContractTx
       ? await sendContractMsg(data, post)
       : await sendToken(data, post);
@@ -113,7 +115,6 @@ const SendModal: React.FC<SendModalTipProps> = ({
       setModalState(ModalState.broadcasted);
       setTxHash(txResult?.result?.txhash);
       setIsPollingTx(true);
-      setSuccessCallback(onSuccess);
     }
     if (error) {
       if (msg === 'User Denied') {
