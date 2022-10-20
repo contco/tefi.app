@@ -10,7 +10,7 @@ import { CLUB_SERVER_ROOT, TEFI_DAGORA_CONTRACT_ADDRESS } from '../../../constan
 import { simulateSendContractMsg } from '../../../transactions/sendContract';
 import useWallet from '../../../lib/useWallet';
 import axios from 'axios';
-import { mutate } from 'swr';
+import { useSWRConfig } from 'swr';
 import { useThreadsByCategory } from '../../../data/useThreadsByCategory';
 
 const TITLE = 'Create A New Thread';
@@ -81,6 +81,7 @@ export const PostThreadView: React.FC<Props> = ({ onSend }) => {
   const [isTxCalculated, setIsTxCalculated] = useState(false);
   const [simulationLoading, setSimulationLoading] = useState(false);
   const { useConnectedWallet } = useWallet();
+  const { mutate } = useSWRConfig();
   const { getMutateKey } = useThreadsByCategory(category);
 
   const connectedWallet = useConnectedWallet();

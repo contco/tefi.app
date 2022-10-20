@@ -49,6 +49,13 @@ export const useRepliesByThread = (id: number | null) => {
 
   const allReplies: Reply[] = data ? data.reduce((acm, page) => [...acm, ...page], []) : [];
   const pageReplies = allReplies.slice(0, DEFAULT_LIMIT * currentPage);
+
+  const getMutateKey = (offset: number) => {
+    return `${CLUB_SERVER_ROOT}/dagora/thread/${id}/replies?limit=${DEFAULT_LIMIT}&offset=${offset}&isTestnet=${
+      process.env.NEXT_PUBLIC_IS_TESTNET ? true : false
+    }`;
+  };
+
   const state = {
     replies: pageReplies,
     size,
@@ -61,6 +68,7 @@ export const useRepliesByThread = (id: number | null) => {
     isEmpty,
     mutate,
     showLoadMore,
+    getMutateKey,
   };
 
   return state;

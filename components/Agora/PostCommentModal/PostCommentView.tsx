@@ -1,13 +1,16 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import styled from 'styled-components';
 import css from '@styled-system/css';
+import axios from 'axios';
+import { useSWRConfig } from 'swr';
 import { Flex, Box, Text } from '@contco/core-ui';
 import { RawViewer } from '@contco/editor';
 import { MsgExecuteContract } from '@terra-money/terra.js';
 import { ModalLarge, Heading3, ButtonRound } from '../../UIComponents';
-import { TEFI_DAGORA_CONTRACT_ADDRESS } from '../../../constants';
+import { CLUB_SERVER_ROOT, TEFI_DAGORA_CONTRACT_ADDRESS } from '../../../constants';
 import { simulateSendContractMsg } from '../../../transactions/sendContract';
 import useWallet from '../../../lib/useWallet';
+import { useRepliesByThread } from '../../../data/useRepliesByThread';
 
 const TITLE = 'Confirm Post Reply';
 const DEFAULT_TX_STATE = '---';
@@ -63,6 +66,9 @@ export const PostCommentView: React.FC<Props> = ({ onSend, replyContent, isVisib
   const [isTxCalculated, setIsTxCalculated] = useState(false);
   const [simulationLoading, setSimulationLoading] = useState(false);
   const { useConnectedWallet } = useWallet();
+  const { mutate } = useSWRConfig();
+
+  const { getMutateKey } = useRepliesByThread(threadId);
 
   const connectedWallet = useConnectedWallet();
   const walletAddress = connectedWallet?.terraAddress;
@@ -101,10 +107,26 @@ export const PostCommentView: React.FC<Props> = ({ onSend, replyContent, isVisib
     [replyContent?.raw],
   );
 
+  const onPostSuccess = async (txResult) => {
+    try {
+      const eventAttributes = txResult?.tx_response?.logs[0]?.events[2]?.attributes;
+      const author = eventAttributes?.[2]?.value;
+      const comment = eventAttributes?.[3]?.value;
+      const comment_id = eventAttributes?.[4]?.value;
+      const body = { reply: { comment_id: parseInt(comment_id), author, comment, thread_id: threadId } };
+      const isTestnet = process.env.NEXT_PUBLIC_IS_TESTNET ? true : false;
+      await axios.post(CLUB_SERVER_ROOT + '/dagora/thread/replies/cache?isTestnet=' + isTestnet, body);
+      const key = getMutateKey(0);
+      mutate(key);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const onSubmit = async () => {
     if (isTxCalculated) {
       const data = { msgs: contractMsgs, sender: walletAddress };
-      onSend(data, true);
+      onSend(data, true, onPostSuccess);
     }
   };
 
