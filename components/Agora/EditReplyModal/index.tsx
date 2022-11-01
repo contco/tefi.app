@@ -1,14 +1,17 @@
 import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
 import css from '@styled-system/css';
+import axios from 'axios';
+import { useSWRConfig } from 'swr';
 import { Flex, Box, Text } from '@contco/core-ui';
 import { Editor } from '@contco/editor';
 import { MsgExecuteContract } from '@terra-money/terra.js';
 import { ModalLarge, Heading3, InputLabel, ButtonRound } from '../../UIComponents';
-import { TEFI_DAGORA_CONTRACT_ADDRESS } from '../../../constants';
+import { CLUB_SERVER_ROOT, TEFI_DAGORA_CONTRACT_ADDRESS } from '../../../constants';
 import { simulateSendContractMsg } from '../../../transactions/sendContract';
 import useWallet from '../../../lib/useWallet';
 import SendModal from '../../SendModal';
+import { useRepliesByThread } from '../../../data/useRepliesByThread';
 
 const TITLE = 'Update Reply';
 const EDITOR_PLACEHOLDER = 'Click anywhere to start typing';
@@ -76,6 +79,8 @@ export const EditReplyView: React.FC<Props> = ({ onSend, reply }) => {
   const [txFee, setTxFee] = useState<string>(null);
   const [isTxCalculated, setIsTxCalculated] = useState(false);
   const [simulationLoading, setSimulationLoading] = useState(false);
+  const { mutate } = useSWRConfig();
+  const { getMutateKey } = useRepliesByThread(reply.thread_id);
   const { useConnectedWallet } = useWallet();
 
   const connectedWallet = useConnectedWallet();
@@ -98,6 +103,19 @@ export const EditReplyView: React.FC<Props> = ({ onSend, reply }) => {
     return false;
   };
 
+  const onPostSuccess = async () => {
+    try {
+      const updatedReply = { ...reply, comment: JSON.stringify(content.raw) };
+      const body = { reply: updatedReply };
+      const isTestnet = process.env.NEXT_PUBLIC_IS_TESTNET ? true : false;
+      await axios.put(CLUB_SERVER_ROOT + '/dagora/thread/replies/cache?isTestnet=' + isTestnet, body);
+      const key = getMutateKey(0);
+      mutate(key);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const onSubmit = async () => {
     if (!isSubmitDisabled) {
       const commentMsg = generateContractMsg();
@@ -114,7 +132,7 @@ export const EditReplyView: React.FC<Props> = ({ onSend, reply }) => {
         } else {
           const msgs = [new MsgExecuteContract(walletAddress, TEFI_DAGORA_CONTRACT_ADDRESS, commentMsg)];
           const data = { msgs, sender: walletAddress };
-          onSend(data, true);
+          onSend(data, true, onPostSuccess);
         }
       }
     }
