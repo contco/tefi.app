@@ -1,0 +1,12 @@
+# dependencies
+**/node_modules/
+
+
+# builds
+/example/build
+dist
+
+# error logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
