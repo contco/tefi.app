@@ -1,10 +1,10 @@
 import { MsgSend, MsgExecuteContract, Coin } from '@terra-money/terra.js';
-import { UNIT } from '../pages/api/mirror/utils';
 import { calculateTax } from './calculateTax';
 import { GAS_PRICES } from './gasPrices';
 import { simulateTx } from './simulateTx';
 
 const DEFAULT_DENOM = 'uusd';
+const UNIT = 1000000;
 
 interface SendTokenTransactionData {
   to: string;

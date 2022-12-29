@@ -1,10 +1,10 @@
 import { MsgSend, MsgExecuteContract } from '@terra-money/terra.js';
 import { simulateTx } from './simulateTx';
 import { GAS_PRICES } from './gasPrices';
-import { UNIT } from '../pages/api/mirror/utils';
 
 const feeDenom = 'uluna';
 const gasPrice = GAS_PRICES[feeDenom];
+const UNIT = 1000000;
 
 interface Data {
   msgs: MsgExecuteContract[] | MsgSend[];
