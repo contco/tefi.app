@@ -110,7 +110,9 @@ const Menu: React.FC<Props> = ({
   const onInternalLinkClick = (url: string) => {
     onClose();
     if (url) {
-      setTimeout(() => router.push(url), 300);
+      url.includes('http')
+        ? setTimeout(() => window.open(url, '_blank'), 300)
+        : setTimeout(() => router.push(url), 300);
     } else {
       sendModal.setVisible(true);
     }
