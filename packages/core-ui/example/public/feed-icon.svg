@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="25px" height="27px" viewBox="0 0 25 27" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>ic/assignment_turned_in</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M21.7,2.9 L16.266,2.9 C15.72,1.392 14.29,0.3 12.6,0.3 C10.91,0.3 9.48,1.392 8.934,2.9 L3.5,2.9 C2.07,2.9 0.9,4.07 0.9,5.5 L0.9,23.7 C0.9,25.13 2.07,26.3 3.5,26.3 L21.7,26.3 C23.13,26.3 24.3,25.13 24.3,23.7 L24.3,5.5 C24.3,4.07 23.13,2.9 21.7,2.9 Z M12.6,2.9 C13.315,2.9 13.9,3.485 13.9,4.2 C13.9,4.915 13.315,5.5 12.6,5.5 C11.885,5.5 11.3,4.915 11.3,4.2 C11.3,3.485 11.885,2.9 12.6,2.9 Z M10,21.1 L4.8,15.9 L6.633,14.067 L10,17.421 L18.567,8.854 L20.4,10.7 L10,21.1 Z" id="path-1"></path>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop-HD-Copy-2" transform="translate(-37.000000, -447.000000)">
+            <g id="ic/assignment_turned_in" transform="translate(37.000000, 447.000000)">
+                <g>
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <use id="Shape" fill="#050B21" fill-rule="nonzero" xlink:href="#path-1"></use>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

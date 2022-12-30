@@ -1,0 +1,96 @@
+{
+  "name": "@contco/editor",
+  "version": "1.1.17",
+  "description": "Rich Text Editor",
+  "author": "Hamzaalam",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "repository": "https://github.com/contco/editor.git",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "module": "dist/index.modern.js",
+  "source": "src/index.tsx",
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "build": "microbundle-crl --no-compress --format modern,cjs",
+    "start": "microbundle-crl watch --no-compress --format modern,cjs",
+    "prepare": "run-s build",
+    "lint": "eslint */**/*.{js,ts,tsx} --quiet --fix",
+    "format": "prettier --write .",
+    "test": "run-s test:unit test:lint test:build",
+    "test:build": "run-s build",
+    "test:lint": "eslint",
+    "test:unit": "cross-env CI=1 react-scripts test --env=jsdom",
+    "test:watch": "react-scripts test --env=jsdom",
+    "predeploy": "cd example && npm install && npm run build",
+    "deploy": "gh-pages -d example/build"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write --ignore-unknown"
+    ]
+  },
+  "peerDependencies": {
+    "react": "^16.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.1",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
+    "@types/jest": "^25.1.4",
+    "@types/node": "^12.12.38",
+    "@types/react": "^16.9.27",
+    "@types/react-dom": "^16.9.7",
+    "@typescript-eslint/eslint-plugin": "^4.7.0",
+    "@typescript-eslint/parser": "^4.7.0",
+    "babel-eslint": "^10.0.3",
+    "babel-loader": "^8.1.0",
+    "cross-env": "^7.0.2",
+    "eslint": "^7.13.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "gh-pages": "^2.2.0",
+    "husky": "^4.3.0",
+    "lint-staged": "^10.4.0",
+    "microbundle-crl": "^0.13.10",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.0.4",
+    "react": "^16.13.1",
+    "react-scripts": "^3.4.3",
+    "rollup-plugin-svg": "^2.0.0",
+    "typescript": "^3.7.5"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@types/escape-html": "^1.0.0",
+    "@types/styled-components": "^5.1.9",
+    "@udecode/slate-plugins": "^0.71.0",
+    "is-hotkey": "^0.2.0",
+    "is-url": "^1.2.4",
+    "lodash": "^4.17.20",
+    "nanoid": "^3.1.20",
+    "react-dom": "^16.13.1",
+    "slate": "^0.58.4",
+    "slate-history": "^0.58.4",
+    "slate-hyperscript": "^0.59.0",
+    "slate-react": "^0.58.4",
+    "styled-components": "^5.2.1"
+  }
+}

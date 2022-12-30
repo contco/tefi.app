@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="25px" height="25px" viewBox="0 0 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>ic/create</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M0,18.825 L0,23.7 L4.875,23.7 L19.253,9.322 L14.378,4.447 L0,18.825 Z M23.023,5.552 C23.53,5.045 23.53,4.226 23.023,3.719 L19.981,0.677 C19.474,0.17 18.655,0.17 18.148,0.677 L15.769,3.056 L20.644,7.931 L23.023,5.552 Z" id="path-1"></path>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop-HD-Copy-2" transform="translate(-1378.000000, -962.000000)">
+            <g id="ic/create" transform="translate(1378.000000, 962.000000)">
+                <g transform="translate(0.900000, 0.600000)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <use id="Shape" fill="#050B21" fill-rule="nonzero" xlink:href="#path-1"></use>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="29px" height="30px" viewBox="0 0 29 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>ic/wb_sunny</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M7.488,6.292 L5.148,3.965 L3.315,5.798 L5.642,8.125 L7.488,6.292 Z M3.9,13.65 L0,13.65 L0,16.25 L3.9,16.25 L3.9,13.65 Z M15.6,0.715 L13,0.715 L13,4.55 L15.6,4.55 L15.6,0.715 L15.6,0.715 Z M25.285,5.798 L23.452,3.965 L21.125,6.292 L22.958,8.125 L25.285,5.798 Z M21.112,23.608 L23.439,25.948 L25.272,24.115 L22.932,21.788 L21.112,23.608 Z M24.7,13.65 L24.7,16.25 L28.6,16.25 L28.6,13.65 L24.7,13.65 Z M14.3,7.15 C9.997,7.15 6.5,10.647 6.5,14.95 C6.5,19.253 9.997,22.75 14.3,22.75 C18.603,22.75 22.1,19.253 22.1,14.95 C22.1,10.647 18.603,7.15 14.3,7.15 Z M13,29.185 L15.6,29.185 L15.6,25.35 L13,25.35 L13,29.185 Z M3.315,24.102 L5.148,25.935 L7.475,23.595 L5.642,21.762 L3.315,24.102 Z" id="path-1"></path>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop-HD-Copy-2" transform="translate(-36.000000, -959.000000)">
+            <g id="ic/wb_sunny" transform="translate(36.000000, 959.000000)">
+                <g transform="translate(0.300000, 0.000000)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <use id="Shape" fill="#050B21" fill-rule="nonzero" xlink:href="#path-1"></use>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
