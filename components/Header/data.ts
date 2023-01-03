@@ -1,31 +1,6 @@
-import {
-  DASHBOARD_ICON,
-  FEED_ICON,
-  SEND_ICON,
-  SUPPLY_ICON,
-  API_ICON,
-  DAO_ICON,
-  BUBBLE_ICON,
-  CHARTS_ICON,
-  FORUM_ICON,
-} from '../Icons';
+import { FEED_ICON, SEND_ICON, API_ICON, DAO_ICON, FORUM_ICON } from '../Icons';
 
 export const INTERNAL_LINKS = [
-  {
-    component: DASHBOARD_ICON,
-    url: '/dashboard',
-    name: 'Dashboard',
-  },
-  {
-    component: CHARTS_ICON,
-    url: '/market',
-    name: 'Market',
-  },
-  {
-    component: BUBBLE_ICON,
-    url: '/market/heat',
-    name: 'Bubbles',
-  },
   {
     component: FEED_ICON,
     url: '/club',
@@ -37,13 +12,8 @@ export const INTERNAL_LINKS = [
     name: 'Send',
   },
   {
-    component: SUPPLY_ICON,
-    url: '/supply',
-    name: 'Supply',
-  },
-  {
     component: DAO_ICON,
-    url: '/dao',
+    url: 'https://enterprise.money/dao/terra1vs39khfam4khtlzyyztppd4jsyftfzaye38ychsgdq7ulhhsalhqjp03sc',
     name: 'DAO',
   },
   {
