@@ -1,4 +1,4 @@
-import { MICRO } from '@contco/terra-utilities';
+import { MICRO } from '@terra-utilities/index';
 import { formatTxData } from '../../../transactions/fetchTx';
 import { CLUB_SERVER_ROOT } from '../../../constants';
 import axios from 'axios';

@@ -24,7 +24,6 @@
     "@apollo/gateway": "^0.43.1",
     "@contco/core-ui": "https://github.com/contco/core-ui/releases/download/releases/core-ui-1.1.11.tgz",
     "@contco/editor": "https://github.com/contco/editor/releases/download/v1.1.19/package.tgz",
-    "@contco/terra-utilities": "https://github.com/contco/terra-utilities/releases/download/0.0.8/terra-utilities-0.0.8.tgz",
     "@styled-system/css": "^5.1.5",
     "@terra-dev/use-browser-inactive": "^0.15.0",
     "@terra-money/terra.js": "3.1.5",
@@ -62,7 +61,6 @@
     "styled-components": "^5.2.1",
     "styled-system": "^5.1.5",
     "swr": "^1.3.0",
-    "terra-utilities": "https://github.com/contco/terra-utilities/releases/download/0.0.8/terra-utilities.tgz",
     "types": "^0.1.1"
   },
   "devDependencies": {

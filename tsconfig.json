@@ -14,8 +14,12 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true
+    "incremental": true,
+    "baseUrl": "./",
+    "paths": {
+      "@terra-utilities/*": ["packages/terra-utilities/*"],
+    },
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/Asset/dummy.js", "components/MirrorBorrowing"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/Asset/dummy.js", "components/MirrorBorrowing", "packages/terra-utilities/*.ts"],
   "exclude": ["node_modules"]
 }
